@@ -32,7 +32,7 @@ console.log(Key)
                   data:null,
                  mRender: function (data, type, row) {
                  for(i = 0; i < vm.User.length; i++) {
-                     return '<div class="edit-wrapper"><span class="icn">'+'<a href="editContact/'+ Key[i] + '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+"   "+'<a href="deleteContact/'+ Key[i] + '"><i class="fa fa-trash-o" aria-hidden="true"></i></a>'+'</span>'+'</div>'
+                     return '<div class="edit-wrapper"><span class="icn">'+'<a href="contact/'+ Key[i] + '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+"   "+'<a href="contact/'+ Key[i] + '/delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>'+'</span>'+'</div>'
                      }
                 }
 
@@ -41,7 +41,7 @@ console.log(Key)
 
 
             ]
-        } );
+        });
 
 
-    } );
+    });

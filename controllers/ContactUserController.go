@@ -24,6 +24,7 @@ type ContactUserController struct {
 
 func (c *ContactUserController)LoadContact() {
 	r := c.Ctx.Request
+	w :=c.Ctx.ResponseWriter
 	if r.Method == "POST" {
 
 		user:=models.ContactUser{}
@@ -33,12 +34,20 @@ func (c *ContactUserController)LoadContact() {
 		user.Email = c.GetString("emailAddress")
 		user.PhoneNumber= c.GetString("phoneNumber")
 		user.Address = c.GetString("address")
-		ce := appengine.NewContext(r)
-		log.Infof(ce, "requested struct: %+v", user)
+		context := appengine.NewContext(r)
+		log.Infof(context, "requested struct: %+v", user)
 		user.CurrentDate =time.Now().UnixNano() / int64(time.Millisecond)
 		fmt.Println(reflect.TypeOf(user.CurrentDate))
 		user.Status = "Completed"
-		user.AddToDB(c.AppEngineCtx)
+		dbStatus := user.AddContactToDB(c.AppEngineCtx)
+		switch dbStatus {
+
+		case true:
+			w.Write([]byte("true"))
+
+		case false:
+			w.Write([]byte("false"))
+		}
 	}else {
 
 		c.Layout = "layout/layout.html"
@@ -51,7 +60,7 @@ func (c *ContactUserController)LoadContact() {
 }
 func (c *ContactUserController)LoadContactdetail() {
 	user := models.ContactUser{}
-	dbStatus, contact := user.RetrieveFromDB(c.AppEngineCtx)
+	dbStatus, contact := user.RetrieveContactFromDB(c.AppEngineCtx)
 	viewModel := viewmodels.ContactUserViewModel{}
 
 	switch dbStatus {
@@ -69,31 +78,31 @@ func (c *ContactUserController)LoadContactdetail() {
 
 
 		}
-			// To perform the opertion you want
-			for _, k := range keySlice {
-				valueSlice = append(valueSlice, contact[k])
-				viewModel.User = append(viewModel.User, contact[k])
-				viewModel.Key=keySlice
+		// To perform the opertion you want
+		for _, k := range keySlice {
+			valueSlice = append(valueSlice, contact[k])
+			viewModel.User = append(viewModel.User, contact[k])
+			viewModel.Key=keySlice
 
 
 
-			}
+		}
 
 		log.Infof(ce,"Key:", keySlice, "Value:", valueSlice)
 		//log.Infof(ce,"Value: ", valueSlice)
 		//log.Infof(ce,"Value: ", valueSlice)
-			//mvVar := map["Name"].(string)
-			//m := f.(map[string]interface{}
-			//viewModel.Name = contact[result[i]].Name
-			//viewModel.PhoneNumber = contact["PhoneNumber"]
-			//viewModel.Email = contact["Email"]
-			//viewModel.Address = contact["Address"]
-			//viewModel.State = contact["State"]
-			//viewModel.ZipCode = contact["ZipCode"]
+		//mvVar := map["Name"].(string)
+		//m := f.(map[string]interface{}
+		//viewModel.Name = contact[result[i]].Name
+		//viewModel.PhoneNumber = contact["PhoneNumber"]
+		//viewModel.Email = contact["Email"]
+		//viewModel.Address = contact["Address"]
+		//viewModel.State = contact["State"]
+		//viewModel.ZipCode = contact["ZipCode"]
 		log.Infof(ce, "typeeee",(reflect.TypeOf(viewModel)))
-			c.Data["vm"] = viewModel
-			c.Layout = "layout/layout.html"
-			c.TplName = "template/contacts-details.html"
+		c.Data["vm"] = viewModel
+		c.Layout = "layout/layout.html"
+		c.TplName = "template/contacts-details.html"
 
 	case false:
 
@@ -102,16 +111,16 @@ func (c *ContactUserController)LoadContactdetail() {
 func (c *ContactUserController)LoadDeleteContact() {
 
 	r := c.Ctx.Request
-	ce := appengine.NewContext(r)
-	id :=c.Ctx.Input.Param(":key")
-	log.Infof(ce,"idddddddddd",id)
+	context := appengine.NewContext(r)
+	contactId :=c.Ctx.Input.Param(":contactId")
+	log.Infof(context,"idddddddddd", contactId)
 	user := models.ContactUser{}
-	dbStatus := user.DeleteFromDB(c.AppEngineCtx, id )
+	dbStatus := user.DeleteContactFromDB(c.AppEngineCtx, contactId)
 
 	switch dbStatus {
 
 	case true:
-		c.Redirect("/contactdetail", 302)
+		c.Redirect("/contact", 302)
 	case false :
 	}
 
@@ -119,12 +128,12 @@ func (c *ContactUserController)LoadDeleteContact() {
 }
 func (c *ContactUserController)LoadEditContact() {
 	r := c.Ctx.Request
-	ce := appengine.NewContext(r)
-	id :=c.Ctx.Input.Param(":key")
-	log.Infof(ce,"idddddddddd",id)
+	context := appengine.NewContext(r)
+	contactId :=c.Ctx.Input.Param(":contactId")
+	log.Infof(context,"idddddddddd", contactId)
 	viewModel := viewmodels.ContactUserViewModel{}
 	user := models.ContactUser{}
-	dbStatus,contact := user.RetrieveFromDBId(c.AppEngineCtx, id )
+	dbStatus,contact := user.RetrieveContactIdFromDB(c.AppEngineCtx, contactId)
 	switch dbStatus {
 	case true:
 		viewModel.Name=contact.Name
@@ -141,4 +150,3 @@ func (c *ContactUserController)LoadEditContact() {
 	}
 
 }
-

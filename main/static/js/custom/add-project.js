@@ -12,9 +12,6 @@
                     numberOfTask: "required",
 
 
-
-                    //lastName: "required",
-
                 },
                 messages: {
                     projectName: "Please enter your name",
@@ -22,38 +19,35 @@
                     emailAddress: "Please enter a valid email address"
 
                 },
-	submitHandler: function() {
+	            submitHandler: function() {
 
-				var form_data = $("#projectForm").serialize();
-				//console.log(form_data);
-				$.ajax({
-		                       url: '/project',
+				    var form_data = $("#projectForm").serialize();
+
+				    $.ajax({
+		                       url: '/project/add',
 		                       type: 'post',
 		                       datatype: 'json',
 
-
-						//name: $('#name').val(),
-					 	//phoneNumber: $('#phoneNumber').val(),
-						//emailAddress: $('#emailAddress').val(),
-						//address: $('#address').val(),
-						//state: $('#state').val(),
-						//zipcode: $('#zipcode').val(),
-						//request: serverName
-				      data: form_data,
+				               data: form_data,
 
 
 		                      success : function(response) {
 
+                                        if (response =="true") {
 
 
+                                            window.location = '/project';
+                               			} else {
+
+                               			    }
 
 		                       },
-				 error: function (request,status, error) {
-       					 console.log(error);
-    				}
-		                     });
+				              error: function (request,status, error) {
+       					            console.log(error);
+    				          }
+		            });
 
 
-                          }
-                    });
+                }
+            });
  });

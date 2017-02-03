@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"golang.org/x/net/context"
+	//"golang.org/x/crypto/nacl/box"
 )
 
 type Task   struct {
@@ -25,9 +26,9 @@ type Task   struct {
 	CurrentDate	int64
 
 }
-func (m *Task) AddToDB(ctx context.Context )  {
+func (m *Task) AddTaskToDB(ctx context.Context )(bool)  {
 
-	log.Println("values in m:",m)
+
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
 		log.Println("Connection error:",err)
@@ -35,11 +36,12 @@ func (m *Task) AddToDB(ctx context.Context )  {
 	_, err = dB.Child("Task").Push(m)
 	if err!=nil{
 		log.Println("Insertion error:",err)
+		return false
 	}
-
+	return true
 
 }
-func (m *Task) RetrieveFromDB(ctx context.Context)(bool,map[string]Task) {
+func (m *Task) RetrieveTaskFromDB(ctx context.Context)(bool,map[string]Task) {
 	v := map[string]Task{}
 	dB, err := GetFirebaseClient(ctx,"")
 	err = dB.Child("Task").Value(&v)
@@ -49,36 +51,57 @@ func (m *Task) RetrieveFromDB(ctx context.Context)(bool,map[string]Task) {
 	}
 	log.Println( v)
 	return true,v
-	//log.Println("There are "+v.getChildrenCount());
+
 
 }
-func (m *Task) DeleteFromDB(ctx context.Context,key string)(bool)  {
+func (m *Task) DeleteTaskFromDB(ctx context.Context, taskId string)(bool)  {
 
-	log.Println(key)
-	log.Println("deleteDb")
+
 
 	dB, err := GetFirebaseClient(ctx,"")
 
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
-	err = dB.Child("/Task/"+key).Remove()
+	err = dB.Child("/Task/"+ taskId).Remove()
 	if err!=nil{
 		log.Println("Deletion error:",err)
 		return false
 	}
 	return true
 }
-func (m *Task) RetrieveFromUserDB(ctx context.Context)(bool,map[string]Task) {
+func (m *Task) RetrieveProjectFromDB(ctx context.Context)(bool,map[string]Task) {
 	v := map[string]Task{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("Users").Value(&v)
+	err = dB.Child("Project").Value(&v)
 	if err != nil {
 		log.Fatal(err)
 		return false,v
 	}
 	log.Println( v)
 	return true,v
+
+
+}
+func (m *Project)RetrieveProjectValueFromDB(ctx context.Context, projectId[] string)(string) {
+	log.Println( "keyyy in model", projectId)
+	c := Project{}
+
+
+	dB, err := GetFirebaseClient(ctx,"")
+	for i := 0; i <len(projectId) ; i++ {
+		err = dB.Child("/Project/" + projectId[i]).Value(&c)
+
+
+
+
+
+	}
+	if err != nil {
+		log.Fatal(err)
+		return c.ProjectName
+	}
+	return c.ProjectName
 	//log.Println("There are "+v.getChildrenCount());
 
 }

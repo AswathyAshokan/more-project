@@ -16,9 +16,9 @@ type Project   struct {
 	Status		string
 	CurrentDate	int64
 }
-func (m *Project) AddToDB( ctx context.Context)  {
+func (m *Project) AddProjectToDB( ctx context.Context)(bool)  {
 
-	log.Println("values in m:",m)
+
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
 		log.Println("Connection error:",err)
@@ -26,11 +26,13 @@ func (m *Project) AddToDB( ctx context.Context)  {
 	_, err = dB.Child("Project").Push(m)
 	if err!=nil{
 		log.Println("Insertion error:",err)
+		return false
 	}
+	return true
 
 
 }
-func (m *Project ) RetrieveFromDB(ctx context.Context)(bool,map[string]Project) {
+func (m *Project ) RetrieveProjectFromDB(ctx context.Context)(bool,map[string]Project) {
 	v := map[string]Project {}
 	dB, err := GetFirebaseClient(ctx,"")
 	err = dB.Child("Project").Value(&v)
@@ -40,19 +42,17 @@ func (m *Project ) RetrieveFromDB(ctx context.Context)(bool,map[string]Project) 
 	}
 	log.Println( v)
 	return true,v
-	//log.Println("There are "+v.getChildrenCount());
+
 
 }
-func (m *Project) DeleteFromDB(ctx context.Context,key string)(bool)  {
-
-	log.Println(key)
+func (m *Project) DeleteProjectFromDB(ctx context.Context, projectId string)(bool)  {
 
 	dB, err := GetFirebaseClient(ctx,"")
 
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
-	err = dB.Child("/Project/"+key).Remove()
+	err = dB.Child("/Project/"+ projectId).Remove()
 	if err!=nil{
 		log.Println("Deletion error:",err)
 		return false

@@ -20,6 +20,8 @@ type TaskController struct {
 
 func (c *TaskController)LoadTask() {
 	r := c.Ctx.Request
+	w :=c.Ctx.ResponseWriter
+	//viewModel := viewmodels.TaskViewModel{}
 	if r.Method == "POST" {
 
 		task:=models.Task{}
@@ -35,19 +37,40 @@ func (c *TaskController)LoadTask() {
 		task.Contact = c.GetString("contacts")
 		task.LoginType=c.GetString("loginType")
 		task.FitToWork = c.GetString("fitToWork")
-		ce := appengine.NewContext(r)
-		log.Infof(ce, "requested struct: %+v", task)
-		log.Infof(ce, "value of login type  ", task.LoginType)
+		context := appengine.NewContext(r)
+		log.Infof(context, "requested struct: %+v", task)
+		log.Infof(context, "value of login type  ", task.LoginType)
 
 		task.CurrentDate =time.Now().UnixNano() / int64(time.Millisecond)
 		task.Status = "Completed"
-		task.AddToDB(c.AppEngineCtx)
+		dbStatus :=task.AddTaskToDB(c.AppEngineCtx)
+		switch dbStatus {
 
-		}else {
+		case true:
+			w.Write([]byte("true"))
+
+		case false:
+			w.Write([]byte("false"))
+		}
+
+	}else {
 		task:=models.Task{}
-		_,tasks :=task.RetrieveFromUserDB(c.AppEngineCtx)
-		ce := appengine.NewContext(r)
-		log.Infof(ce, "all data", tasks)
+		project :=models.Project{}
+		_,tasks :=task.RetrieveProjectFromDB(c.AppEngineCtx)
+		context := appengine.NewContext(r)
+
+		dataValue := reflect.ValueOf(tasks)
+		var keySlice []string
+
+		for _, key := range dataValue.MapKeys() {
+			keySlice = append(keySlice, key.String())
+		}
+
+
+		tasksValue := project.RetrieveProjectValueFromDB(c.AppEngineCtx,keySlice)
+		log.Infof(context, "all data",tasksValue)
+		//viewModel.ProjectName =tasksValue.ProjectName
+		//c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-task.html"
 
@@ -59,15 +82,15 @@ func (c *TaskController)LoadTask() {
 }
 func (c *TaskController)LoadTaskDetail() {
 	task := models.Task{}
-	dbStatus, tasks := task.RetrieveFromDB(c.AppEngineCtx)
+	dbStatus, tasks := task.RetrieveTaskFromDB(c.AppEngineCtx)
 	viewModel := viewmodels.TaskViewModel{}
 
 	switch dbStatus {
 
 	case true:
 		r := c.Ctx.Request
-		ce := appengine.NewContext(r)
-		log.Infof(ce, "%s\n", task)
+		context := appengine.NewContext(r)
+		log.Infof(context, "%s\n", task)
 		//var valueSlice []models.User
 		dataValue := reflect.ValueOf(tasks)
 		var keySlice []string
@@ -108,16 +131,16 @@ func (c *TaskController)LoadTaskDetail() {
 func (c *TaskController)LoadDeleteTask() {
 
 	r := c.Ctx.Request
-	ce := appengine.NewContext(r)
-	id :=c.Ctx.Input.Param(":key")
-	log.Infof(ce,"idddddddddd",id)
+	context := appengine.NewContext(r)
+	taskId :=c.Ctx.Input.Param(":taskId")
+	log.Infof(context,"idddddddddd", taskId)
 	task := models.Task{}
-	dbStatus := task.DeleteFromDB(c.AppEngineCtx, id )
+	dbStatus := task.DeleteTaskFromDB(c.AppEngineCtx, taskId)
 
 	switch dbStatus {
 
 	case true:
-		c.Redirect("/taskdetail", 302)
+		c.Redirect("/task", 302)
 	case false :
 	}
 
