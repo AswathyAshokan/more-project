@@ -1,0 +1,75 @@
+
+
+/*Created By Farsana*/
+
+<head>
+	<script src="static/js/custom/add-group.js"></script>
+
+</head>
+<div class="col-md-12 main-content-wrapper padding-50-each">
+	<div class="clearfix">
+		<h1 class="h4">Add Customer</h1>
+
+		<div class="personal-details margin-top-20">
+
+			<form class="clearfix max-form-width" method="post" id="addcustomerForm">
+
+				<div class="form-group clearfix">
+
+					<div class="col-sm-6">
+								<label for="ex1" class="">Group Name</label>
+								<input class="form-control" id="ex2" type="text" name="groupname">
+							</div>
+
+							<!-- <div class="col-sm-6">
+                                <label for="ex1" class="">Customer Name</label>
+                                <select class="form-control sprites-arrow-down" id="">
+                                    <option></option>
+                                    <option></option>
+                                    <option></option>
+                                    <option></option>
+                                </select>
+                            </div> -->
+
+							<div class="col-sm-6">
+								<label for="ex1" class="">Add Users to Group</label>
+								<select name="addgroup" class="form-control sprites-arrow-down" id="" >
+									<option>value1</option>
+									<option>value2</option>
+
+									<!--{{range $key, $customername := .}}
+									<option GroupMembers="{{ $customername }}">{{ $key }}</option>
+									{{end}}-->
+								</select>
+							</div>
+
+				</div>
+
+						<div class="align-left col-sm-12">
+							<button class="btn btn-primary">Save</button>
+							<button class="btn btn-success">Cancel</button>
+						</div>
+			</form>
+		</div>
+	</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
