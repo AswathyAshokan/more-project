@@ -26,21 +26,23 @@ type ContactUser   struct {
 }
 
 
-func (m *ContactUser) AddToDB(ctx context.Context)  {
+func (m *ContactUser) AddContactToDB(ctx context.Context) (bool) {
 	log.Println("values in m:",m)
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
 	_, err = dB.Child("Contacts").Push(m)
+
 	if err!=nil{
 		log.Println("Insertion error:",err)
+		return false
 	}
+	return true
+}
 
- }
 
-
-func (m *ContactUser) RetrieveFromDB(ctx context.Context)(bool,map[string]ContactUser) {
+func (m *ContactUser) RetrieveContactFromDB(ctx context.Context)(bool,map[string]ContactUser) {
 	v := map[string]ContactUser{}
 	dB, err := GetFirebaseClient(ctx,"")
 	err = dB.Child("Contacts").Value(&v)
@@ -53,28 +55,28 @@ func (m *ContactUser) RetrieveFromDB(ctx context.Context)(bool,map[string]Contac
 	//log.Println("There are "+v.getChildrenCount());
 
 }
-func (m *ContactUser) DeleteFromDB(ctx context.Context,key string)(bool)  {
+func (m *ContactUser) DeleteContactFromDB(ctx context.Context, contactId string)(bool)  {
 
-	log.Println(key)
+	log.Println(contactId)
 
 	dB, err := GetFirebaseClient(ctx,"")
 
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
-	err = dB.Child("/Contacts/"+key).Remove()
+	err = dB.Child("/Contacts/"+ contactId).Remove()
 	if err!=nil{
 		log.Println("Deletion error:",err)
 		return false
 	}
- 	return true
+	return true
 }
 
-func (m *ContactUser) RetrieveFromDBId(ctx context.Context,key string)(bool, ContactUser) {
-	log.Println( "keyyy in model",key)
+func (m *ContactUser) RetrieveContactIdFromDB(ctx context.Context, contactId string)(bool, ContactUser) {
+	log.Println( "keyyy in model", contactId)
 	c := ContactUser{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("/Contacts/"+key).Value(&c)
+	err = dB.Child("/Contacts/"+ contactId).Value(&c)
 	if err != nil {
 		log.Fatal(err)
 		return false,c

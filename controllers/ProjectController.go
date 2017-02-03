@@ -22,25 +22,32 @@ type ProjectController struct {
 
 func (c *ProjectController)LoadProject() {
 	r := c.Ctx.Request
+	w :=c.Ctx.ResponseWriter
 	if r.Method == "POST" {
 
 		project:=models.Project{}
 		project.CustomerName= c.GetString("customerName")
 		project.ProjectName= c.GetString("projectName")
 		project.ProjectNumber = c.GetString("projectNumber")
-		project.NumberOfTask = c.GetString("projectNumber")
-
-		ce := appengine.NewContext(r)
-		log.Infof(ce, "requested struct: %+v", project)
+		project.NumberOfTask = c.GetString("numberOfTask")
+		context := appengine.NewContext(r)
+		log.Infof(context, "requested struct: %+v", project)
 		project.CurrentDate =time.Now().UnixNano() / int64(time.Millisecond)
 		project.Status = "Open"
-		project.AddToDB(c.AppEngineCtx)
+		dbStatus :=project.AddProjectToDB(c.AppEngineCtx)
+		switch dbStatus {
+
+		case true:
+			w.Write([]byte("true"))
+
+		case false:
+			w.Write([]byte("false"))
+		}
 
 	}else {
 
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-project.html"
-
 
 	}
 
@@ -49,15 +56,15 @@ func (c *ProjectController)LoadProject() {
 }
 func (c *ProjectController)LoadProjectDetail() {
 	project := models.Project{}
-	dbStatus, projects := project.RetrieveFromDB(c.AppEngineCtx)
+	dbStatus, projects := project.RetrieveProjectFromDB(c.AppEngineCtx)
 	viewModel := viewmodels.ProjectViewModel{}
 
 	switch dbStatus {
 
 	case true:
 		r := c.Ctx.Request
-		ce := appengine.NewContext(r)
-		log.Infof(ce, "%s\n", projects)
+		context := appengine.NewContext(r)
+		log.Infof(context, "%s\n", projects)
 		//var valueSlice []models.User
 		dataValue := reflect.ValueOf(projects)
 		var keySlice []string
@@ -66,31 +73,19 @@ func (c *ProjectController)LoadProjectDetail() {
 			keySlice = append(keySlice, key.String())
 		}
 
-		// To perform the opertion you want
 		for _, k := range keySlice {
 			valueSlice = append(valueSlice, projects[k])
 			viewModel.Project = append(viewModel.Project, projects[k])
 			viewModel.Key=keySlice
 
 		}
-		log.Infof(ce,"Key:", keySlice, "Value:", valueSlice)
-		//log.Infof(ce,"Value: ", valueSlice)
-		//log.Infof(ce,"Value: ", valueSlice)
-		//mvVar := map["Name"].(string)
-		//m := f.(map[string]interface{}
-		//viewModel.Name = contact[result[i]].Name
-		//viewModel.PhoneNumber = contact["PhoneNumber"]
-		//viewModel.Email = contact["Email"]
-		//viewModel.Address = contact["Address"]
-		//viewModel.State = contact["State"]
-		//viewModel.ZipCode = contact["ZipCode"]
-		log.Infof(ce, "typeeee",(reflect.TypeOf(viewModel)))
+		log.Infof(context,"Key:", keySlice, "Value:", valueSlice)
+		log.Infof(context, "typeeee",(reflect.TypeOf(viewModel)))
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/project-details.html"
 
 	case false:
-
 	}
 
 
@@ -98,16 +93,16 @@ func (c *ProjectController)LoadProjectDetail() {
 func (c *ProjectController)LoadDeleteProject() {
 
 	r := c.Ctx.Request
-	ce := appengine.NewContext(r)
-	id :=c.Ctx.Input.Param(":key")
-	log.Infof(ce,"idddddddddd",id)
+	context := appengine.NewContext(r)
+	projectId :=c.Ctx.Input.Param(":projectId")
+	log.Infof(context,"idddddddddd", projectId)
 	project := models.Project{}
-	dbStatus := project.DeleteFromDB(c.AppEngineCtx, id )
+	dbStatus := project.DeleteProjectFromDB(c.AppEngineCtx, projectId)
 
 	switch dbStatus {
 
 	case true:
-		c.Redirect("/projectdetail", 302)
+		c.Redirect("/project", 302)
 	case false :
 	}
 
