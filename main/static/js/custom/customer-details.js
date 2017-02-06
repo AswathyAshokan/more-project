@@ -4,10 +4,10 @@ console.log(vm)
 
 var subArray = [];
 var mainArray = [];
-var keyArray = [];
+var customerKeyArray = [];
 var userLength = vm.Customers.length;
 for(var i = 0; i < userLength; i++) {
-    keyArray.push(vm.Key[i])
+    customerKeyArray.push(vm.CustomerKey[i])
   for(var propertyName in vm.Customers[i]) {
       subArray.push(vm.Customers[i][propertyName]);
   }
@@ -34,7 +34,8 @@ $(document).ready(function() {
                        "render": function ( data, type, full, meta ) {
                         for (i = 0; i<length;i++){
 
-                           return '<div class="edit-wrapper">'+'<span class="icn">'+'<a href="/view-customer/'+keyArray[i] +'"><i class="fa fa-eye" aria-hidden="true"></i></a>'+'    '+'<a href="/edit-customer/'+keyArray[i] +'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+'    '+'<a href="/delete-customer/'+keyArray[i] +'"><i class="fa fa-trash-o" aria-hidden="true"></i></a>'+'</span>'+'</div>'
+                                return '<div class="edit-wrapper">'+'<span class="icn">'+'<a href="/view-user/'+customerKeyArray    [i] +'"><i class="fa fa-eye" aria-hidden="true"></i></a>'+'    '+'<a href="/edit-user/'+keyArray[i] +'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+'    '+'<a href="/customer/:'+keyArray[i] +'/delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>'+'</span>'+'</div>'
+
 
                         }
                         }
