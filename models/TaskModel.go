@@ -83,25 +83,21 @@ func (m *Task) RetrieveProjectFromDB(ctx context.Context)(bool,map[string]Task) 
 
 
 }
-func (m *Project)RetrieveProjectValueFromDB(ctx context.Context, projectId[] string)(string) {
+func (m *Project)RetrieveProjectValueFromDB(ctx context.Context, projectId[] string)([] string) {
 	log.Println( "keyyy in model", projectId)
 	c := Project{}
-
-
+	var s []string
 	dB, err := GetFirebaseClient(ctx,"")
 	for i := 0; i <len(projectId) ; i++ {
 		err = dB.Child("/Project/" + projectId[i]).Value(&c)
-
-
-
-
+		 s =append(s,c.ProjectName)
 
 	}
 	if err != nil {
 		log.Fatal(err)
-		return c.ProjectName
+		return s
 	}
-	return c.ProjectName
+	return s
 	//log.Println("There are "+v.getChildrenCount());
 
 }

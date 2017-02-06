@@ -1,7 +1,7 @@
 
 /* Author :Aswathy Ashok */
-       $().ready(function() { 
-	
+  $().ready(function() {
+
             $("#contactForm").validate({
 
                 rules: {
@@ -49,27 +49,23 @@
 				    var form_data = $("#contactForm").serialize();
 
 				    $.ajax({
-		                       url: '/contact/add',
-		                       type: 'post',
-		                       datatype: 'json',
 
-
-
-				         data: form_data,
-		                 success : function(response) {
-                               if (response =="true") {
+		                url: '/contact/add',
+		                type: 'post',
+		                datatype: 'json',
+                        data: form_data,
+                        success : function(response) {
+                            if (response =="true") {
 
                                     window.location = '/contact';
-                               	} else {
+                            } else {
 
-                               	    }
+                            }
                          },
-				         error: function (request,status, error) {
+				        error: function (request,status, error) {
        					    console.log(error);
     				     }
 		             });
-
-
-                }
+            }
         });
  });

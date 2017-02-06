@@ -21,7 +21,7 @@ type TaskController struct {
 func (c *TaskController)LoadTask() {
 	r := c.Ctx.Request
 	w :=c.Ctx.ResponseWriter
-	//viewModel := viewmodels.TaskViewModel{}
+	viewModel  := viewmodels.TaskViewModel{}
 	if r.Method == "POST" {
 
 		task:=models.Task{}
@@ -69,8 +69,8 @@ func (c *TaskController)LoadTask() {
 
 		tasksValue := project.RetrieveProjectValueFromDB(c.AppEngineCtx,keySlice)
 		log.Infof(context, "all data",tasksValue)
-		//viewModel.ProjectName =tasksValue.ProjectName
-		//c.Data["vm"] = viewModel
+		viewModel.ProjectName  =tasksValue
+		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-task.html"
 

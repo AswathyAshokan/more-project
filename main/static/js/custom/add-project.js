@@ -3,8 +3,6 @@
        $().ready(function() {
 
             $("#projectForm").validate({
-
-
                 rules: {
 
                     projectName : "required",
@@ -48,6 +46,6 @@
 		            });
 
 
-                }
-            });
+            }
+         });
  });
