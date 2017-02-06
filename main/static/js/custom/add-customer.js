@@ -35,6 +35,8 @@ $().ready(function() {
 
 
 	  },
+	  alert("hhhhhaaaaaaaaa")
+
 	    submitHandler: function(){//to pass all data of a form serial
 		    var formData = $("#addcustomerForm").serialize();
 	             $.ajax({

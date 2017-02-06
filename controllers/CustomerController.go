@@ -36,7 +36,7 @@ func (c *CustomerController) AddCustomer() {
 		customer.State = c.GetString("state")
 		customer.ZipCode = c.GetString("zipcode")
 		log.Infof(context, "Values of struct: %v", customer)
-		dbStatus := customer.AddToDb(c.AppEngineCtx)
+		dbStatus := customer.AddCustomersToDb(c.AppEngineCtx)
 		log.Infof(context, "fafh",dbStatus )
 
 		switch dbStatus {
@@ -94,6 +94,7 @@ func (c *CustomerController) DeleteCustomer() {
 	w := c.Ctx.ResponseWriter
 	customerKey:=c.Ctx.Input.Param(":customerkey")
 	NewContext := appengine.NewContext(r)
+	log.Infof(NewContext,"customer keyyyyy",customerKey)
 	customer := models.Customer{}
 	DbStatus :=customer.DeleteCustomer(c.AppEngineCtx,customerKey)
 	switch DbStatus {
