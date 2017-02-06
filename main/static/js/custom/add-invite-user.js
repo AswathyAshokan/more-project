@@ -20,24 +20,28 @@ $().ready(function() {
 
 
     },
-	submitHandler: function(){//to pass all data of a form serial
-		var formData = $("#adduserForm").serialize();
-	     $.ajax({
-			url:'/add-user',
-			type:'post',
-			datatype: 'json',
-			data: formData,
-			//call back or get response here
-			success : function(response){
-				//console.log(response);
+	    submitHandler: function(){//to pass all data of a form serial
+		    var formData = $("#adduserForm").serialize();
+	         $.ajax({
+		    	url:'/user/add',
+			    type:'post',
+			    datatype: 'json',
+			    data: formData,
+			    //call back or get response here
+			    success : function(response){
+			    	 if(response == "true"){
 
-			},
-		error: function (request,status, error) {
-				}
+                    	 window.location='/user';
+                     }else {
+                    }
+
+			    },
+		     error: function (request,status, error) {
+			 }
 
 
-		});
-	return false;
+		     });
+	        return false;
      	}
 	});
 

@@ -19,7 +19,7 @@ type InviteUserController struct {
 	BaseController
 }
 
-func (c *InviteUserController) AddUser() {
+func (c *InviteUserController) AddInvitation() {
 	user := models.InviteUser{}
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -36,6 +36,7 @@ func (c *InviteUserController) AddUser() {
 		case true:
 			w.Write([]byte("true"))
 		case false:
+			w.Write([]byte("false"))
 
 
 		}
@@ -45,27 +46,27 @@ func (c *InviteUserController) AddUser() {
 	}
 }
 
-func (c *InviteUserController) UserDetails() {
+func (c *InviteUserController) InvitationDetails() {
 
 	r := c.Ctx.Request
-	exam := appengine.NewContext(r)
+	Context := appengine.NewContext(r)
 
 	user := models.InviteUser{}
-	result := user.DisplayUser(c.AppEngineCtx)
-	dataValue := reflect.ValueOf(result)
-	var valueSlice []models.InviteUser
-	viewmodel := viewmodels.UserViewModel{}
-	var keySlice []string
-	for _, key := range dataValue.MapKeys() {
-		keySlice = append(keySlice, key.String())//to get keys
-		valueSlice = append(valueSlice, result[key.String()])//to get values
-		viewmodel.Users = append(viewmodel.Users, result[key.String()])
+	inviteUserInfo := user.DisplayUser(c.AppEngineCtx)
+	inviteUserdataValue := reflect.ValueOf(inviteUserInfo)
+	var inviteUserValueSlice []models.InviteUser    // to store tha data value of slice
+	inviteUserViewModel := viewmodels.InviteUserViewModel{}
+	var inviteUserKeySlice []string     //to store the keys of slice
+	for _, inviteUserKey := range inviteUserdataValue.MapKeys() {
+		inviteUserKeySlice = append(inviteUserKeySlice, inviteUserKey.String())//to get keys
+		inviteUserValueSlice = append(inviteUserValueSlice, inviteUserInfo[inviteUserKey.String()])//to get values
+		inviteUserViewModel.Users = append(inviteUserViewModel.Users, inviteUserInfo[inviteUserKey.String()])
 
 
 	}
-	viewmodel.Key=keySlice
-	log.Infof(exam, "key of",viewmodel)
-	c.Data["vm"] = viewmodel
+	inviteUserViewModel.InviteUserKey = inviteUserKeySlice
+	log.Infof(Context, "key of", inviteUserViewModel)
+	c.Data["vm"] = inviteUserViewModel
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/invite-user-details.html"
 }
@@ -75,16 +76,16 @@ func (c *InviteUserController) UserDetails() {
 
 
 
-func (c *InviteUserController) UserDelete() {
+func (c *InviteUserController) DeleteInvitation() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	key:=c.Ctx.Input.Param(":Key")
+	InviteUserKey :=c.Ctx.Input.Param(":inviteuserkey")
 	exam := appengine.NewContext(r)
 	user := models.InviteUser{}
-	result :=user.DeleteUser(c.AppEngineCtx,key)
+	result :=user.DeleteUser(c.AppEngineCtx, InviteUserKey)
 	switch result {
 	case true:
-		http.Redirect(w, r, "/user-details", 301)
+		http.Redirect(w, r, "/user", 301)
 	case false:
 		log.Infof(exam,"failed")
 
@@ -96,7 +97,7 @@ func (c *InviteUserController) UserDelete() {
 
 //edit profile of each users
 
-func (c *InviteUserController) UserEdit() {
+func (c *InviteUserController) EditInvitation() {
 	user := models.InviteUser{}
 	r := c.Ctx.Request
 	key:=c.Ctx.Input.Param(":Key")
@@ -104,7 +105,7 @@ func (c *InviteUserController) UserEdit() {
 	result,DbStatus :=user.EditUser(c.AppEngineCtx,key)
 	switch DbStatus {
 	case true:
-		viewmodel := viewmodels.UserViewModel{}
+		viewmodel := viewmodels.InviteUserViewModel{}
 		viewmodel.FirstName = result.FirstName
 		viewmodel.LastName = result.LastName
 		viewmodel.EmailId = result.EmailId
@@ -121,7 +122,7 @@ func (c *InviteUserController) UserEdit() {
 
 //view the user
 
-func (c *InviteUserController) UserView() {
+func (c *InviteUserController) ViewInvitation() {
 	r := c.Ctx.Request
 	//var Key int
 	key:=c.Ctx.Input.Param(":Key")

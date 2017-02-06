@@ -18,7 +18,7 @@ type Customer struct {
 	State		 string
 	ZipCode		 string
 }
-func(this *Customer) AddToDb(ctx context.Context) {
+func(this *Customer) AddToDb(ctx context.Context) (bool){
 	//log.Println("values in model",this)
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
@@ -27,7 +27,9 @@ func(this *Customer) AddToDb(ctx context.Context) {
 	_,err = db.Child("Customer").Push(this)
 	if err != nil {
 		log.Println(err)
+		return false
 	}
+	return  true
 }
 // Display details
 
@@ -49,10 +51,10 @@ func(this *Customer) DisplayCustomer(ctx context.Context) map[string]Customer{
 
 // delete customer
 
-func(this *Customer) DeleteCustomer(ctx context.Context,key string) bool{
+func(this *Customer) DeleteCustomer(ctx context.Context,customerKey string) bool{
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Customer/"+key).Remove()
+	err = db.Child("/Customer/"+customerKey).Remove()
 	if err != nil {
 		log.Fatal(err)
 		return  false
@@ -63,10 +65,10 @@ func(this *Customer) DeleteCustomer(ctx context.Context,key string) bool{
 
 //edit a record
 
-func(this *Customer) EditCustomer(ctx context.Context,key string) (Customer,bool){
+func(this *Customer) EditCustomer(ctx context.Context,customerKey string) (Customer,bool){
 	value := Customer{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Customer/"+key).Value(&value)
+	err = db.Child("/Customer/"+customerKey).Value(&value)
 	if err != nil {
 		log.Fatal(err)
 		return value , false

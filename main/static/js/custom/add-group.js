@@ -6,32 +6,35 @@ $().ready(function() {
 
 	  rules: {
 		        	groupname: "required",
-                    addgroup:"required"
+                    groupMember:"required"
 	},
 	messages: {
 		            groupname:"please enter group name ",
-                    addgroup:"please fill this column"
+                    groupMember:"please fill this column"
 
-	  },
+	},
 	submitHandler: function(){//to pass all data of a form serial
 		var formData = $("#addgroupForm").serialize();
 	         $.ajax({
-			url:'/add-customer',
-			type:'post',
-			datatype: 'json',
-			data: formData,
-			//call back or get response here
-			success : function(response){
-				console.log(response);
+			    url:'/group/add',
+			    type:'post',
+			    datatype: 'json',
+			    data: formData,
+			    //call back or get response here
+			    success : function(response){
+			        if(response == "true"){
 
-			},
-		error: function (request,status, error) {
+            	         window.location='/group';
+                    }else {
+                    }
+			    },
+		        error: function (request,status, error) {
 				}
 
 
-		});
-	return false;
-     	}
+		     });
+	    return false;
+    }
 	});
 
 });

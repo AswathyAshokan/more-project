@@ -35,26 +35,29 @@ $().ready(function() {
 
 
 	  },
-	submitHandler: function(){//to pass all data of a form serial
-		var formData = $("#addcustomerForm").serialize();
-	         $.ajax({
-			url:'/add-customer',
-			type:'post',
-			datatype: 'json',
-			data: formData,
-			//call back or get response here
-			success : function(response){
-				console.log(response);
-				 window.location ='/customer-details';
+	    submitHandler: function(){//to pass all data of a form serial
+		    var formData = $("#addcustomerForm").serialize();
+	             $.ajax({
+			    url:'/customer/add',
+			    type:'post',
+			    datatype: 'json',
+			    data: formData,
+		    	//call back or get response here
+			    success : function(response){
 
-			},
-		error: function (request,status, error) {
-				}	
+			        if(response == "true"){
+
+			             window.location='/customer';
+			         }else {
+			         }
+			    },
+		        error: function (request,status, error) {
+				}
 		
 	
-		});
-	return false;
-     	}
+		    });
+	         return false;
+        }
 	});
 	
 });
