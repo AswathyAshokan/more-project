@@ -11,11 +11,11 @@ type Group struct {
 	GroupName string
 	GroupMembers string
 }
-type Information struct {
+type UserInformation struct {
 	Email string
 	UserName string
 }
-func(this *Group) AddgroupToDb(ctx context.Context) (bool){
+func(this *Group) AddGroupToDb(ctx context.Context) (bool){
 	//log.Println("values in model",this)
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
@@ -43,10 +43,10 @@ func(this *Group) DisplayGroup(ctx context.Context) map[string]Group{
 
 
 }
-func(this *Group) DeleteGroup(ctx context.Context,key string) bool{
+func(this *Group) DeleteGroup(ctx context.Context, groupKey string) bool{
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Group/"+key).Remove()
+	err = db.Child("/Group/"+ groupKey).Remove()
 	if err != nil {
 		log.Fatal(err)
 		return  false
@@ -56,30 +56,27 @@ func(this *Group) DeleteGroup(ctx context.Context,key string) bool{
 }
 
 // for fill the dropdown list in add group
-func(this *Information) DropDown(ctx context.Context) map[string]Information {
-	//user := User{}
+func(this *UserInformation) GetUsersForDropdown(ctx context.Context) map[string]UserInformation {
 	db,err :=GetFirebaseClient(ctx,"")
-	v := map[string]Information{}
+	v := map[string]UserInformation{}
 	err = db.Child("Users").Value(&v)
 	if err != nil {
 		log.Fatal(err)
 	}
-	//log.Println("%s\n", v)
-	//log.Println(reflect.TypeOf(v))
 	return v
 
 
 }
 
 
-func(this *Information) Takekey(ctx context.Context,keySlice []string) map[string]Information {
+func(this *UserInformation) TakeGroupMemberName(ctx context.Context,groupKeySlice []string)UserInformation {
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
-	v := map[string]Information{}
-	for i := 0; i <len(keySlice) ; i++ {
-
+	v :=UserInformation{}
+	for i := 0; i <len(groupKeySlice) ; i++ {
+		err = db.Child("/Users/"+groupKeySlice[i]).Child("Info").Value(&v)
 	}
-	err = db.Child("Users").Value(&v)
+
 	if err != nil {
 		log.Fatal(err)
 	}

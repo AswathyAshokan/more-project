@@ -31,7 +31,7 @@ func (c *InviteUserController) AddInvitation() {
 		user.UserType = c.GetString("usertype")
 		user.DateOfCreation =(time.Now().UnixNano() / 1000000)
 		user.Status = "inactive"
-		dbStatus := user.AdduserToDb(c.AppEngineCtx)
+		dbStatus := user.AddInviteToDb(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -85,7 +85,7 @@ func (c *InviteUserController) DeleteInvitation() {
 	result :=user.DeleteUser(c.AppEngineCtx, InviteUserKey)
 	switch result {
 	case true:
-		http.Redirect(w, r, "/user", 301)
+		http.Redirect(w, r, "/invitate", 301)
 	case false:
 		log.Infof(exam,"failed")
 

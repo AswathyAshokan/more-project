@@ -23,7 +23,7 @@ $().ready(function() {
 	    submitHandler: function(){//to pass all data of a form serial
 		    var formData = $("#adduserForm").serialize();
 	         $.ajax({
-		    	url:'/user/add',
+		    	url:'/invitate/add',
 			    type:'post',
 			    datatype: 'json',
 			    data: formData,
@@ -31,7 +31,7 @@ $().ready(function() {
 			    success : function(response){
 			    	 if(response == "true"){
 
-                    	 window.location='/user';
+                    	 window.location='/invitate';
                      }else {
                     }
 

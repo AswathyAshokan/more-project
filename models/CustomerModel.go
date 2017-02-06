@@ -18,7 +18,7 @@ type Customer struct {
 	State		 string
 	ZipCode		 string
 }
-func(this *Customer) AddToDb(ctx context.Context) (bool){
+func(this *Customer) AddCustomersToDb(ctx context.Context) (bool){
 	//log.Println("values in model",this)
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {

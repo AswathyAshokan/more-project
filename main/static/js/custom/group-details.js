@@ -18,7 +18,7 @@ for(var i = 0; i < userLength; i++) {
 console.log(GroupKeyArray)
 var i;
 var length;
-length=keyArray.length;
+length=GroupKeyArray.length;
 $(document).ready(function() {
             $('#example').DataTable( {
                 data: mainArray,

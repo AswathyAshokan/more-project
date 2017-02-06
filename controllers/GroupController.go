@@ -19,40 +19,13 @@ type GroupController struct {
 func (c *GroupController) AddGroup() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-
+	log.Print("cp1")
 	if r.Method == "POST" {
-
-		groupUser := models.Information{}
-		GroupMembers :=groupUser.DropDown(c.AppEngineCtx)  // fill the drop down list
-		log.Print("ffffff", GroupMembers)
-		groupDataValue := reflect.ValueOf(GroupMembers)	// To store data values of slice
-		//var valueSlice []models.Information
-		var groupKeySlice []string	// To store keys of the slice
-		for _, groupKey := range groupDataValue.MapKeys() {
-			groupKeySlice = append(groupKeySlice, groupKey.String())
-			//valueSlice = append(valueSlice, result[key.String()])
-		}
-
-		infoUser := models.Information{}
-		sample := infoUser.Takekey(c.AppEngineCtx,groupKeySlice)
-		log.Print("cccccc",sample)
-
-
-
-
-
-			//keys := make([]int, 0, len(result))
-			//for k := range result {
-				///keys = append(keys, k)
-			//}
-
-
-
 
 		group := models.Group{}
 		group.GroupName = c.GetString("groupname")
-		group.GroupMembers = c.GetString("groupMember")
-		dbStatus := group.AddgroupToDb(c.AppEngineCtx)
+		//group.GroupMembers = c.GetString("groupMember")
+		dbStatus := group.AddGroupToDb(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -62,6 +35,24 @@ func (c *GroupController) AddGroup() {
 
 		}
 	} else {
+		groupUser := models.UserInformation{}
+		GroupMembers :=groupUser.GetUsersForDropdown(c.AppEngineCtx)  // retrive all the keys of a users
+		log.Print("ffffff", GroupMembers)
+		groupDataValue := reflect.ValueOf(GroupMembers)	// To store data values of slice
+		var groupKeySlice []string	// To store keys of the slice
+		for _, groupKey := range groupDataValue.MapKeys() {
+			groupKeySlice = append(groupKeySlice, groupKey.String())
+
+		}
+		log.Print("data",groupKeySlice)
+		infoUser := models.UserInformation{}
+		// for retrieve the names of the users
+		GroupMemberName := infoUser.TakeGroupMemberName(c.AppEngineCtx,groupKeySlice)
+		log.Print("cccccc", GroupMemberName)
+
+
+
+		c.Data["vm"] = GroupMemberName
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-group.html"
 	}

@@ -15,13 +15,13 @@ type InviteUser struct {
 	Status string
 	DateOfCreation int64
 }
-func(this *InviteUser) AdduserToDb(ctx context.Context)bool {
+func(this *InviteUser) AddInviteToDb(ctx context.Context)bool {
 	//log.Println("values in model",this)
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println(err)
 	}
-	_,err = db.Child("User").Push(this)
+	_,err = db.Child("Invitation").Push(this)
 	if err != nil {
 		log.Println(err)
 		return  false
@@ -33,7 +33,7 @@ func(this *InviteUser) DisplayUser(ctx context.Context) map[string]InviteUser {
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
 	v := map[string]InviteUser{}
-	err = db.Child("User").Value(&v)
+	err = db.Child("Invitation").Value(&v)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -46,10 +46,10 @@ func(this *InviteUser) DisplayUser(ctx context.Context) map[string]InviteUser {
 
 //delete a field
 
-func(this *InviteUser) DeleteUser(ctx context.Context,key string) bool{
+func(this *InviteUser) DeleteUser(ctx context.Context,InviteUserKey string) bool{
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/User/"+key).Remove()
+	err = db.Child("/Invitation/"+InviteUserKey).Remove()
 	if err != nil {
 		log.Fatal(err)
 		return  false
@@ -60,10 +60,10 @@ func(this *InviteUser) DeleteUser(ctx context.Context,key string) bool{
 
 //edit a record
 
-func(this *InviteUser) EditUser(ctx context.Context,key string) (InviteUser,bool){
+func(this *InviteUser) EditUser(ctx context.Context,InviteUserKey string) (InviteUser,bool){
 	value := InviteUser{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/User/"+key).Value(&value)
+	err = db.Child("/Invitation/"+InviteUserKey).Value(&value)
 	if err != nil {
 		log.Fatal(err)
 		return value , false

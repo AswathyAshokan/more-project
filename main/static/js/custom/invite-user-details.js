@@ -13,10 +13,10 @@ for(var i = 0; i < userLength; i++) {
         mainArray.push(subArray);
         subArray = [];
 }
-console.log(keyArray)
+console.log(inviteUserKeyArray)
 var i;
 var length;
-length=keyArray.length;
+length=inviteUserKeyArray.length;
 $(document).ready(function() {
             $('#example').DataTable( {
                 data: mainArray,
@@ -30,7 +30,7 @@ $(document).ready(function() {
                        "render": function ( data, type, full, meta ) {
                             for (i = 0; i<length;i++){
 
-                                return '<div class="edit-wrapper">'+'<span class="icn">'+'<a href="/view-user/'+inviteUserKeyArray[i] +'"><i class="fa fa-eye" aria-hidden="true"></i></a>'+'    '+'<a href="/edit-user/'+inviteUserKeyArray[i] +'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+'    '+'<a href="/delete-user/'+inviteUserKeyArray[i] +'"><i class="fa fa-trash-o" aria-hidden="true"></i></a>'+'</span>'+'</div>'
+                                return '<div class="edit-wrapper">'+'<span class="icn">'+'<a href="/view-user/'+inviteUserKeyArray[i] +'"><i class="fa fa-eye" aria-hidden="true"></i></a>'+' '+'<a href="/edit-user/'+inviteUserKeyArray[i] +'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+'  '+'<a href="/invitate/'+inviteUserKeyArray[i] +'/delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>'+'</span>'+'</div>'
 
                             }
                         }
