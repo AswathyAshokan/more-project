@@ -21,3 +21,14 @@ $(function(){
         return false;
     });
 });
+
+app = angular.module('app',['firebase']);
+app.controller('AuthCtrl',[
+    '$scope','$rootScope','$firebaseAuth',function($scope,$rootScope,$firebaseAuth){
+        var ref = new Firebase('https://passporte.firebaseio.com');
+        $rootScope.auth = $firebaseAuth(ref);
+        $scope.signIn = function(){
+            $rootScope.auth.signIn
+        }
+    }
+]);

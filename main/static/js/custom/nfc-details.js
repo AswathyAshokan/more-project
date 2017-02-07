@@ -1,6 +1,6 @@
 /*Author: Sarath
 Date:01/02/2017*/
-var content = '<div class="edit-wrapper"><span class="icn"><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
+/*var content = '<div class="edit-wrapper"><span class="icn"><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
 var subArray = [];
 var mainArray = [];
 //alert(vm.Values);
@@ -12,12 +12,53 @@ for(i = 0; i < vm.Values.length; i++) {
     mainArray.push(subArray);
     subArray = [];
 }
-console.log(mainArray);
+console.log(mainArray);*/
 
 
-$(function(){
+$(function(){ 
+    
+    var mainArray = [];
+    
+    var table = "";
+    
+    function createDataArray(values, keys){
+        var subArray = [];
+        for(i = 0; i < values.length; i++) {
+            for(var propertyName in values[i]) {
+                subArray.push(values[i][propertyName]);
+            }
+            subArray.push(keys[i])
+            mainArray.push(subArray);
+            subArray = [];
+        }
+    }
+    
+    
+    function dataTableManipulate(){
+        
+        table =  $("#nfc_details").DataTable({
+            data: mainArray,
+            "columnDefs": [ {
+                       "targets": -1,
+                       "width": "5%",
+                       "data": null,
+                       "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
+            } ]
+        } );
+        
+        var item = $('<span>+</span>');
+        item.click(function() {
+            window.location = "/nfc/add";
+        });
+        $('.table-wrapper .dataTables_filter').append(item);
+    }
 
-  var table =  $("#nfc_details").DataTable({
+    createDataArray(vm.Values, vm.Keys);
+    dataTableManipulate();
+    
+    console.log(mainArray);
+
+  /*var table =  $("#nfc_details").DataTable({
         data: mainArray,
         "columnDefs": [ {
                    "targets": -1,
@@ -25,8 +66,8 @@ $(function(){
                    "data": null,
                    "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
                } ]
-           } );
-    /*var table =  $("#nfc_details").DataTable({
+           } );*/
+        /*var table =  $("#nfc_details").DataTable({
                        "processing": true,
                        "serverSide": true,
                        "ajax": {
@@ -56,8 +97,8 @@ $(function(){
                                                       "data": null,
                                                       "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
                                                   } ]
-           } );*/
-
+           } );
+*/
            $('#nfc_details tbody').on( 'click', '#edit', function () {
                    var data = table.row( $(this).parents('tr') ).data();
                    alert( data[0] +"'s key is: "+ data[4] );
@@ -68,6 +109,7 @@ $(function(){
                           $("#myModal").modal();
                            var data = table.row( $(this).parents('tr') ).data();
                            var key = data[4];
+               console.log(data, key);
 
                           $("#confirm").click(function(){
 
@@ -79,9 +121,13 @@ $(function(){
                                 },
                                 success: function(data){
                                     if(data=="true"){
-                                        //$('#nfc_details').DataTable().ajax.reload();
-                                        //$(this).closest('tr').remove();
-                                         window.location ='/nfc';
+                                        
+                                        $('#nfc_details').dataTable().fnDestroy();
+                                        
+                                        var index = mainArray.indexOf(key);
+                                        mainArray.splice(index, 1);
+                                        dataTableManipulate();
+                                        
                                     }
                                     else{
                                         console.log("Removing Failed!");
@@ -92,4 +138,7 @@ $(function(){
                           });
 
             });
+            
     });
+
+
