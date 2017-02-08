@@ -2,9 +2,11 @@
 Date:01/02/2017*/
 package models
 
-import "golang.org/x/net/context"
+import (
+	"golang.org/x/net/context"
+)
 
-type User struct{
+type Info struct{
 	FirstName	string
 	LastName	string
 	PhoneNo		string
@@ -16,12 +18,22 @@ type User struct{
 	ZipCode 	string
 }
 
-func (m *User)AddUser(ctx context.Context){
+type Admin struct {
+	FirstName	string
+	LastName	string
+	Email 		string
+}
+type Company struct{
+	Info	Info
+	Admin 	Admin
+}
+
+func (m *Company)AddUser(ctx context.Context){
 	dB, err := GetFirebaseClient(ctx, "")
 	if err != nil {
 
 	}
-	_,err = dB.Child("Users").Push(m)
+	_,err = dB.Child("Company").Push(m)
 	if err != nil{
 
 	}

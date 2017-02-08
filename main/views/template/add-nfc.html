@@ -1,5 +1,6 @@
 <!--Author: Sarath
 Date:01/02/2017-->
+<script src="/static/js/jquery.validate.js"></script>
 <script src="/static/js/custom/add-nfc.js" type="text/javascript" charset="utf-8"></script>
 
 <section class="content-section clearfix">
@@ -10,19 +11,19 @@ Date:01/02/2017-->
 
 					<div class="personal-details margin-top-20">
 
-						<form class="clearfix max-form-width">
+						<form class="clearfix max-form-width" id="addNfcForm" method="post">
 
 						    <div class="form-group clearfix">						    	
 
 								
 								<div class="col-sm-6">
 									<label for="customerName" class="">Customer Name</label>
-									<input class="form-control" id="customerName" type="text">
+									<input class="form-control" id="customerName" name="customerName" type="text">
 								</div>
 								
 								<div class="col-sm-6">
 									<label for="site" class="">Site</label>
-									<input class="form-control" id="site" type="text">
+									<input class="form-control" id="site" name="site" type="text">
 								</div>
 						    </div>
 
@@ -30,16 +31,16 @@ Date:01/02/2017-->
 
 								<div class="col-sm-6">
 									<label for="location" class="">Location</label>
-									<input class="form-control" id="location" type="text">
+									<input class="form-control" id="location" name="location" type="text">
 								</div>
 								<div class="col-sm-6">
 									<label for="nfcNumber" class="">NFC Number</label>
-									<input class="form-control" id="nfcNumber" type="text">
+									<input class="form-control" id="nfcNumber" name="nfcNumber" type="text">
 								</div>
 						    </div>
 
 						    <div class="align-left col-sm-12">
-						    	<button class="btn btn-primary" id="save">Save</button>
+						    	<button class="btn btn-primary" type="submit" id="save">Save</button>
 						    	<button class="btn btn-success">Cancel</button>
 						    </div>
 

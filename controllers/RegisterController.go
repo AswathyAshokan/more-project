@@ -16,19 +16,20 @@ func (c *RegisterController) Register(){
 
 	r := c.Ctx.Request
 	if r.Method =="POST" {
-
-		user := models.User{}
-		user.FirstName = c.GetString("firstName")
-		user.LastName = c.GetString("lastName")
-		user.PhoneNo = c.GetString("phoneNo")
-		user.Email = c.GetString("emailId")
-		user.Password = []byte(c.GetString("password"))
-		user.CompanyName = c.GetString("companyName")
-		user.Address = c.GetString("address")
-		user.State = c.GetString("state")
-		user.ZipCode = c.GetString("zipCode")
-		log.Println("Registration Details:", user)
-		user.AddUser(c.AppEngineCtx)
+		company := models.Company{}
+		info := models.Info{}
+		info.FirstName = c.GetString("firstName")
+		info.LastName = c.GetString("lastName")
+		info.PhoneNo = c.GetString("phoneNo")
+		info.Email = c.GetString("emailId")
+		info.Password = []byte(c.GetString("password"))
+		info.CompanyName = c.GetString("companyName")
+		info.Address = c.GetString("address")
+		info.State = c.GetString("state")
+		info.ZipCode = c.GetString("zipCode")
+		company.Info = info
+		log.Println("Registration Details:", company)
+		company.AddUser(c.AppEngineCtx)
 	}else{
 		//c.Layout = "layout/default-layout.html"
 		c.TplName = "template/register.html"

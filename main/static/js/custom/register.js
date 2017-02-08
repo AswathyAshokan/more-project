@@ -28,4 +28,7 @@ $(function(){
         });
         return false;
     });
+    $("#agree").click(function() {
+      $("#register").attr("disabled", !this.checked);
+    });
 });
