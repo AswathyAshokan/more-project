@@ -82,6 +82,21 @@ func (m *ContactUser) RetrieveContactIdFromDB(ctx context.Context, contactId str
 		return false,c
 	}
 	return true,c
-	//log.Println("There are "+v.getChildrenCount());
 
+
+}
+func (m *ContactUser) UpdateContactToDB( ctx context.Context, contactId string)(bool)  {
+	log.Println( "model data", m)
+
+
+	dB, err := GetFirebaseClient(ctx,"")
+	if err!=nil{
+		log.Println("Connection error:",err)
+	}
+	err = dB.Child("/Contacts/"+ contactId).Update(&m)
+	if err!=nil{
+		log.Println("Insertion error:",err)
+		return false
+	}
+	return true
 }

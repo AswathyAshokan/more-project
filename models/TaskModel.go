@@ -10,7 +10,7 @@ import (
 
 type Task   struct {
 
-	ProjectName	string
+	JobName	string
 	TaskName	string
 	TaskLocation	string
 	StartDate	string
@@ -70,10 +70,10 @@ func (m *Task) DeleteTaskFromDB(ctx context.Context, taskId string)(bool)  {
 	}
 	return true
 }
-func (m *Task) RetrieveProjectFromDB(ctx context.Context)(bool,map[string]Task) {
+func (m *Task) RetrieveJobFromDB(ctx context.Context)(bool,map[string]Task) {
 	v := map[string]Task{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("Project").Value(&v)
+	err = dB.Child("Job").Value(&v)
 	if err != nil {
 		log.Fatal(err)
 		return false,v
@@ -83,14 +83,14 @@ func (m *Task) RetrieveProjectFromDB(ctx context.Context)(bool,map[string]Task) 
 
 
 }
-func (m *Project)RetrieveProjectValueFromDB(ctx context.Context, projectId[] string)([] string) {
-	log.Println( "keyyy in model", projectId)
-	c := Project{}
+func (m *Job)RetrieveJobValueFromDB(ctx context.Context, jobId[] string)([] string) {
+	log.Println( "keyyy in model", jobId)
+	c := Job{}
 	var s []string
 	dB, err := GetFirebaseClient(ctx,"")
-	for i := 0; i <len(projectId) ; i++ {
-		err = dB.Child("/Project/" + projectId[i]).Value(&c)
-		 s =append(s,c.ProjectName)
+	for i := 0; i <len(jobId) ; i++ {
+		err = dB.Child("/Job/" + jobId[i]).Value(&c)
+		 s =append(s,c.JobName)
 
 	}
 	if err != nil {
@@ -99,5 +99,64 @@ func (m *Project)RetrieveProjectValueFromDB(ctx context.Context, projectId[] str
 	}
 	return s
 	//log.Println("There are "+v.getChildrenCount());
+
+}
+func (m *Task) RetrieveContactFromDB(ctx context.Context)(bool,map[string]Task) {
+	v := map[string]Task{}
+	dB, err := GetFirebaseClient(ctx,"")
+	err = dB.Child("Contacts").Value(&v)
+	if err != nil {
+		log.Fatal(err)
+		return false,v
+	}
+	log.Println( v)
+	return true,v
+
+
+}
+func (m *ContactUser)RetrieveContactNameFromDB(ctx context.Context, contactId[] string)([] string) {
+	log.Println( "keyyy contact model", contactId)
+	c := ContactUser{}
+	var s []string
+	dB, err := GetFirebaseClient(ctx,"")
+	for i := 0; i <len(contactId) ; i++ {
+		err = dB.Child("/Contacts/" + contactId[i]).Value(&c)
+		s =append(s,c.Name)
+
+	}
+	if err != nil {
+		log.Fatal(err)
+		return s
+	}
+	return s
+	//log.Println("There are "+v.getChildrenCount());
+
+}
+func (m *Task) UpdateTaskToDB( ctx context.Context, taskId string)(bool)  {
+
+
+	dB, err := GetFirebaseClient(ctx,"")
+	if err!=nil{
+		log.Println("Connection error:",err)
+	}
+	err = dB.Child("/Task/"+ taskId).Update(&m)
+	if err!=nil{
+		log.Println("Insertion error:",err)
+		return false
+	}
+	return true
+
+
+}
+func (m *Task) RetrieveTaskDetailFromDB(ctx context.Context, taskId string)(bool, Task) {
+	c := Task{}
+	dB, err := GetFirebaseClient(ctx,"")
+	err = dB.Child("/Task/"+ taskId).Value(&c)
+	if err != nil {
+		log.Fatal(err)
+		return false,c
+	}
+	return true,c
+//log.Println("There are "+v.getChildrenCount());
 
 }

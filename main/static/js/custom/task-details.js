@@ -22,7 +22,7 @@ Key=keyArray
         $('#example').DataTable( {
             data: mainArray,
             columns: [
-                { title:"Project Name"},
+                { title:"Job Name"},
                 { title: "Task Name" },
                 { title: "Location" },
                 { title: "Start Date" },

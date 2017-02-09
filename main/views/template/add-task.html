@@ -17,13 +17,13 @@
 								<input class="form-control" id="taskName" type="text" name="taskName">
 							</div>
 							<div class="col-sm-6">
-								<label for="projectName" class="">Project Name</label>
-								<select class="form-control sprites-arrow-down" id="projectName" name="projectName">
+								<label for="jobName" class="">Job Name</label>
 
-									<option></option>
-									<option></option>
-									<option></option>
-									<option></option>
+								<select class="form-control sprites-arrow-down" id="jobName" name="jobName">
+									<option>select</option>
+									{{range  .array.JobNameArray}}
+									<option >{{ . }}</option>
+									{{end}}
 								</select>
 							</div>
 						</div>
@@ -98,11 +98,13 @@
 
 							<div class="col-sm-6">
 								<label for="contacts" class="">Contacts</label>
-								<select class="form-control sprites-arrow-down multiple-drop" id="contacts" multiple="multiple" name="contacts">
-									<option>Contact 1</option>
-									<option>Contact 2</option>
-									<option>Contact 3</option>
-									<option>Contact 4</option>
+								<select class="form-control sprites-arrow-down multiple-drop" id="contacts" multiple="multiple" name="contacts" >
+                                    
+
+										{{range  .array.ContactNameArray}}
+											<option  value="{{.}}">{{.}}</option>
+										{{end}}
+
 								</select>
 							</div>
 
@@ -118,7 +120,7 @@
 						</div>
 
 						<div class="align-left col-sm-12">
-							<button class="btn btn-primary" type="submit">Save</button>
+							<button class="btn btn-primary" type="submit" onclick="getContact()">Save</button>
 							<button class="btn btn-success" type="submit">Cancel</button>
 						</div>
 
@@ -158,7 +160,9 @@
 
 </div>
 
-
+<script type="text/javascript">
+       var array = {{.array}};
+   </script>
 <script src="/static/js/jquery.validate.js"></script>
 <script src="/static/js/custom/add-task.js"></script>
 <script src="/static/js/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>

@@ -1,8 +1,22 @@
 
 /* Author :Aswathy Ashok */
+console.log(array.Name);
+$(function () {
+    if(array.PageType == "2") {
+            
+                document.getElementById("name").value = array.Name;
+                document.getElementById("address").value = array.Address;
+                document.getElementById("state").value = array.State;
+                document.getElementById("zipcode").value = array.ZipCode;
+                document.getElementById("emailAddress").value = array.Email;
+                document.getElementById("phoneNumber").value = array.PhoneNumber;
+                
+                }
+});
   $().ready(function() {
 
             $("#contactForm").validate({
+                
 
                 rules: {
                    name: "required",
@@ -45,8 +59,36 @@
 
                 },
 	            submitHandler: function() {
+                 if(array.PageType == 2){
+                         $.ajax({
+		                       url: '/contact/:contactId/edit',
+		                       type: 'post',
+		                       datatype: 'json',
+
+				               data: form_data,
+
+
+		                      success : function(response) {
+
+                                        if (response =="true") {
+
+
+                                            window.location = '/contact';
+                               			} else {
+
+                               			    }
+
+		                       },
+				              error: function (request,status, error) {
+       					            console.log(error);
+    				          }
+		               });
+                    
+                        
+                    } else {
 
 				    var form_data = $("#contactForm").serialize();
+                            
 
 				    $.ajax({
 
@@ -67,5 +109,6 @@
     				     }
 		             });
             }
+         }
         });
- });
+  });

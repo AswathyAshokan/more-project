@@ -126,27 +126,57 @@ func (c *ContactUserController)LoadDeleteContact() {
 
 
 }
+
 func (c *ContactUserController)LoadEditContact() {
 	r := c.Ctx.Request
-	context := appengine.NewContext(r)
-	contactId :=c.Ctx.Input.Param(":contactId")
-	log.Infof(context,"idddddddddd", contactId)
-	viewModel := viewmodels.ContactUserViewModel{}
-	user := models.ContactUser{}
-	dbStatus,contact := user.RetrieveContactIdFromDB(c.AppEngineCtx, contactId)
-	switch dbStatus {
-	case true:
-		viewModel.Name=contact.Name
-		viewModel.Address =contact.Address
-		viewModel.State =contact.State
-		viewModel.ZipCode =contact.Zipcode
-		viewModel.Email =contact.Email
-		viewModel.PhoneNumber =contact.PhoneNumber
-		c.Data["vm"] = viewModel
-		c.Layout = "layout/layout.html"
-		c.TplName = "template/add-contactsnew.html"
-	case false:
+	w := c.Ctx.ResponseWriter
+	if r.Method == "POST" {
+		contactId := c.Ctx.Input.Param(":contactId")
+		user:=models.ContactUser{}
+		user.Name= c.GetString("name")
+		user.State = c.GetString("state")
+		user.Zipcode = c.GetString("zipcode")
+		user.Email = c.GetString("emailAddress")
+		user.PhoneNumber= c.GetString("phoneNumber")
+		user.Address = c.GetString("address")
+		context := appengine.NewContext(r)
+		log.Infof(context, "requested struct: %+v", user)
+		user.CurrentDate =time.Now().UnixNano() / int64(time.Millisecond)
+		fmt.Println(reflect.TypeOf(user.CurrentDate))
+		user.Status = "Completed"
+		dbStatus := user.UpdateContactToDB(c.AppEngineCtx,contactId)
+		switch dbStatus {
+
+		case true:
+			w.Write([]byte("true"))
+
+		case false:
+			w.Write([]byte("false"))
+		}
+
+	} else {
+
+		context := appengine.NewContext(r)
+		contactId := c.Ctx.Input.Param(":contactId")
+		log.Infof(context, "idddddddddd", contactId)
+		viewModel := viewmodels.ContactUserViewModel{}
+		contact :=models.ContactUser{}
+		dbStatus,contact := contact.RetrieveContactIdFromDB(c.AppEngineCtx, contactId)
+		switch dbStatus {
+		case true:
+			viewModel.PageType = "2"
+			viewModel.Name=contact.Name
+			viewModel.Address =contact.Address
+			viewModel.State =contact.State
+			viewModel.ZipCode =contact.Zipcode
+			viewModel.Email =contact.Email
+			viewModel.PhoneNumber =contact.PhoneNumber
+			c.Data["array"] = viewModel
+			c.Layout = "layout/layout.html"
+			c.TplName = "template/add-contacts.html"
+		case false:
+
+		}
 
 	}
-
 }

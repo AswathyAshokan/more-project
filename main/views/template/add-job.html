@@ -1,0 +1,67 @@
+
+<head>
+	<script type="text/javascript">
+       var array = {{.array}};
+   </script>
+	<script src="/static/js/jquery.validate.js"></script>
+	<script src="/static/js/custom/add-job.js"></script>
+</head>
+<title>Add Job</title>
+
+<div class="col-md-12 main-content-wrapper padding-50-each">
+	<div class="clearfix">
+		<h1 class="h4">Add Job</h1>
+
+		<div class="personal-details margin-top-20">
+
+			<form class="clearfix max-form-width" method="POST" id="jobForm">
+
+				<div class="form-group clearfix">
+
+
+					<div class="col-sm-6">
+						<label for="customerName" class="">Customer Name</label>
+						<select class="form-control sprites-arrow-down" id="customerName" name="customerName">
+
+							{{range  .array.CustomerNameArray}}
+							<option >{{ . }}</option>
+							{{end}}
+						</select>
+
+					</div>
+
+					<div class="col-sm-6">
+						<label for="jobName" class="">Job Name</label>
+						<input class="form-control" id="jobName" type="text" name="jobName">
+					</div>
+				</div>
+
+				<div class="form-group clearfix">
+
+					<div class="col-sm-6">
+						<label for="jobNumber" class="">Job Number</label>
+						<input class="form-control" id="jobNumber" type="text" name="jobNumber">
+					</div>
+					<div class="col-sm-6">
+						<label for="numberOfTask" class="">Number Of Tasks</label>
+						<input class="form-control" id="numberOfTask" type="text" name="numberOfTask">
+					</div>
+				</div>
+
+				<div class="align-left col-sm-12">
+					<button class="btn btn-primary" type="submit" id="save">Save</button>
+					<button class="btn btn-success" type="submit" id="cancel">Cancel</button>
+
+
+				</div>
+
+			</form>
+		</div>
+
+
+
+
+	</div>
+
+
+</div>
