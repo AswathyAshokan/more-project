@@ -5,6 +5,8 @@ package controllers
 import (
 	"app/passporte/models"
 	"log"
+	"time"
+	"app/passporte/helpers"
 )
 
 type RegisterController struct {
@@ -16,8 +18,9 @@ func (c *RegisterController) Register() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	if r.Method == "POST" {
-		company := models.Company{}
+		companyAdmins := models.CompanyAdmins{}
 		info := models.Info{}
+		settings := models.Settings{}
 		info.FirstName = c.GetString("firstName")
 		info.LastName = c.GetString("lastName")
 		info.PhoneNo = c.GetString("phoneNo")
@@ -27,9 +30,12 @@ func (c *RegisterController) Register() {
 		info.Address = c.GetString("address")
 		info.State = c.GetString("state")
 		info.ZipCode = c.GetString("zipCode")
-		company.Info = info
-		log.Println("Registration Details:", company)
-		dbStatus := company.AddUser(c.AppEngineCtx)
+		settings.DateCreated = time.Now().Unix()
+		settings.Status = helpers.StatusActive
+		companyAdmins.Info = info
+		companyAdmins.Settings = settings
+		log.Println("Registration Details:", companyAdmins)
+		dbStatus := companyAdmins.AddUser(c.AppEngineCtx)
 		switch dbStatus{
 		case false:
 			w.Write([]byte("false"))

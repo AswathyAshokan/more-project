@@ -5,6 +5,8 @@ package models
 import (
 	"golang.org/x/net/context"
 	"log"
+	"reflect"
+	//"encoding/json"
 )
 
 type Info struct {
@@ -19,28 +21,27 @@ type Info struct {
 	ZipCode		string
 }
 
-type Admin struct {
-	FirstName	string
-	LastName  	string
-	Email     	string
+type Settings struct {
 	Status		string
+	DateCreated  	int64
 }
-type Company struct {
+type CompanyAdmins struct {
 	Info  Info
-	CompanyAdmins []Admin
+	Settings Settings
 }
 
-func (m *Company)AddUser(ctx context.Context) bool {
+func (m *CompanyAdmins)AddUser(ctx context.Context) bool {
+
 	dB, err := GetFirebaseClient(ctx, "")
 	if err != nil {
 		log.Println("No Db Connection!")
 	}
-	_, err = dB.Child("Company").Push(m)
+	adminData, err := dB.Child("CompanyAdmins").Push(m)
 	if err != nil {
 		log.Println("Company Registration failed!")
 		return false
 	} else {
-		log.Println("Company Registration Successfull!")
+		log.Println("Type:",reflect.TypeOf(adminData))
 		return true
 	}
 }
