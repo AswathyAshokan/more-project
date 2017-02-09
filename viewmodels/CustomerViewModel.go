@@ -14,5 +14,7 @@ type Customer struct {
 	State         string
 	ZipCode       string
 	CustomerKey   []string
+	PageType      string
+	CustomerId    string
 
 }

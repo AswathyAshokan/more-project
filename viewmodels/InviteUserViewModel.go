@@ -13,4 +13,6 @@ type InviteUserViewModel struct {
 	Status         string
 	DateOfCreation int64
 	InviteUserKey  []string
+	PageType        string
+	InviteId        string
 }

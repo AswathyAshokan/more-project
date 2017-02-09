@@ -4,9 +4,9 @@ import (
 	"app/passporte/models"
 )
 type Group struct {
-	Groups       []models.Group
-	GroupName    string
-	GroupMembers string
-	GroupKey     []string
-
+	Groups       	[]models.Group
+	GroupName    	string
+	GroupMembers 	[]string
+	GroupKey     	[]string
+	PageType	string
 }

@@ -37,14 +37,14 @@ func(this *Customer) AddCustomersToDb(ctx context.Context) (bool){
 func(this *Customer) DisplayCustomer(ctx context.Context) map[string]Customer{
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
-	v := map[string]Customer{}
-	err = db.Child("Customer").Value(&v)
+	values := map[string]Customer{}
+	err = db.Child("Customer").Value(&values)
 	if err != nil {
 		log.Fatal(err)
 	}
 	//log.Println("%s\n", v)
 	//log.Println(reflect.TypeOf(v))
-	return v
+	return values
 
 
 }
@@ -65,7 +65,10 @@ func(this *Customer) DeleteCustomer(ctx context.Context,customerKey string) bool
 
 //edit a record
 
+
+
 func(this *Customer) EditCustomer(ctx context.Context,customerKey string) (Customer,bool){
+
 	value := Customer{}
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("/Customer/"+customerKey).Value(&value)
@@ -76,6 +79,21 @@ func(this *Customer) EditCustomer(ctx context.Context,customerKey string) (Custo
 	return value,true
 
 }
+
+func(this *Customer) UpdateCustomerDetails(ctx context.Context,customerKey string) (bool) {
+
+
+	db,err :=GetFirebaseClient(ctx,"")
+	err = db.Child("/Customer/"+ customerKey).Update(&this)
+
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	return true
+
+}
+
 
 
 

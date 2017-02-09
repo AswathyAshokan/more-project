@@ -10,6 +10,7 @@ import (
 	"reflect"
 	"app/passporte/viewmodels"
 	"net/http"
+	"app/passporte/helpers"
 )
 
 
@@ -90,18 +91,20 @@ func (c *CustomerController) CustomerDetails() {
 
 
 func (c *CustomerController) DeleteCustomer() {
+
+
+
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	customerKey:=c.Ctx.Input.Param(":customerkey")
-	NewContext := appengine.NewContext(r)
-	log.Infof(NewContext,"customer keyyyyy",customerKey)
+	customerKey :=c.Ctx.Input.Param(":customerkey")
+	newContext := appengine.NewContext(r)
 	customer := models.Customer{}
-	DbStatus :=customer.DeleteCustomer(c.AppEngineCtx,customerKey)
-	switch DbStatus {
+	result :=customer.DeleteCustomer(c.AppEngineCtx, customerKey)
+	switch result {
 	case true:
 		http.Redirect(w, r, "/customer", 301)
 	case false:
-		log.Infof(NewContext,"failed")
+		log.Infof(newContext,"failed")
 
 	}
 
@@ -112,37 +115,68 @@ func (c *CustomerController) DeleteCustomer() {
 
 //edit profile of each users
 
+
 func (c *CustomerController) EditCustomer() {
-	customer := models.Customer{}
 	r := c.Ctx.Request
-	key:=c.Ctx.Input.Param(":customerkey")
-	exam := appengine.NewContext(r)
-	result,DbStatus :=customer.EditCustomer(c.AppEngineCtx,key)
-	switch DbStatus {
-	case true:
-		viewmodel := viewmodels.Customer{}
-		viewmodel.CustomerName = result.CustomerName
-		viewmodel.ContactPerson = result.ContactPerson
-		//viewmodel.EmailId = result.EmailId
-		//viewmodel.UserType = result.UserType
-		c.Data["vm"] = viewmodel
-		c.Layout = "layout/layout.html"
-		c.TplName = "template/add-user.html"
-	case false:
-		log.Infof(exam,"failed")
+	w := c.Ctx.ResponseWriter
+	customer := models.Customer{}
+	customerKey := c.Ctx.Input.Param(":customerkey")
+	user := models.InviteUser{}
+	if r.Method == "POST" {
+
+		customer.CustomerName = c.GetString("customername")
+		customer.Address = c.GetString("address")
+		customer.ContactPerson = c.GetString("contactperson")
+		customer.Email= c.GetString("email")
+		customer.Phone = c.GetString("phone")
+		customer.ZipCode = c.GetString("zipcode")
+		customer.State = c.GetString("state")
+		dbStatus :=user.UpdateInviteUser(c.AppEngineCtx, customerKey)
+
+		switch dbStatus {
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
+
+		}
+
+
+	} else {
+		editResult, DbStatus := customer.EditCustomer(c.AppEngineCtx, customerKey)
+		context := appengine.NewContext(r)
+		switch DbStatus {
+		case true:
+			customerViewModel := viewmodels.Customer{}
+			customerViewModel.State= editResult.State
+			customerViewModel.ZipCode = editResult.ZipCode
+			customerViewModel.Email = editResult.Email
+			customerViewModel.ContactPerson = editResult.ContactPerson
+			customerViewModel.Address = editResult.Address
+			customerViewModel.CustomerName= editResult.CustomerName
+			customerViewModel.Phone= editResult.Phone
+			customerViewModel.PageType = helpers.SelectPageForEdit
+			customerViewModel.CustomerId = customerKey
+			c.Data["vm"] = customerViewModel
+			c.Layout = "layout/layout.html"
+			c.TplName = "template/add-customer.html"
+		case false:
+
+			log.Infof(context,"failed")
+		}
 
 	}
-	log.Infof(exam,"jhfjsgjgj: %+v",result)
+
+
+
+
 }
 
-//view the user
 
-func (c *CustomerController) ViewCustomer() {
-	r := c.Ctx.Request
-	//var Key int
-	Groupkey := c.Ctx.Input.Param(":customerkey")
-	exam := appengine.NewContext(r)
-	log.Infof(exam, "iddddddddd: %v", Groupkey)
-}
+
+
+
+
+
 
 

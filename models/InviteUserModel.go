@@ -21,7 +21,7 @@ func(this *InviteUser) AddInviteToDb(ctx context.Context)bool {
 	if err != nil {
 		log.Println(err)
 	}
-	_,err = db.Child("Invitation").Push(this)
+	_,err = db.Child("User").Push(this)
 	if err != nil {
 		log.Println(err)
 		return  false
@@ -32,24 +32,24 @@ func(this *InviteUser) AddInviteToDb(ctx context.Context)bool {
 func(this *InviteUser) DisplayUser(ctx context.Context) map[string]InviteUser {
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
-	v := map[string]InviteUser{}
-	err = db.Child("Invitation").Value(&v)
+	value := map[string]InviteUser{}
+	err = db.Child("User").Value(&value)
 	if err != nil {
 		log.Fatal(err)
 	}
 	//log.Println("%s\n", v)
 	//log.Println(reflect.TypeOf(v))
-	return v
+	return value
 
 
 }
 
 //delete a field
 
-func(this *InviteUser) DeleteUser(ctx context.Context,InviteUserKey string) bool{
+func(this *InviteUser) DeleteInviteUser(ctx context.Context,InviteUserKey string) bool{
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Invitation/"+InviteUserKey).Remove()
+	err = db.Child("/User/"+InviteUserKey).Remove()
 	if err != nil {
 		log.Fatal(err)
 		return  false
@@ -60,10 +60,11 @@ func(this *InviteUser) DeleteUser(ctx context.Context,InviteUserKey string) bool
 
 //edit a record
 
-func(this *InviteUser) EditUser(ctx context.Context,InviteUserKey string) (InviteUser,bool){
+func(this *InviteUser) EditInviteUser(ctx context.Context,InviteUserKey string) (InviteUser,bool){
+
 	value := InviteUser{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Invitation/"+InviteUserKey).Value(&value)
+	err = db.Child("/User/"+InviteUserKey).Value(&value)
 	if err != nil {
 		log.Fatal(err)
 		return value , false
@@ -71,3 +72,19 @@ func(this *InviteUser) EditUser(ctx context.Context,InviteUserKey string) (Invit
 	return value,true
 
 }
+
+func(this *InviteUser) UpdateInviteUser(ctx context.Context,InviteUserKey string) (bool) {
+
+
+	db,err :=GetFirebaseClient(ctx,"")
+	log.Println("valueesss:",this)
+	err = db.Child("/User/"+ InviteUserKey).Update(&this)
+
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	return true
+
+}
+

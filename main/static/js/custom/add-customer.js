@@ -1,7 +1,17 @@
 /*Created By Farsana*/
-
+console.log("jjjjj",vm)
+alert(vm.PageType)
 $().ready(function() {
-
+    if(vm.PageType == "edit"){        
+                document.getElementById("customername").value = vm.CustomerName;
+                document.getElementById("contactperson").value = vm.ContactPerson;
+                document.getElementById("email").value = vm.Email;
+                document.getElementById("phone").value = vm.Phone;
+                document.getElementById("address").value = vm.Address;
+                document.getElementById("state").value = vm.State;
+                document.getElementById("zipcode").value = vm.ZipCode;
+               
+    }
 	$("#addcustomerForm").validate({
 	  rules: {
 		customername: "required",
@@ -35,29 +45,53 @@ $().ready(function() {
 
 
 	  },
-	  alert("hhhhhaaaaaaaaa")
+	  
 
-	    submitHandler: function(){//to pass all data of a form serial
-		    var formData = $("#addcustomerForm").serialize();
-	             $.ajax({
-			    url:'/customer/add',
-			    type:'post',
-			    datatype: 'json',
-			    data: formData,
-		    	//call back or get response here
-			    success : function(response){
+        submitHandler: function(){//to pass all data of a form serial
+            if (vm.PageType == "2"){
+	                var formData = $("#addcustomerForm").serialize();
+                	         $.ajax({
 
-			        if(response == "true"){
+                		    	url:'/customer/'+ customerId + '/edit',
+                			    type:'post',
+                			    datatype: 'json',
+                			    data: formData,
+                			    //call back or get response here
+                			    success : function(response){
+                			    	 if(response == "true"){
 
-			             window.location='/customer';
-			         }else {
-			         }
-			    },
-		        error: function (request,status, error) {
-				}
+                                    	 window.location='/customer';
+                                     }else {
+                                    }
+
+                			    },
+                		     error: function (request,status, error) {
+                			 }
+
+
+                		     });
+	        } else {
+                var formData = $("#addcustomerForm").serialize();
+	            $.ajax({
+                    url:'/customer/add',
+                    type:'post',
+                    datatype: 'json',
+                    data: formData,
+                    //call back or get response here
+                    success : function(response){
+
+                        if(response == "true"){
+
+                             window.location='/customer';
+                         }else {
+                         }
+                    },
+                    error: function (request,status, error) {
+                    }
 		
 	
 		    });
+         }
 	         return false;
         }
 	});

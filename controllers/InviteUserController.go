@@ -13,6 +13,7 @@ import (
 	//"app/passporte/helper"
 
 	"net/http"
+	"app/passporte/helpers"
 )
 
 type InviteUserController struct {
@@ -48,8 +49,9 @@ func (c *InviteUserController) AddInvitation() {
 
 func (c *InviteUserController) InvitationDetails() {
 
-	r := c.Ctx.Request
-	Context := appengine.NewContext(r)
+	//r := c.Ctx.Request
+	//Context := appengine.NewContext(r)
+
 
 	user := models.InviteUser{}
 	inviteUserInfo := user.DisplayUser(c.AppEngineCtx)
@@ -65,7 +67,6 @@ func (c *InviteUserController) InvitationDetails() {
 
 	}
 	inviteUserViewModel.InviteUserKey = inviteUserKeySlice
-	log.Infof(Context, "key of", inviteUserViewModel)
 	c.Data["vm"] = inviteUserViewModel
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/invite-user-details.html"
@@ -80,14 +81,14 @@ func (c *InviteUserController) DeleteInvitation() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	InviteUserKey :=c.Ctx.Input.Param(":inviteuserkey")
-	exam := appengine.NewContext(r)
+	newContext := appengine.NewContext(r)
 	user := models.InviteUser{}
-	result :=user.DeleteUser(c.AppEngineCtx, InviteUserKey)
+	result :=user.DeleteInviteUser(c.AppEngineCtx, InviteUserKey)
 	switch result {
 	case true:
 		http.Redirect(w, r, "/invitate", 301)
 	case false:
-		log.Infof(exam,"failed")
+		log.Infof(newContext,"failed")
 
 	}
 	//log.Infof(exam, "vvvvv: %v", user)
@@ -98,26 +99,55 @@ func (c *InviteUserController) DeleteInvitation() {
 //edit profile of each users
 
 func (c *InviteUserController) EditInvitation() {
-	user := models.InviteUser{}
 	r := c.Ctx.Request
-	key:=c.Ctx.Input.Param(":Key")
-	exam := appengine.NewContext(r)
-	result,DbStatus :=user.EditUser(c.AppEngineCtx,key)
-	switch DbStatus {
-	case true:
-		viewmodel := viewmodels.InviteUserViewModel{}
-		viewmodel.FirstName = result.FirstName
-		viewmodel.LastName = result.LastName
-		viewmodel.EmailId = result.EmailId
-		viewmodel.UserType = result.UserType
-		c.Data["vm"] = viewmodel
-		c.Layout = "layout/layout.html"
-		c.TplName = "template/add-user.html"
-	case false:
-		log.Infof(exam,"failed")
+	w := c.Ctx.ResponseWriter
+	InviteUserKey := c.Ctx.Input.Param(":inviteuserkey")
+	user := models.InviteUser{}
+	newContext := appengine.NewContext(r)
+
+	if r.Method == "POST" {
+
+		user.FirstName = c.GetString("firstname")
+		user.LastName = c.GetString("lastname")
+		user.EmailId = c.GetString("emailid")
+		user.UserType = c.GetString("usertype")
+		log.Infof(newContext,"new value", user.FirstName)
+		dbStatus :=user.UpdateInviteUser(c.AppEngineCtx,InviteUserKey)
+
+		switch dbStatus {
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
+
+		}
+
+
+	} else {
+		editResult, DbStatus := user.EditInviteUser(c.AppEngineCtx, InviteUserKey)
+		switch DbStatus {
+		case true:
+			invitationViewModel := viewmodels.InviteUserViewModel{}
+			invitationViewModel.FirstName = editResult.FirstName
+			invitationViewModel.LastName = editResult.LastName
+			invitationViewModel.EmailId = editResult.EmailId
+			invitationViewModel.UserType = editResult.UserType
+			invitationViewModel.Status = editResult.Status
+			invitationViewModel.PageType = helpers.SelectPageForEdit
+			invitationViewModel.InviteId = InviteUserKey
+			c.Data["vm"] = invitationViewModel
+			c.Layout = "layout/layout.html"
+			c.TplName = "template/add-invite-user.html"
+		case false:
+			log.Infof(newContext, "failed")
+
+		}
 
 	}
-	log.Infof(exam,"jhfjsgjgj: %+v",result)
+
+
+
+
 }
 
 //view the user

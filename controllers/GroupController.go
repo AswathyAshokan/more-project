@@ -8,6 +8,7 @@ import (
 	"reflect"
 	"net/http"
 	"log"
+	"app/passporte/helpers"
 )
 
 type GroupController struct {
@@ -19,12 +20,11 @@ type GroupController struct {
 func (c *GroupController) AddGroup() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	log.Print("cp1")
 	if r.Method == "POST" {
 
 		group := models.Group{}
-		group.GroupName = c.GetString("groupname")
-		//group.GroupMembers = c.GetString("groupMember")
+		group.GroupName = c.GetString("groupName")
+		group.GroupMembersName = c.GetString("addUser")
 		dbStatus := group.AddGroupToDb(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
@@ -35,6 +35,7 @@ func (c *GroupController) AddGroup() {
 
 		}
 	} else {
+		/* for users cntain info
 		groupUser := models.UserInformation{}
 		GroupMembers :=groupUser.GetUsersForDropdown(c.AppEngineCtx)  // retrive all the keys of a users
 		log.Print("ffffff", GroupMembers)
@@ -48,11 +49,28 @@ func (c *GroupController) AddGroup() {
 		infoUser := models.UserInformation{}
 		// for retrieve the names of the users
 		GroupMemberName := infoUser.TakeGroupMemberName(c.AppEngineCtx,groupKeySlice)
-		log.Print("cccccc", GroupMemberName)
+		log.Print("cccccc", GroupMemberName)*/
 
 
 
-		c.Data["vm"] = GroupMemberName
+		groupUser := models.Group{}
+		GroupMembers :=groupUser.GetUsersForDropdown(c.AppEngineCtx)  // retrive all the keys of a users
+		log.Print("ffffff", GroupMembers)
+		groupDataValue := reflect.ValueOf(GroupMembers)	// To store data values of slice
+		var groupKeySlice []string	// To store keys of the slice
+		for _, groupKey := range groupDataValue.MapKeys() {
+			groupKeySlice = append(groupKeySlice, groupKey.String())
+
+		}
+
+		infoUser := models.Group{}
+		GroupMemberName := infoUser.TakeGroupMemberName(c.AppEngineCtx,groupKeySlice)
+		groupViewModel := viewmodels.Group{}
+		groupViewModel.GroupMembers = GroupMemberName
+		groupViewModel.GroupKey = groupKeySlice
+		groupViewModel.PageType = helpers.SelectPageForAdd
+		log.Println("viewwwwwww",groupViewModel)
+		c.Data["GroupArray"] = groupViewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-group.html"
 	}
@@ -75,26 +93,74 @@ func (c *GroupController) GroupDetails() {
 
 	}
 	GroupViewModel.GroupKey = GroupKeySlice
-	c.Data["vm"] = GroupViewModel
+	c.Data["GroupArray"] = GroupViewModel
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/group-details.html"
 }
 // To delete each group from database
 
 func (c *GroupController) DeleteGroup() {
+
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	GroupKey:=c.Ctx.Input.Param(":groupkey")
+	GroupKey :=c.Ctx.Input.Param(":groupkey")
+	log.Println("keyzzzzzz:",GroupKey)
 	group := models.Group{}
-	result :=group.DeleteGroup(c.AppEngineCtx,GroupKey)
-	switch result {
+	dbStatus :=group.DeleteGroup(c.AppEngineCtx, GroupKey)
+	switch dbStatus {
 	case true:
 		http.Redirect(w, r, "/group", 301)
 	case false:
 		log.Println("false")
+
 	}
-	//log.Infof(exam, "vvvvv: %v", user)
+
+}
+
+//Editing
+
+func (c *GroupController) EditGroup() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	groupKey := c.Ctx.Input.Param(":groupkey")
+	group := models.Group{}
+
+	if r.Method == "POST" {
+
+		group.GroupMembersName = c.GetString("groupName")
+		group.GroupName = c.GetString("addUser")
+		dbStatus := group.UpdateGroupDetails(c.AppEngineCtx, groupKey)
+
+		switch dbStatus {
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
+
+		}
+
+
+	} else {
+		editResult, DbStatus := group.EditGroupDetais(c.AppEngineCtx, groupKey)
+		switch DbStatus {
+		case true:
+			groupViewModel := viewmodels.Group{}
+			groupViewModel.GroupName = editResult.GroupName
+			//groupViewModel.GroupMembers = editResult.GroupMembersName
+			groupViewModel.PageType = helpers.SelectPageForEdit
+			c.Data["vm"] = groupViewModel
+			c.Layout = "layout/layout.html"
+			c.TplName = "template/add-group.html"
+		case false:
+			log.Println("failed")
+
+		}
+
+	}
+
+
 
 
 }
+
 

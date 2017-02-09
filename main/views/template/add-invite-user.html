@@ -1,9 +1,11 @@
 /*Created By Farsana*/
 
-<head>
+    <script type="text/javascript">
+       var vm = {{.vm}};
+    </script>
 	<script src="/static/js/custom/add-invite-user.js"></script>
     <script src="/static/js/jquery.validate.js"></script>
-</head>
+    
 			<div class="col-md-12 main-content-wrapper padding-50-each">
 				<div class="clearfix">
 					<h1 class="h4">Add User</h1>
@@ -15,12 +17,12 @@
 						     <div class="form-group clearfix">						    	
 
 								<div class="col-sm-6">
-									<label for="ex1" class="">First Name</label>
-									<input class="form-control" id="ex1" type="text" name="firstname">
+									<label for="firstname" class="">First Name</label>
+									<input class="form-control" id="firstname" type="text" name="firstname" >
 								</div>
 								<div class="col-sm-6">
-									<label for="ex1" class="">Last Name</label>
-									<input class="form-control" id="ex2" type="text" name="lastname">
+									<label for="lastname" class="">Last Name</label>
+									<input class="form-control" id="lastname" type="text" name="lastname">
 								</div>
 						    </div>
 
@@ -28,13 +30,13 @@
 															
 								
 								<div class="col-sm-6">
-									<label for="ex1" class="">Email-id</label>
-									<input class="form-control" id="ex2" type="text" placeholder="An invitation will be sent to this mail."  name="emailid" >
+									<label for="emailid" class="">Email-id</label>
+									<input class="form-control" id="emailid" type="text" placeholder="An invitation will be sent to this mail."  name="emailid" >
 								</div>
 
 								<div class="col-sm-6">
-									<label for="ex1" class="">User Type</label>
-									<select class="form-control sprites-arrow-down" id="" name="usertype">
+									<label for="usertype" class="">User Type</label>
+									<select class="form-control sprites-arrow-down" id="usertype" name="usertype">
 								        <option>Administrator</option>
 								        <option>User</option>
 									</select>
@@ -45,6 +47,8 @@
 						    <div class="align-left col-sm-12">
 						    	<button type="submit" class="btn btn-primary">Save and Invite</button>
 						    	<button type ="submit" class="btn btn-success">Cancel</button>
+						    	
+
 						    </div>
 
 						  </form>
