@@ -7,15 +7,15 @@ import (
 	"log"
 )
 
-type RegisterController struct{
+type RegisterController struct {
 	BaseController
 }
 
-
-func (c *RegisterController) Register(){
+func (c *RegisterController) Register() {
 
 	r := c.Ctx.Request
-	if r.Method =="POST" {
+	w := c.Ctx.ResponseWriter
+	if r.Method == "POST" {
 		company := models.Company{}
 		info := models.Info{}
 		info.FirstName = c.GetString("firstName")
@@ -29,12 +29,15 @@ func (c *RegisterController) Register(){
 		info.ZipCode = c.GetString("zipCode")
 		company.Info = info
 		log.Println("Registration Details:", company)
-		company.AddUser(c.AppEngineCtx)
-	}else{
-		//c.Layout = "layout/default-layout.html"
+		dbStatus := company.AddUser(c.AppEngineCtx)
+		switch dbStatus{
+		case false:
+			w.Write([]byte("false"))
+		case true:
+			w.Write([]byte("true"))
+		}
+	} else {
 		c.TplName = "template/register.html"
 	}
-
-
 
 }

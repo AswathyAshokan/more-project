@@ -3,21 +3,22 @@ Date:01/02/2017*/
 package controllers
 
 import (
-	//"app/passporte/models"
-	//"log"
+//"app/passporte/models"
+//"log"
 )
-type LoginController struct{
+
+type LoginController struct {
 	BaseController
 }
 
-func (c *LoginController) Login(){
+func (c *LoginController) Login() {
 	r := c.Ctx.Request
-	if r.Method =="POST" {
+	if r.Method == "POST" {
 		//user := models.User{}
 		//user.Email = c.GetString("email")
 		//user.Password = []byte(c.GetString("password"))
 		//log.Println(user)
-	}else{
+	} else {
 		c.TplName = "template/login.html"
 	}
 

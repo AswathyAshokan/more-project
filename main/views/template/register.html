@@ -9,6 +9,7 @@ Date:01/02/2017-->
 	<link rel="stylesheet" href="static/css/style.css">
 	<script src="static/js/jquery-3.1.0.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/static/js/jquery.validate.js"type="text/javascript" charset="utf-8"></script>
 	<script src="static/js/custom/register.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
@@ -49,7 +50,7 @@ Date:01/02/2017-->
 					<div class="personal-details margin-top-20">
 						<h5>Personal Details</h5>
 
-						<form class="clearfix max-form-width">
+						<form class="clearfix max-form-width" id="companyRegisterForm" method="post">
 
 						    <div class="form-group clearfix">						    	
 
@@ -87,7 +88,7 @@ Date:01/02/2017-->
 								</div>
 						    </div>
 
-						  </form>
+						</form>
 					</div>
 
 					<div class="official-details margin-top-50">
@@ -121,7 +122,7 @@ Date:01/02/2017-->
 								</div>
 						    </div>
 
-						  </form>
+						</form>
 					</div>
 
 					<div class="checkbox margin-top-35 terms-link">
@@ -129,15 +130,14 @@ Date:01/02/2017-->
 				    </div>
 
 				    <div class="align-left margin-top-35">
-				    	<button class="btn button-blue" id="register" disabled="true">Register</button>
+				    	<button class="btn button-blue" id="register" disabled="true" type="submit">Register</button>
 				    </div>
-					
 									
 
 
 				</div>
 
-
+                    
 			</div>
 				
 		</div>
