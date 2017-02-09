@@ -36,8 +36,8 @@ func init() {
 	beegae.Router("/invite/add", &controllers.InviteUserController{}, "*:AddInvitation")
 	beegae.Router("/invite", &controllers.InviteUserController{}, "*:InvitationDetails")
 	beegae.Router("/invite/:inviteuserkey/delete", &controllers.InviteUserController{}, "*:DeleteInvitation")
-	//beegae.Router("/invitate/:inviteuserkey/edit", &controllers.InviteUserController{}, "*:EditInvitation")
-	//beegae.Router("/invitate/:inviteuserkey/view", &controllers.InviteUserController{}, "*:ViewInvitation")
+	//beegae.Router("/invite/:inviteuserkey/edit", &controllers.InviteUserController{}, "*:EditInvitation")
+	//beegae.Router("/invite/:inviteuserkey/view", &controllers.InviteUserController{}, "*:ViewInvitation")
 	beegae.Router("/invite/:inviteuserkey/delete", &controllers.InviteUserController{}, "*:DeleteInvitation")
 
 	//Aswathy
