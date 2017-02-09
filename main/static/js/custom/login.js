@@ -2,6 +2,7 @@
 Date:01/02/2017*/
 $(function(){
     $("#signIn").click(function(){
+         alert("hi");
         $.ajax({
             type    :   'POST',
             url     :   '/',
@@ -10,8 +11,9 @@ $(function(){
                 'password'  :   $("#password").val()
             },
             success :   function(data){
+                alert("hi");
                 if(data=="true"){
-                    window.location = '';
+                    window.location = '/';
                 }
                 else{
 
@@ -20,15 +22,7 @@ $(function(){
         });
         return false;
     });
+    
+    
 });
 
-app = angular.module('app',['firebase']);
-app.controller('AuthCtrl',[
-    '$scope','$rootScope','$firebaseAuth',function($scope,$rootScope,$firebaseAuth){
-        var ref = new Firebase('https://passporte.firebaseio.com');
-        $rootScope.auth = $firebaseAuth(ref);
-        $scope.signIn = function(){
-            $rootScope.auth.signIn
-        }
-    }
-]);

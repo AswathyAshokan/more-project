@@ -3140,6 +3140,9 @@ input.sprites-callender { background-position: right 4px top -20px; cursor: poin
 .main-menu ul li.active { background-color: #259b7e; }
 .main-menu ul li.active::after { right: 0; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; border-right-color: #fff; border-width: 11px; }
 
+.form-edit-wrapper { border: none; padding: 0; background: none; }
+.form-edit-wrapper .form-edit { border: 1px solid #cccccc; padding: 15px 0; background-color: #fff; }
+
 /*==============================================================
 							Task page
 =================================================================*/

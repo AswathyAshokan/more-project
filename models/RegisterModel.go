@@ -8,25 +8,26 @@ import (
 )
 
 type Info struct {
-	FirstName   string
-	LastName    string
-	PhoneNo     string
-	Email       string
-	Password    []byte
-	CompanyName string
-	Address     string
-	State       string
-	ZipCode     string
+	FirstName	string
+	LastName	string
+	PhoneNo		string
+	Email		string
+	Password	[]byte
+	CompanyName	string
+	Address		string
+	State		string
+	ZipCode		string
 }
 
 type Admin struct {
-	FirstName string
-	LastName  string
-	Email     string
+	FirstName	string
+	LastName  	string
+	Email     	string
+	Status		string
 }
 type Company struct {
 	Info  Info
-	Admin Admin
+	CompanyAdmins []Admin
 }
 
 func (m *Company)AddUser(ctx context.Context) bool {

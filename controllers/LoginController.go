@@ -3,8 +3,8 @@ Date:01/02/2017*/
 package controllers
 
 import (
-//"app/passporte/models"
-//"log"
+"app/passporte/models"
+"log"
 )
 
 type LoginController struct {
@@ -14,10 +14,12 @@ type LoginController struct {
 func (c *LoginController) Login() {
 	r := c.Ctx.Request
 	if r.Method == "POST" {
-		//user := models.User{}
-		//user.Email = c.GetString("email")
-		//user.Password = []byte(c.GetString("password"))
-		//log.Println(user)
+		log.Println("hai I am here")
+		login := models.Login{}
+		login.Email = c.GetString("email")
+		login.Password = []byte(c.GetString("password"))
+		log.Println(login)
+		login.CheckLogin(c.AppEngineCtx)
 	} else {
 		c.TplName = "template/login.html"
 	}
