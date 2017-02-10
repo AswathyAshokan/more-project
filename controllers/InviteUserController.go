@@ -86,7 +86,7 @@ func (c *InviteUserController) DeleteInvitation() {
 	result :=user.DeleteInviteUser(c.AppEngineCtx, InviteUserKey)
 	switch result {
 	case true:
-		http.Redirect(w, r, "/invitate", 301)
+		http.Redirect(w, r, "/invite", 301)
 	case false:
 		log.Infof(newContext,"failed")
 
@@ -111,7 +111,6 @@ func (c *InviteUserController) EditInvitation() {
 		user.LastName = c.GetString("lastname")
 		user.EmailId = c.GetString("emailid")
 		user.UserType = c.GetString("usertype")
-		log.Infof(newContext,"new value", user.FirstName)
 		dbStatus :=user.UpdateInviteUser(c.AppEngineCtx,InviteUserKey)
 
 		switch dbStatus {
@@ -125,6 +124,7 @@ func (c *InviteUserController) EditInvitation() {
 
 	} else {
 		editResult, DbStatus := user.EditInviteUser(c.AppEngineCtx, InviteUserKey)
+		log.Infof(newContext, "checking",editResult)
 		switch DbStatus {
 		case true:
 			invitationViewModel := viewmodels.InviteUserViewModel{}
@@ -135,6 +135,7 @@ func (c *InviteUserController) EditInvitation() {
 			invitationViewModel.Status = editResult.Status
 			invitationViewModel.PageType = helpers.SelectPageForEdit
 			invitationViewModel.InviteId = InviteUserKey
+
 			c.Data["vm"] = invitationViewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-invite-user.html"
@@ -144,8 +145,6 @@ func (c *InviteUserController) EditInvitation() {
 		}
 
 	}
-
-
 
 
 }

@@ -32,7 +32,7 @@ $(document).ready(function() {
                                 
                                 
 
-                                return '<div class="edit-wrapper">'+'<span class="icn">'+'<a href="/invitate/'+inviteUserKeyArray[i]+'"><i class="fa fa-eye" aria-hidden="true"></i></a>'+' '+'<a href="/invitate/'+inviteUserKeyArray[i] +'/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+'  '+'<a href="/invitate/'+inviteUserKeyArray[i] +'/delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>'+'</span>'+'</div>'
+                                return '<div class="edit-wrapper">'+'<span class="icn">'+'<a href="/invite/'+inviteUserKeyArray[i]+'"><i class="fa fa-eye" aria-hidden="true"></i></a>'+' '+'<a href="/invite/'+inviteUserKeyArray[i] +'/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+'  '+'<a href="/invite/'+inviteUserKeyArray[i] +'/delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>'+'</span>'+'</div>'
 
                             }
                         }

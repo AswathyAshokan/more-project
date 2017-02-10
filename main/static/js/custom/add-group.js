@@ -1,25 +1,20 @@
 /*Created By Farsana*/
- allValues = new Array();
-valzz = new Array();
-function getAllSelectUser()
-{
- var value;
-  var x=document.getElementById("addUser");
-      for (var i = 0; i < x.options.length; i++) {
-            if(x.options[i].selected){
-                 value = x.options[i].value;
-
-                allValues.push("value");
-                alert("valuess",valzz)
-             }
-      }
-}
-
 
 $().ready(function() {
-    if(vm.PageType == "2"){        
+    if(vm.PageType == "edit"){        
             document.getElementById("groupName").value = vm.GroupName;
             document.getElementById("addUser").value = vm.GroupMembers;
+            /*var array1 = new Array();
+            var counter = 0;
+            array1 = vm.GroupMembers;
+            for (var i = 0; i < array1.length; i++) {
+                foo = array1[i].split(" ");
+                for (var j = 0; j < foo.length; j++) {
+                    document.getElementById('addUser' + counter).value = foo[j];
+                    counter++;
+
+                }
+            }*/
                
     }
 
@@ -27,20 +22,21 @@ $().ready(function() {
 
 	  rules: {
 		        	groupName: "required",
-                   
+                    addUser : "required"
 	},
 	messages: {
 		            groupName:"please enter group name ",
-                    //groupMember:"please fill this column"
+                    addUser:"please fill this column"
 
 	},
 	submitHandler: function(){//to pass all data of a form serial
          if (vm.PageType == "edit"){
 
-	           var formData = $("#addgroupForm").serialize() + "&addUser="+allValues
+	           var formData = $("#addgroupForm").serialize() 
+               var groupId = GroupId;
                     $.ajax({
 
-                		  url:'/group/:groupkey/edit',
+                		  url:'/group/'+ groupId +'/edit',
                           type:'post',
                           datatype: 'json',
                           data: formData,
@@ -58,8 +54,10 @@ $().ready(function() {
 
                    });
 	        } else {
-                 var formData = $("#addgroupForm").serialize() + "&addUser="+allValues
+                 var formData = $("#addgroupForm").serialize();
                  //var values = $('#addUser').val();
+                 
+                 console.log(formData);
 
                      $.ajax({
                             url:'/group/add',

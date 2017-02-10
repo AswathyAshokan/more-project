@@ -7,8 +7,8 @@ import (
 )
 type Group struct {
 
-	GroupName        string
-	GroupMembersName string
+	GroupName        	string
+	GroupMembers	 	[]string
 }
 /*type UserInformation struct {
 	FirstName string
@@ -71,31 +71,32 @@ func(this *Group) GetUsersForDropdown(ctx context.Context) map[string]InviteUser
 }
 
 
-func(this *Group) TakeGroupMemberName(ctx context.Context,groupKeySlice []string)[] string {
-	//userName := models.InviteUser{}
-	userName := InviteUser{}
+func(this *Group) TakeGroupMemberName(ctx context.Context,groupKeySlice []string) ([]string, bool) {
+	allUserDetails := InviteUser{}
+	var allUserNames [] string
 	db,err :=GetFirebaseClient(ctx,"")
-	var v [] string
+	if err != nil {
+		log.Fatal(err)
+		return allUserNames, false
+	}
 
 	for i := 0; i <len(groupKeySlice); i++ {
 		//err = db.Child("/Users/"+groupKeySlice[i]).Child("Info").Value(&v)
-		err = db.Child("/User/"+groupKeySlice[i]).Value(&userName)
+		err = db.Child("/User/"+groupKeySlice[i]).Value(&allUserDetails)
 		if err != nil{
 			log.Fatal(err)
+			return allUserNames, false
 		}
-		v = append(v,userName.FirstName)
+		allUserNames = append(allUserNames, (allUserDetails.FirstName + " " + allUserDetails.LastName))
 
 	}
-	if err != nil {
-		log.Fatal(err)
-	}
 
-	return v
+	return allUserNames, true
 }
 
 //editing purpose
 
-func(this *Group) EditGroupDetais(ctx context.Context,groupKey string) (Group,bool){
+func(this *Group) EditGroupDetails(ctx context.Context,groupKey string) (Group,bool){
 
 	value := Group{}
 	db,err :=GetFirebaseClient(ctx,"")

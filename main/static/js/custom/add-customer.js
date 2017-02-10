@@ -1,6 +1,5 @@
 /*Created By Farsana*/
-console.log("jjjjj",vm)
-alert(vm.PageType)
+
 $().ready(function() {
     if(vm.PageType == "edit"){        
                 document.getElementById("customername").value = vm.CustomerName;
@@ -48,8 +47,9 @@ $().ready(function() {
 	  
 
         submitHandler: function(){//to pass all data of a form serial
-            if (vm.PageType == "2"){
+            if (vm.PageType == "edit"){
 	                var formData = $("#addcustomerForm").serialize();
+                    var customerId = vm.customeId;
                 	         $.ajax({
 
                 		    	url:'/customer/'+ customerId + '/edit',

@@ -1,17 +1,19 @@
 
 
 /*Created By Farsana*/
-
-	<script src="/static/js/custom/add-group.js"></script>
-    <script src="/static/js/jquery.validate.js"></script>
-	<script src="/static/js/select2.min.js"></script>
+ <script type="text/javascript">
+     var vm = {{.vm}};
+</script>       
+<script src="/static/js/custom/add-group.js"></script>
+<script src="/static/js/jquery.validate.js"></script>
+<script src="/static/js/select2.min.js"></script>
     
 <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
 
 
 	<div class="col-md-12 main-content-wrapper padding-50-each">
 		<div class="clearfix">
-			<h1 class="h4">Add Group</h1>
+			<h1 class="h4">Add Group{{.vm}}</h1>
 
 				<div class="personal-details margin-top-20">
 
@@ -46,7 +48,7 @@
 						    </div>
 
 						    <div class="align-left col-sm-12">
-						    	<button class="btn btn-primary" value="get value"onclick="getAllSelectUser()">Save</button>
+						    	<button class="btn btn-primary" value="get value">Save</button>
 						    	<button class="btn btn-success">Cancel</button>
 						    </div>
 
