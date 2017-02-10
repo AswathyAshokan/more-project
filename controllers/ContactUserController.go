@@ -8,8 +8,7 @@ import (
 	//"github.com/astaxie/beegae"
 	"app/passporte/models"
 	"app/passporte/viewmodels"
-	"google.golang.org/appengine/log"
-	"google.golang.org/appengine"
+	"log"
 	"time"
 	"fmt"
 	"reflect"
@@ -35,8 +34,6 @@ func (c *ContactUserController)LoadContact() {
 		user.Email = c.GetString("emailAddress")
 		user.PhoneNumber= c.GetString("phoneNumber")
 		user.Address = c.GetString("address")
-		context := appengine.NewContext(r)
-		log.Infof(context, "requested struct: %+v", user)
 		user.CurrentDate =time.Now().UnixNano() / int64(time.Millisecond)
 		fmt.Println(reflect.TypeOf(user.CurrentDate))
 		user.Status = "Completed"
@@ -67,13 +64,9 @@ func (c *ContactUserController)LoadContactdetail() {
 	switch dbStatus {
 
 	case true:
-		r := c.Ctx.Request
-		ce := appengine.NewContext(r)
-		log.Infof(ce, "%s\n", contact)
 		//var valueSlice []models.User
 		dataValue := reflect.ValueOf(contact)
 		var keySlice []string
-		var valueSlice []models.ContactUser
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
 
@@ -81,26 +74,18 @@ func (c *ContactUserController)LoadContactdetail() {
 		}
 		// To perform the opertion you want
 		for _, k := range keySlice {
-			valueSlice = append(valueSlice, contact[k])
-			viewModel.User = append(viewModel.User, contact[k])
-			viewModel.Key=keySlice
-
-
-
+			var tempValueSlice []string
+			log.Println("hai")
+			tempValueSlice = append(tempValueSlice, contact[k].Name)
+			tempValueSlice = append(tempValueSlice, contact[k].Address)
+			tempValueSlice = append(tempValueSlice, contact[k].State)
+			tempValueSlice = append(tempValueSlice, contact[k].Zipcode)
+			tempValueSlice = append(tempValueSlice, contact[k].Email)
+			tempValueSlice = append(tempValueSlice, contact[k].PhoneNumber)
+			viewModel.Values = append(viewModel.Values, tempValueSlice)
+			tempValueSlice = tempValueSlice[:0]
 		}
-
-		log.Infof(ce,"Key:", keySlice, "Value:", valueSlice)
-		//log.Infof(ce,"Value: ", valueSlice)
-		//log.Infof(ce,"Value: ", valueSlice)
-		//mvVar := map["Name"].(string)
-		//m := f.(map[string]interface{}
-		//viewModel.Name = contact[result[i]].Name
-		//viewModel.PhoneNumber = contact["PhoneNumber"]
-		//viewModel.Email = contact["Email"]
-		//viewModel.Address = contact["Address"]
-		//viewModel.State = contact["State"]
-		//viewModel.ZipCode = contact["ZipCode"]
-		log.Infof(ce, "typeeee",(reflect.TypeOf(viewModel)))
+		viewModel.Keys = keySlice
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/contacts-details.html"
@@ -111,18 +96,17 @@ func (c *ContactUserController)LoadContactdetail() {
 }
 func (c *ContactUserController)LoadDeleteContact() {
 
-	r := c.Ctx.Request
-	context := appengine.NewContext(r)
+
 	contactId :=c.Ctx.Input.Param(":contactId")
-	log.Infof(context,"delete idddd", contactId)
 	user := models.ContactUser{}
 	dbStatus := user.DeleteContactFromDB(c.AppEngineCtx, contactId)
-
+	w := c.Ctx.ResponseWriter
 	switch dbStatus {
 
 	case true:
-		c.Redirect("/contact", 302)
+		w.Write([]byte("true"))
 	case false :
+		w.Write([]byte("false"))
 	}
 
 
@@ -140,8 +124,6 @@ func (c *ContactUserController)LoadEditContact() {
 		user.Email = c.GetString("emailAddress")
 		user.PhoneNumber= c.GetString("phoneNumber")
 		user.Address = c.GetString("address")
-		context := appengine.NewContext(r)
-		log.Infof(context, "requested struct: %+v", user)
 		user.CurrentDate =time.Now().UnixNano() / int64(time.Millisecond)
 		fmt.Println(reflect.TypeOf(user.CurrentDate))
 		user.Status = "Completed"
@@ -157,9 +139,8 @@ func (c *ContactUserController)LoadEditContact() {
 
 	} else {
 
-		context := appengine.NewContext(r)
+
 		contactId := c.Ctx.Input.Param(":contactId")
-		log.Infof(context, "idddddddddd", contactId)
 		viewModel := viewmodels.ContactUserViewModel{}
 		contact :=models.ContactUser{}
 		dbStatus,contact := contact.RetrieveContactIdFromDB(c.AppEngineCtx, contactId)

@@ -2,7 +2,7 @@
 <title>Add Task</title>
 <div class="col-md-12 main-content-wrapper padding-50-each">
 	<div class="clearfix">
-		<h4>Add Task </h4>
+		<h4 id="taskHead">Add Task </h4>
 
 		<div class="personal-details margin-top-20 clearfix bg-border task-add">
 
@@ -89,17 +89,17 @@
 							<div class="col-sm-6">
 								<label for="userType" class="">Users/Group</label>
 								<select class="form-control sprites-arrow-down multiple-drop" id="userType" multiple="multiple" name="userType">
-									<option>User 1</option>
-									<option>User 2</option>
-									<option>User 3</option>
-									<option>User 4</option>
+									
+                                        {{range $key, $val := .array.GroupNameArray}}
+                                           <option value="{{.}}">{{$val}}</option>
+                                       {{end}}
 								</select>
 							</div>
 
 							<div class="col-sm-6">
 								<label for="contacts" class="">Contacts</label>
 								<select class="form-control sprites-arrow-down multiple-drop" id="contacts" multiple="multiple" name="contacts" >
-                                    <option selected disabled value="">Select a Contact</option>
+                                   
                                         {{range $key, $val := .array.ContactNameArray}}
                                            <option value="{{index $.array.Key $key}}">{{$val}}</option>
                                        {{end}}
@@ -159,6 +159,7 @@
 
 
 </div>
+
 
 <script type="text/javascript">
        var array = {{.array}};

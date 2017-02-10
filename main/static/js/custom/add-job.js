@@ -11,6 +11,7 @@ $().ready(function() {
             document.getElementById("jobName").value = array.JobName;
             document.getElementById("jobNumber").value = array.JobNumber;
             document.getElementById("numberOfTask").value = array.NumberOfTask;
+            document.getElementById("jobHead").innerHTML = "Edit Job";
             
            
     } 
@@ -42,10 +43,10 @@ $().ready(function() {
 			        },
 
                 },
+                    
 	            submitHandler: function() {
                     
                     var form_data = $("#jobForm").serialize();
-                    alert(array.JobId)
                     var jobId = array.JobId;
                     if (pageType == "edit") {
                         

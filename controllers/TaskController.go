@@ -7,12 +7,11 @@ import (
 
 	//"github.com/astaxie/beegae"
 	"app/passporte/models"
-	"google.golang.org/appengine/log"
-	"google.golang.org/appengine"
 	"time"
 	"app/passporte/viewmodels"
 	"reflect"
 	"app/passporte/helpers"
+	"log"
 )
 
 type TaskController struct {
@@ -53,6 +52,7 @@ func (c *TaskController)LoadTask() {
 	}else {
 		task:=models.Task{}
 		job :=models.Job{}
+		user :=models.User{}
 
 		dbStatus,tasks :=task.RetrieveJobFromDB(c.AppEngineCtx)
 		switch dbStatus {
@@ -75,20 +75,22 @@ func (c *TaskController)LoadTask() {
 
 
 
-		dbStatus,taskNew :=task.RetrieveGroupFromDB(c.AppEngineCtx)
+		dbStatus, taskUserValue :=user.RetrieveUserFromDB(c.AppEngineCtx)
+		log.Println("user database value",taskUserValue)
 		switch dbStatus {
 
 		case true:
 
-			dataValue := reflect.ValueOf(taskNew)
+			dataValue := reflect.ValueOf(taskUserValue)
 			var keySlice []string
 
 			for _, key := range dataValue.MapKeys() {
 				keySlice = append(keySlice, key.String())
 			}
-			groupValue := task.RetrieveGroupNameFromDB(c.AppEngineCtx, keySlice)
+			userValue := user.RetrieveUserNameFromDB(c.AppEngineCtx, keySlice)
+			log.Println("user name",userValue)
 
-			viewModel.GroupNameArray = groupValue
+			viewModel.GroupNameArray = userValue
 		case false:
 		}
 		contact :=models.ContactUser{}
@@ -117,6 +119,7 @@ func (c *TaskController)LoadTask() {
 	}
 
 }
+
 func (c *TaskController)LoadTaskDetail() {
 	task := models.Task{}
 	dbStatus, tasks := task.RetrieveTaskFromDB(c.AppEngineCtx)
@@ -129,19 +132,24 @@ func (c *TaskController)LoadTaskDetail() {
 		//var valueSlice []models.User
 		dataValue := reflect.ValueOf(tasks)
 		var keySlice []string
-		var valueSlice []models.Task
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
 		}
 
 		// To perform the opertion you want
 		for _, k := range keySlice {
-			valueSlice = append(valueSlice, tasks[k])
-			viewModel.Task = append(viewModel.Task, tasks[k])
-			viewModel.Key=keySlice
-
+			var tempValueSlice []string
+			tempValueSlice = append(tempValueSlice, tasks[k].JobName)
+			tempValueSlice = append(tempValueSlice, tasks[k].TaskName)
+			tempValueSlice = append(tempValueSlice, tasks[k].TaskLocation)
+			tempValueSlice = append(tempValueSlice, tasks[k].StartDate)
+			tempValueSlice = append(tempValueSlice, tasks[k].EndDate)
+			tempValueSlice = append(tempValueSlice,  tasks[k].LoginType)
+			tempValueSlice = append(tempValueSlice,  tasks[k].Status)
+			viewModel.Values = append(viewModel.Values, tempValueSlice)
+			tempValueSlice = tempValueSlice[:0]
 		}
-
+		viewModel.Keys = keySlice
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/task-details.html"
@@ -154,18 +162,19 @@ func (c *TaskController)LoadTaskDetail() {
 }
 func (c *TaskController)LoadDeleteTask() {
 
-	r := c.Ctx.Request
-	context := appengine.NewContext(r)
+
+	w :=c.Ctx.ResponseWriter
 	taskId :=c.Ctx.Input.Param(":taskId")
-	log.Infof(context,"idddddddddd", taskId)
+
 	task := models.Task{}
 	dbStatus := task.DeleteTaskFromDB(c.AppEngineCtx, taskId)
 
 	switch dbStatus {
 
 	case true:
-		c.Redirect("/task", 302)
+		w.Write([]byte("true"))
 	case false :
+		w.Write([]byte("true"))
 	}
 
 
@@ -173,7 +182,6 @@ func (c *TaskController)LoadDeleteTask() {
 func (c *TaskController)LoadEditTask() {
 	r := c.Ctx.Request
 	w :=c.Ctx.ResponseWriter
-	context := appengine.NewContext(r)
 
 	viewModel  := viewmodels.TaskViewModel{}
 	if r.Method == "POST" {
@@ -205,12 +213,11 @@ func (c *TaskController)LoadEditTask() {
 
 
 	} else {
-		log.Infof(context, "insideee edittt")
+
 		task:=models.Task{}
 		job :=models.Job{}
 		taskId := c.Ctx.Input.Param(":taskId")
 		dbStatus, taskDetail := task.RetrieveTaskDetailFromDB(c.AppEngineCtx, taskId)
-		log.Infof(context, "our task details", taskDetail)
 		switch dbStatus {
 
 		case true:

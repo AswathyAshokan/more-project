@@ -11,6 +11,7 @@ $(function () {
                 document.getElementById("zipcode").value = array.ZipCode;
                 document.getElementById("emailAddress").value = array.Email;
                 document.getElementById("phoneNumber").value = array.PhoneNumber;
+                document.getElementById("contactHead").innerHTML = "Edit Contact";
                 
                 }
 });

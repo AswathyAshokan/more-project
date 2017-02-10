@@ -1,7 +1,8 @@
 /* Author :Aswathy Ashok */
 
-
+console.log(vm.Values);
 $(function(){ 
+    
     var mainArray = [];   
     var table = "";
     function createDataArray(values, keys){
@@ -43,7 +44,7 @@ $(function(){
     $('#job-details tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[5];
-        window.location = '/job/' + key + '/edit';
+        window.location = '/job/' + key + '/edit'
     });
 
 

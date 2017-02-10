@@ -1,14 +1,13 @@
 package viewmodels
-import (
-	"app/passporte/models"
-)
+
 type TaskViewModel  struct {
-	Task			[]models.Task
+	Values            	[][]string
+	Keys              	[]string
 	Key			[]string
-	JobNameArray	[]string
+	JobNameArray		[]string
 	ContactNameArray	[]string
 	PageType		string
-	JobName		string
+	JobName			string
 	TaskName		string
 	TaskLocation		string
 	StartDate		string

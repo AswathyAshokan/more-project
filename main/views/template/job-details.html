@@ -1,14 +1,13 @@
 <title>Job Details</title>
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
 <script type="text/javascript">
        var vm = {{.vm}};
    </script>
 <script src="/static/js/custom/job-details.js" type="text/javascript" charset="utf-8"></script>
-	<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
-<!--<script src="../static/js/jquery.dataTables.min.js" type="text/javascript" charset="utf-8"></script>-->
-<!--<script src="../static/js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>-->
-</head>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
+
 <div class="col-md-12 main-content-wrapper padding-50-each">
 	<div class="clearfix">
 		<h1 class="h4">Job Details</h1>
@@ -35,21 +34,13 @@
 					</thead>
 					<tbody>
 
-
-
-
 					</tbody>
 				</table>
 			</div>
 
 		</div>
 
-
-
-
 	</div>
-
-
 </div>
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
@@ -65,3 +56,16 @@
         </div>
     </div>
 </div>
+    <script src="/static/js/jquery-3.1.0.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
+    <script>
+
+		$(document).ready(function() {
+		      
+		      $('#tbl_details').dataTable();
+
+
+		      $('#tbl_details_filter').after($('.tbl-dropdown'));
+		  } );
+	</script>

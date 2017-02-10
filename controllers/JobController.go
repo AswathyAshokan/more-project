@@ -31,7 +31,6 @@ func (c *JobController)LoadJob() {
 		job.JobName= c.GetString("jobName")
 		job.JobNumber = c.GetString("jobNumber")
 		job.NumberOfTask = c.GetString("numberOfTask")
-		log.Println( "requested struct: %+v", job)
 		job.CurrentDate =time.Now().UnixNano() / int64(time.Millisecond)
 		job.Status = "Open"
 		dbStatus :=job.AddJobToDB(c.AppEngineCtx)
@@ -93,7 +92,6 @@ func (c *JobController)LoadJobDetail() {
 
 		for _, k := range keySlice {
 			var tempValueSlice []string
-			log.Println("hai")
 			tempValueSlice = append(tempValueSlice, jobs[k].CustomerName)
 			tempValueSlice = append(tempValueSlice, jobs[k].JobName)
 			tempValueSlice = append(tempValueSlice, jobs[k].JobNumber)
@@ -115,7 +113,6 @@ func (c *JobController)LoadJobDetail() {
 }
 func (c *JobController)LoadDeleteJob() {
 	jobId :=c.Ctx.Input.Param(":jobId")
-	log.Println("idddddddddd", jobId)
 	job := models.Job{}
 	dbStatus := job.DeleteJobFromDB(c.AppEngineCtx, jobId)
 	w := c.Ctx.ResponseWriter

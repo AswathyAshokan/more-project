@@ -1,6 +1,5 @@
 /* Author :Aswathy Ashok */
-console.log(array.JobName);
-console.log(array.ContactName);
+
 console.log(array.Key)
 console.log(array.PageType)
 console.log(array.CustomerName)
@@ -22,6 +21,7 @@ $(function () {
         document.getElementById("userType").value = array.UserType;
         document.getElementById("contacts").value = array.Contact;
         document.getElementById("fitToWork").value = array.FitToWork;
+        document.getElementById("taskHead").innerHTML = "Edit Task";
            
             
            

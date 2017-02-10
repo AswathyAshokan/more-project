@@ -10,7 +10,7 @@
 
 <div class="col-md-12 main-content-wrapper padding-50-each">
 	<div class="clearfix">
-		<h1 class="h4">Add Job</h1>
+		<h1 class="h4" id="jobHead">Add Job</h1>
 
 		<div class="personal-details margin-top-20">
 
@@ -38,7 +38,7 @@
 
 				<div class="form-group clearfix">
 
-					<div class="col-sm-6">
+					<div class="col-sm-6" id='jobNumberCheck'>
 						<label for="jobNumber" class="">Job Number</label>
 						<input class="form-control" id="jobNumber" type="text" name="jobNumber">
 					</div>
@@ -49,7 +49,7 @@
 				</div>
 
 				<div class="align-left col-sm-12">
-					<button class="btn btn-primary" type="submit" id="save">Save</button>
+					<button class="btn btn-primary" type="submit" id="save" onclick="checkJobName()">Save</button>
 					<button class="btn btn-success" type="submit" id="cancel">Cancel</button>
 
 

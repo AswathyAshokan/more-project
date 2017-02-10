@@ -26,6 +26,10 @@ type Task   struct {
 	CurrentDate	int64
 
 }
+type User struct {
+	FirstName string
+	LastName  string
+}
 func (m *Task) AddTaskToDB(ctx context.Context )(bool)  {
 
 
@@ -42,21 +46,20 @@ func (m *Task) AddTaskToDB(ctx context.Context )(bool)  {
 
 }
 func (m *Task) RetrieveTaskFromDB(ctx context.Context)(bool,map[string]Task) {
-	v := map[string]Task{}
+	taskValue := map[string]Task{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("Task").Value(&v)
+	err = dB.Child("Task").Value(&taskValue)
 	if err != nil {
 		log.Fatal(err)
-		return false,v
+		return false, taskValue
 	}
-	log.Println( v)
-	return true,v
+	log.Println(taskValue)
+	return true, taskValue
 
 
 }
+
 func (m *Task) DeleteTaskFromDB(ctx context.Context, taskId string)(bool)  {
-
-
 
 	dB, err := GetFirebaseClient(ctx,"")
 
@@ -71,20 +74,20 @@ func (m *Task) DeleteTaskFromDB(ctx context.Context, taskId string)(bool)  {
 	return true
 }
 func (m *Task) RetrieveJobFromDB(ctx context.Context)(bool,map[string]Task) {
-	v := map[string]Task{}
+	jobValue := map[string]Task{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("Job").Value(&v)
+	err = dB.Child("Job").Value(&jobValue)
 	if err != nil {
 		log.Fatal(err)
-		return false,v
+		return false, jobValue
 	}
-	log.Println( v)
-	return true,v
+	log.Println(jobValue)
+	return true, jobValue
 
 
 }
 func (m *Job)RetrieveJobValueFromDB(ctx context.Context, jobId[] string)([] string) {
-	log.Println( "keyyy in model", jobId)
+
 	c := Job{}
 	var s []string
 	dB, err := GetFirebaseClient(ctx,"")
@@ -102,33 +105,33 @@ func (m *Job)RetrieveJobValueFromDB(ctx context.Context, jobId[] string)([] stri
 
 }
 func (m *Task) RetrieveContactFromDB(ctx context.Context)(bool,map[string]Task) {
-	v := map[string]Task{}
+	contactValue := map[string]Task{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("Contacts").Value(&v)
+	err = dB.Child("Contacts").Value(&contactValue)
 	if err != nil {
 		log.Fatal(err)
-		return false,v
+		return false, contactValue
 	}
-	log.Println( v)
-	return true,v
+	log.Println(contactValue)
+	return true, contactValue
 
 
 }
 func (m *ContactUser)RetrieveContactNameFromDB(ctx context.Context, contactId[] string)([] string) {
-	log.Println( "keyyy contact model", contactId)
+
 	c := ContactUser{}
-	var s []string
+	var contactName []string
 	dB, err := GetFirebaseClient(ctx,"")
 	for i := 0; i <len(contactId) ; i++ {
 		err = dB.Child("/Contacts/" + contactId[i]).Value(&c)
-		s =append(s,c.Name)
+		contactName =append(contactName,c.Name)
 
 	}
 	if err != nil {
 		log.Fatal(err)
-		return s
+		return contactName
 	}
-	return s
+	return contactName
 	//log.Println("There are "+v.getChildrenCount());
 
 }
@@ -149,45 +152,46 @@ func (m *Task) UpdateTaskToDB( ctx context.Context, taskId string)(bool)  {
 
 }
 func (m *Task) RetrieveTaskDetailFromDB(ctx context.Context, taskId string)(bool, Task) {
-	c := Task{}
+	taskDetail := Task{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("/Task/"+ taskId).Value(&c)
+	err = dB.Child("/Task/"+ taskId).Value(&taskDetail)
 	if err != nil {
 		log.Fatal(err)
-		return false,c
+		return false, taskDetail
 	}
-	return true,c
+	return true, taskDetail
 //log.Println("There are "+v.getChildrenCount());
 
 }
-func (m *Task ) RetrieveGroupFromDB(ctx context.Context)(bool,map[string]Job) {
-	v := map[string]Job {}
+func (m *User ) RetrieveUserFromDB(ctx context.Context)(bool,map[string]User) {
+	valueOfUser := map[string]User {}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("Group").Value(&v)
+	err = dB.Child("User").Value(&valueOfUser)
 	if err != nil {
 		log.Fatal(err)
-		return false,v
+		return false,valueOfUser
 	}
-	log.Println( v)
-	return true,v
+
+	return true,valueOfUser
 
 
 }
-func (m *Task)RetrieveGroupNameFromDB(ctx context.Context, groupId[] string)([] string) {
+func (m *User)RetrieveUserNameFromDB(ctx context.Context, userId[] string)([] string) {
 
-	c := Task{}
-	var s []string
+	c := User{}
+	var allUserNames []string
 	dB, err := GetFirebaseClient(ctx,"")
-	for i := 0; i <len(groupId) ; i++ {
-		err = dB.Child("/Group/" + groupId[i]).Value(&c)
-		s =append(s,c.UserType)
+	for i := 0; i <len(userId) ; i++ {
+		err = dB.Child("/User/" + userId[i]).Value(&c)
+		allUserNames = append(allUserNames, (c.FirstName + "" + c.LastName))
+
 
 	}
 	if err != nil {
 		log.Fatal(err)
-		return s
+		return allUserNames
 	}
-	return s
+	return allUserNames
 	//log.Println("There are "+v.getChildrenCount());
 
 }

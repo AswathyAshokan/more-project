@@ -1,47 +1,87 @@
 /* Author :Aswathy Ashok */
-console.log(vm);
 
-
-var subArray = [];
-var keyArray= [];
-var mainArray = [];
-for(i = 0; i < vm.User.length; i++) {
-   for(var propertyName in vm.User[i]) {
-       subArray.push(vm.User[i][propertyName]);
-   }
-   //subArray.push(vm.Keys[i])
-   mainArray.push(subArray);
-   keyArray.push(vm.Key[i])
-   subArray = [];
-}
-//var dataSet = [mainArray];
-Key=keyArray
-console.log(Key)
-
-    $(document).ready(function() {
-        $('#example').DataTable( {
+console.log(vm.Values);
+$(function(){ 
+    
+    var mainArray = [];   
+    var table = "";
+    function createDataArray(values, keys){
+        var subArray = [];
+        for(i = 0; i < values.length; i++) {
+            for(var propertyName in values[i]) {
+                subArray.push(values[i][propertyName]);
+            }
+            subArray.push(keys[i])
+            mainArray.push(subArray);
+            subArray = [];
+            
+        }
+    }
+    
+    function dataTableManipulate(){
+        table =  $("#contact-details").DataTable({
             data: mainArray,
-            columns: [
-                { title:"Name"},
-                { title: "Address" },
-                { title: "State" },
-                { title: "Zipcode" },
-                { title: "Email" },
-                { title: "Phone Number"},
-                {
-                  data:null,
-                 mRender: function (data, type, row) {
-                 for(i = 0; i < vm.User.length; i++) {
-                     return '<div class="edit-wrapper"><span class="icn">'+'<a href="contact/'+ Key[i] + '/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+"   "+'<a href="contact/'+ Key[i] + '/delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>'+'</span>'+'</div>'
-                     }
+            "columnDefs": [{
+                       "targets": -1,
+                       "width": "5%",
+                       "data": null,
+                       "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
+            }]
+        });
+        
+        var item = $('<span>+</span>');
+        item.click(function() {
+            window.location = "/contact/add";
+        });
+        
+        $('.table-wrapper .dataTables_filter').append(item);
+    }
+    if(vm.Values != null) {
+        createDataArray(vm.Values, vm.Keys);
+    }
+    dataTableManipulate(); 
+
+    $('#contact-details tbody').on( 'click', '#edit', function () {
+        var data = table.row( $(this).parents('tr') ).data();
+        var key = data[6];
+        window.location = '/contact/' + key + '/edit';
+    });
+
+
+    $('#contact-details tbody').on( 'click', '#delete', function () {
+        $("#myModal").modal();
+        var data = table.row( $(this).parents('tr') ).data();
+        var key = data[6];
+        
+        $("#confirm").click(function(){
+            $.ajax({
+                type: "POST",
+                url: '/contact/' + key + '/delete',
+                data: '',
+                success: function(data){
+                    if(data=="true"){
+                        $('#contact-details').dataTable().fnDestroy();
+                        var index = "";
+                        
+                        for(var i = 0; i < mainArray.length; i++) {
+                           index = mainArray[i].indexOf(key);
+                           if(index != -1) {
+                               console.log("dddd", i);
+                             break;
+                           }
+                        }
+                        mainArray.splice(i, 1);
+                        dataTableManipulate();   
+                    }
+                    else {
+                        console.log("Removing Failed!");
+                    }
                 }
 
-                },
-
-
-
-            ]
+            });
         });
-
-
     });
+    
+});
+
+
