@@ -2,34 +2,16 @@
 Date:01/02/2017*/
 $(function(){
     console.log(array.Name);
-    if(array.PageType == "2") {
-                document.getElementById("customerName").value = array.CustomerName;
-                document.getElementById("site").value = array.Site;
-                document.getElementById("location").value = array.Location;
-                document.getElementById("nfcNumber").value = array.NFCNumber;
-    }
-    /*$("#save").click(function(){
-        $.ajax({
-            type : 'POST',
-            url  : '/nfc/add',
-            data : {
-                'customerName' : $("#customerName").val(),
-                'site'         : $("#site").val(),
-                'location'     : $("#location").val(),
-                'nfcNumber'    : $("#nfcNumber").val()
-            },
-            success : function(data){
-                            if(data=="true"){
-                                window.location ='/nfc';
-
-                            }
-                            else{
-
-                            }
-                        }
-        });
-        return false;
-    });*/
+    var pageType = array.PageType;
+    
+    if(pageType ==  "edit") {
+        console.log(array);
+            document.getElementById("customerName").value = array.CustomerName;
+            document.getElementById("site").value = array.Site;
+            document.getElementById("location").value = array.Location;
+            document.getElementById("nfcNumber").value = array.NFCNumber;
+            } 
+    
     $("#addNfcForm").validate({
                     
                     rules: {
@@ -45,21 +27,44 @@ $(function(){
     	            submitHandler: function() {
                         var form_data = $("#addNfcForm").serialize();
                         //alert(form_data);
-    				    $.ajax({
-                                type : 'POST',
-                                url  : '/nfc/add',
-                                data : form_data,
-                                success : function(data){
-                                                if(data=="true"){
-                                                    window.location ='/nfc';
-                                                }
-                                                else{
-                                                }
+                        var nfcId = array.NfcId;
+                        if (pageType == "edit") {
+                            $.ajax({
+                                url: '/nfc/'+ nfcId +'/edit',
+                                type: 'post',
+                                datatype: 'html',
+                                data: form_data,
+                                success : function(response) {
+                                    console.log(response);
+                                    if (response == "true") {
+                                        window.location = '/nfc';
+                                    } else {
+
+                                    }
                                 },
                                 error: function (request,status, error) {
-           					            console.log(error);
-        				        }
-                        });
+                                    console.log(error);
+                                }
+
+                           });
+
+                        } else {
+                            $.ajax({
+                                    type : 'POST',
+                                    url  : '/nfc/add',
+                                    data : form_data,
+                                    success : function(data){
+                                                    if(data=="true"){
+                                                        window.location ='/nfc';
+                                                    }
+                                                    else{
+                                                    }
+                                    },
+                                    error: function (request,status, error) {
+                                            console.log(error);
+                                    }
+                            });
+                    }
                 }
     });
 

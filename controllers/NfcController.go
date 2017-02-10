@@ -7,6 +7,7 @@ import (
 	"app/passporte/viewmodels"
 	"log"
 	"encoding/json"
+	"app/passporte/helpers"
 )
 
 type NfcController struct {
@@ -68,31 +69,41 @@ func (c *NfcController)EditNFC(){
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	if r.Method =="POST"{
-		//nfc := models.NFC{}
-		viewModel := viewmodels.EditNfcViewModel{}
-		nfcDetails := models.NFC{}
-		nfcId := c.GetString("Key")
-		log.Println("NFC Id: ",nfcId)
-		editStatus, nfcDetails := nfcDetails.GetNFCDetailsById(c.AppEngineCtx,nfcId)
-		switch editStatus{
+		nfcId := c.Ctx.Input.Param(":nfcId")
+		nfc := models.NFC{}
+		nfc.CustomerName = c.GetString("customerName")
+		nfc.Site = c.GetString("site")
+		nfc.Location = c.GetString("location")
+		nfc.NFCNumber = c.GetString("nfcNumber")
+		NfcUpdateStatus := nfc.UpdateNFCDetails(c.AppEngineCtx, nfcId)
+		switch NfcUpdateStatus {
 		case true:
-			viewModel.PageType 	= "2"
-			viewModel.CustomerName 	= nfcDetails.CustomerName
-			viewModel.Location 	= nfcDetails.Location
-			viewModel.NFCNumber 	= nfcDetails.NFCNumber
-			viewModel.Site		= nfcDetails.Site
-
 			w.Write([]byte("true"))
-
-			c.Data["array"] = viewModel
-			c.Layout	= "layout/layout.html"
-			c.TplName	= "template/add-nfc.html"
 		case false:
 			w.Write([]byte("false"))
 		}
-	}else{
 
+	}else {
+		nfcId := c.Ctx.Input.Param(":nfcId")
+		viewModel := viewmodels.EditNfcViewModel{}
+		nfcDetails := models.NFC{}
+		log.Println("NFC Id: ", nfcId)
+		editStatus, nfcDetails := nfcDetails.GetNFCDetailsById(c.AppEngineCtx, nfcId)
+		switch editStatus{
+		case true:
+			viewModel.PageType = helpers.SelectPageForEdit
+			viewModel.NfcId = nfcId
+			viewModel.CustomerName = nfcDetails.CustomerName
+			viewModel.Location = nfcDetails.Location
+			viewModel.NFCNumber = nfcDetails.NFCNumber
+			viewModel.Site = nfcDetails.Site
 
+			c.Data["array"] = viewModel
+			c.Layout = "layout/layout.html"
+			c.TplName = "template/add-nfc.html"
+		case false:
+
+		}
 	}
 }
 

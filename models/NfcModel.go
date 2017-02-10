@@ -68,6 +68,21 @@ func (m *NFC)GetNFCDetailsById(ctx context.Context, nfcId string)(bool, NFC){
 	}
 
 }
+func (m *NFC)UpdateNFCDetails(ctx context.Context, nfcId string)bool{
+	dB, err := GetFirebaseClient(ctx,"")
+	if err!=nil{
+		log.Println("No DB Connection!")
+	}
+	err = dB.Child("/NFCTag/"+nfcId).Update(&m)
+	if err!=nil{
+		log.Println("Update failed!",err)
+		return false
+	}else{
+		log.Println("Update Success!")
+		return true
+	}
+
+}
 
 func DeleteNFC(ctx  context.Context, key string)bool{
 	log.Println("model:DeleteNFC()")
