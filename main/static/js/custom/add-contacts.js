@@ -1,8 +1,9 @@
 
 /* Author :Aswathy Ashok */
 console.log(array.Name);
+var pageType = array.PageType;
 $(function () {
-    if(array.PageType == "2") {
+    if( pageType==  "edit") {
             
                 document.getElementById("name").value = array.Name;
                 document.getElementById("address").value = array.Address;
@@ -59,9 +60,15 @@ $(function () {
 
                 },
 	            submitHandler: function() {
-                 if(array.PageType == 2){
+                    var form_data = $("#contactForm").serialize();
+                    var contactId = array.ContactId
+              
+                 if(pageType ==  "edit"){
+                     
+                     
                          $.ajax({
-		                       url: '/contact/:contactId/edit',
+                             
+		                       url: '/contact/'+contactId+'/edit',
 		                       type: 'post',
 		                       datatype: 'json',
 
@@ -87,11 +94,11 @@ $(function () {
                         
                     } else {
 
-				    var form_data = $("#contactForm").serialize();
+				    
                             
 
 				    $.ajax({
-
+                        
 		                url: '/contact/add',
 		                type: 'post',
 		                datatype: 'json',

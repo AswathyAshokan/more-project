@@ -21,5 +21,7 @@ type TaskViewModel  struct {
 	UserType		string
 	Contact			string
 	FitToWork		string
+	TaskId			string
+	GroupNameArray		[]string
 
 }

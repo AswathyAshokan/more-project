@@ -160,3 +160,34 @@ func (m *Task) RetrieveTaskDetailFromDB(ctx context.Context, taskId string)(bool
 //log.Println("There are "+v.getChildrenCount());
 
 }
+func (m *Task ) RetrieveGroupFromDB(ctx context.Context)(bool,map[string]Job) {
+	v := map[string]Job {}
+	dB, err := GetFirebaseClient(ctx,"")
+	err = dB.Child("Group").Value(&v)
+	if err != nil {
+		log.Fatal(err)
+		return false,v
+	}
+	log.Println( v)
+	return true,v
+
+
+}
+func (m *Task)RetrieveGroupNameFromDB(ctx context.Context, groupId[] string)([] string) {
+
+	c := Task{}
+	var s []string
+	dB, err := GetFirebaseClient(ctx,"")
+	for i := 0; i <len(groupId) ; i++ {
+		err = dB.Child("/Group/" + groupId[i]).Value(&c)
+		s =append(s,c.UserType)
+
+	}
+	if err != nil {
+		log.Fatal(err)
+		return s
+	}
+	return s
+	//log.Println("There are "+v.getChildrenCount());
+
+}

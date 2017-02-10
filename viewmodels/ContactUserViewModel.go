@@ -15,5 +15,6 @@ type ContactUserViewModel  struct {
 	Status      	string
 	PageType	string
 	Key         	[]string
+	ContactId	string
 
 }

@@ -10,14 +10,13 @@ import (
 type Job   struct {
 
 	CustomerName	string
-	JobName	string
+	JobName		string
 	JobNumber	string
 	NumberOfTask	string
 	Status		string
 	CurrentDate	int64
 }
 func (m *Job) AddJobToDB( ctx context.Context)(bool)  {
-
 
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{

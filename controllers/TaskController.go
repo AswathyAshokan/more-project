@@ -12,6 +12,7 @@ import (
 	"time"
 	"app/passporte/viewmodels"
 	"reflect"
+	"app/passporte/helpers"
 )
 
 type TaskController struct {
@@ -73,6 +74,23 @@ func (c *TaskController)LoadTask() {
 		}
 
 
+
+		dbStatus,taskNew :=task.RetrieveGroupFromDB(c.AppEngineCtx)
+		switch dbStatus {
+
+		case true:
+
+			dataValue := reflect.ValueOf(taskNew)
+			var keySlice []string
+
+			for _, key := range dataValue.MapKeys() {
+				keySlice = append(keySlice, key.String())
+			}
+			groupValue := task.RetrieveGroupNameFromDB(c.AppEngineCtx, keySlice)
+
+			viewModel.GroupNameArray = groupValue
+		case false:
+		}
 		contact :=models.ContactUser{}
 		dbStatus,contacts :=contact.RetrieveContactFromDB(c.AppEngineCtx)
 		switch dbStatus {
@@ -216,7 +234,7 @@ func (c *TaskController)LoadEditTask() {
 			contactsName := contact.RetrieveContactNameFromDB(c.AppEngineCtx, keySlice)
 			viewModel.ContactNameArray = contactsName
 			viewModel.Key=keySlice
-			viewModel.PageType = "2"
+			viewModel.PageType = helpers.SelectPageForEdit
 			viewModel.JobName = taskDetail.JobName
 			viewModel.TaskName = taskDetail.TaskName
 			viewModel.TaskLocation = taskDetail.TaskLocation
@@ -228,6 +246,7 @@ func (c *TaskController)LoadEditTask() {
 			viewModel.UserType = taskDetail.UserType
 			viewModel.Contact = taskDetail.Contact
 			viewModel.FitToWork = taskDetail.FitToWork
+			viewModel.TaskId=taskId
 			c.Data["array"] = viewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-task.html"

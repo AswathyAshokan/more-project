@@ -20,7 +20,7 @@
 								<label for="jobName" class="">Job Name</label>
 
 								<select class="form-control sprites-arrow-down" id="jobName" name="jobName">
-									<option>select</option>
+									<option selected disabled value="">Select a Job</option>
 									{{range  .array.JobNameArray}}
 									<option >{{ . }}</option>
 									{{end}}
@@ -77,7 +77,7 @@
 								<label for="log" class="">Log</label>
 								<select class="form-control sprites-arrow-down" id="log" name="log">
 									<option>20 Minutes</option>
-									<option></option>
+									<option>30 Minutes</option>
 									<option></option>
 									<option></option>
 								</select>
@@ -99,11 +99,11 @@
 							<div class="col-sm-6">
 								<label for="contacts" class="">Contacts</label>
 								<select class="form-control sprites-arrow-down multiple-drop" id="contacts" multiple="multiple" name="contacts" >
-                                    
-
-										{{range  .array.ContactNameArray}}
-											<option  value="{{.}}">{{.}}</option>
-										{{end}}
+                                    <option selected disabled value="">Select a Contact</option>
+                                        {{range $key, $val := .array.ContactNameArray}}
+                                           <option value="{{index $.array.Key $key}}">{{$val}}</option>
+                                       {{end}}
+										
 
 								</select>
 							</div>

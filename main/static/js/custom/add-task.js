@@ -5,9 +5,10 @@ console.log(array.Key)
 console.log(array.PageType)
 console.log(array.CustomerName)
 console.log(array.JobName)
+var pageType = array.PageType;
 $(function () {
     
-    if(array.PageType == "2") {
+    if(pageType == "edit") {
             
        // document.getElementById("customerName").value = array.CustomerName;
         document.getElementById("jobName").value = array.JobName;
@@ -70,9 +71,11 @@ $().ready(function() {
           },
 
          submitHandler: function() {
-             if(array.PageType == 2){
+             var taskId=array.TaskId;
+             if(pageType == "edit"){
                          $.ajax({
-                             url: '/task/:taskId/edit',
+                             
+                             url: '/task/'+taskId+'/edit',
                              type: 'post',
                              datatype: 'json',
                              data: $("#taskDoneForm").serialize() + "&loginType=" + val,

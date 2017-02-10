@@ -8,12 +8,12 @@ import (
 	//"github.com/astaxie/beegae"
 	"app/passporte/models"
 	"app/passporte/viewmodels"
-	"google.golang.org/appengine/log"
-	"google.golang.org/appengine"
+	"log"
 	"time"
 
 	"reflect"
 
+	"app/passporte/helpers"
 )
 
 type JobController struct {
@@ -31,8 +31,7 @@ func (c *JobController)LoadJob() {
 		job.JobName= c.GetString("jobName")
 		job.JobNumber = c.GetString("jobNumber")
 		job.NumberOfTask = c.GetString("numberOfTask")
-		context := appengine.NewContext(r)
-		log.Infof(context, "requested struct: %+v", job)
+		log.Println( "requested struct: %+v", job)
 		job.CurrentDate =time.Now().UnixNano() / int64(time.Millisecond)
 		job.Status = "Open"
 		dbStatus :=job.AddJobToDB(c.AppEngineCtx)
@@ -84,25 +83,27 @@ func (c *JobController)LoadJobDetail() {
 	switch dbStatus {
 
 	case true:
-		r := c.Ctx.Request
-		context := appengine.NewContext(r)
-		log.Infof(context, "%s\n", jobs)
 		//var valueSlice []models.User
 		dataValue := reflect.ValueOf(jobs)
 		var keySlice []string
-		var valueSlice []models.Job
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
 		}
 
-		for _, k := range keySlice {
-			valueSlice = append(valueSlice, jobs[k])
-			viewModel.Job = append(viewModel.Job, jobs[k])
-			viewModel.Key=keySlice
 
+		for _, k := range keySlice {
+			var tempValueSlice []string
+			log.Println("hai")
+			tempValueSlice = append(tempValueSlice, jobs[k].CustomerName)
+			tempValueSlice = append(tempValueSlice, jobs[k].JobName)
+			tempValueSlice = append(tempValueSlice, jobs[k].JobNumber)
+			tempValueSlice = append(tempValueSlice, jobs[k].NumberOfTask)
+			tempValueSlice = append(tempValueSlice, jobs[k].Status)
+			viewModel.Values = append(viewModel.Values, tempValueSlice)
+			tempValueSlice = tempValueSlice[:0]
 		}
-		log.Infof(context,"Key:", keySlice, "Value:", valueSlice)
-		log.Infof(context, "typeeee",(reflect.TypeOf(viewModel)))
+
+		viewModel.Keys = keySlice
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/job-details.html"
@@ -113,19 +114,17 @@ func (c *JobController)LoadJobDetail() {
 
 }
 func (c *JobController)LoadDeleteJob() {
-
-	r := c.Ctx.Request
-	context := appengine.NewContext(r)
 	jobId :=c.Ctx.Input.Param(":jobId")
-	log.Infof(context,"idddddddddd", jobId)
+	log.Println("idddddddddd", jobId)
 	job := models.Job{}
 	dbStatus := job.DeleteJobFromDB(c.AppEngineCtx, jobId)
-
+	w := c.Ctx.ResponseWriter
 	switch dbStatus {
 
 	case true:
-		c.Redirect("/job", 302)
+		w.Write([]byte("true"))
 	case false :
+		w.Write([]byte("false"))
 	}
 
 
@@ -140,8 +139,7 @@ func (c *JobController)LoadEditJob() {
 		job.JobName = c.GetString("jobName")
 		job.JobNumber = c.GetString("jobNumber")
 		job.NumberOfTask = c.GetString("numberOfTask")
-		context := appengine.NewContext(r)
-		log.Infof(context, "requested struct: %+v", job)
+		log.Println( "requested struct: %+v", job)
 		job.CurrentDate = time.Now().UnixNano() / int64(time.Millisecond)
 		job.Status = "Open"
 		dbStatus := job.UpdateJobToDB(c.AppEngineCtx,jobId)
@@ -155,10 +153,8 @@ func (c *JobController)LoadEditJob() {
 		}
 
 	} else {
-
-		context := appengine.NewContext(r)
 		jobId := c.Ctx.Input.Param(":jobId")
-		log.Infof(context, "idddddddddd", jobId)
+		log.Println( "idddddddddd", jobId)
 		viewModel := viewmodels.JobViewModel{}
 		job := models.Job{}
 
@@ -174,11 +170,12 @@ func (c *JobController)LoadEditJob() {
 			}
 			customerValue := job.RetrieveCustomerNameFromDB(c.AppEngineCtx, keySlice)
 			viewModel.CustomerNameArray = customerValue
-			viewModel.PageType = "2"
+			viewModel.PageType = helpers.SelectPageForEdit
 			viewModel.CustomerName = jobDetail.CustomerName
 			viewModel.JobName = jobDetail.JobName
 			viewModel.JobNumber = jobDetail.JobNumber
 			viewModel.NumberOfTask = jobDetail.NumberOfTask
+			viewModel.JobId= jobId
 			c.Data["array"] = viewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-job.html"

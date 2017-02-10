@@ -22,9 +22,9 @@
 					<div class="col-sm-6">
 						<label for="customerName" class="">Customer Name</label>
 						<select class="form-control sprites-arrow-down" id="customerName" name="customerName">
-
+                            <option selected disabled value="">Select a Customer</option>
 							{{range  .array.CustomerNameArray}}
-							<option >{{ . }}</option>
+							<option value="{{.}}">{{ . }}</option>
 							{{end}}
 						</select>
 

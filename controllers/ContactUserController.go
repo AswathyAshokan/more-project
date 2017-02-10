@@ -16,6 +16,7 @@ import (
 
 	//"app/go_appengine/goroot/src/go/doc/testdata"
 	//"github.com/gorilla/mux"
+	"app/passporte/helpers"
 )
 
 type ContactUserController struct {
@@ -113,7 +114,7 @@ func (c *ContactUserController)LoadDeleteContact() {
 	r := c.Ctx.Request
 	context := appengine.NewContext(r)
 	contactId :=c.Ctx.Input.Param(":contactId")
-	log.Infof(context,"idddddddddd", contactId)
+	log.Infof(context,"delete idddd", contactId)
 	user := models.ContactUser{}
 	dbStatus := user.DeleteContactFromDB(c.AppEngineCtx, contactId)
 
@@ -164,13 +165,14 @@ func (c *ContactUserController)LoadEditContact() {
 		dbStatus,contact := contact.RetrieveContactIdFromDB(c.AppEngineCtx, contactId)
 		switch dbStatus {
 		case true:
-			viewModel.PageType = "2"
+			viewModel.PageType = helpers.SelectPageForEdit
 			viewModel.Name=contact.Name
 			viewModel.Address =contact.Address
 			viewModel.State =contact.State
 			viewModel.ZipCode =contact.Zipcode
 			viewModel.Email =contact.Email
 			viewModel.PhoneNumber =contact.PhoneNumber
+			viewModel.ContactId=contactId
 			c.Data["array"] = viewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-contacts.html"
