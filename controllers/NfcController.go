@@ -63,6 +63,38 @@ func (c *NfcController)AddNFC(){
 	}
 }
 
+func (c *NfcController)EditNFC(){
+	log.Println("EditNFC()")
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	if r.Method =="POST"{
+		//nfc := models.NFC{}
+		viewModel := viewmodels.EditNfcViewModel{}
+		nfcDetails := models.NFC{}
+		nfcId := c.GetString("Key")
+		log.Println("NFC Id: ",nfcId)
+		editStatus, nfcDetails := nfcDetails.GetNFCDetailsById(c.AppEngineCtx,nfcId)
+		switch editStatus{
+		case true:
+			viewModel.PageType 	= "2"
+			viewModel.CustomerName 	= nfcDetails.CustomerName
+			viewModel.Location 	= nfcDetails.Location
+			viewModel.NFCNumber 	= nfcDetails.NFCNumber
+			viewModel.Site		= nfcDetails.Site
+
+			w.Write([]byte("true"))
+
+			c.Data["array"] = viewModel
+			c.Layout	= "layout/layout.html"
+			c.TplName	= "template/add-nfc.html"
+		case false:
+			w.Write([]byte("false"))
+		}
+	}else{
+
+
+	}
+}
 
 func (c *NfcController)Datatable() {
 	log.Println("hiiiii")

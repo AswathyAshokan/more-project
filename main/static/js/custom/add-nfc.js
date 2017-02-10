@@ -1,6 +1,13 @@
 /*Author: Sarath
 Date:01/02/2017*/
 $(function(){
+    console.log(array.Name);
+    if(array.PageType == "2") {
+                document.getElementById("customerName").value = array.CustomerName;
+                document.getElementById("site").value = array.Site;
+                document.getElementById("location").value = array.Location;
+                document.getElementById("nfcNumber").value = array.NFCNumber;
+    }
     /*$("#save").click(function(){
         $.ajax({
             type : 'POST',

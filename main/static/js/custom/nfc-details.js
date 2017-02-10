@@ -82,6 +82,25 @@ $(function(){
     $('#nfc_details tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
         alert( data[0] +"'s key is: "+ data[4] );
+        var key = data[4];
+         $.ajax({
+                type: "POST",
+                url: '/nfc/'+ data[4] + '/edit',
+                data: {
+                    Key : key
+                },
+                success: function(data){
+                    if(data=="true"){
+                        console.log("Editing Success!");
+                        window.location='nfc/add';
+                    }
+                    else {
+                        console.log("Editing Failed!");
+                    }
+                }
+
+            });
+        return false;
     });
 
 
