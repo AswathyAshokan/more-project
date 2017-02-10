@@ -9,4 +9,15 @@ type Group struct {
 	GroupMembers 	[]string
 	GroupKey     	[]string
 	PageType	string
+	SelectedUser    string
+}
+
+//
+
+type EditGroupViewModel struct {
+	GroupMembers 	[]string
+	GroupKey     	[]string
+	PageType	string
+	GroupName	string
+	GroupId		string
 }

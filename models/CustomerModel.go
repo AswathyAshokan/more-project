@@ -84,7 +84,7 @@ func(this *Customer) UpdateCustomerDetails(ctx context.Context,customerKey strin
 
 
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Customer/"+ customerKey).Update(&this)
+	err = db.Child("/Customer/"+ customerKey).Set(&this)
 
 	if err != nil {
 		log.Fatal(err)

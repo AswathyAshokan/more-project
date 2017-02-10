@@ -61,14 +61,16 @@ func(this *InviteUser) DeleteInviteUser(ctx context.Context,InviteUserKey string
 //edit a record
 
 func(this *InviteUser) EditInviteUser(ctx context.Context,InviteUserKey string) (InviteUser,bool){
-
+	log.Println("invite user key:",InviteUserKey)
 	value := InviteUser{}
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("/User/"+InviteUserKey).Value(&value)
+	log.Println("values:",value)
 	if err != nil {
 		log.Fatal(err)
 		return value , false
 	}
+
 	return value,true
 
 }

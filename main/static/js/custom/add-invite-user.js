@@ -2,7 +2,6 @@
 console.log(vm);
 //document.getElementById("firstname").value = vm.firstname;
 
-
 $().ready(function() {
     
     if(vm.PageType == "edit"){        
@@ -31,12 +30,13 @@ $().ready(function() {
 
     },
 	    submitHandler: function(){//to pass all data of a form serial
-	        if (vm.PageType == "2"){
+	        if (vm.PageType == "edit"){
 
 	                var formData = $("#adduserForm").serialize();
+                    var InviteId = vm.InviteId;
                 	         $.ajax({
 
-                		    	url:'/invitate/'+ InviteId+ '/edit',
+                		    	url:'/invite/'+ InviteId +'/edit',
                 			    type:'post',
                 			    datatype: 'json',
                 			    data: formData,
@@ -44,7 +44,7 @@ $().ready(function() {
                 			    success : function(response){
                 			    	 if(response == "true"){
 
-                                    	 window.location='/invitate';
+                                    	 window.location='/invite';
                                      }else {
                                     }
 
@@ -57,7 +57,7 @@ $().ready(function() {
 	        } else {
 	        var formData = $("#adduserForm").serialize();
                            $.ajax({
-                           url:'/invitate/add',
+                           url:'/invite/add',
                            type:'post',
                            datatype: 'json',
                           data: formData,
@@ -65,7 +65,7 @@ $().ready(function() {
                            success : function(response){
                                if(response == "true"){
 
-                                        window.location='/invitate';
+                                        window.location='/invite';
                                }else {
                                }
 

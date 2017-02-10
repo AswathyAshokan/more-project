@@ -24,7 +24,8 @@ func (c *GroupController) AddGroup() {
 
 		group := models.Group{}
 		group.GroupName = c.GetString("groupName")
-		group.GroupMembersName = c.GetString("addUser")
+		group.GroupMembers = c.GetStrings("addUser")
+		log.Println(group)
 		dbStatus := group.AddGroupToDb(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
@@ -55,7 +56,6 @@ func (c *GroupController) AddGroup() {
 
 		groupUser := models.Group{}
 		GroupMembers :=groupUser.GetUsersForDropdown(c.AppEngineCtx)  // retrive all the keys of a users
-		log.Print("ffffff", GroupMembers)
 		groupDataValue := reflect.ValueOf(GroupMembers)	// To store data values of slice
 		var groupKeySlice []string	// To store keys of the slice
 		for _, groupKey := range groupDataValue.MapKeys() {
@@ -63,16 +63,19 @@ func (c *GroupController) AddGroup() {
 
 		}
 
-		infoUser := models.Group{}
-		GroupMemberName := infoUser.TakeGroupMemberName(c.AppEngineCtx,groupKeySlice)
-		groupViewModel := viewmodels.Group{}
-		groupViewModel.GroupMembers = GroupMemberName
-		groupViewModel.GroupKey = groupKeySlice
-		groupViewModel.PageType = helpers.SelectPageForAdd
-		log.Println("viewwwwwww",groupViewModel)
-		c.Data["GroupArray"] = groupViewModel
-		c.Layout = "layout/layout.html"
-		c.TplName = "template/add-group.html"
+		group := models.Group{}
+		GroupMemberName,dbStatus:= group.TakeGroupMemberName(c.AppEngineCtx,groupKeySlice)
+		switch dbStatus {
+		case true:
+			groupViewModel := viewmodels.Group{}
+			groupViewModel.GroupMembers = GroupMemberName
+			groupViewModel.GroupKey = groupKeySlice
+			groupViewModel.PageType = helpers.SelectPageForAdd
+			c.Data["GroupArray"] = groupViewModel
+			c.Layout = "layout/layout.html"
+			c.TplName = "template/add-group.html"
+		case false:
+		}
 	}
 
 }
@@ -104,7 +107,6 @@ func (c *GroupController) DeleteGroup() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	GroupKey :=c.Ctx.Input.Param(":groupkey")
-	log.Println("keyzzzzzz:",GroupKey)
 	group := models.Group{}
 	dbStatus :=group.DeleteGroup(c.AppEngineCtx, GroupKey)
 	switch dbStatus {
@@ -127,8 +129,8 @@ func (c *GroupController) EditGroup() {
 
 	if r.Method == "POST" {
 
-		group.GroupMembersName = c.GetString("groupName")
-		group.GroupName = c.GetString("addUser")
+		group.GroupName = c.GetString("groupName")
+		group.GroupMembers = c.GetStrings("addUser")
 		dbStatus := group.UpdateGroupDetails(c.AppEngineCtx, groupKey)
 
 		switch dbStatus {
@@ -141,13 +143,35 @@ func (c *GroupController) EditGroup() {
 
 
 	} else {
-		editResult, DbStatus := group.EditGroupDetais(c.AppEngineCtx, groupKey)
-		switch DbStatus {
+
+		groupUser := models.Group{}
+		GroupMembers :=groupUser.GetUsersForDropdown(c.AppEngineCtx)  // retrive all the keys of a users
+		groupDataValue := reflect.ValueOf(GroupMembers)	// To store data values of slice
+		var groupKeySlice []string	// To store keys of the slice
+		for _, groupKey := range groupDataValue.MapKeys() {
+			groupKeySlice = append(groupKeySlice, groupKey.String())
+		}
+
+		group := models.Group{}
+		groupMemberName,dbStatus := group.TakeGroupMemberName(c.AppEngineCtx,groupKeySlice)
+		switch dbStatus {
 		case true:
-			groupViewModel := viewmodels.Group{}
+			groupViewModel := viewmodels.EditGroupViewModel{}
+			groupViewModel.GroupMembers = groupMemberName
+			groupViewModel.GroupKey = groupKeySlice
+
+		case false:
+
+		}
+
+		editResult, dbStatus := group.EditGroupDetails(c.AppEngineCtx, groupKey)
+		switch dbStatus {
+		case true:
+			groupViewModel := viewmodels.EditGroupViewModel{}
 			groupViewModel.GroupName = editResult.GroupName
-			//groupViewModel.GroupMembers = editResult.GroupMembersName
+			groupViewModel.GroupMembers = editResult.GroupMembers
 			groupViewModel.PageType = helpers.SelectPageForEdit
+			groupViewModel.GroupId = groupKey
 			c.Data["vm"] = groupViewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-group.html"
