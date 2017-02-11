@@ -4,16 +4,11 @@ package controllers
 import (
 	"app/passporte/models"
 	"time"
-	"reflect"
 	"app/passporte/viewmodels"
-	"google.golang.org/appengine/log"
-	"google.golang.org/appengine"
-	//"time"
-	//"reflect"
-	//"app/passporte/helper"
 
-	"net/http"
 	"app/passporte/helpers"
+	"log"
+	"reflect"
 )
 
 type InviteUserController struct {
@@ -49,24 +44,25 @@ func (c *InviteUserController) AddInvitation() {
 
 func (c *InviteUserController) InvitationDetails() {
 
-	//r := c.Ctx.Request
-	//Context := appengine.NewContext(r)
-
-
 	user := models.InviteUser{}
-	inviteUserInfo := user.DisplayUser(c.AppEngineCtx)
-	inviteUserdataValue := reflect.ValueOf(inviteUserInfo)
-	var inviteUserValueSlice []models.InviteUser    // to store tha data value of slice
+	info := user.DisplayUser(c.AppEngineCtx)
+	dataValue := reflect.ValueOf(info)
 	inviteUserViewModel := viewmodels.InviteUserViewModel{}
-	var inviteUserKeySlice []string     //to store the keys of slice
-	for _, inviteUserKey := range inviteUserdataValue.MapKeys() {
-		inviteUserKeySlice = append(inviteUserKeySlice, inviteUserKey.String())//to get keys
-		inviteUserValueSlice = append(inviteUserValueSlice, inviteUserInfo[inviteUserKey.String()])//to get values
-		inviteUserViewModel.Users = append(inviteUserViewModel.Users, inviteUserInfo[inviteUserKey.String()])
-
-
+	var keySlice []string     //to store the keys of slice
+	for _, key := range dataValue.MapKeys() {
+		keySlice = append(keySlice, key.String())
 	}
-	inviteUserViewModel.InviteUserKey = inviteUserKeySlice
+	for _, k := range keySlice {
+		var tempValueSlice []string
+		tempValueSlice = append(tempValueSlice, info[k].FirstName)
+		tempValueSlice = append(tempValueSlice, info[k].LastName)
+		tempValueSlice = append(tempValueSlice, info[k].EmailId)
+		tempValueSlice = append(tempValueSlice, info[k].UserType)
+		tempValueSlice = append(tempValueSlice, info[k].Status)
+		inviteUserViewModel.Values=append(inviteUserViewModel.Values,tempValueSlice)
+		tempValueSlice = tempValueSlice[:0]
+	}
+	inviteUserViewModel.Keys = keySlice
 	c.Data["vm"] = inviteUserViewModel
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/invite-user-details.html"
@@ -78,17 +74,15 @@ func (c *InviteUserController) InvitationDetails() {
 
 
 func (c *InviteUserController) DeleteInvitation() {
-	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	InviteUserKey :=c.Ctx.Input.Param(":inviteuserkey")
-	newContext := appengine.NewContext(r)
+	InviteUserId :=c.Ctx.Input.Param(":inviteuserid")
 	user := models.InviteUser{}
-	result :=user.DeleteInviteUser(c.AppEngineCtx, InviteUserKey)
+	result :=user.DeleteInviteUser(c.AppEngineCtx, InviteUserId)
 	switch result {
 	case true:
-		http.Redirect(w, r, "/invite", 301)
+		w.Write([]byte("true"))
 	case false:
-		log.Infof(newContext,"failed")
+		w.Write([]byte("false"))
 
 	}
 	//log.Infof(exam, "vvvvv: %v", user)
@@ -101,17 +95,15 @@ func (c *InviteUserController) DeleteInvitation() {
 func (c *InviteUserController) EditInvitation() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	InviteUserKey := c.Ctx.Input.Param(":inviteuserkey")
+	InviteUserId := c.Ctx.Input.Param(":inviteuserid")
 	user := models.InviteUser{}
-	newContext := appengine.NewContext(r)
-
 	if r.Method == "POST" {
 
 		user.FirstName = c.GetString("firstname")
 		user.LastName = c.GetString("lastname")
 		user.EmailId = c.GetString("emailid")
 		user.UserType = c.GetString("usertype")
-		dbStatus :=user.UpdateInviteUser(c.AppEngineCtx,InviteUserKey)
+		dbStatus :=user.UpdateInviteUser(c.AppEngineCtx, InviteUserId)
 
 		switch dbStatus {
 		case true:
@@ -123,8 +115,7 @@ func (c *InviteUserController) EditInvitation() {
 
 
 	} else {
-		editResult, DbStatus := user.EditInviteUser(c.AppEngineCtx, InviteUserKey)
-		log.Infof(newContext, "checking",editResult)
+		editResult, DbStatus := user.EditInviteUser(c.AppEngineCtx, InviteUserId)
 		switch DbStatus {
 		case true:
 			invitationViewModel := viewmodels.InviteUserViewModel{}
@@ -134,29 +125,18 @@ func (c *InviteUserController) EditInvitation() {
 			invitationViewModel.UserType = editResult.UserType
 			invitationViewModel.Status = editResult.Status
 			invitationViewModel.PageType = helpers.SelectPageForEdit
-			invitationViewModel.InviteId = InviteUserKey
+			invitationViewModel.InviteId = InviteUserId
 
 			c.Data["vm"] = invitationViewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-invite-user.html"
 		case false:
-			log.Infof(newContext, "failed")
+			log.Println("Server connection problem ")
 
 		}
 
 	}
 
-
-}
-
-//view the user
-
-func (c *InviteUserController) ViewInvitation() {
-	r := c.Ctx.Request
-	//var Key int
-	key:=c.Ctx.Input.Param(":Key")
-	exam := appengine.NewContext(r)
-	log.Infof(exam, "iddddddddd: %v", key)
 
 }
 

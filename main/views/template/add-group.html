@@ -13,11 +13,11 @@
 
 	<div class="col-md-12 main-content-wrapper padding-50-each">
 		<div class="clearfix">
-			<h1 class="h4">Add Group{{.vm}}</h1>
+			<h1 class="h4">Add Group</h1>
 
 				<div class="personal-details margin-top-20">
 
-						<form class="clearfix max-form-width" id="addgroupForm">
+						<form class="clearfix max-form-width" id="addgroupForm" method="post">
 
 						    <div class="form-group clearfix">						    	
 
@@ -38,9 +38,9 @@
 
 								<div class="col-sm-6">
 									<label for="addUser" class="">Add Users to Group</label>
-								    <select class="form-control sprites-arrow-down multiple-drop" id="addUser" name="addUser" multiple="multiple">
-                                        {{range $key, $val := .GroupArray.GroupMembers}}
-									       <option value="{{index $.GroupArray.GroupKey $key}}">{{$val}}</option> 
+								    <select class="form-control sprites-arrow-down multiple-drop" id="selectedUserIds" name="selectedUserIds" multiple="multiple">
+                                        {{range $key, $val := .vm.GroupMembers}}
+									       <option value="{{index $.vm.GroupKey $key}}">{{$val}}</option> 
                                         {{end}}
 								  	</select>
 								</div>

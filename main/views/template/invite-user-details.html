@@ -1,271 +1,53 @@
 /*Created By Farsana*/
 
-<title>User Details</title>
-
-<head>
-	<script type="text/javascript">
+<script type="text/javascript">
        var vm = {{.vm}};
 </script>
-	<script src="static/js/custom/invite-user-details.js"></script>
-
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
-</head>
-<div class="col-md-12 main-content-wrapper padding-50-each">
-	<div class="clearfix">
-		<h1 class="h4">User Details </h1>
-			<div class="personal-details margin-top-20">
-
-			<div class="table-wrapper">
-				<table id="example" class="display" width="100%"></table>
-
-				<!--<table class="table table-striped table-bordered   dt-responsive nowrap" id="tbl_details">
-					<thead>
-					<tr>
-						<th>First Name</th>
-						<th>Last Name</th>
-						<th>Email</th>
-						<th>User Type</th>
-						<th>Status</th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr>
-						<td>Helen</td>
-						<td>Abddv</td>
-						<td>john@example.com</td>
-						<td>Administrator</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Invited</span>
-								<span class="icn">
-							        			<i class="fa fa-eye" aria-hidden="true"></i>
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-
-					<tr>
-						<td>Helen</td>
-						<td>Abddv</td>
-						<td>john@example.com</td>
-						<td>Administrator</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Accepted</span>
-								<span class="icn">
-							        			<i class="fa fa-eye" aria-hidden="true"></i>
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-
-					<tr>
-						<td>Helen</td>
-						<td>Abddv</td>
-						<td>john@example.com</td>
-						<td>Administrator</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Accepted</span>
-								<span class="icn">
-							        			<i class="fa fa-eye" aria-hidden="true"></i>
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>Helen</td>
-						<td>Abddv</td>
-						<td>john@example.com</td>
-						<td>Administrator</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Accepted</span>
-								<span class="icn">
-							        			<i class="fa fa-eye" aria-hidden="true"></i>
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>Helen</td>
-						<td>Abddv</td>
-						<td>john@example.com</td>
-						<td>Administrator</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Accepted</span>
-								<span class="icn">
-							        			<i class="fa fa-eye" aria-hidden="true"></i>
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>Helen</td>
-						<td>Abddv</td>
-						<td>john@example.com</td>
-						<td>Administrator</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Accepted</span>
-								<span class="icn">
-							        			<i class="fa fa-eye" aria-hidden="true"></i>
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>Helen</td>
-						<td>Abddv</td>
-						<td>john@example.com</td>
-						<td>Administrator</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Accepted</span>
-								<span class="icn">
-							        			<i class="fa fa-eye" aria-hidden="true"></i>
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>Helen</td>
-						<td>Abddv</td>
-						<td>john@example.com</td>
-						<td>Administrator</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Accepted</span>
-								<span class="icn">
-							        			<i class="fa fa-eye" aria-hidden="true"></i>
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>Helen</td>
-						<td>Abddv</td>
-						<td>john@example.com</td>
-						<td>Administrator</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Accepted</span>
-								<span class="icn">
-							        			<i class="fa fa-eye" aria-hidden="true"></i>
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>Helen</td>
-						<td>Abddv</td>
-						<td>john@example.com</td>
-						<td>Administrator</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Accepted</span>
-								<span class="icn">
-							        			<i class="fa fa-eye" aria-hidden="true"></i>
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>Helen</td>
-						<td>Abddv</td>
-						<td>john@example.com</td>
-						<td>Administrator</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Accepted</span>
-								<span class="icn">
-							        			<i class="fa fa-eye" aria-hidden="true"></i>
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>Helen</td>
-						<td>Abddv</td>
-						<td>john@example.com</td>
-						<td>Administrator</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Accepted</span>
-								<span class="icn">
-							        			<i class="fa fa-eye" aria-hidden="true"></i>
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>Helen</td>
-						<td>Abddv</td>
-						<td>john@example.com</td>
-						<td>Administrator</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Accepted</span>
-								<span class="icn">
-							        			<i class="fa fa-eye" aria-hidden="true"></i>
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>Helen</td>
-						<td>Abddv</td>
-						<td>john@example.com</td>
-						<td>Administrator</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Accepted</span>
-								<span class="icn">
-							        			<i class="fa fa-eye" aria-hidden="true"></i>
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-					</tbody>
-				</table>-->
-			</div>
-
-		</div>
-
-	</div>
-
-</div>
+<script src="static/js/custom/invite-user-details.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
-<script>
+    <div class="col-md-12 main-content-wrapper padding-50-each">
+        <div class="clearfix">
+            <h1 class="h4">Invite User Details </h1>
+                <div class="personal-details margin-top-20">
 
-		$('#tbl_details').dataTable();
-</script>
+                    <div class="table-wrapper">
+                        <table id="inviteuser-table" class="display" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>User Type</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+        </div>
+
+    </div>
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>Are you sure about this?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="confirm">Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

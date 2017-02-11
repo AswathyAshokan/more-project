@@ -5,23 +5,24 @@ import (
 	"log"
 
 	"golang.org/x/net/context"
-
 )
 
 type Job   struct {
 
 	CustomerName	string
-	JobName		string
+	JobName	string
 	JobNumber	string
 	NumberOfTask	string
 	Status		string
 	CurrentDate	int64
 }
-func (m *Job) AddJobToDB( ctx context.Context)(bool)  {
 
+
+func (m *Job) AddJobToDB( ctx context.Context)(bool)  {
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
 		log.Println("Connection error:",err)
+		return false
 	}
 	_, err = dB.Child("Job").Push(m)
 	if err!=nil{
@@ -29,9 +30,9 @@ func (m *Job) AddJobToDB( ctx context.Context)(bool)  {
 		return false
 	}
 	return true
-
-
 }
+
+
 func (m *Job ) RetrieveJobFromDB(ctx context.Context)(bool,map[string]Job) {
 	v := map[string]Job {}
 	dB, err := GetFirebaseClient(ctx,"")
@@ -45,6 +46,8 @@ func (m *Job ) RetrieveJobFromDB(ctx context.Context)(bool,map[string]Job) {
 
 
 }
+
+
 func (m *Job) DeleteJobFromDB(ctx context.Context, jobId string)(bool)  {
 
 	dB, err := GetFirebaseClient(ctx,"")
@@ -59,6 +62,8 @@ func (m *Job) DeleteJobFromDB(ctx context.Context, jobId string)(bool)  {
 	}
 	return true
 }
+
+
 func (m *Job ) RetrieveCustomerFromDB(ctx context.Context)(bool,map[string]Job) {
 	v := map[string]Job {}
 	dB, err := GetFirebaseClient(ctx,"")
@@ -69,9 +74,9 @@ func (m *Job ) RetrieveCustomerFromDB(ctx context.Context)(bool,map[string]Job) 
 	}
 	log.Println( v)
 	return true,v
-
-
 }
+
+
 func (m *Job)RetrieveCustomerNameFromDB(ctx context.Context, customerId[] string)([] string) {
 
 	c := Job{}
@@ -90,6 +95,8 @@ func (m *Job)RetrieveCustomerNameFromDB(ctx context.Context, customerId[] string
 	//log.Println("There are "+v.getChildrenCount());
 
 }
+
+
 func (m *Job) RetrieveJobDetailFromDB(ctx context.Context, jobId string)(bool, Job) {
 	c := Job{}
 	dB, err := GetFirebaseClient(ctx,"")
@@ -102,6 +109,8 @@ func (m *Job) RetrieveJobDetailFromDB(ctx context.Context, jobId string)(bool, J
 	//log.Println("There are "+v.getChildrenCount());
 
 }
+
+
 func (m *Job) UpdateJobToDB( ctx context.Context,jobId string)(bool)  {
 
 
@@ -118,4 +127,3 @@ func (m *Job) UpdateJobToDB( ctx context.Context,jobId string)(bool)  {
 
 
 }
-

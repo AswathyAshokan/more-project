@@ -49,7 +49,7 @@ $().ready(function() {
         submitHandler: function(){//to pass all data of a form serial
             if (vm.PageType == "edit"){
 	                var formData = $("#addcustomerForm").serialize();
-                    var customerId = vm.customeId;
+                    var customerId = vm.CustomerId;
                 	         $.ajax({
 
                 		    	url:'/customer/'+ customerId + '/edit',

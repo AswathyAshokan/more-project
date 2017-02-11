@@ -21,25 +21,19 @@ func init() {
 	//Farsana
 	beegae.Router("/customer/add", &controllers.CustomerController{}, "*:AddCustomer")
 	beegae.Router("/customer", &controllers.CustomerController{}, "*:CustomerDetails")
-	beegae.Router("/customer/:customerkey/delete", &controllers.CustomerController{}, "*:DeleteCustomer")
-	beegae.Router("/customer/:customerkey/edit", &controllers.CustomerController{}, "*:EditCustomer")
-	//beegae.Router("/customer/:customerkey/view", &controllers.CustomerController{}, "*:ViewCustomer")
+	beegae.Router("/customer/:customerid/delete", &controllers.CustomerController{}, "*:DeleteCustomer")
+	beegae.Router("/customer/:customerid/edit", &controllers.CustomerController{}, "*:EditCustomer")
+
 	beegae.Router("/group/add", &controllers.GroupController{}, "*:AddGroup")
 	beegae.Router("/group", &controllers.GroupController{}, "*:GroupDetails")
-	beegae.Router("/group/:groupkey/delete", &controllers.GroupController{}, "*:DeleteGroup")
-	beegae.Router("/group/:groupkey/edit", &controllers.GroupController{}, "*:EditGroup")
+	beegae.Router("/group/:groupId/delete", &controllers.GroupController{}, "*:DeleteGroup")
+	beegae.Router("/group/:groupId/edit", &controllers.GroupController{}, "*:EditGroup")
+
 	beegae.Router("/invite/add", &controllers.InviteUserController{}, "*:AddInvitation")
 	beegae.Router("/invite", &controllers.InviteUserController{}, "*:InvitationDetails")
-	beegae.Router("/invite/:inviteuserkey/delete", &controllers.InviteUserController{}, "*:DeleteInvitation")
-	beegae.Router("/invite/:inviteuserkey/edit", &controllers.InviteUserController{}, "*:EditInvitation")
-	//beegae.Router("/group/:groupkey/edit", &controllers.GroupController{}, "*:EditGroup")
-	//beegae.Router("/group/:groupkey/view", &controllers.GroupController{}, "*:ViewGroup")
-	beegae.Router("/invite/add", &controllers.InviteUserController{}, "*:AddInvitation")
-	beegae.Router("/invite", &controllers.InviteUserController{}, "*:InvitationDetails")
-	beegae.Router("/invite/:inviteuserkey/delete", &controllers.InviteUserController{}, "*:DeleteInvitation")
-	//beegae.Router("/invite/:inviteuserkey/edit", &controllers.InviteUserController{}, "*:EditInvitation")
-	//beegae.Router("/invite/:inviteuserkey/view", &controllers.InviteUserController{}, "*:ViewInvitation")
-	beegae.Router("/invite/:inviteuserkey/delete", &controllers.InviteUserController{}, "*:DeleteInvitation")
+	beegae.Router("/invite/:inviteuserid/delete", &controllers.InviteUserController{}, "*:DeleteInvitation")
+	beegae.Router("/invite/:inviteuserid/edit", &controllers.InviteUserController{}, "*:EditInvitation")
+
 
 	//Aswathy
 	beegae.Router("/contact/add", &controllers.ContactUserController{},"*:LoadContact")

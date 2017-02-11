@@ -46,10 +46,10 @@ func(this *InviteUser) DisplayUser(ctx context.Context) map[string]InviteUser {
 
 //delete a field
 
-func(this *InviteUser) DeleteInviteUser(ctx context.Context,InviteUserKey string) bool{
+func(this *InviteUser) DeleteInviteUser(ctx context.Context, InviteUserId string) bool{
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/User/"+InviteUserKey).Remove()
+	err = db.Child("/User/"+ InviteUserId).Remove()
 	if err != nil {
 		log.Fatal(err)
 		return  false
@@ -60,11 +60,11 @@ func(this *InviteUser) DeleteInviteUser(ctx context.Context,InviteUserKey string
 
 //edit a record
 
-func(this *InviteUser) EditInviteUser(ctx context.Context,InviteUserKey string) (InviteUser,bool){
-	log.Println("invite user key:",InviteUserKey)
+func(this *InviteUser) EditInviteUser(ctx context.Context, InviteUserId string) (InviteUser,bool){
+	log.Println("invite user key:", InviteUserId)
 	value := InviteUser{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/User/"+InviteUserKey).Value(&value)
+	err = db.Child("/User/"+ InviteUserId).Value(&value)
 	log.Println("values:",value)
 	if err != nil {
 		log.Fatal(err)

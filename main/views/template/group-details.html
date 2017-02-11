@@ -1,128 +1,33 @@
 /*Created By Farsana*/
-
-<title>Group Details</title>
-
-<head>
-	<script type="text/javascript">
-       var GroupArray = {{.GroupArray}};
+<script type="text/javascript">
+       var vm = {{.vm}};
 </script>
-	<script src="static/js/custom/group-details.js"></script>
+<script src="static/js/custom/group-details.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
-</head>
 <div class="col-md-12 main-content-wrapper padding-50-each">
 	<div class="clearfix">
 		<h1 class="h4">Group Details </h1>
 		<div class="personal-details margin-top-20">
 
 			<div class="table-wrapper">
-				<table id="example" class="display" width="100%"></table>
+				<table id="group-table" class="display" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Group Name</th>
+                            <th>Group Members</th>
+                            <th>Users</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
 
 
-				<!--<table class="table table-striped table-bordered   dt-responsive nowrap" >
-					<thead>
-					<tr>
-						<th>Group Name</th>
-						<th>Number of Users</th>
-						<th>Users Assigned</th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr>
-						<td>Jithin</td>
-						<td>5</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Abcdefg, Abcdefg, Abcdefg, Abcdefg, Abcdefg</span>
-								<span class="icn">
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-
-					<tr>
-						<td>Jithin</td>
-						<td>5</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Abcdefg, Abcdefg, Abcdefg, Abcdefg, Abcdefg</span>
-								<span class="icn">
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>Jithin</td>
-						<td>5</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Abcdefg, Abcdefg, Abcdefg, Abcdefg, Abcdefg</span>
-								<span class="icn">
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>Jithin</td>
-						<td>5</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Abcdefg, Abcdefg, Abcdefg, Abcdefg, Abcdefg</span>
-								<span class="icn">
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>Jithin</td>
-						<td>5</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Abcdefg, Abcdefg, Abcdefg, Abcdefg, Abcdefg</span>
-								<span class="icn">
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>Jithin</td>
-						<td>5</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Abcdefg, Abcdefg, Abcdefg, Abcdefg, Abcdefg</span>
-								<span class="icn">
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>Jithin</td>
-						<td>5</td>
-						<td>
-							<div class="edit-wrapper">
-								<span>Abcdefg, Abcdefg, Abcdefg, Abcdefg, Abcdefg</span>
-								<span class="icn">
-							        			<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-							        			<i class="fa fa-trash-o" aria-hidden="true"></i>
-							        		</span>
-							</div>
-						</td>
-					</tr>
-
-					</tbody>
-				</table>-->
+				
 			</div>
 
 		</div>
@@ -130,12 +35,20 @@
 	</div>
 
 </div>
-<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
-<script>
-
-		$('#tbl_details').dataTable();
-	</script>
-
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>Are you sure about this?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="confirm">Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

@@ -5,11 +5,10 @@ import (
 	//"fmt"
 	"app/passporte/models"
 	//"app/passporte/viewmodels"
-	"google.golang.org/appengine/log"
-	"google.golang.org/appengine"
+	"log"
 	"reflect"
 	"app/passporte/viewmodels"
-	"net/http"
+
 	"app/passporte/helpers"
 )
 
@@ -28,17 +27,15 @@ func (c *CustomerController) AddCustomer() {
 	if r.Method == "POST" {
 
 		customer.CustomerName = c.GetString("customername")
-		context := appengine.NewContext(r)
-		log.Infof(context, "Values of struct: %v", customer.CustomerName )
+
 		customer.ContactPerson = c.GetString("contactperson")
 		customer.Address = c.GetString("address")
 		customer.Phone = c.GetString("phone")
 		customer.Email = c.GetString("email")
 		customer.State = c.GetString("state")
 		customer.ZipCode = c.GetString("zipcode")
-		log.Infof(context, "Values of struct: %v", customer)
+
 		dbStatus := customer.AddCustomersToDb(c.AppEngineCtx)
-		log.Infof(context, "fafh",dbStatus )
 
 		switch dbStatus {
 		case true:
@@ -63,23 +60,31 @@ func (c *CustomerController) AddCustomer() {
 
 
 func (c *CustomerController) CustomerDetails() {
-	r := c.Ctx.Request
-	NewContext := appengine.NewContext(r)
 
 	customer := models.Customer{}
-	CustomerInfo := customer.DisplayCustomer(c.AppEngineCtx)
-	CustomerDataValue := reflect.ValueOf(CustomerInfo)
-	var CustomerValueSlice []models.Customer // to store data values from slice
 	CustomerViewModel := viewmodels.Customer{}
-	var CustomerKeySlice []string	// to store the key of a slice
-	for _, CustomerKey := range CustomerDataValue.MapKeys() {
-		CustomerKeySlice = append(CustomerKeySlice, CustomerKey.String())//to get keys
-		CustomerValueSlice = append(CustomerValueSlice, CustomerInfo[CustomerKey.String()])//to get values
-		CustomerViewModel.Customers = append(CustomerViewModel.Customers, CustomerInfo[CustomerKey.String()])
-
+	info := customer.DisplayCustomer(c.AppEngineCtx)
+	dataValue := reflect.ValueOf(info)
+	var keySlice []string
+	for _, key := range dataValue.MapKeys() {
+		keySlice = append(keySlice, key.String())
 	}
-	CustomerViewModel.CustomerKey = CustomerKeySlice
-	log.Infof(NewContext, "key of", CustomerViewModel)
+
+
+	for _, k := range keySlice {
+		var tempValueSlice []string
+		tempValueSlice = append(tempValueSlice, info[k].CustomerName)
+		tempValueSlice = append(tempValueSlice, info[k].Address)
+		tempValueSlice = append(tempValueSlice, info[k].State)
+		tempValueSlice = append(tempValueSlice, info[k].ZipCode)
+		tempValueSlice = append(tempValueSlice, info[k].Email)
+		tempValueSlice = append(tempValueSlice, info[k].Phone)
+		tempValueSlice = append(tempValueSlice, info[k].ContactPerson)
+		CustomerViewModel.Values=append(CustomerViewModel.Values,tempValueSlice)
+		tempValueSlice = tempValueSlice[:0]
+	}
+
+	CustomerViewModel.Keys = keySlice
 	c.Data["vm"] = CustomerViewModel
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/customer-details.html"
@@ -94,17 +99,17 @@ func (c *CustomerController) DeleteCustomer() {
 
 
 
-	r := c.Ctx.Request
+
 	w := c.Ctx.ResponseWriter
-	customerKey :=c.Ctx.Input.Param(":customerkey")
-	newContext := appengine.NewContext(r)
+	customerKey :=c.Ctx.Input.Param(":customerid")
+
 	customer := models.Customer{}
 	result :=customer.DeleteCustomer(c.AppEngineCtx, customerKey)
 	switch result {
 	case true:
-		http.Redirect(w, r, "/customer", 301)
+		w.Write([]byte("true"))
 	case false:
-		log.Infof(newContext,"failed")
+		w.Write([]byte("false"))
 
 	}
 
@@ -120,8 +125,8 @@ func (c *CustomerController) EditCustomer() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	customer := models.Customer{}
-	customerKey := c.Ctx.Input.Param(":customerkey")
-	user := models.InviteUser{}
+	customerId := c.Ctx.Input.Param(":customerid")
+
 	if r.Method == "POST" {
 
 		customer.CustomerName = c.GetString("customername")
@@ -131,7 +136,8 @@ func (c *CustomerController) EditCustomer() {
 		customer.Phone = c.GetString("phone")
 		customer.ZipCode = c.GetString("zipcode")
 		customer.State = c.GetString("state")
-		dbStatus :=user.UpdateInviteUser(c.AppEngineCtx, customerKey)
+		log.Println("new name",customer.CustomerName)
+		dbStatus :=customer.UpdateCustomerDetails(c.AppEngineCtx, customerId)
 
 		switch dbStatus {
 		case true:
@@ -143,8 +149,8 @@ func (c *CustomerController) EditCustomer() {
 
 
 	} else {
-		editResult, DbStatus := customer.EditCustomer(c.AppEngineCtx, customerKey)
-		context := appengine.NewContext(r)
+		editResult, DbStatus := customer.EditCustomer(c.AppEngineCtx, customerId)
+
 		switch DbStatus {
 		case true:
 			customerViewModel := viewmodels.Customer{}
@@ -156,13 +162,13 @@ func (c *CustomerController) EditCustomer() {
 			customerViewModel.CustomerName= editResult.CustomerName
 			customerViewModel.Phone= editResult.Phone
 			customerViewModel.PageType = helpers.SelectPageForEdit
-			customerViewModel.CustomerId = customerKey
+			customerViewModel.CustomerId = customerId
 			c.Data["vm"] = customerViewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-customer.html"
 		case false:
 
-			log.Infof(context,"failed")
+
 		}
 
 	}

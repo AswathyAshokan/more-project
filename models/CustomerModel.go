@@ -67,11 +67,11 @@ func(this *Customer) DeleteCustomer(ctx context.Context,customerKey string) bool
 
 
 
-func(this *Customer) EditCustomer(ctx context.Context,customerKey string) (Customer,bool){
+func(this *Customer) EditCustomer(ctx context.Context,customerId string) (Customer,bool){
 
 	value := Customer{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Customer/"+customerKey).Value(&value)
+	err = db.Child("/Customer/"+customerId).Value(&value)
 	if err != nil {
 		log.Fatal(err)
 		return value , false
@@ -80,11 +80,11 @@ func(this *Customer) EditCustomer(ctx context.Context,customerKey string) (Custo
 
 }
 
-func(this *Customer) UpdateCustomerDetails(ctx context.Context,customerKey string) (bool) {
+func(this *Customer) UpdateCustomerDetails(ctx context.Context,customerId string) (bool) {
 
 
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Customer/"+ customerKey).Set(&this)
+	err = db.Child("/Customer/"+ customerId).Update(&this)
 
 	if err != nil {
 		log.Fatal(err)

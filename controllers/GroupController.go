@@ -6,25 +6,34 @@ import (
 	//"google.golang.org/appengine/log"
 	//"google.golang.org/appengine"
 	"reflect"
-	"net/http"
 	"log"
 	"app/passporte/helpers"
+	"strconv"
+	"bytes"
 )
 
 type GroupController struct {
 	BaseController
 }
+
 // Add group to database
-
-
 func (c *GroupController) AddGroup() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	if r.Method == "POST" {
-
+		log.Println("I am Here")
 		group := models.Group{}
+		members := models.GroupMembers{}
 		group.GroupName = c.GetString("groupName")
-		group.GroupMembers = c.GetStrings("addUser")
+		tempGroupId := c.GetStrings("selectedUserIds")
+		tempGroupMembers := c.GetStrings("selectedUserNames")
+		log.Println(len(tempGroupMembers))
+		for i := 0; i < len(tempGroupId); i++ {
+			members.MemberId = tempGroupId[i]
+			members.MemberName = tempGroupMembers[i]
+			group.Members = append(group.Members, members)
+		}
+		log.Println(tempGroupId, tempGroupMembers)
 		log.Println(group)
 		dbStatus := group.AddGroupToDb(c.AppEngineCtx)
 		switch dbStatus {
@@ -32,28 +41,8 @@ func (c *GroupController) AddGroup() {
 			w.Write([]byte("true"))
 		case false:
 			w.Write([]byte("false"))
-
-
 		}
 	} else {
-		/* for users cntain info
-		groupUser := models.UserInformation{}
-		GroupMembers :=groupUser.GetUsersForDropdown(c.AppEngineCtx)  // retrive all the keys of a users
-		log.Print("ffffff", GroupMembers)
-		groupDataValue := reflect.ValueOf(GroupMembers)	// To store data values of slice
-		var groupKeySlice []string	// To store keys of the slice
-		for _, groupKey := range groupDataValue.MapKeys() {
-			groupKeySlice = append(groupKeySlice, groupKey.String())
-
-		}
-		log.Print("data",groupKeySlice)
-		infoUser := models.UserInformation{}
-		// for retrieve the names of the users
-		GroupMemberName := infoUser.TakeGroupMemberName(c.AppEngineCtx,groupKeySlice)
-		log.Print("cccccc", GroupMemberName)*/
-
-
-
 		groupUser := models.Group{}
 		GroupMembers :=groupUser.GetUsersForDropdown(c.AppEngineCtx)  // retrive all the keys of a users
 		groupDataValue := reflect.ValueOf(GroupMembers)	// To store data values of slice
@@ -62,41 +51,64 @@ func (c *GroupController) AddGroup() {
 			groupKeySlice = append(groupKeySlice, groupKey.String())
 
 		}
-
 		group := models.Group{}
 		GroupMemberName,dbStatus:= group.TakeGroupMemberName(c.AppEngineCtx,groupKeySlice)
 		switch dbStatus {
 		case true:
-			groupViewModel := viewmodels.Group{}
+			groupViewModel := viewmodels.AddGroupViewModel{}
 			groupViewModel.GroupMembers = GroupMemberName
 			groupViewModel.GroupKey = groupKeySlice
 			groupViewModel.PageType = helpers.SelectPageForAdd
-			c.Data["GroupArray"] = groupViewModel
+			c.Data["vm"] = groupViewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-group.html"
 		case false:
+			log.Println("Server connection error")
 		}
 	}
 
 }
-// show the details of whole group from database
 
+
+// show the details of whole group from database
 func (c *GroupController) GroupDetails() {
 	//r := c.Ctx.Request
 	group := models.Group{}
-	groupInfo := group.DisplayGroup(c.AppEngineCtx)
-	GroupDataValue := reflect.ValueOf(groupInfo)
-	var GroupValueSlice []models.Group
-	GroupViewModel := viewmodels.Group{}
-	var GroupKeySlice []string
-	for _, GroupKey := range GroupDataValue.MapKeys() {
-		GroupKeySlice = append(GroupKeySlice, GroupKey.String())//to get keys
-		GroupValueSlice = append(GroupValueSlice, groupInfo[GroupKey.String()])//to get values
-		GroupViewModel.Groups = append(GroupViewModel.Groups, groupInfo[GroupKey.String()])
-
+	info := group.DisplayGroup(c.AppEngineCtx)
+	dataValue := reflect.ValueOf(info)
+	groupViewModel := viewmodels.GroupList{}
+	var keySlice []string
+	for _, key := range dataValue.MapKeys() {
+		keySlice = append(keySlice, key.String())
 	}
-	GroupViewModel.GroupKey = GroupKeySlice
-	c.Data["GroupArray"] = GroupViewModel
+	for _, k := range keySlice {
+		var tempValueSlice []string
+		membersNumber := len(info[k].Members)
+		tempValueSlice = append(tempValueSlice, info[k].GroupName)
+		tempValueSlice = append(tempValueSlice, strconv.Itoa(membersNumber))
+		tempUserNames := ""
+		log.Println(len(tempUserNames))
+		var buffer bytes.Buffer
+		for i := 0; i < membersNumber; i++ {
+			if len(tempUserNames) == 0{
+				buffer.WriteString(info[k].Members[i].MemberName)
+				tempUserNames = buffer.String()
+				buffer.Reset()
+			} else {
+				buffer.WriteString(tempUserNames)
+				buffer.WriteString(", ")
+				buffer.WriteString(info[k].Members[i].MemberName)
+				tempUserNames = buffer.String()
+				buffer.Reset()
+			}
+		}
+		tempValueSlice = append(tempValueSlice, tempUserNames)
+		groupViewModel.Values = append(groupViewModel.Values, tempValueSlice)
+
+		tempValueSlice = tempValueSlice[:0]
+	}
+	groupViewModel.Keys = keySlice
+	c.Data["vm"] = groupViewModel
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/group-details.html"
 }
@@ -104,16 +116,17 @@ func (c *GroupController) GroupDetails() {
 
 func (c *GroupController) DeleteGroup() {
 
-	r := c.Ctx.Request
+	log.Println("deleteion")
 	w := c.Ctx.ResponseWriter
-	GroupKey :=c.Ctx.Input.Param(":groupkey")
+	groupId :=c.Ctx.Input.Param(":groupId")
 	group := models.Group{}
-	dbStatus :=group.DeleteGroup(c.AppEngineCtx, GroupKey)
+	dbStatus :=group.DeleteGroup(c.AppEngineCtx, groupId)
+	log.Println("deletion completed")
 	switch dbStatus {
 	case true:
-		http.Redirect(w, r, "/group", 301)
+		w.Write([]byte("true"))
 	case false:
-		log.Println("false")
+		w.Write([]byte("false"))
 
 	}
 
@@ -124,15 +137,15 @@ func (c *GroupController) DeleteGroup() {
 func (c *GroupController) EditGroup() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	groupKey := c.Ctx.Input.Param(":groupkey")
+	groupId := c.Ctx.Input.Param(":groupId")
 	group := models.Group{}
 
 	if r.Method == "POST" {
 
 		group.GroupName = c.GetString("groupName")
-		group.GroupMembers = c.GetStrings("addUser")
-		dbStatus := group.UpdateGroupDetails(c.AppEngineCtx, groupKey)
-
+		//group.Members = c.GetStrings("selectedUserIds")
+		log.Println("group data",group)
+		dbStatus := group.UpdateGroupDetails(c.AppEngineCtx, groupId)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -143,43 +156,44 @@ func (c *GroupController) EditGroup() {
 
 
 	} else {
-
 		groupUser := models.Group{}
+		groupViewModel := viewmodels.EditGroupViewModel{}
 		GroupMembers :=groupUser.GetUsersForDropdown(c.AppEngineCtx)  // retrive all the keys of a users
 		groupDataValue := reflect.ValueOf(GroupMembers)	// To store data values of slice
 		var groupKeySlice []string	// To store keys of the slice
 		for _, groupKey := range groupDataValue.MapKeys() {
 			groupKeySlice = append(groupKeySlice, groupKey.String())
-		}
 
+		}
 		group := models.Group{}
-		groupMemberName,dbStatus := group.TakeGroupMemberName(c.AppEngineCtx,groupKeySlice)
+
+		// Getting all Data for page load...
+		GroupMemberName,dbStatus:= group.TakeGroupMemberName(c.AppEngineCtx,groupKeySlice)
 		switch dbStatus {
 		case true:
-			groupViewModel := viewmodels.EditGroupViewModel{}
-			groupViewModel.GroupMembers = groupMemberName
+			groupViewModel.GroupMembers = GroupMemberName
 			groupViewModel.GroupKey = groupKeySlice
-
+			groupViewModel.PageType = helpers.SelectPageForEdit
 		case false:
-
+			log.Println(helpers.ServerConnectionError)
 		}
 
-		editResult, dbStatus := group.EditGroupDetails(c.AppEngineCtx, groupKey)
+		//Selecting Data which is to be edited...
+		groupDetails, dbStatus := group.GetGroupDetailsById(c.AppEngineCtx, groupId)
 		switch dbStatus {
 		case true:
-			groupViewModel := viewmodels.EditGroupViewModel{}
-			groupViewModel.GroupName = editResult.GroupName
-			groupViewModel.GroupMembers = editResult.GroupMembers
+			log.Println(groupDetails)
+			groupViewModel.GroupNameToEdit = groupDetails.GroupName
+			//groupViewModel.GroupMembersToEdit = groupDetails.GroupMembers
 			groupViewModel.PageType = helpers.SelectPageForEdit
-			groupViewModel.GroupId = groupKey
+			groupViewModel.GroupId = groupId
 			c.Data["vm"] = groupViewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-group.html"
 		case false:
-			log.Println("failed")
+			log.Println(helpers.ServerConnectionError)
 
 		}
-
 	}
 
 

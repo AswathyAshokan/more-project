@@ -1,23 +1,24 @@
 package viewmodels
 
-import (
-	"app/passporte/models"
-)
-type Group struct {
-	Groups       	[]models.Group
-	GroupName    	string
+type GroupList struct {
+	Values       [][]string
+	Keys         []string
+}
+
+
+type AddGroupViewModel struct {
 	GroupMembers 	[]string
 	GroupKey     	[]string
 	PageType	string
-	SelectedUser    string
 }
 
 //
 
 type EditGroupViewModel struct {
-	GroupMembers 	[]string
-	GroupKey     	[]string
-	PageType	string
-	GroupName	string
-	GroupId		string
+	GroupMembers    	[]string
+	GroupKey        	[]string
+	GroupMembersToEdit	[]string
+	PageType        	string
+	GroupNameToEdit 	string
+	GroupId                 string
 }
