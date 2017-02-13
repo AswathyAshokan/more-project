@@ -72,9 +72,6 @@ func (c *TaskController)LoadTask() {
 		case false:
 
 		}
-
-
-
 		dbStatus, taskUserValue :=user.RetrieveUserFromDB(c.AppEngineCtx)
 		log.Println("user database value",taskUserValue)
 		switch dbStatus {
@@ -216,6 +213,7 @@ func (c *TaskController)LoadEditTask() {
 
 		task:=models.Task{}
 		job :=models.Job{}
+		user :=models.User{}
 		taskId := c.Ctx.Input.Param(":taskId")
 		dbStatus, taskDetail := task.RetrieveTaskDetailFromDB(c.AppEngineCtx, taskId)
 		switch dbStatus {
@@ -240,6 +238,15 @@ func (c *TaskController)LoadEditTask() {
 			}
 			contactsName := contact.RetrieveContactNameFromDB(c.AppEngineCtx, keySlice)
 			viewModel.ContactNameArray = contactsName
+			_, taskUserValue :=user.RetrieveUserFromDB(c.AppEngineCtx)
+			dataValue = reflect.ValueOf(taskUserValue)
+
+			for _, key := range dataValue.MapKeys() {
+					keySlice = append(keySlice, key.String())
+			}
+			userValue := user.RetrieveUserNameFromDB(c.AppEngineCtx, keySlice)
+			log.Println("user name",userValue)
+			viewModel.GroupNameArray = userValue
 			viewModel.Key=keySlice
 			viewModel.PageType = helpers.SelectPageForEdit
 			viewModel.JobName = taskDetail.JobName

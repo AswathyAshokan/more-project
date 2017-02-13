@@ -9,7 +9,7 @@ $(function () {
     
     if(pageType == "edit") {
             
-       // document.getElementById("customerName").value = array.CustomerName;
+       
         document.getElementById("jobName").value = array.JobName;
         document.getElementById("taskName").value = array.TaskName;
         document.getElementById("taskLocation").value = array.TaskLocation;
@@ -37,6 +37,7 @@ var contactsValue;
   }
   }
 }
+
        
 $().ready(function() {
 
@@ -52,10 +53,7 @@ $().ready(function() {
        $("#taskDoneForm").validate({
          rules: {
             taskName: "required",
-            emailAddress: {
-                required: true,
-                email: true
-            },
+            jobName: "required",
             phoneNumber: {
                 required: true,
                 minlength : 10

@@ -1,15 +1,12 @@
 <title>Task Details</title>
-
-<head>
-
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
+     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
     <script type="text/javascript">
        var vm = {{.vm}};
    </script>
-    <script src="../static/js/custom/task-details.js" type="text/javascript" charset="utf-8"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
-	<head>
+    <script src="/static/js/custom/task-details.js" type="text/javascript" charset="utf-8"></script>
+   
 	<div class="col-md-12 main-content-wrapper padding-50-each">
 		<div class="clearfix">
 			<h1 class="h4" id="taskHead">Task Details</h1>
@@ -24,7 +21,7 @@
 						</select>
 					</div>
 					<div class="tbl-dropdown">
-						<select class="form-control sprites-arrow-down" id="r1">
+						<select class="form-control sprites-arrow-down" id="">
 							<option>All Customers</option>
 							<option>All Customers</option>
 						</select>
@@ -47,27 +44,21 @@
 				</div>
 
 			</div>
-
-
-
-
-		</div>
-
-
 	</div>
-        <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-body">
-                <p>Are you sure about this?</p>
+</div>
+<div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>Are you sure about this?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" id="confirm">Delete</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="confirm">Delete</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-    </div>
 </div>
     
 	

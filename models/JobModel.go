@@ -44,7 +44,6 @@ func (m *Job ) RetrieveJobFromDB(ctx context.Context)(bool,map[string]Job) {
 	log.Println( v)
 	return true,v
 
-
 }
 
 
