@@ -14,7 +14,7 @@ func init() {
 	beegae.Router("/register", &controllers.RegisterController{}, "*:Register")
 	beegae.Router("/nfc", &controllers.NfcController{},"*:NFCDetails")
 	beegae.Router("/nfc/add",&controllers.NfcController{},"*:AddNFC")
-	beegae.Router("/datatable",&controllers.NfcController{},"*:Datatable")
+	//beegae.Router("/datatable",&controllers.NfcController{},"*:Datatable")
 	beegae.Router("/nfc/:nfcId/delete",&controllers.NfcController{},"*:DeleteNFC")
 	beegae.Router("/nfc/:nfcId/edit",&controllers.NfcController{},"*:EditNFC")
 
