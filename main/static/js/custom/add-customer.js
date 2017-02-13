@@ -2,13 +2,15 @@
 
 $().ready(function() {
     if(vm.PageType == "edit"){        
-                document.getElementById("customername").value = vm.CustomerName;
-                document.getElementById("contactperson").value = vm.ContactPerson;
-                document.getElementById("email").value = vm.Email;
-                document.getElementById("phone").value = vm.Phone;
-                document.getElementById("address").value = vm.Address;
-                document.getElementById("state").value = vm.State;
-                document.getElementById("zipcode").value = vm.ZipCode;
+            document.getElementById("customername").value = vm.CustomerName;
+            document.getElementById("contactperson").value = vm.ContactPerson;
+            document.getElementById("email").value = vm.Email;
+            document.getElementById("phone").value = vm.Phone;
+            document.getElementById("address").value = vm.Address;
+            document.getElementById("state").value = vm.State;
+            document.getElementById("zipcode").value = vm.ZipCode;
+            document.getElementById("customerEdit").innerHTML = "Edit Customer"
+
                
     }
 	$("#addcustomerForm").validate({

@@ -8,6 +8,7 @@ $().ready(function() {
     if(vm.PageType == "edit"){ 
         var selectArray = vm.GroupMembersToEdit;
         document.getElementById("groupName").value = vm.GroupNameToEdit;
+        document.getElementById("groupHead").innerHTML = "Edit Group";
         $("#selectedUserIds").val(selectArray);
     }
 
