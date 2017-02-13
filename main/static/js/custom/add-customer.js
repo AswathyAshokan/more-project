@@ -70,7 +70,7 @@ $().ready(function() {
 
 
                 		     });
-	        } else {
+            } else {
                 var formData = $("#addcustomerForm").serialize();
 	            $.ajax({
                     url:'/customer/add',

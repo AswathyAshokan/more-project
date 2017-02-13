@@ -3,8 +3,6 @@ package controllers
 import (
 	"app/passporte/models"
 	"app/passporte/viewmodels"
-	//"google.golang.org/appengine/log"
-	//"google.golang.org/appengine"
 	"reflect"
 	"log"
 	"app/passporte/helpers"
@@ -27,14 +25,11 @@ func (c *GroupController) AddGroup() {
 		group.GroupName = c.GetString("groupName")
 		tempGroupId := c.GetStrings("selectedUserIds")
 		tempGroupMembers := c.GetStrings("selectedUserNames")
-		log.Println(len(tempGroupMembers))
 		for i := 0; i < len(tempGroupId); i++ {
 			members.MemberId = tempGroupId[i]
 			members.MemberName = tempGroupMembers[i]
 			group.Members = append(group.Members, members)
 		}
-		log.Println(tempGroupId, tempGroupMembers)
-		log.Println(group)
 		dbStatus := group.AddGroupToDb(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
@@ -68,7 +63,6 @@ func (c *GroupController) AddGroup() {
 	}
 
 }
-
 
 // show the details of whole group from database
 func (c *GroupController) GroupDetails() {
@@ -141,13 +135,29 @@ func (c *GroupController) EditGroup() {
 	group := models.Group{}
 
 	if r.Method == "POST" {
-
+		log.Println("1")
+		members := models.GroupMembers{}
 		group.GroupName = c.GetString("groupName")
-		//group.Members = c.GetStrings("selectedUserIds")
+		log.Println("2", group.GroupName)
+		tempGroupId := c.GetStrings("selectedUserIds")
+		log.Println("3", tempGroupId)
+		tempGroupMembers := c.GetStrings("selectedUserNames")
+		log.Println("4", tempGroupMembers)
+		for i := 0; i < len(tempGroupId); i++ {
+			log.Println("5")
+			members.MemberId = tempGroupId[i]
+			log.Println("6")
+			members.MemberName = tempGroupMembers[i]
+			log.Println("7")
+			group.Members = append(group.Members, members)
+			log.Println("8")
+		}
+		log.Println("9")
 		log.Println("group data",group)
 		dbStatus := group.UpdateGroupDetails(c.AppEngineCtx, groupId)
 		switch dbStatus {
 		case true:
+			//http.Redirect(w,r,"/group",301)
 			w.Write([]byte("true"))
 		case false:
 			w.Write([]byte("false"))
@@ -157,7 +167,7 @@ func (c *GroupController) EditGroup() {
 
 	} else {
 		groupUser := models.Group{}
-		groupViewModel := viewmodels.EditGroupViewModel{}
+		viewModel := viewmodels.EditGroupViewModel{}
 		GroupMembers :=groupUser.GetUsersForDropdown(c.AppEngineCtx)  // retrive all the keys of a users
 		groupDataValue := reflect.ValueOf(GroupMembers)	// To store data values of slice
 		var groupKeySlice []string	// To store keys of the slice
@@ -171,9 +181,9 @@ func (c *GroupController) EditGroup() {
 		GroupMemberName,dbStatus:= group.TakeGroupMemberName(c.AppEngineCtx,groupKeySlice)
 		switch dbStatus {
 		case true:
-			groupViewModel.GroupMembers = GroupMemberName
-			groupViewModel.GroupKey = groupKeySlice
-			groupViewModel.PageType = helpers.SelectPageForEdit
+			viewModel.GroupMembers = GroupMemberName
+			viewModel.GroupKey = groupKeySlice
+			viewModel.PageType = helpers.SelectPageForEdit
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
@@ -183,11 +193,16 @@ func (c *GroupController) EditGroup() {
 		switch dbStatus {
 		case true:
 			log.Println(groupDetails)
-			groupViewModel.GroupNameToEdit = groupDetails.GroupName
-			//groupViewModel.GroupMembersToEdit = groupDetails.GroupMembers
-			groupViewModel.PageType = helpers.SelectPageForEdit
-			groupViewModel.GroupId = groupId
-			c.Data["vm"] = groupViewModel
+			viewModel.GroupNameToEdit = groupDetails.GroupName
+			for i :=0; i<len(groupDetails.Members); i++{
+				viewModel.GroupMembersToEdit = append(viewModel.GroupMembersToEdit, groupDetails.Members[i].MemberId)
+			}
+			//groupViewModel.GroupMembersToEdit = groupDetails.GroupMembers[]
+			viewModel.PageType = helpers.SelectPageForEdit
+			viewModel.GroupId = groupId
+
+
+			c.Data["vm"] = viewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-group.html"
 		case false:
@@ -195,9 +210,6 @@ func (c *GroupController) EditGroup() {
 
 		}
 	}
-
-
-
 
 }
 

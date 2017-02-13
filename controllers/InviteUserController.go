@@ -33,8 +33,6 @@ func (c *InviteUserController) AddInvitation() {
 			w.Write([]byte("true"))
 		case false:
 			w.Write([]byte("false"))
-
-
 		}
 	} else {
 		c.Layout = "layout/layout.html"
@@ -43,7 +41,6 @@ func (c *InviteUserController) AddInvitation() {
 }
 
 func (c *InviteUserController) InvitationDetails() {
-
 	user := models.InviteUser{}
 	info := user.DisplayUser(c.AppEngineCtx)
 	dataValue := reflect.ValueOf(info)
@@ -70,9 +67,6 @@ func (c *InviteUserController) InvitationDetails() {
 
 //delete each users
 
-
-
-
 func (c *InviteUserController) DeleteInvitation() {
 	w := c.Ctx.ResponseWriter
 	InviteUserId :=c.Ctx.Input.Param(":inviteuserid")
@@ -85,9 +79,6 @@ func (c *InviteUserController) DeleteInvitation() {
 		w.Write([]byte("false"))
 
 	}
-	//log.Infof(exam, "vvvvv: %v", user)
-
-
 }
 
 //edit profile of each users
@@ -98,7 +89,6 @@ func (c *InviteUserController) EditInvitation() {
 	InviteUserId := c.Ctx.Input.Param(":inviteuserid")
 	user := models.InviteUser{}
 	if r.Method == "POST" {
-
 		user.FirstName = c.GetString("firstname")
 		user.LastName = c.GetString("lastname")
 		user.EmailId = c.GetString("emailid")
@@ -112,8 +102,6 @@ func (c *InviteUserController) EditInvitation() {
 			w.Write([]byte("false"))
 
 		}
-
-
 	} else {
 		editResult, DbStatus := user.EditInviteUser(c.AppEngineCtx, InviteUserId)
 		switch DbStatus {
@@ -134,10 +122,7 @@ func (c *InviteUserController) EditInvitation() {
 			log.Println("Server connection problem ")
 
 		}
-
 	}
-
-
 }
 
 

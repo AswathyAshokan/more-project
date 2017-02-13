@@ -4,9 +4,9 @@ type ContactUserViewModel  struct {
 	Values            	[][]string
 	Name        		string
 	Address     		string
-	State      		 string
+	State      		string
 	ZipCode     		string
-	Email      		 string
+	Email      		string
 	PhoneNumber 		string
 	CurrentDate 		int64
 	Status      		string

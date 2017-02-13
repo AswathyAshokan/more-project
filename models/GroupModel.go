@@ -105,6 +105,8 @@ func(m *Group) GetGroupDetailsById(ctx context.Context,groupKey string) (Group,b
 	groupDetails := Group{}
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("/Group/"+groupKey).Value(&groupDetails)
+	log.Println("hi",groupDetails)
+
 	if err != nil {
 		log.Fatal(err)
 		return groupDetails, false

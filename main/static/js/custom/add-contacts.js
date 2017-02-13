@@ -1,6 +1,5 @@
 
 /* Author :Aswathy Ashok */
-console.log(array.Name);
 var pageType = array.PageType;
 $(function () {
     if( pageType==  "edit") {
@@ -41,7 +40,6 @@ $(function () {
 			            equalTo :"#password"
                     }
                 },
-
                 messages: {
                     firstName: "Please enter your firstName",
                     lastName: "Please enter your lastName",
@@ -58,16 +56,13 @@ $(function () {
 			            minlength:"your phone number at least 10 digit long"
 		            },
                     emailAddress: "Please enter a valid email address"
-
                 },
 	            submitHandler: function() {
                     var form_data = $("#contactForm").serialize();
                     var contactId = array.ContactId
               
                  if(pageType ==  "edit"){
-                     
-                     
-                         $.ajax({
+                     $.ajax({
                              
 		                       url: '/contact/'+contactId+'/edit',
 		                       type: 'post',
@@ -83,22 +78,15 @@ $(function () {
 
                                             window.location = '/contact';
                                			} else {
-
-                               			    }
-
-		                       },
+                                            
+                                        }
+                              },
 				              error: function (request,status, error) {
        					            console.log(error);
     				          }
-		               });
-                    
-                        
-                    } else {
-
-				    
-                            
-
-				    $.ajax({
+                         });
+                 } else {
+                     $.ajax({
                         
 		                url: '/contact/add',
 		                type: 'post',
@@ -116,7 +104,7 @@ $(function () {
        					    console.log(error);
     				     }
 		             });
-            }
-         }
-        });
+                 }
+                }
+            });
   });

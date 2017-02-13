@@ -43,12 +43,7 @@ func (c *CustomerController) AddCustomer() {
 		case false:
 			w.Write([]byte("false"))
 
-
-
 		}
-
-		//http.Redirect(w, r, "/customer", 301)
-
 
 	} else {
 		c.Layout = "layout/layout.html"
@@ -60,7 +55,6 @@ func (c *CustomerController) AddCustomer() {
 
 
 func (c *CustomerController) CustomerDetails() {
-
 	customer := models.Customer{}
 	CustomerViewModel := viewmodels.Customer{}
 	info := customer.DisplayCustomer(c.AppEngineCtx)
@@ -90,10 +84,7 @@ func (c *CustomerController) CustomerDetails() {
 	c.TplName = "template/customer-details.html"
 }
 
-
-
 // delete each customer
-
 
 func (c *CustomerController) DeleteCustomer() {
 
@@ -113,13 +104,9 @@ func (c *CustomerController) DeleteCustomer() {
 
 	}
 
-
-
 }
 
-
 //edit profile of each users
-
 
 func (c *CustomerController) EditCustomer() {
 	r := c.Ctx.Request
@@ -170,11 +157,7 @@ func (c *CustomerController) EditCustomer() {
 
 
 		}
-
 	}
-
-
-
 
 }
 
