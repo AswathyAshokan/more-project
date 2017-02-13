@@ -17,7 +17,7 @@ type TaskViewModel  struct {
 	TaskDescription		string
 	UserNumber		string
 	Log			string
-	UserType		string
+	UserType		[]string
 	Contact			string
 	FitToWork		string
 	TaskId			string

@@ -38,7 +38,7 @@ func init() {
 	//Aswathy
 	beegae.Router("/contact/add", &controllers.ContactUserController{},"*:LoadContact")
 	beegae.Router("/contact", &controllers.ContactUserController{},"*:LoadContactdetail")
-	beegae.Router("/task/add", &controllers.TaskController{},"*:LoadTask")
+	beegae.Router("/task/add", &controllers.TaskController{},"*:AddNewTask")
 	beegae.Router("/task", &controllers.TaskController{},"*:LoadTaskDetail")
 	beegae.Router("/job/add", &controllers.JobController{},"*:LoadJob")
 	beegae.Router("/job", &controllers.JobController{},"*:LoadJobDetail")

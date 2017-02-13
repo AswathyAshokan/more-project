@@ -18,7 +18,7 @@ type TaskController struct {
 	BaseController
 }
 
-func (c *TaskController)LoadTask() {
+func (c *TaskController)AddNewTask() {
 	r := c.Ctx.Request
 	w :=c.Ctx.ResponseWriter
 	viewModel  := viewmodels.TaskViewModel{}
@@ -33,7 +33,7 @@ func (c *TaskController)LoadTask() {
 		task.TaskDescription = c.GetString("taskDescription")
 		task.UserNumber = c.GetString("users")
 		task.Log = c.GetString("log")
-		task.UserType = c.GetStrings("userOrGroup")
+		task.UsersOrGroups = c.GetStrings("userOrGroup")
 		tempContactId := c.GetStrings("contacts")
 
 		for i := 0; i < len(tempContactId); i++ {
@@ -56,11 +56,10 @@ func (c *TaskController)LoadTask() {
 		}
 
 	}else {
-		task:=models.Task{}
 		job :=models.Job{}
 		user :=models.User{}
 
-		dbStatus,tasks :=task.RetrieveJobFromDB(c.AppEngineCtx)
+		dbStatus,tasks :=models.GetAllJobs(c.AppEngineCtx)
 		switch dbStatus {
 
 		case true:
@@ -83,7 +82,6 @@ func (c *TaskController)LoadTask() {
 		switch dbStatus {
 
 		case true:
-
 			dataValue := reflect.ValueOf(taskUserValue)
 			var keySlice []string
 
@@ -94,6 +92,13 @@ func (c *TaskController)LoadTask() {
 			log.Println("user name",userValue)
 
 			viewModel.GroupNameArray = userValue
+			allGroups := models.GetAllGroupDetails(c.AppEngineCtx)
+			dataValue = reflect.ValueOf(allGroups)
+
+			for _, k := range dataValue.MapKeys() {
+				viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[k.String()].GroupName)
+			}
+
 		case false:
 		}
 		contact :=models.ContactUser{}
@@ -198,7 +203,7 @@ func (c *TaskController)LoadEditTask() {
 		task.TaskDescription = c.GetString("taskDescription")
 		task.UserNumber = c.GetString("users")
 		task.Log = c.GetString("log")
-		task.UserType = c.GetStrings("userOrGroup")
+		task.UsersOrGroups = c.GetStrings("userOrGroup")
 		tempContactId := c.GetStrings("contacts")
 		log.Println("contact details",tempContactId)
 		for i := 0; i < len(tempContactId); i++ {
@@ -230,7 +235,7 @@ func (c *TaskController)LoadEditTask() {
 		switch dbStatus {
 
 		case true:
-			_,tasks :=task.RetrieveJobFromDB(c.AppEngineCtx)
+			_,tasks :=models.GetAllJobs(c.AppEngineCtx)
 			dataValue := reflect.ValueOf(tasks)
 			var keySlice []string
 
@@ -258,6 +263,15 @@ func (c *TaskController)LoadEditTask() {
 			userValue := user.RetrieveUserNameFromDB(c.AppEngineCtx, keySlice)
 			log.Println("user name",userValue)
 			viewModel.GroupNameArray = userValue
+
+			allGroups := models.GetAllGroupDetails(c.AppEngineCtx)
+			dataValue = reflect.ValueOf(allGroups)
+
+			for _, k := range dataValue.MapKeys() {
+				viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[k.String()].GroupName)
+			}
+
+
 			viewModel.Key=keySlice
 			viewModel.PageType = helpers.SelectPageForEdit
 			viewModel.JobName = taskDetail.JobName
@@ -268,7 +282,7 @@ func (c *TaskController)LoadEditTask() {
 			viewModel.TaskDescription= taskDetail.TaskDescription
 			viewModel.UserNumber = taskDetail.UserNumber
 			viewModel.Log = taskDetail.Log
-			viewModel.UserType = taskDetail.UserType
+			viewModel.UserType = taskDetail.UsersOrGroups
 			viewModel.FitToWork = taskDetail.FitToWork
 			viewModel.TaskId=taskId
 			c.Data["array"] = viewModel

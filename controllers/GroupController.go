@@ -67,8 +67,8 @@ func (c *GroupController) AddGroup() {
 // show the details of whole group from database
 func (c *GroupController) GroupDetails() {
 	//r := c.Ctx.Request
-	info := models.DisplayGroup(c.AppEngineCtx)
-	dataValue := reflect.ValueOf(info)
+	allGroups := models.GetAllGroupDetails(c.AppEngineCtx)
+	dataValue := reflect.ValueOf(allGroups)
 	groupViewModel := viewmodels.GroupList{}
 	var keySlice []string
 	for _, key := range dataValue.MapKeys() {
@@ -76,21 +76,21 @@ func (c *GroupController) GroupDetails() {
 	}
 	for _, k := range keySlice {
 		var tempValueSlice []string
-		membersNumber := len(info[k].Members)
-		tempValueSlice = append(tempValueSlice, info[k].GroupName)
+		membersNumber := len(allGroups[k].Members)
+		tempValueSlice = append(tempValueSlice, allGroups[k].GroupName)
 		tempValueSlice = append(tempValueSlice, strconv.Itoa(membersNumber))
 		tempUserNames := ""
 		log.Println(len(tempUserNames))
 		var buffer bytes.Buffer
 		for i := 0; i < membersNumber; i++ {
 			if len(tempUserNames) == 0{
-				buffer.WriteString(info[k].Members[i].MemberName)
+				buffer.WriteString(allGroups[k].Members[i].MemberName)
 				tempUserNames = buffer.String()
 				buffer.Reset()
 			} else {
 				buffer.WriteString(tempUserNames)
 				buffer.WriteString(", ")
-				buffer.WriteString(info[k].Members[i].MemberName)
+				buffer.WriteString(allGroups[k].Members[i].MemberName)
 				tempUserNames = buffer.String()
 				buffer.Reset()
 			}

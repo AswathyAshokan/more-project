@@ -36,7 +36,7 @@ func(m *Group) AddGroupToDb(ctx context.Context) (bool){
 	return  true
 }
 
-func DisplayGroup(ctx context.Context) map[string]Group{
+func GetAllGroupDetails(ctx context.Context) map[string]Group{
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
 	value := map[string]Group{}

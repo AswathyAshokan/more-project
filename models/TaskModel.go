@@ -20,7 +20,7 @@ type Task   struct {
 	TaskDescription string
 	UserNumber      string
 	Log             string
-	UserType        string
+	UsersOrGroups   []string
 	ContactId       []string
 	FitToWork       string
 	CurrentDate     int64
@@ -73,7 +73,7 @@ func (m *Task) DeleteTaskFromDB(ctx context.Context, taskId string)(bool)  {
 	}
 	return true
 }
-func (m *Task) RetrieveJobFromDB(ctx context.Context)(bool,map[string]Task) {
+func GetAllJobs(ctx context.Context)(bool,map[string]Task) {
 	jobValue := map[string]Task{}
 	dB, err := GetFirebaseClient(ctx,"")
 	err = dB.Child("Job").Value(&jobValue)
@@ -86,7 +86,7 @@ func (m *Task) RetrieveJobFromDB(ctx context.Context)(bool,map[string]Task) {
 
 
 }
-func (m *Job)RetrieveJobValueFromDB(ctx context.Context, jobId[] string)([] string) {
+func (m *Job)RetrieveJobValueFromDB(ctx context.Context, jobId []string)([] string) {
 
 	c := Job{}
 	var s []string
