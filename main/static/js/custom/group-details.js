@@ -65,10 +65,6 @@ $(function(){
                              break;
                            }
                         }
-                        
-                        console.log(i);
-                        //var index = mainArray.indexOf(key);
-                        console.log(index);
                         mainArray.splice(i, 1);
                         console.log(mainArray);
                         dataTableManipulate();   

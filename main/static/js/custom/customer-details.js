@@ -20,9 +20,9 @@ $(function(){
             data: mainArray,
             "columnDefs": [{
                 "targets": -1,
-                "width": "5%",
+                "width": "10%",
                 "data": null,
-                "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
+                "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-eye" aria-hidden="true" id="list"></i><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
             }]
         });
         var item = $('<span>+</span>');
@@ -48,6 +48,7 @@ $(function(){
     });
 
     $('#customer-table tbody').on( 'click', '#delete', function () {
+       
         $("#myModal").modal();
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[7];
@@ -69,7 +70,6 @@ $(function(){
                              break;
                            }
                         }
-                        
                         mainArray.splice(i, 1);
                         dataTableManipulate();   
                     }

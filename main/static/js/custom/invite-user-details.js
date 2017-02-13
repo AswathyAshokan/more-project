@@ -1,48 +1,5 @@
 /*Created By Farsana*/
 
-/*var subArray = [];
-var mainArray = [];
-var inviteUserKeyArray = [];
-var userLength = vm.Users.length;
-for(var i = 0; i < userLength; i++) {
-    inviteUserKeyArray.push(vm.InviteUserKey[i])
-        for(var propertyName in vm.Users[i]) {
-            subArray.push(vm.Users[i][propertyName]);
-        }
-  //subArray.push(vm.Keys[i])
-        mainArray.push(subArray);
-        subArray = [];
-}
-console.log(inviteUserKeyArray)
-var i;
-var length;
-length=inviteUserKeyArray.length;
-$(document).ready(function() {
-            $('#example').DataTable( {
-                data: mainArray,
-                columns: [
-                     { title: "FirstName" },
-                     { title: "LastName" },
-                     { title: "EmailId" },
-                     { title: "UserType" },
-                     { title: "Status"},
-                     { "data": null,
-                       "render": function ( data, type, full, meta ) {
-                            for (i = 0; i<length;i++){
-                                
-                                
-
-                                return '<div class="edit-wrapper">'+'<span class="icn">'+'<a href="/invite/'+inviteUserKeyArray[i]+'"><i class="fa fa-eye" aria-hidden="true"></i></a>'+' '+'<a href="/invite/'+inviteUserKeyArray[i] +'/edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>'+'  '+'<a href="/invite/'+inviteUserKeyArray[i] +'/delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>'+'</span>'+'</div>'
-
-                            }
-                        }
-                    },
-
-                ]
-            }) ;
-});*/
-
-console.log(vm)
 $(function(){ 
     var mainArray = [];   
     var table = "";
@@ -63,9 +20,9 @@ $(function(){
             data: mainArray,
             "columnDefs": [{
                        "targets": -1,
-                       "width": "5%",
+                       "width": "10%",
                        "data": null,
-                       "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
+                       "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-eye" aria-hidden="true"id="list"></i><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
             }]
         });
         var item = $('<span>+</span>');
@@ -77,8 +34,7 @@ $(function(){
     if(vm.Values != null) {
         createDataArray(vm.Values, vm.Keys);
     }
-    dataTableManipulate();   
-    console.log(mainArray);
+    dataTableManipulate();
     
     $('#inviteuser-table tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
@@ -86,13 +42,12 @@ $(function(){
         window.location = '/invite/'+ key + '/edit';
         return false;
     });
-
-
+    
     $('#inviteuser-table tbody').on( 'click', '#delete', function () {
         $("#myModal").modal();
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[5];
-        console.log(data, key);
+        
         $("#confirm").click(function(){
             $.ajax({
                 type: "POST",
@@ -111,11 +66,7 @@ $(function(){
                            }
                         }
                         
-                        console.log(i);
-                        //var index = mainArray.indexOf(key);
-                        console.log(index);
                         mainArray.splice(i, 1);
-                        console.log(mainArray);
                         dataTableManipulate();   
                     }
                     else {
