@@ -88,7 +88,7 @@
 
 							<div class="col-sm-6">
 								<label for="userType" class="">Users/Group</label>
-								<select class="form-control sprites-arrow-down multiple-drop" id="userType" multiple="multiple" name="userType">
+								<select class="form-control sprites-arrow-down multiple-drop" id="userOrGroup" multiple="multiple" name="userOrGroup">
 									
                                         {{range $key, $val := .array.GroupNameArray}}
                                            <option value="{{.}}">{{$val}}</option>
@@ -121,7 +121,7 @@
 						</div>
 
 						<div class="align-left col-sm-12">
-							<button class="btn btn-primary" type="submit" onclick="getContact()">Save</button>
+							<button class="btn btn-primary" type="submit">Save</button>
 							<button class="btn btn-success" type="submit">Cancel</button>
 						</div>
 

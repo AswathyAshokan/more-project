@@ -67,8 +67,7 @@ func (c *GroupController) AddGroup() {
 // show the details of whole group from database
 func (c *GroupController) GroupDetails() {
 	//r := c.Ctx.Request
-	group := models.Group{}
-	info := group.DisplayGroup(c.AppEngineCtx)
+	info := models.DisplayGroup(c.AppEngineCtx)
 	dataValue := reflect.ValueOf(info)
 	groupViewModel := viewmodels.GroupList{}
 	var keySlice []string

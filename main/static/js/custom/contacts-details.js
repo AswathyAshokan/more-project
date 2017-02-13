@@ -1,4 +1,6 @@
 /* Author :Aswathy Ashok */
+//Below line is for adding active class to layout side menu..
+document.getElementById("contact").className += " active";
 
 console.log(vm.Values);
 $(function(){ 

@@ -33,8 +33,14 @@ func (c *TaskController)LoadTask() {
 		task.TaskDescription = c.GetString("taskDescription")
 		task.UserNumber = c.GetString("users")
 		task.Log = c.GetString("log")
-		task.UserType = c.GetString("userType")
-		task.Contact = c.GetString("contacts")
+		task.UserType = c.GetStrings("userOrGroup")
+		tempContactId := c.GetStrings("contacts")
+
+		for i := 0; i < len(tempContactId); i++ {
+			task.ContactId = append(task.ContactId, tempContactId[i])
+
+		}
+		log.Println("keyyzzz",task.ContactId)
 		task.LoginType=c.GetString("loginType")
 		task.FitToWork = c.GetString("fitToWork")
 		task.CurrentDate =time.Now().UnixNano() / int64(time.Millisecond)
@@ -192,8 +198,13 @@ func (c *TaskController)LoadEditTask() {
 		task.TaskDescription = c.GetString("taskDescription")
 		task.UserNumber = c.GetString("users")
 		task.Log = c.GetString("log")
-		task.UserType = c.GetString("userType")
-		task.Contact = c.GetString("contacts")
+		task.UserType = c.GetStrings("userOrGroup")
+		tempContactId := c.GetStrings("contacts")
+		log.Println("contact details",tempContactId)
+		for i := 0; i < len(tempContactId); i++ {
+			task.ContactId = append(task.ContactId, tempContactId[i])
+
+		}
 		task.LoginType=c.GetString("loginType")
 		task.FitToWork = c.GetString("fitToWork")
 		task.CurrentDate =time.Now().UnixNano() / int64(time.Millisecond)
@@ -258,7 +269,6 @@ func (c *TaskController)LoadEditTask() {
 			viewModel.UserNumber = taskDetail.UserNumber
 			viewModel.Log = taskDetail.Log
 			viewModel.UserType = taskDetail.UserType
-			viewModel.Contact = taskDetail.Contact
 			viewModel.FitToWork = taskDetail.FitToWork
 			viewModel.TaskId=taskId
 			c.Data["array"] = viewModel

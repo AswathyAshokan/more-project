@@ -10,20 +10,20 @@ import (
 
 type Task   struct {
 
-	JobName	string
-	TaskName	string
-	TaskLocation	string
-	StartDate	string
-	EndDate		string
-	LoginType	string
-	Status		string
-	TaskDescription	string
-	UserNumber	string
-	Log		string
-	UserType	string
-	Contact		string
-	FitToWork	string
-	CurrentDate	int64
+	JobName         string
+	TaskName        string
+	TaskLocation    string
+	StartDate       string
+	EndDate         string
+	LoginType       string
+	Status          string
+	TaskDescription string
+	UserNumber      string
+	Log             string
+	UserType        string
+	ContactId       []string
+	FitToWork       string
+	CurrentDate     int64
 
 }
 type User struct {

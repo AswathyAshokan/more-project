@@ -1,5 +1,8 @@
 
 /* Author :Aswathy Ashok */
+//Below line is for adding active class to layout side menu..
+document.getElementById("contact").className += " active";
+
 var pageType = array.PageType;
 $(function () {
     if( pageType==  "edit") {
