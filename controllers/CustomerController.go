@@ -16,9 +16,8 @@ import (
 type CustomerController struct {
 	BaseController
 }
+
 // add customer to database
-
-
 func (c *CustomerController) AddCustomer() {
 	customer := models.Customer{}
 	r := c.Ctx.Request
@@ -51,13 +50,12 @@ func (c *CustomerController) AddCustomer() {
 
 	}
 }
-// view details of customer from database
 
-
+//Display all the details of customer
 func (c *CustomerController) CustomerDetails() {
 	customer := models.Customer{}
 	CustomerViewModel := viewmodels.Customer{}
-	info := customer.DisplayCustomer(c.AppEngineCtx)
+	info := customer.GetAllCustomerDetails(c.AppEngineCtx)
 	dataValue := reflect.ValueOf(info)
 	var keySlice []string
 	for _, key := range dataValue.MapKeys() {
@@ -86,11 +84,7 @@ func (c *CustomerController) CustomerDetails() {
 
 // delete each customer
 
-func (c *CustomerController) DeleteCustomer() {
-
-
-
-
+func (c *CustomerController) DeleteCustomerById() {
 	w := c.Ctx.ResponseWriter
 	customerKey :=c.Ctx.Input.Param(":customerid")
 
@@ -124,7 +118,7 @@ func (c *CustomerController) EditCustomer() {
 		customer.ZipCode = c.GetString("zipcode")
 		customer.State = c.GetString("state")
 		log.Println("new name",customer.CustomerName)
-		dbStatus :=customer.UpdateCustomerDetails(c.AppEngineCtx, customerId)
+		dbStatus :=customer.UpdateCustomerDetailsById(c.AppEngineCtx, customerId)
 
 		switch dbStatus {
 		case true:

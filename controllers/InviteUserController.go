@@ -15,6 +15,7 @@ type InviteUserController struct {
 	BaseController
 }
 
+//Add new invite users to database
 func (c *InviteUserController) AddInvitation() {
 	user := models.InviteUser{}
 	r := c.Ctx.Request
@@ -40,9 +41,10 @@ func (c *InviteUserController) AddInvitation() {
 	}
 }
 
+// fetch all the details of invite user from database
 func (c *InviteUserController) InvitationDetails() {
 	user := models.InviteUser{}
-	info := user.DisplayUser(c.AppEngineCtx)
+	info := user.GetAllInviteUsersDetails(c.AppEngineCtx)
 	dataValue := reflect.ValueOf(info)
 	inviteUserViewModel := viewmodels.InviteUserViewModel{}
 	var keySlice []string     //to store the keys of slice
@@ -65,13 +67,12 @@ func (c *InviteUserController) InvitationDetails() {
 	c.TplName = "template/invite-user-details.html"
 }
 
-//delete each users
-
+//delete invite user details using invite user id
 func (c *InviteUserController) DeleteInvitation() {
 	w := c.Ctx.ResponseWriter
 	InviteUserId :=c.Ctx.Input.Param(":inviteuserid")
 	user := models.InviteUser{}
-	result :=user.DeleteInviteUser(c.AppEngineCtx, InviteUserId)
+	result :=user.DeleteInviteUserById(c.AppEngineCtx, InviteUserId)
 	switch result {
 	case true:
 		w.Write([]byte("true"))
@@ -81,8 +82,7 @@ func (c *InviteUserController) DeleteInvitation() {
 	}
 }
 
-//edit profile of each users
-
+//edit profile of each invite user using invite user id
 func (c *InviteUserController) EditInvitation() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -93,7 +93,7 @@ func (c *InviteUserController) EditInvitation() {
 		user.LastName = c.GetString("lastname")
 		user.EmailId = c.GetString("emailid")
 		user.UserType = c.GetString("usertype")
-		dbStatus :=user.UpdateInviteUser(c.AppEngineCtx, InviteUserId)
+		dbStatus :=user.UpdateInviteUserById(c.AppEngineCtx, InviteUserId)
 
 		switch dbStatus {
 		case true:
@@ -103,7 +103,7 @@ func (c *InviteUserController) EditInvitation() {
 
 		}
 	} else {
-		editResult, DbStatus := user.EditInviteUser(c.AppEngineCtx, InviteUserId)
+		editResult, DbStatus := user.GetAllInviteUserForEdit(c.AppEngineCtx, InviteUserId)
 		switch DbStatus {
 		case true:
 			invitationViewModel := viewmodels.InviteUserViewModel{}

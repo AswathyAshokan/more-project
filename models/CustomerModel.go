@@ -18,6 +18,8 @@ type Customer struct {
 	State		 string
 	ZipCode		 string
 }
+
+// Add new customers to database
 func(m *Customer) AddCustomersToDb(ctx context.Context) (bool){
 	//log.Println("values in model",this)
 	db,err :=GetFirebaseClient(ctx,"")
@@ -31,10 +33,9 @@ func(m *Customer) AddCustomersToDb(ctx context.Context) (bool){
 	}
 	return  true
 }
-// Display details
 
-
-func(m *Customer) DisplayCustomer(ctx context.Context) map[string]Customer{
+// Fetch all the details of customer from database
+func(m *Customer) GetAllCustomerDetails(ctx context.Context) map[string]Customer{
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
 	values := map[string]Customer{}
@@ -49,8 +50,7 @@ func(m *Customer) DisplayCustomer(ctx context.Context) map[string]Customer{
 
 }
 
-// delete customer
-
+// delete customer from database using customerid
 func(m *Customer) DeleteCustomer(ctx context.Context,customerKey string) bool{
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
@@ -63,10 +63,7 @@ func(m *Customer) DeleteCustomer(ctx context.Context,customerKey string) bool{
 
 }
 
-//edit a record
-
-
-
+//get all the values of a customer using customer id for editing purpose
 func(m *Customer) EditCustomer(ctx context.Context,customerId string) (Customer,bool){
 
 	value := Customer{}
@@ -80,7 +77,8 @@ func(m *Customer) EditCustomer(ctx context.Context,customerId string) (Customer,
 
 }
 
-func(m *Customer) UpdateCustomerDetails(ctx context.Context,customerId string) (bool) {
+//update the customer profile
+func(m *Customer) UpdateCustomerDetailsById(ctx context.Context,customerId string) (bool) {
 
 
 	db,err :=GetFirebaseClient(ctx,"")
