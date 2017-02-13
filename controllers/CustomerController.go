@@ -84,12 +84,12 @@ func (c *CustomerController) CustomerDetails() {
 
 // delete each customer
 
-func (c *CustomerController) DeleteCustomerById() {
+func (c *CustomerController) DeleteCustomer() {
 	w := c.Ctx.ResponseWriter
 	customerKey :=c.Ctx.Input.Param(":customerid")
 
 	customer := models.Customer{}
-	result :=customer.DeleteCustomer(c.AppEngineCtx, customerKey)
+	result :=customer.DeleteCustomerById(c.AppEngineCtx, customerKey)
 	switch result {
 	case true:
 		w.Write([]byte("true"))

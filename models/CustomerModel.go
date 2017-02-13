@@ -51,7 +51,7 @@ func(m *Customer) GetAllCustomerDetails(ctx context.Context) map[string]Customer
 }
 
 // delete customer from database using customerid
-func(m *Customer) DeleteCustomer(ctx context.Context,customerKey string) bool{
+func(m *Customer) DeleteCustomerById(ctx context.Context,customerKey string) bool{
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("/Customer/"+customerKey).Remove()
