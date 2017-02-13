@@ -13,13 +13,21 @@ type LoginController struct {
 
 func (c *LoginController) Login() {
 	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
 	if r.Method == "POST" {
 		log.Println("hai I am here")
 		login := models.Login{}
 		login.Email = c.GetString("email")
 		login.Password = []byte(c.GetString("password"))
 		log.Println(login)
-		login.CheckLogin(c.AppEngineCtx)
+		loginStatus := login.CheckLogin(c.AppEngineCtx)
+		switch loginStatus{
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
+		}
+
 	} else {
 		c.TplName = "template/login.html"
 	}

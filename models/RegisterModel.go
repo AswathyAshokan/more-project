@@ -5,8 +5,8 @@ package models
 import (
 	"golang.org/x/net/context"
 	"log"
-	"reflect"
 	//"encoding/json"
+	"reflect"
 )
 
 type Info struct {
@@ -36,9 +36,11 @@ func (m *CompanyAdmins)AddUser(ctx context.Context) bool {
 	if err != nil {
 		log.Println("No Db Connection!")
 	}
+	//err = dB.Child("CompanyAdmins").Child("aswathy@gmailcom").Set(m)
 	adminData, err := dB.Child("CompanyAdmins").Push(m)
 	if err != nil {
 		log.Println("Company Registration failed!")
+		log.Println(err)
 		return false
 	} else {
 		log.Println("Type:",reflect.TypeOf(adminData))

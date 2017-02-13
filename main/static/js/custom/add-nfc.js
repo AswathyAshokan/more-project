@@ -1,5 +1,8 @@
 /*Author: Sarath
 Date:01/02/2017*/
+//Below line is for adding active class to layout side menu..
+document.getElementById("nfc").className += " active";
+
 $(function(){
     console.log(array.Name);
     var pageType = array.PageType;
