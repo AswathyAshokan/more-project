@@ -1,6 +1,7 @@
 /*Created By Farsana*/
-console.log(vm);
-//document.getElementById("firstname").value = vm.firstname;
+
+//Below line is for adding active class to layout side menu..
+document.getElementById("user").className += " active";
 
 $().ready(function() {
     

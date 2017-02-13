@@ -1,5 +1,8 @@
 /*Created By Farsana*/
 
+//Below line is for adding active class to layout side menu..
+document.getElementById("user").className += " active";
+
 $(function(){ 
     var mainArray = [];   
     var table = "";

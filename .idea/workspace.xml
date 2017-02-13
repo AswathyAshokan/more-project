@@ -6,11 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/customer-details.js" afterPath="$PROJECT_DIR$/main/static/js/custom/customer-details.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-group.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-group.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-invite-user.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-invite-user.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/group-details.js" afterPath="$PROJECT_DIR$/main/static/js/custom/group-details.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/invite-user-details.js" afterPath="$PROJECT_DIR$/main/static/js/custom/invite-user-details.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/customer-details.html" afterPath="$PROJECT_DIR$/main/views/template/customer-details.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/invite-user-details.html" afterPath="$PROJECT_DIR$/main/views/template/invite-user-details.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/layout/layout.html" afterPath="$PROJECT_DIR$/main/views/layout/layout.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -678,7 +678,14 @@
       <option name="project" value="LOCAL" />
       <updated>1486968618979</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="13/02/2017 data table icon setting">
+      <created>1486970217188</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1486970217188</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TodoView">
@@ -736,7 +743,8 @@
     <MESSAGE value="10/02/2017 router change" />
     <MESSAGE value="11/02/2017 data table editing deleting" />
     <MESSAGE value="13/02/2017 data table editing deleting" />
-    <option name="LAST_COMMIT_MESSAGE" value="13/02/2017 data table editing deleting" />
+    <MESSAGE value="13/02/2017 data table icon setting" />
+    <option name="LAST_COMMIT_MESSAGE" value="13/02/2017 data table icon setting" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
