@@ -3,14 +3,13 @@ package models
 
 import (
 	"log"
-
 	"golang.org/x/net/context"
 )
 
 type Job   struct {
 
 	CustomerName	string
-	JobName	string
+	JobName		string
 	JobNumber	string
 	NumberOfTask	string
 	Status		string
@@ -34,15 +33,15 @@ func (m *Job) AddJobToDB( ctx context.Context)(bool)  {
 
 
 func (m *Job ) RetrieveJobFromDB(ctx context.Context)(bool,map[string]Job) {
-	v := map[string]Job {}
+	jobDetail := map[string]Job {}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("Job").Value(&v)
+	err = dB.Child("Job").Value(&jobDetail)
 	if err != nil {
 		log.Fatal(err)
-		return false,v
+		return false, jobDetail
 	}
-	log.Println( v)
-	return true,v
+	log.Println(jobDetail)
+	return true, jobDetail
 
 }
 
@@ -64,47 +63,47 @@ func (m *Job) DeleteJobFromDB(ctx context.Context, jobId string)(bool)  {
 
 
 func (m *Job ) RetrieveCustomerFromDB(ctx context.Context)(bool,map[string]Job) {
-	v := map[string]Job {}
+	customerDetail := map[string]Job {}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("Customer").Value(&v)
+	err = dB.Child("Customer").Value(&customerDetail)
 	if err != nil {
 		log.Fatal(err)
-		return false,v
+		return false, customerDetail
 	}
-	log.Println( v)
-	return true,v
+	log.Println(customerDetail)
+	return true, customerDetail
 }
 
 
 func (m *Job)RetrieveCustomerNameFromDB(ctx context.Context, customerId[] string)([] string) {
 
-	c := Job{}
-	var s []string
+	job := Job{}
+	var customerName []string
 	dB, err := GetFirebaseClient(ctx,"")
 	for i := 0; i <len(customerId) ; i++ {
-		err = dB.Child("/Customer/" + customerId[i]).Value(&c)
-		s =append(s,c.CustomerName)
+		err = dB.Child("/Customer/" + customerId[i]).Value(&job)
+		customerName =append(customerName, job.CustomerName)
 
 	}
 	if err != nil {
 		log.Fatal(err)
-		return s
+		return customerName
 	}
-	return s
+	return customerName
 	//log.Println("There are "+v.getChildrenCount());
 
 }
 
 
 func (m *Job) RetrieveJobDetailFromDB(ctx context.Context, jobId string)(bool, Job) {
-	c := Job{}
+	job := Job{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("/Job/"+ jobId).Value(&c)
+	err = dB.Child("/Job/"+ jobId).Value(&job)
 	if err != nil {
 		log.Fatal(err)
-		return false,c
+		return false, job
 	}
-	return true,c
+	return true, job
 	//log.Println("There are "+v.getChildrenCount());
 
 }
@@ -122,7 +121,7 @@ func (m *Job) UpdateJobToDB( ctx context.Context,jobId string)(bool)  {
 		log.Println("Insertion error:",err)
 		return false
 	}
-	return true
 
+	return true
 
 }

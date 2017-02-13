@@ -5,6 +5,12 @@ console.log(array.PageType)
 console.log(array.CustomerName)
 console.log(array.JobName)
 var pageType = array.PageType;
+
+function test(id) {
+    alert("Hi: " + id);
+}
+
+
 $(function () {
     
     if(pageType == "edit") {
@@ -26,6 +32,7 @@ $(function () {
             
            
     }
+    
 });
 var contactsValue;
  function getContact()
@@ -37,6 +44,7 @@ var contactsValue;
   }
   }
 }
+
 
        
 $().ready(function() {

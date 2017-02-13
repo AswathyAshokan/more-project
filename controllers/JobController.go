@@ -8,7 +8,6 @@ import (
 	//"github.com/astaxie/beegae"
 	"app/passporte/models"
 	"app/passporte/viewmodels"
-	"log"
 	"time"
 
 	"reflect"
@@ -78,11 +77,10 @@ func (c *JobController)LoadJobDetail() {
 	job := models.Job{}
 	dbStatus, jobs := job.RetrieveJobFromDB(c.AppEngineCtx)
 	viewModel := viewmodels.JobViewModel{}
-
 	switch dbStatus {
 
 	case true:
-		//var valueSlice []models.User
+
 		dataValue := reflect.ValueOf(jobs)
 		var keySlice []string
 		for _, key := range dataValue.MapKeys() {
@@ -136,7 +134,6 @@ func (c *JobController)LoadEditJob() {
 		job.JobName = c.GetString("jobName")
 		job.JobNumber = c.GetString("jobNumber")
 		job.NumberOfTask = c.GetString("numberOfTask")
-		log.Println( "requested struct: %+v", job)
 		job.CurrentDate = time.Now().UnixNano() / int64(time.Millisecond)
 		job.Status = "Open"
 		dbStatus := job.UpdateJobToDB(c.AppEngineCtx,jobId)
@@ -151,7 +148,6 @@ func (c *JobController)LoadEditJob() {
 
 	} else {
 		jobId := c.Ctx.Input.Param(":jobId")
-		log.Println( "idddddddddd", jobId)
 		viewModel := viewmodels.JobViewModel{}
 		job := models.Job{}
 
