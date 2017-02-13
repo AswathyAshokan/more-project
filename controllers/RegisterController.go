@@ -13,6 +13,7 @@ type RegisterController struct {
 	BaseController
 }
 
+//Register new Company Admin
 func (c *RegisterController) Register() {
 
 	r := c.Ctx.Request

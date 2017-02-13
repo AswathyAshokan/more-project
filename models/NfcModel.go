@@ -15,7 +15,7 @@ type NFC struct {
 	NFCNumber	string
 }
 
-
+//Add new NFC Tag
 func (m *NFC)AddNFC(ctx context.Context)bool{
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
@@ -34,6 +34,7 @@ func (m *NFC)AddNFC(ctx context.Context)bool{
 
 }
 
+//Get existing NFC Tag Details
 func (m *NFC)GetNFCDetails(ctx context.Context)map[string]NFC{
 	nfcDetail := map[string]NFC{}
 	dB, err := GetFirebaseClient(ctx,"")
@@ -68,6 +69,8 @@ func (m *NFC)GetNFCDetailsById(ctx context.Context, nfcId string)(bool, NFC){
 	}
 
 }
+
+//Update Existing NFC Tag Details
 func (m *NFC)UpdateNFCDetails(ctx context.Context, nfcId string)bool{
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
@@ -84,6 +87,7 @@ func (m *NFC)UpdateNFCDetails(ctx context.Context, nfcId string)bool{
 
 }
 
+//Delete existing NFC Tag
 func DeleteNFC(ctx  context.Context, key string)bool{
 	log.Println("model:DeleteNFC()")
 	log.Println(key)

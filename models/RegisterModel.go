@@ -30,6 +30,7 @@ type CompanyAdmins struct {
 	Settings Settings
 }
 
+//Register new Company Admin
 func (m *CompanyAdmins)AddUser(ctx context.Context) bool {
 
 	dB, err := GetFirebaseClient(ctx, "")

@@ -6,7 +6,6 @@ import (
 	"app/passporte/models"
 	"app/passporte/viewmodels"
 	"log"
-	"encoding/json"
 	"app/passporte/helpers"
 )
 
@@ -15,7 +14,7 @@ type NfcController struct {
 }
 
 
-
+//Display NFC Details
 func (c *NfcController) NFCDetails(){
 	nfcDetails := models.NFC{}
 	data := nfcDetails.GetNFCDetails(c.AppEngineCtx)
@@ -40,7 +39,7 @@ func (c *NfcController) NFCDetails(){
 	c.TplName = "template/nfc-details.html"
 }
 
-
+//Add new NFC Tag
 func (c *NfcController)AddNFC(){
 	r := c.Ctx.Request
 	if r.Method=="POST" {
@@ -64,6 +63,7 @@ func (c *NfcController)AddNFC(){
 	}
 }
 
+//Edit NFC Tag
 func (c *NfcController)EditNFC(){
 	log.Println("EditNFC()")
 	r := c.Ctx.Request
@@ -107,7 +107,7 @@ func (c *NfcController)EditNFC(){
 	}
 }
 
-func (c *NfcController)Datatable() {
+/*func (c *NfcController)Datatable() {
 	log.Println("hiiiii")
 	w := c.Ctx.ResponseWriter
 	nfcDetails := models.NFC{}
@@ -125,17 +125,18 @@ func (c *NfcController)Datatable() {
 	jsonObject,_ := json.Marshal(valueSlice)
 	//c.Ctx.ResponseWriter.Write(jsonObject)
 
-	/*viewModel := ViewModel{}
+	*//*viewModel := ViewModel{}
 	viewModel.Values = valueSlice
 	viewModel.Keys = keySlice
 	log.Println("viewModel:",viewModel)
-	return viewModel*/
+	return viewModel*//*
 	//c.Data["vm"] = viewModel
 	log.Println("json Object:",jsonObject)
 	w.Write([]byte(jsonObject))
 
-}
+}*/
 
+//Delete NFC Tag
 func (c *NfcController)DeleteNFC(){
 	w := c.Ctx.ResponseWriter
 	log.Println("Controller:DeleteNFC()")

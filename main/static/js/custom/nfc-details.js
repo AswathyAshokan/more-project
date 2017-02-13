@@ -3,6 +3,7 @@ Date:01/02/2017*/
 //Below line is for adding active class to layout side menu..
 document.getElementById("nfc").className += " active";
 
+//Fetching Key,Values from Database and Pushinng it into Main Array of Sub Arrays
 $(function(){ 
     var mainArray = [];   
     var table = "";
@@ -19,6 +20,7 @@ $(function(){
         }
     }
     
+    //Generate Datatabe from Main Array
     function dataTableManipulate(){
         table =  $("#nfc_details").DataTable({
             data: mainArray,
@@ -38,8 +40,7 @@ $(function(){
     if(vm.Values != null) {
         createDataArray(vm.Values, vm.Keys);
     }
-    dataTableManipulate();   
-    console.log(mainArray);
+    dataTableManipulate(); 
 
   /*var table =  $("#nfc_details").DataTable({
         data: mainArray,
@@ -82,6 +83,7 @@ $(function(){
                                                   } ]
            } );
 */
+    //Edit selected NFC Tag
     $('#nfc_details tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[4];
@@ -89,8 +91,8 @@ $(function(){
         window.location = '/nfc/' + key + '/edit';
     });
 
-
-    $('#nfc_details tbody').on( 'click', '#delete', function () {
+    //Delete selcted NFC Tag from Datatable and Database
+    $('#nfc_details tbody').on( 'click', '#delete', function () { 
         $("#myModal").modal();
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[4];

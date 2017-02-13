@@ -4,9 +4,8 @@ Date:01/02/2017*/
 document.getElementById("nfc").className += " active";
 
 $(function(){
-    console.log(array.Name);
     var pageType = array.PageType;
-    
+    //Chech whether Pagtype is Add or Edit NFC Tag 
     if(pageType ==  "edit") {
         console.log(array);
             document.getElementById("customerName").value = array.CustomerName;
@@ -14,7 +13,7 @@ $(function(){
             document.getElementById("location").value = array.Location;
             document.getElementById("nfcNumber").value = array.NFCNumber;
             } 
-    
+    //Add new NFC Tag and perform Validation
     $("#addNfcForm").validate({
                     
                     rules: {

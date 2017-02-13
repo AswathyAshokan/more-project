@@ -31,16 +31,22 @@ $(function(){
         });
         return false;
     });*/
+    
+    //Enabling Register button when if I Agree check box is chechked
     $("#agree").click(function() {
       $("#register").attr("disabled", !this.checked);
     });
     
+    //Validate and Register Company Admin
     $("#companyRegisterForm").validate({
                     
                     rules: {
                         firstName :{
                             minlength: 3,
                             required: true,
+                        },
+                        lastName :{
+                            required: true
                         },
                         emailId:{
                             required: true,
@@ -63,7 +69,10 @@ $(function(){
                             required: "Please enter your First Name!",
                             minlength: "First Name atleast have 3 characters!",
                         },
-                        emailId: "Please enter a valid Email ID",
+                        lastName:{
+                            required: "Please enter your Last Name!"
+                        },
+                        emailId: "Please enter a valid Email ID!",
                         password:{
                             required: "Please enter a Password!",
                             minlength: "Password atleast have 8 characters!"
