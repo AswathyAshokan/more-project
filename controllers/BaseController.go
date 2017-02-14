@@ -6,4 +6,5 @@ import "github.com/astaxie/beegae"
 
 type BaseController struct {
 	beegae.Controller
+
 }

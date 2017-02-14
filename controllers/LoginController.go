@@ -20,11 +20,14 @@ func (c *LoginController) Login() {
 		login.Email = c.GetString("email")
 		login.Password = []byte(c.GetString("password"))
 		log.Println(login)
-		loginStatus := login.CheckLogin(c.AppEngineCtx)
+		loginStatus, adminDetails := login.CheckLogin(c.AppEngineCtx)
 		switch loginStatus{
 		case true:
+			log.Println("Login Successful!")
+			SetSession(w, adminDetails)
 			w.Write([]byte("true"))
 		case false:
+			log.Println("Invalid Username or Password!")
 			w.Write([]byte("false"))
 		}
 
@@ -32,4 +35,13 @@ func (c *LoginController) Login() {
 		c.TplName = "template/login.html"
 	}
 
+}
+
+func (c *LoginController)Logout(){
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	ClearSession(w,r)
+	storedSession := ReadSession(w, r)
+	log.Println("The username stored in session:",storedSession.Info.Email)
+	log.Println("The lastName stored in session:",storedSession.Info.LastName)
 }

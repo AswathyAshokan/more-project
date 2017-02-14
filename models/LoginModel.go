@@ -5,6 +5,8 @@ package models
 import (
 	"golang.org/x/net/context"
 	"log"
+	"reflect"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type Login struct{
@@ -12,21 +14,31 @@ type Login struct{
 	Password	[]byte
 }
 
-func(m *Login)CheckLogin(ctx context.Context)bool{
-	companyAdmins := CompanyAdmins{}
+func(m *Login)CheckLogin(ctx context.Context)(bool, CompanyAdmins){
+	companyAdmins := map[string]CompanyAdmins{}
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
 		log.Println("No DB Connectivity!")
 	}
 	log.Println("Email: ", m.Email)
-	var result map[string]interface{}
-
-	if err := dB.Child("CompanyAdmins/Info").OrderBy("Email").Value(&result); err != nil {
+	log.Println("Password: ", m.Password)
+	if err := dB.Child("CompanyAdmins").OrderBy("Info/Email").EqualTo(m.Email).Value(&companyAdmins); err != nil {
 	    log.Println(err)
 	}
-
-	log.Println("result:", result)
 	log.Println("Login user details: ",companyAdmins)
-	return true
+
+	var adminDetails CompanyAdmins
+	dataValue := reflect.ValueOf(companyAdmins)
+	for _, key := range dataValue.MapKeys() {
+		adminDetails = companyAdmins[key.String()]
+	}
+	log.Println(adminDetails.Info.Password)
+	err = bcrypt.CompareHashAndPassword(adminDetails.Info.Password, m.Password)
+	if err !=nil{
+		log.Println(err)
+		return false, adminDetails
+
+	}
+	return true,adminDetails
 }
 

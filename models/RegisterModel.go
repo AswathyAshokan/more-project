@@ -7,6 +7,7 @@ import (
 	"log"
 	//"encoding/json"
 	"reflect"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type Info struct {
@@ -37,7 +38,11 @@ func (m *CompanyAdmins)AddUser(ctx context.Context) bool {
 	if err != nil {
 		log.Println("No Db Connection!")
 	}
-	//err = dB.Child("CompanyAdmins").Child("aswathy@gmailcom").Set(m)
+	hashedPassword, err := bcrypt.GenerateFromPassword(m.Info.Password, bcrypt.DefaultCost)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	m.Info.Password = hashedPassword
 	adminData, err := dB.Child("CompanyAdmins").Push(m)
 	if err != nil {
 		log.Println("Company Registration failed!")

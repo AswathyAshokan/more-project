@@ -17,6 +17,7 @@ func init() {
 	//beegae.Router("/datatable",&controllers.NfcController{},"*:Datatable")
 	beegae.Router("/nfc/:nfcId/delete",&controllers.NfcController{},"*:DeleteNFC")
 	beegae.Router("/nfc/:nfcId/edit",&controllers.NfcController{},"*:EditNFC")
+	beegae.Router("/logout",&controllers.LoginController{},"*:Logout")
 
 	//Farsana
 	beegae.Router("/customer/add", &controllers.CustomerController{}, "*:AddCustomer")

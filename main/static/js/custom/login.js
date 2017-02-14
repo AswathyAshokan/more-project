@@ -15,7 +15,8 @@ $(function(){
                     window.location = '/job';
                 }
                 else{
-
+                    $("#login_err").css({"color": "red", "font-size": "15px"});
+					$("#login_err").html("Invalid Username or Password!").show().fadeOut( 4000 );
                 }
             }
         });
