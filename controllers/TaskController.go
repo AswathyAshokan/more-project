@@ -43,12 +43,10 @@ func (c *TaskController)AddNewTask() {
 		task.Status = "Completed"
 		dbStatus :=task.AddTaskToDB(c.AppEngineCtx)
 		switch dbStatus {
-
-			case true:
-				w.Write([]byte("true"))
-
-			case false:
-				w.Write([]byte("false"))
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
 		}
 
 	}else {
@@ -61,27 +59,20 @@ func (c *TaskController)AddNewTask() {
 			keySlice = append(keySlice, key.String())
 		}
 		switch dbStatus {
-
 		case true:
-
-
 			for _, k := range dataValue.MapKeys() {
 				viewModel.JobNameArray   = append(viewModel.JobNameArray, tasks[k.String()].JobName)
 			}
-
 		case false:
 			log.Println(helpers.ServerConnectionError)
-
 		}
 		dbStatus, taskUserValue :=user.RetrieveUserFromDB(c.AppEngineCtx)
 		switch dbStatus {
-
 		case true:
 			dataValue := reflect.ValueOf(taskUserValue)
 			for _, k := range dataValue.MapKeys() {
 				viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,  taskUserValue[k.String()].FirstName+""+taskUserValue[k.String()].LastName)
 			}
-
 			allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx)
 			switch dbStatus {
 			case true:
@@ -93,23 +84,20 @@ func (c *TaskController)AddNewTask() {
 			case false:
 				log.Println(helpers.ServerConnectionError)
 			}
-
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
 		contact :=models.ContactUser{}
 		dbStatus,contacts :=contact.GetAllContact(c.AppEngineCtx)
 		switch dbStatus {
-
-			case true:
-
-				dataValue := reflect.ValueOf(contacts)
-				for _, k := range dataValue.MapKeys() {
+		case true:
+			dataValue := reflect.ValueOf(contacts)
+			for _, k := range dataValue.MapKeys() {
 				viewModel.ContactNameArray  = append(viewModel.ContactNameArray , contacts[k.String()].Name)
-				}
-				viewModel.Key=keySlice
-			case false:
-				log.Println(helpers.ServerConnectionError)
+			}
+			viewModel.Key=keySlice
+		case false:
+			log.Println(helpers.ServerConnectionError)
 		}
 		c.Data["array"] = viewModel
 		c.Layout = "layout/layout.html"
@@ -127,16 +115,12 @@ func (c *TaskController)LoadTaskDetail() {
 	viewModel := viewmodels.TaskDetailViewModel{}
 
 	switch dbStatus {
-
-		case true:
-
-			dataValue := reflect.ValueOf(tasks)
-			var keySlice []string
-			for _, key := range dataValue.MapKeys() {
-				keySlice = append(keySlice, key.String())
-			}
-
-		// To perform the opertion you want
+	case true:
+		dataValue := reflect.ValueOf(tasks)
+		var keySlice []string
+		for _, key := range dataValue.MapKeys() {
+			keySlice = append(keySlice, key.String())
+		}
 		for _, k := range keySlice {
 			var tempValueSlice []string
 			tempValueSlice = append(tempValueSlice, tasks[k].JobName)
@@ -169,11 +153,10 @@ func (c *TaskController)LoadDeleteTask() {
 	task := models.Task{}
 	dbStatus := task.DeleteTaskFromDB(c.AppEngineCtx, taskId)
 	switch dbStatus {
-
-		case true:
-			w.Write([]byte("true"))
-		case false :
-			w.Write([]byte("true"))
+	case true:
+		w.Write([]byte("true"))
+	case false :
+		w.Write([]byte("true"))
 	}
 }
 
@@ -205,12 +188,10 @@ func (c *TaskController)LoadEditTask() {
 		task.Status = "Completed"
 		dbStatus := task.UpdateTaskToDB(c.AppEngineCtx, taskId)
 		switch dbStatus {
-
-			case true:
-				w.Write([]byte("true"))
-
-			case false:
-				w.Write([]byte("false"))
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
 		}
 
 	} else {
@@ -220,89 +201,73 @@ func (c *TaskController)LoadEditTask() {
 		taskId := c.Ctx.Input.Param(":taskId")
 		dbStatus, taskDetail := task.GetTaskDetailById(c.AppEngineCtx, taskId)
 		switch dbStatus {
-
-			case true:
-
-				dbStatus, tasks := models.GetAllJobs(c.AppEngineCtx)
-				var keySlice []string
-				dataValue := reflect.ValueOf(tasks)
-					for _, key := range dataValue.MapKeys() {
+		case true:
+			dbStatus, tasks := models.GetAllJobs(c.AppEngineCtx)
+			var keySlice []string
+			dataValue := reflect.ValueOf(tasks)
+			for _, key := range dataValue.MapKeys() {
 				keySlice = append(keySlice, key.String())
-				}
-				switch dbStatus {
-
-				case true:
-
-
-					for _, k := range dataValue.MapKeys() {
+			}
+			switch dbStatus {
+			case true:
+				for _, k := range dataValue.MapKeys() {
 					viewModel.JobNameArray = append(viewModel.JobNameArray, tasks[k.String()].JobName)
 				}
-
-				case false:
-					log.Println(helpers.ServerConnectionError)
-
-				}
-				dbStatus, taskUserValue := user.RetrieveUserFromDB(c.AppEngineCtx)
-				switch dbStatus {
-
-				case true:
-					dataValue := reflect.ValueOf(taskUserValue)
-					for _, k := range dataValue.MapKeys() {
+			case false:
+				log.Println(helpers.ServerConnectionError)
+			}
+			dbStatus, taskUserValue := user.RetrieveUserFromDB(c.AppEngineCtx)
+			switch dbStatus {
+			case true:
+				dataValue := reflect.ValueOf(taskUserValue)
+				for _, k := range dataValue.MapKeys() {
 					viewModel.GroupNameArray = append(viewModel.GroupNameArray, taskUserValue[k.String()].FirstName + "" + taskUserValue[k.String()].LastName)
+				}
+				allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx)
+				switch dbStatus {
+				case true:
+					dataValue = reflect.ValueOf(allGroups)
+					for _, k := range dataValue.MapKeys() {
+						viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[k.String()].GroupName)
 					}
-
-					allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx)
-					switch dbStatus {
-					case true:
-						dataValue = reflect.ValueOf(allGroups)
-
-						for _, k := range dataValue.MapKeys() {
-							viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[k.String()].GroupName)
-						}
-					case false:
-						log.Println(helpers.ServerConnectionError)
-					}
-
 				case false:
 					log.Println(helpers.ServerConnectionError)
 				}
-				contact := models.ContactUser{}
-				dbStatus, contacts := contact.GetAllContact(c.AppEngineCtx)
-				switch dbStatus {
-
-				case true:
-
-					dataValue := reflect.ValueOf(contacts)
-					for _, k := range dataValue.MapKeys() {
-						viewModel.ContactNameArray = append(viewModel.ContactNameArray, contacts[k.String()].Name)
-					}
-					viewModel.Key = keySlice
-				case false:
-					log.Println(helpers.ServerConnectionError)
+			case false:
+				log.Println(helpers.ServerConnectionError)
+			}
+			contact := models.ContactUser{}
+			dbStatus, contacts := contact.GetAllContact(c.AppEngineCtx)
+			switch dbStatus {
+			case true:
+				dataValue := reflect.ValueOf(contacts)
+				for _, k := range dataValue.MapKeys() {
+					viewModel.ContactNameArray = append(viewModel.ContactNameArray, contacts[k.String()].Name)
 				}
 				viewModel.Key = keySlice
-				viewModel  := viewmodels.EditTaskViewModel{}
-				viewModel.PageType = helpers.SelectPageForEdit
-				viewModel.JobName = taskDetail.JobName
-				viewModel.TaskName = taskDetail.TaskName
-				viewModel.TaskLocation = taskDetail.TaskLocation
-				viewModel.StartDate = taskDetail.StartDate
-				viewModel.EndDate = taskDetail.EndDate
-				viewModel.TaskDescription = taskDetail.TaskDescription
-				viewModel.UserNumber = taskDetail.UserNumber
-				viewModel.Log = taskDetail.Log
-				viewModel.UserType = taskDetail.UsersOrGroups
-				viewModel.FitToWork = taskDetail.FitToWork
-				viewModel.TaskId = taskId
-				c.Data["array"] = viewModel
-				c.Layout = "layout/layout.html"
-				c.TplName = "template/add-task.html"
-
+			case false:
+				log.Println(helpers.ServerConnectionError)
+			}
+			viewModel.Key = keySlice
+			viewModel  := viewmodels.EditTaskViewModel{}
+			viewModel.PageType = helpers.SelectPageForEdit
+			viewModel.JobName = taskDetail.JobName
+			viewModel.TaskName = taskDetail.TaskName
+			viewModel.TaskLocation = taskDetail.TaskLocation
+			viewModel.StartDate = taskDetail.StartDate
+			viewModel.EndDate = taskDetail.EndDate
+			viewModel.TaskDescription = taskDetail.TaskDescription
+			viewModel.UserNumber = taskDetail.UserNumber
+			viewModel.Log = taskDetail.Log
+			viewModel.UserType = taskDetail.UsersOrGroups
+			viewModel.FitToWork = taskDetail.FitToWork
+			viewModel.TaskId = taskId
+			c.Data["array"] = viewModel
+			c.Layout = "layout/layout.html"
+			c.TplName = "template/add-task.html"
 		case false:
 			log.Println(helpers.ServerConnectionError)
-
 		}
-
 	}
 }
 

@@ -1,10 +1,28 @@
 /* Author :Aswathy Ashok */
 
-console.log(vm.Values);
-$(function(){ 
-    
-    var mainArray = [];   
+$(function(){  
     var table = "";
+    var mainArray = [];  
+    
+    customerFilter = function(){
+        var tempArray = [];
+        var selectedCustomer = $("#customerDropdown").val();
+        console.log(selectedCustomer);
+        if (selectedCustomer == "All Customers") {
+            $('#job-details').dataTable().fnDestroy();
+            dataTableManipulate(mainArray); 
+        } else {
+            for(i = 0; i < mainArray.length; i++){
+                if (mainArray[i][0] == selectedCustomer){
+                    tempArray.push(mainArray[i]);
+                }
+            }
+            $('#job-details').dataTable().fnDestroy();
+            dataTableManipulate(tempArray);
+            
+            $("#customerDropdown").val(selectedCustomer);
+        }         
+    }
     
     function createDataArray(values, keys){
         var subArray = [];
@@ -19,9 +37,9 @@ $(function(){
         }
     }
     
-    function dataTableManipulate(){
+    function dataTableManipulate(dataArray){
         table =  $("#job-details").DataTable({
-            data: mainArray,
+            data: dataArray,
             "columnDefs": [{
                        "targets": -1,
                        "width": "5%",
@@ -31,7 +49,7 @@ $(function(){
         });
         
         
-        var dropdownItem = $('<div class="tbl-dropdown"><select class="form-control sprites-arrow-down" id=""><option>All Customers</option>{{range .vm.UniqueCustomerNames}}<option>{{.}}</option>{{end}}</select></div>');
+        var dropdownItem = $('<div class="tbl-dropdown"><select class="form-control sprites-arrow-down" id="customerDropdown" onchange="customerFilter();"><option>All Customers</option></select></div>');
         
         var addItem = $('<span>+</span>');
         addItem.click(function() {
@@ -40,11 +58,17 @@ $(function(){
         
         $('.table-wrapper .dataTables_filter').prepend(dropdownItem).append(addItem);
         
+        var customerArray = vm.UniqueCustomerNames;
+        
+        for(i = 0; i < customerArray.length; i++){
+            $("#customerDropdown").append("<option>"+customerArray[i]+"</option>");
+        }
+        
     }
     if(vm.Values != null) {
         createDataArray(vm.Values, vm.Keys);
     }
-    dataTableManipulate(); 
+    dataTableManipulate(mainArray); 
 
     $('#job-details tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
@@ -76,7 +100,7 @@ $(function(){
                            }
                         }
                         mainArray.splice(i, 1);
-                        dataTableManipulate();   
+                        dataTableManipulate(mainArray);   
                     }
                     else {
                         console.log("Removing Failed!");

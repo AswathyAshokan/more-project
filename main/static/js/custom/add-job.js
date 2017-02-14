@@ -7,7 +7,6 @@ $().ready(function() {
     if(pageType ==    "edit") {
         console.log(array);
             $("#customerName").val(array.CustomerName);
-            //document.getElementById("customerName").value = array.CustomerName;
             document.getElementById("jobName").value = array.JobName;
             document.getElementById("jobNumber").value = array.JobNumber;
             document.getElementById("numberOfTask").value = array.NumberOfTask;

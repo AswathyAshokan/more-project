@@ -34,12 +34,10 @@ func (c *ContactUserController)AddNewContact() {
 		user.Status = "Completed"
 		dbStatus := user.AddContactToDB(c.AppEngineCtx)
 		switch dbStatus {
-
-			case true:
-				w.Write([]byte("true"))
-
-			case false:
-				w.Write([]byte("false"))
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
 		}
 	}else {
 
@@ -97,11 +95,10 @@ func (c *ContactUserController)LoadDeleteContact() {
 	dbStatus := user.DeleteContactFromDB(c.AppEngineCtx, contactId)
 	w := c.Ctx.ResponseWriter
 	switch dbStatus {
-
-		case true:
-			w.Write([]byte("true"))
-		case false :
-			w.Write([]byte("false"))
+	case true:
+		w.Write([]byte("true"))
+	case false :
+		w.Write([]byte("false"))
 	}
 
 
@@ -124,12 +121,10 @@ func (c *ContactUserController)LoadEditContact() {
 		user.Status = "Completed"
 		dbStatus := user.UpdateContactToDB(c.AppEngineCtx,contactId)
 		switch dbStatus {
-
-			case true:
-				w.Write([]byte("true"))
-
-			case false:
-				w.Write([]byte("false"))
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
 		}
 
 	} else {

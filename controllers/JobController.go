@@ -32,14 +32,11 @@ func (c *JobController)AddNewJob() {
 		job.Status = helpers.StatusActive
 		dbStatus :=job.AddJobToDB(c.AppEngineCtx)
 		switch dbStatus {
-
-			case true:
-				w.Write([]byte("true"))
-
-			case false:
-				w.Write([]byte("false"))
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
 		}
-
 	}else {
 		job :=models.Job{}
 		dbStatus,jobs :=job.RetrieveCustomerFromDB(c.AppEngineCtx)
@@ -50,15 +47,14 @@ func (c *JobController)AddNewJob() {
 		}
 		viewModel.Keys=keySlice
 		switch dbStatus {
-			case true:
-
-				dataValue := reflect.ValueOf(jobs)
-				for _, k := range dataValue.MapKeys() {
-					viewModel.CustomerNameArray  = append(viewModel.CustomerNameArray, jobs[k.String()].CustomerName)
+		case true:
+			dataValue := reflect.ValueOf(jobs)
+			for _, k := range dataValue.MapKeys() {
+				viewModel.CustomerNameArray  = append(viewModel.CustomerNameArray, jobs[k.String()].CustomerName)
 				}
-				viewModel.PageType="add"
-			case false:
-				log.Println(helpers.ServerConnectionError)
+			viewModel.PageType="add"
+		case false:
+			log.Println(helpers.ServerConnectionError)
 		}
 		c.Data["array"] = viewModel
 		c.Layout = "layout/layout.html"
@@ -73,19 +69,18 @@ func (c *JobController)LoadJobDetail() {
 	dbStatus, jobs := job.GetAllJobs(c.AppEngineCtx)
 	viewModel := viewmodels.JobViewModel{}
 	switch dbStatus {
-
 	case true:
-
 		dataValue := reflect.ValueOf(jobs)
 		var keySlice []string
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
 		}
-
 		for _, k := range keySlice {
 			var tempValueSlice []string
 			tempValueSlice = append(tempValueSlice, jobs[k].CustomerName)
-			viewModel.UniqueCustomerNames = append(viewModel.UniqueCustomerNames, jobs[k].CustomerName)
+			if !helpers.StringInSlice(jobs[k].CustomerName, viewModel.UniqueCustomerNames) {
+				viewModel.UniqueCustomerNames = append(viewModel.UniqueCustomerNames, jobs[k].CustomerName)
+			}
 			tempValueSlice = append(tempValueSlice, jobs[k].JobName)
 			tempValueSlice = append(tempValueSlice, jobs[k].JobNumber)
 			tempValueSlice = append(tempValueSlice, jobs[k].NumberOfTask)
@@ -98,7 +93,6 @@ func (c *JobController)LoadJobDetail() {
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/job-details.html"
-
 	case false:
 		log.Println(helpers.ServerConnectionError)
 	}
