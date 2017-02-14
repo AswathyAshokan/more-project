@@ -1,9 +1,6 @@
 package viewmodels
 
-
-
 type Customer struct {
-
 
 	CustomerName  string
 	ContactPerson string
@@ -16,5 +13,4 @@ type Customer struct {
 	CustomerId    string
 	Values	      [][]string
 	Keys	      []string
-
 }

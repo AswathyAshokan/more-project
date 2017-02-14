@@ -1,7 +1,7 @@
 /*Created By Farsana*/
 
 $(function(){ 
-    var mainArray = [];   
+    var mainArray = []; 
     var table = "";
     function createDataArray(values, keys){
         var subArray = [];
@@ -33,11 +33,9 @@ $(function(){
         
         $('.table-wrapper .dataTables_filter').append(item);
     }
-    
     if(vm.Values != null) {
         createDataArray(vm.Values, vm.Keys);
     }
-    
     dataTableManipulate(); 
     
     $('#customer-table tbody').on( 'click', '#edit', function () {
@@ -48,11 +46,9 @@ $(function(){
     });
 
     $('#customer-table tbody').on( 'click', '#delete', function () {
-       
         $("#myModal").modal();
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[7];
-        
         $("#confirm").click(function(){
             $.ajax({
                 type: "POST",
@@ -62,22 +58,20 @@ $(function(){
                     if(data=="true"){
                         $('#customer-table').dataTable().fnDestroy();
                         var index = "";
-                        
                         for(var i = 0; i < mainArray.length; i++) {
-                           index = mainArray[i].indexOf(key);
-                           if(index != -1) {
-                               console.log("dddd", i);
-                             break;
-                           }
+                            index = mainArray[i].indexOf(key);
+                            if(index != -1) {
+                                console.log("dddd", i);
+                                break;
+                            }
                         }
                         mainArray.splice(i, 1);
-                        dataTableManipulate();   
+                        dataTableManipulate(); 
                     }
                     else {
                         console.log("Removing Failed!");
                     }
                 }
-
             });
         });
     });

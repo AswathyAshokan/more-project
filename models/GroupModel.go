@@ -7,8 +7,8 @@ import (
 )
 type Group struct {
 
-	GroupName        	string
-	Members	 		[]GroupMembers
+	GroupName       string
+	Members	 	[]GroupMembers
 }
 
 type GroupMembers struct {
@@ -20,6 +20,8 @@ type GroupMembers struct {
 	FirstName string
 
 }*/
+
+// Insert new groups to database
 func(m *Group) AddGroupToDb(ctx context.Context) (bool){
 	//log.Println("values in model",m)
 	db,err :=GetFirebaseClient(ctx,"")
@@ -36,20 +38,24 @@ func(m *Group) AddGroupToDb(ctx context.Context) (bool){
 	return  true
 }
 
-func GetAllGroupDetails(ctx context.Context) map[string]Group{
+//Fetch all the details of group
+func GetAllGroupDetails(ctx context.Context) (map[string]Group,bool){
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
 	value := map[string]Group{}
 	err = db.Child("Group").Value(&value)
 	if err != nil {
 		log.Fatal(err)
+		return value,false
 	}
 	//log.Println("%s\n", v)
 	//log.Println(reflect.TypeOf(v))
-	return value
+	return value,true
 
 
 }
+
+// Delete each group using group id
 func(m *Group) DeleteGroup(ctx context.Context, GroupKey string) bool{
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
@@ -62,21 +68,22 @@ func(m *Group) DeleteGroup(ctx context.Context, GroupKey string) bool{
 
 }
 
-// for fill the dropdown list in add group
-func(m *Group) GetUsersForDropdown(ctx context.Context) map[string]InviteUser {
+// To get all the keys of User
+func(m *Group) GetUsersForDropdown(ctx context.Context) (map[string]InviteUser,bool) {
 	db,err :=GetFirebaseClient(ctx,"")
-	v := map[string]InviteUser{}
+	allUser := map[string]InviteUser{}
 	//err = db.Child("Users").Value(&v)
-	err = db.Child("User").Value(&v)
+	err = db.Child("User").Value(&allUser)
 	if err != nil {
 		log.Fatal(err)
+		return allUser,false
 	}
-	return v
+	return allUser,true
 
 
 }
 
-
+// for fill the dropdown list using first name and second name(user) in add group
 func(m *Group) TakeGroupMemberName(ctx context.Context,groupKeySlice []string) ([]string, bool) {
 	allUserDetails := InviteUser{}
 	var allUserNames [] string
@@ -100,7 +107,7 @@ func(m *Group) TakeGroupMemberName(ctx context.Context,groupKeySlice []string) (
 	return allUserNames, true
 }
 
-/*Collecting Group details using Id*/
+//Collecting Group details using Id
 func(m *Group) GetGroupDetailsById(ctx context.Context,groupKey string) (Group,bool){
 	groupDetails := Group{}
 	db,err :=GetFirebaseClient(ctx,"")
@@ -114,6 +121,7 @@ func(m *Group) GetGroupDetailsById(ctx context.Context,groupKey string) (Group,b
 	return groupDetails,true
 }
 
+//Update the group details after editing
 func(m *Group) UpdateGroupDetails(ctx context.Context,groupKey string) (bool) {
 
 

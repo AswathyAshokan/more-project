@@ -4,7 +4,6 @@
 document.getElementById("group").className += " active";
 
 $().ready(function() {
-    
     if(vm.PageType == "edit"){ 
         var selectArray = vm.GroupMembersToEdit;
         document.getElementById("groupName").value = vm.GroupNameToEdit;
@@ -22,7 +21,6 @@ $().ready(function() {
             selectedUserIds:"please fill this column"
         },
         submitHandler: function(){//to pass all data of a form serial
-            
             var formData = $("#addgroupForm").serialize();
             var selectedUsersNames = [];
             $("#selectedUserIds option:selected").each(function () {
@@ -32,6 +30,7 @@ $().ready(function() {
                     selectedUsersNames.push(selectedUsersName);
                 }
             });
+            
             for(i = 0; i < selectedUsersNames.length; i++) {
                 formData = formData+"&selectedUserNames="+selectedUsersNames[i];
             }
@@ -52,7 +51,7 @@ $().ready(function() {
                     error: function (request,status, error) {
                     }
                 });
-
+            
             } else {
                 //var selectedUserIds = $("#selectedUserIds").val();
                 $.ajax({

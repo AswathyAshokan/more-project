@@ -7,11 +7,9 @@
 <script src="/static/js/custom/add-group.js"></script>
 <script src="/static/js/jquery.validate.js"></script>
 <script src="/static/js/select2.min.js"></script>
-    
 <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
 
-
-	<div class="col-md-12 main-content-wrapper padding-50-each">
+<div class="col-md-12 main-content-wrapper padding-50-each">
 		<div class="clearfix">
 			<h1 class="h4" id = "groupHead">Add Group</h1>
 
@@ -25,40 +23,20 @@
 									<label for="groupName" class="">Group Name</label>
 									<input class="form-control" id="groupName" type="text" name="groupName">
 								</div>
-
-								<!-- <div class="col-sm-6">
-									<label for="ex1" class="">Customer Name</label>
-									<select class="form-control sprites-arrow-down" id="">
-								        <option></option>
-								        <option></option>
-								        <option></option>
-								        <option></option>
-								    </select>
-								</div> -->
-
-								<div class="col-sm-6">
+                                <div class="col-sm-6">
 									<label for="addUser" class="">Add Users to Group</label>
 								    <select class="form-control sprites-arrow-down multiple-drop" id="selectedUserIds" name="selectedUserIds" multiple="multiple">
                                         {{range $key, $val := .vm.GroupMembers}}
 									       <option value="{{index $.vm.GroupKey $key}}">{{$val}}</option> 
                                         {{end}}
 								  	</select>
-								</div>
-																
-						    </div>
-
-						    <div class="align-left col-sm-12">
+                                </div>
+                            </div>
+                            <div class="align-left col-sm-12">
 						    	<button class="btn btn-primary">Save</button>
 						    	<button class="btn btn-success">Cancel</button>
 						    </div>
-
-						</form>
-				</div>
-					
-									
-
-
-				</div>
-
-
-			</div>
+                    </form>
+            </div>
+    </div>
+</div>

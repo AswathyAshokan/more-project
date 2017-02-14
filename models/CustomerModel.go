@@ -35,22 +35,19 @@ func(m *Customer) AddCustomersToDb(ctx context.Context) (bool){
 }
 
 // Fetch all the details of customer from database
-func(m *Customer) GetAllCustomerDetails(ctx context.Context) map[string]Customer{
+func GetAllCustomerDetails(ctx context.Context) (map[string]Customer,bool){
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
-	values := map[string]Customer{}
-	err = db.Child("Customer").Value(&values)
+	allCustomerDetails := map[string]Customer{}
+	err = db.Child("Customer").Value(&allCustomerDetails)
 	if err != nil {
 		log.Fatal(err)
+		return allCustomerDetails,false
 	}
-	//log.Println("%s\n", v)
-	//log.Println(reflect.TypeOf(v))
-	return values
-
-
+	return allCustomerDetails,true
 }
 
-// delete customer from database using customerid
+// delete customer from database using customer id
 func(m *Customer) DeleteCustomerById(ctx context.Context,customerKey string) bool{
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
@@ -60,7 +57,6 @@ func(m *Customer) DeleteCustomerById(ctx context.Context,customerKey string) boo
 		return  false
 	}
 	return  true
-
 }
 
 //get all the values of a customer using customer id for editing purpose
@@ -74,13 +70,10 @@ func(m *Customer) EditCustomer(ctx context.Context,customerId string) (Customer,
 		return value , false
 	}
 	return value,true
-
 }
 
 //update the customer profile
 func(m *Customer) UpdateCustomerDetailsById(ctx context.Context,customerId string) (bool) {
-
-
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("/Customer/"+ customerId).Update(&m)
 

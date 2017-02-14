@@ -5,14 +5,11 @@ type GroupList struct {
 	Keys         []string
 }
 
-
 type AddGroupViewModel struct {
 	GroupMembers 	[]string
 	GroupKey     	[]string
 	PageType	string
 }
-
-//
 
 type EditGroupViewModel struct {
 	GroupMembers    	[]string

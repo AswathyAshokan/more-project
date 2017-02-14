@@ -21,7 +21,6 @@ func (c *InviteUserController) AddInvitation() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	if r.Method == "POST" {
-
 		user.FirstName = c.GetString("firstname")
 		user.LastName = c.GetString("lastname")
 		user.EmailId = c.GetString("emailid")
@@ -43,28 +42,33 @@ func (c *InviteUserController) AddInvitation() {
 
 // fetch all the details of invite user from database
 func (c *InviteUserController) InvitationDetails() {
-	user := models.InviteUser{}
-	info := user.GetAllInviteUsersDetails(c.AppEngineCtx)
-	dataValue := reflect.ValueOf(info)
-	inviteUserViewModel := viewmodels.InviteUserViewModel{}
-	var keySlice []string     //to store the keys of slice
-	for _, key := range dataValue.MapKeys() {
-		keySlice = append(keySlice, key.String())
+
+	info,dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx)
+	switch dbStatus {
+	case true:
+		dataValue := reflect.ValueOf(info)
+		inviteUserViewModel := viewmodels.InviteUserViewModel{}
+		var keySlice []string     //to store the keys of slice
+		for _, key := range dataValue.MapKeys() {
+			keySlice = append(keySlice, key.String())
+		}
+		for _, k := range keySlice {
+			var tempValueSlice []string
+			tempValueSlice = append(tempValueSlice, info[k].FirstName)
+			tempValueSlice = append(tempValueSlice, info[k].LastName)
+			tempValueSlice = append(tempValueSlice, info[k].EmailId)
+			tempValueSlice = append(tempValueSlice, info[k].UserType)
+			tempValueSlice = append(tempValueSlice, info[k].Status)
+			inviteUserViewModel.Values=append(inviteUserViewModel.Values,tempValueSlice)
+			tempValueSlice = tempValueSlice[:0]
+		}
+		inviteUserViewModel.Keys = keySlice
+		c.Data["vm"] = inviteUserViewModel
+		c.Layout = "layout/layout.html"
+		c.TplName = "template/invite-user-details.html"
+	case false:
+		log.Println(helpers.ServerConnectionError)
 	}
-	for _, k := range keySlice {
-		var tempValueSlice []string
-		tempValueSlice = append(tempValueSlice, info[k].FirstName)
-		tempValueSlice = append(tempValueSlice, info[k].LastName)
-		tempValueSlice = append(tempValueSlice, info[k].EmailId)
-		tempValueSlice = append(tempValueSlice, info[k].UserType)
-		tempValueSlice = append(tempValueSlice, info[k].Status)
-		inviteUserViewModel.Values=append(inviteUserViewModel.Values,tempValueSlice)
-		tempValueSlice = tempValueSlice[:0]
-	}
-	inviteUserViewModel.Keys = keySlice
-	c.Data["vm"] = inviteUserViewModel
-	c.Layout = "layout/layout.html"
-	c.TplName = "template/invite-user-details.html"
 }
 
 //delete invite user details using invite user id
@@ -78,7 +82,6 @@ func (c *InviteUserController) DeleteInvitation() {
 		w.Write([]byte("true"))
 	case false:
 		w.Write([]byte("false"))
-
 	}
 }
 
@@ -100,7 +103,6 @@ func (c *InviteUserController) EditInvitation() {
 			w.Write([]byte("true"))
 		case false:
 			w.Write([]byte("false"))
-
 		}
 	} else {
 		editResult, DbStatus := user.GetAllInviteUserForEdit(c.AppEngineCtx, InviteUserId)
@@ -114,13 +116,11 @@ func (c *InviteUserController) EditInvitation() {
 			invitationViewModel.Status = editResult.Status
 			invitationViewModel.PageType = helpers.SelectPageForEdit
 			invitationViewModel.InviteId = InviteUserId
-
 			c.Data["vm"] = invitationViewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-invite-user.html"
 		case false:
-			log.Println("Server connection problem ")
-
+			log.Println(helpers.ServerConnectionError)
 		}
 	}
 }

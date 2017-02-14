@@ -60,23 +60,20 @@ $(function(){
                     if(data=="true"){
                         $('#inviteuser-table').dataTable().fnDestroy();
                         var index = "";
-                        
                         for(var i = 0; i < mainArray.length; i++) {
-                           index = mainArray[i].indexOf(key);
-                           if(index != -1) {
-                               console.log("dddd", i);
-                             break;
-                           }
+                            index = mainArray[i].indexOf(key);
+                            if(index != -1) {
+                                console.log("dddd", i);
+                                break;
+                            }
                         }
-                        
                         mainArray.splice(i, 1);
-                        dataTableManipulate();   
+                        dataTableManipulate()
                     }
                     else {
                         console.log("Removing Failed!");
                     }
                 }
-
             });
         });
     });

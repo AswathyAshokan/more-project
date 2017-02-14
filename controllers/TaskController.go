@@ -92,7 +92,7 @@ func (c *TaskController)AddNewTask() {
 			log.Println("user name",userValue)
 
 			viewModel.GroupNameArray = userValue
-			allGroups := models.GetAllGroupDetails(c.AppEngineCtx)
+			allGroups,_ := models.GetAllGroupDetails(c.AppEngineCtx)
 			dataValue = reflect.ValueOf(allGroups)
 
 			for _, k := range dataValue.MapKeys() {
@@ -264,7 +264,7 @@ func (c *TaskController)LoadEditTask() {
 			log.Println("user name",userValue)
 			viewModel.GroupNameArray = userValue
 
-			allGroups := models.GetAllGroupDetails(c.AppEngineCtx)
+			allGroups,_ := models.GetAllGroupDetails(c.AppEngineCtx)
 			dataValue = reflect.ValueOf(allGroups)
 
 			for _, k := range dataValue.MapKeys() {

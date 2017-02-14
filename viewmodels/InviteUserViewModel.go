@@ -1,6 +1,5 @@
 package viewmodels
 
-
 type InviteUserViewModel struct {
 	FirstName      		string
 	LastName      		string
