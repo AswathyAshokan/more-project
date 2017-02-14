@@ -5,10 +5,6 @@ package models
 import (
 	"golang.org/x/net/context"
 	"log"
-
-
-
-	//"app/go_appengine/goroot/src/go/doc/testdata"
 )
 
 type ContactUser   struct {
@@ -25,6 +21,7 @@ type ContactUser   struct {
 
 }
 
+/*Function for add Contact to DB*/
 
 func (m *ContactUser) AddContactToDB(ctx context.Context) (bool) {
 	log.Println("values in m:",m)
@@ -41,20 +38,23 @@ func (m *ContactUser) AddContactToDB(ctx context.Context) (bool) {
 	return true
 }
 
+/*Function for get all contact details*/
 
-func (m *ContactUser) RetrieveContactFromDB(ctx context.Context)(bool,map[string]ContactUser) {
-	v := map[string]ContactUser{}
+func (m *ContactUser) GetAllContact(ctx context.Context)(bool,map[string]ContactUser) {
+	contactDetail := map[string]ContactUser{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("Contacts").Value(&v)
+	err = dB.Child("Contacts").Value(&contactDetail)
 	if err != nil {
 		log.Fatal(err)
-		return false,v
+		return false, contactDetail
 	}
-	log.Println( v)
-	return true,v
-	//log.Println("There are "+v.getChildrenCount());
+	log.Println(contactDetail)
+	return true, contactDetail
 
 }
+
+/*Function for delete contact from DB*/
+
 func (m *ContactUser) DeleteContactFromDB(ctx context.Context, contactId string)(bool)  {
 
 	log.Println(contactId)
@@ -72,22 +72,20 @@ func (m *ContactUser) DeleteContactFromDB(ctx context.Context, contactId string)
 	return true
 }
 
+/* Get contact detail of specific id*/
 func (m *ContactUser) RetrieveContactIdFromDB(ctx context.Context, contactId string)(bool, ContactUser) {
-	log.Println( "keyyy in model", contactId)
-	c := ContactUser{}
+	contactDetail := ContactUser{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("/Contacts/"+ contactId).Value(&c)
+	err = dB.Child("/Contacts/"+ contactId).Value(&contactDetail)
 	if err != nil {
 		log.Fatal(err)
-		return false,c
+		return false, contactDetail
 	}
-	return true,c
-
-
+	return true, contactDetail
 }
-func (m *ContactUser) UpdateContactToDB( ctx context.Context, contactId string)(bool)  {
-	log.Println( "model data", m)
 
+/*Function for Update contact detail*/
+func (m *ContactUser) UpdateContactToDB( ctx context.Context, contactId string)(bool)  {
 
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{

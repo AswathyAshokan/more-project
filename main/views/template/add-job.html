@@ -21,11 +21,14 @@
 
 					<div class="col-sm-6">
 						<label for="customerName" class="">Customer Name</label>
-						<select class="form-control sprites-arrow-down" id="customerName" name="customerName">
+						<select class="form-control sprites-arrow-down" id="customerId" name="customerId">
                             <option selected disabled value="">Select a Customer</option>
-							{{range  .array.CustomerNameArray}}
-							<option value="{{.}}">{{ . }}</option>
-							{{end}}
+                             {{range $key, $val := .array.CustomerNameArray}}
+                            
+                                     <option value="{{index $.array.Keys $key}}">{{$val}}</option>
+                            
+                            {{end}}
+				
 						</select>
 
 					</div>
@@ -49,7 +52,7 @@
 				</div>
 
 				<div class="align-left col-sm-12">
-					<button class="btn btn-primary" type="submit" id="save" onclick="checkJobName()">Save</button>
+					<button class="btn btn-primary" type="submit" id="save">Save</button>
 					<button class="btn btn-success" type="submit" id="cancel">Cancel</button>
 
 

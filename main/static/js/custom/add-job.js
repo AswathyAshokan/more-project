@@ -45,16 +45,19 @@ $().ready(function() {
                 },
                     
 	            submitHandler: function() {
-                    
-                    var form_data = $("#jobForm").serialize();
+                    var formData = $("#jobForm").serialize();
+                    var customerName = $('#customerId option:selected').text();
+                    formData = formData +"&customerName="+customerName;
+                    console.log(formData);
                     var jobId = array.JobId;
+                    
                     if (pageType == "edit") {
                         
                         $.ajax({
                             url: '/job/'+ jobId +'/edit',
                             type: 'post',
                             datatype: 'html',
-                            data: form_data,
+                            data: formData,
                             success : function(response) {
                                 console.log(response);
                                 if (response == "true") {
@@ -76,7 +79,7 @@ $().ready(function() {
                             url: '/job/add',
                             type: 'post',
                             datatype: 'json',
-                            data: form_data,
+                            data: formData,
                             success : function(response) {
                                 if (response =="true") {
                                     window.location = '/job';

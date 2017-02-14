@@ -1,11 +1,8 @@
 package viewmodels
 
-type TaskViewModel  struct {
-	Values            	[][]string
-	Keys              	[]string
-	Key			[]string
-	JobNameArray		[]string
-	ContactNameArray	[]string
+type EditTaskViewModel  struct {
+
+
 	PageType		string
 	JobName			string
 	TaskName		string
@@ -21,6 +18,18 @@ type TaskViewModel  struct {
 	Contact			string
 	FitToWork		string
 	TaskId			string
+
+
+}
+type AddTaskViewModel  struct {
+	JobNameArray		[]string
+	ContactNameArray	[]string
+	Key			[]string
 	GroupNameArray		[]string
 
+
+}
+type TaskDetailViewModel  struct {
+	Values            	[][]string
+	Keys              	[]string
 }

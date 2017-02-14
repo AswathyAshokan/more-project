@@ -1,6 +1,7 @@
 package viewmodels
 
 type ContactUserViewModel  struct {
+
 	Values            	[][]string
 	Name        		string
 	Address     		string

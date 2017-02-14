@@ -31,12 +31,18 @@ $(function(){
             }]
         });
         
-        var item = $('<span>+</span>');
-        item.click(function() {
+        var addItem = $('<span>+</span>');
+        addItem.click(function() {
             window.location = "/task/add";
         });
         
-        $('.table-wrapper .dataTables_filter').append(item);
+        var jobDropdown = $('<div class="tbl-dropdown"><select class="form-control sprites-arrow-down" id=""><option>All Jobs</option><option>All Jobs</option></select></div>');
+        
+        var customerDropdown = $('<div class="tbl-dropdown"><select class="form-control sprites-arrow-down" id=""><option>All Customers</option><option>All Customers</option></select></div>');
+        
+        
+        
+        $('.table-wrapper .dataTables_filter').prepend(jobDropdown).prepend(customerDropdown).append(addItem);
     }
     if(vm.Values != null) {
         createDataArray(vm.Values, vm.Keys);

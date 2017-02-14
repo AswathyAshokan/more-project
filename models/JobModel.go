@@ -7,7 +7,7 @@ import (
 )
 
 type Job   struct {
-
+	CustomerId	string
 	CustomerName	string
 	JobName		string
 	JobNumber	string
@@ -16,7 +16,7 @@ type Job   struct {
 	CurrentDate	int64
 }
 
-
+/*Function for add job details to DB*/
 func (m *Job) AddJobToDB( ctx context.Context)(bool)  {
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
@@ -31,8 +31,8 @@ func (m *Job) AddJobToDB( ctx context.Context)(bool)  {
 	return true
 }
 
-
-func (m *Job ) RetrieveJobFromDB(ctx context.Context)(bool,map[string]Job) {
+/*Function for get all job details*/
+func (m *Job ) GetAllJobs(ctx context.Context)(bool,map[string]Job) {
 	jobDetail := map[string]Job {}
 	dB, err := GetFirebaseClient(ctx,"")
 	err = dB.Child("Job").Value(&jobDetail)
@@ -40,12 +40,11 @@ func (m *Job ) RetrieveJobFromDB(ctx context.Context)(bool,map[string]Job) {
 		log.Fatal(err)
 		return false, jobDetail
 	}
-	log.Println(jobDetail)
 	return true, jobDetail
 
 }
 
-
+/*delete job detail from DB*/
 func (m *Job) DeleteJobFromDB(ctx context.Context, jobId string)(bool)  {
 
 	dB, err := GetFirebaseClient(ctx,"")
@@ -61,7 +60,7 @@ func (m *Job) DeleteJobFromDB(ctx context.Context, jobId string)(bool)  {
 	return true
 }
 
-
+/*Get all customer details*/
 func (m *Job ) RetrieveCustomerFromDB(ctx context.Context)(bool,map[string]Job) {
 	customerDetail := map[string]Job {}
 	dB, err := GetFirebaseClient(ctx,"")
@@ -74,28 +73,8 @@ func (m *Job ) RetrieveCustomerFromDB(ctx context.Context)(bool,map[string]Job) 
 	return true, customerDetail
 }
 
-
-func (m *Job)RetrieveCustomerNameFromDB(ctx context.Context, customerId[] string)([] string) {
-
-	job := Job{}
-	var customerName []string
-	dB, err := GetFirebaseClient(ctx,"")
-	for i := 0; i <len(customerId) ; i++ {
-		err = dB.Child("/Customer/" + customerId[i]).Value(&job)
-		customerName =append(customerName, job.CustomerName)
-
-	}
-	if err != nil {
-		log.Fatal(err)
-		return customerName
-	}
-	return customerName
-	//log.Println("There are "+v.getChildrenCount());
-
-}
-
-
-func (m *Job) RetrieveJobDetailFromDB(ctx context.Context, jobId string)(bool, Job) {
+/*get job details of specific id*/
+func (m *Job) GetJobDetailById(ctx context.Context, jobId string)(bool, Job) {
 	job := Job{}
 	dB, err := GetFirebaseClient(ctx,"")
 	err = dB.Child("/Job/"+ jobId).Value(&job)
@@ -104,13 +83,11 @@ func (m *Job) RetrieveJobDetailFromDB(ctx context.Context, jobId string)(bool, J
 		return false, job
 	}
 	return true, job
-	//log.Println("There are "+v.getChildrenCount());
 
 }
 
-
+/* Update job details to DB*/
 func (m *Job) UpdateJobToDB( ctx context.Context,jobId string)(bool)  {
-
 
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{

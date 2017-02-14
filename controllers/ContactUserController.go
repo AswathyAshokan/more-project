@@ -4,17 +4,12 @@
 package controllers
 
 import (
-
-	//"github.com/astaxie/beegae"
 	"app/passporte/models"
 	"app/passporte/viewmodels"
 	"log"
 	"time"
 	"fmt"
 	"reflect"
-
-	//"app/go_appengine/goroot/src/go/doc/testdata"
-	//"github.com/gorilla/mux"
 	"app/passporte/helpers"
 )
 
@@ -22,11 +17,11 @@ type ContactUserController struct {
 	BaseController
 }
 
-func (c *ContactUserController)LoadContact() {
+/* Add contact detail to DB*/
+func (c *ContactUserController)AddNewContact() {
 	r := c.Ctx.Request
 	w :=c.Ctx.ResponseWriter
 	if r.Method == "POST" {
-
 		user:=models.ContactUser{}
 		user.Name= c.GetString("name")
 		user.State = c.GetString("state")
@@ -40,31 +35,29 @@ func (c *ContactUserController)LoadContact() {
 		dbStatus := user.AddContactToDB(c.AppEngineCtx)
 		switch dbStatus {
 
-		case true:
-			w.Write([]byte("true"))
+			case true:
+				w.Write([]byte("true"))
 
-		case false:
-			w.Write([]byte("false"))
+			case false:
+				w.Write([]byte("false"))
 		}
 	}else {
 
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-contacts.html"
-
-
 	}
 
 
 }
+
+/*Display all contact detail*/
 func (c *ContactUserController)LoadContactdetail() {
 	user := models.ContactUser{}
-	dbStatus, contact := user.RetrieveContactFromDB(c.AppEngineCtx)
+	dbStatus, contact := user.GetAllContact(c.AppEngineCtx)
 	viewModel := viewmodels.ContactUserViewModel{}
 
 	switch dbStatus {
-
 	case true:
-		//var valueSlice []models.User
 		dataValue := reflect.ValueOf(contact)
 		var keySlice []string
 		for _, key := range dataValue.MapKeys() {
@@ -72,10 +65,9 @@ func (c *ContactUserController)LoadContactdetail() {
 
 
 		}
-		// To perform the opertion you want
+
 		for _, k := range keySlice {
 			var tempValueSlice []string
-			log.Println("hai")
 			tempValueSlice = append(tempValueSlice, contact[k].Name)
 			tempValueSlice = append(tempValueSlice, contact[k].Address)
 			tempValueSlice = append(tempValueSlice, contact[k].State)
@@ -92,8 +84,11 @@ func (c *ContactUserController)LoadContactdetail() {
 
 	case false:
 
+		log.Println(helpers.ServerConnectionError)
 	}
 }
+
+/*Function for delete contact from DB*/
 func (c *ContactUserController)LoadDeleteContact() {
 
 
@@ -103,15 +98,15 @@ func (c *ContactUserController)LoadDeleteContact() {
 	w := c.Ctx.ResponseWriter
 	switch dbStatus {
 
-	case true:
-		w.Write([]byte("true"))
-	case false :
-		w.Write([]byte("false"))
+		case true:
+			w.Write([]byte("true"))
+		case false :
+			w.Write([]byte("false"))
 	}
 
 
 }
-
+/*To perform edit operation*/
 func (c *ContactUserController)LoadEditContact() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -130,11 +125,11 @@ func (c *ContactUserController)LoadEditContact() {
 		dbStatus := user.UpdateContactToDB(c.AppEngineCtx,contactId)
 		switch dbStatus {
 
-		case true:
-			w.Write([]byte("true"))
+			case true:
+				w.Write([]byte("true"))
 
-		case false:
-			w.Write([]byte("false"))
+			case false:
+				w.Write([]byte("false"))
 		}
 
 	} else {
@@ -158,6 +153,7 @@ func (c *ContactUserController)LoadEditContact() {
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-contacts.html"
 		case false:
+			log.Println(helpers.ServerConnectionError)
 
 		}
 

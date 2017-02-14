@@ -5,6 +5,7 @@ $(function(){
     
     var mainArray = [];   
     var table = "";
+    
     function createDataArray(values, keys){
         var subArray = [];
         for(i = 0; i < values.length; i++) {
@@ -29,12 +30,16 @@ $(function(){
             }]
         });
         
-        var item = $('<span>+</span>');
-        item.click(function() {
+        
+        var dropdownItem = $('<div class="tbl-dropdown"><select class="form-control sprites-arrow-down" id=""><option>All Customers</option>{{range .vm.UniqueCustomerNames}}<option>{{.}}</option>{{end}}</select></div>');
+        
+        var addItem = $('<span>+</span>');
+        addItem.click(function() {
             window.location = "/job/add";
         });
         
-        $('.table-wrapper .dataTables_filter').append(item);
+        $('.table-wrapper .dataTables_filter').prepend(dropdownItem).append(addItem);
+        
     }
     if(vm.Values != null) {
         createDataArray(vm.Values, vm.Keys);

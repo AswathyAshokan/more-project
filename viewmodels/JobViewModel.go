@@ -13,4 +13,5 @@ type JobViewModel  struct {
 	PageType          	string
 	Keys              	[]string
 	JobId             	string
+	UniqueCustomerNames	[]string
 }

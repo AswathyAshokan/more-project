@@ -3,9 +3,7 @@ package models
 
 import (
 	"log"
-
 	"golang.org/x/net/context"
-	//"golang.org/x/crypto/nacl/box"
 )
 
 type Task   struct {
@@ -30,8 +28,9 @@ type User struct {
 	FirstName string
 	LastName  string
 }
-func (m *Task) AddTaskToDB(ctx context.Context )(bool)  {
 
+/*add task details to DB*/
+func (m *Task) AddTaskToDB(ctx context.Context )(bool)  {
 
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
@@ -43,8 +42,9 @@ func (m *Task) AddTaskToDB(ctx context.Context )(bool)  {
 		return false
 	}
 	return true
-
 }
+
+/*get all task details from DB*/
 func (m *Task) RetrieveTaskFromDB(ctx context.Context)(bool,map[string]Task) {
 	taskValue := map[string]Task{}
 	dB, err := GetFirebaseClient(ctx,"")
@@ -55,10 +55,9 @@ func (m *Task) RetrieveTaskFromDB(ctx context.Context)(bool,map[string]Task) {
 	}
 	log.Println(taskValue)
 	return true, taskValue
-
-
 }
 
+/*delete  task details from DB*/
 func (m *Task) DeleteTaskFromDB(ctx context.Context, taskId string)(bool)  {
 
 	dB, err := GetFirebaseClient(ctx,"")
@@ -67,12 +66,15 @@ func (m *Task) DeleteTaskFromDB(ctx context.Context, taskId string)(bool)  {
 		log.Println("Connection error:",err)
 	}
 	err = dB.Child("/Task/"+ taskId).Remove()
+	log.Println("deleted successfully")
 	if err!=nil{
 		log.Println("Deletion error:",err)
 		return false
 	}
 	return true
 }
+
+/*get all job details from DB*/
 func GetAllJobs(ctx context.Context)(bool,map[string]Task) {
 	jobValue := map[string]Task{}
 	dB, err := GetFirebaseClient(ctx,"")
@@ -83,28 +85,10 @@ func GetAllJobs(ctx context.Context)(bool,map[string]Task) {
 	}
 	log.Println(jobValue)
 	return true, jobValue
-
-
 }
-func (m *Job)RetrieveJobValueFromDB(ctx context.Context, jobId []string)([] string) {
 
-	c := Job{}
-	var s []string
-	dB, err := GetFirebaseClient(ctx,"")
-	for i := 0; i <len(jobId) ; i++ {
-		err = dB.Child("/Job/" + jobId[i]).Value(&c)
-		 s =append(s,c.JobName)
-
-	}
-	if err != nil {
-		log.Fatal(err)
-		return s
-	}
-	return s
-	//log.Println("There are "+v.getChildrenCount());
-
-}
-func (m *Task) RetrieveContactFromDB(ctx context.Context)(bool,map[string]Task) {
+/*get all contact details from DB*/
+func (m *Task) GetAllContact(ctx context.Context)(bool,map[string]Task) {
 	contactValue := map[string]Task{}
 	dB, err := GetFirebaseClient(ctx,"")
 	err = dB.Child("Contacts").Value(&contactValue)
@@ -117,24 +101,8 @@ func (m *Task) RetrieveContactFromDB(ctx context.Context)(bool,map[string]Task) 
 
 
 }
-func (m *ContactUser)RetrieveContactNameFromDB(ctx context.Context, contactId[] string)([] string) {
 
-	c := ContactUser{}
-	var contactName []string
-	dB, err := GetFirebaseClient(ctx,"")
-	for i := 0; i <len(contactId) ; i++ {
-		err = dB.Child("/Contacts/" + contactId[i]).Value(&c)
-		contactName =append(contactName,c.Name)
-
-	}
-	if err != nil {
-		log.Fatal(err)
-		return contactName
-	}
-	return contactName
-	//log.Println("There are "+v.getChildrenCount());
-
-}
+/* Function for update task on DB*/
 func (m *Task) UpdateTaskToDB( ctx context.Context, taskId string)(bool)  {
 
 
@@ -149,9 +117,10 @@ func (m *Task) UpdateTaskToDB( ctx context.Context, taskId string)(bool)  {
 	}
 	return true
 
-
 }
-func (m *Task) RetrieveTaskDetailFromDB(ctx context.Context, taskId string)(bool, Task) {
+
+/*get a specific task detail by id*/
+func (m *Task) GetTaskDetailById(ctx context.Context, taskId string)(bool, Task) {
 	taskDetail := Task{}
 	dB, err := GetFirebaseClient(ctx,"")
 	err = dB.Child("/Task/"+ taskId).Value(&taskDetail)
@@ -160,9 +129,10 @@ func (m *Task) RetrieveTaskDetailFromDB(ctx context.Context, taskId string)(bool
 		return false, taskDetail
 	}
 	return true, taskDetail
-//log.Println("There are "+v.getChildrenCount());
 
 }
+
+/*get user details from DB*/
 func (m *User ) RetrieveUserFromDB(ctx context.Context)(bool,map[string]User) {
 	valueOfUser := map[string]User {}
 	dB, err := GetFirebaseClient(ctx,"")
@@ -173,25 +143,4 @@ func (m *User ) RetrieveUserFromDB(ctx context.Context)(bool,map[string]User) {
 	}
 
 	return true,valueOfUser
-
-
-}
-func (m *User)RetrieveUserNameFromDB(ctx context.Context, userId[] string)([] string) {
-
-	c := User{}
-	var allUserNames []string
-	dB, err := GetFirebaseClient(ctx,"")
-	for i := 0; i <len(userId) ; i++ {
-		err = dB.Child("/User/" + userId[i]).Value(&c)
-		allUserNames = append(allUserNames, (c.FirstName + "" + c.LastName))
-
-
-	}
-	if err != nil {
-		log.Fatal(err)
-		return allUserNames
-	}
-	return allUserNames
-	//log.Println("There are "+v.getChildrenCount());
-
 }

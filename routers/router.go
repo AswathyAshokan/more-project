@@ -36,16 +36,19 @@ func init() {
 
 
 	//Aswathy
-	beegae.Router("/contact/add", &controllers.ContactUserController{},"*:LoadContact")
+	beegae.Router("/contact/add", &controllers.ContactUserController{},"*:AddNewContact")
 	beegae.Router("/contact", &controllers.ContactUserController{},"*:LoadContactdetail")
+	beegae.Router("/contact/:contactId/edit", &controllers.ContactUserController{},"*:LoadEditContact")
+	beegae.Router("/contact/:contactId/delete", &controllers.ContactUserController{},"*:LoadDeleteContact")
+
+
+	beegae.Router("/job/add", &controllers.JobController{},"*:AddNewJob")
+	beegae.Router("/job", &controllers.JobController{},"*:LoadJobDetail")
+	beegae.Router("/job/:jobId/edit", &controllers.JobController{},"*:LoadEditJob")
+	beegae.Router("/job/:jobId/delete", &controllers.JobController{},"*:LoadDeleteJob")
+
 	beegae.Router("/task/add", &controllers.TaskController{},"*:AddNewTask")
 	beegae.Router("/task", &controllers.TaskController{},"*:LoadTaskDetail")
-	beegae.Router("/job/add", &controllers.JobController{},"*:LoadJob")
-	beegae.Router("/job", &controllers.JobController{},"*:LoadJobDetail")
-	beegae.Router("/contact/:contactId/edit", &controllers.ContactUserController{},"*:LoadEditContact")
-	beegae.Router("/job/:jobId/edit", &controllers.JobController{},"*:LoadEditJob")
 	beegae.Router("/task/:taskId/edit", &controllers.TaskController{},"*:LoadEditTask")
-	beegae.Router("/contact/:contactId/delete", &controllers.ContactUserController{},"*:LoadDeleteContact")
-	beegae.Router("/job/:jobId/delete", &controllers.JobController{},"*:LoadDeleteJob")
 	beegae.Router("/task/:taskId/delete", &controllers.TaskController{},"*:LoadDeleteTask")
 }
