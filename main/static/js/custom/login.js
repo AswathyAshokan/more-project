@@ -12,7 +12,7 @@ $(function(){
             },
             success :   function(data){
                 if(data=="true"){
-                    window.location = '/job';
+                    window.location = '/invite';
                 }
                 else{
                     $("#login_err").css({"color": "red", "font-size": "15px"});
