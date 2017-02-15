@@ -110,4 +110,8 @@ $(function () {
                  }
                 }
             });
+      
+      $("#cancel").click(function() {
+            window.location = '/contact';
+    });
   });

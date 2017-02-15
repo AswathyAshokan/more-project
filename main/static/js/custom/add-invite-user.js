@@ -67,6 +67,10 @@ $().ready(function() {
             return false;
         }
     });
+    
+    $("#cancel").click(function() {
+            window.location = '/invite';
+    });
 });
 
 

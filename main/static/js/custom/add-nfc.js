@@ -70,4 +70,8 @@ $(function(){
                 }
     });
 
+    $("#cancel").click(function() {
+            window.location = '/nfc';
+    });
+
 });
