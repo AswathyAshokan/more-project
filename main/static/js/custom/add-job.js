@@ -1,4 +1,6 @@
 /* Author :Aswathy Ashok */
+//Below line is for adding active class to layout side menu..
+document.getElementById("job").className += " active";
 $().ready(function() {
     
     var pageType = vm.PageType;
