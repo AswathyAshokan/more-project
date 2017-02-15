@@ -1,8 +1,9 @@
 /*Created By Farsana*/
 //Below line is for adding active class to layout side menu..
+
 document.getElementById("crm").className += " active";
 
-//push data to data table
+/*Function for creating Data Array for data table*/
 $(function(){ 
     var mainArray = []; 
     var table = "";
@@ -18,7 +19,7 @@ $(function(){
         }
     }
     
-// Add a empty column to datatable and fill with edit delete and list icons
+/*Function for assigning data array into data table*/
     function dataTableManipulate(){
         table =  $("#customer-table").DataTable({
             data: mainArray,
@@ -30,7 +31,7 @@ $(function(){
             }]
         });
         
-// Add a plus symbol in webpage for add new groups
+/*Add a plus symbol in webpage for add new groups*/
         var item = $('<span>+</span>');
         item.click(function() {
             window.location = "/customer/add";
@@ -38,12 +39,16 @@ $(function(){
         
         $('.table-wrapper .dataTables_filter').append(item);
     }
+/*---------------------------Initial data table calling---------------------------------------------------*/
+
     if(vm.Values != null) {
         createDataArray(vm.Values, vm.Keys);
     }
     dataTableManipulate(); 
+ /*--------------------------Ending Initial data table calling---------------------------------------------*/
+
     
-// list job details of each customer when click on list icon
+/*list job details of each customer when click on list icon*/
     $('#customer-table tbody').on( 'click', '#view', function () {
         var data = table.row( $(this).parents('tr') ).data();
         var cusomerId = data[7];
@@ -51,7 +56,7 @@ $(function(){
         return false;
     });
 
-// Edit customer details when click on edit icon
+/*Edit customer details when click on edit icon*/
     $('#customer-table tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[7];
@@ -59,7 +64,7 @@ $(function(){
         return false;
     });
     
-// Delete customer details when click on delete icon
+/*Delete customer details when click on delete icon */
     $('#customer-table tbody').on( 'click', '#delete', function () {
         $("#myModal").modal();
         var data = table.row( $(this).parents('tr') ).data();

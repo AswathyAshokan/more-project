@@ -135,4 +135,21 @@ func (c *CustomerController) EditCustomer() {
 		}
 	}
 }
+func (c *CustomerController)  CustomerNameCheck(){
+	log.Println("hiii")
+	w := c.Ctx.ResponseWriter
+	customerName := c.Ctx.Input.Param(":customername")
+	customer := models.Customer{}
+	dbStatus := customer.IsCustomerNameUsed(c.AppEngineCtx,customerName)
+	log.Println("hiii",)
+	switch dbStatus {
+	case true:
+		w.Write([]byte("true"))
+	case false:
+		w.Write([]byte("false"))
+
+	}
+
+
+}
 

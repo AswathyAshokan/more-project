@@ -1,5 +1,5 @@
 /* Author :Aswathy Ashok */
-alert("hii")
+
 $().ready(function() {
     
     var pageType = array.PageType;
@@ -24,7 +24,8 @@ $().ready(function() {
                        
                     },
 		            jobNumber: {
-                        required: true
+                        required: true,
+                        number: true
                     }
                     
                 },

@@ -15,7 +15,14 @@ $().ready(function() {
     }
 	$("#addcustomerForm").validate({
 	  rules: {
-          customername: "required",
+          customername:{
+              required:"required",
+              remote:{
+                  url: "/iscustomernameused/" + customername,
+                  type: "post"
+              }
+              
+          },
           contactperson:"required",
           email:{
               required:true,
@@ -31,16 +38,19 @@ $().ready(function() {
           zipcode: "required"
       },
         messages: {
-            customername:"please enter customer name ",
-            contactperson:"please enter contact person",
+            customername:{
+                required: "Please enter Customer Name ",
+                remote: "The Customer Name is already in use !"
+                },
+            contactperson:"Please enter Contact Person",
             phone: {
-                required:"please enter phone no",
-                minlength:"enter 10 digit"
+                required:"Please enter Phone Number",
+                minlength:"Enter 10 digit"
             },
-            address:"please enter your address",
-            state: "please enter your state",
-            zipcode:"please enter zipcode  ",
-            email:"please enter your email id"
+            address:"Please enter your Address",
+            state: "Please enter your State",
+            zipcode:"Please enter Zipcode  ",
+            email:"Please enter your Email id"
     },
         submitHandler: function(){//to pass all data of a form serial
             if (vm.PageType == "edit"){
