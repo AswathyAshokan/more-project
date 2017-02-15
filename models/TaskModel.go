@@ -9,6 +9,7 @@ import (
 type Task   struct {
 
 	JobName         string
+	CustomerName	string
 	TaskName        string
 	TaskLocation    string
 	StartDate       string
@@ -83,7 +84,7 @@ func GetAllJobs(ctx context.Context)(bool,map[string]Job) {
 		log.Fatal(err)
 		return false, jobValue
 	}
-	log.Println(jobValue)
+	log.Println("job value",jobValue)
 	return true, jobValue
 }
 

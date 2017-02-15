@@ -1,4 +1,3 @@
-
 <title>Add Task</title>
 <div class="col-md-12 main-content-wrapper padding-50-each">
 	<div class="clearfix">
@@ -19,10 +18,10 @@
 							<div class="col-sm-6">
 								<label for="jobName" class="">Job Name</label>
 
-								<select class="form-control sprites-arrow-down" id="jobName" name="jobName">
+								<select class="form-control sprites-arrow-down" id="jobName" name="jobName" onchange="getJobAndCustomer();">
 									<option selected disabled value="">Select a Job</option>
 									{{range $key, $val := .vm.JobNameArray}}
-									<option >{{$val}} ({{index $.vm.JobCustomerNameArray $key}})</option>
+									   <option value="{{$val}}" >{{$val}} ({{index $.vm.JobCustomerNameArray $key}})</option>
 									{{end}}
 								</select>
 							</div>
@@ -34,7 +33,7 @@
 								<label for="startDate" class="">Start Date and Time</label>
 								<div class="callender-wrapper">
 									<input type="text" id="startDate" class="datepicker form-control sprites-callender" name="startDate">
-									<!-- <input class="form-control time" id="ex2" type="text"> -->
+									 <input class="form-control time" id="ex2" type="text"> 
 									<input type="text" class="form-control time"  value="" placeholder="12:00" data-timepicker >
 								</div>
 							</div>
@@ -91,7 +90,7 @@
 								<select class="form-control sprites-arrow-down multiple-drop" id="userOrGroup" multiple="multiple" name="userOrGroup">
 									
                                         {{range $key, $val := .vm.GroupNameArray}}
-                                           <option value="{{.}}">{{$val}}</option>
+                                           <option value="{{$val}}">{{$val}}</option>
                                        {{end}}
 								</select>
 							</div>
@@ -101,7 +100,7 @@
 								<select class="form-control sprites-arrow-down multiple-drop" id="contacts" multiple="multiple" name="contacts" >
                                    
                                         {{range $key, $val := .vm.ContactNameArray}}
-                                           <option value="{{index $.vm.Key $key}}">{{$val}}</option>
+                                           <option value="{{$val}}">{{$val}}</option>
                                        {{end}}
 										
 
@@ -185,6 +184,3 @@
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFl3U2s0vqjaN-6rvAaOA8Ts1cfDss_KM&callback=myMap"></script>
 
-
-</body>
-</html>

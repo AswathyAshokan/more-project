@@ -1,15 +1,15 @@
 /* Author :Aswathy Ashok */
-
 $().ready(function() {
     
-    var pageType = array.PageType;
+    var pageType = vm.PageType;
     
-    if(pageType ==    "edit") {
-        console.log(array);
-            $("#customerName").val(array.CustomerName);
-            document.getElementById("jobName").value = array.JobName;
-            document.getElementById("jobNumber").value = array.JobNumber;
-            document.getElementById("numberOfTask").value = array.NumberOfTask;
+    if(pageType == "edit") {
+        console.log(vm);
+            console.log("Hai");
+            $("#customerName").val(vm.CustomerName);
+            document.getElementById("jobName").value = vm.JobName;
+            document.getElementById("jobNumber").value = vm.JobNumber;
+            document.getElementById("numberOfTask").value = vm.NumberOfTask;
             document.getElementById("jobHead").innerHTML = "Edit Job";
             
            
@@ -49,7 +49,7 @@ $().ready(function() {
                     var customerName = $('#customerId option:selected').text();
                     formData = formData +"&customerName="+customerName;
                     console.log(formData);
-                    var jobId = array.JobId;
+                    var jobId = vm.JobId;
                     
                     if (pageType == "edit") {
                         

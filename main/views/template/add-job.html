@@ -1,7 +1,7 @@
 
 <head>
 	<script type="text/javascript">
-       var array = {{.array}};
+       var vm = {{.vm}};
    </script>
 	<script src="/static/js/jquery.validate.js"></script>
 	<script src="/static/js/custom/add-job.js"></script>
@@ -23,9 +23,9 @@
 						<label for="customerName" class="">Customer Name</label>
 						<select class="form-control sprites-arrow-down" id="customerId" name="customerId">
                             <option selected disabled value="">Select a Customer</option>
-                             {{range $key, $val := .array.CustomerNameArray}}
+                             {{range $key, $val := .vm.CustomerNameArray}}
                             
-                                     <option value="{{index $.array.Keys $key}}">{{$val}}</option>
+                                     <option value="{{index $.vm.Keys $key}}">{{$val}}</option>
                             
                             {{end}}
 				

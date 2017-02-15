@@ -2,7 +2,7 @@
 //Below line is for adding active class to layout side menu..
 document.getElementById("task").className += " active";
 var pageType = vm.PageType;
-console.log(vm);
+var customerName = "";
 
 $(function () {
     
@@ -31,6 +31,12 @@ $().ready(function() {
    });
 
 
+    getJobAndCustomer = function(){
+        var job = $("#jobName option:selected").val() + " (";
+        var jobAndCustomer = $("#jobName option:selected").text();
+        var tempName = jobAndCustomer.replace(job, '');
+        customerName = tempName.replace(')', '');
+    }
 
    $("#taskDoneForm").validate({
        
@@ -41,7 +47,7 @@ $().ready(function() {
        
        submitHandler: function() {
            var taskId=vm.TaskId;
-           var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio;
+           var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName;
            if(pageType == "edit"){
             
                 $.ajax({

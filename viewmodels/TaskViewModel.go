@@ -34,7 +34,9 @@ type AddTaskViewModel  struct {
 
 
 }
+
 type TaskDetailViewModel  struct {
 	Values            	[][]string
 	Keys              	[]string
+	UniqueCustomerNames	[]string
 }

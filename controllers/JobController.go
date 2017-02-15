@@ -56,7 +56,7 @@ func (c *JobController)AddNewJob() {
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
-		c.Data["array"] = viewModel
+		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-job.html"
 
@@ -67,7 +67,7 @@ func (c *JobController)AddNewJob() {
 func (c *JobController)LoadJobDetail() {
 	customerId := ""
 	customerId = c.Ctx.Input.Param(":customerId")
-	job := models.Job{}
+	job :=models.Job{}
 	dbStatus, jobs := job.GetAllJobs(c.AppEngineCtx)
 	viewModel := viewmodels.JobViewModel{}
 	switch dbStatus {
@@ -155,6 +155,11 @@ func (c *JobController)LoadEditJob() {
 		case true:
 			_, jobs := job.RetrieveCustomerFromDB(c.AppEngineCtx)
 			dataValue := reflect.ValueOf(jobs)
+			var keySlice []string
+			for _, key := range dataValue.MapKeys() {
+				keySlice = append(keySlice, key.String())
+			}
+			viewModel.Keys=keySlice
 			for _, k := range dataValue.MapKeys() {
 				viewModel.CustomerNameArray  = append(viewModel.CustomerNameArray, jobs[k.String()].CustomerName)
 			}
@@ -164,7 +169,7 @@ func (c *JobController)LoadEditJob() {
 			viewModel.JobNumber = jobDetail.JobNumber
 			viewModel.NumberOfTask = jobDetail.NumberOfTask
 			viewModel.JobId= jobId
-			c.Data["array"] = viewModel
+			c.Data["vm"] = viewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-job.html"
 		case false:

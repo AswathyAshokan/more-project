@@ -2,11 +2,35 @@
 //Below line is for adding active class to layout side menu..
 document.getElementById("task").className += " active";
 
-console.log(vm.Values);
+console.log(vm);
 $(function(){ 
     
     var mainArray = [];   
     var table = "";
+    
+    /*Function for Customer selection dropdown*/
+    customerFilter = function(){
+        var tempArray = [];
+        var selectedCustomer = $("#customerDropdown").val();
+        if (selectedCustomer == "All Customers") {
+            $('#task-details').dataTable().fnDestroy();
+            dataTableManipulate(mainArray); 
+        } else {
+            for(i = 0; i < mainArray.length; i++){                
+                if (mainArray[i][0].search(selectedCustomer) != '-1'){
+                    tempArray.push(mainArray[i]);
+                }
+            }
+            $('#task-details').dataTable().fnDestroy();
+            dataTableManipulate(tempArray);
+            
+            $("#customerDropdown").val(selectedCustomer);
+        }         
+    }
+    
+    
+    
+    
     function createDataArray(values, keys){
         var subArray = [];
         for(i = 0; i < values.length; i++) {
@@ -20,9 +44,9 @@ $(function(){
         }
     }
     
-    function dataTableManipulate(){
+    function dataTableManipulate(dataArray){
         table =  $("#task-details").DataTable({
-            data: mainArray,
+            data: dataArray,
             "columnDefs": [{
                        "targets": -1,
                        "width": "5%",
@@ -36,18 +60,24 @@ $(function(){
             window.location = "/task/add";
         });
         
-        var jobDropdown = $('<div class="tbl-dropdown"><select class="form-control sprites-arrow-down" id=""><option>All Jobs</option><option>All Jobs</option></select></div>');
+        var customerDropdown = $('<div class="tbl-dropdown"><select class="form-control sprites-arrow-down" id="customerDropdown"  onchange="customerFilter();"><option>All Customers</option></select></div>');
         
-        var customerDropdown = $('<div class="tbl-dropdown"><select class="form-control sprites-arrow-down" id=""><option>All Customers</option><option>All Customers</option></select></div>');
+        var jobDropdown = $('<div class="tbl-dropdown"><select class="form-control sprites-arrow-down" id=""><option>All Jobs</option><option>All Jobs</option></select></div>');       
         
         
         
         $('.table-wrapper .dataTables_filter').prepend(jobDropdown).prepend(customerDropdown).append(addItem);
+        
+        var customerArray = vm.UniqueCustomerNames;
+        
+        for(i = 0; i < customerArray.length; i++){
+            $("#customerDropdown").append("<option>"+customerArray[i]+"</option>");
+        }
     }
     if(vm.Values != null) {
         createDataArray(vm.Values, vm.Keys);
     }
-    dataTableManipulate(); 
+    dataTableManipulate(mainArray); 
 
     $('#task-details tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
@@ -79,7 +109,7 @@ $(function(){
                            }
                         }
                         mainArray.splice(i, 1);
-                        dataTableManipulate();   
+                        dataTableManipulate(mainArray);   
                     }
                     else {
                         console.log("Removing Failed!");

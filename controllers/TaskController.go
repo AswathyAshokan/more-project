@@ -10,6 +10,7 @@ import (
 	"reflect"
 	"app/passporte/helpers"
 	"log"
+	"bytes"
 )
 
 type TaskController struct {
@@ -24,6 +25,7 @@ func (c *TaskController)AddNewTask() {
 		task:=models.Task{}
 		task.TaskName= c.GetString("taskName")
 		task.JobName= c.GetString("jobName")
+		task.CustomerName = c.GetString("customerName")
 		task.StartDate = c.GetString("startDate")
 		task.EndDate = c.GetString("endDate")
 		task.TaskLocation = c.GetString("taskLocation")
@@ -57,13 +59,18 @@ func (c *TaskController)AddNewTask() {
 		dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
+
+			log.Println("1")
 			dataValue := reflect.ValueOf(allJobs)
+			log.Println(dataValue)
 			for _, key := range dataValue.MapKeys() {
 				keySlice = append(keySlice, key.String())
 			}
 			for _, k := range dataValue.MapKeys() {
 				viewModel.JobNameArray   = append(viewModel.JobNameArray, allJobs[k.String()].JobName)
+				log.Println(viewModel.JobNameArray)
 				viewModel.JobCustomerNameArray = append(viewModel.JobCustomerNameArray, allJobs[k.String()].CustomerName)
+				log.Println(viewModel.JobCustomerNameArray)
 			}
 		case false:
 			log.Println(helpers.ServerConnectionError)
@@ -72,6 +79,8 @@ func (c *TaskController)AddNewTask() {
 		dbStatus, allUsers := user.GetAllUsers(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
+
+			log.Println("2")
 			dataValue := reflect.ValueOf(allUsers)
 			for _, k := range dataValue.MapKeys() {
 				viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,  allUsers[k.String()].FirstName+""+ allUsers[k.String()].LastName)
@@ -79,6 +88,7 @@ func (c *TaskController)AddNewTask() {
 			allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx)
 			switch dbStatus {
 			case true:
+				log.Println("3")
 				dataValue = reflect.ValueOf(allGroups)
 
 				for _, k := range dataValue.MapKeys() {
@@ -93,14 +103,18 @@ func (c *TaskController)AddNewTask() {
 		dbStatus, contacts := models.GetAllContact(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
+			log.Println("4")
 			dataValue := reflect.ValueOf(contacts)
 			for _, k := range dataValue.MapKeys() {
 				viewModel.ContactNameArray  = append(viewModel.ContactNameArray , contacts[k.String()].Name)
 			}
+
+			log.Println("5: ", keySlice)
 			viewModel.Key = keySlice
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
+		log.Println("Data: ", viewModel)
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-task.html"
@@ -125,7 +139,23 @@ func (c *TaskController)LoadTaskDetail() {
 		}
 		for _, k := range keySlice {
 			var tempValueSlice []string
-			tempValueSlice = append(tempValueSlice, tasks[k].JobName)
+			var buffer bytes.Buffer
+			tempJobAndCustomer := ""
+			buffer.WriteString(tasks[k].JobName)
+			buffer.WriteString(" (")
+			buffer.WriteString(tasks[k].CustomerName)
+			buffer.WriteString(")")
+			tempJobAndCustomer = buffer.String()
+			buffer.Reset()
+			tempValueSlice = append(tempValueSlice, tempJobAndCustomer)
+
+			if !helpers.StringInSlice(tasks[k].CustomerName, viewModel.UniqueCustomerNames) {
+				viewModel.UniqueCustomerNames = append(viewModel.UniqueCustomerNames, tasks[k].CustomerName)
+			}
+			/*if customerId == jobs[k].CustomerId{
+				viewModel.SelectedCustomer = jobs[k].CustomerName
+			}*/
+
 			tempValueSlice = append(tempValueSlice, tasks[k].TaskName)
 			tempValueSlice = append(tempValueSlice, tasks[k].TaskLocation)
 			tempValueSlice = append(tempValueSlice, tasks[k].StartDate)
@@ -171,6 +201,7 @@ func (c *TaskController)LoadEditTask() {
 		task := models.Task{}
 		task.TaskName = c.GetString("taskName")
 		task.JobName = c.GetString("jobName")
+		task.CustomerName = c.GetString("customerName")
 		task.StartDate = c.GetString("startDate")
 		task.EndDate = c.GetString("endDate")
 		task.TaskLocation = c.GetString("taskLocation")
@@ -179,7 +210,6 @@ func (c *TaskController)LoadEditTask() {
 		task.Log = c.GetString("log")
 		task.UsersOrGroups = c.GetStrings("userOrGroup")
 		tempContactId := c.GetStrings("contacts")
-		log.Println("contact details", tempContactId)
 		for i := 0; i < len(tempContactId); i++ {
 			task.ContactId = append(task.ContactId, tempContactId[i])
 		}

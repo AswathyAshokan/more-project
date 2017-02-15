@@ -84,7 +84,6 @@ func (c *GroupController) GroupDetails() {
 			tempValueSlice = append(tempValueSlice, allGroups[k].GroupName)
 			tempValueSlice = append(tempValueSlice, strconv.Itoa(membersNumber))
 			tempUserNames := ""
-			log.Println(len(tempUserNames))
 			var buffer bytes.Buffer
 			for i := 0; i < membersNumber; i++ {
 				if len(tempUserNames) == 0{
