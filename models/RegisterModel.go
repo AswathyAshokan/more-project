@@ -54,15 +54,15 @@ func (m *CompanyAdmins)AddUser(ctx context.Context) bool {
 	}
 }
 
-func (m *CompanyAdmins)CheckEmailIsUsed(ctx context.Context) bool{
+/*func CheckEmailIsUsed(ctx context.Context, key string) bool{
 	companyAdmins := CompanyAdmins{}
 	dB, err := GetFirebaseClient(ctx, "")
 	if err != nil {
 		log.Println("No Db Connection!")
 	}
-	err = dB.Child("CompanyAdmins").OrderBy("Info/Email").EqualTo(m.Info.Email).Value(&companyAdmins)
+	err = dB.Child("CompanyAdmins").OrderBy("Info/Email").EqualTo(key).Value(&companyAdmins)
 	if err != nil {
 		return false
 	}
 	return true
-}
+}*/

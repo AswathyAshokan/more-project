@@ -7,10 +7,9 @@
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/RegisterController.go" afterPath="$PROJECT_DIR$/controllers/RegisterController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/app.yaml" afterPath="$PROJECT_DIR$/main/app.yaml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/register.js" afterPath="$PROJECT_DIR$/main/static/js/custom/register.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/RegisterModel.go" afterPath="$PROJECT_DIR$/models/RegisterModel.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/SessionModel.go" afterPath="$PROJECT_DIR$/models/SessionModel.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routers/router.go" afterPath="$PROJECT_DIR$/routers/router.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,32 +24,48 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="router.go" pinned="false" current-in-tab="false">
+      <file leaf-file-name="router.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routers/router.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="19" column="74" lean-forward="false" selection-start-line="19" selection-start-column="74" selection-end-line="19" selection-end-column="74" />
+            <state relative-caret-position="75">
+              <caret line="14" column="10" lean-forward="false" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SessionModel.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/SessionModel.go">
+      <file leaf-file-name="NfcController.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controllers/NfcController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="1" column="7" lean-forward="false" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
-              <folding />
+            <state relative-caret-position="273">
+              <caret line="148" column="40" lean-forward="true" selection-start-line="148" selection-start-column="40" selection-end-line="148" selection-end-column="40" />
+              <folding>
+                <element signature="e#56#150#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LoginModel.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/LoginModel.go">
+      <file leaf-file-name="NfcModel.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/NfcModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="24" column="96" lean-forward="false" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="104" />
-              <folding />
+            <state relative-caret-position="-1440">
+              <caret line="4" column="7" lean-forward="true" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
+              <folding>
+                <element signature="e#51#104#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RegisterModel.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/RegisterModel.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="363">
+              <caret line="67" column="3" lean-forward="false" selection-start-line="56" selection-start-column="0" selection-end-line="67" selection-end-column="3" />
+              <folding>
+                <element signature="e#51#156#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -58,8 +73,8 @@
       <file leaf-file-name="RegisterController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/RegisterController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="39" column="32" lean-forward="false" selection-start-line="39" selection-start-column="32" selection-end-line="39" selection-end-column="32" />
+            <state relative-caret-position="381">
+              <caret line="60" column="1" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -68,18 +83,8 @@
       <file leaf-file-name="register.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/static/js/custom/register.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="54" column="45" lean-forward="false" selection-start-line="54" selection-start-column="45" selection-end-line="54" selection-end-column="45" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RegisterModel.go" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/models/RegisterModel.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="327">
-              <caret line="60" column="48" lean-forward="false" selection-start-line="60" selection-start-column="48" selection-end-line="60" selection-end-column="48" />
+            <state relative-caret-position="1008">
+              <caret line="56" column="31" lean-forward="false" selection-start-line="53" selection-start-column="28" selection-end-line="56" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -163,13 +168,13 @@
         <option value="$PROJECT_DIR$/main/static/js/custom/login.js" />
         <option value="$PROJECT_DIR$/controllers/LoginController.go" />
         <option value="$PROJECT_DIR$/controllers/SessionController.go" />
-        <option value="$PROJECT_DIR$/routers/router.go" />
         <option value="$PROJECT_DIR$/main/views/layout/layout.html" />
-        <option value="$PROJECT_DIR$/controllers/NfcController.go" />
         <option value="$PROJECT_DIR$/models/SessionModel.go" />
+        <option value="$PROJECT_DIR$/controllers/NfcController.go" />
         <option value="$PROJECT_DIR$/main/static/js/custom/register.js" />
-        <option value="$PROJECT_DIR$/controllers/RegisterController.go" />
         <option value="$PROJECT_DIR$/models/RegisterModel.go" />
+        <option value="$PROJECT_DIR$/controllers/RegisterController.go" />
+        <option value="$PROJECT_DIR$/routers/router.go" />
       </list>
     </option>
   </component>
@@ -946,7 +951,14 @@
       <option name="project" value="LOCAL" />
       <updated>1487071481829</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="15/02/2017 &#10;">
+      <created>1487135594801</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1487135594801</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TodoView">
@@ -960,7 +972,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1301" height="744" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -970,7 +982,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32988048" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16019417" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16019417" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18064517" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -1011,7 +1023,8 @@
     <MESSAGE value="10/02/2017 Added Comments&#10;" />
     <MESSAGE value="13/02/2017 Fixed Error in router&#10;" />
     <MESSAGE value="14/02/2017 Login and Session Complete&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="14/02/2017 Login and Session Complete&#10;" />
+    <MESSAGE value="15/02/2017 &#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="15/02/2017 &#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1094,6 +1107,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-762">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1124,6 +1138,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="131">
           <caret line="177" column="20" lean-forward="false" selection-start-line="177" selection-start-column="20" selection-end-line="177" selection-end-column="20" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1167,6 +1182,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1242">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1188,6 +1204,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
           <caret line="78" column="44" lean-forward="true" selection-start-line="78" selection-start-column="23" selection-end-line="78" selection-end-column="46" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1202,6 +1219,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="612">
           <caret line="115" column="19" lean-forward="true" selection-start-line="111" selection-start-column="8" selection-end-line="115" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1282,13 +1300,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/NfcModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="14" column="30" lean-forward="false" selection-start-line="11" selection-start-column="8" selection-end-line="14" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/views/layout/layout.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
@@ -1321,24 +1332,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/NfcController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="17" />
-          <folding>
-            <element signature="e#56#150#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routers/router.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="19" column="74" lean-forward="false" selection-start-line="19" selection-start-column="74" selection-end-line="19" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/LoginModel.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="342">
@@ -1347,26 +1340,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/static/js/custom/register.js">
+    <entry file="file://$PROJECT_DIR$/controllers/NfcController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="54" column="45" lean-forward="false" selection-start-line="54" selection-start-column="45" selection-end-line="54" selection-end-column="45" />
-          <folding />
+        <state relative-caret-position="273">
+          <caret line="148" column="40" lean-forward="true" selection-start-line="148" selection-start-column="40" selection-end-line="148" selection-end-column="40" />
+          <folding>
+            <element signature="e#56#150#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/RegisterController.go">
+    <entry file="file://$PROJECT_DIR$/models/NfcModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="39" column="32" lean-forward="false" selection-start-line="39" selection-start-column="32" selection-end-line="39" selection-end-column="32" />
+        <state relative-caret-position="-1440">
+          <caret line="4" column="7" lean-forward="true" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
+          <folding>
+            <element signature="e#51#104#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/static/js/custom/register.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1008">
+          <caret line="56" column="31" lean-forward="false" selection-start-line="53" selection-start-column="28" selection-end-line="56" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/RegisterModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="60" column="48" lean-forward="false" selection-start-line="60" selection-start-column="48" selection-end-line="60" selection-end-column="48" />
+        <state relative-caret-position="363">
+          <caret line="67" column="3" lean-forward="false" selection-start-line="56" selection-start-column="0" selection-end-line="67" selection-end-column="3" />
+          <folding>
+            <element signature="e#51#156#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/RegisterController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="381">
+          <caret line="60" column="1" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routers/router.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="14" column="10" lean-forward="false" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
           <folding />
         </state>
       </provider>

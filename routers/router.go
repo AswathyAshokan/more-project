@@ -12,6 +12,7 @@ func init() {
 	//Sarath
 	beegae.Router("/", &controllers.LoginController{}, "*:Login")
 	beegae.Router("/register", &controllers.RegisterController{}, "*:Register")
+	//beegae.Router("/isEmailUsed/:emailId",&controllers.RegisterController{},"*:CheckEmail")
 	beegae.Router("/nfc", &controllers.NfcController{},"*:NFCDetails")
 	beegae.Router("/nfc/add",&controllers.NfcController{},"*:AddNFC")
 	//beegae.Router("/datatable",&controllers.NfcController{},"*:Datatable")

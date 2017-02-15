@@ -47,3 +47,15 @@ func (c *RegisterController) Register() {
 		c.TplName = "template/register.html"
 	}
 }
+
+/*
+func (c *RegisterController)CheckEmail(){
+	w := c.Ctx.ResponseWriter
+	key := c.GetString("Key")
+	isEmailUsed := models.CheckEmailIsUsed(c.AppEngineCtx, key)
+	if isEmailUsed == false {
+		w.Write([]byte("false"))
+	}else{
+		w.Write([]byte("true"))
+	}
+}*/
