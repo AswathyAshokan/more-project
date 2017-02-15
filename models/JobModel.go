@@ -102,3 +102,36 @@ func (m *Job) UpdateJobToDB( ctx context.Context,jobId string)(bool)  {
 	return true
 
 }
+
+func CheckJobNameIsUsed(ctx context.Context, jobName string)bool{
+	job := map[string]Job{}
+	dB, err := GetFirebaseClient(ctx, "")
+	if err != nil {
+		log.Println("No Db Connection!")
+	}
+	err = dB.Child("Job").OrderBy("JobName").EqualTo(jobName).Value(&job)
+	if len(job)==0{
+		log.Println("map null:",job)
+		return true
+	}else{
+		log.Println("map not null:",job)
+		return false
+	}
+}
+
+func CheckJobNumberIsUsed(ctx context.Context, jobNumber string)bool{
+	job := map[string]Job{}
+	dB, err := GetFirebaseClient(ctx, "")
+	if err != nil {
+		log.Println("No Db Connection!")
+	}
+	log.Println("JOB NUMBER:",jobNumber)
+	err = dB.Child("Job").OrderBy("JobNumber").EqualTo(jobNumber).Value(&job)
+	if len(job)==0{
+		log.Println("map null:",job)
+		return true
+	}else{
+		log.Println("map not null:",job)
+		return false
+	}
+}

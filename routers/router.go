@@ -44,11 +44,12 @@ func init() {
 	beegae.Router("/contact/:contactId/edit", &controllers.ContactUserController{},"*:LoadEditContact")
 	beegae.Router("/contact/:contactId/delete", &controllers.ContactUserController{},"*:LoadDeleteContact")
 
-
 	beegae.Router("/job/add", &controllers.JobController{},"*:AddNewJob")
 	beegae.Router("/job", &controllers.JobController{},"*:LoadJobDetail")
 	beegae.Router("/job/:jobId/edit", &controllers.JobController{},"*:LoadEditJob")
 	beegae.Router("/job/:jobId/delete", &controllers.JobController{},"*:LoadDeleteJob")
+	beegae.Router("/isJobNameUsed/:jobName", &controllers.JobController{},"*:CheckJobName")
+	beegae.Router("/isJobNumberUsed/:jobNumber", &controllers.JobController{},"*:CheckJobNumber")
 
 	beegae.Router("/task/add", &controllers.TaskController{},"*:AddNewTask")
 	beegae.Router("/task", &controllers.TaskController{},"*:LoadTaskDetail")

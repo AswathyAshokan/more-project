@@ -59,3 +59,4 @@ func (c *RegisterController)CheckEmail(){
 		w.Write([]byte("true"))
 	}
 }
+

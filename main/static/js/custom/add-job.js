@@ -23,25 +23,33 @@ $().ready(function() {
                     numberOfTask:"required",
                     jobName: {
                         required: true,
-                       
+                        remote:{
+                            url: "/isJobNameUsed/" + jobName,
+                            type: "post"
+                        }
+
                     },
 		            jobNumber: {
                         required: true,
+                        remote:{
+                             url: "/isJobNumberUsed/" + jobNumber,
+                             type: "post"
+                        },
                         number: true
                     }
                     
                 },
            
                 messages: {
-                    jobName: "Please enter your name",
 
-                    emailAddress: "Please enter a valid email address",
                     jobName: {
                         required: "Please provide a job name",
-                        
+                         remote: "Job name already exists!"
+
                     },
 		            jobNumber:{
-			            required:"please provide a job number"
+			            required:"please provide a job number",
+			            remote: "Job number already exists!"
 			        },
 
                 },
@@ -97,4 +105,8 @@ $().ready(function() {
                     }
                 }
          });
+
+          $("#cancel").click(function() {
+                     window.location = '/job';
+             });
  });

@@ -55,14 +55,19 @@ func (m *CompanyAdmins)AddUser(ctx context.Context) bool {
 }
 
 func CheckEmailIsUsed(ctx context.Context, emailId string) bool{
-	companyAdmins := CompanyAdmins{}
+	companyAdmins := map[string]CompanyAdmins{}
 	dB, err := GetFirebaseClient(ctx, "")
 	if err != nil {
 		log.Println("No Db Connection!")
 	}
-	err = dB.Child("CompanyAdmins").OrderBy("Info/Email").EqualTo(emailId).Value(&companyAdmins)
-	if err != nil {
-		return true
+	if err :=  dB.Child("CompanyAdmins").OrderBy("Info/Email").EqualTo(emailId).Value(&companyAdmins); err != nil {
+		log.Fatal(err)
 	}
-	return false
+	if len(companyAdmins)==0{
+		log.Println("map null:",companyAdmins)
+		return true
+	}else{
+		log.Println("map not null:",companyAdmins)
+		return false
+	}
 }

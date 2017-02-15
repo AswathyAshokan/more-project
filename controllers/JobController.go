@@ -179,3 +179,29 @@ func (c *JobController)LoadEditJob() {
 
 	}
 }
+
+func (c *JobController)CheckJobName(){
+	w := c.Ctx.ResponseWriter
+	jobName := c.GetString("jobName")
+	log.Println("Checking isjobNameUsed:",jobName)
+	isJobNameUsed := models.CheckJobNameIsUsed(c.AppEngineCtx, jobName)
+	switch isJobNameUsed{
+	case true:
+		w.Write([]byte("true"))
+	case false:
+		w.Write([]byte("false"))
+	}
+}
+
+func (c *JobController)CheckJobNumber(){
+	w := c.Ctx.ResponseWriter
+	jobNumber := c.GetString("jobNumber")
+	log.Println("Checking isjobNumberUsed:",jobNumber)
+	isJobNumberUsed := models.CheckJobNumberIsUsed(c.AppEngineCtx, jobNumber)
+	switch isJobNumberUsed{
+	case true:
+		w.Write([]byte("true"))
+	case false:
+		w.Write([]byte("false"))
+	}
+}
