@@ -77,8 +77,8 @@ func (c *CustomerController) DeleteCustomer() {
 	w := c.Ctx.ResponseWriter
 	customerKey :=c.Ctx.Input.Param(":customerid")
 	customer := models.Customer{}
-	result :=customer.DeleteCustomerById(c.AppEngineCtx, customerKey)
-	switch result {
+	dbStatus :=customer.DeleteCustomerById(c.AppEngineCtx, customerKey)
+	switch dbStatus {
 	case true:
 		w.Write([]byte("true"))
 	case false:
@@ -135,12 +135,4 @@ func (c *CustomerController) EditCustomer() {
 		}
 	}
 }
-
-
-
-
-
-
-
-
 

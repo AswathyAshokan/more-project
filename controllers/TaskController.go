@@ -180,7 +180,6 @@ func (c *TaskController)LoadEditTask() {
 		log.Println("contact details", tempContactId)
 		for i := 0; i < len(tempContactId); i++ {
 			task.ContactId = append(task.ContactId, tempContactId[i])
-
 		}
 		task.LoginType = c.GetString("loginType")
 		task.FitToWork = c.GetString("fitToWork")

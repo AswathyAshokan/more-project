@@ -1,5 +1,5 @@
 /* Author :Aswathy Ashok */
-
+alert("hii")
 $().ready(function() {
     
     var pageType = array.PageType;

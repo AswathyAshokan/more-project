@@ -103,7 +103,6 @@ func(m *Group) TakeGroupMemberName(ctx context.Context,groupKeySlice []string) (
 		allUserNames = append(allUserNames, (allUserDetails.FirstName + " " + allUserDetails.LastName))
 
 	}
-
 	return allUserNames, true
 }
 
@@ -112,8 +111,6 @@ func(m *Group) GetGroupDetailsById(ctx context.Context,groupKey string) (Group,b
 	groupDetails := Group{}
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("/Group/"+groupKey).Value(&groupDetails)
-	log.Println("hi",groupDetails)
-
 	if err != nil {
 		log.Fatal(err)
 		return groupDetails, false

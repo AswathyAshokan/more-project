@@ -24,6 +24,7 @@ func init() {
 	beegae.Router("/customer", &controllers.CustomerController{}, "*:CustomerDetails")
 	beegae.Router("/customer/:customerid/delete", &controllers.CustomerController{}, "*:DeleteCustomer")
 	beegae.Router("/customer/:customerid/edit", &controllers.CustomerController{}, "*:EditCustomer")
+	//beegae.Router("/customer/:customerid/list", &controllers.CustomerController{}, "*:ListJobDetails")
 
 	beegae.Router("/group/add", &controllers.GroupController{}, "*:AddGroup")
 	beegae.Router("/group", &controllers.GroupController{}, "*:GroupDetails")

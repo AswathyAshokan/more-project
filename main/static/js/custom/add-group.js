@@ -7,11 +7,11 @@ $().ready(function() {
     if(vm.PageType == "edit"){ 
         var selectArray = vm.GroupMembersToEdit;
         document.getElementById("groupName").value = vm.GroupNameToEdit;
-        document.getElementById("groupHead").innerHTML = "Edit Group";
+        document.getElementById("groupHead").innerHTML = "Edit Group";//for display heading of each webpage
         $("#selectedUserIds").val(selectArray);
     }
-
-	$("#addgroupForm").validate({
+    
+    $("#addgroupForm").validate({
         rules: {
             groupName: "required",
             selectedUserIds : "required"
@@ -23,6 +23,8 @@ $().ready(function() {
         submitHandler: function(){//to pass all data of a form serial
             var formData = $("#addgroupForm").serialize();
             var selectedUsersNames = [];
+            
+//get the user's name corresponding to  keys selected from dropdownlist 
             $("#selectedUserIds option:selected").each(function () {
                 var $this = $(this);
                 if ($this.length) {
@@ -31,6 +33,7 @@ $().ready(function() {
                 }
             });
             
+// Serialialize all the selected invite user name from dropdown list with form data
             for(i = 0; i < selectedUsersNames.length; i++) {
                 formData = formData+"&selectedUserNames="+selectedUsersNames[i];
             }
@@ -53,7 +56,6 @@ $().ready(function() {
                 });
             
             } else {
-                //var selectedUserIds = $("#selectedUserIds").val();
                 $.ajax({
                     url:'/group/add',
                     type:'post',

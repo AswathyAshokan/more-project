@@ -3,6 +3,7 @@
 //Below line is for adding active class to layout side menu..
 document.getElementById("group").className += " active";
 
+//push data to data table
 $(function(){ 
     var mainArray = [];   
     var table = "";
@@ -18,7 +19,7 @@ $(function(){
             subArray = [];
         }
     }
-    
+// Add a empty column to datatable and fill with edit delete and list icons
     function dataTableManipulate(){
         table =  $("#group-table").DataTable({
             data: mainArray,
@@ -29,6 +30,8 @@ $(function(){
                        "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
             }]
         });
+        
+// Add a plus symbol in webpage for add new groups
         var item = $('<span>+</span>');
         item.click(function() {
             window.location = "/group/add";
@@ -40,12 +43,14 @@ $(function(){
     }
     dataTableManipulate(); 
 
+// Edit group details when click on edit icon
     $('#group-table tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[3];
         window.location = '/group/' + key + '/edit';
     });
 
+// Delete group details when click on edit icon
     $('#group-table tbody').on( 'click', '#delete', function () {
         $("#myModal").modal();
         var data = table.row( $(this).parents('tr') ).data();

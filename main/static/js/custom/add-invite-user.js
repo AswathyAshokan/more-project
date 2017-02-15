@@ -14,8 +14,8 @@ $().ready(function() {
 
 
     }
-
-	$("#adduserForm").validate({
+    
+    $("#adduserForm").validate({
 	  rules: {
           firstname: "required",
           emailid:{
@@ -24,7 +24,7 @@ $().ready(function() {
           },
       },
         messages: {
-            irstname:"please enter first name ",
+            firstname:"please enter first name ",
             emailid:"please enter currect email id"
         },
         submitHandler: function(){//to pass all data of a form serial

@@ -1,5 +1,9 @@
+alert("hii")
 /*Created By Farsana*/
+//Below line is for adding active class to layout side menu..
+document.getElementById("crm").className += " active";
 
+//push data to data table
 $(function(){ 
     var mainArray = []; 
     var table = "";
@@ -15,6 +19,7 @@ $(function(){
         }
     }
     
+// Add a empty column to datatable and fill with edit delete and list icons
     function dataTableManipulate(){
         table =  $("#customer-table").DataTable({
             data: mainArray,
@@ -25,8 +30,9 @@ $(function(){
                 "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-eye" aria-hidden="true" id="list"></i><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
             }]
         });
-        var item = $('<span>+</span>');
         
+// Add a plus symbol in webpage for add new groups
+        var item = $('<span>+</span>');
         item.click(function() {
             window.location = "/customer/add";
         });
@@ -38,13 +44,23 @@ $(function(){
     }
     dataTableManipulate(); 
     
+// list job details of each customer when click on list icon
+    $('#customer-table tbody').on( 'click', '#list', function () {
+        var data = table.row( $(this).parents('tr') ).data();
+        //var key = data[7];
+        window.location = '/job';
+        return false;
+    });
+
+// Edit customer details when click on edit icon
     $('#customer-table tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[7];
         window.location = '/customer/'+ key + '/edit';
         return false;
     });
-
+    
+// Delete customer details when click on delete icon
     $('#customer-table tbody').on( 'click', '#delete', function () {
         $("#myModal").modal();
         var data = table.row( $(this).parents('tr') ).data();

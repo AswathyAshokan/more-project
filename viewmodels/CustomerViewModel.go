@@ -14,3 +14,12 @@ type Customer struct {
 	Values	      [][]string
 	Keys	      []string
 }
+type ListJobDetailsOfCustomer struct {
+
+	CustomerName      	string
+	JobName           	string
+	JobNumber         	string
+	NumberOfTask      	string
+	Status                  string
+	CustomerId              string
+}
