@@ -4,22 +4,12 @@
     <bookmark url="file://$PROJECT_DIR$/controllers/NfcController.go" line="47" mnemonic="9" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="15/02/2017  12:42PM Cancel Button Fix on all pages&#10;">
+    <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-contacts.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-contacts.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-customer.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-customer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-group.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-group.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-invite-user.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-invite-user.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-nfc.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-nfc.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-task.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-task.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/invite-user-details.js" afterPath="$PROJECT_DIR$/main/static/js/custom/invite-user-details.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/add-contacts.html" afterPath="$PROJECT_DIR$/main/views/template/add-contacts.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/add-customer.html" afterPath="$PROJECT_DIR$/main/views/template/add-customer.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/add-group.html" afterPath="$PROJECT_DIR$/main/views/template/add-group.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/add-invite-user.html" afterPath="$PROJECT_DIR$/main/views/template/add-invite-user.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/add-nfc.html" afterPath="$PROJECT_DIR$/main/views/template/add-nfc.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/add-task.html" afterPath="$PROJECT_DIR$/main/views/template/add-task.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/job-details.html" afterPath="$PROJECT_DIR$/main/views/template/job-details.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/RegisterController.go" afterPath="$PROJECT_DIR$/controllers/RegisterController.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/register.js" afterPath="$PROJECT_DIR$/main/static/js/custom/register.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/RegisterModel.go" afterPath="$PROJECT_DIR$/models/RegisterModel.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routers/router.go" afterPath="$PROJECT_DIR$/routers/router.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -37,14 +27,14 @@
       <file leaf-file-name="router.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routers/router.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-126">
-              <caret line="14" column="10" lean-forward="false" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
+            <state relative-caret-position="144">
+              <caret line="14" column="44" lean-forward="false" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="44" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="add-customer.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="add-customer.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/views/template/add-customer.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
@@ -54,12 +44,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="job-details.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main/views/template/job-details.html">
+      <file leaf-file-name="RegisterModel.go" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/models/RegisterModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
-              <caret line="23" column="31" lean-forward="false" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
-              <folding />
+            <state relative-caret-position="169">
+              <caret line="62" column="77" lean-forward="false" selection-start-line="62" selection-start-column="77" selection-end-line="62" selection-end-column="77" />
+              <folding>
+                <element signature="e#51#156#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -84,16 +76,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="add-nfc.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main/static/js/custom/add-nfc.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="74" column="7" lean-forward="false" selection-start-line="72" selection-start-column="4" selection-end-line="74" selection-end-column="7" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="add-contacts.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/views/template/add-contacts.html">
           <provider selected="true" editor-type-id="text-editor">
@@ -107,8 +89,8 @@
       <file leaf-file-name="RegisterController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/RegisterController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="381">
-              <caret line="60" column="1" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+            <state relative-caret-position="169">
+              <caret line="54" column="70" lean-forward="false" selection-start-line="54" selection-start-column="70" selection-end-line="54" selection-end-column="70" />
               <folding />
             </state>
           </provider>
@@ -117,8 +99,18 @@
       <file leaf-file-name="register.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/static/js/custom/register.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="35" column="29" lean-forward="false" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="34" />
+            <state relative-caret-position="169">
+              <caret line="53" column="36" lean-forward="true" selection-start-line="53" selection-start-column="36" selection-end-line="53" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="nfc-details.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main/static/js/custom/nfc-details.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="223">
+              <caret line="90" column="28" lean-forward="true" selection-start-line="90" selection-start-column="28" selection-end-line="90" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -200,15 +192,15 @@
         <option value="$PROJECT_DIR$/main/views/layout/layout.html" />
         <option value="$PROJECT_DIR$/models/SessionModel.go" />
         <option value="$PROJECT_DIR$/controllers/NfcController.go" />
-        <option value="$PROJECT_DIR$/main/static/js/custom/register.js" />
-        <option value="$PROJECT_DIR$/models/RegisterModel.go" />
-        <option value="$PROJECT_DIR$/controllers/RegisterController.go" />
         <option value="$PROJECT_DIR$/main/views/template/job-details.html" />
         <option value="$PROJECT_DIR$/main/views/template/add-nfc.html" />
         <option value="$PROJECT_DIR$/main/static/js/custom/add-nfc.js" />
         <option value="$PROJECT_DIR$/main/views/template/add-contacts.html" />
-        <option value="$PROJECT_DIR$/routers/router.go" />
         <option value="$PROJECT_DIR$/main/views/template/add-customer.html" />
+        <option value="$PROJECT_DIR$/main/static/js/custom/register.js" />
+        <option value="$PROJECT_DIR$/routers/router.go" />
+        <option value="$PROJECT_DIR$/controllers/RegisterController.go" />
+        <option value="$PROJECT_DIR$/models/RegisterModel.go" />
       </list>
     </option>
   </component>
@@ -1003,7 +995,14 @@
       <option name="project" value="LOCAL" />
       <updated>1487137484654</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="15/02/2017  12:43 PM Cancel Button Fix on all pages&#10;">
+      <created>1487142848139</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1487142848139</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1071,7 +1070,8 @@
     <MESSAGE value="15/02/2017 &#10;" />
     <MESSAGE value="15/02/2017  11:14AM&#10;" />
     <MESSAGE value="15/02/2017  12:42PM Cancel Button Fix on all pages&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="15/02/2017  12:42PM Cancel Button Fix on all pages&#10;" />
+    <MESSAGE value="15/02/2017  12:43 PM Cancel Button Fix on all pages&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="15/02/2017  12:43 PM Cancel Button Fix on all pages&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1358,24 +1358,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/RegisterModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="67" column="3" lean-forward="false" selection-start-line="56" selection-start-column="0" selection-end-line="67" selection-end-column="3" />
-          <folding>
-            <element signature="e#51#156#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/RegisterController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="60" column="1" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/views/template/job-details.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
@@ -1388,14 +1370,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-740">
           <caret line="6" column="111" lean-forward="false" selection-start-line="6" selection-start-column="111" selection-end-line="6" selection-end-column="111" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/static/js/custom/register.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="35" column="29" lean-forward="false" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="34" />
           <folding />
         </state>
       </provider>
@@ -1416,18 +1390,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/static/js/custom/nfc-details.js">
+    <entry file="file://$PROJECT_DIR$/main/views/template/add-customer.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="828">
-          <caret line="88" column="18" lean-forward="false" selection-start-line="86" selection-start-column="4" selection-end-line="91" selection-end-column="7" />
+        <state relative-caret-position="119">
+          <caret line="31" column="75" lean-forward="false" selection-start-line="31" selection-start-column="75" selection-end-line="31" selection-end-column="75" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/views/template/add-nfc.html">
+    <entry file="file://$PROJECT_DIR$/main/static/js/custom/nfc-details.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="52">
-          <caret line="42" column="105" lean-forward="false" selection-start-line="42" selection-start-column="105" selection-end-line="42" selection-end-column="105" />
+        <state relative-caret-position="223">
+          <caret line="90" column="28" lean-forward="true" selection-start-line="90" selection-start-column="28" selection-end-line="90" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routers/router.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="14" column="44" lean-forward="false" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="44" />
           <folding />
         </state>
       </provider>
@@ -1440,19 +1422,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routers/router.go">
+    <entry file="file://$PROJECT_DIR$/main/views/template/add-nfc.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-126">
-          <caret line="14" column="10" lean-forward="false" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
+        <state relative-caret-position="52">
+          <caret line="42" column="105" lean-forward="false" selection-start-line="42" selection-start-column="105" selection-end-line="42" selection-end-column="105" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/views/template/add-customer.html">
+    <entry file="file://$PROJECT_DIR$/main/static/js/custom/register.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="31" column="75" lean-forward="false" selection-start-line="31" selection-start-column="75" selection-end-line="31" selection-end-column="75" />
+        <state relative-caret-position="169">
+          <caret line="53" column="36" lean-forward="true" selection-start-line="53" selection-start-column="36" selection-end-line="53" selection-end-column="36" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/RegisterController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="54" column="70" lean-forward="false" selection-start-line="54" selection-start-column="70" selection-end-line="54" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/RegisterModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="62" column="77" lean-forward="false" selection-start-line="62" selection-start-column="77" selection-end-line="62" selection-end-column="77" />
+          <folding>
+            <element signature="e#51#156#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

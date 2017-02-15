@@ -51,10 +51,10 @@ $(function(){
                         emailId:{
                             required: true,
                             email: true,
-                            /*remote:{
-                                url: "/isEmailUsed",
+                            remote:{
+                                url: "/isEmailUsed/" + emailId,
                                 type: "post"
-                            }*/
+                            }
                         },
                         password:{
                             required: true,
@@ -79,7 +79,7 @@ $(function(){
                         emailId:{
                             required: "Please enter youe Email address!",
                             email: "Please enter a valid Email address!",
-                           // remote: "The Email you have entered is already in use!"
+                            remote: "The Email you have entered is already in use!"
                         },
                         password:{
                             required: "Please enter a Password!",

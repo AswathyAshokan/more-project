@@ -48,14 +48,14 @@ func (c *RegisterController) Register() {
 	}
 }
 
-/*
 func (c *RegisterController)CheckEmail(){
 	w := c.Ctx.ResponseWriter
-	key := c.GetString("Key")
-	isEmailUsed := models.CheckEmailIsUsed(c.AppEngineCtx, key)
+	emailId := c.GetString("emailId")
+	log.Println("Checking isEmailUsed:",emailId)
+	isEmailUsed := models.CheckEmailIsUsed(c.AppEngineCtx, emailId)
 	if isEmailUsed == false {
 		w.Write([]byte("false"))
 	}else{
 		w.Write([]byte("true"))
 	}
-}*/
+}
