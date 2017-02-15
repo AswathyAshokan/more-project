@@ -156,6 +156,10 @@ func (c *TaskController)LoadTaskDetail() {
 				viewModel.SelectedCustomer = jobs[k].CustomerName
 			}*/
 
+			if !helpers.StringInSlice(tasks[k].JobName, viewModel.UniqueJobNames) {
+				viewModel.UniqueJobNames = append(viewModel.UniqueJobNames, tasks[k].JobName)
+			}
+
 			tempValueSlice = append(tempValueSlice, tasks[k].TaskName)
 			tempValueSlice = append(tempValueSlice, tasks[k].TaskLocation)
 			tempValueSlice = append(tempValueSlice, tasks[k].StartDate)

@@ -28,6 +28,26 @@ $(function(){
         }         
     }
     
+    /*Function for Customer selection dropdown*/
+    jobFilter = function(){
+        var tempArray = [];
+        var selectedJob = $("#jobDropdown").val();
+        if (selectedJob == "All Jobs") {
+            $('#task-details').dataTable().fnDestroy();
+            dataTableManipulate(mainArray); 
+        } else {
+            for(i = 0; i < mainArray.length; i++){                
+                if (mainArray[i][0].search(selectedJob) != '-1'){
+                    tempArray.push(mainArray[i]);
+                }
+            }
+            $('#task-details').dataTable().fnDestroy();
+            dataTableManipulate(tempArray);
+            
+            $("#jobDropdown").val(selectedJob);
+        }         
+    }
+    
     
     
     
@@ -62,7 +82,7 @@ $(function(){
         
         var customerDropdown = $('<div class="tbl-dropdown"><select class="form-control sprites-arrow-down" id="customerDropdown"  onchange="customerFilter();"><option>All Customers</option></select></div>');
         
-        var jobDropdown = $('<div class="tbl-dropdown"><select class="form-control sprites-arrow-down" id=""><option>All Jobs</option><option>All Jobs</option></select></div>');       
+        var jobDropdown = $('<div class="tbl-dropdown"><select class="form-control sprites-arrow-down" id="jobDropdown"  onchange="jobFilter();"><option>All Jobs</option></select></div>');       
         
         
         
@@ -72,6 +92,12 @@ $(function(){
         
         for(i = 0; i < customerArray.length; i++){
             $("#customerDropdown").append("<option>"+customerArray[i]+"</option>");
+        }
+        
+        var jobArray = vm.UniqueJobNames;
+        
+        for(i = 0; i < jobArray.length; i++){
+            $("#jobDropdown").append("<option>"+jobArray[i]+"</option>");
         }
     }
     if(vm.Values != null) {
