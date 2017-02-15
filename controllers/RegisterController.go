@@ -46,5 +46,4 @@ func (c *RegisterController) Register() {
 	} else {
 		c.TplName = "template/register.html"
 	}
-
 }

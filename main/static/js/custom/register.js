@@ -51,6 +51,10 @@ $(function(){
                         emailId:{
                             required: true,
                             email: true,
+                            remote:{
+                                url: "/isemailused",
+                                type: "post"
+                            }
                         },
                         password:{
                             required: true,
@@ -66,13 +70,17 @@ $(function(){
                     },
                     messages: {
                         firstName:{
-                            required: "Please enter your First Name!",
+                            required: "Please enter your First name!",
                             minlength: "First Name atleast have 3 characters!",
                         },
                         lastName:{
-                            required: "Please enter your Last Name!"
+                            required: "Please enter your Last name!"
                         },
-                        emailId: "Please enter a valid Email ID!",
+                        emailId:{
+                            required: "Please enter youe Email address!",
+                            email: "Please enter a valid Email address!",
+                            remote: "The Email you have entered is already in use!"
+                        }
                         password:{
                             required: "Please enter a Password!",
                             minlength: "Password atleast have 8 characters!"
