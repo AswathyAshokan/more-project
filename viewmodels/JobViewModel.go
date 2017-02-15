@@ -14,4 +14,5 @@ type JobViewModel  struct {
 	Keys              	[]string
 	JobId             	string
 	UniqueCustomerNames	[]string
+	SelectedCustomer	string
 }

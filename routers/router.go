@@ -53,4 +53,8 @@ func init() {
 	beegae.Router("/task", &controllers.TaskController{},"*:LoadTaskDetail")
 	beegae.Router("/task/:taskId/edit", &controllers.TaskController{},"*:LoadEditTask")
 	beegae.Router("/task/:taskId/delete", &controllers.TaskController{},"*:LoadDeleteTask")
+
+
+	//View sections
+	beegae.Router("/customer/:customerId/job", &controllers.JobController{},"*:LoadJobDetail")
 }

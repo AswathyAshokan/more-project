@@ -65,6 +65,8 @@ func (c *JobController)AddNewJob() {
 }
 /*Display job details*/
 func (c *JobController)LoadJobDetail() {
+	customerId := ""
+	customerId = c.Ctx.Input.Param(":customerId")
 	job := models.Job{}
 	dbStatus, jobs := job.GetAllJobs(c.AppEngineCtx)
 	viewModel := viewmodels.JobViewModel{}
@@ -80,6 +82,9 @@ func (c *JobController)LoadJobDetail() {
 			tempValueSlice = append(tempValueSlice, jobs[k].CustomerName)
 			if !helpers.StringInSlice(jobs[k].CustomerName, viewModel.UniqueCustomerNames) {
 				viewModel.UniqueCustomerNames = append(viewModel.UniqueCustomerNames, jobs[k].CustomerName)
+			}
+			if customerId == jobs[k].CustomerId{
+				viewModel.SelectedCustomer = jobs[k].CustomerName
 			}
 			tempValueSlice = append(tempValueSlice, jobs[k].JobName)
 			tempValueSlice = append(tempValueSlice, jobs[k].JobNumber)

@@ -4,10 +4,10 @@ $(function(){
     var table = "";
     var mainArray = [];  
     
+    /*Function for Customer selection dropdown*/
     customerFilter = function(){
         var tempArray = [];
         var selectedCustomer = $("#customerDropdown").val();
-        console.log(selectedCustomer);
         if (selectedCustomer == "All Customers") {
             $('#job-details').dataTable().fnDestroy();
             dataTableManipulate(mainArray); 
@@ -24,6 +24,21 @@ $(function(){
         }         
     }
     
+    /*Function for setting job details of a particular customer*/
+    function jobAccordingToCustomer(){
+        var tempArray = [];
+        for(i = 0; i < mainArray.length; i++){
+            if (mainArray[i][0] == vm.SelectedCustomer){
+                tempArray.push(mainArray[i]);
+            }
+        }
+        $('#job-details').dataTable().fnDestroy();
+        dataTableManipulate(tempArray);
+
+        $("#customerDropdown").val(vm.SelectedCustomer);
+    }
+    
+    /*Function for creating Data Array for data table*/
     function createDataArray(values, keys){
         var subArray = [];
         for(i = 0; i < values.length; i++) {
@@ -37,6 +52,7 @@ $(function(){
         }
     }
     
+    /*Function for assigning data array into data table*/
     function dataTableManipulate(dataArray){
         table =  $("#job-details").DataTable({
             data: dataArray,
@@ -64,12 +80,22 @@ $(function(){
             $("#customerDropdown").append("<option>"+customerArray[i]+"</option>");
         }
         
-    }
+    }    
+    
+    /*---------------------------Initial data table calling---------------------------------------------------*/
     if(vm.Values != null) {
         createDataArray(vm.Values, vm.Keys);
     }
-    dataTableManipulate(mainArray); 
+    if(vm.SelectedCustomer == ""){
+        dataTableManipulate(mainArray);
+    } else {
+        jobAccordingToCustomer();
+    }
+    
+    /*--------------------------Ending Initial data table calling---------------------------------------------*/
+    
 
+    /*Fuction for edit particular job*/
     $('#job-details tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[5];
@@ -77,6 +103,7 @@ $(function(){
     });
 
 
+    /*Function for deleting particular job*/
     $('#job-details tbody').on( 'click', '#delete', function () {
         $("#myModal").modal();
         var data = table.row( $(this).parents('tr') ).data();

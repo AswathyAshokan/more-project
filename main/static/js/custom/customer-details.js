@@ -27,7 +27,7 @@ $(function(){
                 "targets": -1,
                 "width": "10%",
                 "data": null,
-                "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-eye" aria-hidden="true" id="list"></i><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
+                "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-eye" aria-hidden="true" id="view"></i><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
             }]
         });
         
@@ -45,10 +45,10 @@ $(function(){
     dataTableManipulate(); 
     
 // list job details of each customer when click on list icon
-    $('#customer-table tbody').on( 'click', '#list', function () {
+    $('#customer-table tbody').on( 'click', '#view', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        //var key = data[7];
-        window.location = '/job';
+        var cusomerId = data[7];
+        window.location = '/customer/'+ cusomerId + '/job';
         return false;
     });
 
