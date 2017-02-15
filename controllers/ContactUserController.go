@@ -49,9 +49,8 @@ func (c *ContactUserController)AddNewContact() {
 }
 
 /*Display all contact detail*/
-func (c *ContactUserController)LoadContactdetail() {
-	user := models.ContactUser{}
-	dbStatus, contact := user.GetAllContact(c.AppEngineCtx)
+func (c *ContactUserController)LoadContactDetails() {
+	dbStatus, contact := models.GetAllContact(c.AppEngineCtx)
 	viewModel := viewmodels.ContactUserViewModel{}
 
 	switch dbStatus {

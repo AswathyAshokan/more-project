@@ -2,6 +2,11 @@ package viewmodels
 
 type EditTaskViewModel  struct {
 
+	JobNameArray		[]string
+	JobCustomerNameArray	[]string
+	ContactNameArray	[]string
+	Key			[]string
+	GroupNameArray		[]string
 
 	PageType		string
 	JobName			string
@@ -18,11 +23,11 @@ type EditTaskViewModel  struct {
 	Contact			string
 	FitToWork		string
 	TaskId			string
-
-
 }
+
 type AddTaskViewModel  struct {
 	JobNameArray		[]string
+	JobCustomerNameArray	[]string
 	ContactNameArray	[]string
 	Key			[]string
 	GroupNameArray		[]string

@@ -75,8 +75,8 @@ func (m *Task) DeleteTaskFromDB(ctx context.Context, taskId string)(bool)  {
 }
 
 /*get all job details from DB*/
-func GetAllJobs(ctx context.Context)(bool,map[string]Task) {
-	jobValue := map[string]Task{}
+func GetAllJobs(ctx context.Context)(bool,map[string]Job) {
+	jobValue := map[string]Job{}
 	dB, err := GetFirebaseClient(ctx,"")
 	err = dB.Child("Job").Value(&jobValue)
 	if err != nil {
@@ -133,7 +133,7 @@ func (m *Task) GetTaskDetailById(ctx context.Context, taskId string)(bool, Task)
 }
 
 /*get user details from DB*/
-func (m *User ) RetrieveUserFromDB(ctx context.Context)(bool,map[string]User) {
+func (m *User ) GetAllUsers(ctx context.Context)(bool,map[string]User) {
 	valueOfUser := map[string]User {}
 	dB, err := GetFirebaseClient(ctx,"")
 	err = dB.Child("User").Value(&valueOfUser)

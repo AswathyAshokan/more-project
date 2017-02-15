@@ -40,7 +40,7 @@ func init() {
 
 	//Aswathy
 	beegae.Router("/contact/add", &controllers.ContactUserController{},"*:AddNewContact")
-	beegae.Router("/contact", &controllers.ContactUserController{},"*:LoadContactdetail")
+	beegae.Router("/contact", &controllers.ContactUserController{},"*:LoadContactDetails")
 	beegae.Router("/contact/:contactId/edit", &controllers.ContactUserController{},"*:LoadEditContact")
 	beegae.Router("/contact/:contactId/delete", &controllers.ContactUserController{},"*:LoadDeleteContact")
 

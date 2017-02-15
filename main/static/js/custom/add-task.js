@@ -1,32 +1,23 @@
 /* Author :Aswathy Ashok */
 //Below line is for adding active class to layout side menu..
 document.getElementById("task").className += " active";
-
-console.log(array.Key)
-console.log(array.PageType)
-console.log(array.CustomerName)
-console.log(array.JobName)
-var pageType = array.PageType;
-
-function test(id) {
-    alert("Hi: " + id);
-}
-
+var pageType = vm.PageType;
+console.log(vm);
 
 $(function () {
     
-    if(pageType == "edit") {
-        document.getElementById("jobName").value = array.JobName;
-        document.getElementById("taskName").value = array.TaskName;
-        document.getElementById("taskLocation").value = array.TaskLocation;
-        document.getElementById("startDate").value = array.StartDate;
-        document.getElementById("endDate").value = array.EndDate;
-        document.getElementById("taskDescription").value = array.TaskDescription;
-        document.getElementById("users").value = array.UserNumber;
-        document.getElementById("log").value = array.Log ;
-        document.getElementById("userType").value = array.UserType;
-        document.getElementById("contacts").value = array.Contact;
-        document.getElementById("fitToWork").value = array.FitToWork;
+    if (pageType == "edit") {
+        document.getElementById("jobName").value = vm.JobName;
+        document.getElementById("taskName").value = vm.TaskName;
+        document.getElementById("taskLocation").value = vm.TaskLocation;
+        document.getElementById("startDate").value = vm.StartDate;
+        document.getElementById("endDate").value = vm.EndDate;
+        document.getElementById("taskDescription").value = vm.TaskDescription;
+        document.getElementById("users").value = vm.UserNumber;
+        document.getElementById("log").value = vm.Log ;
+        document.getElementById("userType").value = vm.UserType;
+        document.getElementById("contacts").value = vm.Contact;
+        document.getElementById("fitToWork").value = vm.FitToWork;
         document.getElementById("taskHead").innerHTML = "Edit Task";
     }
 });
@@ -34,9 +25,9 @@ $(function () {
        
 $().ready(function() {
 
-   var val;
+   var loginTypeRadio = "";
    $(".radio-inline").change(function () {
-       val = $('.radio-inline:checked').val();
+       loginTypeRadio = $('.radio-inline:checked').val();
    });
 
 
@@ -49,15 +40,15 @@ $().ready(function() {
        },
        
        submitHandler: function() {
-           var taskId=array.TaskId;
-           var formData = $("#taskDoneForm").serialize();
+           var taskId=vm.TaskId;
+           var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio;
            if(pageType == "edit"){
             
                 $.ajax({
                     url: '/task/'+taskId+'/edit',
                     type: 'post',
                     datatype: 'json',
-                    data: formData + "&loginType=" + val,
+                    data: formData,
                     success : function(response) {
                         if (response =="true") {
                             window.location = '/task';
@@ -75,7 +66,7 @@ $().ready(function() {
                     url: '/task/add',
                     type: 'post',
                     datatype: 'json',
-                    data: formData + "&loginType=" + val,
+                    data: formData,
                     success : function(response) {
                         if (response =="true") {
                             window.location = '/task';

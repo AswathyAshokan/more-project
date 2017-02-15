@@ -21,8 +21,8 @@
 
 								<select class="form-control sprites-arrow-down" id="jobName" name="jobName">
 									<option selected disabled value="">Select a Job</option>
-									{{range  .array.JobNameArray}}
-									<option >{{ . }}</option>
+									{{range $key, $val := .vm.JobNameArray}}
+									<option >{{$val}} ({{index $.vm.JobCustomerNameArray $key}})</option>
 									{{end}}
 								</select>
 							</div>
@@ -90,7 +90,7 @@
 								<label for="userType" class="">Users/Group</label>
 								<select class="form-control sprites-arrow-down multiple-drop" id="userOrGroup" multiple="multiple" name="userOrGroup">
 									
-                                        {{range $key, $val := .array.GroupNameArray}}
+                                        {{range $key, $val := .vm.GroupNameArray}}
                                            <option value="{{.}}">{{$val}}</option>
                                        {{end}}
 								</select>
@@ -100,8 +100,8 @@
 								<label for="contacts" class="">Contacts</label>
 								<select class="form-control sprites-arrow-down multiple-drop" id="contacts" multiple="multiple" name="contacts" >
                                    
-                                        {{range $key, $val := .array.ContactNameArray}}
-                                           <option value="{{index $.array.Key $key}}">{{$val}}</option>
+                                        {{range $key, $val := .vm.ContactNameArray}}
+                                           <option value="{{index $.vm.Key $key}}">{{$val}}</option>
                                        {{end}}
 										
 
@@ -163,7 +163,7 @@
 
 
 <script type="text/javascript">
-       var array = {{.array}};
+       var vm = {{.vm}};
    </script>
 <script src="/static/js/jquery.validate.js"></script>
 <script src="/static/js/custom/add-task.js"></script>

@@ -52,26 +52,29 @@ func (c *TaskController)AddNewTask() {
 	}else {
 		viewModel  := viewmodels.AddTaskViewModel{}
 		user :=models.User{}
-		dbStatus,tasks :=models.GetAllJobs(c.AppEngineCtx)
 		var keySlice []string
-		dataValue := reflect.ValueOf(tasks)
-		for _, key := range dataValue.MapKeys() {
-			keySlice = append(keySlice, key.String())
-		}
+		//Getting Jobs
+		dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
+			dataValue := reflect.ValueOf(allJobs)
+			for _, key := range dataValue.MapKeys() {
+				keySlice = append(keySlice, key.String())
+			}
 			for _, k := range dataValue.MapKeys() {
-				viewModel.JobNameArray   = append(viewModel.JobNameArray, tasks[k.String()].JobName)
+				viewModel.JobNameArray   = append(viewModel.JobNameArray, allJobs[k.String()].JobName)
+				viewModel.JobCustomerNameArray = append(viewModel.JobCustomerNameArray, allJobs[k.String()].CustomerName)
 			}
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
-		dbStatus, taskUserValue :=user.RetrieveUserFromDB(c.AppEngineCtx)
+		//Getting users and groups
+		dbStatus, allUsers := user.GetAllUsers(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
-			dataValue := reflect.ValueOf(taskUserValue)
+			dataValue := reflect.ValueOf(allUsers)
 			for _, k := range dataValue.MapKeys() {
-				viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,  taskUserValue[k.String()].FirstName+""+taskUserValue[k.String()].LastName)
+				viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,  allUsers[k.String()].FirstName+""+ allUsers[k.String()].LastName)
 			}
 			allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx)
 			switch dbStatus {
@@ -87,19 +90,18 @@ func (c *TaskController)AddNewTask() {
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
-		contact :=models.ContactUser{}
-		dbStatus,contacts :=contact.GetAllContact(c.AppEngineCtx)
+		dbStatus, contacts := models.GetAllContact(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
 			dataValue := reflect.ValueOf(contacts)
 			for _, k := range dataValue.MapKeys() {
 				viewModel.ContactNameArray  = append(viewModel.ContactNameArray , contacts[k.String()].Name)
 			}
-			viewModel.Key=keySlice
+			viewModel.Key = keySlice
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
-		c.Data["array"] = viewModel
+		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-task.html"
 
@@ -194,28 +196,29 @@ func (c *TaskController)LoadEditTask() {
 		}
 
 	} else {
-		viewModel  := viewmodels.AddTaskViewModel{}
+		viewModel  := viewmodels.EditTaskViewModel{}
 		task := models.Task{}
 		user := models.User{}
 		taskId := c.Ctx.Input.Param(":taskId")
 		dbStatus, taskDetail := task.GetTaskDetailById(c.AppEngineCtx, taskId)
 		switch dbStatus {
 		case true:
-			dbStatus, tasks := models.GetAllJobs(c.AppEngineCtx)
+			dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx)
 			var keySlice []string
-			dataValue := reflect.ValueOf(tasks)
-			for _, key := range dataValue.MapKeys() {
-				keySlice = append(keySlice, key.String())
-			}
 			switch dbStatus {
 			case true:
+				dataValue := reflect.ValueOf(allJobs)
+				for _, key := range dataValue.MapKeys() {
+					keySlice = append(keySlice, key.String())
+				}
 				for _, k := range dataValue.MapKeys() {
-					viewModel.JobNameArray = append(viewModel.JobNameArray, tasks[k.String()].JobName)
+					viewModel.JobNameArray = append(viewModel.JobNameArray, allJobs[k.String()].JobName)
+					viewModel.JobCustomerNameArray = append(viewModel.JobCustomerNameArray, allJobs[k.String()].CustomerName)
 				}
 			case false:
 				log.Println(helpers.ServerConnectionError)
 			}
-			dbStatus, taskUserValue := user.RetrieveUserFromDB(c.AppEngineCtx)
+			dbStatus, taskUserValue := user.GetAllUsers(c.AppEngineCtx)
 			switch dbStatus {
 			case true:
 				dataValue := reflect.ValueOf(taskUserValue)
@@ -235,8 +238,7 @@ func (c *TaskController)LoadEditTask() {
 			case false:
 				log.Println(helpers.ServerConnectionError)
 			}
-			contact := models.ContactUser{}
-			dbStatus, contacts := contact.GetAllContact(c.AppEngineCtx)
+			dbStatus, contacts := models.GetAllContact(c.AppEngineCtx)
 			switch dbStatus {
 			case true:
 				dataValue := reflect.ValueOf(contacts)
@@ -248,7 +250,6 @@ func (c *TaskController)LoadEditTask() {
 				log.Println(helpers.ServerConnectionError)
 			}
 			viewModel.Key = keySlice
-			viewModel  := viewmodels.EditTaskViewModel{}
 			viewModel.PageType = helpers.SelectPageForEdit
 			viewModel.JobName = taskDetail.JobName
 			viewModel.TaskName = taskDetail.TaskName
@@ -261,7 +262,7 @@ func (c *TaskController)LoadEditTask() {
 			viewModel.UserType = taskDetail.UsersOrGroups
 			viewModel.FitToWork = taskDetail.FitToWork
 			viewModel.TaskId = taskId
-			c.Data["array"] = viewModel
+			c.Data["vm"] = viewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-task.html"
 		case false:

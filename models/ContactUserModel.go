@@ -40,7 +40,7 @@ func (m *ContactUser) AddContactToDB(ctx context.Context) (bool) {
 
 /*Function for get all contact details*/
 
-func (m *ContactUser) GetAllContact(ctx context.Context)(bool,map[string]ContactUser) {
+func GetAllContact(ctx context.Context)(bool,map[string]ContactUser) {
 	contactDetail := map[string]ContactUser{}
 	dB, err := GetFirebaseClient(ctx,"")
 	err = dB.Child("Contacts").Value(&contactDetail)
