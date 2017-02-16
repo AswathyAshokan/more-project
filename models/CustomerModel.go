@@ -87,18 +87,22 @@ func(m *Customer) UpdateCustomerDetailsById(ctx context.Context,customerId strin
 
 
 //check customer name is already exist
-func (m *Customer)IsCustomerNameUsed(ctx context.Context,customerName string)(bool) {
-	customerDetails := Customer{}
+func IsCustomerNameUsed(ctx context.Context,customerName string)(bool) {
+	log.Println("customerName",customerName)
+	customerDetails := map[string]Customer{}
 	db, err := GetFirebaseClient(ctx, "")
 	if err != nil {
 		log.Println("No Db Connection!")
 	}
 	err = db.Child("Customer").OrderBy("CustomerName").EqualTo(customerName).Value(&customerDetails)
-	log.Println("hiii",customerDetails)
 	if err != nil {
-		return true
+		log.Fatal(err)
 	}
-	return false
+	if len(customerDetails)==0{
+		return true
+	} else {
+		return false
+	}
 
 }
 
