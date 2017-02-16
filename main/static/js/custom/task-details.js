@@ -79,7 +79,7 @@ $(function(){
     }
     
     
-    
+    //create data for datatable
     
     function createDataArray(values, keys){
         var subArray = [];
@@ -94,6 +94,7 @@ $(function(){
         }
     }
     
+    //function for place  data to datatable
     function dataTableManipulate(dataArray){
         table =  $("#task-details").DataTable({
             data: dataArray,
@@ -130,22 +131,27 @@ $(function(){
             $("#jobDropdown").append("<option>"+jobArray[i]+"</option>");
         }
     }
+    
+    
+    //data table calling
     if(vm.Values != null) {
         createDataArray(vm.Values, vm.Keys);
     }
     dataTableManipulate(mainArray); 
 
+    
+    //.....................editing..................
     $('#task-details tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[7];
         window.location = '/task/' + key + '/edit'
     });
 
-
+//................deleting.........................
     $('#task-details tbody').on( 'click', '#delete', function () {
         $("#myModal").modal();
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[6];
+        var key = data[7];
         
         $("#confirm").click(function(){
             $.ajax({

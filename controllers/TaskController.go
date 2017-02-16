@@ -83,7 +83,7 @@ func (c *TaskController)AddNewTask() {
 			log.Println("2")
 			dataValue := reflect.ValueOf(allUsers)
 			for _, k := range dataValue.MapKeys() {
-				viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,  allUsers[k.String()].FirstName+""+ allUsers[k.String()].LastName)
+				viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,  allUsers[k.String()].FirstName+""+ allUsers[k.String()].LastName+"(User)")
 			}
 			allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx)
 			switch dbStatus {
@@ -92,7 +92,7 @@ func (c *TaskController)AddNewTask() {
 				dataValue = reflect.ValueOf(allGroups)
 
 				for _, k := range dataValue.MapKeys() {
-					viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[k.String()].GroupName)
+					viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[k.String()].GroupName+"(Group)")
 				}
 			case false:
 				log.Println(helpers.ServerConnectionError)
@@ -257,14 +257,14 @@ func (c *TaskController)LoadEditTask() {
 			case true:
 				dataValue := reflect.ValueOf(taskUserValue)
 				for _, k := range dataValue.MapKeys() {
-					viewModel.GroupNameArray = append(viewModel.GroupNameArray, taskUserValue[k.String()].FirstName + "" + taskUserValue[k.String()].LastName)
+					viewModel.GroupNameArray = append(viewModel.GroupNameArray, taskUserValue[k.String()].FirstName + "" + taskUserValue[k.String()].LastName+"(User)")
 				}
 				allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx)
 				switch dbStatus {
 				case true:
 					dataValue = reflect.ValueOf(allGroups)
 					for _, k := range dataValue.MapKeys() {
-						viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[k.String()].GroupName)
+						viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[k.String()].GroupName+"(Group)")
 					}
 				case false:
 					log.Println(helpers.ServerConnectionError)
