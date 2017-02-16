@@ -1,23 +1,28 @@
 /* Author :Aswathy Ashok */
+
 //Below line is for adding active class to layout side menu..
 document.getElementById("task").className += " active";
 
-console.log(vm);
 $(function(){ 
     
     var mainArray = [];   
     var table = "";
+    var selectedCustomer = "";
+    var tempJobArray = [];
+    var tempArray = [];
     
     /*Function for Customer selection dropdown*/
     customerFilter = function(){
-        var tempArray = [];
-        var selectedCustomer = $("#customerDropdown").val();
+        tempArray = [];
+        selectedCustomer = $("#customerDropdown").val();
         if (selectedCustomer == "All Customers") {
             $('#task-details').dataTable().fnDestroy();
             dataTableManipulate(mainArray); 
         } else {
+            var tempSelectedCustomer = " (" + selectedCustomer + ")";
+            console.log(tempSelectedCustomer.length);
             for(i = 0; i < mainArray.length; i++){                
-                if (mainArray[i][0].search(selectedCustomer) != '-1'){
+                if (mainArray[i][0].indexOf(tempSelectedCustomer) != '-1'){
                     tempArray.push(mainArray[i]);
                 }
             }
@@ -25,27 +30,52 @@ $(function(){
             dataTableManipulate(tempArray);
             
             $("#customerDropdown").val(selectedCustomer);
+            
+            //filtering job dropdown
+            tempJobArray = [];
+            
+            for(i = 0; i < tempArray.length; i++){                
+                var tempCustomer = " (" + selectedCustomer + ")";
+                var tempJob = tempArray[i][0].replace(tempCustomer, '');
+                tempJobArray.push(tempJob);
+            }
+            
+            $("#jobDropdown").empty().append("<option>All Jobs</option>");
+            
+            for(i = 0; i < tempJobArray.length; i++){
+                $("#jobDropdown").append("<option>"+tempJobArray[i]+"</option>");
+            }      
         }         
     }
     
     /*Function for Customer selection dropdown*/
     jobFilter = function(){
-        var tempArray = [];
         var selectedJob = $("#jobDropdown").val();
         if (selectedJob == "All Jobs") {
-            $('#task-details').dataTable().fnDestroy();
-            dataTableManipulate(mainArray); 
-        } else {
-            for(i = 0; i < mainArray.length; i++){                
-                if (mainArray[i][0].search(selectedJob) != '-1'){
-                    tempArray.push(mainArray[i]);
-                }
+            if (selectedCustomer == "All Customers") {
+                tempArray = mainArray;
             }
             $('#task-details').dataTable().fnDestroy();
             dataTableManipulate(tempArray);
-            
-            $("#jobDropdown").val(selectedJob);
-        }         
+        } else {        
+            var tempJobTableArray = [];
+            var tempSelectedJob = selectedJob + " (";
+            for(i = 0; i < mainArray.length; i++){                
+                if (mainArray[i][0].indexOf(tempSelectedJob) != '-1'){
+                    tempJobTableArray.push(mainArray[i]);
+                }
+            }
+            $('#task-details').dataTable().fnDestroy();
+            dataTableManipulate(tempJobTableArray);            
+        }
+        if (selectedCustomer != "All Customers") {
+            $("#jobDropdown").empty().append("<option>All Jobs</option>");
+            for(i = 0; i < tempJobArray.length; i++){
+                $("#jobDropdown").append("<option>"+tempJobArray[i]+"</option>");
+            }
+        }            
+        $("#jobDropdown").val(selectedJob);
+        $("#customerDropdown").val(selectedCustomer);
     }
     
     
