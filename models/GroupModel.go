@@ -8,6 +8,8 @@ import (
 type Group struct {
 
 	GroupName       string
+	DateOfCreation  int64
+	Status          string
 	Members	 	[]GroupMembers
 }
 

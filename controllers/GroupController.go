@@ -8,6 +8,7 @@ import (
 	"app/passporte/helpers"
 	"strconv"
 	"bytes"
+	"time"
 )
 
 type GroupController struct {
@@ -23,6 +24,8 @@ func (c *GroupController) AddGroup() {
 		members := models.GroupMembers{}
 		group.GroupName = c.GetString("groupName")
 		tempGroupId := c.GetStrings("selectedUserIds")
+		group.DateOfCreation =(time.Now().UnixNano() / 1000000)
+		group.Status = "inactive"
 		tempGroupMembers := c.GetStrings("selectedUserNames")
 		for i := 0; i < len(tempGroupId); i++ {
 			members.MemberId = tempGroupId[i]

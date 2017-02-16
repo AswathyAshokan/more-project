@@ -5,7 +5,6 @@ package models
 import (
 	"golang.org/x/net/context"
 	"log"
-
 )
 
 type Customer struct {
@@ -17,6 +16,8 @@ type Customer struct {
 	Email 		 string
 	State		 string
 	ZipCode		 string
+	DateOfCreation   int64
+	Status           string
 }
 
 // Add new customers to database
@@ -82,9 +83,7 @@ func(m *Customer) UpdateCustomerDetailsById(ctx context.Context,customerId strin
 		return  false
 	}
 	return true
-
 }
-
 
 //check customer name is already exist
 func IsCustomerNameUsed(ctx context.Context,customerName string)(bool) {

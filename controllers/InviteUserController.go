@@ -108,7 +108,7 @@ func (c *InviteUserController) EditInvitation() {
 		editResult, DbStatus := user.GetAllInviteUserForEdit(c.AppEngineCtx, InviteUserId)
 		switch DbStatus {
 		case true:
-			invitationViewModel := viewmodels.InviteUserViewModel{}
+			invitationViewModel := viewmodels.EditInviteUserViewModel{}
 			invitationViewModel.FirstName = editResult.FirstName
 			invitationViewModel.LastName = editResult.LastName
 			invitationViewModel.EmailId = editResult.EmailId

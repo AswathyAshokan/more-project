@@ -7,6 +7,7 @@ import (
 	"reflect"
 	"app/passporte/viewmodels"
 	"app/passporte/helpers"
+	"time"
 )
 
 type CustomerController struct {
@@ -26,6 +27,8 @@ func (c *CustomerController) AddCustomer() {
 		customer.Email = c.GetString("email")
 		customer.State = c.GetString("state")
 		customer.ZipCode = c.GetString("zipcode")
+		customer.DateOfCreation =(time.Now().UnixNano() / 1000000)
+		customer.Status = "inactive"
 		dbStatus := customer.AddCustomersToDb(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
@@ -83,7 +86,6 @@ func (c *CustomerController) DeleteCustomer() {
 		w.Write([]byte("true"))
 	case false:
 		w.Write([]byte("false"))
-
 	}
 }
 
@@ -101,6 +103,7 @@ func (c *CustomerController) EditCustomer() {
 		customer.Phone = c.GetString("phone")
 		customer.ZipCode = c.GetString("zipcode")
 		customer.State = c.GetString("state")
+
 		log.Println("new name",customer.CustomerName)
 		dbStatus :=customer.UpdateCustomerDetailsById(c.AppEngineCtx, customerId)
 
@@ -109,14 +112,13 @@ func (c *CustomerController) EditCustomer() {
 			w.Write([]byte("true"))
 		case false:
 			w.Write([]byte("false"))
-
 		}
 
 	} else {
 		editResult, DbStatus := customer.EditCustomer(c.AppEngineCtx, customerId)
 		switch DbStatus {
 		case true:
-			customerViewModel := viewmodels.Customer{}
+			customerViewModel := viewmodels.EditCustomerViewModel{}
 			customerViewModel.State= editResult.State
 			customerViewModel.ZipCode = editResult.ZipCode
 			customerViewModel.Email = editResult.Email
@@ -131,7 +133,6 @@ func (c *CustomerController) EditCustomer() {
 			c.TplName = "template/add-customer.html"
 		case false:
 			log.Println(helpers.ServerConnectionError)
-
 		}
 	}
 }
@@ -145,7 +146,6 @@ func (c *CustomerController)  CustomerNameCheck(){
 		w.Write([]byte("true"))
 	case false:
 		w.Write([]byte("false"))
-
 	}
 
 

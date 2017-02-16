@@ -13,3 +13,13 @@ type InviteUserViewModel struct {
 	Values           	[][]string
 	Keys             	[]string
 }
+
+type EditInviteUserViewModel struct {
+	FirstName      		string
+	LastName      		string
+	EmailId        		string
+	UserType      		string
+	Status         		string
+	PageType        	string
+	InviteId        	string
+}
