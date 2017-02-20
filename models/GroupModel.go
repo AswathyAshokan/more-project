@@ -6,11 +6,8 @@ import (
 	"log"
 )
 type Group struct {
-
-	GroupName       string
-	DateOfCreation  int64
-	Status          string
-	Members	 	[]GroupMembers
+	Info GroupInfo
+	Settings GroupSettings
 }
 
 type GroupMembers struct {
@@ -18,10 +15,15 @@ type GroupMembers struct {
 	MemberName	string
 }
 
-/*type UserInformation struct {
-	FirstName string
+type GroupInfo struct {
+	GroupName       string
+	Members	 	[]GroupMembers
+}
 
-}*/
+type GroupSettings struct {
+	DateOfCreation  int64
+	Status          string
+}
 
 // Insert new groups to database
 func(m *Group) AddGroupToDb(ctx context.Context) (bool){

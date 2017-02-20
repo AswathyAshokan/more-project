@@ -92,7 +92,7 @@ func (c *TaskController)AddNewTask() {
 				dataValue = reflect.ValueOf(allGroups)
 
 				for _, k := range dataValue.MapKeys() {
-					viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[k.String()].GroupName+"(Group)")
+					viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[k.String()].Info.GroupName+"(Group)")
 				}
 			case false:
 				log.Println(helpers.ServerConnectionError)
@@ -268,7 +268,7 @@ func (c *TaskController)LoadEditTask() {
 				case true:
 					dataValue = reflect.ValueOf(allGroups)
 					for _, k := range dataValue.MapKeys() {
-						viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[k.String()].GroupName+"(Group)")
+						viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[k.String()].Info.GroupName+"(Group)")
 					}
 				case false:
 					log.Println(helpers.ServerConnectionError)

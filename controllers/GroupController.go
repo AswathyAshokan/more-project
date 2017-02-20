@@ -22,15 +22,15 @@ func (c *GroupController) AddGroup() {
 	if r.Method == "POST" {
 		group := models.Group{}
 		members := models.GroupMembers{}
-		group.GroupName = c.GetString("groupName")
+		group.Info.GroupName = c.GetString("groupName")
 		tempGroupId := c.GetStrings("selectedUserIds")
-		group.DateOfCreation =(time.Now().UnixNano() / 1000000)
-		group.Status = "inactive"
+		group.Settings.DateOfCreation =(time.Now().UnixNano() / 1000000)
+		group.Settings.Status = "inactive"
 		tempGroupMembers := c.GetStrings("selectedUserNames")
 		for i := 0; i < len(tempGroupId); i++ {
 			members.MemberId = tempGroupId[i]
 			members.MemberName = tempGroupMembers[i]
-			group.Members = append(group.Members, members)
+			group.Info.Members = append(group.Info.Members, members)
 		}
 		dbStatus := group.AddGroupToDb(c.AppEngineCtx)
 		switch dbStatus {
@@ -86,20 +86,20 @@ func (c *GroupController) GroupDetails() {
 		}
 		for _, k := range keySlice {
 			var tempValueSlice []string
-			membersNumber := len(allGroups[k].Members)
-			tempValueSlice = append(tempValueSlice, allGroups[k].GroupName)
+			membersNumber := len(allGroups[k].Info.Members)
+			tempValueSlice = append(tempValueSlice, allGroups[k].Info.GroupName)
 			tempValueSlice = append(tempValueSlice, strconv.Itoa(membersNumber))
 			tempUserNames := ""
 			var buffer bytes.Buffer
 			for i := 0; i < membersNumber; i++ {
 				if len(tempUserNames) == 0{
-					buffer.WriteString(allGroups[k].Members[i].MemberName)
+					buffer.WriteString(allGroups[k].Info.Members[i].MemberName)
 					tempUserNames = buffer.String()
 					buffer.Reset()
 				} else {
 					buffer.WriteString(tempUserNames)
 					buffer.WriteString(", ")
-					buffer.WriteString(allGroups[k].Members[i].MemberName)
+					buffer.WriteString(allGroups[k].Info.Members[i].MemberName)
 					tempUserNames = buffer.String()
 					buffer.Reset()
 				}
@@ -141,13 +141,13 @@ func (c *GroupController) EditGroup() {
 
 	if r.Method == "POST" {
 		members := models.GroupMembers{}
-		group.GroupName = c.GetString("groupName")
+		group.Info.GroupName = c.GetString("groupName")
 		tempGroupId := c.GetStrings("selectedUserIds")
 		tempGroupMembers := c.GetStrings("selectedUserNames")
 		for i := 0; i < len(tempGroupId); i++ {
 			members.MemberId = tempGroupId[i]
 			members.MemberName = tempGroupMembers[i]
-			group.Members = append(group.Members, members)
+			group.Info.Members = append(group.Info.Members, members)
 		}
 		log.Println("group data",group)
 		dbStatus := group.UpdateGroupDetails(c.AppEngineCtx, groupId)
@@ -189,9 +189,9 @@ func (c *GroupController) EditGroup() {
 			switch dbStatus {
 			case true:
 				log.Println(groupDetails)
-				viewModel.GroupNameToEdit = groupDetails.GroupName
-				for i :=0; i<len(groupDetails.Members); i++{
-					viewModel.GroupMembersToEdit = append(viewModel.GroupMembersToEdit, groupDetails.Members[i].MemberId)
+				viewModel.GroupNameToEdit = groupDetails.Info.GroupName
+				for i :=0; i<len(groupDetails.Info.Members); i++{
+					viewModel.GroupMembersToEdit = append(viewModel.GroupMembersToEdit, groupDetails.Info.Members[i].MemberId)
 				}
 				//groupViewModel.GroupMembersToEdit = groupDetails.GroupMembers[]
 				viewModel.PageType = helpers.SelectPageForEdit
