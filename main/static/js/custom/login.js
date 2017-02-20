@@ -1,6 +1,14 @@
 /*Author: Sarath
 Date:01/02/2017*/
 $(function(){
+    
+    if(document.referrer != 'http://localhost:8080/'){
+        history.pushState(null, null, '/');
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, '/');
+        });
+    }
+    
     $("#signIn").click(function(){
          //alert("hi");
         $.ajax({
@@ -22,7 +30,6 @@ $(function(){
         });
         return false;
     });
-    
-    
+
 });
 

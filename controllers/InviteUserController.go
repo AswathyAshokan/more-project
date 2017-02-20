@@ -20,6 +20,9 @@ func (c *InviteUserController) AddInvitation() {
 	user := models.InviteUser{}
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
+	storedSession := ReadSession(w, r)
+	log.Println("The userDetails stored in session:",storedSession)
+
 	if r.Method == "POST" {
 		user.FirstName = c.GetString("firstname")
 		user.LastName = c.GetString("lastname")
@@ -42,7 +45,10 @@ func (c *InviteUserController) AddInvitation() {
 
 // fetch all the details of invite user from database
 func (c *InviteUserController) InvitationDetails() {
-
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	storedSession := ReadSession(w, r)
+	log.Println("The userDetails stored in session:",storedSession)
 	info,dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx)
 	switch dbStatus {
 	case true:
@@ -89,6 +95,8 @@ func (c *InviteUserController) DeleteInvitation() {
 func (c *InviteUserController) EditInvitation() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
+	storedSession := ReadSession(w, r)
+	log.Println("The userDetails stored in session:",storedSession)
 	InviteUserId := c.Ctx.Input.Param(":inviteuserid")
 	user := models.InviteUser{}
 	if r.Method == "POST" {

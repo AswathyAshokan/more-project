@@ -3,8 +3,9 @@ Date:01/02/2017*/
 package controllers
 
 import (
-"app/passporte/models"
-"log"
+	"app/passporte/models"
+	"log"
+	"net/http"
 )
 
 type LoginController struct {
@@ -29,6 +30,7 @@ func (c *LoginController) Login() {
 		case false:
 			log.Println("Invalid Username or Password!")
 			w.Write([]byte("false"))
+
 		}
 
 	} else {
@@ -37,6 +39,8 @@ func (c *LoginController) Login() {
 
 }
 
+
+
 func (c *LoginController)Logout(){
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -44,4 +48,5 @@ func (c *LoginController)Logout(){
 	storedSession := ReadSession(w, r)
 	log.Println("The username stored in session:",storedSession.Info.Email)
 	log.Println("The lastName stored in session:",storedSession.Info.LastName)
+	http.Redirect(w, r, "/", 302)
 }

@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/controllers/NfcController.go" line="47" mnemonic="9" />
+    <bookmark url="file://$PROJECT_DIR$/controllers/NfcController.go" line="46" mnemonic="9" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/GOPATH__passporte_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/GOPATH__passporte_2.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/ContactUserController.go" afterPath="$PROJECT_DIR$/controllers/ContactUserController.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/CustomerController.go" afterPath="$PROJECT_DIR$/controllers/CustomerController.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/GroupController.go" afterPath="$PROJECT_DIR$/controllers/GroupController.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/InviteUserController.go" afterPath="$PROJECT_DIR$/controllers/InviteUserController.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/JobController.go" afterPath="$PROJECT_DIR$/controllers/JobController.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/LoginController.go" afterPath="$PROJECT_DIR$/controllers/LoginController.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/NfcController.go" afterPath="$PROJECT_DIR$/controllers/NfcController.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/SessionController.go" afterPath="$PROJECT_DIR$/controllers/SessionController.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/TaskController.go" afterPath="$PROJECT_DIR$/controllers/TaskController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-job.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-job.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/task-details.js" afterPath="$PROJECT_DIR$/main/static/js/custom/task-details.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/TaskModel.go" afterPath="$PROJECT_DIR$/models/TaskModel.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/login.js" afterPath="$PROJECT_DIR$/main/static/js/custom/login.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/login.html" afterPath="$PROJECT_DIR$/main/views/template/login.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/JobModel.go" afterPath="$PROJECT_DIR$/models/JobModel.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/SessionModel.go" afterPath="$PROJECT_DIR$/models/SessionModel.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -24,99 +34,108 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="TaskController.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
+      <file leaf-file-name="SessionController.go" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/controllers/SessionController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2970">
-              <caret line="108" column="58" lean-forward="false" selection-start-line="108" selection-start-column="42" selection-end-line="108" selection-end-column="58" />
+            <state relative-caret-position="446">
+              <caret line="49" column="68" lean-forward="false" selection-start-line="49" selection-start-column="68" selection-end-line="49" selection-end-column="68" />
               <folding>
-                <element signature="e#51#173#0" expanded="true" />
+                <element signature="e#57#145#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GroupController.go" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/controllers/GroupController.go">
+      <file leaf-file-name="LoginController.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controllers/LoginController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-288">
-              <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+            <state relative-caret-position="774">
+              <caret line="47" column="36" lean-forward="false" selection-start-line="47" selection-start-column="25" selection-end-line="47" selection-end-column="36" />
               <folding>
-                <element signature="e#43#176#0" expanded="true" />
+                <element signature="e#56#109#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GroupViewModel.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/viewmodels/GroupViewModel.go">
+      <file leaf-file-name="layout.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main/views/layout/layout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="612">
+              <caret line="34" column="44" lean-forward="false" selection-start-line="34" selection-start-column="38" selection-end-line="34" selection-end-column="44" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GroupModel.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/GroupModel.go">
+      <file leaf-file-name="login.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main/static/js/custom/login.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-204">
-              <caret line="90" column="34" lean-forward="false" selection-start-line="89" selection-start-column="8" selection-end-line="89" selection-end-column="38" />
-              <folding>
-                <marker date="1487237615020" expanded="true" signature="231:270" ph="{...}" />
-                <marker date="1487237615020" expanded="true" signature="272:326" ph="/*...*/" />
-                <marker date="1487237615020" expanded="true" signature="416:635" ph="{...}" />
-                <marker date="1487237615020" expanded="true" signature="505:528" ph="{...}" />
-                <marker date="1487237615020" expanded="true" signature="580:618" ph="{...}" />
-                <marker date="1487237615020" expanded="true" signature="738:1002" ph="{...}" />
-                <marker date="1487237615020" expanded="true" signature="877:919" ph="{...}" />
-                <marker date="1487237615020" expanded="true" signature="921:979" ph="/.../" />
-                <marker date="1487237615020" expanded="true" signature="1109:1280" ph="{...}" />
-                <marker date="1487237615020" expanded="true" signature="1226:1263" ph="{...}" />
-                <marker date="1487237615020" expanded="true" signature="1398:1633" ph="{...}" />
-                <marker date="1487237615020" expanded="true" signature="1564:1608" ph="{...}" />
-                <marker date="1487237615020" expanded="true" signature="1813:2357" ph="{...}" />
-                <marker date="1487237615020" expanded="true" signature="1926:1976" ph="{...}" />
-                <marker date="1487237615020" expanded="true" signature="2018:2328" ph="{...}" />
-                <marker date="1487237615020" expanded="true" signature="2173:2226" ph="{...}" />
-                <marker date="1487237615020" expanded="true" signature="2479:2692" ph="{...}" />
-                <marker date="1487237615020" expanded="true" signature="2614:2664" ph="{...}" />
-                <marker date="1487237615020" expanded="true" signature="2813:2970" ph="{...}" />
-                <marker date="1487237615020" expanded="true" signature="2917:2954" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TaskModel.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="30" column="1" lean-forward="false" selection-start-line="30" selection-start-column="1" selection-end-line="30" selection-end-column="1" />
+            <state relative-caret-position="126">
+              <caret line="7" column="44" lean-forward="false" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ContactUserModel.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/ContactUserModel.go">
+      <file leaf-file-name="register.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main/static/js/custom/register.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="4" column="7" lean-forward="false" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
-              <folding>
-                <element signature="e#45#90#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="990">
+              <caret line="55" column="44" lean-forward="false" selection-start-line="55" selection-start-column="44" selection-end-line="55" selection-end-column="44" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TaskViewModel.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/viewmodels/TaskViewModel.go">
+      <file leaf-file-name="router.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routers/router.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="24" column="38" lean-forward="false" selection-start-line="24" selection-start-column="38" selection-end-line="24" selection-end-column="38" />
+            <state relative-caret-position="180">
+              <caret line="13" column="83" lean-forward="false" selection-start-line="13" selection-start-column="83" selection-end-line="13" selection-end-column="83" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NfcController.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controllers/NfcController.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="288">
+              <caret line="21" column="71" lean-forward="false" selection-start-line="18" selection-start-column="8" selection-end-line="21" selection-end-column="71" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="nfc-details.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main/static/js/custom/nfc-details.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1620">
+              <caret line="90" column="28" lean-forward="false" selection-start-line="90" selection-start-column="28" selection-end-line="90" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="job-details.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main/static/js/custom/job-details.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1368">
+              <caret line="76" column="34" lean-forward="false" selection-start-line="76" selection-start-column="34" selection-end-line="76" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main/main.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="9" column="20" lean-forward="false" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
+              <folding>
+                <element signature="e#14#81#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -127,6 +146,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Go File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -134,31 +154,12 @@
     <findStrings>
       <find>img</find>
       <find>tbl_details</find>
-      <find>sprites-s218b36d4bb.png</find>
-      <find>job</find>
-      <find>Job</find>
-      <find>Project</find>
-      <find>project</find>
-      <find>log.Infof(context,</find>
-      <find>task.GetAllJobs</find>
-      <find>contact.GetAllContact</find>
-      <find>array</find>
-      <find>EditTaskViewModel</find>
-      <find>bu</find>
-      <find>keySlice</find>
-      <find>Key</find>
-      <find>ContactNameArray</find>
     </findStrings>
-    <replaceStrings>
-      <replace>Job</replace>
-      <replace>job</replace>
-      <replace>log.Println(</replace>
-      <replace>models.GetAllJobs</replace>
-    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
+        <option value="sarathcynere &lt;sarath.s@cynere.com&gt;" />
         <option value="AswathyAsokan &lt;aswathy.a@cynere.com&gt;" />
         <option value="sarathcynere" />
       </list>
@@ -174,57 +175,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/main/views/template/group-details.html" />
-        <option value="$PROJECT_DIR$/main/views/template/invite-user-details.html" />
-        <option value="$PROJECT_DIR$/main/views/template/customer-details.html" />
         <option value="$PROJECT_DIR$/static/js/custom/add-task.js" />
         <option value="$PROJECT_DIR$/static/js/custom/add-customer.js" />
-        <option value="$PROJECT_DIR$/controllers/CustomerController.go" />
-        <option value="$PROJECT_DIR$/main/main.go" />
-        <option value="$PROJECT_DIR$/controllers/NfcController.go" />
-        <option value="$PROJECT_DIR$/controllers/RegisterController.go" />
-        <option value="$PROJECT_DIR$/main/static/js/custom/add-nfc.js" />
-        <option value="$PROJECT_DIR$/main/static/js/custom/nfc-details.js" />
-        <option value="$PROJECT_DIR$/controllers/LoginController.go" />
-        <option value="$PROJECT_DIR$/helpers/ConstantHelpers.go" />
-        <option value="$PROJECT_DIR$/controllers/SessionController.go" />
-        <option value="$PROJECT_DIR$/main/views/template/register.html" />
-        <option value="$PROJECT_DIR$/controllers/BaseController.go" />
-        <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/main/static/js/custom/layout.js" />
-        <option value="$PROJECT_DIR$/main/static/js/custom/add-contacts.js" />
-        <option value="$PROJECT_DIR$/main/static/js/custom/add-project.js" />
-        <option value="$PROJECT_DIR$/main/views/layout/layout.html" />
-        <option value="$PROJECT_DIR$/main/views/template/add-nfc.html" />
-        <option value="$PROJECT_DIR$/main/app.yaml" />
-        <option value="$PROJECT_DIR$/main/views/template/contacts-details.html" />
-        <option value="$PROJECT_DIR$/main/views/template/project-details.html" />
-        <option value="$PROJECT_DIR$/main/static/css/style.css" />
-        <option value="$PROJECT_DIR$/viewmodels/ProjectViewModel.go" />
-        <option value="$PROJECT_DIR$/main/views/template/add-project.html" />
-        <option value="$PROJECT_DIR$/controllers/ProjectController.go" />
-        <option value="$PROJECT_DIR$/models/ProjectModel.go" />
-        <option value="$PROJECT_DIR$/main/views/template/add-contacts.html" />
-        <option value="$PROJECT_DIR$/viewmodels/TaskViewMOdel.go" />
-        <option value="$PROJECT_DIR$/main/static/js/custom/add-task.js" />
-        <option value="$PROJECT_DIR$/main/static/js/custom/task-details.js" />
-        <option value="$PROJECT_DIR$/main/views/template/add-task.html" />
-        <option value="$PROJECT_DIR$/main/views/template/task-details.html" />
-        <option value="$PROJECT_DIR$/main/views/template/job-details.html" />
-        <option value="$PROJECT_DIR$/models/GroupModel.go" />
         <option value="$PROJECT_DIR$/viewmodels/ContactUserViewModel.go" />
-        <option value="$PROJECT_DIR$/viewmodels/JobViewModel.go" />
-        <option value="$PROJECT_DIR$/main/static/js/custom/job-details.js" />
-        <option value="$PROJECT_DIR$/helpers/StringInSlice.go" />
-        <option value="$PROJECT_DIR$/routers/router.go" />
-        <option value="$PROJECT_DIR$/controllers/ContactUserController.go" />
-        <option value="$PROJECT_DIR$/models/JobModel.go" />
-        <option value="$PROJECT_DIR$/models/ContactUserModel.go" />
-        <option value="$PROJECT_DIR$/controllers/JobController.go" />
-        <option value="$PROJECT_DIR$/viewmodels/TaskViewModel.go" />
+        <option value="$PROJECT_DIR$/viewmodels/ProjectViewModel.go" />
         <option value="$PROJECT_DIR$/models/TaskModel.go" />
-        <option value="$PROJECT_DIR$/controllers/TaskController.go" />
+        <option value="$PROJECT_DIR$/viewmodels/TaskViewMOdel.go" />
+        <option value="$PROJECT_DIR$/main/static/js/custom/layout.js" />
+        <option value="$PROJECT_DIR$/main/views/template/add-task.html" />
+        <option value="$PROJECT_DIR$/main/static/js/custom/add-task.js" />
+        <option value="$PROJECT_DIR$/main/static/js/custom/add-contacts.js" />
+        <option value="$PROJECT_DIR$/main/app.yaml" />
+        <option value="$PROJECT_DIR$/main/static/js/custom/add-project.js" />
+        <option value="$PROJECT_DIR$/main/views/template/registernew.html" />
+        <option value="$PROJECT_DIR$/helpers/ConstantHelpers.go" />
+        <option value="$PROJECT_DIR$/viewmodels/NfcViewModel.go" />
+        <option value="$PROJECT_DIR$/main/static/js/custom/nfc-details.js" />
+        <option value="$PROJECT_DIR$/viewmodels/EditNfcViewModel.go" />
+        <option value="$PROJECT_DIR$/main/views/template/register.html" />
+        <option value="$PROJECT_DIR$/main/views/template/nfc-details.html" />
+        <option value="$PROJECT_DIR$/models/NfcModel.go" />
+        <option value="$PROJECT_DIR$/controllers/BaseController.go" />
+        <option value="$PROJECT_DIR$/models/LoginModel.go" />
+        <option value="$PROJECT_DIR$/main/views/layout/layout.html" />
+        <option value="$PROJECT_DIR$/main/views/template/job-details.html" />
+        <option value="$PROJECT_DIR$/main/views/template/add-nfc.html" />
+        <option value="$PROJECT_DIR$/main/static/js/custom/add-nfc.js" />
+        <option value="$PROJECT_DIR$/main/views/template/add-contacts.html" />
+        <option value="$PROJECT_DIR$/main/views/template/add-customer.html" />
+        <option value="$PROJECT_DIR$/main/static/js/custom/register.js" />
+        <option value="$PROJECT_DIR$/main/static/js/custom/add-customer.js" />
+        <option value="$PROJECT_DIR$/controllers/RegisterController.go" />
+        <option value="$PROJECT_DIR$/main/views/template/add-job.html" />
+        <option value="$PROJECT_DIR$/main/static/js/custom/add-job.js" />
+        <option value="$PROJECT_DIR$/models/RegisterModel.go" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/models/JobModel.go" />
+        <option value="$PROJECT_DIR$/controllers/NfcController.go" />
         <option value="$PROJECT_DIR$/controllers/GroupController.go" />
+        <option value="$PROJECT_DIR$/controllers/CustomerController.go" />
+        <option value="$PROJECT_DIR$/controllers/ContactUserController.go" />
+        <option value="$PROJECT_DIR$/controllers/JobController.go" />
+        <option value="$PROJECT_DIR$/controllers/TaskController.go" />
+        <option value="$PROJECT_DIR$/controllers/InviteUserController.go" />
+        <option value="$PROJECT_DIR$/models/SessionModel.go" />
+        <option value="$PROJECT_DIR$/main/views/template/login.html" />
+        <option value="$PROJECT_DIR$/main/main.go" />
+        <option value="$PROJECT_DIR$/main/views/template/homepage.html" />
+        <option value="$PROJECT_DIR$/routers/router.go" />
+        <option value="$PROJECT_DIR$/controllers/LoginController.go" />
+        <option value="$PROJECT_DIR$/main/static/js/custom/login.js" />
+        <option value="$PROJECT_DIR$/controllers/SessionController.go" />
       </list>
     </option>
   </component>
@@ -233,9 +234,9 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="65" />
-    <option name="y" value="72" />
-    <option name="width" value="1291" />
-    <option name="height" value="686" />
+    <option name="y" value="24" />
+    <option name="width" value="1301" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -256,7 +257,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -279,7 +280,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="viewmodels" />
+              <option name="myItemId" value="tests" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -335,7 +336,103 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="helpers" />
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="template" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="custom" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -355,7 +452,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -366,17 +463,18 @@
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/main/static/images" />
-      <recent name="$PROJECT_DIR$/main/static/js" />
-      <recent name="$PROJECT_DIR$/main/views/template" />
-      <recent name="$PROJECT_DIR$/static/js/custom" />
-      <recent name="$PROJECT_DIR$" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/main/views/template" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/viewmodels" />
+      <recent name="$PROJECT_DIR$/main/views/template" />
+      <recent name="$PROJECT_DIR$/main/static/js" />
+      <recent name="$PROJECT_DIR$/main/static/images" />
+      <recent name="$PROJECT_DIR$/static/js/custom" />
     </key>
   </component>
   <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
@@ -394,11 +492,11 @@
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
           <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/libraries/GOPATH__passporte_2.xml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/misc.xml</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/workspace.xml</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/controllers/CustomerController.go</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/controllers/GroupController.go</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/controllers/InviteUserController.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/controllers/TaskController.go</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/main/static/css/style.css</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/main/static/images/crm.png</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/main/static/images/nfc.png</PATH>
@@ -410,10 +508,13 @@
           <PATH vcs="Git" revision="">$PROJECT_DIR$/main/static/images/sprites/task.png</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/main/static/images/sprites/user.png</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/main/static/js/custom.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/main/static/js/custom/add-job.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/main/static/js/custom/task-details.js</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/main/views/layout/layout.html</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/main/views/template/add-job.html</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/models/CustomerModel.go</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/models/GroupModel.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/models/TaskModel.go</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/viewmodels/CustomerViewModel.go</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/viewmodels/InviteUserViewModel.go</PATH>
         </FILE-GROUP>
@@ -809,147 +910,168 @@
       <option name="project" value="LOCAL" />
       <updated>1486379103285</updated>
     </task>
-    <task id="LOCAL-00007" summary="06/02/2017 Fixed validation error">
-      <created>1486379550209</created>
+    <task id="LOCAL-00007" summary="06/02/2017 Fixed app.yaml">
+      <created>1486381526954</created>
       <option name="number" value="00007" />
       <option name="presentableId" value="LOCAL-00007" />
       <option name="project" value="LOCAL" />
-      <updated>1486379550210</updated>
+      <updated>1486381526954</updated>
     </task>
-    <task id="LOCAL-00008" summary="06/02/2017 Fixed validation error">
-      <created>1486379820461</created>
+    <task id="LOCAL-00008" summary="07/02/2017 &#10;Fixed:&#10;Datatable manipulations&#10;Add button&#10;in NFC Tag details.">
+      <created>1486466396310</created>
       <option name="number" value="00008" />
       <option name="presentableId" value="LOCAL-00008" />
       <option name="project" value="LOCAL" />
-      <updated>1486379820461</updated>
+      <updated>1486466396310</updated>
     </task>
-    <task id="LOCAL-00009" summary="06/02/2017 Fixed template error">
-      <created>1486383029691</created>
+    <task id="LOCAL-00009" summary="08/02/2017  Fixed Datatable Delete in NFC Tag Details&#10;">
+      <created>1486546581776</created>
       <option name="number" value="00009" />
       <option name="presentableId" value="LOCAL-00009" />
       <option name="project" value="LOCAL" />
-      <updated>1486383029691</updated>
+      <updated>1486546581777</updated>
     </task>
-    <task id="LOCAL-00010" summary="09/02/2017 Fixed errors">
-      <created>1486624257928</created>
+    <task id="LOCAL-00010" summary="09/02/2017 Added const&#10;">
+      <created>1486616232120</created>
       <option name="number" value="00010" />
       <option name="presentableId" value="LOCAL-00010" />
       <option name="project" value="LOCAL" />
-      <updated>1486624257928</updated>
+      <updated>1486616232120</updated>
     </task>
-    <task id="LOCAL-00011" summary="10/02/2017  Tempate Editing">
-      <created>1486707502149</created>
+    <task id="LOCAL-00011" summary="09/02/2017 Changes in Regster.html and CSS&#10;">
+      <created>1486623966056</created>
       <option name="number" value="00011" />
       <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
-      <updated>1486707502149</updated>
+      <updated>1486623966056</updated>
     </task>
-    <task id="LOCAL-00012" summary="10/02/2017  Editing and Delete">
-      <created>1486727116200</created>
+    <task id="LOCAL-00012" summary="09/02/2017 Changes Login Controller and Login Model&#10;">
+      <created>1486635672692</created>
       <option name="number" value="00012" />
       <option name="presentableId" value="LOCAL-00012" />
       <option name="project" value="LOCAL" />
-      <updated>1486727116200</updated>
+      <updated>1486635672692</updated>
     </task>
-    <task id="LOCAL-00013" summary="11/02/2017  updated file">
-      <created>1486962347317</created>
+    <task id="LOCAL-00013" summary="09/02/2017 Changes Login Controller and Login Model&#10;">
+      <created>1486636676828</created>
       <option name="number" value="00013" />
       <option name="presentableId" value="LOCAL-00013" />
       <option name="project" value="LOCAL" />
-      <updated>1486962347317</updated>
+      <updated>1486636676828</updated>
     </task>
-    <task id="LOCAL-00014" summary="11/02/2017   edited file">
-      <created>1486970141412</created>
+    <task id="LOCAL-00014" summary="10/02/2017 Changes in Edit  NFC Tag&#10;">
+      <created>1486705172451</created>
       <option name="number" value="00014" />
       <option name="presentableId" value="LOCAL-00014" />
       <option name="project" value="LOCAL" />
-      <updated>1486970141412</updated>
+      <updated>1486705172451</updated>
     </task>
-    <task id="LOCAL-00015" summary="11/02/2017   edited file">
-      <created>1486982941046</created>
+    <task id="LOCAL-00015" summary="10/02/2017 Changes in Edit  NFC Tag&#10;">
+      <created>1486705277702</created>
       <option name="number" value="00015" />
       <option name="presentableId" value="LOCAL-00015" />
       <option name="project" value="LOCAL" />
-      <updated>1486982941046</updated>
+      <updated>1486705277703</updated>
     </task>
-    <task id="LOCAL-00016" summary="11/02/2017   edited file">
-      <created>1486984504465</created>
+    <task id="LOCAL-00016" summary="10/02/2017 Changes in Edit  NFC Tag&#10;">
+      <created>1486705410352</created>
       <option name="number" value="00016" />
       <option name="presentableId" value="LOCAL-00016" />
       <option name="project" value="LOCAL" />
-      <updated>1486984504466</updated>
+      <updated>1486705410352</updated>
     </task>
-    <task id="LOCAL-00017" summary="11/02/2017   edited file">
-      <created>1486987003184</created>
+    <task id="LOCAL-00017" summary="10/02/2017 Edit NFC Tag&#10;">
+      <created>1486722498106</created>
       <option name="number" value="00017" />
       <option name="presentableId" value="LOCAL-00017" />
       <option name="project" value="LOCAL" />
-      <updated>1486987003184</updated>
+      <updated>1486722498106</updated>
     </task>
-    <task id="LOCAL-00018" summary="14/02/2017   Changes">
-      <created>1487065175758</created>
+    <task id="LOCAL-00018" summary="10/02/2017 Login Redirect to Job&#10;">
+      <created>1486980050443</created>
       <option name="number" value="00018" />
       <option name="presentableId" value="LOCAL-00018" />
       <option name="project" value="LOCAL" />
-      <updated>1487065175758</updated>
+      <updated>1486980050443</updated>
     </task>
-    <task id="LOCAL-00019" summary="14/02/2017   filtering">
-      <created>1487074413450</created>
+    <task id="LOCAL-00019" summary="10/02/2017 Added Comments&#10;">
+      <created>1486984433497</created>
       <option name="number" value="00019" />
       <option name="presentableId" value="LOCAL-00019" />
       <option name="project" value="LOCAL" />
-      <updated>1487074413450</updated>
+      <updated>1486984433497</updated>
     </task>
-    <task id="LOCAL-00020" summary="15/02/2017   viewing">
-      <created>1487134773461</created>
+    <task id="LOCAL-00020" summary="13/02/2017 Fixed Error in router&#10;">
+      <created>1486984905678</created>
       <option name="number" value="00020" />
       <option name="presentableId" value="LOCAL-00020" />
       <option name="project" value="LOCAL" />
-      <updated>1487134773461</updated>
+      <updated>1486984905678</updated>
     </task>
-    <task id="LOCAL-00021" summary="15/02/2017   viewing">
-      <created>1487141536469</created>
+    <task id="LOCAL-00021" summary="14/02/2017 Login and Session Complete&#10;">
+      <created>1487071481829</created>
       <option name="number" value="00021" />
       <option name="presentableId" value="LOCAL-00021" />
       <option name="project" value="LOCAL" />
-      <updated>1487141536469</updated>
+      <updated>1487071481829</updated>
     </task>
-    <task id="LOCAL-00022" summary="15/02/2017   viewing">
-      <created>1487159465065</created>
+    <task id="LOCAL-00022" summary="15/02/2017 &#10;">
+      <created>1487135594801</created>
       <option name="number" value="00022" />
       <option name="presentableId" value="LOCAL-00022" />
       <option name="project" value="LOCAL" />
-      <updated>1487159465065</updated>
+      <updated>1487135594801</updated>
     </task>
-    <task id="LOCAL-00023" summary="15/02/2017   viewing">
-      <created>1487160299694</created>
+    <task id="LOCAL-00023" summary="15/02/2017  11:14AM&#10;">
+      <created>1487137484654</created>
       <option name="number" value="00023" />
       <option name="presentableId" value="LOCAL-00023" />
       <option name="project" value="LOCAL" />
-      <updated>1487160299694</updated>
+      <updated>1487137484654</updated>
     </task>
-    <task id="LOCAL-00024" summary="15/02/2017   viewing">
-      <created>1487160837322</created>
+    <task id="LOCAL-00024" summary="15/02/2017  12:43 PM Cancel Button Fix on all pages&#10;">
+      <created>1487142848139</created>
       <option name="number" value="00024" />
       <option name="presentableId" value="LOCAL-00024" />
       <option name="project" value="LOCAL" />
-      <updated>1487160837322</updated>
+      <updated>1487142848139</updated>
     </task>
-    <task id="LOCAL-00025" summary="15/02/2017   viewing">
-      <created>1487161433666</created>
+    <task id="LOCAL-00025" summary="15/02/2017  1:05 PM Checking Email ID is used?&#10;">
+      <created>1487144181056</created>
       <option name="number" value="00025" />
       <option name="presentableId" value="LOCAL-00025" />
       <option name="project" value="LOCAL" />
-      <updated>1487161433666</updated>
+      <updated>1487144181056</updated>
     </task>
-    <task id="LOCAL-00026" summary="15/02/2017   viewing">
-      <created>1487221978876</created>
+    <task id="LOCAL-00026" summary="15/02/2017  5:45 PM &#10;">
+      <created>1487160925179</created>
       <option name="number" value="00026" />
       <option name="presentableId" value="LOCAL-00026" />
       <option name="project" value="LOCAL" />
-      <updated>1487221978876</updated>
+      <updated>1487160925179</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="15/02/2017  5:53 PM &#10;">
+      <created>1487161392715</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1487161392715</updated>
+    </task>
+    <task id="LOCAL-00028" summary="15/02/2017  5:54 PM &#10;">
+      <created>1487161486442</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1487161486442</updated>
+    </task>
+    <task id="LOCAL-00029" summary="15/02/2017  5:58 PM &#10;">
+      <created>1487161732621</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1487161732621</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TodoView">
@@ -962,8 +1084,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="72" width="1291" height="686" extended-state="0" />
-    <editor active="true" />
+    <frame x="65" y="24" width="1301" height="744" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -973,13 +1095,13 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32988048" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32857144" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16019417" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18064517" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32931727" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22310758" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24940239" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24940239" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -992,38 +1114,8 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32847896" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32847896" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
-    <layout-to-restore>
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32988048" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24940239" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24940239" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32847896" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33009708" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18064517" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32931727" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
-    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -1032,19 +1124,37 @@
     <MESSAGE value="Test" />
     <MESSAGE value="testing through readme" />
     <MESSAGE value="06/02/2017 Fixed validation error" />
-    <MESSAGE value="06/02/2017 Fixed template error" />
-    <MESSAGE value="09/02/2017 Fixed errors" />
-    <MESSAGE value="10/02/2017  Tempate Editing" />
-    <MESSAGE value="10/02/2017  Editing and Delete" />
-    <MESSAGE value="11/02/2017  updated file" />
-    <MESSAGE value="11/02/2017   edited file" />
-    <MESSAGE value="14/02/2017   Changes" />
-    <MESSAGE value="14/02/2017   filtering" />
-    <MESSAGE value="15/02/2017   viewing" />
-    <option name="LAST_COMMIT_MESSAGE" value="15/02/2017   viewing" />
+    <MESSAGE value="06/02/2017 Fixed app.yaml" />
+    <MESSAGE value="07/02/2017 &#10;Fixed:&#10;Datatable manipulations&#10;Add button&#10;in NFC Tag details." />
+    <MESSAGE value="08/02/2017  Fixed Datatable Delete in NFC Tag Details&#10;" />
+    <MESSAGE value="09/02/2017 Added const&#10;" />
+    <MESSAGE value="09/02/2017 Changes in Regster.html and CSS&#10;" />
+    <MESSAGE value="09/02/2017 Changes Login Controller and Login Model&#10;" />
+    <MESSAGE value="10/02/2017 Changes in Edit  NFC Tag&#10;" />
+    <MESSAGE value="10/02/2017 Edit NFC Tag&#10;" />
+    <MESSAGE value="10/02/2017 Login Redirect to Job&#10;" />
+    <MESSAGE value="10/02/2017 Added Comments&#10;" />
+    <MESSAGE value="13/02/2017 Fixed Error in router&#10;" />
+    <MESSAGE value="14/02/2017 Login and Session Complete&#10;" />
+    <MESSAGE value="15/02/2017 &#10;" />
+    <MESSAGE value="15/02/2017  11:14AM&#10;" />
+    <MESSAGE value="15/02/2017  12:42PM Cancel Button Fix on all pages&#10;" />
+    <MESSAGE value="15/02/2017  12:43 PM Cancel Button Fix on all pages&#10;" />
+    <MESSAGE value="15/02/2017  1:05 PM Checking Email ID is used?&#10;" />
+    <MESSAGE value="15/02/2017  5:45 PM &#10;" />
+    <MESSAGE value="15/02/2017  5:53 PM &#10;" />
+    <MESSAGE value="15/02/2017  5:54 PM &#10;" />
+    <MESSAGE value="15/02/2017  5:58 PM &#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="15/02/2017  5:58 PM &#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/models/TaskModel.go</url>
+          <line>93</line>
+        </line-breakpoint>
+      </breakpoints>
       <option name="time" value="1" />
     </breakpoint-manager>
     <watches-manager />
@@ -1054,388 +1164,379 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
+    <entry file="file://$USER_HOME$/coding/golang/go/src/net/url/url.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="23" column="48" lean-forward="true" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="48" />
-          <folding>
-            <element signature="e#51#173#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="12834">
+          <caret line="720" column="16" lean-forward="false" selection-start-line="720" selection-start-column="16" selection-end-line="720" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/JobController.go">
+    <entry file="file://$PROJECT_DIR$/../../gopkg.in/zabawaba99/firego.v1/firebase.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1386">
-          <caret line="77" column="48" lean-forward="true" selection-start-line="77" selection-start-column="48" selection-end-line="77" selection-end-column="48" />
+        <state relative-caret-position="131">
+          <caret line="177" column="20" lean-forward="false" selection-start-line="177" selection-start-column="20" selection-end-line="177" selection-end-column="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/viewmodels/JobViewModel.go">
+    <entry file="file://$PROJECT_DIR$/../../gopkg.in/zabawaba99/firego.v1/query.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="13" column="32" lean-forward="true" selection-start-line="13" selection-start-column="32" selection-end-line="13" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2178">
-          <caret line="126" column="19" lean-forward="false" selection-start-line="116" selection-start-column="0" selection-end-line="133" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/viewmodels/TaskViewModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="6" column="32" lean-forward="true" selection-start-line="6" selection-start-column="32" selection-end-line="6" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/views/template/add-task.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1800">
-          <caret line="100" column="146" lean-forward="false" selection-start-line="100" selection-start-column="146" selection-end-line="100" selection-end-column="146" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/views/template/add-project.html" />
-    <entry file="file://$PROJECT_DIR$/main/views/template/task-details.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="7" lean-forward="false" selection-start-line="4" selection-start-column="4" selection-end-line="6" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/static/js/custom/add-task.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="28" column="42" lean-forward="false" selection-start-line="28" selection-start-column="42" selection-end-line="28" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1692">
-          <caret line="94" column="17" lean-forward="false" selection-start-line="94" selection-start-column="17" selection-end-line="94" selection-end-column="17" />
-          <folding>
-            <element signature="e#51#173#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2124">
-          <caret line="118" column="23" lean-forward="false" selection-start-line="118" selection-start-column="23" selection-end-line="118" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/viewmodels/TaskViewModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/views/template/add-task.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/views/template/add-project.html" />
-    <entry file="file://$PROJECT_DIR$/main/views/template/add-contacts.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="25" column="23" lean-forward="false" selection-start-line="25" selection-start-column="23" selection-end-line="25" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/static/images/generated/sprites-s218b36d4bb.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/static/css/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
-          <caret line="2208" column="0" lean-forward="true" selection-start-line="2208" selection-start-column="0" selection-end-line="2208" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/helpers/datatable.go" />
-    <entry file="file://$PROJECT_DIR$/main/static/js/custom/add-task.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="12" column="40" lean-forward="false" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/views/template/task-details.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="936">
-          <caret line="52" column="0" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/views/template/job-details.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-198">
-          <caret line="14" column="52" lean-forward="true" selection-start-line="14" selection-start-column="52" selection-end-line="14" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/static/js/custom/nfc-details.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="34" column="27" lean-forward="true" selection-start-line="34" selection-start-column="27" selection-end-line="34" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/static/js/custom/add-nfc.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-234">
-          <caret line="17" column="29" lean-forward="true" selection-start-line="17" selection-start-column="29" selection-end-line="17" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/static/js/custom/task-details.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="24" column="32" lean-forward="false" selection-start-line="24" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/views/template/add-task.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="21" column="106" lean-forward="false" selection-start-line="21" selection-start-column="106" selection-end-line="21" selection-end-column="106" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/NfcModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="1332">
+          <caret line="78" column="5" lean-forward="false" selection-start-line="78" selection-start-column="5" selection-end-line="78" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/viewmodels/NfcViewModel.go">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="5" lean-forward="false" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/static/js/custom/contacts-details.js">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/viewmodels/ContactUserViewModel.go">
+    <entry file="file://$PROJECT_DIR$/models/InviteUserModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="1" lean-forward="false" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/CustomerModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="31" column="28" lean-forward="true" selection-start-line="31" selection-start-column="28" selection-end-line="31" selection-end-column="28" />
+        <state relative-caret-position="-1242">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/helpers/ConstantHelpers.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="8" lean-forward="false" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
-          <folding />
+        <state relative-caret-position="90">
+          <caret line="5" column="31" lean-forward="false" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/helpers/StringInSlice.go">
+    <entry file="file://$PROJECT_DIR$/models/ContactUserModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="47" lean-forward="false" selection-start-line="4" selection-start-column="47" selection-end-line="4" selection-end-column="47" />
+        <state relative-caret-position="252">
+          <caret line="78" column="44" lean-forward="true" selection-start-line="78" selection-start-column="23" selection-end-line="78" selection-end-column="46" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/static/js/custom/job-details.js">
+    <entry file="file://$PROJECT_DIR$/viewmodels/EditNfcViewModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="59" column="17" lean-forward="false" selection-start-line="59" selection-start-column="17" selection-end-line="59" selection-end-column="17" />
+        <state relative-caret-position="90">
+          <caret line="5" column="30" lean-forward="true" selection-start-line="5" selection-start-column="30" selection-end-line="5" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/InviteUserController.go">
+    <entry file="file://$PROJECT_DIR$/main/views/template/register.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="162" column="37" lean-forward="false" selection-start-line="162" selection-start-column="37" selection-end-line="162" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/NfcModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1440">
+          <caret line="4" column="7" lean-forward="true" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/views/template/job-details.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="23" column="31" lean-forward="false" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/views/template/nfc-details.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-740">
+          <caret line="6" column="111" lean-forward="false" selection-start-line="6" selection-start-column="111" selection-end-line="6" selection-end-column="111" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/static/js/custom/add-contacts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1365">
+          <caret line="12" column="73" lean-forward="false" selection-start-line="12" selection-start-column="73" selection-end-line="12" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/views/template/add-customer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="31" column="75" lean-forward="false" selection-start-line="31" selection-start-column="75" selection-end-line="31" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/static/js/custom/add-nfc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="74" column="7" lean-forward="false" selection-start-line="72" selection-start-column="4" selection-end-line="74" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/views/template/add-nfc.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="52">
+          <caret line="42" column="105" lean-forward="false" selection-start-line="42" selection-start-column="105" selection-end-line="42" selection-end-column="105" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/views/template/add-contacts.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="57" column="76" lean-forward="false" selection-start-line="57" selection-start-column="76" selection-end-line="57" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/static/js/custom/add-customer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="17" column="23" lean-forward="false" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/CustomerModel.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/SessionController.go">
+    <entry file="file://$PROJECT_DIR$/main/static/js/custom/add-group.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="144">
+          <caret line="80" column="7" lean-forward="true" selection-start-line="78" selection-start-column="3" selection-end-line="80" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/RegisterController.go">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="900">
+          <caret line="55" column="33" lean-forward="false" selection-start-line="55" selection-start-column="33" selection-end-line="55" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/views/template/add-task.html">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/NfcController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
-          <caret line="110" column="9" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="110" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/LoginModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="29" column="38" lean-forward="true" selection-start-line="29" selection-start-column="38" selection-end-line="29" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routers/router.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="43" column="92" lean-forward="false" selection-start-line="43" selection-start-column="92" selection-end-line="43" selection-end-column="92" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/LoginController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="22" column="56" lean-forward="false" selection-start-line="22" selection-start-column="56" selection-end-line="22" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/CustomerController.go">
+    <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
-          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/views/template/add-job.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="27" column="62" lean-forward="false" selection-start-line="27" selection-start-column="62" selection-end-line="27" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/static/js/custom/add-job.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1008">
+          <caret line="56" column="43" lean-forward="false" selection-start-line="56" selection-start-column="43" selection-end-line="56" selection-end-column="43" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/JobModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="34" column="6" lean-forward="false" selection-start-line="34" selection-start-column="6" selection-end-line="34" selection-end-column="14" />
+        <state relative-caret-position="108">
+          <caret line="9" column="8" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="16" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/RegisterModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="245">
+          <caret line="69" column="38" lean-forward="false" selection-start-line="69" selection-start-column="38" selection-end-line="69" selection-end-column="38" />
+          <folding>
+            <element signature="e#51#156#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/viewmodels/InviteUserViewModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/GroupController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-540">
+          <caret line="71" column="33" lean-forward="false" selection-start-line="71" selection-start-column="33" selection-end-line="71" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/CustomerController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="47" column="71" lean-forward="false" selection-start-line="47" selection-start-column="71" selection-end-line="47" selection-end-column="71" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/ContactUserController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="52" column="44" lean-forward="false" selection-start-line="52" selection-start-column="44" selection-end-line="52" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/viewmodels/JobViewModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="5" lean-forward="false" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/JobController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1044">
-          <caret line="166" column="71" lean-forward="false" selection-start-line="166" selection-start-column="71" selection-end-line="166" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/ContactUserModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="7" lean-forward="false" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
-          <folding>
-            <element signature="e#45#90#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="30" column="1" lean-forward="false" selection-start-line="30" selection-start-column="1" selection-end-line="30" selection-end-column="1" />
+        <state relative-caret-position="144">
+          <caret line="55" column="71" lean-forward="false" selection-start-line="55" selection-start-column="71" selection-end-line="55" selection-end-column="71" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2970">
-          <caret line="108" column="58" lean-forward="false" selection-start-line="108" selection-start-column="42" selection-end-line="108" selection-end-column="58" />
-          <folding>
-            <element signature="e#51#173#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/viewmodels/GroupViewModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="2160">
+          <caret line="128" column="26" lean-forward="false" selection-start-line="128" selection-start-column="26" selection-end-line="128" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/viewmodels/TaskViewModel.go">
+    <entry file="file://$PROJECT_DIR$/models/SessionModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="24" column="38" lean-forward="false" selection-start-line="24" selection-start-column="38" selection-end-line="24" selection-end-column="38" />
+        <state relative-caret-position="72">
+          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/views/template/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="864">
+          <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/InviteUserController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1314">
+          <caret line="81" column="33" lean-forward="false" selection-start-line="81" selection-start-column="33" selection-end-line="81" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/GroupModel.go">
+    <entry file="file://$PROJECT_DIR$/models/FirebaseClient.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-204">
-          <caret line="90" column="34" lean-forward="false" selection-start-line="89" selection-start-column="8" selection-end-line="89" selection-end-column="38" />
+        <state relative-caret-position="450">
+          <caret line="32" column="22" lean-forward="false" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/JobController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1116">
+          <caret line="70" column="71" lean-forward="false" selection-start-line="70" selection-start-column="71" selection-end-line="70" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/BaseController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/LoginModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="16" column="67" lean-forward="false" selection-start-line="16" selection-start-column="67" selection-end-line="16" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/static/js/custom/job-details.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1368">
+          <caret line="76" column="34" lean-forward="false" selection-start-line="76" selection-start-column="34" selection-end-line="76" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/static/js/custom/nfc-details.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1620">
+          <caret line="90" column="28" lean-forward="false" selection-start-line="90" selection-start-column="28" selection-end-line="90" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/NfcController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="21" column="71" lean-forward="false" selection-start-line="18" selection-start-column="8" selection-end-line="21" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="9" column="20" lean-forward="false" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
           <folding>
-            <marker date="1487237615020" expanded="true" signature="231:270" ph="{...}" />
-            <marker date="1487237615020" expanded="true" signature="272:326" ph="/*...*/" />
-            <marker date="1487237615020" expanded="true" signature="416:635" ph="{...}" />
-            <marker date="1487237615020" expanded="true" signature="505:528" ph="{...}" />
-            <marker date="1487237615020" expanded="true" signature="580:618" ph="{...}" />
-            <marker date="1487237615020" expanded="true" signature="738:1002" ph="{...}" />
-            <marker date="1487237615020" expanded="true" signature="877:919" ph="{...}" />
-            <marker date="1487237615020" expanded="true" signature="921:979" ph="/.../" />
-            <marker date="1487237615020" expanded="true" signature="1109:1280" ph="{...}" />
-            <marker date="1487237615020" expanded="true" signature="1226:1263" ph="{...}" />
-            <marker date="1487237615020" expanded="true" signature="1398:1633" ph="{...}" />
-            <marker date="1487237615020" expanded="true" signature="1564:1608" ph="{...}" />
-            <marker date="1487237615020" expanded="true" signature="1813:2357" ph="{...}" />
-            <marker date="1487237615020" expanded="true" signature="1926:1976" ph="{...}" />
-            <marker date="1487237615020" expanded="true" signature="2018:2328" ph="{...}" />
-            <marker date="1487237615020" expanded="true" signature="2173:2226" ph="{...}" />
-            <marker date="1487237615020" expanded="true" signature="2479:2692" ph="{...}" />
-            <marker date="1487237615020" expanded="true" signature="2614:2664" ph="{...}" />
-            <marker date="1487237615020" expanded="true" signature="2813:2970" ph="{...}" />
-            <marker date="1487237615020" expanded="true" signature="2917:2954" ph="{...}" />
+            <element signature="e#14#81#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/GroupController.go">
+    <entry file="file://$PROJECT_DIR$/main/views/template/homepage.html" />
+    <entry file="file://$PROJECT_DIR$/main/views/layout/layout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-288">
-          <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+        <state relative-caret-position="612">
+          <caret line="34" column="44" lean-forward="false" selection-start-line="34" selection-start-column="38" selection-end-line="34" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/static/js/custom/register.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="990">
+          <caret line="55" column="44" lean-forward="false" selection-start-line="55" selection-start-column="44" selection-end-line="55" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routers/router.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="13" column="83" lean-forward="false" selection-start-line="13" selection-start-column="83" selection-end-line="13" selection-end-column="83" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/static/js/custom/login.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="44" lean-forward="false" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/LoginController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="774">
+          <caret line="47" column="36" lean-forward="false" selection-start-line="47" selection-start-column="25" selection-end-line="47" selection-end-column="36" />
           <folding>
-            <element signature="e#43#176#0" expanded="true" />
+            <element signature="e#56#109#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/SessionController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="446">
+          <caret line="49" column="68" lean-forward="false" selection-start-line="49" selection-start-column="68" selection-end-line="49" selection-end-column="68" />
+          <folding>
+            <element signature="e#57#145#0" expanded="true" />
           </folding>
         </state>
       </provider>

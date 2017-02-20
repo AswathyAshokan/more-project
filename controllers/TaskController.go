@@ -126,6 +126,10 @@ func (c *TaskController)AddNewTask() {
 
 /* display all task details*/
 func (c *TaskController)LoadTaskDetail() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	storedSession := ReadSession(w, r)
+	log.Println("The userDetails stored in session:",storedSession)
 	task := models.Task{}
 	dbStatus, tasks := task.RetrieveTaskFromDB(c.AppEngineCtx)
 	viewModel := viewmodels.TaskDetailViewModel{}

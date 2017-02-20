@@ -110,6 +110,9 @@ func CheckJobNameIsUsed(ctx context.Context, jobName string)bool{
 		log.Println("No Db Connection!")
 	}
 	err = dB.Child("Job").OrderBy("JobName").EqualTo(jobName).Value(&job)
+	if err!=nil{
+		log.Println("Error:",err)
+	}
 	if len(job)==0{
 		log.Println("map null:",job)
 		return true
@@ -127,6 +130,9 @@ func CheckJobNumberIsUsed(ctx context.Context, jobNumber string)bool{
 	}
 	log.Println("JOB NUMBER:",jobNumber)
 	err = dB.Child("Job").OrderBy("JobNumber").EqualTo(jobNumber).Value(&job)
+	if err!=nil{
+		log.Println("Error:",err)
+	}
 	if len(job)==0{
 		log.Println("map null:",job)
 		return true
