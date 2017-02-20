@@ -46,6 +46,10 @@ func (c *CustomerController) AddCustomer() {
 
 //Display all the details of customer
 func (c *CustomerController) CustomerDetails() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	storedSession := ReadSession(w, r)
+	log.Println("The userDetails stored in session:",storedSession)
 	CustomerViewModel := viewmodels.Customer{}
 	allCustomer,dbStatus:= models.GetAllCustomerDetails(c.AppEngineCtx)
 	log.Println("view",allCustomer)

@@ -13,6 +13,11 @@ type SessionController struct{
 	BaseController
 }
 
+type SessionValues struct{
+	Info  models.Info
+	Settings models.Settings
+}
+
 var cookieToken = securecookie.New(securecookie.GenerateRandomKey(64), securecookie.GenerateRandomKey(32))
 
 func SetSession(w http.ResponseWriter, adminDetails models.CompanyAdmins){
@@ -31,8 +36,8 @@ func SetSession(w http.ResponseWriter, adminDetails models.CompanyAdmins){
 		log.Println("Session is Set!")
 	}
 }
-func ReadSession (w http.ResponseWriter, r *http.Request) (models.SessionValues) {
-	sessionValues := models.SessionValues{}
+func ReadSession (w http.ResponseWriter, r *http.Request) (SessionValues) {
+	sessionValues := SessionValues{}
 	if cookie, err := r.Cookie("session"); err == nil {
 		cookieValue := make(map[string]string)
 		if err = cookieToken.Decode("session", cookie.Value, &cookieValue); err == nil {
@@ -57,6 +62,5 @@ func ClearSession(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, cookie)
 	log.Println("Logged out Successfully!")
 	log.Println("The value in session after Logout:", cookie.Value)
-	http.Redirect(w, r, "/", 302)
 
 }

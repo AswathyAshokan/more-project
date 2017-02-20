@@ -71,7 +71,10 @@ func (c *GroupController) AddGroup() {
 
 // show the details of whole group from database
 func (c *GroupController) GroupDetails() {
-	//r := c.Ctx.Request
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	storedSession := ReadSession(w, r)
+	log.Println("The userDetails stored in session:",storedSession)
 	allGroups,dbStatus := models.GetAllGroupDetails(c.AppEngineCtx)
 	switch dbStatus {
 	case true:

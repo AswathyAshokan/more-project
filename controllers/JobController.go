@@ -65,6 +65,10 @@ func (c *JobController)AddNewJob() {
 }
 /*Display job details*/
 func (c *JobController)LoadJobDetail() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	storedSession := ReadSession(w, r)
+	log.Println("The userDetails stored in session:",storedSession)
 	customerId := ""
 	customerId = c.Ctx.Input.Param(":customerId")
 	job :=models.Job{}

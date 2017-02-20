@@ -50,6 +50,10 @@ func (c *ContactUserController)AddNewContact() {
 
 /*Display all contact detail*/
 func (c *ContactUserController)LoadContactDetails() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	storedSession := ReadSession(w, r)
+	log.Println("The userDetails stored in session:",storedSession)
 	dbStatus, contact := models.GetAllContact(c.AppEngineCtx)
 	viewModel := viewmodels.ContactUserViewModel{}
 

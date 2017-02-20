@@ -19,8 +19,7 @@ func (c *NfcController) NFCDetails(){
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	storedSession := ReadSession(w, r)
-	log.Println("The username stored in session:",storedSession.Info.Email)
-	log.Println("The lastName stored in session:",storedSession.Info.LastName)
+	log.Println("The userDetails stored in session:",storedSession)
 	nfcDetails := models.NFC{}
 	data := nfcDetails.GetNFCDetails(c.AppEngineCtx)
 	log.Println(data)
