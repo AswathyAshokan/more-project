@@ -3,9 +3,7 @@
 document.getElementById("task").className += " active";
 var pageType = vm.PageType;
 var customerName = "";
-
 $(function () {
-    
     if (pageType == "edit") {
         document.getElementById("jobName").value = vm.JobName;
         document.getElementById("taskName").value = vm.TaskName;
@@ -22,10 +20,13 @@ $(function () {
     }
 });
 
-       
-$().ready(function() {
+var addItem = $('<span>+</span>');
+addItem.click(function() {
+    window.location = "/task/add";
+});
 
-   var loginTypeRadio = "";
+$().ready(function() {
+    var loginTypeRadio = "";
    $(".radio-inline").change(function () {
        loginTypeRadio = $('.radio-inline:checked').val();
    });
@@ -37,19 +38,16 @@ $().ready(function() {
         var tempName = jobAndCustomer.replace(job, '');
         customerName = tempName.replace(')', '');
     }
-
-   $("#taskDoneForm").validate({
-       
-       rules: {
+    
+    $("#taskDoneForm").validate({
+        rules: {
            taskName: "required",
            jobName: "required"
        },
-       
-       submitHandler: function() {
-           var taskId=vm.TaskId;
-           var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName;
-           if(pageType == "edit"){
-            
+        submitHandler: function() {
+            var taskId=vm.TaskId;
+            var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName;
+            if(pageType == "edit"){
                 $.ajax({
                     url: '/task/'+taskId+'/edit',
                     type: 'post',
@@ -65,9 +63,7 @@ $().ready(function() {
                         console.log(error);
                     }
                 });
-            
             } else {
-
                 $.ajax({
                     url: '/task/add',
                     type: 'post',

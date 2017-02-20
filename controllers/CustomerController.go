@@ -8,6 +8,7 @@ import (
 	"app/passporte/viewmodels"
 	"app/passporte/helpers"
 	"time"
+	"strings"
 )
 
 type CustomerController struct {
@@ -16,19 +17,19 @@ type CustomerController struct {
 
 // add new customer to database
 func (c *CustomerController) AddCustomer() {
-	customer := models.Customer{}
+	customer := models.Customers{}
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	if r.Method == "POST" {
-		customer.CustomerName = c.GetString("customername")
-		customer.ContactPerson = c.GetString("contactperson")
-		customer.Address = c.GetString("address")
-		customer.Phone = c.GetString("phone")
-		customer.Email = c.GetString("email")
-		customer.State = c.GetString("state")
-		customer.ZipCode = c.GetString("zipcode")
-		customer.DateOfCreation =(time.Now().UnixNano() / 1000000)
-		customer.Status = "inactive"
+		customer.Info.CustomerName = c.GetString("customername")
+		customer.Info.ContactPerson = c.GetString("contactperson")
+		customer.Info.Address = c.GetString("address")
+		customer.Info.Phone = c.GetString("phone")
+		customer.Info.Email = c.GetString("email")
+		customer.Info.State = c.GetString("state")
+		customer.Info.ZipCode = c.GetString("zipcode")
+		customer.Settings.DateOfCreation =(time.Now().UnixNano() / 1000000)
+		customer.Settings.Status = "inactive"
 		dbStatus := customer.AddCustomersToDb(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
@@ -46,23 +47,24 @@ func (c *CustomerController) AddCustomer() {
 //Display all the details of customer
 func (c *CustomerController) CustomerDetails() {
 	CustomerViewModel := viewmodels.Customer{}
-	info,dbStatus:= models.GetAllCustomerDetails(c.AppEngineCtx)
+	allCustomer,dbStatus:= models.GetAllCustomerDetails(c.AppEngineCtx)
+	log.Println("view",allCustomer)
 	switch dbStatus {
 	case true:
-		dataValue := reflect.ValueOf(info)
+		dataValue := reflect.ValueOf(allCustomer)
 		var keySlice []string
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
 		}
 		for _, k := range keySlice {
 			var tempValueSlice []string
-			tempValueSlice = append(tempValueSlice, info[k].CustomerName)
-			tempValueSlice = append(tempValueSlice, info[k].Address)
-			tempValueSlice = append(tempValueSlice, info[k].State)
-			tempValueSlice = append(tempValueSlice, info[k].ZipCode)
-			tempValueSlice = append(tempValueSlice, info[k].Email)
-			tempValueSlice = append(tempValueSlice, info[k].Phone)
-			tempValueSlice = append(tempValueSlice, info[k].ContactPerson)
+			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.CustomerName)
+			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Address)
+			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.State)
+			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.ZipCode)
+			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Email)
+			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Phone)
+			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.ContactPerson)
 			CustomerViewModel.Values=append(CustomerViewModel.Values,tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
 		}
@@ -79,7 +81,7 @@ func (c *CustomerController) CustomerDetails() {
 func (c *CustomerController) DeleteCustomer() {
 	w := c.Ctx.ResponseWriter
 	customerKey :=c.Ctx.Input.Param(":customerid")
-	customer := models.Customer{}
+	customer := models.Customers{}
 	dbStatus :=customer.DeleteCustomerById(c.AppEngineCtx, customerKey)
 	switch dbStatus {
 	case true:
@@ -93,19 +95,20 @@ func (c *CustomerController) DeleteCustomer() {
 func (c *CustomerController) EditCustomer() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	customer := models.Customer{}
+	customerDetails := models.CustomerData{}
+	customer := models.Customers{}
 	customerId := c.Ctx.Input.Param(":customerid")
 	if r.Method == "POST" {
-		customer.CustomerName = c.GetString("customername")
-		customer.Address = c.GetString("address")
-		customer.ContactPerson = c.GetString("contactperson")
-		customer.Email= c.GetString("email")
-		customer.Phone = c.GetString("phone")
-		customer.ZipCode = c.GetString("zipcode")
-		customer.State = c.GetString("state")
+		customerDetails.CustomerName = c.GetString("customername")
+		customerDetails.Address = c.GetString("address")
+		customerDetails.ContactPerson = c.GetString("contactperson")
+		customerDetails.Email= c.GetString("email")
+		customerDetails.Phone = c.GetString("phone")
+		customerDetails.ZipCode = c.GetString("zipcode")
+		customerDetails.State = c.GetString("state")
 
-		log.Println("new name",customer.CustomerName)
-		dbStatus :=customer.UpdateCustomerDetailsById(c.AppEngineCtx, customerId)
+		log.Println("new name", customerDetails.CustomerName)
+		dbStatus := customer.UpdateCustomerDetailsById(c.AppEngineCtx, customerId)
 
 		switch dbStatus {
 		case true:
@@ -119,13 +122,13 @@ func (c *CustomerController) EditCustomer() {
 		switch DbStatus {
 		case true:
 			customerViewModel := viewmodels.EditCustomerViewModel{}
-			customerViewModel.State= editResult.State
-			customerViewModel.ZipCode = editResult.ZipCode
-			customerViewModel.Email = editResult.Email
-			customerViewModel.ContactPerson = editResult.ContactPerson
-			customerViewModel.Address = editResult.Address
-			customerViewModel.CustomerName= editResult.CustomerName
-			customerViewModel.Phone= editResult.Phone
+			customerViewModel.State= editResult.Info.State
+			customerViewModel.ZipCode = editResult.Info.ZipCode
+			customerViewModel.Email = editResult.Info.Email
+			customerViewModel.ContactPerson = editResult.Info.ContactPerson
+			customerViewModel.Address = editResult.Info.Address
+			customerViewModel.CustomerName= editResult.Info.CustomerName
+			customerViewModel.Phone= editResult.Info.Phone
 			customerViewModel.PageType = helpers.SelectPageForEdit
 			customerViewModel.CustomerId = customerId
 			c.Data["vm"] = customerViewModel
@@ -139,14 +142,20 @@ func (c *CustomerController) EditCustomer() {
 func (c *CustomerController)  CustomerNameCheck(){
 	w := c.Ctx.ResponseWriter
 	customerName := c.GetString("customername")
-	log.Println("customer name:",customerName)
-	dbStatus := models.IsCustomerNameUsed(c.AppEngineCtx,customerName)
-	switch dbStatus {
-	case true:
+	pageType := c.Ctx.Input.Param(":type")
+	oldName := c.Ctx.Input.Param(":oldName")
+	if pageType == "edit" && strings.Compare(oldName, customerName) == 0 {
 		w.Write([]byte("true"))
-	case false:
-		w.Write([]byte("false"))
+	} else {
+		dbStatus := models.IsCustomerNameUsed(c.AppEngineCtx,customerName)
+		switch dbStatus {
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
+		}
 	}
+
 
 
 }

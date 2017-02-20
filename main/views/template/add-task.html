@@ -2,16 +2,12 @@
 <div class="col-md-12 main-content-wrapper padding-50-each">
 	<div class="clearfix">
 		<h4 id="taskHead">Add Task </h4>
-
-		<div class="personal-details margin-top-20 clearfix bg-border task-add">
-
-			<div class="col-md-9 col-sm-12 col-xs-12">
+        <div class="personal-details margin-top-20 clearfix bg-border task-add">
+            <div class="col-md-9 col-sm-12 col-xs-12">
 				<div class="row">
-					<form class="clearfix max-form-width" method="POST" id="taskDoneForm">
-
-						<div class="form-group clearfix">
-
-							<div class="col-sm-6">
+					<form class="clearfix no-bg-border" method="POST" id="taskDoneForm">
+                        <div class="form-group clearfix">
+                            <div class="col-sm-6">
 								<label for="taskName" class="">Task Name</label>
 								<input class="form-control" id="taskName" type="text" name="taskName">
 							</div>
@@ -26,10 +22,8 @@
 								</select>
 							</div>
 						</div>
-
-						<div class="form-group clearfix">
-
-							<div class="col-sm-6">
+                        <div class="form-group clearfix">
+                            <div class="col-sm-6">
 								<label for="startDate" class="">Start Date and Time</label>
 								<div class="callender-wrapper">
 									<input type="text" id="startDate" class="datepicker form-control sprites-callender" name="startDate">
@@ -44,25 +38,20 @@
 								</div>
 							</div>
 						</div>
-
-						<div class="form-group clearfix">
+                        <div class="form-group clearfix">
 							<div class="col-sm-6">
 								<label for="taskLocation" class="">Task Location</label>
 								<input class="form-control" id="taskLocation" type="text" name="taskLocation">
 							</div>
 						</div>
-
-						<div class="form-group clearfix">
-
-							<div class="col-sm-12">
+                        <div class="form-group clearfix">
+                            <div class="col-sm-12">
 								<label for="taskDescription" class="">Task Description</label>
 								<textarea class="form-control" rows="5" id="taskDescription" name="taskDescription"></textarea>
 							</div>
 						</div>
-
-						<div class="form-group clearfix">
-
-							<div class="col-sm-6">
+                        <div class="form-group clearfix">
+                            <div class="col-sm-6">
 								<label for="users" class="">Min. No. of Users to Start Work</label>
 								<select class="form-control sprites-arrow-down" id="users" name="users">
 									<option>1</option>
@@ -81,57 +70,48 @@
 								</select>
 							</div>
 						</div>
-
-						<div class="form-group clearfix">
-
-							<div class="col-sm-6">
+                        <div class="form-group clearfix">
+                            <div class="col-sm-6">
 								<label for="userType" class="">Users/Group</label>
 								<select class="form-control sprites-arrow-down multiple-drop" id="userOrGroup" multiple="multiple" name="userOrGroup">
-									
-                                        {{range $key, $val := .vm.GroupNameArray}}
+                                    {{range $key, $val := .vm.GroupNameArray}}
                                            <option value="{{$val}}">{{$val}}</option>
                                        {{end}}
 								</select>
 							</div>
-
-							<div class="col-sm-6">
+                            <div class="col-sm-6">
 								<label for="contacts" class="">Contacts</label>
 								<select class="form-control sprites-arrow-down multiple-drop" id="contacts" multiple="multiple" name="contacts" >
                                    
                                         {{range $key, $val := .vm.ContactNameArray}}
                                            <option value="{{$val}}">{{$val}}</option>
                                        {{end}}
-										
-
-								</select>
+                                </select>
 							</div>
-
-						</div>
-                        
-
-						<div class="form-group clearfix">
+                        </div>
+                        <div class="form-group clearfix">
 							<div class="col-sm-6">
 								<label for="fitToWork" class="">Fit To Work Declaration</label>
-								<div class="plus" id="plus">
-									<input class="form-control" id="fitToWork" type="text" name="fitToWork">
-								</div>
-							</div>
+								<div class="plus">
+                                    <input class="form-control" id="ex2" type="text">
+                                    <span class="add-decl">+</span>
+                                    <span class="delete-decl">+</span>
+                                </div>
+                                <div class="plus">
+                                    <input class="form-control" id="ex2" type="text">
+                                    <span class="add-decl">+</span>
+                                    <span class="delete-decl">+</span>
+                                </div>
+                            </div>
 						</div>
-
-						<div class="align-left col-sm-12">
+                        <div class="align-left col-sm-12">
 							<button class="btn btn-primary" type="submit">Save</button>
 							<button class="btn btn-success" type="button" id="cancel">Cancel</button>
 						</div>
-
-
-
-
-
-					</form>
+                    </form>
 				</div>
 			</div>
-
-			<div class="col-md-3 col-sm-12 col-xs-12">
+            <div class="col-md-3 col-sm-12 col-xs-12">
 				<div class="map-header">
 					<span>Login Type</span>
 					<div class=>
@@ -143,26 +123,18 @@
 						</label>
 					</div>
 				</div>
-
-				<div class="map-wrapper">
+                <div class="map-wrapper">
 					<div id="map" style="width:100%;height:100%"></div>
 				</div>
-			</div>
-
-		</div>
-
-
-
-
-	</div>
-
-
+            </div>
+        </div>
+    </div>
 </div>
 
 
 <script type="text/javascript">
        var vm = {{.vm}};
-   </script>
+</script>
 <script src="/static/js/jquery.validate.js"></script>
 <script src="/static/js/custom/add-task.js"></script>
 <script src="/static/js/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
@@ -172,14 +144,14 @@
 
 <script>
 		function myMap() {
-		  var mapCanvas = document.getElementById("map");
-		  var mapOptions = {
-		    center: new google.maps.LatLng(51.5, -0.2), 
-		    zoom: 10
-		  }
-		  var map = new google.maps.Map(mapCanvas, mapOptions);
-		}
-	</script>
+            var mapCanvas = document.getElementById("map");
+            var mapOptions = {
+                center: new google.maps.LatLng(51.5, -0.2), 
+                zoom: 10
+            }
+            var map = new google.maps.Map(mapCanvas, mapOptions);
+        }
+</script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFl3U2s0vqjaN-6rvAaOA8Ts1cfDss_KM&callback=myMap"></script>
 

@@ -7,8 +7,13 @@ import (
 	"log"
 )
 
-type Customer struct {
+type Customers struct {
+	Info     CustomerData
+	Settings CustomerSettings
 
+}
+
+type CustomerData struct {
 	CustomerName 	 string
 	ContactPerson	 string
 	Address 	 string
@@ -16,13 +21,18 @@ type Customer struct {
 	Email 		 string
 	State		 string
 	ZipCode		 string
-	DateOfCreation   int64
-	Status           string
+
 }
 
+type CustomerSettings struct {
+	Status           string
+	DateOfCreation   int64
+}
+
+
+
 // Add new customers to database
-func(m *Customer) AddCustomersToDb(ctx context.Context) (bool){
-	//log.Println("values in model",this)
+func(m *Customers) AddCustomersToDb(ctx context.Context) (bool){
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println(err)
@@ -36,10 +46,10 @@ func(m *Customer) AddCustomersToDb(ctx context.Context) (bool){
 }
 
 // Fetch all the details of customer from database
-func GetAllCustomerDetails(ctx context.Context) (map[string]Customer,bool){
+func GetAllCustomerDetails(ctx context.Context) (map[string]Customers,bool){
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
-	allCustomerDetails := map[string]Customer{}
+	allCustomerDetails := map[string]Customers{}
 	err = db.Child("Customer").Value(&allCustomerDetails)
 	if err != nil {
 		log.Fatal(err)
@@ -49,7 +59,7 @@ func GetAllCustomerDetails(ctx context.Context) (map[string]Customer,bool){
 }
 
 // delete customer from database using customer id
-func(m *Customer) DeleteCustomerById(ctx context.Context,customerKey string) bool{
+func(m *Customers) DeleteCustomerById(ctx context.Context,customerKey string) bool{
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("/Customer/"+customerKey).Remove()
@@ -61,9 +71,9 @@ func(m *Customer) DeleteCustomerById(ctx context.Context,customerKey string) boo
 }
 
 //get all the values of a customer using customer id for editing purpose
-func(m *Customer) EditCustomer(ctx context.Context,customerId string) (Customer,bool){
+func(m *Customers) EditCustomer(ctx context.Context,customerId string) (Customers,bool){
 
-	value := Customer{}
+	value := Customers{}
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("/Customer/"+customerId).Value(&value)
 	if err != nil {
@@ -74,7 +84,7 @@ func(m *Customer) EditCustomer(ctx context.Context,customerId string) (Customer,
 }
 
 //update the customer profile
-func(m *Customer) UpdateCustomerDetailsById(ctx context.Context,customerId string) (bool) {
+func(m *Customers) UpdateCustomerDetailsById(ctx context.Context,customerId string) (bool) {
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("/Customer/"+ customerId).Update(&m)
 
@@ -88,7 +98,7 @@ func(m *Customer) UpdateCustomerDetailsById(ctx context.Context,customerId strin
 //check customer name is already exist
 func IsCustomerNameUsed(ctx context.Context,customerName string)(bool) {
 	log.Println("customerName",customerName)
-	customerDetails := map[string]Customer{}
+	customerDetails := map[string]Customers{}
 	db, err := GetFirebaseClient(ctx, "")
 	if err != nil {
 		log.Println("No Db Connection!")
