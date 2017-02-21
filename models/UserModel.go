@@ -1,3 +1,5 @@
+/*Created by Arjun Ajith on 21/02/2017*/
+
 package models
 
 type Users struct {
