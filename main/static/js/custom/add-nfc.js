@@ -27,6 +27,7 @@ $(function(){
                         location: "Please enter a Location"
                     },
     	            submitHandler: function() {
+                         $("#save").attr('disabled', true);
                         var form_data = $("#addNfcForm").serialize();
                         //alert(form_data);
                         var nfcId = array.NfcId;
@@ -41,7 +42,7 @@ $(function(){
                                     if (response == "true") {
                                         window.location = '/nfc';
                                     } else {
-
+                                        $("#save").attr('disabled', false);
                                     }
                                 },
                                 error: function (request,status, error) {

@@ -5,7 +5,7 @@ import (
 )
 
 type UserViewModel struct {
-	Users		[]models.InviteUser
+	Users		[]models.Invitation
 	FirstName      string
 	LastName       string
 	EmailId        string

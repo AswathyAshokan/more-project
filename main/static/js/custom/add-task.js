@@ -45,6 +45,7 @@ $().ready(function() {
            jobName: "required"
        },
         submitHandler: function() {
+            $("#saveButton").attr('disabled', true);
             var taskId=vm.TaskId;
             var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName;
             if(pageType == "edit"){
@@ -57,6 +58,7 @@ $().ready(function() {
                         if (response =="true") {
                             window.location = '/task';
                         } else {
+                            
                         }
                     },
                     error: function (request,status, error) {
@@ -73,6 +75,7 @@ $().ready(function() {
                         if (response =="true") {
                             window.location = '/task';
                         } else {
+                             $("#saveButton").attr('disabled', false);
                         }
                     },
                     error: function (request,status, error) {

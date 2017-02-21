@@ -54,6 +54,7 @@ $().ready(function() {
                 },
                     
 	            submitHandler: function() {
+                    $("#save").attr('disabled', true);
                     var formData = $("#jobForm").serialize();
                     var customerName = $('#customerId option:selected').text();
                     formData = formData +"&customerName="+customerName;
@@ -72,8 +73,8 @@ $().ready(function() {
                                 if (response == "true") {
                                     window.location = '/job';
                                 } else {
-
-                               	}
+                                      $("#save").attr('disabled', false);
+                                }
                             },
                             error: function (request,status, error) {
                                 console.log(error);

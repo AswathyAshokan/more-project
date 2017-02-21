@@ -73,23 +73,25 @@ func(m *Group) DeleteGroup(ctx context.Context, GroupKey string) bool{
 }
 
 // To get all the keys of User
-func(m *Group) GetUsersForDropdown(ctx context.Context) (map[string]InviteUser,bool) {
+func (m *Users)GetUsersForDropdown(ctx context.Context) (map[string]Users,bool) {
 	db,err :=GetFirebaseClient(ctx,"")
-	allUser := map[string]InviteUser{}
-	//err = db.Child("Users").Value(&v)
-	err = db.Child("User").Value(&allUser)
+	allUser := map[string]Users{}
+	err = db.Child("Users").Value(&allUser)
+	//err = db.Child("Users").Value(&allUser)
 	if err != nil {
-		log.Fatal(err)
+		log.Println("ERRRRROR")
+		log.Println(err)
 		return allUser,false
 	}
+	log.Println("haiiii",allUser)
 	return allUser,true
 
 
 }
 
-// for fill the dropdown list using first name and second name(user) in add group
-func(m *Group) TakeGroupMemberName(ctx context.Context,groupKeySlice []string) ([]string, bool) {
-	allUserDetails := InviteUser{}
+// for fill the dropdown list using name(users) in add group
+func(m *Users) TakeGroupMemberName(ctx context.Context,groupKeySlice []string) ([]string, bool) {
+	allUserDetails :=Users{}
 	var allUserNames [] string
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
@@ -99,12 +101,12 @@ func(m *Group) TakeGroupMemberName(ctx context.Context,groupKeySlice []string) (
 
 	for i := 0; i <len(groupKeySlice); i++ {
 		//err = db.Child("/Users/"+groupKeySlice[i]).Child("Info").Value(&v)
-		err = db.Child("/User/"+groupKeySlice[i]).Value(&allUserDetails)
+		err = db.Child("/Users/"+groupKeySlice[i]).Value(&allUserDetails)
 		if err != nil{
 			log.Fatal(err)
 			return allUserNames, false
 		}
-		allUserNames = append(allUserNames, (allUserDetails.FirstName + " " + allUserDetails.LastName))
+		allUserNames = append(allUserNames, (allUserDetails.Info.FullName))
 
 	}
 	return allUserNames, true

@@ -20,6 +20,7 @@ func (c *GroupController) AddGroup() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	if r.Method == "POST" {
+		log.Println("haii")
 		group := models.Group{}
 		members := models.GroupMembers{}
 		group.Info.GroupName = c.GetString("groupName")
@@ -40,17 +41,20 @@ func (c *GroupController) AddGroup() {
 			w.Write([]byte("false"))
 		}
 	} else {
-		groupUser := models.Group{}
+
+		groupUser := models.Users{}
 		GroupMembers,dbStatus :=groupUser.GetUsersForDropdown(c.AppEngineCtx)  // retrive all the keys of a users
 		switch dbStatus {
+
 		case true:
+			log.Println("haiixx")
 			dataValue := reflect.ValueOf(GroupMembers)	// To store data values of slice
 			var keySlice []string	// To store keys of the slice
 			for _, key := range dataValue.MapKeys() {
 				keySlice = append(keySlice, key.String())
 			}
-			group := models.Group{}
-			GroupMemberName,dbStatus:= group.TakeGroupMemberName(c.AppEngineCtx, keySlice)
+			GroupMemberName,dbStatus:= groupUser.TakeGroupMemberName(c.AppEngineCtx, keySlice)
+			log.Println("haii",GroupMemberName)
 			switch dbStatus {
 			case true:
 				groupViewModel := viewmodels.AddGroupViewModel{}
@@ -160,7 +164,7 @@ func (c *GroupController) EditGroup() {
 
 		}
 	} else {
-		groupUser := models.Group{}
+		groupUser := models.Users{}
 		viewModel := viewmodels.EditGroupViewModel{}
 		GroupMembers,dbStatus :=groupUser.GetUsersForDropdown(c.AppEngineCtx)
 		switch dbStatus {
@@ -171,10 +175,9 @@ func (c *GroupController) EditGroup() {
 				keySlice = append(keySlice, groupKey.String())
 
 			}
-			group := models.Group{}
 
 			// Getting all Data for page load...
-			GroupMemberName,dbStatus:= group.TakeGroupMemberName(c.AppEngineCtx, keySlice)
+			GroupMemberName,dbStatus:= groupUser.TakeGroupMemberName(c.AppEngineCtx, keySlice)
 			switch dbStatus {
 			case true:
 				viewModel.GroupMembers = GroupMemberName

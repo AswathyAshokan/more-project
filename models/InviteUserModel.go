@@ -6,23 +6,31 @@ import (
 	"log"
 
 )
-type InviteUser struct {
+type Invitation struct {
+	Info            inviteUser
+	Settings        InviteSettings
+}
 
+type inviteUser struct {
 	FirstName 	string
 	LastName 	string
 	EmailId 	string
 	UserType 	string
+}
+
+type InviteSettings struct {
 	Status 		string
 	DateOfCreation  int64
 }
 
+
 //Add new invite Users to database
-func(m *InviteUser) AddInviteToDb(ctx context.Context)bool {
+func(m *Invitation) AddInviteToDb(ctx context.Context)bool {
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println(err)
 	}
-	_,err = db.Child("User").Push(m)
+	_,err = db.Child("Invitation").Push(m)
 	if err != nil {
 		log.Println(err)
 		return  false
@@ -31,11 +39,11 @@ func(m *InviteUser) AddInviteToDb(ctx context.Context)bool {
 }
 
 //Fetch all the details of invite user from database
-func GetAllInviteUsersDetails(ctx context.Context) (map[string]InviteUser,bool) {
+func GetAllInviteUsersDetails(ctx context.Context) (map[string]Invitation,bool) {
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
-	value := map[string]InviteUser{}
-	err = db.Child("User").Value(&value)
+	value := map[string]Invitation{}
+	err = db.Child("Invitation").Value(&value)
 	if err != nil {
 		log.Fatal(err)
 		return value,false
@@ -44,10 +52,10 @@ func GetAllInviteUsersDetails(ctx context.Context) (map[string]InviteUser,bool) 
 }
 
 //delete each invite user from database using invite UserId
-func(m *InviteUser) DeleteInviteUserById(ctx context.Context, InviteUserId string) bool{
+func(m *Invitation) DeleteInviteUserById(ctx context.Context, InviteUserId string) bool{
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/User/"+ InviteUserId).Remove()
+	err = db.Child("/Invitation/"+ InviteUserId).Remove()
 	if err != nil {
 		log.Fatal(err)
 		return  false
@@ -57,10 +65,10 @@ func(m *InviteUser) DeleteInviteUserById(ctx context.Context, InviteUserId strin
 }
 
 //fetch all the details of users for editing purpose
-func(m *InviteUser) GetAllInviteUserForEdit(ctx context.Context, InviteUserId string) (InviteUser,bool){
-	value := InviteUser{}
+func(m *Invitation) GetAllInviteUserForEdit(ctx context.Context, InviteUserId string) (Invitation,bool){
+	value := Invitation{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/User/"+ InviteUserId).Value(&value)
+	err = db.Child("/Invitation/"+ InviteUserId).Value(&value)
 	if err != nil {
 		log.Fatal(err)
 		return value , false
@@ -70,10 +78,10 @@ func(m *InviteUser) GetAllInviteUserForEdit(ctx context.Context, InviteUserId st
 }
 
 // update the the profile of user by invite user id
-func(m *InviteUser) UpdateInviteUserById(ctx context.Context,InviteUserKey string) (bool) {
+func(m *Invitation) UpdateInviteUserById(ctx context.Context,InviteUserKey string) (bool) {
 
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/User/"+ InviteUserKey).Update(&m)
+	err = db.Child("/Invitation/"+ InviteUserKey).Update(&m)
 
 	if err != nil {
 		log.Fatal(err)

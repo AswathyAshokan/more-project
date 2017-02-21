@@ -36,7 +36,7 @@ type NextOfKin struct {
 }
 
 type UserSettings struct {
-	DateOfCreation		string
+	DateOfCreation		int64
 	Status			string
 }
 

@@ -61,6 +61,7 @@ $(function () {
                     emailAddress: "Please enter a valid email address"
                 },
 	            submitHandler: function() {
+                    $("#saveButton").attr('disabled', true);
                     var form_data = $("#contactForm").serialize();
                     var contactId = array.ContactId
               
@@ -81,7 +82,7 @@ $(function () {
 
                                             window.location = '/contact';
                                			} else {
-                                            
+                                             $("#saveButton").attr('disabled', false);
                                         }
                               },
 				              error: function (request,status, error) {

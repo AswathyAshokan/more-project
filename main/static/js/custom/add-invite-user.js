@@ -28,6 +28,7 @@ $().ready(function() {
             emailid:"please enter currect email id"
         },
         submitHandler: function(){//to pass all data of a form serial
+              $("#saveButton").attr('disabled', true);
             if (vm.PageType == "edit"){
                 var formData = $("#adduserForm").serialize();
                 var InviteId = vm.InviteId;
@@ -58,6 +59,7 @@ $().ready(function() {
                         if(response == "true"){
                             window.location='/invite';
                         }else {
+                              $("#saveButton").attr('disabled', false);
                         }
                     },
                     error: function (request,status, error) {

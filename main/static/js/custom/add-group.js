@@ -21,6 +21,7 @@ $().ready(function() {
             selectedUserIds:"please fill this column"
         },
         submitHandler: function(){//to pass all data of a form serial
+             $("#saveButton").attr('disabled', true);
             var formData = $("#addgroupForm").serialize();
             var selectedUsersNames = [];
             
@@ -49,6 +50,7 @@ $().ready(function() {
                         if(response == "true"){
                             window.location='/group';
                         }else {
+                             $("#saveButton").attr('disabled', false);
                         }
                     },
                     error: function (request,status, error) {

@@ -17,20 +17,20 @@ type InviteUserController struct {
 
 //Add new invite users to database
 func (c *InviteUserController) AddInvitation() {
-	user := models.InviteUser{}
+	inviteUser := models.Invitation{}
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	storedSession := ReadSession(w, r)
 	log.Println("The userDetails stored in session:",storedSession)
 
 	if r.Method == "POST" {
-		user.FirstName = c.GetString("firstname")
-		user.LastName = c.GetString("lastname")
-		user.EmailId = c.GetString("emailid")
-		user.UserType = c.GetString("usertype")
-		user.DateOfCreation =(time.Now().UnixNano() / 1000000)
-		user.Status = "inactive"
-		dbStatus := user.AddInviteToDb(c.AppEngineCtx)
+		inviteUser.Info.FirstName = c.GetString("firstname")
+		inviteUser.Info.LastName = c.GetString("lastname")
+		inviteUser.Info.EmailId = c.GetString("emailid")
+		inviteUser.Info.UserType = c.GetString("usertype")
+		inviteUser.Settings.DateOfCreation =(time.Now().UnixNano() / 1000000)
+		inviteUser.Settings.Status = "inactive"
+		dbStatus := inviteUser.AddInviteToDb(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -60,11 +60,11 @@ func (c *InviteUserController) InvitationDetails() {
 		}
 		for _, k := range keySlice {
 			var tempValueSlice []string
-			tempValueSlice = append(tempValueSlice, info[k].FirstName)
-			tempValueSlice = append(tempValueSlice, info[k].LastName)
-			tempValueSlice = append(tempValueSlice, info[k].EmailId)
-			tempValueSlice = append(tempValueSlice, info[k].UserType)
-			tempValueSlice = append(tempValueSlice, info[k].Status)
+			tempValueSlice = append(tempValueSlice, info[k].Info.FirstName)
+			tempValueSlice = append(tempValueSlice, info[k].Info.LastName)
+			tempValueSlice = append(tempValueSlice, info[k].Info.EmailId)
+			tempValueSlice = append(tempValueSlice, info[k].Info.UserType)
+			tempValueSlice = append(tempValueSlice, info[k].Settings.Status)
 			inviteUserViewModel.Values=append(inviteUserViewModel.Values,tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
 		}
@@ -81,8 +81,8 @@ func (c *InviteUserController) InvitationDetails() {
 func (c *InviteUserController) DeleteInvitation() {
 	w := c.Ctx.ResponseWriter
 	InviteUserId :=c.Ctx.Input.Param(":inviteuserid")
-	user := models.InviteUser{}
-	result :=user.DeleteInviteUserById(c.AppEngineCtx, InviteUserId)
+	InviteUser := models.Invitation{}
+	result := InviteUser.DeleteInviteUserById(c.AppEngineCtx, InviteUserId)
 	switch result {
 	case true:
 		w.Write([]byte("true"))
@@ -98,13 +98,13 @@ func (c *InviteUserController) EditInvitation() {
 	storedSession := ReadSession(w, r)
 	log.Println("The userDetails stored in session:",storedSession)
 	InviteUserId := c.Ctx.Input.Param(":inviteuserid")
-	user := models.InviteUser{}
+	inviteUser := models.Invitation{}
 	if r.Method == "POST" {
-		user.FirstName = c.GetString("firstname")
-		user.LastName = c.GetString("lastname")
-		user.EmailId = c.GetString("emailid")
-		user.UserType = c.GetString("usertype")
-		dbStatus :=user.UpdateInviteUserById(c.AppEngineCtx, InviteUserId)
+		inviteUser.Info.FirstName = c.GetString("firstname")
+		inviteUser.Info.LastName = c.GetString("lastname")
+		inviteUser.Info.EmailId = c.GetString("emailid")
+		inviteUser.Info.UserType = c.GetString("usertype")
+		dbStatus := inviteUser.UpdateInviteUserById(c.AppEngineCtx, InviteUserId)
 
 		switch dbStatus {
 		case true:
@@ -113,15 +113,15 @@ func (c *InviteUserController) EditInvitation() {
 			w.Write([]byte("false"))
 		}
 	} else {
-		editResult, DbStatus := user.GetAllInviteUserForEdit(c.AppEngineCtx, InviteUserId)
+		editResult, DbStatus := inviteUser.GetAllInviteUserForEdit(c.AppEngineCtx, InviteUserId)
 		switch DbStatus {
 		case true:
 			invitationViewModel := viewmodels.EditInviteUserViewModel{}
-			invitationViewModel.FirstName = editResult.FirstName
-			invitationViewModel.LastName = editResult.LastName
-			invitationViewModel.EmailId = editResult.EmailId
-			invitationViewModel.UserType = editResult.UserType
-			invitationViewModel.Status = editResult.Status
+			invitationViewModel.FirstName = editResult.Info.FirstName
+			invitationViewModel.LastName = editResult.Info.LastName
+			invitationViewModel.EmailId = editResult.Info.EmailId
+			invitationViewModel.UserType = editResult.Info.UserType
+			invitationViewModel.Status = editResult.Settings.Status
 			invitationViewModel.PageType = helpers.SelectPageForEdit
 			invitationViewModel.InviteId = InviteUserId
 			c.Data["vm"] = invitationViewModel
