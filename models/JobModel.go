@@ -5,15 +5,24 @@ import (
 	"log"
 	"golang.org/x/net/context"
 )
-
-type Job   struct {
-	CustomerId	string
-	CustomerName	string
+type JobInfo struct {
 	JobName		string
 	JobNumber	string
 	NumberOfTask	string
-	Status		string
-	CurrentDate	int64
+}
+type JobSettings struct {
+	Status         string
+	DateOfCreation int64
+}
+type JobCustomer struct {
+	CustomerId	string
+	CustomerName	string
+}
+type Job   struct {
+
+	Info 		JobInfo
+	Settings 	JobSettings
+	Customer	JobCustomer
 }
 
 /*Function for add job details to DB*/
@@ -58,19 +67,6 @@ func (m *Job) DeleteJobFromDB(ctx context.Context, jobId string)(bool)  {
 		return false
 	}
 	return true
-}
-
-/*Get all customer details*/
-func (m *Job ) RetrieveCustomerFromDB(ctx context.Context)(bool,map[string]Job) {
-	customerDetail := map[string]Job {}
-	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("Customer").Value(&customerDetail)
-	if err != nil {
-		log.Fatal(err)
-		return false, customerDetail
-	}
-	log.Println(customerDetail)
-	return true, customerDetail
 }
 
 /*get job details of specific id*/

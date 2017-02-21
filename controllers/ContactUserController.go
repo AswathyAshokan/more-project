@@ -23,15 +23,15 @@ func (c *ContactUserController)AddNewContact() {
 	w :=c.Ctx.ResponseWriter
 	if r.Method == "POST" {
 		user:=models.ContactUser{}
-		user.Name= c.GetString("name")
-		user.State = c.GetString("state")
-		user.Zipcode = c.GetString("zipcode")
-		user.Email = c.GetString("emailAddress")
-		user.PhoneNumber= c.GetString("phoneNumber")
-		user.Address = c.GetString("address")
-		user.CurrentDate =time.Now().UnixNano() / int64(time.Millisecond)
-		fmt.Println(reflect.TypeOf(user.CurrentDate))
-		user.Status = "Completed"
+		user.Info.Name= c.GetString("name")
+		user.Info.State = c.GetString("state")
+		user.Info.ZipCode = c.GetString("zipcode")
+		user.Info.Email = c.GetString("emailAddress")
+		user.Info.PhoneNumber= c.GetString("phoneNumber")
+		user.Info.Address = c.GetString("address")
+		user.Settings.DateOfCreation =time.Now().UnixNano() / int64(time.Millisecond)
+		fmt.Println(reflect.TypeOf(user.Settings.DateOfCreation))
+		user.Settings.Status = "Completed"
 		dbStatus := user.AddContactToDB(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
@@ -69,12 +69,12 @@ func (c *ContactUserController)LoadContactDetails() {
 
 		for _, k := range keySlice {
 			var tempValueSlice []string
-			tempValueSlice = append(tempValueSlice, contact[k].Name)
-			tempValueSlice = append(tempValueSlice, contact[k].Address)
-			tempValueSlice = append(tempValueSlice, contact[k].State)
-			tempValueSlice = append(tempValueSlice, contact[k].Zipcode)
-			tempValueSlice = append(tempValueSlice, contact[k].Email)
-			tempValueSlice = append(tempValueSlice, contact[k].PhoneNumber)
+			tempValueSlice = append(tempValueSlice, contact[k].Info.Name)
+			tempValueSlice = append(tempValueSlice, contact[k].Info.Address)
+			tempValueSlice = append(tempValueSlice, contact[k].Info.State)
+			tempValueSlice = append(tempValueSlice, contact[k].Info.ZipCode)
+			tempValueSlice = append(tempValueSlice, contact[k].Info.Email)
+			tempValueSlice = append(tempValueSlice, contact[k].Info.PhoneNumber)
 			viewModel.Values = append(viewModel.Values, tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
 		}
@@ -113,15 +113,15 @@ func (c *ContactUserController)LoadEditContact() {
 	if r.Method == "POST" {
 		contactId := c.Ctx.Input.Param(":contactId")
 		user:=models.ContactUser{}
-		user.Name= c.GetString("name")
-		user.State = c.GetString("state")
-		user.Zipcode = c.GetString("zipcode")
-		user.Email = c.GetString("emailAddress")
-		user.PhoneNumber= c.GetString("phoneNumber")
-		user.Address = c.GetString("address")
-		user.CurrentDate =time.Now().UnixNano() / int64(time.Millisecond)
-		fmt.Println(reflect.TypeOf(user.CurrentDate))
-		user.Status = "Completed"
+		user.Info.Name= c.GetString("name")
+		user.Info.State = c.GetString("state")
+		user.Info.ZipCode = c.GetString("zipcode")
+		user.Info.Email = c.GetString("emailAddress")
+		user.Info.PhoneNumber= c.GetString("phoneNumber")
+		user.Info.Address = c.GetString("address")
+		user.Settings.DateOfCreation =time.Now().UnixNano() / int64(time.Millisecond)
+		fmt.Println(reflect.TypeOf(user.Settings.DateOfCreation))
+		user.Settings.Status = "Completed"
 		dbStatus := user.UpdateContactToDB(c.AppEngineCtx,contactId)
 		switch dbStatus {
 		case true:
@@ -131,8 +131,6 @@ func (c *ContactUserController)LoadEditContact() {
 		}
 
 	} else {
-
-
 		contactId := c.Ctx.Input.Param(":contactId")
 		viewModel := viewmodels.ContactUserViewModel{}
 		contact :=models.ContactUser{}
@@ -140,20 +138,18 @@ func (c *ContactUserController)LoadEditContact() {
 		switch dbStatus {
 		case true:
 			viewModel.PageType = helpers.SelectPageForEdit
-			viewModel.Name=contact.Name
-			viewModel.Address =contact.Address
-			viewModel.State =contact.State
-			viewModel.ZipCode =contact.Zipcode
-			viewModel.Email =contact.Email
-			viewModel.PhoneNumber =contact.PhoneNumber
+			viewModel.Name=contact.Info.Name
+			viewModel.Address =contact.Info.Address
+			viewModel.State =contact.Info.State
+			viewModel.ZipCode =contact.Info.ZipCode
+			viewModel.Email =contact.Info.Email
+			viewModel.PhoneNumber =contact.Info.PhoneNumber
 			viewModel.ContactId=contactId
 			c.Data["array"] = viewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-contacts.html"
 		case false:
 			log.Println(helpers.ServerConnectionError)
-
 		}
-
 	}
 }

@@ -59,4 +59,6 @@ func init() {
 
 	//View sections
 	beegae.Router("/customer/:customerId/job", &controllers.JobController{},"*:LoadJobDetail")
+	beegae.Router("/job/:jobId/task", &controllers.TaskController{},"*:LoadTaskDetail")
+
 }

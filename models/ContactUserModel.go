@@ -6,18 +6,21 @@ import (
 	"golang.org/x/net/context"
 	"log"
 )
-
+type ContactInfo struct {
+	Name        string
+	Address     string
+	State       string
+	ZipCode     string
+	Email       string
+	PhoneNumber string
+}
+type ContactSettings struct {
+	DateOfCreation int64
+	Status         string
+}
 type ContactUser   struct {
-
-	Name       	string
-	Address		string
-	State		string
-	Zipcode		string
-	Email		string
-	PhoneNumber	string
-	CurrentDate	int64
-	Status		string
-
+	Info     ContactInfo
+	Settings ContactSettings
 
 }
 

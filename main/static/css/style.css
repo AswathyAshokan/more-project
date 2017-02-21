@@ -85,6 +85,13 @@ optgroup { font-weight: bold; }
 table { border-collapse: collapse; border-spacing: 0; }
 
 td, th { padding: 0; }
+td.details-control {
+    background: url('../images/add_button.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('../images/cancel_button.png') no-repeat center center;
+}
 
 /*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */
 @media print { *, *:before, *:after { background: transparent !important; color: #000 !important; -webkit-box-shadow: none !important; box-shadow: none !important; text-shadow: none !important; }

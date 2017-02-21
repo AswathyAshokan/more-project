@@ -8,28 +8,56 @@ import (
 
 type Task   struct {
 
-	JobName         string
-	CustomerName	string
+	Info		TaskInfo
+	Contact  	[]TaskContact
+	Customer	TaskCustomer
+	Job		TaskJob
+	UserOrGroup	[][]UserOrGroup
+	Settings	TaskSetting
+
+}
+type TaskInfo struct {
+
 	TaskName        string
 	TaskLocation    string
 	StartDate       string
 	EndDate         string
 	LoginType       string
-	Status          string
 	TaskDescription string
 	UserNumber      string
 	Log             string
-	UsersOrGroups   []string
-	ContactId       []string
 	FitToWork       string
-	CurrentDate     int64
+}
+type TaskContact struct {
+	ContactId 	string
+	ContactName	string
+}
+type TaskCustomer struct{
+	CustomerId string
+	CustomerName string
+}
+type TaskJob struct {
+	JobId string
+	JobName string
+}
+type TaskUser struct {
+	UserId string
+	UserName string
+}
+type TaskGroup struct{
+	GroupId string
+	GroupName string
+}
+type TaskSetting struct {
+	Status         string
+	DateOfCreation int64
 
 }
-type User struct {
-	FirstName string
-	LastName  string
-}
+type UserOrGroup struct {
+	User []TaskUser
+	Group []TaskGroup
 
+}
 
 /*add task details to DB*/
 func (m *Task) AddTaskToDB(ctx context.Context )(bool)  {
@@ -135,8 +163,8 @@ func (m *Task) GetTaskDetailById(ctx context.Context, taskId string)(bool, Task)
 }
 
 /*get user details from DB*/
-func (m *User ) GetAllUsers(ctx context.Context)(bool,map[string]User) {
-	valueOfUser := map[string]User {}
+func (m *UserOrGroup ) GetAllUsers(ctx context.Context)(bool,map[string]UserOrGroup) {
+	valueOfUser := map[string]UserOrGroup {}
 	dB, err := GetFirebaseClient(ctx,"")
 	err = dB.Child("User").Value(&valueOfUser)
 	if err != nil {
@@ -145,4 +173,15 @@ func (m *User ) GetAllUsers(ctx context.Context)(bool,map[string]User) {
 	}
 
 	return true,valueOfUser
+}
+
+func(m *Task) GetContactDetailById(ctx context.Context, contactId string) (Task,bool){
+	contactDetails := Task{}
+	db,err :=GetFirebaseClient(ctx,"")
+	err = db.Child("/Task/"+ contactId).Value(&contactDetails)
+	if err != nil {
+		log.Fatal(err)
+		return contactDetails, false
+	}
+	return contactDetails,true
 }

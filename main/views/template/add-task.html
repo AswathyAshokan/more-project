@@ -17,7 +17,7 @@
 								<select class="form-control sprites-arrow-down" id="jobName" name="jobName" onchange="getJobAndCustomer();">
 									<option selected disabled value="">Select a Job</option>
 									{{range $key, $val := .vm.JobNameArray}}
-									   <option value="{{$val}}" >{{$val}} ({{index $.vm.JobCustomerNameArray $key}})</option>
+									   <option id="{{index $.vm.Key $key}}" value="{{$val}}" >{{$val}} ({{index $.vm.JobCustomerNameArray $key}})</option>
 									{{end}}
 								</select>
 							</div>
@@ -73,20 +73,23 @@
                         <div class="form-group clearfix">
                             <div class="col-sm-6">
 								<label for="userType" class="">Users/Group</label>
+
 								<select class="form-control sprites-arrow-down multiple-drop" id="userOrGroup" multiple="multiple" name="userOrGroup">
                                     {{range $key, $val := .vm.GroupNameArray}}
-                                           <option value="{{$val}}">{{$val}}</option>
-                                       {{end}}
+                                        <option value="{{index $.vm.UserAndGroupKey $key}}">{{$val}}</option>
+                                    {{end}}
 								</select>
+
 							</div>
                             <div class="col-sm-6">
 								<label for="contacts" class="">Contacts</label>
-								<select class="form-control sprites-arrow-down multiple-drop" id="contacts" multiple="multiple" name="contacts" >
-                                   
-                                        {{range $key, $val := .vm.ContactNameArray}}
-                                           <option value="{{$val}}">{{$val}}</option>
-                                       {{end}}
+
+								<select class="form-control sprites-arrow-down multiple-drop" id="contactId" multiple="multiple" name="contactId" >
+                                    {{range $key, $val := .vm.ContactNameArray}}
+                                    <option value="{{index $.vm.ContactKey $key}}">{{$val}}</option>
+                                    {{end}}
                                 </select>
+
 							</div>
                         </div>
                         <div class="form-group clearfix">
@@ -146,7 +149,7 @@
 		function myMap() {
             var mapCanvas = document.getElementById("map");
             var mapOptions = {
-                center: new google.maps.LatLng(51.5, -0.2), 
+                center: new google.maps.LatLng(51.5, -0.2),
                 zoom: 10
             }
             var map = new google.maps.Map(mapCanvas, mapOptions);

@@ -37,7 +37,9 @@ $(function(){
             for(i = 0; i < tempArray.length; i++){                
                 var tempCustomer = " (" + selectedCustomer + ")";
                 var tempJob = tempArray[i][0].replace(tempCustomer, '');
-                tempJobArray.push(tempJob);
+                if (tempJobArray.indexOf(tempJob) == '-1') {
+                    tempJobArray.push(tempJob);
+                }
             }
             
             $("#jobDropdown").empty().append("<option>All Jobs</option>");
@@ -51,6 +53,7 @@ $(function(){
     /*Function for Customer selection dropdown*/
     jobFilter = function(){
         var selectedJob = $("#jobDropdown").val();
+        selectedCustomer = $("#customerDropdown").val();
         if (selectedJob == "All Jobs") {
             if (selectedCustomer == "All Customers") {
                 tempArray = mainArray;
@@ -79,6 +82,22 @@ $(function(){
     }
     
     
+     /*Function for setting task details of a particular job*/
+    function taskAccordingToJob(){
+        var tempArray = [];
+        for(i = 0; i < mainArray.length; i++){
+            if (mainArray[i][0].indexOf(vm.SelectedJob) != '-1'){
+                tempArray.push(mainArray[i]);
+            }
+        }
+        console.log("array",tempArray)
+        $('#task-details').dataTable().fnDestroy();
+        dataTableManipulate(tempArray);
+        $("#customerDropdown").val(vm.SelectedCustomerForJob);
+        $("#jobDropdown").val(vm.SelectedJob);
+    }
+    
+    
     //create data for datatable
     
     function createDataArray(values, keys){
@@ -98,12 +117,21 @@ $(function(){
     function dataTableManipulate(dataArray){
         table =  $("#task-details").DataTable({
             data: dataArray,
-            "columnDefs": [{
+            "columnDefs": [
+                {
+                    "className":    'details-control',
+                    "orderable":    false,
+                    "data":         null,
+                    "defaultContent": '',
+                    "width":        "5%",
+                     "targets": 0,
+                },
+                {
                        "targets": -1,
                        "width": "5%",
                        "data": null,
                        "defaultContent": '<div class="edit-wrapper"><span class="icn"></i><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
-            }]
+                }]
         });
         
         var addItem = $('<span>+</span>');
@@ -133,12 +161,56 @@ $(function(){
     }
     
     
-    //data table calling
+    
+    //* Formatting function for row details - modify as you need */
+function format ( d ) {
+    // `d` is the original data object for the row
+    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+        '<tr>'+
+            '<td>Full name:</td>'+
+            '<td>'+d.name+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Extension number:</td>'+
+            '<td>'+d.extn+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Extra info:</td>'+
+            '<td>And any further details here (images etc)...</td>'+
+        '</tr>'+
+    '</table>';
+}
+    
+    
+    // Add event listener for opening and closing details
+    $('#task-details tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+ 
+        if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            // Open this row
+            row.child( format(row.data()) ).show();
+            tr.addClass('shown');
+        }
+    } );
+    
+    
+    //..................data table calling.......................
     if(vm.Values != null) {
         createDataArray(vm.Values, vm.Keys);
     }
-    dataTableManipulate(mainArray); 
-
+    if(vm.SelectedJob == ""){
+        dataTableManipulate(mainArray);
+    } else {
+       taskAccordingToJob();
+    }
+    
+    
     
     //.....................editing..................
     $('#task-details tbody').on( 'click', '#edit', function () {
