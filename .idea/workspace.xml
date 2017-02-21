@@ -5,24 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/GroupController.go" afterPath="$PROJECT_DIR$/controllers/GroupController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/InviteUserController.go" afterPath="$PROJECT_DIR$/controllers/InviteUserController.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-contacts.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-contacts.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-group.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-group.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-invite-user.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-invite-user.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-job.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-job.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-nfc.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-nfc.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-task.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-task.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/add-contacts.html" afterPath="$PROJECT_DIR$/main/views/template/add-contacts.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/add-group.html" afterPath="$PROJECT_DIR$/main/views/template/add-group.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/add-invite-user.html" afterPath="$PROJECT_DIR$/main/views/template/add-invite-user.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/add-task.html" afterPath="$PROJECT_DIR$/main/views/template/add-task.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/GroupModel.go" afterPath="$PROJECT_DIR$/models/GroupModel.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/InviteUserModel.go" afterPath="$PROJECT_DIR$/models/InviteUserModel.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/UserModel.go" afterPath="$PROJECT_DIR$/models/UserModel.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viewmodels/UserViewModel.go" afterPath="$PROJECT_DIR$/viewmodels/UserViewModel.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -891,7 +875,14 @@
       <option name="project" value="LOCAL" />
       <updated>1487589227082</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="20/02/2017  4:43 PM  database changing in group&#10;21/2/1017 1:14 Database structure updated">
+      <created>1487663119134</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1487663119134</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TodoView">
@@ -941,7 +932,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="testing through readme" />
     <MESSAGE value="06/02/2017 Fixed validation error" />
     <MESSAGE value="06/02/2017 Fixed app.yaml" />
     <MESSAGE value="07/02/2017 &#10;Fixed:&#10;Datatable manipulations&#10;Add button&#10;in NFC Tag details." />
@@ -966,7 +956,8 @@
     <MESSAGE value="15/02/2017  5:58 PM &#10;" />
     <MESSAGE value="20/02/2017  4:16 PM  database changing&#10;" />
     <MESSAGE value="20/02/2017  4:43 PM  database changing in group&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="20/02/2017  4:43 PM  database changing in group&#10;" />
+    <MESSAGE value="20/02/2017  4:43 PM  database changing in group&#10;21/2/1017 1:14 Database structure updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="20/02/2017  4:43 PM  database changing in group&#10;21/2/1017 1:14 Database structure updated" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
