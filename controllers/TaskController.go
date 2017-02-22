@@ -27,7 +27,6 @@ func (c *TaskController)AddNewTask() {
 		task.Job.JobName= c.GetString("jobName")
 		task.Job.JobId = c.GetString("jobId")
 		task.Customer.CustomerName = c.GetString("customerName")
-		log.Println("customer",task.Customer.CustomerName,task.Job.JobId)
 		task.Customer.CustomerId =c.GetString("jobId")
 		task.Info.StartDate = c.GetString("startDate")
 		task.Info.EndDate = c.GetString("endDate")
@@ -240,7 +239,8 @@ func (c *TaskController)LoadEditTask() {
 		task.Info.TaskDescription = c.GetString("taskDescription")
 		task.Info.UserNumber = c.GetString("users")
 		task.Info.Log = c.GetString("log")
-		//task.UsersOrGroups = c.GetStrings("userOrGroup")
+		UsersOrGroups := c.GetStrings("userOrGroup")
+		log.Println(UsersOrGroups)
 		//tempContactId := c.GetStrings("contacts")
 		//for i := 0; i < len(tempContactId); i++ {
 		//	task.ContactId = append(task.ContactId, tempContactId[i])

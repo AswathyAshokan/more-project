@@ -45,7 +45,8 @@ $().ready(function() {
         customerName = tempName.replace(')', '');
         var jobDropdownId = document.getElementById("jobName");
         jobId = jobDropdownId.options[jobDropdownId.selectedIndex].id;
-        console.log(jobId);
+        var userAndGroupId=$("#userOrGroup option:selected").val();
+        console.log("keysss",userAndGroupId)
     }
 
     $("#taskDoneForm").validate({
