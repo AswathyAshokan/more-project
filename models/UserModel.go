@@ -22,16 +22,17 @@ type Expiry struct {
 
 type UserInfo struct {
 	Address			string
+	DateOfBirth		int64
 	Email			string
 	FullName		string
-	Phone			string
+	Phone			int64
 	UserName		string
 }
 
 type NextOfKin struct {
 	KinEmail		string
 	KinName			string
-	KinPhone		string
+	KinPhone		int64
 	Relation		string
 }
 

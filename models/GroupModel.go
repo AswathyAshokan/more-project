@@ -6,18 +6,18 @@ import (
 	"log"
 )
 type Group struct {
-	Info GroupInfo
-	Settings GroupSettings
+	Info 		GroupInfo
+	Members	 	map[string]GroupMembers
+	Settings 	GroupSettings
 }
 
 type GroupMembers struct {
-	MemberId	string
 	MemberName	string
 }
 
 type GroupInfo struct {
 	GroupName       string
-	Members	 	[]GroupMembers
+	Members	 	map[string]Group
 }
 
 type GroupSettings struct {
@@ -38,6 +38,7 @@ func(m *Group) AddGroupToDb(ctx context.Context) (bool){
 		log.Println(err)
 		return false
 	}
+
 
 	return  true
 }
@@ -79,11 +80,9 @@ func (m *Users)GetUsersForDropdown(ctx context.Context) (map[string]Users,bool) 
 	err = db.Child("Users").Value(&allUser)
 	//err = db.Child("Users").Value(&allUser)
 	if err != nil {
-		log.Println("ERRRRROR")
 		log.Println(err)
 		return allUser,false
 	}
-	log.Println("haiiii",allUser)
 	return allUser,true
 
 
@@ -114,7 +113,7 @@ func(m *Users) TakeGroupMemberName(ctx context.Context,groupKeySlice []string) (
 
 //Collecting Group details using Id
 func(m *Group) GetGroupDetailsById(ctx context.Context,groupKey string) (Group,bool){
-	groupDetails := Group{}
+	groupDetails :=  Group{}
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("/Group/"+groupKey).Value(&groupDetails)
 	if err != nil {

@@ -6,9 +6,9 @@ import (
 	"reflect"
 	"log"
 	"app/passporte/helpers"
+	"time"
 	"strconv"
 	"bytes"
-	"time"
 )
 
 type GroupController struct {
@@ -20,7 +20,6 @@ func (c *GroupController) AddGroup() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	if r.Method == "POST" {
-		log.Println("haii")
 		group := models.Group{}
 		members := models.GroupMembers{}
 		group.Info.GroupName = c.GetString("groupName")
@@ -28,11 +27,12 @@ func (c *GroupController) AddGroup() {
 		group.Settings.DateOfCreation =(time.Now().UnixNano() / 1000000)
 		group.Settings.Status = "inactive"
 		tempGroupMembers := c.GetStrings("selectedUserNames")
+		m := make(map[string]models.GroupMembers)
 		for i := 0; i < len(tempGroupId); i++ {
-			members.MemberId = tempGroupId[i]
 			members.MemberName = tempGroupMembers[i]
-			group.Info.Members = append(group.Info.Members, members)
+			m[tempGroupId[i]] = members
 		}
+		group.Members = m
 		dbStatus := group.AddGroupToDb(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
@@ -41,13 +41,11 @@ func (c *GroupController) AddGroup() {
 			w.Write([]byte("false"))
 		}
 	} else {
-
 		groupUser := models.Users{}
 		GroupMembers,dbStatus :=groupUser.GetUsersForDropdown(c.AppEngineCtx)  // retrive all the keys of a users
 		switch dbStatus {
 
 		case true:
-			log.Println("haiixx")
 			dataValue := reflect.ValueOf(GroupMembers)	// To store data values of slice
 			var keySlice []string	// To store keys of the slice
 			for _, key := range dataValue.MapKeys() {
@@ -79,35 +77,50 @@ func (c *GroupController) GroupDetails() {
 	w := c.Ctx.ResponseWriter
 	storedSession := ReadSession(w, r)
 	log.Println("The userDetails stored in session:",storedSession)
-	allGroups,dbStatus := models.GetAllGroupDetails(c.AppEngineCtx)
+	allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx)
 	switch dbStatus {
 	case true:
 		dataValue := reflect.ValueOf(allGroups)
 		groupViewModel := viewmodels.GroupList{}
+
+		//Collecting group keys
 		var keySlice []string
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
 		}
-		for _, k := range keySlice {
+
+		//collecting group details
+		for _, groupKey := range keySlice {
 			var tempValueSlice []string
-			membersNumber := len(allGroups[k].Info.Members)
-			tempValueSlice = append(tempValueSlice, allGroups[k].Info.GroupName)
-			tempValueSlice = append(tempValueSlice, strconv.Itoa(membersNumber))
+			membersNumber := len(allGroups[groupKey].Members)
+
+			groupUsers := allGroups[groupKey].Members
+			userDataValue := reflect.ValueOf(groupUsers)
+
+			// collecting group member keys
+			var userKeySlice []string
+			for _, userKey := range userDataValue.MapKeys() {
+				userKeySlice = append(userKeySlice, userKey.String())
+			}
+
+			//collecting group member details
 			tempUserNames := ""
 			var buffer bytes.Buffer
-			for i := 0; i < membersNumber; i++ {
+			for _, userKey := range userKeySlice {
 				if len(tempUserNames) == 0{
-					buffer.WriteString(allGroups[k].Info.Members[i].MemberName)
+					buffer.WriteString(groupUsers[userKey].MemberName)
 					tempUserNames = buffer.String()
 					buffer.Reset()
 				} else {
 					buffer.WriteString(tempUserNames)
 					buffer.WriteString(", ")
-					buffer.WriteString(allGroups[k].Info.Members[i].MemberName)
+					buffer.WriteString(groupUsers[userKey].MemberName)
 					tempUserNames = buffer.String()
 					buffer.Reset()
 				}
 			}
+			tempValueSlice = append(tempValueSlice, allGroups[groupKey].Info.GroupName)
+			tempValueSlice = append(tempValueSlice, strconv.Itoa(membersNumber))
 			tempValueSlice = append(tempValueSlice, tempUserNames)
 			groupViewModel.Values = append(groupViewModel.Values, tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
@@ -144,16 +157,16 @@ func (c *GroupController) EditGroup() {
 	group := models.Group{}
 
 	if r.Method == "POST" {
+		m := make(map[string]models.GroupMembers)
 		members := models.GroupMembers{}
 		group.Info.GroupName = c.GetString("groupName")
 		tempGroupId := c.GetStrings("selectedUserIds")
 		tempGroupMembers := c.GetStrings("selectedUserNames")
 		for i := 0; i < len(tempGroupId); i++ {
-			members.MemberId = tempGroupId[i]
 			members.MemberName = tempGroupMembers[i]
-			group.Info.Members = append(group.Info.Members, members)
+			m[tempGroupId[i]] = members
 		}
-		log.Println("group data",group)
+		group.Members = m
 		dbStatus := group.UpdateGroupDetails(c.AppEngineCtx, groupId)
 		switch dbStatus {
 		case true:
@@ -161,23 +174,21 @@ func (c *GroupController) EditGroup() {
 			w.Write([]byte("true"))
 		case false:
 			w.Write([]byte("false"))
-
 		}
 	} else {
 		groupUser := models.Users{}
 		viewModel := viewmodels.EditGroupViewModel{}
-		GroupMembers,dbStatus :=groupUser.GetUsersForDropdown(c.AppEngineCtx)
+		GroupMembers, dbStatus := groupUser.GetUsersForDropdown(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
-			dataValue := reflect.ValueOf(GroupMembers)	// To store data values of slice
-			var keySlice []string	// To store keys of the slice
+			dataValue := reflect.ValueOf(GroupMembers)        // To store data values of slice
+			var keySlice []string        // To store keys of the slice
 			for _, groupKey := range dataValue.MapKeys() {
 				keySlice = append(keySlice, groupKey.String())
-
 			}
 
 			// Getting all Data for page load...
-			GroupMemberName,dbStatus:= groupUser.TakeGroupMemberName(c.AppEngineCtx, keySlice)
+			GroupMemberName, dbStatus := groupUser.TakeGroupMemberName(c.AppEngineCtx, keySlice)
 			switch dbStatus {
 			case true:
 				viewModel.GroupMembers = GroupMemberName
@@ -188,15 +199,16 @@ func (c *GroupController) EditGroup() {
 			}
 
 			//Selecting Data which is to be edited...
+			log.Println("group key11 :",groupId)
 			groupDetails, dbStatus := group.GetGroupDetailsById(c.AppEngineCtx, groupId)
 			switch dbStatus {
 			case true:
-				log.Println(groupDetails)
 				viewModel.GroupNameToEdit = groupDetails.Info.GroupName
-				for i :=0; i<len(groupDetails.Info.Members); i++{
-					viewModel.GroupMembersToEdit = append(viewModel.GroupMembersToEdit, groupDetails.Info.Members[i].MemberId)
+				memberData := reflect.ValueOf(groupDetails.Members)
+
+				for _, selectedMemberKey := range memberData.MapKeys() {
+					viewModel.GroupMembersToEdit = append(viewModel.GroupMembersToEdit, selectedMemberKey.String())
 				}
-				//groupViewModel.GroupMembersToEdit = groupDetails.GroupMembers[]
 				viewModel.PageType = helpers.SelectPageForEdit
 				viewModel.GroupId = groupId
 				c.Data["vm"] = viewModel
@@ -204,10 +216,9 @@ func (c *GroupController) EditGroup() {
 				c.TplName = "template/add-group.html"
 			case false:
 				log.Println(helpers.ServerConnectionError)
-
+			case false:
+				log.Println(helpers.ServerConnectionError)
 			}
-		case false:
-			log.Println(helpers.ServerConnectionError)
 		}
 	}
 }
