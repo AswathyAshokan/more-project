@@ -25,6 +25,7 @@ func SetSession(w http.ResponseWriter, adminDetails models.CompanyAdmins){
 		"email": adminDetails.Info.Email,
 		"firstName": adminDetails.Info.FirstName,
 		"lastName": adminDetails.Info.LastName,
+		"comapnyName": adminDetails.Info.CompanyName,
 	}
 	if encoded, err := cookieToken.Encode("session",value);err == nil{
 		cookie := &http.Cookie{
