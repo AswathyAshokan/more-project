@@ -19,24 +19,30 @@ func (c *RegisterController) Register() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	if r.Method == "POST" {
-		companyAdmins := models.CompanyAdmins{}
-		info := models.Info{}
-		settings := models.Settings{}
-		info.FirstName = c.GetString("firstName")
-		info.LastName = c.GetString("lastName")
-		info.PhoneNo = c.GetString("phoneNo")
-		info.Email = c.GetString("emailId")
-		info.Password = []byte(c.GetString("password"))
-		info.CompanyName = c.GetString("companyName")
-		info.Address = c.GetString("address")
-		info.State = c.GetString("state")
-		info.ZipCode = c.GetString("zipCode")
-		settings.DateCreated = time.Now().Unix()
-		settings.Status = helpers.StatusActive
-		companyAdmins.Info = info
-		companyAdmins.Settings = settings
-		log.Println("Registration Details:", companyAdmins)
-		dbStatus := companyAdmins.AddUser(c.AppEngineCtx)
+		currentTime := time.Now().Unix()
+
+		company := models.Company{}
+		company.Admins.AdminName = c.GetString("firstName")
+		company.Admins.Status = helpers.StatusActive
+		company.Info.CompanyName = c.GetString("companyName")
+		company.Info.Address = c.GetString("address")
+		company.Info.State = c.GetString("state")
+		company.Info.ZipCode = c.GetString("zipCode")
+		company.Settings.Status = helpers.StatusActive
+		company.Settings.DateOfCreation = currentTime
+
+		admin := models.Admins{}
+		admin.Info.CompanyName = company.Info.CompanyName
+		admin.Info.FirstName = c.GetString("firstName")
+		admin.Info.LastName = c.GetString("lastName")
+		admin.Info.Email = c.GetString("emailId")
+		admin.Info.PhoneNo = c.GetString("phoneNo")
+		admin.Info.Password = []byte(c.GetString("password"))
+		admin.Settings.DateOfCreation = currentTime
+		admin.Settings.Status = helpers.StatusActive
+
+
+		dbStatus := admin.CreateAdminAndCompany(c.AppEngineCtx, company)
 		switch dbStatus{
 		case false:
 			w.Write([]byte("false"))

@@ -8,11 +8,22 @@ import (
 	"time"
 )
 
-type NFC struct {
+type NFCInfo struct{
 	CustomerName	string
 	Site      	string
 	Location 	string
 	NFCNumber	string
+	CompanyName	string
+}
+
+type NFCSettings struct{
+	Status string
+	DateOfCreation int64
+}
+
+type NFC struct {
+	Info NFCInfo
+	Settings NFCSettings
 }
 
 //Add new NFC Tag
@@ -35,7 +46,7 @@ func (m *NFC)AddNFC(ctx context.Context)bool{
 }
 
 //Get existing NFC Tag Details
-func (m *NFC)GetNFCDetails(ctx context.Context)map[string]NFC{
+func (m *NFC)GetAllNFCDetails(ctx context.Context)map[string]NFC{
 	nfcDetail := map[string]NFC{}
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{

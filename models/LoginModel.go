@@ -14,8 +14,8 @@ type Login struct{
 	Password	[]byte
 }
 
-func(m *Login)CheckLogin(ctx context.Context)(bool, CompanyAdmins){
-	companyAdmins := map[string]CompanyAdmins{}
+func(m *Login)CheckLogin(ctx context.Context)(bool, Admins){
+	companyAdmins := map[string]Admins{}
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
 		log.Println("No DB Connectivity!")
@@ -27,7 +27,7 @@ func(m *Login)CheckLogin(ctx context.Context)(bool, CompanyAdmins){
 	}
 	log.Println("Login user details: ",companyAdmins)
 
-	var adminDetails CompanyAdmins
+	var adminDetails Admins
 	dataValue := reflect.ValueOf(companyAdmins)
 	for _, key := range dataValue.MapKeys() {
 		adminDetails = companyAdmins[key.String()]

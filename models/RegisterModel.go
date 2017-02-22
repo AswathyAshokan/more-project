@@ -6,56 +6,79 @@ import (
 	"golang.org/x/net/context"
 	"log"
 	//"encoding/json"
-	"reflect"
 	"golang.org/x/crypto/bcrypt"
 )
 
-type Info struct {
-	FirstName	string
-	LastName	string
-	PhoneNo		string
-	Email		string
-	Password	[]byte
+// Struct for Company
+type Company struct{
+	Admins		CompanyAdmin
+	Info 		CompanyInfo
+	Settings 	CompanySettings
+}
+
+type CompanyAdmin struct {
+	AdminName	string
+	Status		string
+}
+
+type CompanyInfo struct{
 	CompanyName	string
 	Address		string
 	State		string
 	ZipCode		string
 }
 
-type Settings struct {
+type CompanySettings struct{
 	Status		string
-	DateCreated  	int64
+	DateOfCreation  int64
 }
-type CompanyAdmins struct {
-	Info  Info
-	Settings Settings
+
+//Struct for Admin
+type Admins struct {
+	Info     	AdminInfo
+	Settings 	AdminSettings
+}
+
+type AdminInfo struct {
+	FirstName	string
+	LastName	string
+	PhoneNo		string
+	Email		string
+	Password	[]byte
+	CompanyName	string
+}
+
+type AdminSettings struct {
+	Status		string
+	DateOfCreation  int64
 }
 
 //Register new Company Admin
-func (m *CompanyAdmins)AddUser(ctx context.Context) bool {
+func (m *Admins)CreateAdminAndCompany(ctx context.Context, company Company) bool {
 
 	dB, err := GetFirebaseClient(ctx, "")
 	if err != nil {
 		log.Println("No Db Connection!")
+		return false
 	}
 	hashedPassword, err := bcrypt.GenerateFromPassword(m.Info.Password, bcrypt.DefaultCost)
 	if err != nil {
-		log.Fatalln(err)
-	}
-	m.Info.Password = hashedPassword
-	adminData, err := dB.Child("CompanyAdmins").Push(m)
-	if err != nil {
-		log.Println("Company Registration failed!")
 		log.Println(err)
 		return false
-	} else {
-		log.Println("Type:",reflect.TypeOf(adminData))
-		return true
 	}
+	m.Info.Password = hashedPassword
+	adminData, err := dB.Child("Admins").Push(m)
+	if err != nil {
+		log.Println(err)
+		return false
+	}
+	adminMap := make(map[string]Admins)
+	log.Println("Valueeesss: ", adminData.Value(&adminMap))
+	return true
 }
 
 func CheckEmailIsUsed(ctx context.Context, emailId string) bool{
-	companyAdmins := map[string]CompanyAdmins{}
+	companyAdmins := map[string]Admins{}
 	dB, err := GetFirebaseClient(ctx, "")
 	if err != nil {
 		log.Println("No Db Connection!")

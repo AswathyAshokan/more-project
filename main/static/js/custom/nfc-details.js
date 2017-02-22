@@ -39,6 +39,8 @@ $(function(){
     }
     if(vm.Values != null) {
         createDataArray(vm.Values, vm.Keys);
+        console.log(vm.Values);
+        console.log(vm.Keys);
     }
     dataTableManipulate(); 
 

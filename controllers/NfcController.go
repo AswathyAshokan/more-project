@@ -1,5 +1,6 @@
 /*Author: Sarath
 Date:01/02/2017*/
+
 package controllers
 
 import (
@@ -7,6 +8,8 @@ import (
 	"app/passporte/viewmodels"
 	"log"
 	"app/passporte/helpers"
+	"time"
+	"reflect"
 )
 
 type NfcController struct {
@@ -19,22 +22,30 @@ func (c *NfcController) NFCDetails(){
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	storedSession := ReadSession(w, r)
+	viewModel := viewmodels.NfcViewModel{}
 	log.Println("The userDetails stored in session:",storedSession)
 	nfcDetails := models.NFC{}
-	data := nfcDetails.GetNFCDetails(c.AppEngineCtx)
-	log.Println(data)
-	var valueSlice []models.NFC
+	allNfcDetails := nfcDetails.GetAllNFCDetails(c.AppEngineCtx)
+	log.Println("NFC details:", allNfcDetails)
+
+	dataValue := reflect.ValueOf(allNfcDetails)
+
 	var keySlice []string
-
-	for key, value := range data {
-		valueSlice = append(valueSlice, value)
-		keySlice = append(keySlice, key)
+	for _, key := range dataValue.MapKeys() {
+		keySlice = append(keySlice, key.String())
 	}
-	log.Println("KeySlice", keySlice)
-	log.Println("ValueSlice", valueSlice)
 
-	viewModel := viewmodels.NfcViewModel{}
-	viewModel.Values = valueSlice
+	for _, k := range keySlice {
+		var tempValueSlice []string
+		tempValueSlice = append(tempValueSlice, allNfcDetails[k].Info.CustomerName)
+		tempValueSlice = append(tempValueSlice, allNfcDetails[k].Info.Site)
+		tempValueSlice = append(tempValueSlice, allNfcDetails[k].Info.Location)
+		tempValueSlice = append(tempValueSlice, allNfcDetails[k].Info.NFCNumber)
+		viewModel.Values = append(viewModel.Values, tempValueSlice)
+		tempValueSlice = tempValueSlice[:0]
+	}
+
+	log.Println("KeySlice", keySlice)
 	viewModel.Keys	= keySlice
 
 
@@ -49,10 +60,12 @@ func (c *NfcController)AddNFC(){
 	if r.Method=="POST" {
 		w := c.Ctx.ResponseWriter
 		nfc := models.NFC{}
-		nfc.CustomerName = c.GetString("customerName")
-		nfc.Site = c.GetString("site")
-		nfc.Location = c.GetString("location")
-		nfc.NFCNumber = c.GetString("nfcNumber")
+		nfc.Info.CustomerName = c.GetString("customerName")
+		nfc.Info.Site = c.GetString("site")
+		nfc.Info.Location = c.GetString("location")
+		nfc.Info.NFCNumber = c.GetString("nfcNumber")
+		nfc.Settings.Status  = helpers.StatusActive
+		nfc.Settings.DateOfCreation = time.Now().Unix()
 		log.Println("NFC Details:", nfc)
 		dbStatus := nfc.AddNFC(c.AppEngineCtx)
 		switch dbStatus{
@@ -75,10 +88,10 @@ func (c *NfcController)EditNFC(){
 	if r.Method =="POST"{
 		nfcId := c.Ctx.Input.Param(":nfcId")
 		nfc := models.NFC{}
-		nfc.CustomerName = c.GetString("customerName")
-		nfc.Site = c.GetString("site")
-		nfc.Location = c.GetString("location")
-		nfc.NFCNumber = c.GetString("nfcNumber")
+		nfc.Info.CustomerName = c.GetString("customerName")
+		nfc.Info.Site = c.GetString("site")
+		nfc.Info.Location = c.GetString("location")
+		nfc.Info.NFCNumber = c.GetString("nfcNumber")
 		NfcUpdateStatus := nfc.UpdateNFCDetails(c.AppEngineCtx, nfcId)
 		switch NfcUpdateStatus {
 		case true:
@@ -97,10 +110,10 @@ func (c *NfcController)EditNFC(){
 		case true:
 			viewModel.PageType = helpers.SelectPageForEdit
 			viewModel.NfcId = nfcId
-			viewModel.CustomerName = nfcDetails.CustomerName
-			viewModel.Location = nfcDetails.Location
-			viewModel.NFCNumber = nfcDetails.NFCNumber
-			viewModel.Site = nfcDetails.Site
+			viewModel.CustomerName = nfcDetails.Info.CustomerName
+			viewModel.Location = nfcDetails.Info.Location
+			viewModel.NFCNumber = nfcDetails.Info.NFCNumber
+			viewModel.Site = nfcDetails.Info.Site
 
 			c.Data["array"] = viewModel
 			c.Layout = "layout/layout.html"

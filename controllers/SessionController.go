@@ -14,13 +14,13 @@ type SessionController struct{
 }
 
 type SessionValues struct{
-	Info  models.Info
-	Settings models.Settings
+	Info  models.AdminInfo
+	Settings models.AdminSettings
 }
 
 var cookieToken = securecookie.New(securecookie.GenerateRandomKey(64), securecookie.GenerateRandomKey(32))
 
-func SetSession(w http.ResponseWriter, adminDetails models.CompanyAdmins){
+func SetSession(w http.ResponseWriter, adminDetails models.Admins){
 	value := map[string]string{
 		"email": adminDetails.Info.Email,
 		"firstName": adminDetails.Info.FirstName,
