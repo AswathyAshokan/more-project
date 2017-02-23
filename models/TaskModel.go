@@ -8,12 +8,12 @@ import (
 
 type Task   struct {
 
-	Info		TaskInfo
-	Contact  	[]TaskContact
-	Customer	TaskCustomer
-	Job		TaskJob
-	UserOrGroup	[][]UserOrGroup
-	Settings	TaskSetting
+	Info           TaskInfo
+	Contact        []TaskContact
+	Customer       TaskCustomer
+	Job            TaskJob
+	UsersAndGroups UsersAndGroups
+	Settings       TaskSetting
 
 }
 type TaskInfo struct {
@@ -33,29 +33,27 @@ type TaskContact struct {
 	ContactName	string
 }
 type TaskCustomer struct{
-	CustomerId string
-	CustomerName string
+	CustomerId	string
+	CustomerName	string
 }
 type TaskJob struct {
-	JobId string
-	JobName string
+	JobId		string
+	JobName		string
 }
 type TaskUser struct {
-	UserId string
-	UserName string
+	FullName	string
 }
 type TaskGroup struct{
-	GroupId string
-	GroupName string
+	GroupName	string
 }
 type TaskSetting struct {
-	Status         string
-	DateOfCreation int64
+	Status		string
+	DateOfCreation	int64
 
 }
-type UserOrGroup struct {
-	User []TaskUser
-	Group []TaskGroup
+type UsersAndGroups struct {
+	User 		map[string]TaskUser
+	Group 		map[string]TaskGroup
 
 }
 
@@ -163,8 +161,8 @@ func (m *Task) GetTaskDetailById(ctx context.Context, taskId string)(bool, Task)
 }
 
 /*get user details from DB*/
-func (m *UserOrGroup ) GetAllUsers(ctx context.Context)(bool,map[string]UserOrGroup) {
-	valueOfUser := map[string]UserOrGroup {}
+func (m *UsersAndGroups ) GetAllUsers(ctx context.Context)(bool,map[string]UsersAndGroups) {
+	valueOfUser := map[string]UsersAndGroups{}
 	dB, err := GetFirebaseClient(ctx,"")
 	err = dB.Child("User").Value(&valueOfUser)
 	if err != nil {

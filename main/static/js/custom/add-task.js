@@ -4,6 +4,7 @@ document.getElementById("task").className += " active";
 var pageType = vm.PageType;
 var customerName = "";
 var jobId = "";
+console.log(vm.UserAndGroupKey);
 
 $(function () {
 
@@ -19,8 +20,6 @@ $(function () {
         document.getElementById("taskDescription").value = vm.TaskDescription;
         document.getElementById("users").value = vm.UserNumber;
         document.getElementById("log").value = vm.Log ;
-        //document.getElementById("userType").value = vm.UserType;
-        //document.getElementById("contactId").value = vm.ContactNameToEdit;
         document.getElementById("fitToWork").value = vm.FitToWork;
         document.getElementById("taskHead").innerHTML = "Edit Task";
     }
@@ -36,8 +35,7 @@ $().ready(function() {
    $(".radio-inline").change(function () {
        loginTypeRadio = $('.radio-inline:checked').val();
    });
-
-
+    
     getJobAndCustomer = function(){
         var job = $("#jobName option:selected").val() + " (";
         var jobAndCustomer = $("#jobName option:selected").text();
@@ -45,10 +43,10 @@ $().ready(function() {
         customerName = tempName.replace(')', '');
         var jobDropdownId = document.getElementById("jobName");
         jobId = jobDropdownId.options[jobDropdownId.selectedIndex].id;
-        var userAndGroupId=$("#userOrGroup option:selected").val();
-        console.log("keysss",userAndGroupId)
+        
     }
-
+     
+       
     $("#taskDoneForm").validate({
         rules: {
            taskName: "required",
@@ -63,7 +61,7 @@ $().ready(function() {
 
            var selectedContactNames = [];
 
-//get the user's name corresponding to  keys selected from dropdownlist
+           //get the user's name corresponding to  keys selected from dropdownlist
             $("#contactId option:selected").each(function () {
                 var $this = $(this);
                 if ($this.length) {
@@ -74,6 +72,22 @@ $().ready(function() {
               for(i = 0; i < selectedContactNames.length; i++) {
                 formData = formData+"&contactName="+selectedContactNames[i];
             }
+           
+           //function to get all users and group
+           
+           var selectedUserAndGroupName = [];
+           $("#userOrGroup option:selected").each(function () {
+               var $this = $(this);
+                if ($this.length) {
+                    var selectedUserName = $this.text();
+                    console.log(selectedUserName);
+                    selectedUserAndGroupName.push( selectedUserName);
+                }
+            });
+    
+       for(i = 0; i < selectedUserAndGroupName.length; i++) {
+               formData = formData+"&userAndGroupName="+selectedUserAndGroupName[i];
+           }
            if(pageType == "edit"){
                $.ajax({
                     url: '/task/'+taskId+'/edit',

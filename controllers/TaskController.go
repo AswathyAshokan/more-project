@@ -11,6 +11,8 @@ import (
 	"app/passporte/helpers"
 	"log"
 	"bytes"
+	"regexp"
+
 )
 
 type TaskController struct {
@@ -34,26 +36,47 @@ func (c *TaskController)AddNewTask() {
 		task.Info.TaskDescription = c.GetString("taskDescription")
 		task.Info.UserNumber = c.GetString("users")
 		task.Info.Log = c.GetString("log")
-		//task.UserOrGroup= c.GetStrings("userOrGroup")
-		//tempContactId := c.GetStrings("contacts")
-
-		//for i := 0; i < len(tempContactId); i++ {
-		//	task.ContactId = append(task.ContactId, tempContactId[i])
-		//
-		//}
-		contacts := models.TaskContact{}
+		UserOrGroupIdArray := c.GetStrings("userOrGroup")
+		UserOrGroupNameArray := c.GetStrings("userAndGroupName")
 		tempContactName := c.GetStrings("contactName")
 		tempContactId := c.GetStrings("contactId")
+		task.Info.LoginType=c.GetString("loginType")
+		task.Info.FitToWork = c.GetString("fitToWork")
+		task.Settings.DateOfCreation =time.Now().UnixNano() / int64(time.Millisecond)
+		task.Settings.Status = helpers.StatusPending
+
+		userMap := make(map[string]models.TaskUser)
+		groupMap := make(map[string]models.TaskGroup)
+
+		groupName := models.TaskGroup{}
+		userName :=models.TaskUser{}
+
+		for i := 0; i < len(UserOrGroupIdArray); i++ {
+			tempName :=UserOrGroupNameArray[i]
+			tempId :=UserOrGroupIdArray[i]
+			userOrGroupRegExp := regexp.MustCompile(`\((.*?)\)`)
+			userOrGroupSelection := userOrGroupRegExp.FindStringSubmatch(tempName)
+			if((userOrGroupSelection[1]) == "User") {
+				tempName = tempName[:len(tempName)-7]
+				userName.FullName = tempName
+				userMap[tempId] = userName
+			} else {
+				tempName = tempName[:len(tempName)-8]
+				groupName.GroupName = tempName
+				groupMap[tempId] = groupName
+			}
+		}
+
+		task.UsersAndGroups.User = userMap
+		task.UsersAndGroups.Group = groupMap
+
+		contacts := models.TaskContact{}
 
 		for i := 0; i < len(tempContactId); i++ {
 			contacts.ContactId= tempContactId[i]
 			contacts.ContactName = tempContactName[i]
 			task.Contact = append(task.Contact ,contacts)
 		}
-		task.Info.LoginType=c.GetString("loginType")
-		task.Info.FitToWork = c.GetString("fitToWork")
-		task.Settings.DateOfCreation =time.Now().UnixNano() / int64(time.Millisecond)
-		task.Settings.Status = "Completed"
 		dbStatus :=task.AddTaskToDB(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
@@ -98,7 +121,7 @@ func (c *TaskController)AddNewTask() {
 				keySliceForGroupAndUser = append(keySliceForGroupAndUser, key.String())
 			}
 			for _, k := range dataValue.MapKeys() {
-				viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,  allUsers[k.String()].Info.FullName+"(User)")
+				viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,  allUsers[k.String()].Info.FullName+" (User)")
 			}
 			allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx)
 			switch dbStatus {
@@ -109,7 +132,7 @@ func (c *TaskController)AddNewTask() {
 				}
 				dataValue = reflect.ValueOf(allGroups)
 				for _, k := range dataValue.MapKeys() {
-					viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[k.String()].Info.GroupName+"(Group)")
+					viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[k.String()].Info.GroupName+" (Group)")
 				}
 				viewModel.UserAndGroupKey=keySliceForGroupAndUser
 				log.Println("user and group key",keySliceForGroupAndUser)

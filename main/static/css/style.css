@@ -3097,6 +3097,8 @@ select.sprites-arrow-down { -webkit-appearance: none; background-position: right
 
 input.sprites-callender { background-position: right 4px top -20px; cursor: pointer; }
 
+.select2-container .select2-selection--multiple { min-height: 40px; height: initial; }
+
 .login .logo img { margin: 35px auto; max-width: 100px; }
 
 .login-form { margin: auto; max-width: 500px; background-color: #fff; border-radius: 5px; }
@@ -3172,6 +3174,16 @@ input.sprites-callender { background-position: right 4px top -20px; cursor: poin
 .map-header { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-flex-flow: row wrap; -ms-flex-flow: row wrap; flex-flow: row wrap; -webkit-box-pack: justify; -webkit-justify-content: space-between; -ms-flex-pack: justify; justify-content: space-between; -webkit-box-align: center; -webkit-align-items: center; -ms-flex-align: center; align-items: center; position: absolute; top: 0; z-index: 9; width: 100%; left: 0; padding-right: 15px; padding-left: 15px; font-weight: normal; font-family: mont_regular; font-size: 13px; }
 .map-header .radio-inline-wrapper { margin: 0; }
 @media (max-width: 991px) { .map-header { margin-top: 15px; } }
+
+/*==============================================================
+					 	Task -details
+=================================================================*/
+.table-dropdown td.child ul { display: block !important; }
+.table-dropdown td.child ul li { display: block; }
+.table-dropdown .dataTables_paginate { font-size: 0; }
+.table-dropdown .dataTables_paginate ul.pagination { margin: 0; }
+.table-dropdown .dataTables_paginate ul.pagination li { font-size: initial; border: none !important; padding: 0; background: none !important; }
+.table-dropdown .dataTables_paginate ul.pagination li a { width: 100%; outline: none; }
 
 /*==============================================================
 							Customer Details

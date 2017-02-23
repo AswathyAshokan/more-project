@@ -4,6 +4,7 @@ const (
 	SelectPageForAdd = "add"
 	SelectPageForEdit = "edit"
 	StatusActive = "Active"
+	StatusPending = "Pending"
 	PlanFamily = "Family"
 )
 

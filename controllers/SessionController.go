@@ -25,7 +25,7 @@ func SetSession(w http.ResponseWriter, adminDetails models.Admins){
 		"email": adminDetails.Info.Email,
 		"firstName": adminDetails.Info.FirstName,
 		"lastName": adminDetails.Info.LastName,
-		"comapnyName": adminDetails.Info.CompanyName,
+		"companyName": adminDetails.Info.CompanyName,
 	}
 	if encoded, err := cookieToken.Encode("session",value);err == nil{
 		cookie := &http.Cookie{
@@ -45,6 +45,7 @@ func ReadSession (w http.ResponseWriter, r *http.Request) (SessionValues) {
 			sessionValues.Info.Email = cookieValue["email"]
 			sessionValues.Info.FirstName = cookieValue["firstName"]
 			sessionValues.Info.LastName = cookieValue["lastName"]
+			sessionValues.Info.CompanyName=cookieValue["companyName"]
 		}
 	} else {
 		http.Redirect(w, r, "/", 302)
