@@ -15,22 +15,22 @@ type Login struct{
 }
 
 func(m *Login)CheckLogin(ctx context.Context)(bool, Admins){
-	companyAdmins := map[string]Admins{}
+	admins := map[string]Admins{}
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
 		log.Println("No DB Connectivity!")
 	}
 	log.Println("Email: ", m.Email)
 	log.Println("Password: ", m.Password)
-	if err := dB.Child("CompanyAdmins").OrderBy("Info/Email").EqualTo(m.Email).Value(&companyAdmins); err != nil {
+	if err := dB.Child("Admins").OrderBy("Info/Email").EqualTo(m.Email).Value(&admins); err != nil {
 	    log.Println(err)
 	}
-	log.Println("Login user details: ",companyAdmins)
+	log.Println("Login user details: ", admins)
 
 	var adminDetails Admins
-	dataValue := reflect.ValueOf(companyAdmins)
+	dataValue := reflect.ValueOf(admins)
 	for _, key := range dataValue.MapKeys() {
-		adminDetails = companyAdmins[key.String()]
+		adminDetails = admins[key.String()]
 	}
 	log.Println(adminDetails.Info.Password)
 	err = bcrypt.CompareHashAndPassword(adminDetails.Info.Password, m.Password)

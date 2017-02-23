@@ -7,23 +7,27 @@ import (
 	"log"
 	//"encoding/json"
 	"golang.org/x/crypto/bcrypt"
+	"strings"
+	"reflect"
 )
 
 // Struct for Company
 type Company struct{
-	Admins		CompanyAdmin
+	Admins		map[string]CompanyAdmin
 	Info 		CompanyInfo
 	Settings 	CompanySettings
 	Plan            string
 }
 
 type CompanyAdmin struct {
-	AdminName	string
+	FirstName	string
+	LastName	string
 	Status		string
 }
 
 type CompanyInfo struct{
 	CompanyName	string
+	TeamName	string
 	Address		string
 	State		string
 	ZipCode		string
@@ -73,8 +77,26 @@ func (m *Admins)CreateAdminAndCompany(ctx context.Context, company Company) bool
 		log.Println(err)
 		return false
 	}
-	adminMap := make(map[string]Admins)
-	log.Println("Valueeesss: ", adminData.Value(&adminMap))
+
+	log.Println("sdsdds")
+	adminDataString := strings.Split(adminData.String(),"/")
+	uniqueID := adminDataString[len(adminDataString)-2]
+	log.Println("sdsdds", uniqueID)
+	companyAdmin := CompanyAdmin{}
+	companyAdmin.FirstName = m.Info.FirstName
+	companyAdmin.LastName = m.Info.LastName
+	companyAdmin.Status = m.Settings.Status
+	log.Println("sdsdds", companyAdmin)
+	log.Println(reflect.TypeOf(companyAdmin))
+	adminMap := make(map[string] CompanyAdmin)
+	adminMap[uniqueID] = companyAdmin
+	company.Admins = adminMap
+	log.Println("Company: ", company)
+	_, err = dB.Child("Company").Push(company)
+	if err != nil {
+		log.Println(err)
+		return false
+	}
 	return true
 }
 
@@ -84,7 +106,7 @@ func CheckEmailIsUsed(ctx context.Context, emailId string) bool{
 	if err != nil {
 		log.Println("No Db Connection!")
 	}
-	if err :=  dB.Child("CompanyAdmins").OrderBy("Info/Email").EqualTo(emailId).Value(&companyAdmins); err != nil {
+	if err :=  dB.Child("Admins").OrderBy("Info/Email").EqualTo(emailId).Value(&companyAdmins); err != nil {
 		log.Fatal(err)
 	}
 	if len(companyAdmins)==0{

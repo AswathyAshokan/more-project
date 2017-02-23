@@ -22,9 +22,8 @@ func (c *RegisterController) Register() {
 		currentTime := time.Now().Unix()
 
 		company := models.Company{}
-		company.Admins.AdminName = c.GetString("firstName")
-		company.Admins.Status = helpers.StatusActive
 		company.Info.CompanyName = c.GetString("companyName")
+		company.Info.TeamName = c.GetString("teamName")
 		company.Info.Address = c.GetString("address")
 		company.Info.State = c.GetString("state")
 		company.Info.ZipCode = c.GetString("zipCode")

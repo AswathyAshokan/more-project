@@ -67,6 +67,10 @@ $(function(){
                         companyName:{
                             required: true,
                         },
+                        teamName:{
+                            required: true,
+                            teamRegEx: true,
+                        }
                     },
                     messages: {
                         firstName:{
@@ -77,7 +81,7 @@ $(function(){
                             required: "Please enter your Last name!"
                         },
                         emailId:{
-                            required: "Please enter youe Email address!",
+                            required: "Please enter your Email address!",
                             email: "Please enter a valid Email address!",
                             remote: "The Email you have entered is already in use!"
                         },
@@ -90,6 +94,10 @@ $(function(){
                             equalTo: "Password doesnot match!",
                         },
                         companyName: "Please enter your Company Name!",
+                        teamName:{
+                            required: "Please enter your Passporte Team Name!",
+                            teamRegEx: "Only lower case alphanumeric characters and '-' is allowed!",
+                        },
                     },
     	            submitHandler: function() {
                         var formData = $("#companyRegisterForm").serialize();
@@ -114,4 +122,11 @@ $(function(){
                         });
                     }
     });
+    
+    $.validator.addMethod("teamRegEx", function(value, element){
+            return this.optional(element) || /^[a-z0-9\-]+$/.test(value);
+        },
+            "Team Name must contain only letters, numbers, dashes"
+    );
+    
 });
