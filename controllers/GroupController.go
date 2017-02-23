@@ -27,12 +27,12 @@ func (c *GroupController) AddGroup() {
 		group.Settings.DateOfCreation =(time.Now().UnixNano() / 1000000)
 		group.Settings.Status = "inactive"
 		tempGroupMembers := c.GetStrings("selectedUserNames")
-		m := make(map[string]models.GroupMembers)
+		tempMembersMap := make(map[string]models.GroupMembers)
 		for i := 0; i < len(tempGroupId); i++ {
 			members.MemberName = tempGroupMembers[i]
-			m[tempGroupId[i]] = members
+			tempMembersMap[tempGroupId[i]] = members
 		}
-		group.Members = m
+		group.Members = tempMembersMap
 		dbStatus := group.AddGroupToDb(c.AppEngineCtx)
 		switch dbStatus {
 		case true:

@@ -37,6 +37,9 @@ func init() {
 	beegae.Router("/invite/:inviteuserid/delete", &controllers.InviteUserController{}, "*:DeleteInvitation")
 	beegae.Router("/invite/:inviteuserid/edit", &controllers.InviteUserController{}, "*:EditInvitation")
 
+	beegae.Router("/plan", &controllers.PlanController{}, "*:PlanDetails")
+
+
 
 	//Aswathy
 	beegae.Router("/contact/add", &controllers.ContactUserController{},"*:AddNewContact")

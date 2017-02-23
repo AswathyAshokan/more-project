@@ -14,6 +14,7 @@ type Company struct{
 	Admins		CompanyAdmin
 	Info 		CompanyInfo
 	Settings 	CompanySettings
+	Plan            string
 }
 
 type CompanyAdmin struct {
