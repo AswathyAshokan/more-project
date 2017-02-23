@@ -6,27 +6,16 @@
        var vm = {{.vm}};
    </script>
     <script src="/static/js/custom/task-details.js" type="text/javascript" charset="utf-8"></script>
-   
-	<div class="col-md-12 main-content-wrapper padding-50-each">
-		<div class="clearfix">
-			<h1 class="h4" id="taskHead">Task Details</h1>
-
-			<div class="personal-details margin-top-20">
-
-				<div class="table-wrapper">
-					<!--<div class="tbl-dropdown">
-						<select class="form-control sprites-arrow-down" id="">
-							<option>All Jobs</option>
-							<option>All Jobs</option>
-						</select>
-					</div>
-					<div class="tbl-dropdown">
-						<select class="form-control sprites-arrow-down" id="">
-							<option>All Customers</option>
-							<option>All Customers</option>
-						</select>
-					</div>-->
-					<table class="table table-striped table-bordered   dt-responsive nowrap" id="task-details">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css"/>
+<div class="col-md-12 main-content-wrapper padding-50-each">
+    <div class="clearfix">
+        <h1 class="h4" id="taskHead">Task Details</h1>
+        <div class="personal-details margin-top-20">
+            <div class="table-wrapper table-dropdown">
+                <div class="table-wrapper">
+                    <table class="table table-striped table-bordered   dt-responsive nowrap" id="task-details">
 						<thead>
 						<tr>
 <!--                           <th width="10%"></th>-->
@@ -47,6 +36,7 @@
 			</div>
 	</div>
 </div>
+</div>
 <div class="modal fade" id="myModal" role="dialog">
             <div class="modal-dialog">
                 <!-- Modal content-->
@@ -61,7 +51,27 @@
                 </div>
             </div>
 </div>
-    
+    <script src="js/jquery-3.1.0.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	<!-- <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script> -->
+	<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
+
+	<script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.1.1/js/responsive.bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function() {
+		    $('#example').DataTable();
+
+		    $('#example_filter').after($('.tbl-dropdown'));
+
+		    $('#example_wrapper .row:first-child > div.col-sm-6').addClass("gutter-padding");
+		    $('#example_wrapper .row:first-child > div.col-sm-6').removeClass("col-sm-6");		    
+
+		} );
+
+	</script>
+
 	
 	
 

@@ -49,12 +49,15 @@ $().ready(function() {
        
     $("#taskDoneForm").validate({
         rules: {
-           taskName: "required",
-           jobName: "required"
-       },
-       
-       submitHandler: function() {
-           var taskId=vm.TaskId;
+            taskName: "required",
+            loginType: "required",
+        },
+        submitHandler: function() {
+            if(loginTypeRadio == "")
+                {
+                    alert("please select a login type");
+                }
+            var taskId=vm.TaskId;
            var jobnew = $("#jobName option:selected").val()
            console.log("job id",jobnew);
            var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId;
