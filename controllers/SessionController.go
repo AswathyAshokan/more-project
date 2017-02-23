@@ -4,7 +4,6 @@ package controllers
 
 import (
 	"github.com/gorilla/securecookie"
-	"app/passporte/models"
 	"net/http"
 	"log"
 )
@@ -14,19 +13,30 @@ type SessionController struct{
 }
 
 type SessionValues struct{
-	Info  models.AdminInfo
-	Settings models.AdminSettings
+	AdminId		string
+	AdminFirstName	string
+	AdminLastName	string
+	AdminEmail	string
+	CompanyId	string
+	CompanyName	string
+	CompanyTeamName	string
+	CompanyPlan	string
 }
 
 var cookieToken = securecookie.New(securecookie.GenerateRandomKey(64), securecookie.GenerateRandomKey(32))
 
-func SetSession(w http.ResponseWriter, adminDetails models.Admins){
-	value := map[string]string{
-		"email": adminDetails.Info.Email,
-		"firstName": adminDetails.Info.FirstName,
-		"lastName": adminDetails.Info.LastName,
-		"companyName": adminDetails.Info.CompanyName,
-	}
+func SetSession(w http.ResponseWriter, sessionValues SessionValues){
+
+	value := make(map[string]string)
+	value["adminId"] = sessionValues.AdminId
+	value["adminEmail"] = sessionValues.AdminEmail
+	value["adminFirstName"] = sessionValues.AdminFirstName
+	value["adminLastName"] = sessionValues.AdminLastName
+	value["companyId"] = sessionValues.CompanyId
+	value["companyName"] = sessionValues.CompanyName
+	value["companyTeamName"] = sessionValues.CompanyTeamName
+	value["companyPlan"] = sessionValues.CompanyPlan
+
 	if encoded, err := cookieToken.Encode("session",value);err == nil{
 		cookie := &http.Cookie{
 			Name:  "session",
@@ -37,15 +47,22 @@ func SetSession(w http.ResponseWriter, adminDetails models.Admins){
 		log.Println("Session is Set!")
 	}
 }
+
 func ReadSession (w http.ResponseWriter, r *http.Request) (SessionValues) {
 	sessionValues := SessionValues{}
 	if cookie, err := r.Cookie("session"); err == nil {
-		cookieValue := make(map[string]string)
-		if err = cookieToken.Decode("session", cookie.Value, &cookieValue); err == nil {
-			sessionValues.Info.Email = cookieValue["email"]
-			sessionValues.Info.FirstName = cookieValue["firstName"]
-			sessionValues.Info.LastName = cookieValue["lastName"]
-			sessionValues.Info.CompanyName=cookieValue["companyName"]
+		value := make(map[string]string)
+		if err = cookieToken.Decode("session", cookie.Value, &value); err == nil {
+
+			 sessionValues.AdminId = value["adminId"]
+			 sessionValues.AdminEmail = value["adminEmail"]
+			 sessionValues.AdminFirstName = value["adminFirstName"]
+			 sessionValues.AdminLastName = value["adminLastName"]
+			 sessionValues.CompanyId = value["companyId"]
+			 sessionValues.CompanyName = value["companyName"]
+			 sessionValues.CompanyTeamName = value["companyTeamName"]
+			 sessionValues.CompanyPlan = value["companyPlan"]
+
 		}
 	} else {
 		http.Redirect(w, r, "/", 302)

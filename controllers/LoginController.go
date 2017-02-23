@@ -25,7 +25,16 @@ func (c *LoginController) Login() {
 		switch loginStatus{
 		case true:
 			log.Println("Login Successful!")
-			SetSession(w, adminDetails)
+			sessionValues := SessionValues{}
+			sessionValues.AdminId = "Chumma oru Id"
+			sessionValues.AdminFirstName = adminDetails.Info.FirstName
+			sessionValues.AdminLastName = adminDetails.Info.LastName
+			sessionValues.AdminEmail = adminDetails.Info.Email
+			sessionValues.CompanyId = "xyz"
+			sessionValues.CompanyName = "dddd"
+			sessionValues.CompanyTeamName = "dsfdss"
+			sessionValues.CompanyPlan = "Family"
+			SetSession(w, sessionValues)
 			w.Write([]byte("true"))
 		case false:
 			log.Println("Invalid Username or Password!")
@@ -46,7 +55,6 @@ func (c *LoginController)Logout(){
 	w := c.Ctx.ResponseWriter
 	ClearSession(w,r)
 	storedSession := ReadSession(w, r)
-	log.Println("The username stored in session:",storedSession.Info.Email)
-	log.Println("The lastName stored in session:",storedSession.Info.LastName)
+	log.Println("session:", storedSession)
 	http.Redirect(w, r, "/", 302)
 }

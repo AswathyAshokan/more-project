@@ -19,10 +19,12 @@ func (c *PlanController) PlanDetails() {
 	storedSession := ReadSession(w, r)
 	log.Println("The userDetails stored in session:",storedSession)
 	reflect.TypeOf(storedSession)
+
+	log.Println("session:", storedSession)
 	viewModel := viewmodels.Plan{}
-	viewModel.Email = storedSession.Info.Email
-	viewModel.FirstName = storedSession.Info.FirstName
-	viewModel.SecondName = storedSession.Info.LastName
+	viewModel.Email = storedSession.AdminEmail
+	viewModel.FirstName = storedSession.AdminFirstName
+	viewModel.SecondName = storedSession.AdminLastName
 	log.Println("ggg",viewModel)
 	c.Data["vm"] = viewModel
 	c.TplName = "template/plan.html"
