@@ -26,7 +26,7 @@ type CompanyAdmin struct {
 
 type CompanyInfo struct{
 	CompanyName	string
-	TeamName	string
+	CompanyTeamName	string
 	Address		string
 	State		string
 	ZipCode		string

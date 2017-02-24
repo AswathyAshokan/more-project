@@ -23,7 +23,7 @@ func (c *RegisterController) Register() {
 
 		company := models.Company{}
 		company.Info.CompanyName = c.GetString("companyName")
-		company.Info.TeamName = c.GetString("teamName")
+		company.Info.CompanyTeamName = c.GetString("teamName")
 		company.Info.Address = c.GetString("address")
 		company.Info.State = c.GetString("state")
 		company.Info.ZipCode = c.GetString("zipCode")

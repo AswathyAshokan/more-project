@@ -16,28 +16,25 @@ func (c *LoginController) Login() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	if r.Method == "POST" {
-		log.Println("hai I am here")
 		login := models.Login{}
 		login.Email = c.GetString("email")
 		login.Password = []byte(c.GetString("password"))
 		log.Println(login)
-		loginStatus, adminDetails := login.CheckLogin(c.AppEngineCtx)
+		loginStatus, adminDetails, companyDetails, adminId := login.CheckLogin(c.AppEngineCtx)
 		switch loginStatus{
 		case true:
-			log.Println("Login Successful!")
 			sessionValues := SessionValues{}
-			sessionValues.AdminId = "Chumma oru Id"
+			sessionValues.AdminId = adminId
 			sessionValues.AdminFirstName = adminDetails.Info.FirstName
 			sessionValues.AdminLastName = adminDetails.Info.LastName
 			sessionValues.AdminEmail = adminDetails.Info.Email
-			sessionValues.CompanyId = "xyz"
-			sessionValues.CompanyName = "dddd"
-			sessionValues.CompanyTeamName = "dsfdss"
-			sessionValues.CompanyPlan = "Family"
+			sessionValues.CompanyId = adminDetails.Company.CompanyId
+			sessionValues.CompanyName = companyDetails.Info.CompanyName
+			sessionValues.CompanyTeamName = companyDetails.Info.CompanyTeamName
+			sessionValues.CompanyPlan = companyDetails.Plan
 			SetSession(w, sessionValues)
 			w.Write([]byte("true"))
 		case false:
-			log.Println("Invalid Username or Password!")
 			w.Write([]byte("false"))
 
 		}

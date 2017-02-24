@@ -14,31 +14,43 @@ type Login struct{
 	Password	[]byte
 }
 
-func(m *Login)CheckLogin(ctx context.Context)(bool, Admins){
+func(m *Login)CheckLogin(ctx context.Context)(bool, Admins, Company, string){
+	var adminDetails Admins
+	var adminId string
+	companyDetails := Company{}
 	admins := map[string]Admins{}
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
-		log.Println("No DB Connectivity!")
+		log.Println(err)
+		return false, adminDetails, companyDetails, adminId
 	}
 	log.Println("Email: ", m.Email)
 	log.Println("Password: ", m.Password)
 	if err := dB.Child("Admins").OrderBy("Info/Email").EqualTo(m.Email).Value(&admins); err != nil {
-	    log.Println(err)
+	    	log.Println(err)
+		return false, adminDetails, companyDetails, adminId
 	}
-	log.Println("Login user details: ", admins)
 
-	var adminDetails Admins
+
 	dataValue := reflect.ValueOf(admins)
 	for _, key := range dataValue.MapKeys() {
 		adminDetails = admins[key.String()]
+		adminId = key.String()
 	}
+
+
+	if err := dB.Child("/Company/"+adminDetails.Company.CompanyId).Value(&companyDetails); err !=nil{
+		log.Println(err)
+		return false, adminDetails, companyDetails, adminId
+	}
+
 	log.Println(adminDetails.Info.Password)
 	err = bcrypt.CompareHashAndPassword(adminDetails.Info.Password, m.Password)
 	if err !=nil{
 		log.Println(err)
-		return false, adminDetails
+		return false, adminDetails, companyDetails, adminId
 
 	}
-	return true,adminDetails
+	return true, adminDetails, companyDetails, adminId
 }
 
