@@ -73,4 +73,7 @@ func init() {
 	beegae.Router("/:companyTeamName/customer/:customerId/job", &controllers.JobController{},"*:LoadJobDetail")
 	beegae.Router("/:companyTeamName/job/:jobId/task", &controllers.TaskController{},"*:LoadTaskDetail")
 
+	//Login Bypass
+	beegae.Router("/bypass", &controllers.ByPassController{},"*:ByPass")
+
 }
