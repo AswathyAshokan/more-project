@@ -12,7 +12,10 @@ import (
 type LoginController struct {
 	BaseController
 }
+func (c *LoginController) Root() {
+	c.TplName = "template/root.html"
 
+}
 func (c *LoginController) Login() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -56,5 +59,5 @@ func (c *LoginController)Logout(){
 	ClearSession(w,r)
 	storedSession := ReadSession(w, r)
 	log.Println("session:", storedSession)
-	http.Redirect(w, r, "/", 302)
+	http.Redirect(w, r, "/login", 302)
 }

@@ -65,7 +65,7 @@ func ReadSession (w http.ResponseWriter, r *http.Request) (SessionValues) {
 
 		}
 	} else {
-		http.Redirect(w, r, "/", 302)
+		http.Redirect(w, r, "/login", 302)
 		log.Println("Access Denied! You are not logged in!")
 	}
 	return sessionValues

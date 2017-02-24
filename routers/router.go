@@ -10,7 +10,8 @@ import (
 func init() {
 
 	//Sarath
-	beegae.Router("/", &controllers.LoginController{}, "*:Login")
+	beegae.Router("/", &controllers.LoginController{}, "*:Root")
+	beegae.Router("/login", &controllers.LoginController{}, "*:Login")
 	beegae.Router("/register", &controllers.RegisterController{}, "*:Register")
 	beegae.Router("/isEmailUsed/:emailId",&controllers.RegisterController{},"*:CheckEmail")
 	beegae.Router("/:companyTeamName/nfc", &controllers.NfcController{},"*:NFCDetails")

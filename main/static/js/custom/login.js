@@ -3,9 +3,9 @@ Date:01/02/2017*/
 $(function(){
     
     if(document.referrer != 'http://localhost:8080/'){
-        history.pushState(null, null, '/');
+        history.pushState(null, null, '/login');
         window.addEventListener('popstate', function () {
-            history.pushState(null, null, '/');
+            history.pushState(null, null, '/login');
         });
     }
     
@@ -14,7 +14,7 @@ $(function(){
         $.ajax({
             type    :   'POST',
             dataType: 'json',
-            url     :   '/',
+            url     :   '/login',
             data    : {
                 'email'     :   $("#email").val(),
                 'password'  :   $("#password").val()
