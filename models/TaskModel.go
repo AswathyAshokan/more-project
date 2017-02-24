@@ -27,6 +27,7 @@ type TaskInfo struct {
 	UserNumber      string
 	Log             string
 	FitToWork       string
+	CompanyName	string
 }
 type TaskContact struct {
 	ContactId 	string

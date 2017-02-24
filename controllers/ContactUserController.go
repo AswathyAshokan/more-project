@@ -23,6 +23,7 @@ func (c *ContactUserController)AddNewContact() {
 	w :=c.Ctx.ResponseWriter
 	if r.Method == "POST" {
 		user:=models.ContactUser{}
+
 		user.Info.Name= c.GetString("name")
 		user.Info.State = c.GetString("state")
 		user.Info.ZipCode = c.GetString("zipcode")
@@ -32,6 +33,8 @@ func (c *ContactUserController)AddNewContact() {
 		user.Settings.DateOfCreation =time.Now().UnixNano() / int64(time.Millisecond)
 		fmt.Println(reflect.TypeOf(user.Settings.DateOfCreation))
 		user.Settings.Status = "Completed"
+		storedSession := ReadSession(w, r)
+		log.Println("company name",storedSession.CompanyName);
 		dbStatus := user.AddContactToDB(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
@@ -54,7 +57,7 @@ func (c *ContactUserController)LoadContactDetails() {
 	w := c.Ctx.ResponseWriter
 	storedSession := ReadSession(w, r)
 	log.Println("The userDetails stored in session:",storedSession)
-	log.Println("company name",storedSession.Info.CompanyName);
+	log.Println("company name",storedSession.CompanyName);
 	dbStatus, contact := models.GetAllContact(c.AppEngineCtx)
 	viewModel := viewmodels.ContactUserViewModel{}
 

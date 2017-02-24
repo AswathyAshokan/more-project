@@ -7,20 +7,21 @@ import (
 	"log"
 )
 type ContactInfo struct {
-	Name        string
-	Address     string
-	State       string
-	ZipCode     string
-	Email       string
-	PhoneNumber string
+	Name        		string
+	Address    	 	string
+	State      	 	string
+	ZipCode    	 	string
+	Email       		string
+	PhoneNumber 		string
+	CompanyTeamName 	string
 }
 type ContactSettings struct {
-	DateOfCreation int64
-	Status         string
+	DateOfCreation 		int64
+	Status         		string
 }
 type ContactUser   struct {
-	Info     ContactInfo
-	Settings ContactSettings
+	Info     	ContactInfo
+	Settings 	ContactSettings
 
 }
 

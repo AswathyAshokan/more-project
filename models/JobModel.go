@@ -9,6 +9,7 @@ type JobInfo struct {
 	JobName		string
 	JobNumber	string
 	NumberOfTask	string
+	CompanyTeamName	string
 }
 type JobSettings struct {
 	Status         string
