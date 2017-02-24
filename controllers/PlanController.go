@@ -19,18 +19,24 @@ func (c *PlanController) PlanDetails() {
 	storedSession := ReadSession(w, r)
 	log.Println("The userDetails stored in session:",storedSession)
 	log.Println("session:", storedSession)
-	viewModel := viewmodels.Plan{}
+	planViewMidel := viewmodels.Plan{}
+	planViewMidel.CompanyTeamName = storedSession.CompanyTeamName
 	if cookie, err := r.Cookie("session"); err == nil {
 		log.Println("cookie",cookie)
-		viewModel.SessionFlag = true
+		planViewMidel.SessionFlag = true
 	} else {
-		viewModel.SessionFlag = false
+		planViewMidel.SessionFlag = false
 	}
-	c.Data["vm"] = viewModel
+	c.Data["vm"] = planViewMidel
 	c.TplName = "template/plan.html"
 }
 
 
 func (c *PlanController) PlanCheck() {
+	/*r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	storedSession := ReadSession(w, r)
+	planViewMidel := viewmodels.Plan{}
+	*/
 	log.Println("ghdgfhdgfdhg")
 }

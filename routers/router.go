@@ -45,12 +45,6 @@ func init() {
 
 	beegae.Router("/:companyTeamName/customer-management", &controllers.CustomerManagementController{}, "*:CustomerManagement")
 
-
-
-
-
-
-
 	//Aswathy
 	beegae.Router("/:companyTeamName/contact/add", &controllers.ContactUserController{},"*:AddNewContact")
 	beegae.Router("/:companyTeamName/contact", &controllers.ContactUserController{},"*:DisplayContactDetails")
