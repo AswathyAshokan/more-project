@@ -9,7 +9,7 @@ import (
 type Task   struct {
 
 	Info           TaskInfo
-	Contact        []TaskContact
+	Contact        map[string]TaskContact
 	Customer       TaskCustomer
 	Job            TaskJob
 	UsersAndGroups UsersAndGroups
@@ -112,7 +112,6 @@ func GetAllJobs(ctx context.Context)(bool,map[string]Job) {
 		log.Fatal(err)
 		return false, jobValue
 	}
-	log.Println("job value",jobValue)
 	return true, jobValue
 }
 
@@ -125,7 +124,6 @@ func (m *Task) GetAllContact(ctx context.Context)(bool,map[string]Task) {
 		log.Fatal(err)
 		return false, contactValue
 	}
-	log.Println(contactValue)
 	return true, contactValue
 
 

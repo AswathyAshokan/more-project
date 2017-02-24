@@ -68,13 +68,20 @@ func (c *TaskController)AddNewTask() {
 
 		task.UsersAndGroups.User = userMap
 		task.UsersAndGroups.Group = groupMap
-		contacts := models.TaskContact{}
-
+		contactMap := make(map[string]models.TaskContact)
+		taskContactDetail :=models.TaskContact{}
 		for i := 0; i < len(tempContactId); i++ {
-			contacts.ContactId= tempContactId[i]
-			contacts.ContactName = tempContactName[i]
-			task.Contact = append(task.Contact ,contacts)
+			taskContactDetail.ContactName = tempContactName[i]
+			contactMap[tempContactId[i]] = taskContactDetail
 		}
+		task.Contact = contactMap
+		//contacts := models.TaskContact{}
+		//
+		////for i := 0; i < len(tempContactId); i++ {
+		//	contacts.ContactId= tempContactId[i]
+		//	contacts.ContactName = tempContactName[i]
+		//	task.Contact = append(task.Contact ,contacts)
+		//}
 		dbStatus :=task.AddTaskToDB(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
@@ -150,14 +157,13 @@ func (c *TaskController)AddNewTask() {
 			for _, k := range dataValue.MapKeys() {
 				viewModel.ContactNameArray  = append(viewModel.ContactNameArray , contacts[k.String()].Info.Name)
 			}
-
-			log.Println("5: ", keySlice)
+			storedSession := ReadSession(w, r)
+			viewModel.CompanyTeamName=storedSession.CompanyTeamName
 			viewModel.Key = keySlice
 			viewModel.ContactKey=keySliceForContact
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
-		log.Println("Data: ", viewModel)
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-task.html"
@@ -216,6 +222,7 @@ func (c *TaskController)LoadTaskDetail() {
 			tempValueSlice = tempValueSlice[:0]
 		}
 		viewModel.Keys = keySlice
+		viewModel.CompanyTeamName = storedSession.CompanyTeamName
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/task-details.html"
@@ -287,15 +294,20 @@ func (c *TaskController)LoadEditTask() {
 
 		task.UsersAndGroups.User = userMap
 		task.UsersAndGroups.Group = groupMap
-		contacts := models.TaskContact{}
 		tempContactName := c.GetStrings("contacts")
 		tempContactId := c.GetStrings("contactId")
-
+		contactMap := make(map[string]models.TaskContact)
+		taskContactDetail :=models.TaskContact{}
 		for i := 0; i < len(tempContactId); i++ {
-			contacts.ContactId= tempContactId[i]
-			contacts.ContactName = tempContactName[i]
-			task.Contact = append(task.Contact ,contacts)
+			taskContactDetail.ContactName = tempContactName[i]
+			contactMap[tempContactId[i]] = taskContactDetail
 		}
+		task.Contact = contactMap
+		//for i := 0; i < len(tempContactId); i++ {
+		//	contacts.ContactId= tempContactId[i]
+		//	contacts.ContactName = tempContactName[i]
+		//	task.Contact = append(task.Contact ,contacts)
+		//}
 		task.Info.LoginType = c.GetString("loginType")
 		task.Info.FitToWork = c.GetString("fitToWork")
 		task.Settings.DateOfCreation = time.Now().UnixNano() / int64(time.Millisecond)
@@ -309,6 +321,7 @@ func (c *TaskController)LoadEditTask() {
 		}
 
 	} else {
+		storedSession := ReadSession(w, r)
 		viewModel  := viewmodels.EditTaskViewModel{}
 		task := models.Task{}
 		user := models.Users{}
@@ -317,9 +330,11 @@ func (c *TaskController)LoadEditTask() {
 		switch dbStatus {
 		case true:
 			dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx)
-			var keySlice []string
+			var keySlice 			[]string
 			var keySliceForGroupAndUser 	[]string
 			var keySliceForContact		[]string
+			var keyForContact 		[]string
+
 			switch dbStatus {
 			case true:
 				dataValue := reflect.ValueOf(allJobs)
@@ -375,8 +390,17 @@ func (c *TaskController)LoadEditTask() {
 				contactDetails, dbStatus := task.GetContactDetailById(c.AppEngineCtx, taskId)
 				switch dbStatus {
 				case true:
-					for i := 0; i < len(contactDetails.Contact); i++ {
-						viewModel.ContactNameToEdit = append(viewModel.ContactNameToEdit, contactDetails.Contact[i].ContactId)
+					dataValue := reflect.ValueOf(contactDetails)
+					for _, key := range dataValue.MapKeys() {
+						keyForContact =  append(keyForContact, key.String())
+					}
+					for _, k := range dataValue.MapKeys() {
+						viewModel.ContactNameToEdit = append(viewModel.ContactNameToEdit,contactDetails.Contact[k.String()].ContactName)
+					}
+					contactData := reflect.ValueOf(contactDetails.Contact)
+
+					for _, selectedMemberKey := range contactData.MapKeys() {
+						viewModel.ContactNameToEdit = append(viewModel.ContactNameToEdit, selectedMemberKey.String())
 					}
 					viewModel.Key = keySlice
 					viewModel.PageType = helpers.SelectPageForEdit
@@ -391,6 +415,7 @@ func (c *TaskController)LoadEditTask() {
 					//viewModel.UserType = taskDetail.UsersOrGroups
 					viewModel.FitToWork = taskDetail.Info.FitToWork
 					viewModel.TaskId = taskId
+					viewModel.CompanyTeamName=storedSession.CompanyTeamName
 					c.Data["vm"] = viewModel
 					c.Layout = "layout/layout.html"
 					c.TplName = "template/add-task.html"

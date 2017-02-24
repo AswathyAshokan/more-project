@@ -51,22 +51,22 @@ func init() {
 
 
 	//Aswathy
-	beegae.Router("/contact/add", &controllers.ContactUserController{},"*:AddNewContact")
-	beegae.Router("/contact", &controllers.ContactUserController{},"*:LoadContactDetails")
-	beegae.Router("/contact/:contactId/edit", &controllers.ContactUserController{},"*:LoadEditContact")
-	beegae.Router("/contact/:contactId/delete", &controllers.ContactUserController{},"*:LoadDeleteContact")
+	beegae.Router("/:companyTeamName/contact/add", &controllers.ContactUserController{},"*:AddNewContact")
+	beegae.Router("/:companyTeamName/contact", &controllers.ContactUserController{},"*:DisplayContactDetails")
+	beegae.Router("/:companyTeamName/contact/:contactId/edit", &controllers.ContactUserController{},"*:LoadEditContact")
+	beegae.Router("/:companyTeamName/contact/:contactId/delete", &controllers.ContactUserController{},"*:LoadDeleteContact")
 
-	beegae.Router("/job/add", &controllers.JobController{},"*:AddNewJob")
-	beegae.Router("/job", &controllers.JobController{},"*:LoadJobDetail")
-	beegae.Router("/job/:jobId/edit", &controllers.JobController{},"*:LoadEditJob")
-	beegae.Router("/job/:jobId/delete", &controllers.JobController{},"*:LoadDeleteJob")
+	beegae.Router("/:companyTeamName/job/add", &controllers.JobController{},"*:AddNewJob")
+	beegae.Router("/:companyTeamName/job", &controllers.JobController{},"*:LoadJobDetail")
+	beegae.Router("/:companyTeamName/job/:jobId/edit", &controllers.JobController{},"*:LoadEditJob")
+	beegae.Router("/:companyTeamName/job/:jobId/delete", &controllers.JobController{},"*:LoadDeleteJob")
 	beegae.Router("/isJobNameUsed/:jobName", &controllers.JobController{},"*:CheckJobName")
 	beegae.Router("/isJobNumberUsed/:jobNumber", &controllers.JobController{},"*:CheckJobNumber")
 
-	beegae.Router("/task/add", &controllers.TaskController{},"*:AddNewTask")
-	beegae.Router("/task", &controllers.TaskController{},"*:LoadTaskDetail")
-	beegae.Router("/task/:taskId/edit", &controllers.TaskController{},"*:LoadEditTask")
-	beegae.Router("/task/:taskId/delete", &controllers.TaskController{},"*:LoadDeleteTask")
+	beegae.Router("/:companyTeamName/task/add", &controllers.TaskController{},"*:AddNewTask")
+	beegae.Router("/:companyTeamName/task", &controllers.TaskController{},"*:LoadTaskDetail")
+	beegae.Router("/:companyTeamName/task/:taskId/edit", &controllers.TaskController{},"*:LoadEditTask")
+	beegae.Router("/:companyTeamName/task/:taskId/delete", &controllers.TaskController{},"*:LoadDeleteTask")
 
 
 	//View sections

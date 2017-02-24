@@ -4,7 +4,7 @@ document.getElementById("task").className += " active";
 var pageType = vm.PageType;
 var customerName = "";
 var jobId = "";
-console.log(vm.UserAndGroupKey);
+var companyTeamName = vm.CompanyTeamName
 
 $(function () {
 
@@ -27,7 +27,7 @@ $(function () {
 
 var addItem = $('<span>+</span>');
 addItem.click(function() {
-    window.location = "/task/add";
+    window.location = "/"  +  companyTeamName +  "/task/add";
 });
 
 $().ready(function() {
@@ -93,13 +93,13 @@ $().ready(function() {
            }
            if(pageType == "edit"){
                $.ajax({
-                    url: '/task/'+taskId+'/edit',
+                    url: '/' +  companyTeamName  + '/task/'+taskId+'/edit',
                     type: 'post',
                     datatype: 'json',
                     data: formData,
                     success : function(response) {
                         if (response =="true") {
-                            window.location = '/task';
+                            window.location ='/'  +  companyTeamName  + '/task';
                         } else {
                             
                         }
@@ -110,13 +110,13 @@ $().ready(function() {
                 });
             } else {
                 $.ajax({
-                    url: '/task/add',
+                    url:'/'+ companyTeamName + '/task/add',
                     type: 'post',
                     datatype: 'json',
                     data: formData,
                     success : function(response) {
                         if (response =="true") {
-                            window.location = '/task';
+                            window.location = '/' + companyTeamName + '/task';
                         } else {
                              $("#saveButton").attr('disabled', false);
                         }
@@ -133,6 +133,6 @@ $().ready(function() {
     });
     
     $("#cancel").click(function() {
-            window.location = '/task';
+            window.location = '/' + companyTeamName + '/task';
     });
 });

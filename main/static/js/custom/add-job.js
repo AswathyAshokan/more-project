@@ -1,6 +1,7 @@
 /* Author :Aswathy Ashok */
 //Below line is for adding active class to layout side menu..
 document.getElementById("job").className += " active";
+var companyTeamName = vm.CompanyTeamName
 $().ready(function() {
     
     var pageType = vm.PageType;
@@ -49,14 +50,14 @@ $().ready(function() {
             var jobId = vm.JobId;
             if (pageType == "edit") {
                 $.ajax({
-                    url: '/job/'+ jobId +'/edit',
+                    url: '/' + companyTeamName  + '/job/'+ jobId +'/edit',
                     type: 'post',
                     datatype: 'html',
                     data: formData,
                     success : function(response) {
                         console.log(response);
                         if (response == "true") {
-                            window.location = '/job';
+                            window.location = '/' + companyTeamName + '/job';
                         } else {
                         }
                     },
@@ -66,13 +67,13 @@ $().ready(function() {
                 });
             } else {
                 $.ajax({
-                    url: '/job/add',
+                    url: '/' + companyTeamName + '/job/add',
                     type: 'post',
                     datatype: 'json',
                     data: formData,
                     success : function(response) {
                         if (response =="true") {
-                            window.location = '/job'
+                            window.location ='/' + companyTeamName + '/job'
                         } else {
                         }
                     },
@@ -84,6 +85,6 @@ $().ready(function() {
         }
     });
     $("#cancel").click(function() {
-        window.location = '/job';
+        window.location = '/' +  companyTeamName  + /job';
     });
 });

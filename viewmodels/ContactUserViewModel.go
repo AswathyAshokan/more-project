@@ -14,5 +14,10 @@ type ContactUserViewModel  struct {
 	PageType		string
 	Keys              	[]string
 	ContactId		string
+	CompanyTeamName  	string
 
+}
+type ContactUserDetailViewModel struct {
+	CompanyTeamName  	string
+	PageType		string
 }

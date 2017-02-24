@@ -1,8 +1,8 @@
 /* Author :Aswathy Ashok */
 //Below line is for adding active class to layout side menu..
 document.getElementById("contact").className += " active";
-
-console.log(vm.Values);
+var companyTeamName = vm.CompanyTeamName;
+console.log("company name",vm.CompanyTeamName);
 $(function(){ 
     
     var mainArray = [];   
@@ -33,7 +33,7 @@ $(function(){
         
         var item = $('<span>+</span>');
         item.click(function() {
-            window.location = "/contact/add";
+            window.location = "/" + companyTeamName + "/contact/add";
         });
         
         $('.table-wrapper .dataTables_filter').append(item);
@@ -46,7 +46,7 @@ $(function(){
     $('#contact-details tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[6];
-        window.location = '/contact/' + key + '/edit';
+        window.location = "/" + companyTeamName + "/contact/" + key + "/edit";
     });
 
 
@@ -58,7 +58,7 @@ $(function(){
         $("#confirm").click(function(){
             $.ajax({
                 type: "POST",
-                url: '/contact/' + key + '/delete',
+                url: '/' + companyTeamName + '/contact/' + key + '/delete',
                 data: '',
                 success: function(data){
                     if(data=="true"){
@@ -68,7 +68,6 @@ $(function(){
                         for(var i = 0; i < mainArray.length; i++) {
                            index = mainArray[i].indexOf(key);
                            if(index != -1) {
-                               console.log("dddd", i);
                              break;
                            }
                         }

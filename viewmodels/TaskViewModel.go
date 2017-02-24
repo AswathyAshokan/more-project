@@ -25,6 +25,7 @@ type EditTaskViewModel  struct {
 	FitToWork			string
 	TaskId				string
 	ContactNameToEdit		[]string
+	CompanyTeamName			string
 }
 
 type AddTaskViewModel  struct {
@@ -35,16 +36,18 @@ type AddTaskViewModel  struct {
 	GroupNameArray			[]string
 	UserAndGroupKey			[]string
 	ContactKey			[]string
+	CompanyTeamName			string
 
 
 }
 
 type TaskDetailViewModel  struct {
-	Values            	[][]string
-	Keys              	[]string
-	UniqueCustomerNames	[]string
-	UniqueJobNames		[]string
-	SelectedJob		string
-	SelectedCustomer	string
-	SelectedCustomerForJob	string
+	Values            		[][]string
+	Keys              		[]string
+	UniqueCustomerNames		[]string
+	UniqueJobNames			[]string
+	SelectedJob			string
+	SelectedCustomer		string
+	SelectedCustomerForJob		string
+	CompanyTeamName			string
 }

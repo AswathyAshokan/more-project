@@ -4,16 +4,17 @@
 //add contact.js
 
 document.getElementById("contact").className += " active";
-var pageType = array.PageType;
+var pageType = vm.PageType;
+var companyTeamName = vm.CompanyTeamName
 $(function () {
-    if( pageType==  "edit") {
+    if( pageType  ==  "edit") {
             
-                document.getElementById("name").value = array.Name;
-                document.getElementById("address").value = array.Address;
-                document.getElementById("state").value = array.State;
-                document.getElementById("zipcode").value = array.ZipCode;
-                document.getElementById("emailAddress").value = array.Email;
-                document.getElementById("phoneNumber").value = array.PhoneNumber;
+                document.getElementById("name").value =vm.Name;
+                document.getElementById("address").value =vm.Address;
+                document.getElementById("state").value =vm.State;
+                document.getElementById("zipcode").value =vm.ZipCode;
+                document.getElementById("emailAddress").value =vm.Email;
+                document.getElementById("phoneNumber").value =vm.PhoneNumber;
                 document.getElementById("contactHead").innerHTML = "Edit Contact";
                 
                 }
@@ -27,31 +28,31 @@ $(function () {
                   email: true
               },
               phoneNumber: {
-                  required: true,
-                  minlength : 10
+                  required: true
+                 
               }
           },
           messages: {
               firstName: "Please enter your firstName",
               lastName: "Please enter your lastName",
               phoneNumber:{
-                  required:"please provide a phone number",
-                  minlength:"your phone number at least 10 digit long"
+                  required:"please provide a phone number"
+                  
               },
               emailAddress: "Please enter a valid email address"
           },
           submitHandler: function() {
               var form_data = $("#contactForm").serialize();
-              var contactId = array.ContactId
+              var contactId =vm.ContactId
               if(pageType ==  "edit"){
                   $.ajax({
-                      url: '/contact/'+contactId+'/edit',
+                      url:'/'+ companyTeamName + '/contact/'+contactId+'/edit',
                       type: 'post',
                       datatype: 'json',
                       data: form_data,
                       success : function(response) {
                           if (response =="true") {
-                              window.location = '/contact';
+                              window.location = '/' + companyTeamName +'/contact';
                           } else {
                           }
                       },
@@ -61,13 +62,13 @@ $(function () {
                   });
               } else {
                   $.ajax({
-                      url: '/contact/add',
+                      url: '/'+ companyTeamName +'/contact/add',
                       type: 'post',
                       datatype: 'json',
                       data: form_data,
                       success : function(response) {
                           if (response =="true") {
-                              window.location = '/contact';
+                              window.location = '/' + companyTeamName +'/contact';
                           } else {
                           }
                       },
@@ -79,6 +80,6 @@ $(function () {
           }
       });
       $("#cancel").click(function() {
-          window.location = '/contact';
+          window.location = '/'+ companyTeamName +'/contact';
       });
   });

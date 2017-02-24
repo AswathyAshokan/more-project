@@ -1,7 +1,7 @@
 /* Author :Aswathy Ashok */
 //Below line is for adding active class to layout side menu..
 document.getElementById("job").className += " active";
-
+var companyTeamName = vm.CompanyTeamName
 $(function(){  
     var table = "";
     var mainArray = [];  
@@ -71,7 +71,7 @@ $(function(){
         
         var addItem = $('<span>+</span>');
         addItem.click(function() {
-            window.location = "/job/add";
+            window.location = "/" + companyTeamName + "/job/add";
         });
         
         $('.table-wrapper .dataTables_filter').prepend(dropdownItem).append(addItem);
@@ -101,14 +101,14 @@ $(function(){
     $('#job-details tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[5];
-        window.location = '/job/' + key + '/edit'
+        window.location ='/' +  companyTeamName + '/job/' + key + '/edit'
     });
 
 /*list job details of each job when click on list icon*/
     $('#job-details tbody').on( 'click', '#view', function () {
         var data = table.row( $(this).parents('tr') ).data();
         var jobId = data[5];
-        window.location = '/job/'+ jobId + '/task';
+        window.location = '/' + companyTeamName  +'/job/'+ jobId + '/task';
         return false;
     });
     /*Function for deleting particular job*/
@@ -120,7 +120,7 @@ $(function(){
         $("#confirm").click(function(){
             $.ajax({
                 type: "POST",
-                url: '/job/' + key + '/delete',
+                url: '/' + companyTeamName  + '/job/' + key + '/delete',
                 data: '',
                 success: function(data){
                     if(data=="true"){

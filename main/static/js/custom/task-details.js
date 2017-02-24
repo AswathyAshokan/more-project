@@ -2,6 +2,7 @@
 
 //Below line is for adding active class to layout side menu..
 document.getElementById("task").className += " active";
+var companyTeamName = vm.CompanyTeamName
 
 $(function(){ 
     
@@ -136,7 +137,7 @@ $(function(){
         
         var addItem = $('<span>+</span>');
         addItem.click(function() {
-            window.location = "/task/add";
+            window.location = "/" + companyTeamName + "/task/add";
         });
         
         var customerDropdown = $('<div class="tbl-dropdown"><select class="form-control sprites-arrow-down" id="customerDropdown"  onchange="customerFilter();"><option>All Customers</option></select></div>');
@@ -216,7 +217,7 @@ $(function(){
     $('#task-details tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[7];
-        window.location = '/task/' + key + '/edit'
+        window.location = '/' + companyTeamName + '/task/' + key + '/edit'
     });
 
 //................deleting.........................
@@ -228,7 +229,7 @@ $(function(){
         $("#confirm").click(function(){
             $.ajax({
                 type: "POST",
-                url: '/task/' + key + '/delete',
+                url: '/'  +   companyTeamName + '/task/' + key + '/delete',
                 data: '',
                 success: function(data){
                     if(data=="true"){
@@ -238,8 +239,7 @@ $(function(){
                         for(var i = 0; i < mainArray.length; i++) {
                            index = mainArray[i].indexOf(key);
                            if(index != -1) {
-                               console.log("dddd", i);
-                             break;
+                               break;
                            }
                         }
                         mainArray.splice(i, 1);

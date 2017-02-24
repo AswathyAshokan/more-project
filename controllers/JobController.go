@@ -40,6 +40,7 @@ func (c *JobController)AddNewJob() {
 			w.Write([]byte("false"))
 		}
 	}else {
+		storedSession := ReadSession(w, r)
 		 customers ,dbStatus:=models.GetAllCustomerDetails(c.AppEngineCtx)
 		var keySlice []string
 		dataValue := reflect.ValueOf(customers)
@@ -53,7 +54,8 @@ func (c *JobController)AddNewJob() {
 			for _, k := range dataValue.MapKeys() {
 				viewModel.CustomerNameArray  = append(viewModel.CustomerNameArray, customers[k.String()].Info.CustomerName)
 			}
-			viewModel.PageType="add"
+			viewModel.PageType=helpers.SelectPageForAdd
+			viewModel.CompanyTeamName = storedSession.CompanyTeamName
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
@@ -102,6 +104,7 @@ func (c *JobController)LoadJobDetail() {
 		}
 
 		viewModel.Keys = keySlice
+		viewModel.CompanyTeamName = storedSession.CompanyTeamName
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/job-details.html"
@@ -156,6 +159,7 @@ func (c *JobController)LoadEditJob() {
 		}
 
 	} else {
+		storedSession := ReadSession(w, r)
 		jobId := c.Ctx.Input.Param(":jobId")
 		viewModel := viewmodels.JobViewModel{}
 		job := models.Job{}
@@ -180,6 +184,7 @@ func (c *JobController)LoadEditJob() {
 				viewModel.JobNumber = jobDetail.Info.JobNumber
 				viewModel.NumberOfTask = jobDetail.Info.NumberOfTask
 				viewModel.JobId = jobId
+				viewModel.CompanyTeamName = storedSession.CompanyTeamName
 				c.Data["vm"] = viewModel
 				c.Layout = "layout/layout.html"
 				c.TplName = "template/add-job.html"
@@ -195,7 +200,6 @@ func (c *JobController)LoadEditJob() {
 func (c *JobController)CheckJobName(){
 	w := c.Ctx.ResponseWriter
 	jobName := c.GetString("jobName")
-	log.Println("Checking isjobNameUsed:",jobName)
 	isJobNameUsed := models.CheckJobNameIsUsed(c.AppEngineCtx, jobName)
 	switch isJobNameUsed{
 	case true:
@@ -208,7 +212,6 @@ func (c *JobController)CheckJobName(){
 func (c *JobController)CheckJobNumber(){
 	w := c.Ctx.ResponseWriter
 	jobNumber := c.GetString("jobNumber")
-	log.Println("Checking isjobNumberUsed:",jobNumber)
 	isJobNumberUsed := models.CheckJobNumberIsUsed(c.AppEngineCtx, jobNumber)
 	switch isJobNumberUsed{
 	case true:
