@@ -20,6 +20,7 @@ func (c *CustomerController) AddCustomer() {
 	customer := models.Customers{}
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
+	storedSession := ReadSession(w, r)
 	if r.Method == "POST" {
 		customer.Info.CustomerName = c.GetString("customername")
 		customer.Info.ContactPerson = c.GetString("contactperson")
@@ -28,6 +29,7 @@ func (c *CustomerController) AddCustomer() {
 		customer.Info.Email = c.GetString("email")
 		customer.Info.State = c.GetString("state")
 		customer.Info.ZipCode = c.GetString("zipcode")
+		customer.Info.CompanyTeamName = storedSession.CompanyTeamName
 		customer.Settings.DateOfCreation =(time.Now().UnixNano() / 1000000)
 		customer.Settings.Status = "inactive"
 		dbStatus := customer.AddCustomersToDb(c.AppEngineCtx)

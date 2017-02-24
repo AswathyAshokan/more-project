@@ -12,10 +12,11 @@ type Invitation struct {
 }
 
 type inviteUser struct {
-	FirstName 	string
-	LastName 	string
-	EmailId 	string
-	UserType 	string
+	FirstName 		string
+	LastName 		string
+	EmailId 		string
+	UserType 		string
+	CompanyTeamName		string
 }
 
 type InviteSettings struct {

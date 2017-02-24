@@ -16,13 +16,14 @@ type GroupMembers struct {
 }
 
 type GroupInfo struct {
-	GroupName       string
-	Members	 	map[string]Group
+	GroupName       	string
+	CompanyTeamName		string
+	Members	 		map[string]Group
 }
 
 type GroupSettings struct {
-	DateOfCreation  int64
-	Status          string
+	DateOfCreation  	int64
+	Status         	 	string
 }
 
 // Insert new groups to database

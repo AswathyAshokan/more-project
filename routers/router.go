@@ -27,6 +27,7 @@ func init() {
 	beegae.Router("/customer/:customerid/edit", &controllers.CustomerController{}, "*:EditCustomer")
 	beegae.Router("/iscustomernameused/:customername/:type/:oldName", &controllers.CustomerController{}, "*:CustomerNameCheck")
 
+
 	beegae.Router("/group/add", &controllers.GroupController{}, "*:AddGroup")
 	beegae.Router("/group", &controllers.GroupController{}, "*:GroupDetails")
 	beegae.Router("/group/:groupId/delete", &controllers.GroupController{}, "*:DeleteGroup")
@@ -38,6 +39,14 @@ func init() {
 	beegae.Router("/invite/:inviteuserid/edit", &controllers.InviteUserController{}, "*:EditInvitation")
 
 	beegae.Router("/plan", &controllers.PlanController{}, "*:PlanDetails")
+	beegae.Router("/plan/check", &controllers.PlanController{}, "*:PlanCheck")
+
+
+	beegae.Router("/customer-management", &controllers.CustomerManagementController{}, "*:CustomerManagement")
+
+
+
+
 
 
 

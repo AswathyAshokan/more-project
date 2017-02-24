@@ -30,6 +30,7 @@ func (c *InviteUserController) AddInvitation() {
 		inviteUser.Info.UserType = c.GetString("usertype")
 		inviteUser.Settings.DateOfCreation =(time.Now().UnixNano() / 1000000)
 		inviteUser.Settings.Status = "inactive"
+		inviteUser.Info.CompanyTeamName = storedSession.CompanyTeamName
 		dbStatus := inviteUser.AddInviteToDb(c.AppEngineCtx)
 		switch dbStatus {
 		case true:

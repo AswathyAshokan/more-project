@@ -19,6 +19,7 @@ type GroupController struct {
 func (c *GroupController) AddGroup() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
+	storedSession := ReadSession(w, r)
 	if r.Method == "POST" {
 		group := models.Group{}
 		members := models.GroupMembers{}
@@ -27,6 +28,7 @@ func (c *GroupController) AddGroup() {
 		group.Settings.DateOfCreation =(time.Now().UnixNano() / 1000000)
 		group.Settings.Status = "inactive"
 		tempGroupMembers := c.GetStrings("selectedUserNames")
+		group.Info.CompanyTeamName = storedSession.CompanyTeamName
 		tempMembersMap := make(map[string]models.GroupMembers)
 		for i := 0; i < len(tempGroupId); i++ {
 			members.MemberName = tempGroupMembers[i]

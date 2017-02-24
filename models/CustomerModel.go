@@ -14,13 +14,14 @@ type Customers struct {
 }
 
 type CustomerData struct {
-	CustomerName 	 string
-	ContactPerson	 string
-	Address 	 string
-	Phone		 string
-	Email 		 string
-	State		 string
-	ZipCode		 string
+	CustomerName		string
+	ContactPerson		string
+	Address			string
+	Phone			string
+	Email			string
+	State			string
+	ZipCode			string
+	CompanyTeamName		string
 
 }
 
