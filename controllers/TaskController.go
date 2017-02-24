@@ -102,15 +102,12 @@ func (c *TaskController)AddNewTask() {
 		case true:
 
 			dataValue := reflect.ValueOf(allJobs)
-			log.Println(dataValue)
 			for _, key := range dataValue.MapKeys() {
 				keySlice = append(keySlice, key.String())
 			}
 			for _, k := range dataValue.MapKeys() {
 				viewModel.JobNameArray   = append(viewModel.JobNameArray, allJobs[k.String()].Info.JobName)
-				log.Println(viewModel.JobNameArray)
 				viewModel.JobCustomerNameArray = append(viewModel.JobCustomerNameArray, allJobs[k.String()].Customer.CustomerName)
-				log.Println(viewModel.JobCustomerNameArray)
 			}
 		case false:
 			log.Println(helpers.ServerConnectionError)
@@ -121,12 +118,9 @@ func (c *TaskController)AddNewTask() {
 		switch dbStatus {
 		case true:
 			dataValue := reflect.ValueOf(allUsers)
-			log.Println(dataValue)
 			for _, key := range dataValue.MapKeys() {
 				keySliceForGroupAndUser = append(keySliceForGroupAndUser, key.String())
-			}
-			for _, k := range dataValue.MapKeys() {
-				viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,  allUsers[k.String()].Info.FullName+" (User)")
+				viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,  allUsers[key.String()].Info.FullName+" (User)")
 			}
 			allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx)
 			switch dbStatus {
@@ -134,13 +128,9 @@ func (c *TaskController)AddNewTask() {
 				dataValue := reflect.ValueOf(allGroups)
 				for _, key := range dataValue.MapKeys() {
 					keySliceForGroupAndUser = append(keySliceForGroupAndUser, key.String())
-				}
-				dataValue = reflect.ValueOf(allGroups)
-				for _, k := range dataValue.MapKeys() {
-					viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[k.String()].Info.GroupName+" (Group)")
+					viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[key.String()].Info.GroupName+" (Group)")
 				}
 				viewModel.UserAndGroupKey=keySliceForGroupAndUser
-				log.Println("user and group key",keySliceForGroupAndUser)
 			case false:
 				log.Println(helpers.ServerConnectionError)
 			}

@@ -53,15 +53,16 @@ $().ready(function() {
             loginType: "required",
         },
         submitHandler: function() {
-            if(loginTypeRadio == "")
-                {
-                    alert("please select a login type");
-                }
+            
             var taskId=vm.TaskId;
            var jobnew = $("#jobName option:selected").val()
            console.log("job id",jobnew);
            var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId;
-
+        //if job name is not selected
+//            if (!$("#jobName option:selected").length) {
+//                var job
+//                var formData = $("#taskDoneForm").serialize() + "&jobName=" + loginTypeRadio 
+//            }
            var selectedContactNames = [];
 
            //get the user's name corresponding to  keys selected from dropdownlist
