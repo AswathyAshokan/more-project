@@ -47,6 +47,7 @@ func (c *NfcController) NFCDetails(){
 
 	log.Println("KeySlice", keySlice)
 	viewModel.Keys	= keySlice
+	viewModel.CompanyTeamName = storedSession.CompanyTeamName
 
 
 	c.Data["vm"] = viewModel
@@ -57,9 +58,11 @@ func (c *NfcController) NFCDetails(){
 //Add new NFC Tag
 func (c *NfcController)AddNFC(){
 	r := c.Ctx.Request
+	sessionValues := SessionValues{}
 	if r.Method=="POST" {
 		w := c.Ctx.ResponseWriter
 		nfc := models.NFC{}
+		nfc.Info.CompanyTeamName = sessionValues.CompanyTeamName
 		nfc.Info.CustomerName = c.GetString("customerName")
 		nfc.Info.Site = c.GetString("site")
 		nfc.Info.Location = c.GetString("location")

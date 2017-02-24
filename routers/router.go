@@ -13,7 +13,7 @@ func init() {
 	beegae.Router("/", &controllers.LoginController{}, "*:Login")
 	beegae.Router("/register", &controllers.RegisterController{}, "*:Register")
 	beegae.Router("/isEmailUsed/:emailId",&controllers.RegisterController{},"*:CheckEmail")
-	beegae.Router("/nfc", &controllers.NfcController{},"*:NFCDetails")
+	beegae.Router("/:companyTeamName/nfc", &controllers.NfcController{},"*:NFCDetails")
 	beegae.Router("/nfc/add",&controllers.NfcController{},"*:AddNFC")
 	//beegae.Router("/datatable",&controllers.NfcController{},"*:Datatable")
 	beegae.Router("/nfc/:nfcId/delete",&controllers.NfcController{},"*:DeleteNFC")
@@ -34,7 +34,7 @@ func init() {
 	beegae.Router("/group/:groupId/edit", &controllers.GroupController{}, "*:EditGroup")
 
 	beegae.Router("/invite/add", &controllers.InviteUserController{}, "*:AddInvitation")
-	beegae.Router("/invite", &controllers.InviteUserController{}, "*:InvitationDetails")
+	beegae.Router("/:companyTeamName/invite", &controllers.InviteUserController{}, "*:InvitationDetails")
 	beegae.Router("/invite/:inviteuserid/delete", &controllers.InviteUserController{}, "*:DeleteInvitation")
 	beegae.Router("/invite/:inviteuserid/edit", &controllers.InviteUserController{}, "*:EditInvitation")
 

@@ -6,6 +6,7 @@ import (
 	"app/passporte/models"
 	"log"
 	"net/http"
+	"encoding/json"
 )
 
 type LoginController struct {
@@ -33,7 +34,9 @@ func (c *LoginController) Login() {
 			sessionValues.CompanyTeamName = companyDetails.Info.CompanyTeamName
 			sessionValues.CompanyPlan = companyDetails.Plan
 			SetSession(w, sessionValues)
-			w.Write([]byte("true"))
+			slices := []interface{}{"true", sessionValues.CompanyTeamName}
+			sliceToClient, _ := json.Marshal(slices)
+			w.Write(sliceToClient)
 		case false:
 			w.Write([]byte("false"))
 

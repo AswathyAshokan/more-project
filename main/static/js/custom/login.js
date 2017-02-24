@@ -13,14 +13,16 @@ $(function(){
          //alert("hi");
         $.ajax({
             type    :   'POST',
+            dataType: 'json',
             url     :   '/',
             data    : {
                 'email'     :   $("#email").val(),
                 'password'  :   $("#password").val()
             },
             success :   function(data){
-                if(data=="true"){
-                    window.location = '/invite';
+            
+                if(data[0]=="true"){
+                    window.location = '/'+ data[1] +'/invite';
                 }
                 else{
                     $("#login_err").css({"color": "red", "font-size": "15px"});

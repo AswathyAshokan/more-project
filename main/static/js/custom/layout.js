@@ -1,7 +1,9 @@
 $(document).ready(function() {
-
-    var pageId = "#" + document.URL.substr(url.lastIndexOf('/') + 1);
-
-    $(pageId).addClass('active').siblings().removeClass('active');
+    
+    sideBarRedirect = function(event, link){
+        event.preventDefault();
+        var newLink = '/' + vm.CompanyTeamName + link;
+        window.location = newLink;
+    }
 
 } );

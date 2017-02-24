@@ -13,7 +13,7 @@ type NFCInfo struct{
 	Site      	string
 	Location 	string
 	NFCNumber	string
-	CompanyName	string
+	CompanyTeamName	string
 }
 
 type NFCSettings struct{
