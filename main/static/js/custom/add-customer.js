@@ -2,6 +2,8 @@
 //Below line is for adding active class to layout side menu..
 document.getElementById("crm").className += " active";
 
+var companyTeamName = vm.CompanyTeamName;
+
 $().ready(function() {
    
     /*$("#addcustomerForm").submit(function() {
@@ -68,14 +70,14 @@ $().ready(function() {
                 var formData = $("#addcustomerForm").serialize();
                 var customerId = vm.CustomerId;
                 $.ajax({
-                    url:'/customer/'+ customerId + '/edit',
+                    url:'/' + companyTeamName +'/customer/'+ customerId + '/edit',
                     type:'post',
                     datatype: 'json',
                     data: formData,
                     //call back or get response here
                     success : function(response){
                         if(response == "true"){
-                            window.location='/customer';
+                            window.location='/' + companyTeamName +'/customer';
                         }else {
                             $("#saveButton").attr('disabled', false);
                         }
@@ -86,14 +88,14 @@ $().ready(function() {
             } else {
                 var formData = $("#addcustomerForm").serialize();
                 $.ajax({
-                    url:'/customer/add',
+                    url:'/' + companyTeamName +'/customer/add',
                     type:'post',
                     datatype: 'json',
                     data: formData,
                     //call back or get response here
                     success : function(response){
                         if(response == "true"){
-                            window.location='/customer';
+                            window.location='/' + companyTeamName +'/customer';
                         }else {
                             $("#saveButton").attr('disabled', false);
                         }
@@ -107,6 +109,6 @@ $().ready(function() {
     });
     
     $("#cancel").click(function() {
-            window.location = '/customer';
+            window.location = '/' + companyTeamName +'/customer';
     });
 });

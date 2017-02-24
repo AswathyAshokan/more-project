@@ -3,6 +3,8 @@
 //Below line is for adding active class to layout side menu..
 document.getElementById("user").className += " active";
 
+var companyTeamName = vm.CompanyTeamName;
+
 /*Function for creating Data Array for data table*/
 $(function(){ 
     var mainArray = [];   
@@ -34,7 +36,7 @@ $(function(){
 /*Add a plus symbol in webpage for add new groups*/
         var item = $('<span>+</span>');
         item.click(function() {
-            window.location = "/invite/add";
+            window.location = "/" + companyTeamName +"/invite/add";
         });
         $('.table-wrapper .dataTables_filter').append(item);
     }
@@ -52,7 +54,7 @@ $(function(){
     $('#inviteuser-table tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[5];
-        window.location = '/invite/'+ key + '/edit';
+        window.location = '/' + companyTeamName +'/invite/'+ key + '/edit';
         return false;
     });
     
@@ -65,7 +67,7 @@ $(function(){
         $("#confirm").click(function(){
             $.ajax({
                 type: "POST",
-                url: '/invite/'+ key + '/delete',
+                url: '/' + companyTeamName +'/invite/'+ key + '/delete',
                 data: '',
                 success: function(data){
                     if(data=="true"){

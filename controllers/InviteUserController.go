@@ -22,7 +22,7 @@ func (c *InviteUserController) AddInvitation() {
 	w := c.Ctx.ResponseWriter
 	storedSession := ReadSession(w, r)
 	log.Println("The userDetails stored in session:",storedSession)
-
+	addViewModel := viewmodels.AddInviteUserViewModel{}
 	if r.Method == "POST" {
 		inviteUser.Info.FirstName = c.GetString("firstname")
 		inviteUser.Info.LastName = c.GetString("lastname")
@@ -39,6 +39,8 @@ func (c *InviteUserController) AddInvitation() {
 			w.Write([]byte("false"))
 		}
 	} else {
+		addViewModel.CompanyTeamName = inviteUser.Info.CompanyTeamName
+		c.Data["vm"] = addViewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-invite-user.html"
 	}
@@ -70,6 +72,7 @@ func (c *InviteUserController) InvitationDetails() {
 			tempValueSlice = tempValueSlice[:0]
 		}
 		inviteUserViewModel.Keys = keySlice
+		inviteUserViewModel.CompanyTeamName = storedSession.CompanyTeamName
 		c.Data["vm"] = inviteUserViewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/invite-user-details.html"
@@ -80,7 +83,9 @@ func (c *InviteUserController) InvitationDetails() {
 
 //delete invite user details using invite user id
 func (c *InviteUserController) DeleteInvitation() {
+	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
+	_ = ReadSession(w, r)
 	InviteUserId :=c.Ctx.Input.Param(":inviteuserid")
 	InviteUser := models.Invitation{}
 	result := InviteUser.DeleteInviteUserById(c.AppEngineCtx, InviteUserId)
@@ -125,6 +130,7 @@ func (c *InviteUserController) EditInvitation() {
 			invitationViewModel.Status = editResult.Settings.Status
 			invitationViewModel.PageType = helpers.SelectPageForEdit
 			invitationViewModel.InviteId = InviteUserId
+			invitationViewModel.CompanyTeamName= storedSession.CompanyTeamName
 			c.Data["vm"] = invitationViewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-invite-user.html"

@@ -3,6 +3,8 @@
 //Below line is for adding active class to layout side menu..
 document.getElementById("group").className += " active";
 
+var companyTeamName = vm.CompanyTeamName;
+
 $().ready(function() {
     if(vm.PageType == "edit"){ 
         var selectArray = vm.GroupMembersToEdit;
@@ -41,14 +43,14 @@ $().ready(function() {
             if (vm.PageType == "edit"){
                 var groupId = vm.GroupId;
                 $.ajax({
-                    url:'/group/'+ groupId  +'/edit',
+                    url:'/' + companyTeamName +'/group/'+ groupId  +'/edit',
                     type:'post',
                     datatype: 'json',
                     data: formData,
                     //call back or get response here
                     success : function(response){
                         if(response == "true"){
-                            window.location='/group';
+                            window.location='/' + companyTeamName +'/group';
                         }else {
                              $("#saveButton").attr('disabled', false);
                         }
@@ -66,7 +68,7 @@ $().ready(function() {
                     //call back or get response here
                     success : function(response){
                         if(response == "true"){
-                            window.location='/group';
+                            window.location='/' + companyTeamName +'/group';
                         }else {
                         }
                     },
@@ -79,7 +81,7 @@ $().ready(function() {
     });
     
     $("#cancel").click(function() {
-            window.location = '/group';
+            window.location = '/' + companyTeamName +'/group';
     });
 });
 

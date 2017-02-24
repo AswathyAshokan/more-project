@@ -21,28 +21,28 @@ func init() {
 	beegae.Router("/logout",&controllers.LoginController{},"*:Logout")
 
 	//Farsana
-	beegae.Router("/customer/add", &controllers.CustomerController{}, "*:AddCustomer")
-	beegae.Router("/customer", &controllers.CustomerController{}, "*:CustomerDetails")
-	beegae.Router("/customer/:customerid/delete", &controllers.CustomerController{}, "*:DeleteCustomer")
-	beegae.Router("/customer/:customerid/edit", &controllers.CustomerController{}, "*:EditCustomer")
+	beegae.Router("/:companyTeamName/customer/add", &controllers.CustomerController{}, "*:AddCustomer")
+	beegae.Router("/:companyTeamName/customer", &controllers.CustomerController{}, "*:CustomerDetails")
+	beegae.Router("/:companyTeamName/customer/:customerid/delete", &controllers.CustomerController{}, "*:DeleteCustomer")
+	beegae.Router("/:companyTeamName/customer/:customerid/edit", &controllers.CustomerController{}, "*:EditCustomer")
 	beegae.Router("/iscustomernameused/:customername/:type/:oldName", &controllers.CustomerController{}, "*:CustomerNameCheck")
 
 
-	beegae.Router("/group/add", &controllers.GroupController{}, "*:AddGroup")
+	beegae.Router("/:companyTeamName/group/add", &controllers.GroupController{}, "*:AddGroup")
 	beegae.Router("/:companyTeamName/group", &controllers.GroupController{}, "*:GroupDetails")
-	beegae.Router("/group/:groupId/delete", &controllers.GroupController{}, "*:DeleteGroup")
-	beegae.Router("/group/:groupId/edit", &controllers.GroupController{}, "*:EditGroup")
+	beegae.Router("/:companyTeamName/group/:groupId/delete", &controllers.GroupController{}, "*:DeleteGroup")
+	beegae.Router("/:companyTeamName/group/:groupId/edit", &controllers.GroupController{}, "*:EditGroup")
 
-	beegae.Router("/invite/add", &controllers.InviteUserController{}, "*:AddInvitation")
+	beegae.Router("/:companyTeamName/invite/add", &controllers.InviteUserController{}, "*:AddInvitation")
 	beegae.Router("/:companyTeamName/invite", &controllers.InviteUserController{}, "*:InvitationDetails")
-	beegae.Router("/invite/:inviteuserid/delete", &controllers.InviteUserController{}, "*:DeleteInvitation")
-	beegae.Router("/invite/:inviteuserid/edit", &controllers.InviteUserController{}, "*:EditInvitation")
+	beegae.Router("/:companyTeamName/invite/:inviteuserid/delete", &controllers.InviteUserController{}, "*:DeleteInvitation")
+	beegae.Router("/:companyTeamName/invite/:inviteuserid/edit", &controllers.InviteUserController{}, "*:EditInvitation")
 
-	beegae.Router("/plan", &controllers.PlanController{}, "*:PlanDetails")
-	beegae.Router("/plan/check", &controllers.PlanController{}, "*:PlanCheck")
+	beegae.Router("/:companyTeamName/plan", &controllers.PlanController{}, "*:PlanDetails")
+	beegae.Router("/:companyTeamName/plan/check", &controllers.PlanController{}, "*:PlanCheck")
 
 
-	beegae.Router("/customer-management", &controllers.CustomerManagementController{}, "*:CustomerManagement")
+	beegae.Router("/:companyTeamName/customer-management", &controllers.CustomerManagementController{}, "*:CustomerManagement")
 
 
 
@@ -70,7 +70,7 @@ func init() {
 
 
 	//View sections
-	beegae.Router("/customer/:customerId/job", &controllers.JobController{},"*:LoadJobDetail")
-	beegae.Router("/job/:jobId/task", &controllers.TaskController{},"*:LoadTaskDetail")
+	beegae.Router("/:companyTeamName/customer/:customerId/job", &controllers.JobController{},"*:LoadJobDetail")
+	beegae.Router("/:companyTeamName/job/:jobId/task", &controllers.TaskController{},"*:LoadTaskDetail")
 
 }

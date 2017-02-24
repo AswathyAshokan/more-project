@@ -3,6 +3,8 @@
 //Below line is for adding active class to layout side menu..
 document.getElementById("user").className += " active";
 
+var companyTeamName = vm.CompanyTeamName;
+
 $().ready(function() {
     
     if(vm.PageType == "edit"){        
@@ -33,14 +35,14 @@ $().ready(function() {
                 var formData = $("#adduserForm").serialize();
                 var InviteId = vm.InviteId;
                 $.ajax({
-                    url:'/invite/'+ InviteId +'/edit',
+                    url:'/' + companyTeamName +'/invite/'+ InviteId +'/edit',
                     type:'post',
                     datatype: 'json',
                     data: formData,
                     //call back or get response here
                     success : function(response){
                         if(response == "true"){
-                            window.location='/invite';
+                            window.location='/' + companyTeamName +'/invite';
                         }else {
                         }
                     },
@@ -48,16 +50,17 @@ $().ready(function() {
                     }
                 });
             } else {
+                console.log(vm)
                 var formData = $("#adduserForm").serialize();
                 $.ajax({
-                    url:'/invite/add',
+                    url:'/' + companyTeamName +'/invite/add',
                     type:'post',
                     datatype: 'json',
                     data: formData,
                     //call back or get response here
                     success : function(response){
                         if(response == "true"){
-                            window.location='/invite';
+                            window.location='/' + companyTeamName +'/invite';
                         }else {
                               $("#saveButton").attr('disabled', false);
                         }
@@ -71,7 +74,7 @@ $().ready(function() {
     });
     
     $("#cancel").click(function() {
-            window.location = '/invite';
+            window.location = '/' + companyTeamName +'/invite';
     });
 });
 

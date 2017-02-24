@@ -3,6 +3,8 @@
 
 document.getElementById("crm").className += " active";
 
+var companyTeamName = vm.CompanyTeamName;
+
 /*Function for creating Data Array for data table*/
 $(function(){ 
     var mainArray = []; 
@@ -34,7 +36,7 @@ $(function(){
 /*Add a plus symbol in webpage for add new groups*/
         var item = $('<span>+</span>');
         item.click(function() {
-            window.location = "/customer/add";
+            window.location ="/" + companyTeamName + "/customer/add";
         });
         
         $('.table-wrapper .dataTables_filter').append(item);
@@ -52,7 +54,7 @@ $(function(){
     $('#customer-table tbody').on( 'click', '#view', function () {
         var data = table.row( $(this).parents('tr') ).data();
         var cusomerId = data[7];
-        window.location = '/customer/'+ cusomerId + '/job';
+        window.location ='/' + companyTeamName + '/customer/'+ cusomerId + '/job';
         return false;
     });
 
@@ -60,7 +62,7 @@ $(function(){
     $('#customer-table tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[7];
-        window.location = '/customer/'+ key + '/edit';
+        window.location = '/' + companyTeamName +'/customer/'+ key + '/edit';
         return false;
     });
     
@@ -72,7 +74,7 @@ $(function(){
         $("#confirm").click(function(){
             $.ajax({
                 type: "POST",
-                url: '/customer/'+ key + '/delete',
+                url: '/' + companyTeamName +'/customer/'+ key + '/delete',
                 data: '',
                 success: function(data){
                     if(data=="true"){

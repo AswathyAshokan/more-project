@@ -12,6 +12,7 @@ type InviteUserViewModel struct {
 	InviteId        	string
 	Values           	[][]string
 	Keys             	[]string
+	CompanyTeamName		string
 }
 
 type EditInviteUserViewModel struct {
@@ -22,4 +23,9 @@ type EditInviteUserViewModel struct {
 	Status         		string
 	PageType        	string
 	InviteId        	string
+	CompanyTeamName		string
+
+}
+type AddInviteUserViewModel struct {
+	CompanyTeamName		string
 }

@@ -21,6 +21,7 @@ func (c *CustomerController) AddCustomer() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	storedSession := ReadSession(w, r)
+	addViewModel := viewmodels.AddCustomerViewModel{}
 	if r.Method == "POST" {
 		customer.Info.CustomerName = c.GetString("customername")
 		customer.Info.ContactPerson = c.GetString("contactperson")
@@ -41,6 +42,8 @@ func (c *CustomerController) AddCustomer() {
 		}
 
 	} else {
+		addViewModel.CompanyTeamName = storedSession.CompanyTeamName
+		c.Data["vm"] = addViewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-customer.html"
 	}
@@ -52,7 +55,7 @@ func (c *CustomerController) CustomerDetails() {
 	w := c.Ctx.ResponseWriter
 	storedSession := ReadSession(w, r)
 	log.Println("The userDetails stored in session:",storedSession)
-	CustomerViewModel := viewmodels.Customer{}
+	customerViewModel := viewmodels.Customer{}
 	allCustomer,dbStatus:= models.GetAllCustomerDetails(c.AppEngineCtx)
 	log.Println("view",allCustomer)
 	switch dbStatus {
@@ -71,11 +74,12 @@ func (c *CustomerController) CustomerDetails() {
 			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Email)
 			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Phone)
 			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.ContactPerson)
-			CustomerViewModel.Values=append(CustomerViewModel.Values,tempValueSlice)
+			customerViewModel.Values=append(customerViewModel.Values,tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
 		}
-		CustomerViewModel.Keys = keySlice
-		c.Data["vm"] = CustomerViewModel
+		customerViewModel.Keys = keySlice
+		customerViewModel.CompanyTeamName = storedSession.CompanyTeamName
+		c.Data["vm"] = customerViewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/customer-details.html"
 	case false:
@@ -85,7 +89,9 @@ func (c *CustomerController) CustomerDetails() {
 
 // delete each customer using customer id
 func (c *CustomerController) DeleteCustomer() {
+	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
+	_ = ReadSession(w, r)
 	customerKey :=c.Ctx.Input.Param(":customerid")
 	customer := models.Customers{}
 	dbStatus :=customer.DeleteCustomerById(c.AppEngineCtx, customerKey)
@@ -101,6 +107,7 @@ func (c *CustomerController) DeleteCustomer() {
 func (c *CustomerController) EditCustomer() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
+	storedSession := ReadSession(w, r)
 	customerDetails := models.CustomerData{}
 	customer := models.Customers{}
 	customerId := c.Ctx.Input.Param(":customerid")
@@ -137,6 +144,7 @@ func (c *CustomerController) EditCustomer() {
 			customerViewModel.Phone= editResult.Info.Phone
 			customerViewModel.PageType = helpers.SelectPageForEdit
 			customerViewModel.CustomerId = customerId
+			customerViewModel.CompanyTeamName = storedSession.CompanyTeamName
 			c.Data["vm"] = customerViewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-customer.html"

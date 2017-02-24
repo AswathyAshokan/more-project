@@ -54,11 +54,11 @@ func (c *GroupController) AddGroup() {
 				keySlice = append(keySlice, key.String())
 			}
 			GroupMemberName,dbStatus:= groupUser.TakeGroupMemberName(c.AppEngineCtx, keySlice)
-			log.Println("haii",GroupMemberName)
 			switch dbStatus {
 			case true:
 				groupViewModel := viewmodels.AddGroupViewModel{}
 				groupViewModel.GroupMembers = GroupMemberName
+				groupViewModel.CompanyTeamName = storedSession.CompanyTeamName
 				groupViewModel.GroupKey = keySlice
 				groupViewModel.PageType = helpers.SelectPageForAdd
 				c.Data["vm"] = groupViewModel
@@ -128,6 +128,7 @@ func (c *GroupController) GroupDetails() {
 			tempValueSlice = tempValueSlice[:0]
 		}
 		groupViewModel.Keys = keySlice
+		groupViewModel.CompanyTeamName = storedSession.CompanyTeamName
 		c.Data["vm"] = groupViewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/group-details.html"
@@ -138,7 +139,9 @@ func (c *GroupController) GroupDetails() {
 
 // To delete each group from database
 func (c *GroupController) DeleteGroup() {
+	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
+	_ = ReadSession(w, r)
 	groupId :=c.Ctx.Input.Param(":groupId")
 	group := models.Group{}
 	dbStatus :=group.DeleteGroup(c.AppEngineCtx, groupId)
@@ -155,6 +158,7 @@ func (c *GroupController) DeleteGroup() {
 func (c *GroupController) EditGroup() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
+	storedSession := ReadSession(w, r)
 	groupId := c.Ctx.Input.Param(":groupId")
 	group := models.Group{}
 
@@ -212,6 +216,7 @@ func (c *GroupController) EditGroup() {
 					viewModel.GroupMembersToEdit = append(viewModel.GroupMembersToEdit, selectedMemberKey.String())
 				}
 				viewModel.PageType = helpers.SelectPageForEdit
+				viewModel.CompanyTeamName = storedSession.CompanyTeamName
 				viewModel.GroupId = groupId
 				c.Data["vm"] = viewModel
 				c.Layout = "layout/layout.html"
