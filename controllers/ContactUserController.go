@@ -23,7 +23,7 @@ func (c *ContactUserController)AddNewContact() {
 	w :=c.Ctx.ResponseWriter
 	if r.Method == "POST" {
 		user:=models.ContactUser{}
-
+		storedSession := ReadSession(w, r)
 		user.Info.Name= c.GetString("name")
 		user.Info.State = c.GetString("state")
 		user.Info.ZipCode = c.GetString("zipcode")
@@ -33,8 +33,7 @@ func (c *ContactUserController)AddNewContact() {
 		user.Settings.DateOfCreation =time.Now().UnixNano() / int64(time.Millisecond)
 		fmt.Println(reflect.TypeOf(user.Settings.DateOfCreation))
 		user.Settings.Status = "Completed"
-		storedSession := ReadSession(w, r)
-		log.Println("company name",storedSession.CompanyName);
+		user.Info.CompanyTeamName = storedSession.CompanyName
 		dbStatus := user.AddContactToDB(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
@@ -70,7 +69,6 @@ func (c *ContactUserController)LoadContactDetails() {
 
 
 		}
-
 		for _, k := range keySlice {
 			var tempValueSlice []string
 			tempValueSlice = append(tempValueSlice, contact[k].Info.Name)
@@ -115,6 +113,7 @@ func (c *ContactUserController)LoadEditContact() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	if r.Method == "POST" {
+		storedSession := ReadSession(w, r)
 		contactId := c.Ctx.Input.Param(":contactId")
 		user:=models.ContactUser{}
 		user.Info.Name= c.GetString("name")
@@ -126,6 +125,7 @@ func (c *ContactUserController)LoadEditContact() {
 		user.Settings.DateOfCreation =time.Now().UnixNano() / int64(time.Millisecond)
 		fmt.Println(reflect.TypeOf(user.Settings.DateOfCreation))
 		user.Settings.Status = "Completed"
+		user.Info.CompanyTeamName = storedSession.CompanyTeamName
 		dbStatus := user.UpdateContactToDB(c.AppEngineCtx,contactId)
 		switch dbStatus {
 		case true:

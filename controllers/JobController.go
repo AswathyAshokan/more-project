@@ -23,6 +23,7 @@ func (c *JobController)AddNewJob() {
 	w :=c.Ctx.ResponseWriter
 	if r.Method == "POST" {
 		job:=models.Job{}
+		storedSession := ReadSession(w, r)
 		job.Customer.CustomerId = c.GetString("customerId")
 		job.Customer.CustomerName = c.GetString("customerName")
 		job.Info.JobName = c.GetString("jobName")
@@ -30,6 +31,7 @@ func (c *JobController)AddNewJob() {
 		job.Info.NumberOfTask = c.GetString("numberOfTask")
 		job.Settings.DateOfCreation = time.Now().UnixNano() / int64(time.Millisecond)
 		job.Settings.Status = helpers.StatusActive
+		job.Info.CompanyTeamName = storedSession.CompanyTeamName
 		dbStatus :=job.AddJobToDB(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
@@ -132,6 +134,7 @@ func (c *JobController)LoadEditJob() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	if r.Method == "POST" {
+		storedSession := ReadSession(w, r)
 		jobId := c.Ctx.Input.Param(":jobId")
 		job := models.Job{}
 		job.Customer.CustomerId = c.GetString("customerId")
@@ -141,6 +144,7 @@ func (c *JobController)LoadEditJob() {
 		job.Info.NumberOfTask = c.GetString("numberOfTask")
 		job.Settings.DateOfCreation = time.Now().UnixNano() / int64(time.Millisecond)
 		job.Settings.Status = "Open"
+		job.Info.CompanyTeamName = storedSession.CompanyTeamName
 		dbStatus := job.UpdateJobToDB(c.AppEngineCtx,jobId)
 		switch dbStatus {
 

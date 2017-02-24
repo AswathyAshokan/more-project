@@ -22,9 +22,9 @@ type TaskController struct {
 func (c *TaskController)AddNewTask() {
 	r := c.Ctx.Request
 	w :=c.Ctx.ResponseWriter
-
 	if r.Method == "POST" {
 		task:=models.Task{}
+		storedSession := ReadSession(w, r)
 		task.Info.TaskName= c.GetString("taskName")
 		task.Job.JobName= c.GetString("jobName")
 		task.Job.JobId = c.GetString("jobId")
@@ -44,10 +44,9 @@ func (c *TaskController)AddNewTask() {
 		task.Info.FitToWork = c.GetString("fitToWork")
 		task.Settings.DateOfCreation =time.Now().UnixNano() / int64(time.Millisecond)
 		task.Settings.Status = helpers.StatusPending
-
+		task.Info.CompanyTeamName = storedSession.CompanyTeamName
 		userMap := make(map[string]models.TaskUser)
 		groupMap := make(map[string]models.TaskGroup)
-
 		groupName := models.TaskGroup{}
 		userName :=models.TaskUser{}
 
@@ -69,7 +68,6 @@ func (c *TaskController)AddNewTask() {
 
 		task.UsersAndGroups.User = userMap
 		task.UsersAndGroups.Group = groupMap
-
 		contacts := models.TaskContact{}
 
 		for i := 0; i < len(tempContactId); i++ {
@@ -95,7 +93,7 @@ func (c *TaskController)AddNewTask() {
 		dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
-			log.Println("1")
+
 			dataValue := reflect.ValueOf(allJobs)
 			log.Println(dataValue)
 			for _, key := range dataValue.MapKeys() {
@@ -249,6 +247,7 @@ func (c *TaskController)LoadEditTask() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	if r.Method == "POST" {
+		storedSession := ReadSession(w, r)
 		taskId := c.Ctx.Input.Param(":taskId")
 		task := models.Task{}
 		task.Info.TaskName = c.GetString("taskName")
@@ -262,12 +261,32 @@ func (c *TaskController)LoadEditTask() {
 		task.Info.TaskDescription = c.GetString("taskDescription")
 		task.Info.UserNumber = c.GetString("users")
 		task.Info.Log = c.GetString("log")
-		UsersOrGroups := c.GetStrings("userOrGroup")
-		log.Println(UsersOrGroups)
-		//tempContactId := c.GetStrings("contacts")
-		//for i := 0; i < len(tempContactId); i++ {
-		//	task.ContactId = append(task.ContactId, tempContactId[i])
-		//}
+		UserOrGroupIdArray := c.GetStrings("userOrGroup")
+		UserOrGroupNameArray := c.GetStrings("userAndGroupName")
+		task.Info.CompanyTeamName = storedSession.CompanyTeamName
+		userMap := make(map[string]models.TaskUser)
+		groupMap := make(map[string]models.TaskGroup)
+		groupName := models.TaskGroup{}
+		userName :=models.TaskUser{}
+
+		for i := 0; i < len(UserOrGroupIdArray); i++ {
+			tempName :=UserOrGroupNameArray[i]
+			tempId :=UserOrGroupIdArray[i]
+			userOrGroupRegExp := regexp.MustCompile(`\((.*?)\)`)
+			userOrGroupSelection := userOrGroupRegExp.FindStringSubmatch(tempName)
+			if((userOrGroupSelection[1]) == "User") {
+				tempName = tempName[:len(tempName)-7]
+				userName.FullName = tempName
+				userMap[tempId] = userName
+			} else {
+				tempName = tempName[:len(tempName)-8]
+				groupName.GroupName = tempName
+				groupMap[tempId] = groupName
+			}
+		}
+
+		task.UsersAndGroups.User = userMap
+		task.UsersAndGroups.Group = groupMap
 		contacts := models.TaskContact{}
 		tempContactName := c.GetStrings("contacts")
 		tempContactId := c.GetStrings("contactId")
