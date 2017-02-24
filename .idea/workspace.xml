@@ -6,20 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/BaseController.go" afterPath="$PROJECT_DIR$/controllers/BaseController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/LoginController.go" afterPath="$PROJECT_DIR$/controllers/LoginController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/NfcController.go" afterPath="$PROJECT_DIR$/controllers/NfcController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/main.go" afterPath="$PROJECT_DIR$/main/main.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/layout.js" afterPath="$PROJECT_DIR$/main/static/js/custom/layout.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/login.js" afterPath="$PROJECT_DIR$/main/static/js/custom/login.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/layout/layout.html" afterPath="$PROJECT_DIR$/main/views/layout/layout.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/invite-user-details.html" afterPath="$PROJECT_DIR$/main/views/template/invite-user-details.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/nfc-details.html" afterPath="$PROJECT_DIR$/main/views/template/nfc-details.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/register.html" afterPath="$PROJECT_DIR$/main/views/template/register.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/NfcModel.go" afterPath="$PROJECT_DIR$/models/NfcModel.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routers/router.go" afterPath="$PROJECT_DIR$/routers/router.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viewmodels/NfcViewModel.go" afterPath="$PROJECT_DIR$/viewmodels/NfcViewModel.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -64,18 +52,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="layout.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="layout.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main/views/layout/layout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="864">
-              <caret line="49" column="47" lean-forward="false" selection-start-line="49" selection-start-column="47" selection-end-line="49" selection-end-column="47" />
-              <folding>
-                <marker date="1487929916906" expanded="true" signature="3397:3729" ph="..." />
-                <marker date="1487929916906" expanded="true" signature="3432:3717" ph="..." />
-                <marker date="1487929916906" expanded="true" signature="3443:3705" ph="..." />
-                <marker date="1487929916906" expanded="true" signature="3475:3571" ph="..." />
-                <marker date="1487929916906" expanded="true" signature="3582:3693" ph="..." />
-              </folding>
+            <state relative-caret-position="126">
+              <caret line="12" column="8" lean-forward="false" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="62" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -90,11 +72,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="router.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="router.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routers/router.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="15" column="51" lean-forward="true" selection-start-line="15" selection-start-column="51" selection-end-line="15" selection-end-column="51" />
+            <state relative-caret-position="324">
+              <caret line="30" column="60" lean-forward="true" selection-start-line="30" selection-start-column="60" selection-end-line="30" selection-end-column="60" />
               <folding />
             </state>
           </provider>
@@ -227,11 +209,11 @@
         <option value="$PROJECT_DIR$/main/main.go" />
         <option value="$PROJECT_DIR$/main/views/template/register.html" />
         <option value="$PROJECT_DIR$/models/NfcModel.go" />
-        <option value="$PROJECT_DIR$/routers/router.go" />
         <option value="$PROJECT_DIR$/main/views/template/nfc-details.html" />
         <option value="$PROJECT_DIR$/controllers/LoginController.go" />
         <option value="$PROJECT_DIR$/viewmodels/NfcViewModel.go" />
         <option value="$PROJECT_DIR$/controllers/NfcController.go" />
+        <option value="$PROJECT_DIR$/routers/router.go" />
         <option value="$PROJECT_DIR$/main/views/layout/layout.html" />
       </list>
     </option>
@@ -1117,7 +1099,14 @@
       <option name="project" value="LOCAL" />
       <updated>1487918889609</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="24.02.2017 - 03:26 PM - Session Fixed">
+      <created>1487930201762</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1487930201762</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1131,7 +1120,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1301" height="744" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1552,24 +1541,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/views/layout/layout.html">
+    <entry file="file://$PROJECT_DIR$/routers/router.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="864">
-          <caret line="49" column="47" lean-forward="false" selection-start-line="49" selection-start-column="47" selection-end-line="49" selection-end-column="47" />
-          <folding>
-            <marker date="1487929916906" expanded="true" signature="3397:3729" ph="..." />
-            <marker date="1487929916906" expanded="true" signature="3432:3717" ph="..." />
-            <marker date="1487929916906" expanded="true" signature="3443:3705" ph="..." />
-            <marker date="1487929916906" expanded="true" signature="3475:3571" ph="..." />
-            <marker date="1487929916906" expanded="true" signature="3582:3693" ph="..." />
-          </folding>
+        <state relative-caret-position="324">
+          <caret line="30" column="60" lean-forward="true" selection-start-line="30" selection-start-column="60" selection-end-line="30" selection-end-column="60" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routers/router.go">
+    <entry file="file://$PROJECT_DIR$/main/views/layout/layout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="15" column="51" lean-forward="true" selection-start-line="15" selection-start-column="51" selection-end-line="15" selection-end-column="51" />
+        <state relative-caret-position="126">
+          <caret line="12" column="8" lean-forward="false" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="62" />
           <folding />
         </state>
       </provider>

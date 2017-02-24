@@ -29,7 +29,7 @@ func init() {
 
 
 	beegae.Router("/group/add", &controllers.GroupController{}, "*:AddGroup")
-	beegae.Router("/group", &controllers.GroupController{}, "*:GroupDetails")
+	beegae.Router("/:companyTeamName/group", &controllers.GroupController{}, "*:GroupDetails")
 	beegae.Router("/group/:groupId/delete", &controllers.GroupController{}, "*:DeleteGroup")
 	beegae.Router("/group/:groupId/edit", &controllers.GroupController{}, "*:EditGroup")
 

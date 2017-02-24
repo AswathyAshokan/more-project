@@ -10,7 +10,7 @@ Date:01/02/2017-->
     <script src="/static/js/jquery-3.1.0.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
     <script src="/static/js/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/static/js/custom/layout.js"></script>
+    <!--<script src="/static/js/custom/layout.js"></script>-->
     </head>
 <body>
 	<section class="header">
@@ -46,13 +46,13 @@ Date:01/02/2017-->
                 <nav class="main-menu admin-layout">
                     <ul>
                         <li><a href="#"><i class="sprites-dashboard"></i>Dashboard</a></li>
-                        <li id="user"><a href="" onclick="sideBarRedirect(event, '/invite')"><i class="sprites-user"></i>User</a></li>
-                        <li id="group"><a href="" onclick="sideBarRedirect(event, '/group')"><i class="sprites-group"></i>Group</a></li>
-                        <li id ="crm"><a href="" onclick="sideBarRedirect(event, '/customer')"><i class="sprites-crm"></i>CRM</a></li>
-                        <li id="contact"><a href="" onclick="sideBarRedirect(event, '/contact')"><i class="sprites-contact"></i>Contact</a></li>
-                        <li id="nfc"><a href="" onclick="sideBarRedirect(event, '/nfc')"><i class="sprites-nfc"></i>NFC Tag</a></li>
-                        <li id ="job"><a href="" onclick="sideBarRedirect(event, '/job')"><i class="sprites-job"></i>Job</a></li>
-                        <li id="task"><a href="" onclick="sideBarRedirect(event, '/task')"><i class="sprites-task"></i>Task</a></li>
+                        <li id="user"><a href='/{{.vm.CompanyTeamName}}/invite'><i class="sprites-user"></i>User</a></li>
+                        <li id="group"><a href='/{{.vm.CompanyTeamName}}/group'><i class="sprites-group"></i>Group</a></li>
+                        <li id ="crm"><a href='/{{.vm.CompanyTeamName}}/customer'><i class="sprites-crm"></i>CRM</a></li>
+                        <li id="contact"><a href='/{{.vm.CompanyTeamName}}/contact'><i class="sprites-contact"></i>Contact</a></li>
+                        <li id="nfc"><a href='/{{.vm.CompanyTeamName}}/nfc'><i class="sprites-nfc"></i>NFC Tag</a></li>
+                        <li id ="job"><a href='/{{.vm.CompanyTeamName}}/job'><i class="sprites-job"></i>Job</a></li>
+                        <li id="task"><a href='/{{.vm.CompanyTeamName}}/task'><i class="sprites-task"></i>Task</a></li>
                         <li><a href="#"><i class="sprites-payroll"></i>Payroll</a></li>
                         <li><a href="#"><i class="sprites-log"></i>Log</a></li>
                         <!--<li><a href="#"><i class="sprites-dures"></i>Duress</a></li>-->
