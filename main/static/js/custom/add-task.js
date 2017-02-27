@@ -104,7 +104,7 @@ $().ready(function() {
                         if (response == "true" ) {
                             window.location ='/'  +  companyTeamName  + '/task';
                         } else {
-                            $("#saveButton").attr('disabled', false);
+                            $("#saveButton").attr('disabled', true);
                         }
                     },
                     error: function (request,status, error) {
@@ -121,7 +121,7 @@ $().ready(function() {
                         if (response == "true" ) {
                             window.location = '/' + companyTeamName + '/task';
                         } else {
-                             $("#saveButton").attr('disabled', false);
+                             $("#saveButton").attr('disabled', true);
                         }
                     },
                     error: function (request,status, error) {
