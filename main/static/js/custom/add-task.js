@@ -8,9 +8,10 @@ var companyTeamName = vm.CompanyTeamName
 
 $(function () {
 
-    console.log(vm.ContactNameToEdit);
+   
     if (pageType == "edit") {
         var selectArray = vm.ContactNameToEdit;
+         console.log(selectArray);
         $("#contactId").val(selectArray);
         document.getElementById("jobName").value = vm.JobName;
         document.getElementById("taskName").value = vm.TaskName;

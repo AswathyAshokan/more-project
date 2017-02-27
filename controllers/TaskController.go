@@ -380,18 +380,22 @@ func (c *TaskController)LoadEditTask() {
 				contactDetails, dbStatus := task.GetContactDetailById(c.AppEngineCtx, taskId)
 				switch dbStatus {
 				case true:
-					dataValue := reflect.ValueOf(contactDetails)
+
+					log.Println("type of contact details",reflect.ValueOf(contactDetails.Contact))
+					dataValue := reflect.ValueOf(contactDetails.Contact)
 					for _, key := range dataValue.MapKeys() {
 						keyForContact =  append(keyForContact, key.String())
 					}
+					log.Println("key for contact",keyForContact)
 					for _, k := range dataValue.MapKeys() {
 						viewModel.ContactNameToEdit = append(viewModel.ContactNameToEdit,contactDetails.Contact[k.String()].ContactName)
 					}
-					contactData := reflect.ValueOf(contactDetails.Contact)
-
-					for _, selectedMemberKey := range contactData.MapKeys() {
-						viewModel.ContactNameToEdit = append(viewModel.ContactNameToEdit, selectedMemberKey.String())
-					}
+					log.Println("contact name for edit",viewModel.ContactNameToEdit)
+					//contactData := reflect.ValueOf(contactDetails.Contact)
+					//
+					//for _, selectedMemberKey := range contactData.MapKeys() {
+					//	viewModel.ContactNameToEdit = append(viewModel.ContactNameToEdit, selectedMemberKey.String())
+					//}
 					viewModel.Key = keySlice
 					viewModel.PageType = helpers.SelectPageForEdit
 					viewModel.JobName = taskDetail.Job.JobName

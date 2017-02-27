@@ -97,6 +97,7 @@ func (c *InviteUserController) DeleteInvitation() {
 	}
 }
 
+
 //edit profile of each invite user using invite user id
 func (c *InviteUserController) EditInvitation() {
 	r := c.Ctx.Request

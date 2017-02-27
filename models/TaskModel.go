@@ -30,7 +30,6 @@ type TaskInfo struct {
 	CompanyTeamName	string
 }
 type TaskContact struct {
-	ContactId 	string
 	ContactName	string
 }
 type TaskCustomer struct{
