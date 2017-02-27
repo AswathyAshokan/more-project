@@ -27,10 +27,15 @@ func (c *TaskController)AddNewTask() {
 	if r.Method == "POST" {
 		task:=models.Task{}
 		task.Info.TaskName= c.GetString("taskName")
-		task.Job.JobName= c.GetString("jobName")
-		task.Job.JobId = c.GetString("jobId")
-		task.Customer.CustomerName = c.GetString("customerName")
-		task.Customer.CustomerId =c.GetString("jobId")
+		tempJobName :=c.GetString("jobName")
+		log.Println("job name", len(tempJobName))
+		if len(tempJobName) != 0 {
+			task.Job.JobName= c.GetString("jobName")
+			task.Job.JobId = c.GetString("jobId")
+			task.Customer.CustomerName = c.GetString("customerName")
+			task.Customer.CustomerId =c.GetString("jobId")
+
+		}
 		task.Info.StartDate = c.GetString("startDate")
 		task.Info.EndDate = c.GetString("endDate")
 		task.Info.TaskLocation = c.GetString("taskLocation")
@@ -76,13 +81,6 @@ func (c *TaskController)AddNewTask() {
 			contactMap[tempContactId[i]] = taskContactDetail
 		}
 		task.Contact = contactMap
-		//contacts := models.TaskContact{}
-		//
-		////for i := 0; i < len(tempContactId); i++ {
-		//	contacts.ContactId= tempContactId[i]
-		//	contacts.ContactName = tempContactName[i]
-		//	task.Contact = append(task.Contact ,contacts)
-		//}
 		dbStatus :=task.AddTaskToDB(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
@@ -101,7 +99,6 @@ func (c *TaskController)AddNewTask() {
 		dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
-
 			dataValue := reflect.ValueOf(allJobs)
 			for _, key := range dataValue.MapKeys() {
 				keySlice = append(keySlice, key.String())
@@ -182,24 +179,29 @@ func (c *TaskController)LoadTaskDetail() {
 		}
 		for _, k := range keySlice {
 			var tempValueSlice []string
-			var buffer bytes.Buffer
+
 			tempJobAndCustomer := ""
-			buffer.WriteString(tasks[k].Job.JobName)
-			buffer.WriteString(" (")
-			buffer.WriteString(tasks[k].Customer.CustomerName)
-			buffer.WriteString(")")
-			tempJobAndCustomer = buffer.String()
-			buffer.Reset()
+			if tasks[k].Job.JobName != "" {
+				var buffer bytes.Buffer
+				buffer.WriteString(tasks[k].Job.JobName)
+				buffer.WriteString(" (")
+				buffer.WriteString(tasks[k].Customer.CustomerName)
+				buffer.WriteString(")")
+				tempJobAndCustomer = buffer.String()
+				buffer.Reset()
+			}
+
 			tempValueSlice = append(tempValueSlice, tempJobAndCustomer)
 
-			if !helpers.StringInSlice(tasks[k].Customer.CustomerName, viewModel.UniqueCustomerNames) {
+
+			if !helpers.StringInSlice(tasks[k].Customer.CustomerName, viewModel.UniqueCustomerNames) && tasks[k].Customer.CustomerName != "" {
 				viewModel.UniqueCustomerNames = append(viewModel.UniqueCustomerNames, tasks[k].Customer.CustomerName)
 			}
 			if jobId == tasks[k].Job.JobId{
 				viewModel.SelectedJob = tasks[k].Job.JobName
 				viewModel.SelectedCustomerForJob=tasks[k].Customer.CustomerName
 			}
-			if !helpers.StringInSlice(tasks[k].Job.JobName, viewModel.UniqueJobNames) {
+			if !helpers.StringInSlice(tasks[k].Job.JobName, viewModel.UniqueJobNames) && tasks[k].Job.JobName != "" {
 				viewModel.UniqueJobNames = append(viewModel.UniqueJobNames, tasks[k].Job.JobName)
 			}
 			tempValueSlice = append(tempValueSlice, tasks[k].Info.TaskName)
@@ -251,10 +253,14 @@ func (c *TaskController)LoadEditTask() {
 		taskId := c.Ctx.Input.Param(":taskId")
 		task := models.Task{}
 		task.Info.TaskName = c.GetString("taskName")
-		task.Job.JobName = c.GetString("jobName")
-		task.Job.JobId = c.GetString("jobId")
-		task.Customer.CustomerName = c.GetString("customerName")
-		task.Customer.CustomerId =c.GetString("jobId")
+		taskJobName :=c.GetString("jobName")
+		if(taskJobName != "") {
+			task.Job.JobName = c.GetString("jobName")
+			task.Job.JobId = c.GetString("jobId")
+			task.Customer.CustomerName = c.GetString("customerName")
+			task.Customer.CustomerId =c.GetString("jobId")
+
+		}
 		task.Info.StartDate = c.GetString("startDate")
 		task.Info.EndDate = c.GetString("endDate")
 		task.Info.TaskLocation = c.GetString("taskLocation")
@@ -296,11 +302,6 @@ func (c *TaskController)LoadEditTask() {
 			contactMap[tempContactId[i]] = taskContactDetail
 		}
 		task.Contact = contactMap
-		//for i := 0; i < len(tempContactId); i++ {
-		//	contacts.ContactId= tempContactId[i]
-		//	contacts.ContactName = tempContactName[i]
-		//	task.Contact = append(task.Contact ,contacts)
-		//}
 		task.Info.LoginType = c.GetString("loginType")
 		task.Info.FitToWork = c.GetString("fitToWork")
 		task.Settings.DateOfCreation = time.Now().UnixNano() / int64(time.Millisecond)

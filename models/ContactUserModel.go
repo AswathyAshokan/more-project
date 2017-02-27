@@ -52,7 +52,6 @@ func GetAllContact(ctx context.Context)(bool,map[string]ContactUser) {
 		log.Fatal(err)
 		return false, contactDetail
 	}
-	log.Println(contactDetail)
 	return true, contactDetail
 
 }
