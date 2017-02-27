@@ -64,13 +64,7 @@ func ReadSession (w http.ResponseWriter, r *http.Request, companyTeamName string
 				sessionValues.CompanyPlan = value["companyPlan"]
 
 			} else {
-				cookie := &http.Cookie{
-					Name:   "session",
-					Value:  "",
-					Path:   "/",
-					MaxAge: -1,
-				}
-				http.SetCookie(w, cookie)
+				ClearSession(w)
 				http.Redirect(w, r, "/login", 302)
 				log.Println("Access Denied! You are not logged in!")
 			}
