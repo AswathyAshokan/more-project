@@ -40,7 +40,7 @@ func init() {
 	beegae.Router("/:companyTeamName/invite/:inviteuserid/edit", &controllers.InviteUserController{}, "*:EditInvitation")
 
 	beegae.Router("/:companyTeamName/plan", &controllers.PlanController{}, "*:PlanDetails")
-	beegae.Router("/:companyTeamName/plan/check", &controllers.PlanController{}, "*:PlanCheck")
+	beegae.Router("/:companyTeamName/plan/plancheck", &controllers.PlanController{}, "*:PlanCheck")
 
 
 	beegae.Router("/:companyTeamName/customer-management", &controllers.CustomerManagementController{}, "*:CustomerManagement")

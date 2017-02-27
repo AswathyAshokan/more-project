@@ -5,13 +5,6 @@ document.getElementById("crm").className += " active";
 var companyTeamName = vm.CompanyTeamName;
 
 $().ready(function() {
-   
-    /*$("#addcustomerForm").submit(function() {
-        $('button[type=submit], input[type=submit]').prop('disabled',true);
-        $('a').attr('disabled', 'disabled');
-        return true;
-    });*/
-
     if(vm.PageType == "edit"){        
             document.getElementById("customername").value = vm.CustomerName;
             document.getElementById("contactperson").value = vm.ContactPerson;
@@ -22,10 +15,7 @@ $().ready(function() {
             document.getElementById("zipcode").value = vm.ZipCode;
             document.getElementById("customerEdit").innerHTML = "Edit Customer"
     }
-    
-    
-        
-	$("#addcustomerForm").validate({
+    $("#addcustomerForm").validate({
         rules: {
           customername:{
               required:"required",

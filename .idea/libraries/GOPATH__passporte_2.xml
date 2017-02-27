@@ -2,24 +2,28 @@
   <library name="GOPATH &lt;passporte&gt;">
     <CLASSES>
       <root url="file://$PROJECT_DIR$/.." />
+      <root url="file://$PROJECT_DIR$/../../gopkg.in" />
       <root url="file://$PROJECT_DIR$/../../labix.org" />
       <root url="file://$PROJECT_DIR$/../../github.com" />
-      <root url="file://$PROJECT_DIR$/../../gplus-quickstart-go" />
-      <root url="file://$PROJECT_DIR$/../../golang.org" />
+      <root url="file://$PROJECT_DIR$/../../firstpgmbeego" />
       <root url="file://$PROJECT_DIR$/../../google.golang.org" />
-      <root url="file://$PROJECT_DIR$/../../googlemaps.github.io" />
-      <root url="file://$PROJECT_DIR$/../../gopkg.in" />
+      <root url="file://$PROJECT_DIR$/../../golang.org" />
+      <root url="file://$PROJECT_DIR$/../../hellogae" />
+      <root url="file://$PROJECT_DIR$/../../cloud.google.com" />
+      <root url="file://$PROJECT_DIR$/../../views" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
       <root url="file://$PROJECT_DIR$/.." />
+      <root url="file://$PROJECT_DIR$/../../gopkg.in" />
       <root url="file://$PROJECT_DIR$/../../labix.org" />
       <root url="file://$PROJECT_DIR$/../../github.com" />
-      <root url="file://$PROJECT_DIR$/../../gplus-quickstart-go" />
-      <root url="file://$PROJECT_DIR$/../../golang.org" />
+      <root url="file://$PROJECT_DIR$/../../firstpgmbeego" />
       <root url="file://$PROJECT_DIR$/../../google.golang.org" />
-      <root url="file://$PROJECT_DIR$/../../googlemaps.github.io" />
-      <root url="file://$PROJECT_DIR$/../../gopkg.in" />
+      <root url="file://$PROJECT_DIR$/../../golang.org" />
+      <root url="file://$PROJECT_DIR$/../../hellogae" />
+      <root url="file://$PROJECT_DIR$/../../cloud.google.com" />
+      <root url="file://$PROJECT_DIR$/../../views" />
     </SOURCES>
     <excluded>
       <root url="file://$PROJECT_DIR$" />
