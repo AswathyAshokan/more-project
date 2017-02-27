@@ -21,7 +21,8 @@ type NfcController struct {
 func (c *NfcController) NFCDetails(){
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	storedSession := ReadSession(w, r)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	viewModel := viewmodels.NfcViewModel{}
 	log.Println("The userDetails stored in session:",storedSession)
 	nfcDetails := models.NFC{}
@@ -58,11 +59,13 @@ func (c *NfcController) NFCDetails(){
 //Add new NFC Tag
 func (c *NfcController)AddNFC(){
 	r := c.Ctx.Request
-	sessionValues := SessionValues{}
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	if r.Method=="POST" {
 		w := c.Ctx.ResponseWriter
 		nfc := models.NFC{}
-		nfc.Info.CompanyTeamName = sessionValues.CompanyTeamName
+		nfc.Info.CompanyTeamName = storedSession.CompanyTeamName
 		nfc.Info.CustomerName = c.GetString("customerName")
 		nfc.Info.Site = c.GetString("site")
 		nfc.Info.Location = c.GetString("location")
@@ -85,9 +88,10 @@ func (c *NfcController)AddNFC(){
 
 //Edit NFC Tag
 func (c *NfcController)EditNFC(){
-	log.Println("EditNFC()")
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
 	if r.Method =="POST"{
 		nfcId := c.Ctx.Input.Param(":nfcId")
 		nfc := models.NFC{}
@@ -158,7 +162,10 @@ func (c *NfcController)EditNFC(){
 
 //Delete NFC Tag
 func (c *NfcController)DeleteNFC(){
+	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
 	log.Println("Controller:DeleteNFC()")
 	key := c.GetString("Key")
 	deleteStatus := models.DeleteNFC(c.AppEngineCtx, key)

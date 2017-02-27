@@ -20,10 +20,11 @@ type ContactUserController struct {
 /* Add contact detail to DB*/
 func (c *ContactUserController)AddNewContact() {
 	r := c.Ctx.Request
-	w :=c.Ctx.ResponseWriter
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	if r.Method == "POST" {
 		user:=models.ContactUser{}
-		storedSession := ReadSession(w, r)
 		user.Info.Name= c.GetString("name")
 		user.Info.State = c.GetString("state")
 		user.Info.ZipCode = c.GetString("zipcode")
@@ -44,7 +45,6 @@ func (c *ContactUserController)AddNewContact() {
 		}
 	}else {
 		viewModel := viewmodels.ContactUserDetailViewModel{}
-		storedSession := ReadSession(w, r)
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
 		viewModel.PageType = helpers.SelectPageForAdd
 		c.Data["vm"] = viewModel
@@ -59,7 +59,8 @@ func (c *ContactUserController)AddNewContact() {
 func (c *ContactUserController)DisplayContactDetails() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	storedSession := ReadSession(w, r)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	log.Println("The userDetails stored in session:",storedSession)
 	dbStatus, contact := models.GetAllContact(c.AppEngineCtx)
 	viewModel := viewmodels.ContactUserViewModel{}
@@ -84,7 +85,6 @@ func (c *ContactUserController)DisplayContactDetails() {
 			viewModel.Values = append(viewModel.Values, tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
 		}
-		storedSession := ReadSession(w, r)
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
 		log.Println("company name",viewModel.CompanyTeamName)
 		viewModel.Keys = keySlice
@@ -101,12 +101,15 @@ func (c *ContactUserController)DisplayContactDetails() {
 
 /*Function for delete contact from DB*/
 func (c *ContactUserController)LoadDeleteContact() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
 
 
 	contactId :=c.Ctx.Input.Param(":contactId")
 	user := models.ContactUser{}
 	dbStatus := user.DeleteContactFromDB(c.AppEngineCtx, contactId)
-	w := c.Ctx.ResponseWriter
 	switch dbStatus {
 	case true:
 		w.Write([]byte("true"))
@@ -120,8 +123,9 @@ func (c *ContactUserController)LoadDeleteContact() {
 func (c *ContactUserController)LoadEditContact() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	if r.Method == "POST" {
-		storedSession := ReadSession(w, r)
 		contactId := c.Ctx.Input.Param(":contactId")
 		user:=models.ContactUser{}
 		user.Info.Name= c.GetString("name")
@@ -158,7 +162,6 @@ func (c *ContactUserController)LoadEditContact() {
 			viewModel.PhoneNumber =contact.Info.PhoneNumber
 			viewModel.ContactId=contactId
 			viewModel := viewmodels.ContactUserDetailViewModel{}
-			storedSession := ReadSession(w, r)
 			viewModel.CompanyTeamName = storedSession.CompanyTeamName
 			c.Data["vm"] = viewModel
 			c.Layout = "layout/layout.html"

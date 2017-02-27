@@ -17,10 +17,11 @@ type CustomerController struct {
 
 // add new customer to database
 func (c *CustomerController) AddCustomer() {
-	customer := models.Customers{}
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	storedSession := ReadSession(w, r)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
+	customer := models.Customers{}
 	addViewModel := viewmodels.AddCustomerViewModel{}
 	if r.Method == "POST" {
 		customer.Info.CustomerName = c.GetString("customername")
@@ -53,7 +54,8 @@ func (c *CustomerController) AddCustomer() {
 func (c *CustomerController) CustomerDetails() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	storedSession := ReadSession(w, r)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	log.Println("The userDetails stored in session:",storedSession)
 	customerViewModel := viewmodels.Customer{}
 	allCustomer,dbStatus:= models.GetAllCustomerDetails(c.AppEngineCtx)
@@ -91,7 +93,8 @@ func (c *CustomerController) CustomerDetails() {
 func (c *CustomerController) DeleteCustomer() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	_ = ReadSession(w, r)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
 	customerKey :=c.Ctx.Input.Param(":customerid")
 	customer := models.Customers{}
 	dbStatus :=customer.DeleteCustomerById(c.AppEngineCtx, customerKey)
@@ -107,7 +110,8 @@ func (c *CustomerController) DeleteCustomer() {
 func (c *CustomerController) EditCustomer() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	storedSession := ReadSession(w, r)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	customerDetails := models.CustomerData{}
 	customer := models.Customers{}
 	customerId := c.Ctx.Input.Param(":customerid")

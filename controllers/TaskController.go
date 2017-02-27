@@ -21,10 +21,11 @@ type TaskController struct {
 /*Add task details to DB*/
 func (c *TaskController)AddNewTask() {
 	r := c.Ctx.Request
-	w :=c.Ctx.ResponseWriter
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	if r.Method == "POST" {
 		task:=models.Task{}
-		storedSession := ReadSession(w, r)
 		task.Info.TaskName= c.GetString("taskName")
 		task.Job.JobName= c.GetString("jobName")
 		task.Job.JobId = c.GetString("jobId")
@@ -147,7 +148,6 @@ func (c *TaskController)AddNewTask() {
 			for _, k := range dataValue.MapKeys() {
 				viewModel.ContactNameArray  = append(viewModel.ContactNameArray , contacts[k.String()].Info.Name)
 			}
-			storedSession := ReadSession(w, r)
 			viewModel.CompanyTeamName=storedSession.CompanyTeamName
 			viewModel.Key = keySlice
 			viewModel.ContactKey=keySliceForContact
@@ -163,12 +163,12 @@ func (c *TaskController)AddNewTask() {
 
 /* display all task details*/
 func (c *TaskController)LoadTaskDetail() {
-	jobId := ""
-	jobId = c.Ctx.Input.Param(":jobId")
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	storedSession := ReadSession(w, r)
-	log.Println("The userDetails stored in session:",storedSession)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
+	jobId := ""
+	jobId = c.Ctx.Input.Param(":jobId")
 	task := models.Task{}
 	dbStatus, tasks := task.RetrieveTaskFromDB(c.AppEngineCtx)
 	viewModel := viewmodels.TaskDetailViewModel{}
@@ -226,8 +226,10 @@ func (c *TaskController)LoadTaskDetail() {
 }
 /*delete task details from DB*/
 func (c *TaskController)LoadDeleteTask() {
-
-	w :=c.Ctx.ResponseWriter
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
 	taskId :=c.Ctx.Input.Param(":taskId")
 	task := models.Task{}
 	dbStatus := task.DeleteTaskFromDB(c.AppEngineCtx, taskId)
@@ -243,8 +245,9 @@ func (c *TaskController)LoadDeleteTask() {
 func (c *TaskController)LoadEditTask() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	if r.Method == "POST" {
-		storedSession := ReadSession(w, r)
 		taskId := c.Ctx.Input.Param(":taskId")
 		task := models.Task{}
 		task.Info.TaskName = c.GetString("taskName")
@@ -311,7 +314,6 @@ func (c *TaskController)LoadEditTask() {
 		}
 
 	} else {
-		storedSession := ReadSession(w, r)
 		viewModel  := viewmodels.EditTaskViewModel{}
 		task := models.Task{}
 		user := models.Users{}

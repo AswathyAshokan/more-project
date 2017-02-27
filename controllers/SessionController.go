@@ -48,30 +48,46 @@ func SetSession(w http.ResponseWriter, sessionValues SessionValues){
 	}
 }
 
-func ReadSession (w http.ResponseWriter, r *http.Request) (SessionValues) {
+func ReadSession (w http.ResponseWriter, r *http.Request, companyTeamName string) (SessionValues) {
 	sessionValues := SessionValues{}
 	if cookie, err := r.Cookie("session"); err == nil {
 		value := make(map[string]string)
 		if err = cookieToken.Decode("session", cookie.Value, &value); err == nil {
+			sessionValues.CompanyTeamName = value["companyTeamName"]
+			if sessionValues.CompanyTeamName == companyTeamName {
+				sessionValues.AdminId = value["adminId"]
+				sessionValues.AdminEmail = value["adminEmail"]
+				sessionValues.AdminFirstName = value["adminFirstName"]
+				sessionValues.AdminLastName = value["adminLastName"]
+				sessionValues.CompanyId = value["companyId"]
+				sessionValues.CompanyName = value["companyName"]
+				sessionValues.CompanyPlan = value["companyPlan"]
 
-			 sessionValues.AdminId = value["adminId"]
-			 sessionValues.AdminEmail = value["adminEmail"]
-			 sessionValues.AdminFirstName = value["adminFirstName"]
-			 sessionValues.AdminLastName = value["adminLastName"]
-			 sessionValues.CompanyId = value["companyId"]
-			 sessionValues.CompanyName = value["companyName"]
-			 sessionValues.CompanyTeamName = value["companyTeamName"]
-			 sessionValues.CompanyPlan = value["companyPlan"]
+			} else {
+				cookie := &http.Cookie{
+					Name:   "session",
+					Value:  "",
+					Path:   "/",
+					MaxAge: -1,
+				}
+				http.SetCookie(w, cookie)
+				http.Redirect(w, r, "/login", 302)
+				log.Println("Access Denied! You are not logged in!")
+			}
 
+		} else {
+			http.Redirect(w, r, "/login", 302)
+			log.Println("Access Denied! You are not logged in!")
 		}
 	} else {
+		log.Println(err)
 		http.Redirect(w, r, "/login", 302)
 		log.Println("Access Denied! You are not logged in!")
 	}
 	return sessionValues
 }
 
-func ClearSession(w http.ResponseWriter, r *http.Request) {
+func ClearSession(w http.ResponseWriter) {
 	cookie := &http.Cookie{
 		Name:   "session",
 		Value:  "",
