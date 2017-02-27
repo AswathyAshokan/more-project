@@ -2,7 +2,7 @@
 Date:01/02/2017*/
 //Below line is for adding active class to layout side menu..
 document.getElementById("nfc").className += " active";
-
+var companyTeamName = vm.CompanyTeamName
 $(function(){
     var pageType = array.PageType;
     //Chech whether Pagtype is Add or Edit NFC Tag 
@@ -33,14 +33,14 @@ $(function(){
                         var nfcId = array.NfcId;
                         if (pageType == "edit") {
                             $.ajax({
-                                url: '/nfc/'+ nfcId +'/edit',
+                                url: '/'+ companyTeamName +'/nfc/'+ nfcId +'/edit',
                                 type: 'post',
-                                datatype: 'html',
+                                datatype: 'json',
                                 data: form_data,
                                 success : function(response) {
                                     console.log(response);
                                     if (response == "true") {
-                                        window.location = '/nfc';
+                                        window.location = '/'+companyTeamName+'/nfc';
                                     } else {
                                         $("#save").attr('disabled', false);
                                     }
@@ -54,11 +54,11 @@ $(function(){
                         } else {
                             $.ajax({
                                     type : 'POST',
-                                    url  : '/nfc/add',
+                                    url  : '/'+companyTeamName+'/nfc/add',
                                     data : form_data,
                                     success : function(data){
                                                     if(data=="true"){
-                                                        window.location ='/nfc';
+                                                        window.location ='/'+companyTeamName+'/nfc';
                                                     }
                                                     else{
                                                     }
@@ -72,7 +72,7 @@ $(function(){
     });
 
     $("#cancel").click(function() {
-            window.location = '/nfc';
+            window.location = '/'+companyTeamName+'/nfc';
     });
 
 });

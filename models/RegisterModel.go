@@ -105,7 +105,10 @@ func (m *Admins)CreateAdminAndCompany(ctx context.Context, company Company) bool
 	adminsCompany.CompanyName = company.Info.CompanyName
 
 	err = dB.Child("Admins/"+adminUniqueID+"/Company").Set(adminsCompany)
-
+	if err != nil {
+		log.Println(err)
+		return false
+	}
 	return true
 }
 

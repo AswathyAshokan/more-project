@@ -15,10 +15,10 @@ func init() {
 	beegae.Router("/register", &controllers.RegisterController{}, "*:Register")
 	beegae.Router("/isEmailUsed/:emailId",&controllers.RegisterController{},"*:CheckEmail")
 	beegae.Router("/:companyTeamName/nfc", &controllers.NfcController{},"*:NFCDetails")
-	beegae.Router("/nfc/add",&controllers.NfcController{},"*:AddNFC")
+	beegae.Router("/:companyTeamName/nfc/add",&controllers.NfcController{},"*:AddNFC")
 	//beegae.Router("/datatable",&controllers.NfcController{},"*:Datatable")
-	beegae.Router("/nfc/:nfcId/delete",&controllers.NfcController{},"*:DeleteNFC")
-	beegae.Router("/nfc/:nfcId/edit",&controllers.NfcController{},"*:EditNFC")
+	beegae.Router("/:companyTeamName/nfc/:nfcId/delete",&controllers.NfcController{},"*:DeleteNFC")
+	beegae.Router("/:companyTeamName/nfc/:nfcId/edit",&controllers.NfcController{},"*:EditNFC")
 	beegae.Router("/logout",&controllers.LoginController{},"*:Logout")
 
 	//Farsana

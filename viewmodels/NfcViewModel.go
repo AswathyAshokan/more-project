@@ -6,3 +6,13 @@ type NfcViewModel struct {
 	CompanyTeamName string
 
 }
+
+type EditNfcViewModel struct {
+	PageType	string
+	NfcId		string
+	CustomerName	string
+	Site      	string
+	Location 	string
+	NFCNumber	string
+	CompanyTeamName string
+}

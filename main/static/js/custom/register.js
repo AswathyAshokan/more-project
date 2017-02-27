@@ -109,7 +109,7 @@ $(function(){
                                    
                                     if(data=="true"){
                                    
-                                        window.location = '/';
+                                        window.location = '/login';
                                     }
                                     else{
                                             console.log("false");

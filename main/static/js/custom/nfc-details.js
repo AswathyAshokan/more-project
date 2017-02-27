@@ -2,7 +2,7 @@
 Date:01/02/2017*/
 //Below line is for adding active class to layout side menu..
 document.getElementById("nfc").className += " active";
-
+var companyTeamName = vm.CompanyTeamName
 //Fetching Key,Values from Database and Pushinng it into Main Array of Sub Arrays
 $(function(){ 
     var mainArray = [];   
@@ -33,7 +33,7 @@ $(function(){
         });
         var item = $('<span>+</span>');
         item.click(function() {
-            window.location = "/nfc/add";
+            window.location = "/"+companyTeamName+"/nfc/add";
         });
         $('.table-wrapper .dataTables_filter').append(item);
     }
@@ -89,8 +89,8 @@ $(function(){
     $('#nfc_details tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[4];
-        alert(data[4]);
-        window.location = '/nfc/' + key + '/edit';
+        //alert(data[4]);
+        window.location = '/'+ companyTeamName +'/nfc/' + key + '/edit';
     });
 
     //Delete selcted NFC Tag from Datatable and Database
@@ -102,7 +102,7 @@ $(function(){
         $("#confirm").click(function(){
             $.ajax({
                 type: "POST",
-                url: "/nfc/"+data[4]+"/delete",
+                url: "/" + companyTeamName  + "/nfc/"+data[4]+"/delete",
                 data: {
                     Key : key
                 },
