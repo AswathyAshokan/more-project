@@ -17,11 +17,11 @@ type InviteUserController struct {
 
 //Add new invite users to database
 func (c *InviteUserController) AddInvitation() {
-	inviteUser := models.Invitation{}
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	storedSession := ReadSession(w, r)
-	log.Println("The userDetails stored in session:",storedSession)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
+	inviteUser := models.Invitation{}
 	addViewModel := viewmodels.AddInviteUserViewModel{}
 	if r.Method == "POST" {
 		inviteUser.Info.FirstName = c.GetString("firstname")
@@ -50,8 +50,8 @@ func (c *InviteUserController) AddInvitation() {
 func (c *InviteUserController) InvitationDetails() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	storedSession := ReadSession(w, r)
-	log.Println("The userDetails stored in session:",storedSession)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	info,dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx)
 	switch dbStatus {
 	case true:
@@ -85,7 +85,8 @@ func (c *InviteUserController) InvitationDetails() {
 func (c *InviteUserController) DeleteInvitation() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	_ = ReadSession(w, r)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
 	InviteUserId :=c.Ctx.Input.Param(":inviteuserid")
 	InviteUser := models.Invitation{}
 	result := InviteUser.DeleteInviteUserById(c.AppEngineCtx, InviteUserId)
@@ -97,12 +98,13 @@ func (c *InviteUserController) DeleteInvitation() {
 	}
 }
 
+
 //edit profile of each invite user using invite user id
 func (c *InviteUserController) EditInvitation() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	storedSession := ReadSession(w, r)
-	log.Println("The userDetails stored in session:",storedSession)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	InviteUserId := c.Ctx.Input.Param(":inviteuserid")
 	inviteUser := models.Invitation{}
 	if r.Method == "POST" {

@@ -16,7 +16,8 @@ type PlanController struct {
 func (c *PlanController) PlanDetails() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	storedSession := ReadSession(w, r)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	log.Println("The userDetails stored in session:",storedSession)
 	log.Println("session:", storedSession)
 	planViewMidel := viewmodels.Plan{}

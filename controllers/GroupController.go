@@ -19,7 +19,8 @@ type GroupController struct {
 func (c *GroupController) AddGroup() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	storedSession := ReadSession(w, r)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	if r.Method == "POST" {
 		group := models.Group{}
 		members := models.GroupMembers{}
@@ -77,7 +78,8 @@ func (c *GroupController) AddGroup() {
 func (c *GroupController) GroupDetails() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	storedSession := ReadSession(w, r)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	log.Println("The userDetails stored in session:",storedSession)
 	allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx)
 	switch dbStatus {
@@ -141,7 +143,8 @@ func (c *GroupController) GroupDetails() {
 func (c *GroupController) DeleteGroup() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	_ = ReadSession(w, r)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
 	groupId :=c.Ctx.Input.Param(":groupId")
 	group := models.Group{}
 	dbStatus :=group.DeleteGroup(c.AppEngineCtx, groupId)
@@ -158,7 +161,8 @@ func (c *GroupController) DeleteGroup() {
 func (c *GroupController) EditGroup() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	storedSession := ReadSession(w, r)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	groupId := c.Ctx.Input.Param(":groupId")
 	group := models.Group{}
 

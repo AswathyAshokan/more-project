@@ -8,9 +8,10 @@ var companyTeamName = vm.CompanyTeamName
 
 $(function () {
 
-    console.log(vm.ContactNameToEdit);
+   
     if (pageType == "edit") {
         var selectArray = vm.ContactNameToEdit;
+         console.log(selectArray);
         $("#contactId").val(selectArray);
         document.getElementById("jobName").value = vm.JobName;
         document.getElementById("taskName").value = vm.TaskName;
@@ -53,15 +54,16 @@ $().ready(function() {
             loginType: "required",
         },
         submitHandler: function() {
-            if(loginTypeRadio == "")
-                {
-                    alert("please select a login type");
-                }
+            
             var taskId=vm.TaskId;
            var jobnew = $("#jobName option:selected").val()
            console.log("job id",jobnew);
            var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId;
-
+        //if job name is not selected
+//            if (!$("#jobName option:selected").length) {
+//                var job
+//                var formData = $("#taskDoneForm").serialize() + "&jobName=" + loginTypeRadio 
+//            }
            var selectedContactNames = [];
 
            //get the user's name corresponding to  keys selected from dropdownlist

@@ -18,12 +18,13 @@ type JobController struct {
 }
 /*Add job details to DB*/
 func (c *JobController)AddNewJob() {
-	viewModel := viewmodels.JobViewModel{}
 	r := c.Ctx.Request
-	w :=c.Ctx.ResponseWriter
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
+	viewModel := viewmodels.JobViewModel{}
 	if r.Method == "POST" {
 		job:=models.Job{}
-		storedSession := ReadSession(w, r)
 		job.Customer.CustomerId = c.GetString("customerId")
 		job.Customer.CustomerName = c.GetString("customerName")
 		job.Info.JobName = c.GetString("jobName")
@@ -40,8 +41,7 @@ func (c *JobController)AddNewJob() {
 			w.Write([]byte("false"))
 		}
 	}else {
-		storedSession := ReadSession(w, r)
-		 customers ,dbStatus:=models.GetAllCustomerDetails(c.AppEngineCtx)
+		customers ,dbStatus:=models.GetAllCustomerDetails(c.AppEngineCtx)
 		var keySlice []string
 		dataValue := reflect.ValueOf(customers)
 		for _, key := range dataValue.MapKeys() {
@@ -70,8 +70,8 @@ func (c *JobController)AddNewJob() {
 func (c *JobController)LoadJobDetail() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	storedSession := ReadSession(w, r)
-	log.Println("The userDetails stored in session:",storedSession)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	//companyName:=c.GetSession("companyName")
 	//log.Println("companyName",companyName)
 	customerId := ""
@@ -117,10 +117,13 @@ func (c *JobController)LoadJobDetail() {
 
 /*Delete job details from DB*/
 func (c *JobController)LoadDeleteJob() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
 	jobId :=c.Ctx.Input.Param(":jobId")
 	job := models.Job{}
 	dbStatus := job.DeleteJobFromDB(c.AppEngineCtx, jobId)
-	w := c.Ctx.ResponseWriter
 	switch dbStatus {
 
 		case true:
@@ -136,8 +139,9 @@ func (c *JobController)LoadDeleteJob() {
 func (c *JobController)LoadEditJob() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	if r.Method == "POST" {
-		storedSession := ReadSession(w, r)
 		jobId := c.Ctx.Input.Param(":jobId")
 		job := models.Job{}
 		job.Customer.CustomerId = c.GetString("customerId")
@@ -159,7 +163,6 @@ func (c *JobController)LoadEditJob() {
 		}
 
 	} else {
-		storedSession := ReadSession(w, r)
 		jobId := c.Ctx.Input.Param(":jobId")
 		viewModel := viewmodels.JobViewModel{}
 		job := models.Job{}

@@ -21,10 +21,11 @@ type TaskController struct {
 /*Add task details to DB*/
 func (c *TaskController)AddNewTask() {
 	r := c.Ctx.Request
-	w :=c.Ctx.ResponseWriter
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	if r.Method == "POST" {
 		task:=models.Task{}
-		storedSession := ReadSession(w, r)
 		task.Info.TaskName= c.GetString("taskName")
 		task.Job.JobName= c.GetString("jobName")
 		task.Job.JobId = c.GetString("jobId")
@@ -102,15 +103,12 @@ func (c *TaskController)AddNewTask() {
 		case true:
 
 			dataValue := reflect.ValueOf(allJobs)
-			log.Println(dataValue)
 			for _, key := range dataValue.MapKeys() {
 				keySlice = append(keySlice, key.String())
 			}
 			for _, k := range dataValue.MapKeys() {
 				viewModel.JobNameArray   = append(viewModel.JobNameArray, allJobs[k.String()].Info.JobName)
-				log.Println(viewModel.JobNameArray)
 				viewModel.JobCustomerNameArray = append(viewModel.JobCustomerNameArray, allJobs[k.String()].Customer.CustomerName)
-				log.Println(viewModel.JobCustomerNameArray)
 			}
 		case false:
 			log.Println(helpers.ServerConnectionError)
@@ -121,12 +119,9 @@ func (c *TaskController)AddNewTask() {
 		switch dbStatus {
 		case true:
 			dataValue := reflect.ValueOf(allUsers)
-			log.Println(dataValue)
 			for _, key := range dataValue.MapKeys() {
 				keySliceForGroupAndUser = append(keySliceForGroupAndUser, key.String())
-			}
-			for _, k := range dataValue.MapKeys() {
-				viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,  allUsers[k.String()].Info.FullName+" (User)")
+				viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,  allUsers[key.String()].Info.FullName+" (User)")
 			}
 			allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx)
 			switch dbStatus {
@@ -134,13 +129,9 @@ func (c *TaskController)AddNewTask() {
 				dataValue := reflect.ValueOf(allGroups)
 				for _, key := range dataValue.MapKeys() {
 					keySliceForGroupAndUser = append(keySliceForGroupAndUser, key.String())
-				}
-				dataValue = reflect.ValueOf(allGroups)
-				for _, k := range dataValue.MapKeys() {
-					viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[k.String()].Info.GroupName+" (Group)")
+					viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[key.String()].Info.GroupName+" (Group)")
 				}
 				viewModel.UserAndGroupKey=keySliceForGroupAndUser
-				log.Println("user and group key",keySliceForGroupAndUser)
 			case false:
 				log.Println(helpers.ServerConnectionError)
 			}
@@ -157,7 +148,6 @@ func (c *TaskController)AddNewTask() {
 			for _, k := range dataValue.MapKeys() {
 				viewModel.ContactNameArray  = append(viewModel.ContactNameArray , contacts[k.String()].Info.Name)
 			}
-			storedSession := ReadSession(w, r)
 			viewModel.CompanyTeamName=storedSession.CompanyTeamName
 			viewModel.Key = keySlice
 			viewModel.ContactKey=keySliceForContact
@@ -173,12 +163,12 @@ func (c *TaskController)AddNewTask() {
 
 /* display all task details*/
 func (c *TaskController)LoadTaskDetail() {
-	jobId := ""
-	jobId = c.Ctx.Input.Param(":jobId")
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	storedSession := ReadSession(w, r)
-	log.Println("The userDetails stored in session:",storedSession)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
+	jobId := ""
+	jobId = c.Ctx.Input.Param(":jobId")
 	task := models.Task{}
 	dbStatus, tasks := task.RetrieveTaskFromDB(c.AppEngineCtx)
 	viewModel := viewmodels.TaskDetailViewModel{}
@@ -236,8 +226,10 @@ func (c *TaskController)LoadTaskDetail() {
 }
 /*delete task details from DB*/
 func (c *TaskController)LoadDeleteTask() {
-
-	w :=c.Ctx.ResponseWriter
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
 	taskId :=c.Ctx.Input.Param(":taskId")
 	task := models.Task{}
 	dbStatus := task.DeleteTaskFromDB(c.AppEngineCtx, taskId)
@@ -253,8 +245,9 @@ func (c *TaskController)LoadDeleteTask() {
 func (c *TaskController)LoadEditTask() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	if r.Method == "POST" {
-		storedSession := ReadSession(w, r)
 		taskId := c.Ctx.Input.Param(":taskId")
 		task := models.Task{}
 		task.Info.TaskName = c.GetString("taskName")
@@ -321,7 +314,6 @@ func (c *TaskController)LoadEditTask() {
 		}
 
 	} else {
-		storedSession := ReadSession(w, r)
 		viewModel  := viewmodels.EditTaskViewModel{}
 		task := models.Task{}
 		user := models.Users{}
@@ -390,18 +382,22 @@ func (c *TaskController)LoadEditTask() {
 				contactDetails, dbStatus := task.GetContactDetailById(c.AppEngineCtx, taskId)
 				switch dbStatus {
 				case true:
-					dataValue := reflect.ValueOf(contactDetails)
+
+					log.Println("type of contact details",reflect.ValueOf(contactDetails.Contact))
+					dataValue := reflect.ValueOf(contactDetails.Contact)
 					for _, key := range dataValue.MapKeys() {
 						keyForContact =  append(keyForContact, key.String())
 					}
+					log.Println("key for contact",keyForContact)
 					for _, k := range dataValue.MapKeys() {
 						viewModel.ContactNameToEdit = append(viewModel.ContactNameToEdit,contactDetails.Contact[k.String()].ContactName)
 					}
-					contactData := reflect.ValueOf(contactDetails.Contact)
-
-					for _, selectedMemberKey := range contactData.MapKeys() {
-						viewModel.ContactNameToEdit = append(viewModel.ContactNameToEdit, selectedMemberKey.String())
-					}
+					log.Println("contact name for edit",viewModel.ContactNameToEdit)
+					//contactData := reflect.ValueOf(contactDetails.Contact)
+					//
+					//for _, selectedMemberKey := range contactData.MapKeys() {
+					//	viewModel.ContactNameToEdit = append(viewModel.ContactNameToEdit, selectedMemberKey.String())
+					//}
 					viewModel.Key = keySlice
 					viewModel.PageType = helpers.SelectPageForEdit
 					viewModel.JobName = taskDetail.Job.JobName

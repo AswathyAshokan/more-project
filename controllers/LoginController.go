@@ -56,8 +56,6 @@ func (c *LoginController) Login() {
 func (c *LoginController)Logout(){
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	ClearSession(w,r)
-	storedSession := ReadSession(w, r)
-	log.Println("session:", storedSession)
+	ClearSession(w)
 	http.Redirect(w, r, "/login", 302)
 }
