@@ -20,7 +20,7 @@ type ContactUserController struct {
 /* Add contact detail to DB*/
 func (c *ContactUserController)AddNewContact() {
 	r := c.Ctx.Request
-	w := c.Ctx.ResponseWriter
+	w :=c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
 	if r.Method == "POST" {
@@ -44,7 +44,7 @@ func (c *ContactUserController)AddNewContact() {
 			w.Write([]byte("false"))
 		}
 	}else {
-		viewModel := viewmodels.ContactUserDetailViewModel{}
+		viewModel := viewmodels.ContactUserViewModel{}
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
 		viewModel.PageType = helpers.SelectPageForAdd
 		c.Data["vm"] = viewModel
@@ -154,6 +154,7 @@ func (c *ContactUserController)LoadEditContact() {
 		switch dbStatus {
 		case true:
 			viewModel.PageType = helpers.SelectPageForEdit
+			log.Println("page type",viewModel.PageType);
 			viewModel.Name=contact.Info.Name
 			viewModel.Address =contact.Info.Address
 			viewModel.State =contact.Info.State
@@ -161,7 +162,6 @@ func (c *ContactUserController)LoadEditContact() {
 			viewModel.Email =contact.Info.Email
 			viewModel.PhoneNumber =contact.Info.PhoneNumber
 			viewModel.ContactId=contactId
-			viewModel := viewmodels.ContactUserDetailViewModel{}
 			viewModel.CompanyTeamName = storedSession.CompanyTeamName
 			c.Data["vm"] = viewModel
 			c.Layout = "layout/layout.html"

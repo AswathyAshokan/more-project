@@ -10,9 +10,8 @@ $(function () {
 
    
     if (pageType == "edit") {
-        var selectArray = vm.ContactNameToEdit;
-         console.log(selectArray);
-        $("#contactId").val(selectArray);
+        var selectArray = document.getElementById('contactId');
+        selectArray.value =  vm.ContactNameToEdit;
         document.getElementById("jobName").value = vm.JobName;
         document.getElementById("taskName").value = vm.TaskName;
         document.getElementById("taskLocation").value = vm.TaskLocation;
@@ -36,7 +35,13 @@ $().ready(function() {
    $(".radio-inline").change(function () {
        loginTypeRadio = $('.radio-inline:checked').val();
    });
-    
+    addFitToWork = function() {
+        $("#fitToWorkAdd").append('<br><div class="plus" id="fitToWorkDelete"><input class="form-control" id="ex2" type="text"><span class="add-decl">+</span><span class="delete-decl " onclick="deleteFitToWork();" >+</span></div></br>');
+    }
+    deleteFitToWork = function (){
+        var deleteFitWorkData = document.getElementById( 'fitToWorkDelete' );
+        deleteFitWorkData.parentNode.removeChild( deleteFitWorkData );
+    }
     getJobAndCustomer = function(){
         var job = $("#jobName option:selected").val() + " (";
         var jobAndCustomer = $("#jobName option:selected").text();
@@ -44,7 +49,6 @@ $().ready(function() {
         customerName = tempName.replace(')', '');
         var jobDropdownId = document.getElementById("jobName");
         jobId = jobDropdownId.options[jobDropdownId.selectedIndex].id;
-        
     }
      
        
@@ -54,17 +58,14 @@ $().ready(function() {
             loginType: "required",
         },
         submitHandler: function() {
-            
+           
             var taskId=vm.TaskId;
            var jobnew = $("#jobName option:selected").val()
-           console.log("job id",jobnew);
+           if ($("#jobName ")[0].selectedIndex <= 0) {
+              document.getElementById('jobName').innerHTML = "";
+           }
            var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId;
-        //if job name is not selected
-//            if (!$("#jobName option:selected").length) {
-//                var job
-//                var formData = $("#taskDoneForm").serialize() + "&jobName=" + loginTypeRadio 
-//            }
-           var selectedContactNames = [];
+            var selectedContactNames = [];
 
            //get the user's name corresponding to  keys selected from dropdownlist
             $("#contactId option:selected").each(function () {
@@ -95,15 +96,15 @@ $().ready(function() {
            }
            if(pageType == "edit"){
                $.ajax({
-                    url: '/' +  companyTeamName  + '/task/'+taskId+'/edit',
+                   url: '/' +  companyTeamName  + '/task/' + taskId + '/edit',
                     type: 'post',
                     datatype: 'json',
                     data: formData,
                     success : function(response) {
-                        if (response =="true") {
+                        if (response == "true" ) {
                             window.location ='/'  +  companyTeamName  + '/task';
                         } else {
-                            
+                            $("#saveButton").attr('disabled', false);
                         }
                     },
                     error: function (request,status, error) {
@@ -117,7 +118,7 @@ $().ready(function() {
                     datatype: 'json',
                     data: formData,
                     success : function(response) {
-                        if (response =="true") {
+                        if (response == "true" ) {
                             window.location = '/' + companyTeamName + '/task';
                         } else {
                              $("#saveButton").attr('disabled', false);

@@ -17,7 +17,3 @@ type ContactUserViewModel  struct {
 	CompanyTeamName  	string
 
 }
-type ContactUserDetailViewModel struct {
-	CompanyTeamName  	string
-	PageType		string
-}

@@ -7,7 +7,7 @@ $().ready(function() {
     var pageType = vm.PageType;
     
     if(pageType == "edit") {
-        $("#customerName").val(vm.CustomerName);
+       $("#customerId").val(vm.CustomerName);
         document.getElementById("jobName").value = vm.JobName;
         document.getElementById("jobNumber").value = vm.JobNumber;
         document.getElementById("numberOfTask").value = vm.NumberOfTask;
@@ -52,7 +52,7 @@ $().ready(function() {
                 $.ajax({
                     url: '/' + companyTeamName  + '/job/'+ jobId +'/edit',
                     type: 'post',
-                    datatype: 'html',
+                    datatype: 'json',
                     data: formData,
                     success : function(response) {
                         console.log(response);
@@ -85,6 +85,6 @@ $().ready(function() {
         }
     });
     $("#cancel").click(function() {
-        window.location = '/' +  companyTeamName  + /job';
+        window.location = '/' +  companyTeamName  + '/job';
     });
 });

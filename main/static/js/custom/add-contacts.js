@@ -5,6 +5,7 @@
 
 document.getElementById("contact").className += " active";
 var pageType = vm.PageType;
+console.log( "page type",pageType);
 var companyTeamName = vm.CompanyTeamName
 $(function () {
     if( pageType  ==  "edit") {
