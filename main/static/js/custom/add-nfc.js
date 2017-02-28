@@ -4,14 +4,14 @@ Date:01/02/2017*/
 document.getElementById("nfc").className += " active";
 var companyTeamName = vm.CompanyTeamName
 $(function(){
-    var pageType = array.PageType;
+    var pageType = vm.PageType;
     //Chech whether Pagtype is Add or Edit NFC Tag 
     if(pageType ==  "edit") {
-        console.log(array);
-            document.getElementById("customerName").value = array.CustomerName;
-            document.getElementById("site").value = array.Site;
-            document.getElementById("location").value = array.Location;
-            document.getElementById("nfcNumber").value = array.NFCNumber;
+        console.log(vm);
+            document.getElementById("customerName").value = vm.CustomerName;
+            document.getElementById("site").value = vm.Site;
+            document.getElementById("location").value = vm.Location;
+            document.getElementById("nfcNumber").value = vm.NFCNumber;
             } 
     //Add new NFC Tag and perform Validation
     $("#addNfcForm").validate({
@@ -30,7 +30,7 @@ $(function(){
                          $("#save").attr('disabled', true);
                         var form_data = $("#addNfcForm").serialize();
                         //alert(form_data);
-                        var nfcId = array.NfcId;
+                        var nfcId = vm.NfcId;
                         if (pageType == "edit") {
                             $.ajax({
                                 url: '/'+ companyTeamName +'/nfc/'+ nfcId +'/edit',

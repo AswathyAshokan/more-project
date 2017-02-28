@@ -26,7 +26,7 @@ func (c *NfcController) NFCDetails(){
 	viewModel := viewmodels.NfcViewModel{}
 	log.Println("The userDetails stored in session:",storedSession)
 	nfcDetails := models.NFC{}
-	allNfcDetails := nfcDetails.GetAllNFCDetails(c.AppEngineCtx)
+	allNfcDetails := nfcDetails.GetAllNFCDetails(c.AppEngineCtx, storedSession.CompanyTeamName)
 	log.Println("NFC details:", allNfcDetails)
 
 	dataValue := reflect.ValueOf(allNfcDetails)
@@ -46,6 +46,9 @@ func (c *NfcController) NFCDetails(){
 		tempValueSlice = tempValueSlice[:0]
 	}
 
+	for key := range allNfcDetails{
+		log.Println("KEYSSSSSSSS",key,allNfcDetails[key])
+	}
 	log.Println("KeySlice", keySlice)
 	viewModel.Keys	= keySlice
 	viewModel.CompanyTeamName = storedSession.CompanyTeamName
@@ -61,6 +64,7 @@ func (c *NfcController)AddNFC(){
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	log.Println(companyTeamName)
 	storedSession := ReadSession(w, r, companyTeamName)
 	viewModel := viewmodels.NfcViewModel{}
 	if r.Method=="POST" {
@@ -84,7 +88,6 @@ func (c *NfcController)AddNFC(){
 	}else{
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
 		c.Data["vm"] = viewModel
-		log.Println("VIEW_MODEL:",viewModel)
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-nfc.html"
 	}
@@ -95,11 +98,11 @@ func (c *NfcController)EditNFC(){
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
-	log.Println("here: ", companyTeamName)
 	storedSession := ReadSession(w, r, companyTeamName)
 	if r.Method =="POST"{
 		nfcId := c.Ctx.Input.Param(":nfcId")
 		nfc := models.NFC{}
+		nfc.Info.CompanyTeamName = storedSession.CompanyTeamName
 		nfc.Info.CustomerName = c.GetString("customerName")
 		nfc.Info.Site = c.GetString("site")
 		nfc.Info.Location = c.GetString("location")
@@ -107,10 +110,8 @@ func (c *NfcController)EditNFC(){
 		NfcUpdateStatus := nfc.UpdateNFCDetails(c.AppEngineCtx, nfcId)
 		switch NfcUpdateStatus {
 		case true:
-			log.Println("CASR TRUE:")
 			w.Write([]byte("true"))
 		case false:
-			log.Println("CASEFALSE")
 			w.Write([]byte("false"))
 		}
 
@@ -130,7 +131,7 @@ func (c *NfcController)EditNFC(){
 			viewModel.Site = nfcDetails.Info.Site
 			viewModel.CompanyTeamName = storedSession.CompanyTeamName
 
-			c.Data["array"] = viewModel
+			c.Data["vm"] = viewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-nfc.html"
 		case false:

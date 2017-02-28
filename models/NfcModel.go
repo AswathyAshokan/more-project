@@ -7,7 +7,7 @@ import (
 	"log"
 	"time"
 )
-
+//Structs for Adding NFC Tag
 type NFCInfo struct{
 	CustomerName	string
 	Site      	string
@@ -46,13 +46,13 @@ func (m *NFC)AddNFC(ctx context.Context)bool{
 }
 
 //Get existing NFC Tag Details
-func (m *NFC)GetAllNFCDetails(ctx context.Context)map[string]NFC{
+func (m *NFC)GetAllNFCDetails(ctx context.Context, companyTeamName string)map[string]NFC{
 	nfcDetail := map[string]NFC{}
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
 		log.Println("No DB Connection!")
 	}
-	err = dB.Child("NFCTag").Value(&nfcDetail)
+	err = dB.Child("NFCTag").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&nfcDetail)
 	if err!=nil{
 		log.Println("Retrieving value failed!")
 	}
@@ -87,7 +87,7 @@ func (m *NFC)UpdateNFCDetails(ctx context.Context, nfcId string)bool{
 	if err!=nil{
 		log.Println("No DB Connection!")
 	}
-	err = dB.Child("/NFCTag/"+nfcId).Update(&m)
+	err = dB.Child("/NFCTag/"+nfcId+"/Info").Update(&m.Info)
 	if err!=nil{
 		log.Println("Update failed!",err)
 		return false
