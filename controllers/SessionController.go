@@ -96,15 +96,27 @@ func ClearSession(w http.ResponseWriter) {
 
 
 
-func SessionForPlan(w http.ResponseWriter, r *http.Request) (SessionValues) {
+func SessionForPlan(w http.ResponseWriter, r *http.Request) (SessionValues, bool) {
 	sessionValues := SessionValues{}
 	if cookie, err := r.Cookie("session"); err == nil {
 		value := make(map[string]string)
 		if err = cookieToken.Decode("session", cookie.Value, &value); err == nil {
-
-			sessionValues.CompanyId = value["companyId"]
 			sessionValues.CompanyTeamName = value["companyTeamName"]
+			sessionValues.AdminId = value["adminId"]
+			sessionValues.AdminEmail = value["adminEmail"]
+			sessionValues.AdminFirstName = value["adminFirstName"]
+			sessionValues.AdminLastName = value["adminLastName"]
+			sessionValues.CompanyId = value["companyId"]
+			sessionValues.CompanyName = value["companyName"]
+			sessionValues.CompanyPlan = value["companyPlan"]
+
+
+
+		} else {
+			return sessionValues, false
 		}
+	} else {
+		return sessionValues, false
 	}
-	return sessionValues
+	return sessionValues, true
 }
