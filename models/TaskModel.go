@@ -45,6 +45,10 @@ type TaskUser struct {
 }
 type TaskGroup struct{
 	GroupName	string
+	Members	 	map[string]GroupMemberName
+}
+type  GroupMemberName struct {
+	MemberName	string
 }
 type TaskSetting struct {
 	Status		string

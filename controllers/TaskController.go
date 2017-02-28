@@ -27,15 +27,10 @@ func (c *TaskController)AddNewTask() {
 	if r.Method == "POST" {
 		task:=models.Task{}
 		task.Info.TaskName= c.GetString("taskName")
-		tempJobName :=c.GetString("jobName")
-		log.Println("job name", len(tempJobName))
-		if len(tempJobName) != 0 {
-			task.Job.JobName= c.GetString("jobName")
-			task.Job.JobId = c.GetString("jobId")
-			task.Customer.CustomerName = c.GetString("customerName")
-			task.Customer.CustomerId =c.GetString("jobId")
-
-		}
+		task.Job.JobName= c.GetString("jobName")
+		task.Job.JobId = c.GetString("jobId")
+		task.Customer.CustomerName = c.GetString("customerName")
+		task.Customer.CustomerId =c.GetString("jobId")
 		task.Info.StartDate = c.GetString("startDate")
 		task.Info.EndDate = c.GetString("endDate")
 		task.Info.TaskLocation = c.GetString("taskLocation")
@@ -53,8 +48,13 @@ func (c *TaskController)AddNewTask() {
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
 		userMap := make(map[string]models.TaskUser)
 		groupMap := make(map[string]models.TaskGroup)
-		groupName := models.TaskGroup{}
+		groupNameAndDetails := models.TaskGroup{}
 		userName :=models.TaskUser{}
+		group := models.Group{}
+		var keySliceForGroup [] string
+		var MemberNameArray [] string
+		groupMemberNameMap := make(map[string]models.GroupMemberName)
+		members := models.GroupMemberName{}
 
 		for i := 0; i < len(UserOrGroupIdArray); i++ {
 			tempName :=UserOrGroupNameArray[i]
@@ -67,8 +67,29 @@ func (c *TaskController)AddNewTask() {
 				userMap[tempId] = userName
 			} else {
 				tempName = tempName[:len(tempName)-8]
-				groupName.GroupName = tempName
-				groupMap[tempId] = groupName
+				groupNameAndDetails.GroupName = tempName
+				//Getting member name from group
+				groupDetails, dbStatus := group.GetGroupDetailsById(c.AppEngineCtx, tempId)
+				switch dbStatus {
+				case true:
+
+					memberData := reflect.ValueOf(groupDetails.Members)
+					for _, key := range memberData.MapKeys() {
+						keySliceForGroup = append(keySliceForGroup, key.String())
+					}
+					for i := 0; i < len(keySliceForGroup); i++ {
+						MemberNameArray = append(MemberNameArray,groupDetails.Members[keySliceForGroup[i]].MemberName)
+					}
+					for i := 0; i < len(keySliceForGroup); i++ {
+						members.MemberName = MemberNameArray[i]
+						groupMemberNameMap[keySliceForGroup[i]] = members
+					}
+
+				case false:
+					log.Println(helpers.ServerConnectionError)
+				}
+				groupNameAndDetails.Members = groupMemberNameMap
+				groupMap[tempId] = groupNameAndDetails
 			}
 		}
 
@@ -81,6 +102,8 @@ func (c *TaskController)AddNewTask() {
 			contactMap[tempContactId[i]] = taskContactDetail
 		}
 		task.Contact = contactMap
+
+		//Add data to task DB
 		dbStatus :=task.AddTaskToDB(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
@@ -112,7 +135,6 @@ func (c *TaskController)AddNewTask() {
 		}
 		//Getting users and groups
 		 allUsers,dbStatus := user.GetUsersForDropdown(c.AppEngineCtx)
-		log.Println("users for task",allUsers)
 		switch dbStatus {
 		case true:
 			dataValue := reflect.ValueOf(allUsers)
@@ -250,17 +272,14 @@ func (c *TaskController)LoadEditTask() {
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
 	if r.Method == "POST" {
+		log.Println("inside edit")
 		taskId := c.Ctx.Input.Param(":taskId")
 		task := models.Task{}
 		task.Info.TaskName = c.GetString("taskName")
-		taskJobName :=c.GetString("jobName")
-		if(taskJobName != "") {
-			task.Job.JobName = c.GetString("jobName")
-			task.Job.JobId = c.GetString("jobId")
-			task.Customer.CustomerName = c.GetString("customerName")
-			task.Customer.CustomerId =c.GetString("jobId")
-
-		}
+		task.Job.JobName = c.GetString("jobName")
+		task.Job.JobId = c.GetString("jobId")
+		task.Customer.CustomerName = c.GetString("customerName")
+		task.Customer.CustomerId =c.GetString("jobId")
 		task.Info.StartDate = c.GetString("startDate")
 		task.Info.EndDate = c.GetString("endDate")
 		task.Info.TaskLocation = c.GetString("taskLocation")
@@ -272,9 +291,14 @@ func (c *TaskController)LoadEditTask() {
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
 		userMap := make(map[string]models.TaskUser)
 		groupMap := make(map[string]models.TaskGroup)
-		groupName := models.TaskGroup{}
+		groupNameAndDetails := models.TaskGroup{}
 		userName :=models.TaskUser{}
-
+		group := models.Group{}
+		var keySliceForGroup [] string
+		var MemberNameArray [] string
+		groupMemberNameMap := make(map[string]models.GroupMemberName)
+		members := models.GroupMemberName{}
+		log.Println("cp1")
 		for i := 0; i < len(UserOrGroupIdArray); i++ {
 			tempName :=UserOrGroupNameArray[i]
 			tempId :=UserOrGroupIdArray[i]
@@ -285,9 +309,30 @@ func (c *TaskController)LoadEditTask() {
 				userName.FullName = tempName
 				userMap[tempId] = userName
 			} else {
+				log.Println("users and group section")
 				tempName = tempName[:len(tempName)-8]
-				groupName.GroupName = tempName
-				groupMap[tempId] = groupName
+				groupNameAndDetails.GroupName = tempName
+				groupDetails, dbStatus := group.GetGroupDetailsById(c.AppEngineCtx, tempId)
+				switch dbStatus {
+				case true:
+
+					memberData := reflect.ValueOf(groupDetails.Members)
+					for _, key := range memberData.MapKeys() {
+						keySliceForGroup = append(keySliceForGroup, key.String())
+					}
+					for i := 0; i < len(keySliceForGroup); i++ {
+						MemberNameArray = append(MemberNameArray,groupDetails.Members[keySliceForGroup[i]].MemberName)
+					}
+					for i := 0; i < len(keySliceForGroup); i++ {
+						members.MemberName = MemberNameArray[i]
+						groupMemberNameMap[keySliceForGroup[i]] = members
+					}
+
+				case false:
+					log.Println(helpers.ServerConnectionError)
+				}
+				groupNameAndDetails.Members = groupMemberNameMap
+				groupMap[tempId] = groupNameAndDetails
 			}
 		}
 
@@ -383,17 +428,13 @@ func (c *TaskController)LoadEditTask() {
 				contactDetails, dbStatus := task.GetContactDetailById(c.AppEngineCtx, taskId)
 				switch dbStatus {
 				case true:
-
-					log.Println("type of contact details",reflect.ValueOf(contactDetails.Contact))
 					dataValue := reflect.ValueOf(contactDetails.Contact)
 					for _, key := range dataValue.MapKeys() {
 						keyForContact =  append(keyForContact, key.String())
 					}
-					log.Println("key for contact",keyForContact)
 					for _, k := range dataValue.MapKeys() {
 						viewModel.ContactNameToEdit = append(viewModel.ContactNameToEdit,contactDetails.Contact[k.String()].ContactName)
 					}
-					log.Println("contact name for edit",viewModel.ContactNameToEdit)
 					//contactData := reflect.ValueOf(contactDetails.Contact)
 					//
 					//for _, selectedMemberKey := range contactData.MapKeys() {
