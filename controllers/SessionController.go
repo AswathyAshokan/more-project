@@ -93,3 +93,18 @@ func ClearSession(w http.ResponseWriter) {
 	log.Println("The value in session after Logout:", cookie.Value)
 
 }
+
+
+
+func SessionForPlan(w http.ResponseWriter, r *http.Request) (SessionValues) {
+	sessionValues := SessionValues{}
+	if cookie, err := r.Cookie("session"); err == nil {
+		value := make(map[string]string)
+		if err = cookieToken.Decode("session", cookie.Value, &value); err == nil {
+
+			sessionValues.CompanyId = value["companyId"]
+			sessionValues.CompanyTeamName = value["companyTeamName"]
+		}
+	}
+	return sessionValues
+}

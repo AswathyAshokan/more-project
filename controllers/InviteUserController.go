@@ -21,6 +21,7 @@ func (c *InviteUserController) AddInvitation() {
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
+	log.Println("session VAlues :",storedSession)
 	inviteUser := models.Invitation{}
 	addViewModel := viewmodels.AddInviteUserViewModel{}
 	if r.Method == "POST" {

@@ -20,6 +20,7 @@ func (c *LoginController) Login() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	if r.Method == "POST" {
+
 		login := models.Login{}
 		login.Email = c.GetString("email")
 		login.Password = []byte(c.GetString("password"))

@@ -7,22 +7,21 @@ import (
 )
 
 type Plan struct {
-	CompanyPlan		string
+	CompanyPlan	string
 }
 
 
-func(m Company) ChangeCompanyPlan(ctx context.Context,companyId string) (bool){
+func(m Company) ChangeCompanyPlan(ctx context.Context,companyId string) (bool,Company){
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println(err)
 	}
-	log.Println(m)
 	err = db.Child("/Company/"+ companyId+"/Plan").Set(m.Plan)
 	if err != nil {
 		log.Println(err)
-		return false
+		return false,m
 	}
 
 
-	return  true
+	return  true,m
 }
