@@ -62,7 +62,7 @@ func (c *ContactUserController)DisplayContactDetails() {
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
 	log.Println("The userDetails stored in session:",storedSession)
-	dbStatus, contact := models.GetAllContact(c.AppEngineCtx)
+	dbStatus, contact := models.GetAllContact(c.AppEngineCtx,companyTeamName)
 	viewModel := viewmodels.ContactUserViewModel{}
 
 	switch dbStatus {

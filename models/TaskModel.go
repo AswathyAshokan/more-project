@@ -77,10 +77,10 @@ func (m *Task) AddTaskToDB(ctx context.Context )(bool)  {
 }
 
 /*get all task details from DB*/
-func (m *Task) RetrieveTaskFromDB(ctx context.Context)(bool,map[string]Task) {
+func (m *Task) RetrieveTaskFromDB(ctx context.Context,companyTeamName string)(bool,map[string]Task) {
 	taskValue := map[string]Task{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("Task").Value(&taskValue)
+	err = dB.Child("Task").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&taskValue)
 	if err != nil {
 		log.Fatal(err)
 		return false, taskValue

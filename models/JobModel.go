@@ -42,10 +42,10 @@ func (m *Job) AddJobToDB( ctx context.Context)(bool)  {
 }
 
 /*Function for get all job details*/
-func (m *Job ) GetAllJobs(ctx context.Context)(bool,map[string]Job) {
+func (m *Job ) GetAllJobs(ctx context.Context,companyTeamName string)(bool,map[string]Job) {
 	jobDetail := map[string]Job {}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("Job").Value(&jobDetail)
+	err = dB.Child("Job").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&jobDetail)
 	if err != nil {
 		log.Fatal(err)
 		return false, jobDetail

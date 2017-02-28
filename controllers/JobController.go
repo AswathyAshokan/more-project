@@ -41,7 +41,7 @@ func (c *JobController)AddNewJob() {
 			w.Write([]byte("false"))
 		}
 	}else {
-		customers ,dbStatus:=models.GetAllCustomerDetails(c.AppEngineCtx)
+		customers ,dbStatus:=models.GetAllCustomerDetails(c.AppEngineCtx,companyTeamName)
 		var keySlice []string
 		dataValue := reflect.ValueOf(customers)
 		for _, key := range dataValue.MapKeys() {
@@ -77,7 +77,7 @@ func (c *JobController)LoadJobDetail() {
 	customerId := ""
 	customerId = c.Ctx.Input.Param(":customerId")
 	job :=models.Job{}
-	dbStatus, jobs := job.GetAllJobs(c.AppEngineCtx)
+	dbStatus, jobs := job.GetAllJobs(c.AppEngineCtx,companyTeamName)
 	viewModel := viewmodels.JobViewModel{}
 	switch dbStatus {
 	case true:
@@ -169,7 +169,7 @@ func (c *JobController)LoadEditJob() {
 		dbStatus, jobDetail := job.GetJobDetailById(c.AppEngineCtx, jobId)
 		switch dbStatus {
 		case true:
-			customers, dbStatus := models.GetAllCustomerDetails(c.AppEngineCtx)
+			customers, dbStatus := models.GetAllCustomerDetails(c.AppEngineCtx,companyTeamName)
 			switch dbStatus {
 			case true:
 				dataValue := reflect.ValueOf(customers)

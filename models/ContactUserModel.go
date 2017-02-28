@@ -44,10 +44,10 @@ func (m *ContactUser) AddContactToDB(ctx context.Context) (bool) {
 
 /*Function for get all contact details*/
 
-func GetAllContact(ctx context.Context)(bool,map[string]ContactUser) {
+func GetAllContact(ctx context.Context,companyTeamName string)(bool,map[string]ContactUser) {
 	contactDetail := map[string]ContactUser{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("Contacts").Value(&contactDetail)
+	err = dB.Child("Contacts").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&contactDetail)
 	if err != nil {
 		log.Fatal(err)
 		return false, contactDetail

@@ -40,11 +40,11 @@ func(m *Invitation) AddInviteToDb(ctx context.Context)bool {
 }
 
 //Fetch all the details of invite user from database
-func GetAllInviteUsersDetails(ctx context.Context) (map[string]Invitation,bool) {
+func GetAllInviteUsersDetails(ctx context.Context,companyTeamName string) (map[string]Invitation,bool) {
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
 	value := map[string]Invitation{}
-	err = db.Child("Invitation").Value(&value)
+	err = db.Child("Invitation").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&value)
 	if err != nil {
 		log.Fatal(err)
 		return value,false

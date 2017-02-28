@@ -47,11 +47,11 @@ func(m *Customers) AddCustomersToDb(ctx context.Context) (bool){
 }
 
 // Fetch all the details of customer from database
-func GetAllCustomerDetails(ctx context.Context) (map[string]Customers,bool){
+func GetAllCustomerDetails(ctx context.Context,companyTeamName string) (map[string]Customers,bool){
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
 	allCustomerDetails := map[string]Customers{}
-	err = db.Child("Customer").Value(&allCustomerDetails)
+	err = db.Child("Customer").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&allCustomerDetails)
 	if err != nil {
 		log.Fatal(err)
 		return allCustomerDetails,false

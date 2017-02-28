@@ -58,7 +58,7 @@ func (c *CustomerController) CustomerDetails() {
 	storedSession := ReadSession(w, r, companyTeamName)
 	log.Println("The userDetails stored in session:",storedSession)
 	customerViewModel := viewmodels.Customer{}
-	allCustomer,dbStatus:= models.GetAllCustomerDetails(c.AppEngineCtx)
+	allCustomer,dbStatus:= models.GetAllCustomerDetails(c.AppEngineCtx,companyTeamName)
 	log.Println("view",allCustomer)
 	switch dbStatus {
 	case true:

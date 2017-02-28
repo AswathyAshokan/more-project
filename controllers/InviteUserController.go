@@ -53,7 +53,7 @@ func (c *InviteUserController) InvitationDetails() {
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
-	info,dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx)
+	info,dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx,companyTeamName)
 	switch dbStatus {
 	case true:
 		dataValue := reflect.ValueOf(info)

@@ -142,7 +142,7 @@ func (c *TaskController)AddNewTask() {
 				keySliceForGroupAndUser = append(keySliceForGroupAndUser, key.String())
 				viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,  allUsers[key.String()].Info.FullName+" (User)")
 			}
-			allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx)
+			allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx,companyTeamName)
 			switch dbStatus {
 			case true:
 				dataValue := reflect.ValueOf(allGroups)
@@ -157,7 +157,7 @@ func (c *TaskController)AddNewTask() {
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
-		dbStatus, contacts := models.GetAllContact(c.AppEngineCtx)
+		dbStatus, contacts := models.GetAllContact(c.AppEngineCtx,companyTeamName)
 		switch dbStatus {
 		case true:
 			dataValue := reflect.ValueOf(contacts)
@@ -189,7 +189,7 @@ func (c *TaskController)LoadTaskDetail() {
 	jobId := ""
 	jobId = c.Ctx.Input.Param(":jobId")
 	task := models.Task{}
-	dbStatus, tasks := task.RetrieveTaskFromDB(c.AppEngineCtx)
+	dbStatus, tasks := task.RetrieveTaskFromDB(c.AppEngineCtx,companyTeamName)
 	viewModel := viewmodels.TaskDetailViewModel{}
 
 	switch dbStatus {
@@ -398,7 +398,7 @@ func (c *TaskController)LoadEditTask() {
 				for _, k := range dataValue.MapKeys() {
 					viewModel.GroupNameArray = append(viewModel.GroupNameArray, allUsers[k.String()].Info.FullName + "(User)")
 				}
-				allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx)
+				allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx,companyTeamName)
 				switch dbStatus {
 				case true:
 					dataValue := reflect.ValueOf(allGroups)
@@ -415,7 +415,7 @@ func (c *TaskController)LoadEditTask() {
 			case false:
 				log.Println(helpers.ServerConnectionError)
 			}
-			dbStatus, contacts := models.GetAllContact(c.AppEngineCtx)
+			dbStatus, contacts := models.GetAllContact(c.AppEngineCtx,companyTeamName)
 			switch dbStatus {
 			case true:
 				dataValue := reflect.ValueOf(contacts)
@@ -458,9 +458,6 @@ func (c *TaskController)LoadEditTask() {
 							for _, key := range dataValue.MapKeys() {
 								viewModel.GroupMembersAndUserToEdit = append(viewModel.GroupMembersAndUserToEdit,  key.String())
 							}
-
-
-							log.Println("group name to be edited", viewModel.GroupMembersAndUserToEdit)
 						case false:
 							log.Println(helpers.ServerConnectionError)
 						}
