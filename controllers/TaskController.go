@@ -271,15 +271,15 @@ func (c *TaskController)LoadEditTask() {
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
+	taskId := c.Ctx.Input.Param(":taskId")
+
 	if r.Method == "POST" {
-		log.Println("inside edit")
-		taskId := c.Ctx.Input.Param(":taskId")
 		task := models.Task{}
 		task.Info.TaskName = c.GetString("taskName")
 		task.Job.JobName = c.GetString("jobName")
 		task.Job.JobId = c.GetString("jobId")
 		task.Customer.CustomerName = c.GetString("customerName")
-		task.Customer.CustomerId =c.GetString("jobId")
+		task.Customer.CustomerId = c.GetString("jobId")
 		task.Info.StartDate = c.GetString("startDate")
 		task.Info.EndDate = c.GetString("endDate")
 		task.Info.TaskLocation = c.GetString("taskLocation")
@@ -288,30 +288,36 @@ func (c *TaskController)LoadEditTask() {
 		task.Info.Log = c.GetString("log")
 		UserOrGroupIdArray := c.GetStrings("userOrGroup")
 		UserOrGroupNameArray := c.GetStrings("userAndGroupName")
+		tempContactName := c.GetStrings("contactName")
+		tempContactId := c.GetStrings("contactId")
+		task.Info.LoginType = c.GetString("loginType")
+		task.Info.FitToWork = c.GetString("fitToWork")
+		task.Settings.DateOfCreation = time.Now().UnixNano() / int64(time.Millisecond)
+		task.Settings.Status = helpers.StatusPending
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
 		userMap := make(map[string]models.TaskUser)
 		groupMap := make(map[string]models.TaskGroup)
 		groupNameAndDetails := models.TaskGroup{}
-		userName :=models.TaskUser{}
+		userName := models.TaskUser{}
 		group := models.Group{}
 		var keySliceForGroup [] string
 		var MemberNameArray [] string
 		groupMemberNameMap := make(map[string]models.GroupMemberName)
 		members := models.GroupMemberName{}
-		log.Println("cp1")
+
 		for i := 0; i < len(UserOrGroupIdArray); i++ {
-			tempName :=UserOrGroupNameArray[i]
-			tempId :=UserOrGroupIdArray[i]
+			tempName := UserOrGroupNameArray[i]
+			tempId := UserOrGroupIdArray[i]
 			userOrGroupRegExp := regexp.MustCompile(`\((.*?)\)`)
 			userOrGroupSelection := userOrGroupRegExp.FindStringSubmatch(tempName)
-			if((userOrGroupSelection[1]) == "User") {
-				tempName = tempName[:len(tempName)-7]
+			if ((userOrGroupSelection[1]) == "User") {
+				tempName = tempName[:len(tempName) - 7]
 				userName.FullName = tempName
 				userMap[tempId] = userName
 			} else {
-				log.Println("users and group section")
-				tempName = tempName[:len(tempName)-8]
+				tempName = tempName[:len(tempName) - 8]
 				groupNameAndDetails.GroupName = tempName
+				//Getting member name from group
 				groupDetails, dbStatus := group.GetGroupDetailsById(c.AppEngineCtx, tempId)
 				switch dbStatus {
 				case true:
@@ -321,7 +327,7 @@ func (c *TaskController)LoadEditTask() {
 						keySliceForGroup = append(keySliceForGroup, key.String())
 					}
 					for i := 0; i < len(keySliceForGroup); i++ {
-						MemberNameArray = append(MemberNameArray,groupDetails.Members[keySliceForGroup[i]].MemberName)
+						MemberNameArray = append(MemberNameArray, groupDetails.Members[keySliceForGroup[i]].MemberName)
 					}
 					for i := 0; i < len(keySliceForGroup); i++ {
 						members.MemberName = MemberNameArray[i]
@@ -338,19 +344,15 @@ func (c *TaskController)LoadEditTask() {
 
 		task.UsersAndGroups.User = userMap
 		task.UsersAndGroups.Group = groupMap
-		tempContactName := c.GetStrings("contacts")
-		tempContactId := c.GetStrings("contactId")
 		contactMap := make(map[string]models.TaskContact)
-		taskContactDetail :=models.TaskContact{}
+		taskContactDetail := models.TaskContact{}
 		for i := 0; i < len(tempContactId); i++ {
 			taskContactDetail.ContactName = tempContactName[i]
 			contactMap[tempContactId[i]] = taskContactDetail
 		}
 		task.Contact = contactMap
-		task.Info.LoginType = c.GetString("loginType")
-		task.Info.FitToWork = c.GetString("fitToWork")
-		task.Settings.DateOfCreation = time.Now().UnixNano() / int64(time.Millisecond)
-		task.Settings.Status = "Completed"
+
+		//Add data to task DB
 		dbStatus := task.UpdateTaskToDB(c.AppEngineCtx, taskId)
 		switch dbStatus {
 		case true:
@@ -360,7 +362,7 @@ func (c *TaskController)LoadEditTask() {
 		}
 
 	} else {
-		viewModel  := viewmodels.EditTaskViewModel{}
+		viewModel := viewmodels.EditTaskViewModel{}
 		task := models.Task{}
 		user := models.Users{}
 		taskId := c.Ctx.Input.Param(":taskId")
@@ -368,10 +370,9 @@ func (c *TaskController)LoadEditTask() {
 		switch dbStatus {
 		case true:
 			dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx)
-			var keySlice 			[]string
-			var keySliceForGroupAndUser 	[]string
-			var keySliceForContact		[]string
-			var keyForContact 		[]string
+			var keySlice                        	[]string
+			var keySliceForGroupAndUser        	[]string
+			var keySliceForContact                	[]string
 
 			switch dbStatus {
 			case true:
@@ -386,7 +387,7 @@ func (c *TaskController)LoadEditTask() {
 			case false:
 				log.Println(helpers.ServerConnectionError)
 			}
-			allUsers,dbStatus := user.GetUsersForDropdown(c.AppEngineCtx)
+			allUsers, dbStatus := user.GetUsersForDropdown(c.AppEngineCtx)
 			switch dbStatus {
 			case true:
 				dataValue := reflect.ValueOf(allUsers)
@@ -395,7 +396,7 @@ func (c *TaskController)LoadEditTask() {
 				}
 
 				for _, k := range dataValue.MapKeys() {
-					viewModel.GroupNameArray = append(viewModel.GroupNameArray, allUsers[k.String()].Info.FullName+"(User)")
+					viewModel.GroupNameArray = append(viewModel.GroupNameArray, allUsers[k.String()].Info.FullName + "(User)")
 				}
 				allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx)
 				switch dbStatus {
@@ -405,9 +406,9 @@ func (c *TaskController)LoadEditTask() {
 						keySliceForGroupAndUser = append(keySliceForGroupAndUser, key.String())
 					}
 					for _, k := range dataValue.MapKeys() {
-						viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[k.String()].Info.GroupName+"(Group)")
+						viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[k.String()].Info.GroupName + "(Group)")
 					}
-					viewModel.UserAndGroupKey=keySliceForGroupAndUser
+					viewModel.UserAndGroupKey = keySliceForGroupAndUser
 				case false:
 					log.Println(helpers.ServerConnectionError)
 				}
@@ -424,49 +425,76 @@ func (c *TaskController)LoadEditTask() {
 				for _, k := range dataValue.MapKeys() {
 					viewModel.ContactNameArray = append(viewModel.ContactNameArray, contacts[k.String()].Info.Name)
 				}
-				viewModel.ContactKey=keySliceForContact
-				contactDetails, dbStatus := task.GetContactDetailById(c.AppEngineCtx, taskId)
+
+				viewModel.ContactKey = keySliceForContact
+
+
+				//contact name to edit
+				 dbStatus,contactDetails := task.GetTaskDetailById(c.AppEngineCtx, taskId)
 				switch dbStatus {
 				case true:
 					dataValue := reflect.ValueOf(contactDetails.Contact)
 					for _, key := range dataValue.MapKeys() {
-						keyForContact =  append(keyForContact, key.String())
+						viewModel.ContactNameToEdit = append(viewModel.ContactNameToEdit, key.String())
 					}
-					for _, k := range dataValue.MapKeys() {
-						viewModel.ContactNameToEdit = append(viewModel.ContactNameToEdit,contactDetails.Contact[k.String()].ContactName)
-					}
-					//contactData := reflect.ValueOf(contactDetails.Contact)
-					//
-					//for _, selectedMemberKey := range contactData.MapKeys() {
-					//	viewModel.ContactNameToEdit = append(viewModel.ContactNameToEdit, selectedMemberKey.String())
-					//}
-					viewModel.Key = keySlice
-					viewModel.PageType = helpers.SelectPageForEdit
-					viewModel.JobName = taskDetail.Job.JobName
-					viewModel.TaskName = taskDetail.Info.TaskName
-					viewModel.TaskLocation = taskDetail.Info.TaskLocation
-					viewModel.StartDate = taskDetail.Info.StartDate
-					viewModel.EndDate = taskDetail.Info.EndDate
-					viewModel.TaskDescription = taskDetail.Info.TaskDescription
-					viewModel.UserNumber = taskDetail.Info.UserNumber
-					viewModel.Log = taskDetail.Info.Log
-					//viewModel.UserType = taskDetail.UsersOrGroups
-					viewModel.FitToWork = taskDetail.Info.FitToWork
-					viewModel.TaskId = taskId
-					viewModel.CompanyTeamName=storedSession.CompanyTeamName
-					c.Data["vm"] = viewModel
-					c.Layout = "layout/layout.html"
-					c.TplName = "template/add-task.html"
 
-				case false:
-					log.Println(helpers.ServerConnectionError)
+					//Selecting group name which is to be edited...
+
+					dbStatus,groupDetails := task.GetTaskDetailById(c.AppEngineCtx, taskId)
+					switch dbStatus {
+					case true:
+						dataValue := reflect.ValueOf(groupDetails.UsersAndGroups.Group)
+						for _, key := range dataValue.MapKeys() {
+							viewModel.GroupMembersAndUserToEdit = append(viewModel.GroupMembersAndUserToEdit,  key.String())
+						}
+
+
+
+						//selecting user name to edit
+						dbStatus,groupDetails := task.GetTaskDetailById(c.AppEngineCtx, taskId)
+						switch dbStatus {
+						case true:
+							dataValue := reflect.ValueOf(groupDetails.UsersAndGroups.User)
+							for _, key := range dataValue.MapKeys() {
+								viewModel.GroupMembersAndUserToEdit = append(viewModel.GroupMembersAndUserToEdit,  key.String())
+							}
+
+
+							log.Println("group name to be edited", viewModel.GroupMembersAndUserToEdit)
+						case false:
+							log.Println(helpers.ServerConnectionError)
+						}
+					case false:
+						log.Println(helpers.ServerConnectionError)
+					}
+
+						viewModel.Key = keySlice
+						viewModel.PageType = helpers.SelectPageForEdit
+						viewModel.JobName = taskDetail.Job.JobName
+						viewModel.TaskName = taskDetail.Info.TaskName
+						viewModel.TaskLocation = taskDetail.Info.TaskLocation
+						viewModel.StartDate = taskDetail.Info.StartDate
+						viewModel.EndDate = taskDetail.Info.EndDate
+						viewModel.TaskDescription = taskDetail.Info.TaskDescription
+						viewModel.UserNumber = taskDetail.Info.UserNumber
+						viewModel.Log = taskDetail.Info.Log
+						//viewModel.UserType = taskDetail.UsersOrGroups
+						viewModel.FitToWork = taskDetail.Info.FitToWork
+						viewModel.TaskId = taskId
+						viewModel.CompanyTeamName = storedSession.CompanyTeamName
+						c.Data["vm"] = viewModel
+						c.Layout = "layout/layout.html"
+						c.TplName = "template/add-task.html"
+
+					case false:
+						log.Println(helpers.ServerConnectionError)
+					}
 				}
+
+			case false:
+				log.Println(helpers.ServerConnectionError)
 			}
 
-		case false:
-			log.Println(helpers.ServerConnectionError)
-		}
 	}
+
 }
-
-

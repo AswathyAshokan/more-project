@@ -26,6 +26,7 @@ type EditTaskViewModel  struct {
 	TaskId				string
 	ContactNameToEdit		[]string
 	CompanyTeamName			string
+	GroupMembersAndUserToEdit	[]string
 }
 
 type AddTaskViewModel  struct {

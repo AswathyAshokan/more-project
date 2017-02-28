@@ -5,13 +5,17 @@ var pageType = vm.PageType;
 var customerName = "";
 var jobId = "";
 var companyTeamName = vm.CompanyTeamName
-
+console.log("user and group",vm.GroupMembersAndUserToEdit)
+console.log("contact name to edit",vm.ContactNameToEdit)
+//function for editing
 $(function () {
 
    
     if (pageType == "edit") {
-        var selectArray = document.getElementById('contactId');
-        selectArray.value =  vm.ContactNameToEdit;
+        var selectArray =  vm.ContactNameToEdit;
+       $("#contactId").val(selectArray);
+        var selectArrayForGroup = vm.GroupMembersAndUserToEdit;
+        $("#userOrGroup").val(selectArrayForGroup);
         document.getElementById("jobName").value = vm.JobName;
         document.getElementById("taskName").value = vm.TaskName;
         document.getElementById("taskLocation").value = vm.TaskLocation;
@@ -25,6 +29,7 @@ $(function () {
     }
 });
 
+//function to load add task
 var addItem = $('<span>+</span>');
 addItem.click(function() {
     window.location = "/"  +  companyTeamName +  "/task/add";
