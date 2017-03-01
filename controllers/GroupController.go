@@ -22,6 +22,7 @@ func (c *GroupController) AddGroup() {
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
 	if r.Method == "POST" {
+		log.Println("cp1")
 		group := models.Group{}
 		members := models.GroupMembers{}
 		group.Info.GroupName = c.GetString("groupName")
@@ -36,6 +37,7 @@ func (c *GroupController) AddGroup() {
 			tempMembersMap[tempGroupId[i]] = members
 		}
 		group.Members = tempMembersMap
+		log.Println("cp2")
 		dbStatus := group.AddGroupToDb(c.AppEngineCtx)
 		switch dbStatus {
 		case true:

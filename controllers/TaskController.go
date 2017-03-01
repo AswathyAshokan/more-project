@@ -238,6 +238,10 @@ func (c *TaskController)LoadTaskDetail() {
 			tempValueSlice = append(tempValueSlice, tasks[k].Info.EndDate)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.LoginType)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Settings.Status)
+			tempValueSlice = append(tempValueSlice,  tasks[k].Info.FitToWork)
+			tempValueSlice = append(tempValueSlice,  tasks[k].Info.UserNumber)
+			tempValueSlice = append(tempValueSlice,  tasks[k].Info.Log)
+			tempValueSlice = append(tempValueSlice,  tasks[k].Info.TaskDescription)
 			viewModel.Values = append(viewModel.Values, tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
 		}

@@ -40,8 +40,9 @@ $().ready(function() {
             for(i = 0; i < selectedUsersNames.length; i++) {
                 formData = formData+"&selectedUserNames="+selectedUsersNames[i];
             }
+            var groupId = vm.GroupId;
             if (vm.PageType == "edit"){
-                var groupId = vm.GroupId;
+                
                 $.ajax({
                     url:'/' + companyTeamName +'/group/'+ groupId  +'/edit',
                     type:'post',
@@ -61,7 +62,8 @@ $().ready(function() {
             
             } else {
                 $.ajax({
-                    url:'/group/add',
+                
+                    url:'/' + companyTeamName +'/group/add',
                     type:'post',
                     datatype: 'json',
                     data: formData,

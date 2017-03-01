@@ -28,7 +28,6 @@ type GroupSettings struct {
 
 // Insert new groups to database
 func(m *Group) AddGroupToDb(ctx context.Context) (bool){
-	//log.Println("values in model",m)
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println(err)
