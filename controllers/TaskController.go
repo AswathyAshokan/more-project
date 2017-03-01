@@ -68,7 +68,10 @@ func (c *TaskController)AddNewTask() {
 			} else {
 				tempName = tempName[:len(tempName)-8]
 				groupNameAndDetails.GroupName = tempName
+
 				//Getting member name from group
+
+
 				groupDetails, dbStatus := group.GetGroupDetailsById(c.AppEngineCtx, tempId)
 				switch dbStatus {
 				case true:
@@ -133,7 +136,10 @@ func (c *TaskController)AddNewTask() {
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
+
 		//Getting users and groups
+
+
 		 allUsers,dbStatus := user.GetUsersForDropdown(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
@@ -317,7 +323,10 @@ func (c *TaskController)LoadEditTask() {
 			} else {
 				tempName = tempName[:len(tempName) - 8]
 				groupNameAndDetails.GroupName = tempName
+
 				//Getting member name from group
+
+
 				groupDetails, dbStatus := group.GetGroupDetailsById(c.AppEngineCtx, tempId)
 				switch dbStatus {
 				case true:

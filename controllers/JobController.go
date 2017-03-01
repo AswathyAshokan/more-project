@@ -41,6 +41,8 @@ func (c *JobController)AddNewJob() {
 			w.Write([]byte("false"))
 		}
 	}else {
+
+		//Getting all customer details
 		customers ,dbStatus:=models.GetAllCustomerDetails(c.AppEngineCtx,companyTeamName)
 		var keySlice []string
 		dataValue := reflect.ValueOf(customers)
@@ -72,8 +74,6 @@ func (c *JobController)LoadJobDetail() {
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
-	//companyName:=c.GetSession("companyName")
-	//log.Println("companyName",companyName)
 	customerId := ""
 	customerId = c.Ctx.Input.Param(":customerId")
 	job :=models.Job{}
@@ -199,7 +199,7 @@ func (c *JobController)LoadEditJob() {
 		}
 	}
 }
-
+//Function to check job name exists in DB
 func (c *JobController)CheckJobName(){
 	w := c.Ctx.ResponseWriter
 	jobName := c.GetString("jobName")
@@ -211,7 +211,7 @@ func (c *JobController)CheckJobName(){
 		w.Write([]byte("false"))
 	}
 }
-
+//Function to check job number exists in DB
 func (c *JobController)CheckJobNumber(){
 	w := c.Ctx.ResponseWriter
 	jobNumber := c.GetString("jobNumber")
