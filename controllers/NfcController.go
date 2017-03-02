@@ -46,12 +46,9 @@ func (c *NfcController) NFCDetails(){
 		tempValueSlice = tempValueSlice[:0]
 	}
 
-
-	log.Println("KeySlice", keySlice)
 	viewModel.Keys	= keySlice
 	viewModel.CompanyTeamName = storedSession.CompanyTeamName
-
-
+	viewModel.CompanyPlan = storedSession.CompanyPlan
 	c.Data["vm"] = viewModel
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/nfc-details.html"
@@ -128,6 +125,7 @@ func (c *NfcController)EditNFC(){
 			viewModel.NFCNumber = nfcDetails.Info.NFCNumber
 			viewModel.Site = nfcDetails.Info.Site
 			viewModel.CompanyTeamName = storedSession.CompanyTeamName
+			viewModel.CompanyPlan = storedSession.CompanyPlan
 
 			c.Data["vm"] = viewModel
 			c.Layout = "layout/layout.html"

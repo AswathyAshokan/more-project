@@ -4,7 +4,6 @@
 document.getElementById("crm").className += " active";
 
 var companyTeamName = vm.CompanyTeamName;
-console.log(vm);
 
 /*Function for creating Data Array for data table*/
 $(function(){ 

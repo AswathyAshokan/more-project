@@ -44,6 +44,7 @@ func (c *InviteUserController) AddInvitation() {
 		}
 	} else {
 		addViewModel.CompanyTeamName = storedSession.CompanyTeamName
+		addViewModel.CompanyPlan = storedSession.CompanyPlan
 		c.Data["vm"] = addViewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-invite-user.html"
@@ -77,6 +78,7 @@ func (c *InviteUserController) InvitationDetails() {
 		}
 		inviteUserViewModel.Keys = keySlice
 		inviteUserViewModel.CompanyTeamName = storedSession.CompanyTeamName
+		inviteUserViewModel.CompanyPlan = storedSession.CompanyPlan
 		c.Data["vm"] = inviteUserViewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/invite-user-details.html"
@@ -137,6 +139,7 @@ func (c *InviteUserController) EditInvitation() {
 			invitationViewModel.PageType = helpers.SelectPageForEdit
 			invitationViewModel.InviteId = InviteUserId
 			invitationViewModel.CompanyTeamName= storedSession.CompanyTeamName
+			invitationViewModel.CompanyPlan = storedSession.CompanyPlan
 			c.Data["vm"] = invitationViewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-invite-user.html"

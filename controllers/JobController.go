@@ -58,6 +58,7 @@ func (c *JobController)AddNewJob() {
 			}
 			viewModel.PageType=helpers.SelectPageForAdd
 			viewModel.CompanyTeamName = storedSession.CompanyTeamName
+			viewModel.CompanyPlan = storedSession.CompanyPlan
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
@@ -105,6 +106,7 @@ func (c *JobController)LoadJobDetail() {
 
 		viewModel.Keys = keySlice
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
+		viewModel.CompanyPlan = storedSession.CompanyPlan
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/job-details.html"
@@ -188,6 +190,7 @@ func (c *JobController)LoadEditJob() {
 				viewModel.NumberOfTask = jobDetail.Info.NumberOfTask
 				viewModel.JobId = jobId
 				viewModel.CompanyTeamName = storedSession.CompanyTeamName
+				viewModel.CompanyPlan = storedSession.CompanyPlan
 				c.Data["vm"] = viewModel
 				c.Layout = "layout/layout.html"
 				c.TplName = "template/add-job.html"

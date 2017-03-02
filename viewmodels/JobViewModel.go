@@ -16,4 +16,5 @@ type JobViewModel  struct {
 	UniqueCustomerNames	[]string
 	SelectedCustomer	string
 	CompanyTeamName		string
+	CompanyPlan		string
 }

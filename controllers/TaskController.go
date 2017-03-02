@@ -186,6 +186,7 @@ func (c *TaskController)AddNewTask() {
 				viewModel.ContactNameArray  = append(viewModel.ContactNameArray , contacts[k.String()].Info.Name)
 			}
 			viewModel.CompanyTeamName=storedSession.CompanyTeamName
+			viewModel.CompanyPlan = storedSession.CompanyPlan
 			viewModel.Key = keySlice
 			viewModel.ContactKey=keySliceForContact
 		case false:
@@ -259,6 +260,7 @@ func (c *TaskController)LoadTaskDetail() {
 		}
 		viewModel.Keys = keySlice
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
+		viewModel.CompanyPlan = storedSession.CompanyPlan
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/task-details.html"
@@ -512,6 +514,7 @@ func (c *TaskController)LoadEditTask() {
 						viewModel.FitToWork = taskDetail.Info.FitToWork
 						viewModel.TaskId = taskId
 						viewModel.CompanyTeamName = storedSession.CompanyTeamName
+						viewModel.CompanyPlan = storedSession.CompanyPlan
 						c.Data["vm"] = viewModel
 						c.Layout = "layout/layout.html"
 						c.TplName = "template/add-task.html"

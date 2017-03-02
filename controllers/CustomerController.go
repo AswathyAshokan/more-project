@@ -84,6 +84,7 @@ func (c *CustomerController) CustomerDetails() {
 		}
 		customerViewModel.Keys = keySlice
 		customerViewModel.CompanyTeamName = storedSession.CompanyTeamName
+		customerViewModel.CompanyPlan = storedSession.CompanyPlan
 		c.Data["vm"] = customerViewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/customer-details.html"
@@ -154,6 +155,7 @@ func (c *CustomerController) EditCustomer() {
 			customerViewModel.PageType = helpers.SelectPageForEdit
 			customerViewModel.CustomerId = customerId
 			customerViewModel.CompanyTeamName = storedSession.CompanyTeamName
+			customerViewModel.CompanyPlan = storedSession.CompanyPlan
 			c.Data["vm"] = customerViewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-customer.html"
@@ -168,9 +170,6 @@ func (c *CustomerController)  CustomerNameCheck(){
 	customerName := c.GetString("customername")
 	pageType := c.Ctx.Input.Param(":type")
 	oldName := c.Ctx.Input.Param(":oldName")
-	log.Println("customername:",customerName)
-	log.Println("pageType:",pageType)
-	log.Println("oldName:",oldName)
 	if pageType == "edit" && strings.Compare(oldName, customerName) == 0 {
 		w.Write([]byte("true"))
 	} else {

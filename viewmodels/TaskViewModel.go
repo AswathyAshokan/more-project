@@ -28,6 +28,8 @@ type EditTaskViewModel  struct {
 	CompanyTeamName			string
 	GroupMembersAndUserToEdit	[]string
 	GroupMembers			[][]string
+	CompanyPlan			string
+
 }
 
 type AddTaskViewModel  struct {
@@ -40,6 +42,7 @@ type AddTaskViewModel  struct {
 	ContactKey			[]string
 	CompanyTeamName			string
 	GroupMembers			[][]string
+	CompanyPlan			string
 
 
 }
@@ -53,4 +56,6 @@ type TaskDetailViewModel  struct {
 	SelectedCustomer		string
 	SelectedCustomerForJob		string
 	CompanyTeamName			string
+	CompanyPlan			string
+
 }

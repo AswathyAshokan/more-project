@@ -4,6 +4,7 @@ type NfcViewModel struct {
 	Values		[][]string
 	Keys 		[]string
 	CompanyTeamName string
+	CompanyPlan	string
 
 }
 
@@ -15,4 +16,6 @@ type EditNfcViewModel struct {
 	Location 	string
 	NFCNumber	string
 	CompanyTeamName string
+	CompanyPlan	string
+
 }

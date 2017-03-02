@@ -1,9 +1,10 @@
 package viewmodels
 
 type GroupList struct {
-	Values       [][]string
-	Keys         []string
+	Values       		[][]string
+	Keys         		[]string
 	CompanyTeamName		string
+	CompanyPlan		string
 }
 
 type AddGroupViewModel struct {
@@ -12,6 +13,7 @@ type AddGroupViewModel struct {
 	PageType		string
 	CompanyTeamName		string
 	GroupName		string
+	CompanyPlan		string
 }
 
 type EditGroupViewModel struct {
@@ -22,4 +24,5 @@ type EditGroupViewModel struct {
 	GroupNameToEdit 	string
 	GroupId                 string
 	CompanyTeamName		string
+	CompanyPlan		string
 }

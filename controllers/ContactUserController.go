@@ -35,7 +35,6 @@ func (c *ContactUserController)AddNewContact() {
 		fmt.Println(reflect.TypeOf(user.Settings.DateOfCreation))
 		user.Settings.Status = "Completed"
 		user.Info.CompanyTeamName = storedSession.CompanyTeamName
-		log.Println("session detail::",storedSession.CompanyTeamName)
 		dbStatus := user.AddContactToDB(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
@@ -46,6 +45,7 @@ func (c *ContactUserController)AddNewContact() {
 	}else {
 		viewModel := viewmodels.ContactUserViewModel{}
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
+		viewModel.CompanyPlan = storedSession.CompanyPlan
 		viewModel.PageType = helpers.SelectPageForAdd
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
@@ -86,7 +86,7 @@ func (c *ContactUserController)DisplayContactDetails() {
 			tempValueSlice = tempValueSlice[:0]
 		}
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
-		log.Println("company name",viewModel.CompanyTeamName)
+		viewModel.CompanyPlan = storedSession.CompanyPlan
 		viewModel.Keys = keySlice
 		viewModel.PageType=helpers.SelectPageForAdd
 		c.Data["vm"] = viewModel
@@ -163,6 +163,7 @@ func (c *ContactUserController)LoadEditContact() {
 			viewModel.PhoneNumber =contact.Info.PhoneNumber
 			viewModel.ContactId=contactId
 			viewModel.CompanyTeamName = storedSession.CompanyTeamName
+			viewModel.CompanyPlan = storedSession.CompanyPlan
 			c.Data["vm"] = viewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-contacts.html"

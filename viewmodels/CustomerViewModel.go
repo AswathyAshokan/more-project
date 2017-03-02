@@ -13,6 +13,7 @@ type Customer struct {
 	Values	      	[][]string
 	Keys	      	[]string
 	CompanyTeamName	string
+	CompanyPlan	string
 }
 type EditCustomerViewModel struct {
 
@@ -26,6 +27,7 @@ type EditCustomerViewModel struct {
 	PageType      	string
 	CustomerId    	string
 	CompanyTeamName	string
+	CompanyPlan	string
 }
 
 type AddCustomerViewModel struct {
