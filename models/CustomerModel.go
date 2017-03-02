@@ -88,7 +88,7 @@ func(m *Customers) EditCustomer(ctx context.Context,customerId string) (Customer
 func(m *Customers) UpdateCustomerDetailsById(ctx context.Context,customerId string) (bool) {
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("/Customer/"+ customerId).Update(&m)
-
+	log.Println("edited details :",m)
 	if err != nil {
 		log.Fatal(err)
 		return  false

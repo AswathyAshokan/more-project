@@ -44,6 +44,7 @@ func (c *CustomerController) AddCustomer() {
 
 	} else {
 		addViewModel.CompanyTeamName = storedSession.CompanyTeamName
+		addViewModel.CompanyPlan   =  storedSession.CompanyPlan
 		c.Data["vm"] = addViewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-customer.html"
@@ -67,6 +68,7 @@ func (c *CustomerController) CustomerDetails() {
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
 		}
+		log.Println("key",keySlice)
 		for _, k := range keySlice {
 			var tempValueSlice []string
 			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.CustomerName)
@@ -76,6 +78,7 @@ func (c *CustomerController) CustomerDetails() {
 			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Email)
 			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Phone)
 			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.ContactPerson)
+			//tempValueSlice = append(tempValueSlice,allCustomer[k].Info.)
 			customerViewModel.Values=append(customerViewModel.Values,tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
 		}
@@ -115,18 +118,20 @@ func (c *CustomerController) EditCustomer() {
 	customerDetails := models.CustomerData{}
 	customer := models.Customers{}
 	customerId := c.Ctx.Input.Param(":customerid")
+	log.Println("customerId",customerId)
 	if r.Method == "POST" {
-		customerDetails.CustomerName = c.GetString("customername")
-		customerDetails.Address = c.GetString("address")
-		customerDetails.ContactPerson = c.GetString("contactperson")
-		customerDetails.Email= c.GetString("email")
-		customerDetails.Phone = c.GetString("phone")
-		customerDetails.ZipCode = c.GetString("zipcode")
-		customerDetails.State = c.GetString("state")
+		customer.Info.CustomerName = c.GetString("customername")
+		customer.Info.Address = c.GetString("address")
+		customer.Info.ContactPerson = c.GetString("contactperson")
+		customer.Info.Email= c.GetString("email")
+		customer.Info.Phone = c.GetString("phone")
+		customer.Info.ZipCode = c.GetString("zipcode")
+		customer.Info.State = c.GetString("state")
+		customerDetails.CompanyTeamName = companyTeamName
 
 		log.Println("new name", customerDetails.CustomerName)
 		dbStatus := customer.UpdateCustomerDetailsById(c.AppEngineCtx, customerId)
-
+		log.Println("status",dbStatus)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -158,10 +163,14 @@ func (c *CustomerController) EditCustomer() {
 	}
 }
 func (c *CustomerController)  CustomerNameCheck(){
+	log.Println("iam there")
 	w := c.Ctx.ResponseWriter
 	customerName := c.GetString("customername")
 	pageType := c.Ctx.Input.Param(":type")
 	oldName := c.Ctx.Input.Param(":oldName")
+	log.Println("customername:",customerName)
+	log.Println("pageType:",pageType)
+	log.Println("oldName:",oldName)
 	if pageType == "edit" && strings.Compare(oldName, customerName) == 0 {
 		w.Write([]byte("true"))
 	} else {

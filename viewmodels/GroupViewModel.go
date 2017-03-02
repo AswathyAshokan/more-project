@@ -11,6 +11,7 @@ type AddGroupViewModel struct {
 	GroupKey     		[]string
 	PageType		string
 	CompanyTeamName		string
+	GroupName		string
 }
 
 type EditGroupViewModel struct {

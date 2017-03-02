@@ -33,6 +33,7 @@ func init() {
 	beegae.Router("/:companyTeamName/group", &controllers.GroupController{}, "*:GroupDetails")
 	beegae.Router("/:companyTeamName/group/:groupId/delete", &controllers.GroupController{}, "*:DeleteGroup")
 	beegae.Router("/:companyTeamName/group/:groupId/edit", &controllers.GroupController{}, "*:EditGroup")
+	beegae.Router("/isgroupnameused/:groupName/:type/:oldName", &controllers.GroupController{}, "*:GroupNameCheck")
 
 	beegae.Router("/:companyTeamName/invite/add", &controllers.InviteUserController{}, "*:AddInvitation")
 	beegae.Router("/:companyTeamName/invite", &controllers.InviteUserController{}, "*:InvitationDetails")

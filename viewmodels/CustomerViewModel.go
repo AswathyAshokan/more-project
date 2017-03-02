@@ -30,4 +30,5 @@ type EditCustomerViewModel struct {
 
 type AddCustomerViewModel struct {
 	CompanyTeamName		string
+	CompanyPlan		string
 }

@@ -6,6 +6,7 @@ import (
 	"app/passporte/viewmodels"
 
 	"app/passporte/models"
+	"encoding/json"
 )
 
 type PlanController struct {
@@ -14,18 +15,11 @@ type PlanController struct {
 
 //to Display Plan Details
 func (c *PlanController) PlanDetails() {
-	log.Println("cp1")
 	planViewModel := viewmodels.Plan{}
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	storedSession, sessionStatus := SessionForPlan(w,r)
-	switch sessionStatus {
-	case true:
-		planViewModel.CompanyTeamName = storedSession.CompanyTeamName
-		planViewModel.SessionFlag = sessionStatus
-	case false:
-		planViewModel.SessionFlag = sessionStatus
-	}
+	_, sessionStatus := SessionForPlan(w,r)
+	planViewModel.SessionFlag = sessionStatus
 	c.Data["vm"] = planViewModel
 	c.TplName = "template/plan.html"
 }
@@ -34,19 +28,33 @@ func (c *PlanController) PlanDetails() {
 func (c *PlanController) PlanUpdate() {
 	w := c.Ctx.ResponseWriter
 	r := c.Ctx.Request
-	/*sessionValues := SessionValues{}*/
 	storedSession,_ := SessionForPlan(w,r)
 	companyId := storedSession.CompanyId
 	selectedCompanyPlan := c.GetString("companyPlan")
 	company := models.Company{}
 	company.Plan = selectedCompanyPlan
-	dbStatus,companyPlanUpdate := company.ChangeCompanyPlan(c.AppEngineCtx,companyId)
+	dbStatus, _ := company.ChangeCompanyPlan(c.AppEngineCtx,companyId)
 	switch dbStatus {
 	case true :
-		log.Println(companyPlanUpdate)
-		/*sessionValues.CompanyPlan = companyPlanUpdate.Plan
-		SetSession(w, sessionValues)*/
-		w.Write([]byte("true"))
+
+		ClearSession(w)
+		sessionValues := SessionValues{}
+		sessionValues.AdminId = storedSession.AdminId
+		sessionValues.AdminFirstName = storedSession.AdminFirstName
+		sessionValues.AdminLastName = storedSession.AdminLastName
+		sessionValues.AdminEmail = storedSession.AdminEmail
+		sessionValues.CompanyId = storedSession.CompanyId
+		sessionValues.CompanyName = storedSession.CompanyName
+		sessionValues.CompanyTeamName = storedSession.CompanyTeamName
+		sessionValues.CompanyPlan = selectedCompanyPlan
+
+		SetSession(w, sessionValues)
+
+		newStoredSession,_ := SessionForPlan(w,r)
+		log.Println("New: ", newStoredSession)
+		slices := []interface{}{"true", sessionValues.CompanyTeamName}
+		sliceToClient, _ := json.Marshal(slices)
+		w.Write(sliceToClient)
 	case false:
 		w.Write([]byte("false"))
 

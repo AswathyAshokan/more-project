@@ -4,6 +4,7 @@
 document.getElementById("crm").className += " active";
 
 var companyTeamName = vm.CompanyTeamName;
+console.log(vm);
 
 /*Function for creating Data Array for data table*/
 $(function(){ 
@@ -61,8 +62,8 @@ $(function(){
 /*Edit customer details when click on edit icon*/
     $('#customer-table tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[7];
-        window.location = '/' + companyTeamName +'/customer/'+ key + '/edit';
+        var cusomerId = data[7];
+        window.location = '/' + companyTeamName +'/customer/'+ cusomerId + '/edit';
         return false;
     });
     

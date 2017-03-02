@@ -3,7 +3,10 @@
 //Below line is for adding active class to layout side menu..
 document.getElementById("group").className += " active";
 
+console.log(vm);
+
 var companyTeamName = vm.CompanyTeamName;
+console.log(companyTeamName);
 $().ready(function() {
     if(vm.PageType == "edit"){ 
         var selectArray = vm.GroupMembersToEdit;
@@ -14,12 +17,21 @@ $().ready(function() {
     
     $("#addgroupForm").validate({
         rules: {
-            groupName: "required",
-            selectedUserIds : "required"
+            groupName:{
+                required:"required",
+                remote:{
+                    url: "/isgroupnameused/" + groupName + "/" + vm.PageType + "/" + vm.GroupNameToEdit,
+                    type: "post"
+                }
+            },
+            selectedUserIds : "required",
         },
         messages: {
-            groupName:"please enter group name ",
-            selectedUserIds:"please fill this column"
+            groupName:{
+                required: "Please enter Group Name ",
+                remote: "The Group Name is already in use !"
+                },
+            selectedUserIds:"please fill this column",
         },
         submitHandler: function(){//to pass all data of a form serial
              $("#saveButton").attr('disabled', true);
