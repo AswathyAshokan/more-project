@@ -16,6 +16,7 @@ type Company struct{
 	Info 		CompanyInfo
 	Settings 	CompanySettings
 	Plan            string
+	Users		map[string]CompanyUsers
 }
 
 type CompanyAdmin struct {
@@ -35,6 +36,11 @@ type CompanyInfo struct{
 type CompanySettings struct{
 	Status		string
 	DateOfCreation  int64
+}
+
+type CompanyUsers struct{
+	DateOfJoin	int64
+	Status		string
 }
 
 //Struct for Admin

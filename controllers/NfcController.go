@@ -46,9 +46,7 @@ func (c *NfcController) NFCDetails(){
 		tempValueSlice = tempValueSlice[:0]
 	}
 
-	for key := range allNfcDetails{
-		log.Println("KEYSSSSSSSS",key,allNfcDetails[key])
-	}
+
 	log.Println("KeySlice", keySlice)
 	viewModel.Keys	= keySlice
 	viewModel.CompanyTeamName = storedSession.CompanyTeamName

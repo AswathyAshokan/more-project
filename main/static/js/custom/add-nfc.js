@@ -12,6 +12,7 @@ $(function(){
             document.getElementById("site").value = vm.Site;
             document.getElementById("location").value = vm.Location;
             document.getElementById("nfcNumber").value = vm.NFCNumber;
+            document.getElementById("pageTitle").innerHTML = "Edit NFC Tag"
             } 
     //Add new NFC Tag and perform Validation
     $("#addNfcForm").validate({

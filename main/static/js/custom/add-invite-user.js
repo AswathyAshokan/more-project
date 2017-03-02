@@ -12,7 +12,7 @@ $().ready(function() {
         document.getElementById("lastname").value = vm.LastName;
         document.getElementById("emailid").value = vm.EmailId;
         document.getElementById("usertype").value = vm.UserType;
-        document.getElementById("inviteUserEdit").innerHTML = "Edit Invite User"
+        document.getElementById("pageTitle").innerHTML = "Edit Invited User"
 
 
     }
@@ -26,8 +26,8 @@ $().ready(function() {
           },
       },
         messages: {
-            firstname:"please enter first name ",
-            emailid:"please enter currect email id"
+            firstname:"please enter First name ",
+            emailid:"please enter a valid Email address!"
         },
         submitHandler: function(){//to pass all data of a form serial
               $("#saveButton").attr('disabled', true);
@@ -55,7 +55,6 @@ $().ready(function() {
                 $.ajax({
                     url:'/' + companyTeamName +'/invite/add',
                     type:'post',
-                    datatype: 'json',
                     data: formData,
                     //call back or get response here
                     success : function(response){

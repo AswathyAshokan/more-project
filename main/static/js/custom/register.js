@@ -112,7 +112,7 @@ $(function(){
                                         window.location = '/login';
                                     }
                                     else{
-                                            console.log("false");
+                                            $("#register").attr('disabled', false);
                                     }
                                 },
                                 error: function (request,status, error) {

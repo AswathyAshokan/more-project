@@ -3,4 +3,6 @@
   / /_/ / __ `/ ___/ ___/ __ \/ __ \/ ___/ __/ _ \
  / ____/ /_/ (__  |__  ) /_/ / /_/ / /  / /_/  __/
 /_/    \__,_/____/____/ .___/\____/_/   \__/\___/ 
-                     /_/                          
+                     /_/
+
+1, Invitation should be redundant free. A user with an Email can be invited only once.

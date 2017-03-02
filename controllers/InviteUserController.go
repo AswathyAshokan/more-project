@@ -20,6 +20,7 @@ func (c *InviteUserController) AddInvitation() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	log.Println("COMOANY TEAM:",companyTeamName)
 	storedSession := ReadSession(w, r, companyTeamName)
 	log.Println("session VAlues :",storedSession)
 	inviteUser := models.Invitation{}
@@ -27,12 +28,14 @@ func (c *InviteUserController) AddInvitation() {
 	if r.Method == "POST" {
 		inviteUser.Info.FirstName = c.GetString("firstname")
 		inviteUser.Info.LastName = c.GetString("lastname")
-		inviteUser.Info.EmailId = c.GetString("emailid")
+		inviteUser.Info.Email = c.GetString("emailid")
 		inviteUser.Info.UserType = c.GetString("usertype")
 		inviteUser.Settings.DateOfCreation =(time.Now().UnixNano() / 1000000)
-		inviteUser.Settings.Status = "inactive"
+		inviteUser.Settings.Status = helpers.StatusPending
 		inviteUser.Info.CompanyTeamName = storedSession.CompanyTeamName
-		dbStatus := inviteUser.AddInviteToDb(c.AppEngineCtx)
+		inviteUser.Info.CompanyName = storedSession.CompanyName
+		companyID := models.GetCompanyIdByCompanyTeamName(c.AppEngineCtx, companyTeamName)
+		dbStatus := inviteUser.AddInviteToDb(c.AppEngineCtx,companyID)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -40,7 +43,7 @@ func (c *InviteUserController) AddInvitation() {
 			w.Write([]byte("false"))
 		}
 	} else {
-		addViewModel.CompanyTeamName = inviteUser.Info.CompanyTeamName
+		addViewModel.CompanyTeamName = storedSession.CompanyTeamName
 		c.Data["vm"] = addViewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-invite-user.html"
@@ -66,7 +69,7 @@ func (c *InviteUserController) InvitationDetails() {
 			var tempValueSlice []string
 			tempValueSlice = append(tempValueSlice, info[k].Info.FirstName)
 			tempValueSlice = append(tempValueSlice, info[k].Info.LastName)
-			tempValueSlice = append(tempValueSlice, info[k].Info.EmailId)
+			tempValueSlice = append(tempValueSlice, info[k].Info.Email)
 			tempValueSlice = append(tempValueSlice, info[k].Info.UserType)
 			tempValueSlice = append(tempValueSlice, info[k].Settings.Status)
 			inviteUserViewModel.Values=append(inviteUserViewModel.Values,tempValueSlice)
@@ -111,7 +114,7 @@ func (c *InviteUserController) EditInvitation() {
 	if r.Method == "POST" {
 		inviteUser.Info.FirstName = c.GetString("firstname")
 		inviteUser.Info.LastName = c.GetString("lastname")
-		inviteUser.Info.EmailId = c.GetString("emailid")
+		inviteUser.Info.Email = c.GetString("emailid")
 		inviteUser.Info.UserType = c.GetString("usertype")
 		dbStatus := inviteUser.UpdateInviteUserById(c.AppEngineCtx, InviteUserId)
 
@@ -128,7 +131,7 @@ func (c *InviteUserController) EditInvitation() {
 			invitationViewModel := viewmodels.EditInviteUserViewModel{}
 			invitationViewModel.FirstName = editResult.Info.FirstName
 			invitationViewModel.LastName = editResult.Info.LastName
-			invitationViewModel.EmailId = editResult.Info.EmailId
+			invitationViewModel.EmailId = editResult.Info.Email
 			invitationViewModel.UserType = editResult.Info.UserType
 			invitationViewModel.Status = editResult.Settings.Status
 			invitationViewModel.PageType = helpers.SelectPageForEdit
