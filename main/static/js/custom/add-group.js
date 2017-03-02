@@ -4,7 +4,6 @@
 document.getElementById("group").className += " active";
 
 var companyTeamName = vm.CompanyTeamName;
-console.log("group name", vm.GroupMembersToEdit);
 $().ready(function() {
     if(vm.PageType == "edit"){ 
         var selectArray = vm.GroupMembersToEdit;

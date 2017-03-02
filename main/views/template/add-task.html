@@ -74,7 +74,7 @@
                             <div class="col-sm-6">
 								<label for="userOrGroup" class="">Users/Group</label>
 
-								<select class="form-control sprites-arrow-down multiple-drop" id="userOrGroup" multiple="multiple" name="userOrGroup"  >
+								<select class="form-control sprites-arrow-down multiple-drop" id="userOrGroup" multiple="multiple" name="userOrGroup">
                                     {{range $key, $val := .vm.GroupNameArray}}
                                         <option value="{{index $.vm.UserAndGroupKey $key}}">{{$val}}</option>
                                     {{end}}

@@ -4,9 +4,10 @@ document.getElementById("task").className += " active";
 var pageType = vm.PageType;
 var customerName = "";
 var jobId = "";
-var companyTeamName = vm.CompanyTeamName
-console.log("user and group",vm.GroupMembersAndUserToEdit)
-console.log("contact name to edit",vm.ContactNameToEdit)
+var companyTeamName = vm.CompanyTeamName;
+var selectedUserArray = []; // contains all selected users and groups
+var selectedGroupArray = []; // contains all selected groups
+console.log("Group Members", vm.GroupMembers);
 //function for editing
 $(function () {
 
@@ -55,6 +56,72 @@ $().ready(function() {
         var jobDropdownId = document.getElementById("jobName");
         jobId = jobDropdownId.options[jobDropdownId.selectedIndex].id;
     }
+    
+    
+    /*Function will ceck if the selected value is a group name, and if so 
+    function will auto select all users in that group*/
+    $("#userOrGroup").on('change', function(evt, params) {
+        var tempArray = $(this).val();
+        var clickedOption = "";
+        if (selectedUserArray.length < tempArray.length) { // for selection
+            for (var i = 0; i < tempArray.length; i++) {
+                if (selectedUserArray.indexOf(tempArray[i]) == -1) {
+                    clickedOption = tempArray[i];
+                    
+                }
+            }
+            
+            for (var i = 0; i < vm.GroupMembers.length; i++) {
+                if (vm.GroupMembers[i][0] == clickedOption) {
+                    var memberLength = vm.GroupMembers[i].length;
+                    for (var j = 1; j < memberLength; j++) {
+                        if (tempArray.indexOf(vm.GroupMembers[i][j]) == -1) {
+                            tempArray.push(vm.GroupMembers[i][j])
+                        }
+                        $("#userOrGroup").val(tempArray);
+                    }
+                    
+                    // Inserting group into group array for validating min. no. of users
+                    selectedGroupArray.push(clickedOption);
+                }
+            }           
+            
+            selectedUserArray = tempArray;
+            
+            
+        } else if (selectedUserArray.length > tempArray.length) { // for deselection
+            for (var i = 0; i < selectedUserArray.length; i++) {
+                if (tempArray.indexOf(selectedUserArray[i]) == -1) {
+                    clickedOption = selectedUserArray[i];
+                    
+                }
+            }
+            
+            for (var i = 0; i < vm.GroupMembers.length; i++) {
+                if (vm.GroupMembers[i][0] == clickedOption) {
+                    var memberLength = vm.GroupMembers[i].length;
+                    for (var j = 1; j < memberLength; j++) {
+                        var userIndex = tempArray.indexOf(vm.GroupMembers[i][j]);
+                        if (userIndex != -1) {
+                            tempArray.splice(userIndex, 1);
+                        }
+                        $("#userOrGroup").val(tempArray);
+                    }           
+                    
+                    
+                    // Removing group from group array for validating min. no. of users
+                    var deleteGroupKeyIndex = selectedGroupArray.indexOf(clickedOption);
+                    selectedGroupArray.splice(deleteGroupKeyIndex, 1);
+                }
+            }            
+            
+            selectedUserArray = tempArray;
+            
+        }
+        
+        
+        
+    });
      
        
     $("#taskDoneForm").validate({

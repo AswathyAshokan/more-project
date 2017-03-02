@@ -18,7 +18,6 @@ type GroupMembers struct {
 type GroupInfo struct {
 	GroupName       	string
 	CompanyTeamName		string
-	Members	 		map[string]Group
 }
 
 type GroupSettings struct {

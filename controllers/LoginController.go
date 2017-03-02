@@ -4,7 +4,6 @@ package controllers
 
 import (
 	"app/passporte/models"
-	"log"
 	"net/http"
 	"encoding/json"
 )
@@ -24,7 +23,6 @@ func (c *LoginController) Login() {
 		login := models.Login{}
 		login.Email = c.GetString("email")
 		login.Password = []byte(c.GetString("password"))
-		log.Println(login)
 		loginStatus, adminDetails, companyDetails, adminId := login.CheckLogin(c.AppEngineCtx)
 		switch loginStatus{
 		case true:

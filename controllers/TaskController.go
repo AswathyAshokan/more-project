@@ -54,7 +54,7 @@ func (c *TaskController)AddNewTask() {
 		var keySliceForGroup [] string
 		var MemberNameArray [] string
 		groupMemberNameMap := make(map[string]models.GroupMemberName)
-		members := models.GroupMemberName{}
+		//members := models.GroupMemberName{}
 
 		for i := 0; i < len(UserOrGroupIdArray); i++ {
 			tempName :=UserOrGroupNameArray[i]
@@ -83,10 +83,10 @@ func (c *TaskController)AddNewTask() {
 					for i := 0; i < len(keySliceForGroup); i++ {
 						MemberNameArray = append(MemberNameArray,groupDetails.Members[keySliceForGroup[i]].MemberName)
 					}
-					for i := 0; i < len(keySliceForGroup); i++ {
+					/*for i := 0; i < len(keySliceForGroup); i++ {
 						members.MemberName = MemberNameArray[i]
 						groupMemberNameMap[keySliceForGroup[i]] = members
-					}
+					}*/
 
 				case false:
 					log.Println(helpers.ServerConnectionError)
@@ -153,8 +153,19 @@ func (c *TaskController)AddNewTask() {
 			case true:
 				dataValue := reflect.ValueOf(allGroups)
 				for _, key := range dataValue.MapKeys() {
+					var memberSlice []string
 					keySliceForGroupAndUser = append(keySliceForGroupAndUser, key.String())
 					viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[key.String()].Info.GroupName+" (Group)")
+
+					// For selecting members while selecting a group in dropdown
+					memberSlice = append(memberSlice, key.String())
+					groupDataValue := reflect.ValueOf(allGroups[key.String()].Members)
+					for _, memberKey := range groupDataValue.MapKeys()  {
+						memberSlice = append(memberSlice, memberKey.String())
+					}
+					viewModel.GroupMembers = append(viewModel.GroupMembers, memberSlice)
+					log.Println(viewModel.GroupMembers)
+
 				}
 				viewModel.UserAndGroupKey=keySliceForGroupAndUser
 			case false:
@@ -313,7 +324,7 @@ func (c *TaskController)LoadEditTask() {
 		var keySliceForGroup [] string
 		var MemberNameArray [] string
 		groupMemberNameMap := make(map[string]models.GroupMemberName)
-		members := models.GroupMemberName{}
+		//members := models.GroupMemberName{}
 
 		for i := 0; i < len(UserOrGroupIdArray); i++ {
 			tempName := UserOrGroupNameArray[i]
@@ -342,10 +353,10 @@ func (c *TaskController)LoadEditTask() {
 					for i := 0; i < len(keySliceForGroup); i++ {
 						MemberNameArray = append(MemberNameArray, groupDetails.Members[keySliceForGroup[i]].MemberName)
 					}
-					for i := 0; i < len(keySliceForGroup); i++ {
+					/*for i := 0; i < len(keySliceForGroup); i++ {
 						members.MemberName = MemberNameArray[i]
 						groupMemberNameMap[keySliceForGroup[i]] = members
-					}
+					}*/
 
 				case false:
 					log.Println(helpers.ServerConnectionError)
@@ -416,10 +427,18 @@ func (c *TaskController)LoadEditTask() {
 				case true:
 					dataValue := reflect.ValueOf(allGroups)
 					for _, key := range dataValue.MapKeys() {
+						var memberSlice []string
 						keySliceForGroupAndUser = append(keySliceForGroupAndUser, key.String())
-					}
-					for _, k := range dataValue.MapKeys() {
-						viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[k.String()].Info.GroupName + "(Group)")
+						viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[key.String()].Info.GroupName + "(Group)")
+
+						// For selecting members while selecting a group in dropdown
+						memberSlice = append(memberSlice, key.String())
+						groupDataValue := reflect.ValueOf(allGroups[key.String()].Members)
+						for _, memberKey := range groupDataValue.MapKeys()  {
+							memberSlice = append(memberSlice, memberKey.String())
+						}
+						viewModel.GroupMembers = append(viewModel.GroupMembers, memberSlice)
+						log.Println(viewModel.GroupMembers)
 					}
 					viewModel.UserAndGroupKey = keySliceForGroupAndUser
 				case false:
