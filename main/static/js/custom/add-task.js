@@ -131,7 +131,84 @@ $().ready(function() {
         },
         submitHandler: function() {
            
-            var taskId=vm.TaskId;
+            var minUsers = $("#minUsers option:selected").val();
+            if (selectedUserArray.length - selectedGroupArray.length >= minUsers) {
+               var taskId=vm.TaskId;
+               var jobnew = $("#jobName option:selected").val()
+               if ($("#jobName ")[0].selectedIndex <= 0) {
+                  document.getElementById('jobName').innerHTML = "";
+               }
+               var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId;
+                var selectedContactNames = [];
+
+               //get the user's name corresponding to  keys selected from dropdownlist
+                $("#contactId option:selected").each(function () {
+                    var $this = $(this);
+                    if ($this.length) {
+                        var selectedContactName = $this.text();
+                        selectedContactNames.push( selectedContactName);
+                    }
+                });
+                  for(i = 0; i < selectedContactNames.length; i++) {
+                    formData = formData+"&contactName="+selectedContactNames[i];
+                }
+
+               //function to get all users and group
+
+               var selectedUserAndGroupName = [];
+               $("#userOrGroup option:selected").each(function () {
+                   var $this = $(this);
+                    if ($this.length) {
+                        var selectedUserName = $this.text();
+                        console.log(selectedUserName);
+                        selectedUserAndGroupName.push( selectedUserName);
+                    }
+                });
+
+           for(i = 0; i < selectedUserAndGroupName.length; i++) {
+                   formData = formData+"&userAndGroupName="+selectedUserAndGroupName[i];
+               }
+               if(pageType == "edit"){
+                   $.ajax({
+                       url: '/' +  companyTeamName  + '/task/' + taskId + '/edit',
+                        type: 'post',
+                        datatype: 'json',
+                        data: formData,
+                        success : function(response) {
+                            if (response == "true" ) {
+                                window.location ='/'  +  companyTeamName  + '/task';
+                            } else {
+                                $("#saveButton").attr('disabled', true);
+                            }
+                        },
+                        error: function (request,status, error) {
+                            console.log(error);
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        url:'/'+ companyTeamName + '/task/add',
+                        type: 'post',
+                        datatype: 'json',
+                        data: formData,
+                        success : function(response) {
+                            if (response == "true" ) {
+                                window.location = '/' + companyTeamName + '/task';
+                            } else {
+                                 $("#saveButton").attr('disabled', true);
+                            }
+                        },
+                        error: function (request,status, error) {
+                            console.log(error);
+                        }
+                    });
+
+                }
+            } else {
+                $("#minUserValidationError").css({"color": "red", "font-size": "15px"});
+                $("#minUserValidationError").html("More users need to start this Task.").show();
+            }
+            /*var taskId=vm.TaskId;
            var jobnew = $("#jobName option:selected").val()
            if ($("#jobName ")[0].selectedIndex <= 0) {
               document.getElementById('jobName').innerHTML = "";
@@ -201,7 +278,7 @@ $().ready(function() {
                     }
                 });
 
-            }
+            }*/
            
         }
        

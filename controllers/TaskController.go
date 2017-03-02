@@ -35,7 +35,7 @@ func (c *TaskController)AddNewTask() {
 		task.Info.EndDate = c.GetString("endDate")
 		task.Info.TaskLocation = c.GetString("taskLocation")
 		task.Info.TaskDescription = c.GetString("taskDescription")
-		task.Info.UserNumber = c.GetString("users")
+		task.Info.UserNumber = c.GetString("minUsers")
 		task.Info.Log = c.GetString("log")
 		UserOrGroupIdArray := c.GetStrings("userOrGroup")
 		UserOrGroupNameArray := c.GetStrings("userAndGroupName")
@@ -164,7 +164,6 @@ func (c *TaskController)AddNewTask() {
 						memberSlice = append(memberSlice, memberKey.String())
 					}
 					viewModel.GroupMembers = append(viewModel.GroupMembers, memberSlice)
-					log.Println(viewModel.GroupMembers)
 
 				}
 				viewModel.UserAndGroupKey=keySliceForGroupAndUser
@@ -174,6 +173,8 @@ func (c *TaskController)AddNewTask() {
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
+
+		//for getting all contact
 		dbStatus, contacts := models.GetAllContact(c.AppEngineCtx,companyTeamName)
 		switch dbStatus {
 		case true:
@@ -305,7 +306,7 @@ func (c *TaskController)LoadEditTask() {
 		task.Info.EndDate = c.GetString("endDate")
 		task.Info.TaskLocation = c.GetString("taskLocation")
 		task.Info.TaskDescription = c.GetString("taskDescription")
-		task.Info.UserNumber = c.GetString("users")
+		task.Info.UserNumber = c.GetString("minUsers")
 		task.Info.Log = c.GetString("log")
 		UserOrGroupIdArray := c.GetStrings("userOrGroup")
 		UserOrGroupNameArray := c.GetStrings("userAndGroupName")
@@ -438,7 +439,7 @@ func (c *TaskController)LoadEditTask() {
 							memberSlice = append(memberSlice, memberKey.String())
 						}
 						viewModel.GroupMembers = append(viewModel.GroupMembers, memberSlice)
-						log.Println(viewModel.GroupMembers)
+
 					}
 					viewModel.UserAndGroupKey = keySliceForGroupAndUser
 				case false:
