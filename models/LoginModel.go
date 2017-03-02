@@ -38,7 +38,6 @@ func(m *Login)CheckLogin(ctx context.Context)(bool, Admins, Company, string){
 		adminId = key.String()
 	}
 
-
 	if err := dB.Child("/Company/"+adminDetails.Company.CompanyId).Value(&companyDetails); err !=nil{
 		log.Println(err)
 		return false, adminDetails, companyDetails, adminId
