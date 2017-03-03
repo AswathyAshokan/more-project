@@ -42,7 +42,7 @@ func (c *TaskController)AddNewTask() {
 		tempContactName := c.GetStrings("contactName")
 		tempContactId := c.GetStrings("contactId")
 		task.Info.LoginType=c.GetString("loginType")
-		task.Info.FitToWork = c.GetString("fitToWork")
+		task.Info.FitToWork = c.GetString("addFitToWork")
 		task.Settings.DateOfCreation =time.Now().UnixNano() / int64(time.Millisecond)
 		task.Settings.Status = helpers.StatusPending
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
@@ -315,7 +315,7 @@ func (c *TaskController)LoadEditTask() {
 		tempContactName := c.GetStrings("contactName")
 		tempContactId := c.GetStrings("contactId")
 		task.Info.LoginType = c.GetString("loginType")
-		task.Info.FitToWork = c.GetString("fitToWork")
+		task.Info.FitToWork = c.GetString("addFitToWork")
 		task.Settings.DateOfCreation = time.Now().UnixNano() / int64(time.Millisecond)
 		task.Settings.Status = helpers.StatusPending
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName

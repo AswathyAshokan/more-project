@@ -26,7 +26,7 @@ type TaskInfo struct {
 	TaskDescription string
 	UserNumber      string
 	Log             string
-	FitToWork       string
+	FitToWork      	string
 	CompanyTeamName	string
 }
 type TaskContact struct {

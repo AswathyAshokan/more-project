@@ -7,6 +7,7 @@ var jobId = "";
 var companyTeamName = vm.CompanyTeamName;
 var selectedUserArray = []; // contains all selected users and groups
 var selectedGroupArray = []; // contains all selected groups
+var fitToWorkFromDynamicTextBox = []; // contains all fit to work
 console.log("Group Members", vm.GroupMembers);
 //function for editing
 $(function () {
@@ -28,7 +29,30 @@ $(function () {
         document.getElementById("fitToWork").value = vm.FitToWork;
         document.getElementById("taskHead").innerHTML = "Edit Task";
     }
+    
+    
+    
+     $("#btnAdd").bind("click", function () {
+        var div = $("<div />");
+        div.html(GetDynamicTextBox(""));
+        $("#TextBoxContainer").append(div);
+    });
+    $("#saveButton").bind("click", function () {
+        var values = "";
+        $("input[name=DynamicTextBox]").each(function () {
+            values += $(this).val() + "\n";
+        });
+        alert(values);
+    });
+    $("body").on("click", ".remove", function () {
+        $(this).closest("div").remove();
+    });
 });
+function GetDynamicTextBox(value) {
+    return '<input name = "DynamicTextBox" type="text" value = "' + value + '" />&nbsp;' +
+            '<input type="button" value="Remove" class="remove" />'
+}
+    
 
 //function to load add task
 var addItem = $('<span>+</span>');
@@ -41,13 +65,30 @@ $().ready(function() {
    $(".radio-inline").change(function () {
        loginTypeRadio = $('.radio-inline:checked').val();
    });
-    addFitToWork = function() {
-        $("#fitToWorkAdd").append('<br><div class="plus" id="fitToWorkDelete"><input class="form-control" id="ex2" type="text"><span class="add-decl">+</span><span class="delete-decl " onclick="deleteFitToWork();" >+</span></div></br>');
-    }
-    deleteFitToWork = function (){
-        var deleteFitWorkData = document.getElementById( 'fitToWorkDelete' );
-        deleteFitWorkData.parentNode.removeChild( deleteFitWorkData );
-    }
+
+    
+    //function to load mutiple text box
+//    addFitWorkDynamically =  function() {
+//        var div = $("<div class='plus'/>");
+//        div.html(GetDynamicTextBox(""));
+//        $("#TextBoxContainer").append(div);
+//    }
+//    $("#saveButton").bind("click", function() {
+//        var values = 
+//      $.map($("input[name=addFitToWork]"), function(el) {
+//          return el.value
+//      });
+//        console.log("fit to work",values)
+//         fitToWorkFromDynamicTextBox.push(values);
+//    });
+//    $("body").on("click", ".delete-decl ", function() {
+//        $(this).closest("div").remove();
+//    });
+//    function GetDynamicTextBox(value) {
+//        return '<input class="form-control" id="addFitToWork" name="addFitToWork"   type="text" value = "' + value + '"><span class="add-decl">+</span><span class="delete-decl " >+</span>'
+//}
+    
+    
     getJobAndCustomer = function(){
         var job = $("#jobName option:selected").val() + " (";
         var jobAndCustomer = $("#jobName option:selected").text();
@@ -132,61 +173,66 @@ $().ready(function() {
         submitHandler: function() {
            
             var minUsers = $("#minUsers option:selected").val();
+            
             if (selectedUserArray.length - selectedGroupArray.length >= minUsers) {
-               var taskId=vm.TaskId;
-               var jobnew = $("#jobName option:selected").val()
-               if ($("#jobName ")[0].selectedIndex <= 0) {
-                  document.getElementById('jobName').innerHTML = "";
-               }
-               var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId;
-                var selectedContactNames = [];
+                if(loginTypeRadio.length != 0)
+                    {
+                       var taskId=vm.TaskId;
+                    var jobnew = $("#jobName option:selected").val()
+                    if ($("#jobName ")[0].selectedIndex <= 0) {
+                        document.getElementById('jobName').innerHTML = "";
+                    }
+                        //orginal fit to work with dynamically loaded text box value
+                        var fitToWorkValue = document.getElementById("addFitToWorkValue").value;
+                        fitToWorkFromDynamicTextBox.push(fitToWorkValue);
+                        
+                        var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&addFitToWork=" + fitToWorkFromDynamicTextBox;
+                        var selectedContactNames = [];
 
                //get the user's name corresponding to  keys selected from dropdownlist
-                $("#contactId option:selected").each(function () {
-                    var $this = $(this);
-                    if ($this.length) {
-                        var selectedContactName = $this.text();
-                        selectedContactNames.push( selectedContactName);
-                    }
-                });
-                  for(i = 0; i < selectedContactNames.length; i++) {
-                    formData = formData+"&contactName="+selectedContactNames[i];
-                }
-
-               //function to get all users and group
-
-               var selectedUserAndGroupName = [];
-               $("#userOrGroup option:selected").each(function () {
-                   var $this = $(this);
-                    if ($this.length) {
-                        var selectedUserName = $this.text();
-                        console.log(selectedUserName);
-                        selectedUserAndGroupName.push( selectedUserName);
-                    }
-                });
-
-           for(i = 0; i < selectedUserAndGroupName.length; i++) {
-                   formData = formData+"&userAndGroupName="+selectedUserAndGroupName[i];
-               }
-               if(pageType == "edit"){
-                   $.ajax({
-                       url: '/' +  companyTeamName  + '/task/' + taskId + '/edit',
-                        type: 'post',
-                        datatype: 'json',
-                        data: formData,
-                        success : function(response) {
-                            if (response == "true" ) {
-                                window.location ='/'  +  companyTeamName  + '/task';
-                            } else {
-                                $("#saveButton").attr('disabled', true);
-                            }
-                        },
-                        error: function (request,status, error) {
-                            console.log(error);
+                    $("#contactId option:selected").each(function () {
+                        var $this = $(this);
+                        if ($this.length) {
+                            var selectedContactName = $this.text();
+                            selectedContactNames.push( selectedContactName);
                         }
                     });
-                } else {
-                    $.ajax({
+                    for(i = 0; i < selectedContactNames.length; i++) {
+                        formData = formData+"&contactName="+selectedContactNames[i];
+                    }
+
+               //function to get all users and group
+                    var selectedUserAndGroupName = [];
+                    $("#userOrGroup option:selected").each(function () {
+                        var $this = $(this);
+                        if ($this.length) {
+                            var selectedUserName = $this.text();
+                            console.log(selectedUserName);
+                            selectedUserAndGroupName.push( selectedUserName);
+                        }
+                    });
+                    for(i = 0; i < selectedUserAndGroupName.length; i++) {
+                        formData = formData+"&userAndGroupName="+selectedUserAndGroupName[i];
+                    }
+                    if(pageType == "edit"){
+                        $.ajax({
+                            url: '/' +  companyTeamName  + '/task/' + taskId + '/edit',
+                            type: 'post',
+                            datatype: 'json',
+                            data: formData,
+                            success : function(response) {
+                                if (response == "true" ) {
+                                    window.location ='/'  +  companyTeamName  + '/task';
+                                } else {
+                                    $("#saveButton").attr('disabled', true);
+                                }
+                            },
+                            error: function (request,status, error) {
+                                console.log(error);
+                            }
+                        });
+                    } else {
+                        $.ajax({
                         url:'/'+ companyTeamName + '/task/add',
                         type: 'post',
                         datatype: 'json',
@@ -198,16 +244,23 @@ $().ready(function() {
                                  $("#saveButton").attr('disabled', true);
                             }
                         },
-                        error: function (request,status, error) {
-                            console.log(error);
-                        }
-                    });
-
+                            error: function (request,status, error) {
+                                console.log(error);
+                            }
+                        });
+                    } 
+                    }
+                else {
+                    $("#loginTypeValidationError").css({"color": "red", "font-size": "15px"});
+                    $("#loginTypeValidationError").html("please select a login type.").show();
                 }
-            } else {
-                $("#minUserValidationError").css({"color": "red", "font-size": "15px"});
-                $("#minUserValidationError").html("More users need to start this Task.").show();
+                
+                    
             }
+                else {
+                    $("#minUserValidationError").css({"color": "red", "font-size": "15px"});
+                    $("#minUserValidationError").html("More users need to start this Task.").show();
+                }
             /*var taskId=vm.TaskId;
            var jobnew = $("#jobName option:selected").val()
            if ($("#jobName ")[0].selectedIndex <= 0) {
