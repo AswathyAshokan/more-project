@@ -221,6 +221,7 @@ func (c *TaskController)LoadTaskDetail() {
 		for _, k := range keySlice {
 			var tempValueSlice []string
 
+
 			tempJobAndCustomer := ""
 			if tasks[k].Job.JobName != "" {
 				var buffer bytes.Buffer
@@ -251,6 +252,7 @@ func (c *TaskController)LoadTaskDetail() {
 			tempValueSlice = append(tempValueSlice, tasks[k].Info.EndDate)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.LoginType)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Settings.Status)
+			tempValueSlice =append(tempValueSlice,"")
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.FitToWork)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.UserNumber)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.Log)

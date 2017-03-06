@@ -32,27 +32,33 @@ $(function () {
     
     
     
-     $("#btnAdd").bind("click", function () {
-        var div = $("<div />");
+    //function for getting textbox dynamically
+    
+    $("#btnAdd").bind("click", function () {
+        var div = $("<div class='plus'/>");
         div.html(GetDynamicTextBox(""));
         $("#TextBoxContainer").append(div);
     });
     $("#saveButton").bind("click", function () {
         var values = "";
         $("input[name=DynamicTextBox]").each(function () {
-            values += $(this).val() + "\n";
+            values += $(this).val() +"\n";   
         });
-        alert(values);
+        var fitToWorkValue = document.getElementById("addFitToWorkValue").value;
+        fitToWorkFromDynamicTextBox.push(values,fitToWorkValue);
     });
     $("body").on("click", ".remove", function () {
         $(this).closest("div").remove();
     });
 });
+
+
 function GetDynamicTextBox(value) {
-    return '<input name = "DynamicTextBox" type="text" value = "' + value + '" />&nbsp;' +
-            '<input type="button" value="Remove" class="remove" />'
+    return ' <input class="form-control"  name = "DynamicTextBox" type="text" value = "' + value + '" />&nbsp;' +
+            '<button id="btnAdd" class="remove" name="closePreviewBtn"><span class="delete-decl">+</span></button>'
 }
-    
+ 
+
 
 //function to load add task
 var addItem = $('<span>+</span>');
@@ -65,30 +71,8 @@ $().ready(function() {
    $(".radio-inline").change(function () {
        loginTypeRadio = $('.radio-inline:checked').val();
    });
-
     
-    //function to load mutiple text box
-//    addFitWorkDynamically =  function() {
-//        var div = $("<div class='plus'/>");
-//        div.html(GetDynamicTextBox(""));
-//        $("#TextBoxContainer").append(div);
-//    }
-//    $("#saveButton").bind("click", function() {
-//        var values = 
-//      $.map($("input[name=addFitToWork]"), function(el) {
-//          return el.value
-//      });
-//        console.log("fit to work",values)
-//         fitToWorkFromDynamicTextBox.push(values);
-//    });
-//    $("body").on("click", ".delete-decl ", function() {
-//        $(this).closest("div").remove();
-//    });
-//    function GetDynamicTextBox(value) {
-//        return '<input class="form-control" id="addFitToWork" name="addFitToWork"   type="text" value = "' + value + '"><span class="add-decl">+</span><span class="delete-decl " >+</span>'
-//}
-    
-    
+    //Functiion for getting job and customer separate
     getJobAndCustomer = function(){
         var job = $("#jobName option:selected").val() + " (";
         var jobAndCustomer = $("#jobName option:selected").text();
@@ -182,10 +166,6 @@ $().ready(function() {
                     if ($("#jobName ")[0].selectedIndex <= 0) {
                         document.getElementById('jobName').innerHTML = "";
                     }
-                        //orginal fit to work with dynamically loaded text box value
-                        var fitToWorkValue = document.getElementById("addFitToWorkValue").value;
-                        fitToWorkFromDynamicTextBox.push(fitToWorkValue);
-                        
                         var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&addFitToWork=" + fitToWorkFromDynamicTextBox;
                         var selectedContactNames = [];
 

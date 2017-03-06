@@ -118,17 +118,9 @@ $(function(){
     function dataTableManipulate(dataArray){
         table =  $("#task-details").DataTable({
             data: dataArray,
-            "columnDefs": [
-//                {
-//                    "className":    'details-control',
-//                    "orderable":    false,
-//                    "data":         null,
-//                    "defaultContent": '',
-//                    "width":        "5%",
-//                     "targets": 0,
-//                },
+            "columnDefs": [  
                 {
-                       "targets": -1,
+                       "targets": 7,
                        "width": "5%",
                        "data": null,
                        "defaultContent": '<div class="edit-wrapper"><span class="icn"></i><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
@@ -163,43 +155,6 @@ $(function(){
     
     
     
-    //* Formatting function for row details - modify as you need */
-//function format ( d ) {
-//    // `d` is the original data object for the row
-//    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
-//        '<tr>'+
-//            '<td>Full name:</td>'+
-//            '<td>'+d.name+'</td>'+
-//        '</tr>'+
-//        '<tr>'+
-//            '<td>Extension number:</td>'+
-//            '<td>'+d.extn+'</td>'+
-//        '</tr>'+
-//        '<tr>'+
-//            '<td>Extra info:</td>'+
-//            '<td>And any further details here (images etc)...</td>'+
-//        '</tr>'+
-//    '</table>';
-//}
-//    
-//    
-//    // Add event listener for opening and closing details
-//    $('#task-details tbody').on('click', 'td.details-control', function () {
-//        var tr = $(this).closest('tr');
-//        var row = table.row( tr );
-// 
-//        if ( row.child.isShown() ) {
-//            // This row is already open - close it
-//            row.child.hide();
-//            tr.removeClass('shown');
-//        }
-//        else {
-//            // Open this row
-//            row.child( format(row.data()) ).show();
-//            tr.addClass('shown');
-//        }
-//    } );
-    
     
     //..................data table calling.......................
     if(vm.Values != null) {
@@ -216,7 +171,7 @@ $(function(){
     //.....................editing..................
     $('#task-details tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[7];
+        var key = data[12];
         window.location = '/' + companyTeamName + '/task/' + key + '/edit'
     });
 
@@ -224,7 +179,7 @@ $(function(){
     $('#task-details tbody').on( 'click', '#delete', function () {
         $("#myModal").modal();
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[7];
+        var key = data[12];
         
         $("#confirm").click(function(){
             $.ajax({
