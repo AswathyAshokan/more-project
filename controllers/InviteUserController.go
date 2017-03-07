@@ -9,12 +9,20 @@ import (
 	"app/passporte/helpers"
 	"log"
 	"reflect"
+	"net/smtp"
+	"html/template"
+	"bytes"
 )
 
 type InviteUserController struct {
 	BaseController
 }
-
+type TemplateData struct{
+	AdminName	string
+	AdminEmail 	string
+	InvitedUser	string
+	CompanyName	string
+}
 //Add new invite users to database
 func (c *InviteUserController) AddInvitation() {
 	r := c.Ctx.Request
@@ -34,10 +42,45 @@ func (c *InviteUserController) AddInvitation() {
 		inviteUser.Settings.Status = helpers.StatusPending
 		inviteUser.Info.CompanyTeamName = storedSession.CompanyTeamName
 		inviteUser.Info.CompanyName = storedSession.CompanyName
+		userFullname := storedSession.AdminFirstName+" "+storedSession.AdminLastName
 		companyID := models.GetCompanyIdByCompanyTeamName(c.AppEngineCtx, companyTeamName)
 		dbStatus := inviteUser.AddInviteToDb(c.AppEngineCtx,companyID)
 		switch dbStatus {
 		case true:
+
+			templateData := TemplateData{}
+			templateData.AdminEmail = storedSession.AdminEmail
+			templateData.AdminName = userFullname
+			templateData.CompanyName = inviteUser.Info.CompanyName
+			templateData.InvitedUser =  inviteUser.Info.FirstName
+			t,err := template.ParseFiles("views/email/invite-email.html")
+			if err != nil {
+				log.Println(err)
+			}
+			buf := new(bytes.Buffer)
+			if err = t.Execute(buf, templateData); err != nil {
+				log.Println(err)
+			}
+			body := buf.String()
+			from := "sarathcynere@gmail.com"
+			to := inviteUser.Info.Email
+			subject := "Subject: Passporte - Invitation\n"
+			mime := "MIME-version: 1.0;\r\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+			/*message := "From: " + from + "\n" +
+				"To: " + to + "\n" +
+				"Subject:" +subject +
+				mime +
+				"<html> Hello, " + inviteUser.Info.FirstName +
+				"<br>"+userFullname +" ("+storedSession.AdminEmail+") uses Passporte.  They have invited you to join the Passporte team <h4>" + inviteUser.Info.CompanyName +"</h4>."+
+				"To Accept the Invitation Request please click"+
+				"<table cellspacing='0' cellpadding='0'><tr><td align='center' width='300' height='40' bgcolor='#18af55' style='-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: #ffffff; display: block;'><a href='http:/www.EXAMPLE.com/' style='font-size:16px; font-weight: bold; font-family: Helvetica, Arial, sans-serif; text-decoration: none; line-height:40px; width:100%; display:inline-block'><span style='color: #FFFFFF'>Accept</span></a></td></tr></table>"+
+				"To Reject the Invitation Request click"+
+				"<table cellspacing='0' cellpadding='0'><tr><td align='center' width='300' height='40' bgcolor='#ff3f3f' style='-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: #ffffff; display: block;'><a href='http:/www.EXAMPLE.com/' style='font-size:16px; font-weight: bold; font-family: Helvetica, Arial, sans-serif; text-decoration: none; line-height:40px; width:100%; display:inline-block'><span style='color: #FFFFFF'>Decline</span></a></td></tr></table>"+
+				"</html>"*/
+			message := []byte(subject + mime + "\n" + body)
+			if err := smtp.SendMail("smtp.gmail.com:587", smtp.PlainAuth("", "sarathcynere@gmail.com", "cynereinfotech", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
+				log.Println(err)
+			}
 			w.Write([]byte("true"))
 		case false:
 			w.Write([]byte("false"))
