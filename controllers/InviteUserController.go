@@ -96,7 +96,7 @@ func (c *InviteUserController) AddInvitation() {
 						count = count + 1
 					}
 				}
-				for i := count; i < 6; i++ {
+				for i := count; i < 4; i++ {
 					addViewModel.AllowInvitations = true
 				}
 			}

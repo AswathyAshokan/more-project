@@ -17,7 +17,8 @@ $().ready(function() {
 
     }
     if(vm.AllowInvitations == false){
-        alert("reached your limit please upgrade your plan");
+        $("#InviteUserValidationError").css({"color": "red", "font-size": "15px"});
+        $("#InviteUserValidationError").html("Your user invitation limit is exceeded.Please upgrade your plan").show();
         $("#saveButton").attr('disabled', true);
     }
     
