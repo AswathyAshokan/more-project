@@ -5,7 +5,6 @@ import (
 	"app/passporte/models"
 	"time"
 	"app/passporte/viewmodels"
-
 	"app/passporte/helpers"
 	"log"
 	"reflect"
@@ -28,7 +27,6 @@ func (c *InviteUserController) AddInvitation() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
-	log.Println("COMOANY TEAM:",companyTeamName)
 	storedSession := ReadSession(w, r, companyTeamName)
 	log.Println("session VAlues :",storedSession)
 	inviteUser := models.Invitation{}
@@ -86,6 +84,37 @@ func (c *InviteUserController) AddInvitation() {
 			w.Write([]byte("false"))
 		}
 	} else {
+		info,dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx,companyTeamName)
+		switch dbStatus {
+		case true:
+			var count = 0
+			companyPlan := storedSession.CompanyPlan
+			var tempValueSlice []string
+			if companyPlan == "family" {
+
+				dataValue := reflect.ValueOf(info)
+
+				var uniqueEmailSlice []string
+				for _, key := range dataValue.MapKeys() {
+					if helpers.StringInSlice(info[key.String()].Info.Email, uniqueEmailSlice) == false {
+						tempValueSlice = append(tempValueSlice, info[key.String()].Settings.Status)
+						uniqueEmailSlice = append(uniqueEmailSlice, info[key.String()].Info.Email)
+					}
+
+				}
+				for i := 0; i < len(tempValueSlice); i++ {
+					if tempValueSlice[i] == helpers.StatusPending || tempValueSlice[i] == helpers.StatusAccepted {
+						count = count + 1
+					}
+				}
+				for i := count; i < 6; i++ {
+					addViewModel.AllowInvitations = true
+				}
+			}
+		case false:
+			log.Println("failed")
+		}
+
 		addViewModel.CompanyTeamName = storedSession.CompanyTeamName
 		addViewModel.CompanyPlan = storedSession.CompanyPlan
 		c.Data["vm"] = addViewModel

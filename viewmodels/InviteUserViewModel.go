@@ -31,4 +31,5 @@ type EditInviteUserViewModel struct {
 type AddInviteUserViewModel struct {
 	CompanyTeamName		string
 	CompanyPlan		string
+	AllowInvitations	bool
 }

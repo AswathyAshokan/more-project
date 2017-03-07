@@ -20,6 +20,7 @@ type inviteUser struct {
 	UserType 		string
 	CompanyTeamName		string
 	CompanyName		string
+	CompanyPlan		string
 }
 
 type InviteSettings struct {
@@ -35,8 +36,11 @@ type UserCompany struct{
 
 //Add new invite Users to database
 func(m *Invitation) AddInviteToDb(ctx context.Context, companyID string)bool {
+	log.Println("cp9")
+
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
+
 		log.Println(err)
 	}
 	invitedUserData, err := db.Child("Invitation").Push(m)
@@ -80,6 +84,7 @@ func(m *Invitation) AddInviteToDb(ctx context.Context, companyID string)bool {
 	err = db.Child("Invitation/"+invitedUserUniqueID+"/Settings/Status").Set(m.Settings.Status)
 	return true
 }
+
 
 //Fetch all the details of invite user from database
 func GetAllInviteUsersDetails(ctx context.Context,companyTeamName string) (map[string]Invitation,bool) {
@@ -150,6 +155,43 @@ func GetCompanyIdByCompanyTeamName(ctx context.Context, companyTeamName string)s
 		companyID = key
 	}
 	return companyID
+
+}
+
+func(m *Invitation) GetUsersStatus(ctx context.Context, companyTeamName string)(map[string]Invitation,bool) {
+
+	value := map[string]Invitation{}
+	dB, err := GetFirebaseClient(ctx, "")
+	if err != nil {
+		log.Println("No Db Connection!")
+	}
+	err = dB.Child("Invitation").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&value)
+	if err != nil {
+		log.Fatal(err)
+		return value , false
+	}
+	return  value,true
+}
+func (m *Invitation)IsEmailIdUnique(ctx context.Context,emailIdCheck string)(bool) {
+	log.Println("cp5")
+
+	invitationDetails := map[string]Invitation{}
+	dB, err := GetFirebaseClient(ctx, "")
+	if err != nil {
+		log.Println("No Db Connection!")
+	}
+	if err :=  dB.Child("Invitation").OrderBy("Info/Email").EqualTo(emailIdCheck).Value(&invitationDetails); err != nil {
+		log.Fatal(err)
+	}
+	if len(invitationDetails)==0{
+		log.Println("cp6")
+
+		log.Println("map null:",invitationDetails)
+		return true
+	}else{
+		log.Println("map not null:",invitationDetails)
+		return false
+	}
 
 }
 

@@ -16,6 +16,10 @@ $().ready(function() {
 
 
     }
+    if(vm.AllowInvitations == false){
+        alert("reached your limit please upgrade your plan");
+        $("#saveButton").attr('disabled', true);
+    }
     
     $("#adduserForm").validate({
 	  rules: {
@@ -50,7 +54,6 @@ $().ready(function() {
                     }
                 });
             } else {
-                console.log(vm)
                 var formData = $("#adduserForm").serialize();
                 $.ajax({
                     url:'/' + companyTeamName +'/invite/add',
