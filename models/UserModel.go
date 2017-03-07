@@ -49,16 +49,11 @@ type UserSocialNetworks struct {
 
 type UserTasks struct {
 	CompanyId		string
-	CompanyName		string
-	CompanyTeamName		string
 	CustomerName		string
 	DateOfCreation		int64
 	EndDate			int64
 	JobName			string
-	LoginType       	string
 	StartDate		int64
 	Status			string
-	TaskDescription 	string
-	TaskLocation    	string
 	TaskName		string
 }
