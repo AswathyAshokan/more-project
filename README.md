@@ -5,4 +5,8 @@
 /_/    \__,_/____/____/ .___/\____/_/   \__/\___/ 
                      /_/
 
-1, Invitation should be redundant free. A user with an Email can be invited only once.
+Issues
+
+DB changes
+1. changed by Aswathy(07-03-2017)
+    Adding task to users for mobile app

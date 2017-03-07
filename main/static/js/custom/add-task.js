@@ -8,6 +8,7 @@ var companyTeamName = vm.CompanyTeamName;
 var selectedUserArray = []; // contains all selected users and groups
 var selectedGroupArray = []; // contains all selected groups
 var fitToWorkFromDynamicTextBox = []; // contains all fit to work
+var i = 0;
 console.log("Group Members", vm.GroupMembers);
 //function for editing
 $(function () {
@@ -41,11 +42,15 @@ $(function () {
     });
     $("#saveButton").bind("click", function () {
         var values = "";
+       
         $("input[name=DynamicTextBox]").each(function () {
-            values += $(this).val() +"\n";   
+            
+            fitToWorkFromDynamicTextBox.push($(this).val())
+            //values += $(this).val() +"\n";   
         });
         var fitToWorkValue = document.getElementById("addFitToWorkValue").value;
-        fitToWorkFromDynamicTextBox.push(values,fitToWorkValue);
+        fitToWorkFromDynamicTextBox.push(fitToWorkValue);
+        alert(fitToWorkFromDynamicTextBox);
     });
     $("body").on("click", ".remove", function () {
         $(this).closest("div").remove();
@@ -54,8 +59,10 @@ $(function () {
 
 
 function GetDynamicTextBox(value) {
-    return ' <input class="form-control"  name = "DynamicTextBox" type="text" value = "' + value + '" />&nbsp;' +
+    
+    return ' <input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + value + '" />&nbsp;' +
             '<button id="btnAdd" class="remove" name="closePreviewBtn"><span class="delete-decl">+</span></button>'
+    i++;
 }
  
 

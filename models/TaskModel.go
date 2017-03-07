@@ -4,6 +4,9 @@ package models
 import (
 	"log"
 	"golang.org/x/net/context"
+	"reflect"
+	"strings"
+	"app/passporte/helpers"
 )
 
 type Task   struct {
@@ -20,8 +23,8 @@ type TaskInfo struct {
 
 	TaskName        string
 	TaskLocation    string
-	StartDate       string
-	EndDate         string
+	StartDate       int64
+	EndDate         int64
 	LoginType       string
 	TaskDescription string
 	UserNumber      string
@@ -68,10 +71,37 @@ func (m *Task) AddTaskToDB(ctx context.Context )(bool)  {
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
-	_, err = dB.Child("Task").Push(m)
+
+	taskData, err := dB.Child("Task").Push(m)
 	if err!=nil{
 		log.Println("Insertion error:",err)
 		return false
+	}
+
+	//For inserting task details to User
+	users :=Users{}
+	taskDataString := strings.Split(taskData.String(),"/")
+	taskUniqueID := taskDataString[len(taskDataString)-2]
+	userData := reflect.ValueOf(m.UsersAndGroups.User)
+	for _, key := range userData.MapKeys() {
+		userTaskMap := make(map[string]UserTasks)
+		userTaskDetail := UserTasks{}
+		userTaskDetail.DateOfCreation = m.Settings.DateOfCreation
+		userTaskDetail.TaskName = m.Info.TaskName
+		userTaskDetail.CustomerName = m.Customer.CustomerName
+		userTaskDetail.EndDate = m.Info.EndDate
+		userTaskDetail.JobName = m.Job.JobName
+		userTaskDetail.Status = helpers.StatusPending
+		userTaskDetail.CustomerName=m.Info.CompanyTeamName
+		userTaskMap[taskUniqueID] = userTaskDetail
+		users.Tasks = userTaskMap
+		userKey :=key.String()
+		err = dB.Child("/Users/"+userKey+"/Tasks").Set(users.Tasks)
+		if err!=nil{
+			log.Println("Insertion error:",err)
+			return false
+		}
+
 	}
 	return true
 }

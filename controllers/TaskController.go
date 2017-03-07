@@ -13,6 +13,7 @@ import (
 	"bytes"
 	"regexp"
 
+
 )
 
 type TaskController struct {
@@ -31,8 +32,21 @@ func (c *TaskController)AddNewTask() {
 		task.Job.JobId = c.GetString("jobId")
 		task.Customer.CustomerName = c.GetString("customerName")
 		task.Customer.CustomerId =c.GetString("jobId")
-		task.Info.StartDate = c.GetString("startDate")
-		task.Info.EndDate = c.GetString("endDate")
+		startDateString := c.GetString("startDate")
+		layout := "01/02/2006 3:04:05 PM"
+		startDate, err := time.Parse(layout, startDateString)
+		if err != nil {
+			log.Println(err)
+		}
+		log.Println(startDate.Unix())
+		//task.Info.StartDate = startDate.Unix()
+		endDateString := c.GetString("endDate")
+		endDate, err := time.Parse(layout, endDateString)
+		if err != nil {
+			log.Println(err)
+		}
+		log.Println(endDate.Unix())
+		//task.Info.EndDate = endDate.Unix()
 		task.Info.TaskLocation = c.GetString("taskLocation")
 		task.Info.TaskDescription = c.GetString("taskDescription")
 		task.Info.UserNumber = c.GetString("minUsers")
@@ -248,8 +262,10 @@ func (c *TaskController)LoadTaskDetail() {
 			}
 			tempValueSlice = append(tempValueSlice, tasks[k].Info.TaskName)
 			tempValueSlice = append(tempValueSlice, tasks[k].Info.TaskLocation)
-			tempValueSlice = append(tempValueSlice, tasks[k].Info.StartDate)
-			tempValueSlice = append(tempValueSlice, tasks[k].Info.EndDate)
+			//startDate := time.Unix(tasks[k].Info.StartDate, 0).Format(time.RFC3339)
+			//tempValueSlice = append(tempValueSlice, startDate)
+			//endDate := time.Unix(tasks[k].Info.EndDate, 0).Format(time.RFC3339)
+			//tempValueSlice = append(tempValueSlice, endDate)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.LoginType)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Settings.Status)
 			tempValueSlice =append(tempValueSlice,"")
@@ -306,8 +322,21 @@ func (c *TaskController)LoadEditTask() {
 		task.Job.JobId = c.GetString("jobId")
 		task.Customer.CustomerName = c.GetString("customerName")
 		task.Customer.CustomerId = c.GetString("jobId")
-		task.Info.StartDate = c.GetString("startDate")
-		task.Info.EndDate = c.GetString("endDate")
+		startDateString := c.GetString("startDate")
+		layout := "01/02/2006 3:04:05 PM"
+		startDate, err := time.Parse(layout, startDateString)
+		if err != nil {
+			log.Println(err)
+		}
+		log.Println(startDate.Unix())
+		task.Info.StartDate = startDate.Unix()
+		endDateString := c.GetString("endDate")
+		endDate, err := time.Parse(layout, endDateString)
+		if err != nil {
+			log.Println(err)
+		}
+		log.Println(endDate.Unix())
+		task.Info.EndDate = endDate.Unix()
 		task.Info.TaskLocation = c.GetString("taskLocation")
 		task.Info.TaskDescription = c.GetString("taskDescription")
 		task.Info.UserNumber = c.GetString("minUsers")
@@ -507,8 +536,8 @@ func (c *TaskController)LoadEditTask() {
 						viewModel.JobName = taskDetail.Job.JobName
 						viewModel.TaskName = taskDetail.Info.TaskName
 						viewModel.TaskLocation = taskDetail.Info.TaskLocation
-						viewModel.StartDate = taskDetail.Info.StartDate
-						viewModel.EndDate = taskDetail.Info.EndDate
+						//viewModel.StartDate = taskDetail.Info.StartDate
+						//viewModel.EndDate = taskDetail.Info.EndDate
 						viewModel.TaskDescription = taskDetail.Info.TaskDescription
 						viewModel.UserNumber = taskDetail.Info.UserNumber
 						viewModel.Log = taskDetail.Info.Log
