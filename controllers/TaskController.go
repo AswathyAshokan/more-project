@@ -33,20 +33,20 @@ func (c *TaskController)AddNewTask() {
 		task.Customer.CustomerName = c.GetString("customerName")
 		task.Customer.CustomerId =c.GetString("jobId")
 		startDateString := c.GetString("startDate")
-		layout := "01/02/2006 3:04:05 PM"
+		layout := "01/02/2006"
 		startDate, err := time.Parse(layout, startDateString)
 		if err != nil {
 			log.Println(err)
 		}
 		log.Println(startDate.Unix())
-		//task.Info.StartDate = startDate.Unix()
+		task.Info.StartDate = startDate.Unix()
 		endDateString := c.GetString("endDate")
 		endDate, err := time.Parse(layout, endDateString)
 		if err != nil {
 			log.Println(err)
 		}
 		log.Println(endDate.Unix())
-		//task.Info.EndDate = endDate.Unix()
+		task.Info.EndDate = endDate.Unix()
 		task.Info.TaskLocation = c.GetString("taskLocation")
 		task.Info.TaskDescription = c.GetString("taskDescription")
 		task.Info.UserNumber = c.GetString("minUsers")
@@ -323,7 +323,7 @@ func (c *TaskController)LoadEditTask() {
 		task.Customer.CustomerName = c.GetString("customerName")
 		task.Customer.CustomerId = c.GetString("jobId")
 		startDateString := c.GetString("startDate")
-		layout := "01/02/2006 3:04:05 PM"
+		layout := "01/02/2006 "
 		startDate, err := time.Parse(layout, startDateString)
 		if err != nil {
 			log.Println(err)

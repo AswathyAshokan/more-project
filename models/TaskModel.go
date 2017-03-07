@@ -90,6 +90,7 @@ func (m *Task) AddTaskToDB(ctx context.Context )(bool)  {
 		userTaskDetail.TaskName = m.Info.TaskName
 		userTaskDetail.CustomerName = m.Customer.CustomerName
 		userTaskDetail.EndDate = m.Info.EndDate
+		userTaskDetail.StartDate =m.Info.StartDate
 		userTaskDetail.JobName = m.Job.JobName
 		userTaskDetail.Status = helpers.StatusPending
 		userTaskDetail.CustomerName=m.Info.CompanyTeamName
