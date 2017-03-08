@@ -116,7 +116,6 @@ func (c *CustomerController) EditCustomer() {
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
-	customerDetails := models.CustomerData{}
 	customer := models.Customers{}
 	customerId := c.Ctx.Input.Param(":customerid")
 	log.Println("customerId",customerId)
@@ -128,9 +127,7 @@ func (c *CustomerController) EditCustomer() {
 		customer.Info.Phone = c.GetString("phone")
 		customer.Info.ZipCode = c.GetString("zipcode")
 		customer.Info.State = c.GetString("state")
-		customerDetails.CompanyTeamName = companyTeamName
-
-		log.Println("new name", customerDetails.CustomerName)
+		customer.Info.CompanyTeamName = storedSession.CompanyTeamName
 		dbStatus := customer.UpdateCustomerDetailsById(c.AppEngineCtx, customerId)
 		log.Println("status",dbStatus)
 		switch dbStatus {

@@ -73,21 +73,22 @@ func (c *InviteUserController) AddInvitation() {
 			w.Write([]byte("false"))
 		}
 	} else {
-		info,dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx,companyTeamName)
-		switch dbStatus {
-		case true:
-			var count = 0
-			companyPlan := storedSession.CompanyPlan
-			var tempValueSlice []string
-			if companyPlan == "family" {
-
+		companyPlan := storedSession.CompanyPlan
+		if companyPlan == "family" {
+			info, dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx, companyTeamName)
+			switch dbStatus {
+			case true:
+				var count = 0
+				companyPlan := storedSession.CompanyPlan
+				log.Println("companyPlan:", companyPlan)
+				var tempValueSlice []string
 				dataValue := reflect.ValueOf(info)
-
 				var uniqueEmailSlice []string
 				for _, key := range dataValue.MapKeys() {
+					//check is email id is present in the slice
 					if helpers.StringInSlice(info[key.String()].Info.Email, uniqueEmailSlice) == false {
 						tempValueSlice = append(tempValueSlice, info[key.String()].Settings.Status)
-						uniqueEmailSlice = append(uniqueEmailSlice, info[key.String()].Info.Email)
+						uniqueEmailSlice = append(uniqueEmailSlice, info[key.String()].Info.Email)//appent email id into slice
 					}
 
 				}
@@ -99,9 +100,12 @@ func (c *InviteUserController) AddInvitation() {
 				for i := count; i < 4; i++ {
 					addViewModel.AllowInvitations = true
 				}
+
+			case false:
+				log.Println("failed")
 			}
-		case false:
-			log.Println("failed")
+		}else {
+			addViewModel.AllowInvitations =true
 		}
 
 		addViewModel.CompanyTeamName = storedSession.CompanyTeamName
