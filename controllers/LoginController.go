@@ -6,6 +6,7 @@ import (
 	"app/passporte/models"
 	"net/http"
 	"encoding/json"
+	"log"
 )
 
 type LoginController struct {
@@ -40,7 +41,16 @@ func (c *LoginController) Login() {
 			sliceToClient, _ := json.Marshal(slices)
 			w.Write(sliceToClient)
 		case false:
-			w.Write([]byte("false"))
+			log.Println("cp1")
+			dbStatus,admins :=login.CheckSuperAdminLogin(c.AppEngineCtx)
+			switch dbStatus {
+			case true:
+				log.Println("cp2")
+				log.Println("admin details:",admins)
+			case false:
+				log.Println("false")
+				w.Write([]byte("false"))
+			}
 
 		}
 

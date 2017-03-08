@@ -53,3 +53,32 @@ func(m *Login)CheckLogin(ctx context.Context)(bool, Admins, Company, string){
 	return true, adminDetails, companyDetails, adminId
 }
 
+func(m *Login)CheckSuperAdminLogin(ctx context.Context)(bool,map[string]Admins){
+	log.Println("cp3")
+
+	admins := map[string]Admins{}
+	dB, err := GetFirebaseClient(ctx,"")
+	if err!=nil{
+
+		log.Println(err)
+		return false,admins
+	}
+	log.Println("enter email",m.Email)
+	if err := dB.Child("SuperAdmins").OrderBy("Info/Email").EqualTo(m.Email).Value(&admins); err != nil {
+		log.Println(err)
+		log.Println("cp4")
+		return false,admins
+	}
+	if len(admins) == 0{
+		return false,admins
+	}
+	/*err = bcrypt.CompareHashAndPassword(SuperAdmin.In, m.Password)
+	if err !=nil{
+		log.Println(err)
+		return false, adminDetails, companyDetails, adminId
+
+	}*/
+
+	return true,admins
+}
+
