@@ -27,14 +27,14 @@
 								<label for="startDate" class="">Start Date and Time</label>
 								<div class="callender-wrapper">
 									<input type="text" id="startDate" class="datepicker form-control sprites-callender" name="startDate">
-									<input type="text" class="form-control time"  value="" placeholder="12:00" data-timepicker >
+									<input type="text" class="form-control time"  value="" placeholder="12:00" data-timepicker id="startTime" name="startTime" >
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<label for="endDate" class="">End Date and Time</label>
 								<div class="callender-wrapper">
 									<input type="text" id="endDate" class="datepicker form-control sprites-callender" name="endDate">
-									<input type="text" class="form-control time"  value="" placeholder="12:00" data-timepicker >
+									<input type="text" class="form-control time"  value="" placeholder="12:00" data-timepicker id="endTime" name="endTime" >
 								</div>
 							</div>
 						</div>
@@ -108,7 +108,10 @@
                                     <span class="add-decl"  >+</span>
                                     <span class="delete-decl">+</span>
 
--->
+-->                                 
+                                 
+                                    <input  value="" id="latitudeId" type="hidden">
+                                    <input  value="" id="longitudeId" type="hidden">
                                     <button  class="add-decl" id="btnAdd" >+</button>
                                 </div>
                             </div>
@@ -152,14 +155,19 @@
 <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
 
 <script>
-		function myMap() {
-            var mapCanvas = document.getElementById("map");
-            var mapOptions = {
-                center: new google.maps.LatLng(51.5, -0.2),
-                zoom: 10
-            }
-            var map = new google.maps.Map(mapCanvas, mapOptions);
+    function myMap() {
+        var mapCanvas = document.getElementById("map");
+        var mapOptions = {
+            center: new google.maps.LatLng(51.5, -0.2),
+            zoom: 10
         }
+        var map = new google.maps.Map(mapCanvas, mapOptions);
+        google.maps.event.addListener(map, 'click', function (e) {
+            alert("Latitude: " + e.latLng.lat() + "\r\nLongitude: " + e.latLng.lng());
+            document.getElementById('latitudeId').value =e.latLng.lat();
+            document.getElementById('longitudeId').value =e.latLng.lng();
+        });
+    }
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFl3U2s0vqjaN-6rvAaOA8Ts1cfDss_KM&callback=myMap"></script>

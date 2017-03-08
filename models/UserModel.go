@@ -8,7 +8,7 @@ type Users struct {
 	NextOfKin		NextOfKin
 	Settings		UserSettings
 	SocialNetworks		UserSocialNetworks
-	Tasks			map[string]UserTasks
+	Tasks			UserTasks
 }
 
 type Expiry struct {

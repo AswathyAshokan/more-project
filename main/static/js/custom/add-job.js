@@ -59,6 +59,7 @@ $().ready(function() {
                         if (response == "true") {
                             window.location = '/' + companyTeamName + '/job';
                         } else {
+                            $("#saveButton").attr('disabled', false);
                         }
                     },
                     error: function (request,status, error) {
@@ -75,6 +76,7 @@ $().ready(function() {
                         if (response =="true") {
                             window.location ='/' + companyTeamName + '/job'
                         } else {
+                            $("#saveButton").attr('disabled', false);
                         }
                     },
                     error: function (request,status, error) {

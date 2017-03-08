@@ -54,8 +54,10 @@ func (c *TaskController)AddNewTask() {
 		tempContactName := c.GetStrings("contactName")
 		tempContactId := c.GetStrings("contactId")
 		task.Info.LoginType=c.GetString("loginType")
+		task.Info.Latitude = c.GetString("latitude")
+		task.Info.Longitude = c.GetString("longitude")
 		task.Info.FitToWork = c.GetString("addFitToWork")
-		task.Settings.DateOfCreation =time.Now().UnixNano() / int64(time.Millisecond)
+		task.Settings.DateOfCreation =time.Now().Unix()
 		task.Settings.Status = helpers.StatusPending
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
 		companyId :=storedSession.CompanyId
@@ -70,8 +72,8 @@ func (c *TaskController)AddNewTask() {
 		//members := models.GroupMemberName{}
 
 		for i := 0; i < len(UserOrGroupIdArray); i++ {
-			tempName :=UserOrGroupNameArray[i]
-			tempId :=UserOrGroupIdArray[i]
+			tempName := UserOrGroupNameArray[i]
+			tempId := UserOrGroupIdArray[i]
 			userOrGroupRegExp := regexp.MustCompile(`\((.*?)\)`)
 			userOrGroupSelection := userOrGroupRegExp.FindStringSubmatch(tempName)
 			if((userOrGroupSelection[1]) == "User") {
@@ -128,6 +130,7 @@ func (c *TaskController)AddNewTask() {
 			}
 		}
 		task.Contacts = contactMap
+
 
 		//Add data to task DB
 		dbStatus :=task.AddTaskToDB(c.AppEngineCtx,companyId)
@@ -271,10 +274,10 @@ func (c *TaskController)LoadTaskDetail() {
 			}
 			tempValueSlice = append(tempValueSlice, tasks[k].Info.TaskName)
 			tempValueSlice = append(tempValueSlice, tasks[k].Info.TaskLocation)
-			//startDate := time.Unix(tasks[k].Info.StartDate, 0).Format(time.RFC3339)
-			//tempValueSlice = append(tempValueSlice, startDate)
-			//endDate := time.Unix(tasks[k].Info.EndDate, 0).Format(time.RFC3339)
-			//tempValueSlice = append(tempValueSlice, endDate)
+			startDate := time.Unix(tasks[k].Info.StartDate, 0).Format("2006/01/02")
+			tempValueSlice = append(tempValueSlice, startDate)
+			endDate := time.Unix(tasks[k].Info.EndDate, 0).Format("2006/01/02")
+			tempValueSlice = append(tempValueSlice, endDate)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.LoginType)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Settings.Status)
 			tempValueSlice =append(tempValueSlice,"")
@@ -355,8 +358,10 @@ func (c *TaskController)LoadEditTask() {
 		tempContactName := c.GetStrings("contactName")
 		tempContactId := c.GetStrings("contactId")
 		task.Info.LoginType = c.GetString("loginType")
+		task.Info.Latitude = c.GetString("latitude")
+		task.Info.Longitude = c.GetString("longitude")
 		task.Info.FitToWork = c.GetString("addFitToWork")
-		task.Settings.DateOfCreation = time.Now().UnixNano() / int64(time.Millisecond)
+		task.Settings.DateOfCreation = time.Now().Unix()
 		task.Settings.Status = helpers.StatusPending
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
 		userMap := make(map[string]models.TaskUser)

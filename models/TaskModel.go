@@ -31,6 +31,8 @@ type TaskInfo struct {
 	Log             string
 	FitToWork      	string
 	CompanyTeamName	string
+	Latitude	string
+	Longitude	string
 }
 type TaskContact struct {
 	ContactName	string
@@ -81,12 +83,10 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string)(bool)  {
 	}
 
 	//For inserting task details to User
-	users :=Users{}
 	taskDataString := strings.Split(taskData.String(),"/")
 	taskUniqueID := taskDataString[len(taskDataString)-2]
 	userData := reflect.ValueOf(m.UsersAndGroups.User)
 	for _, key := range userData.MapKeys() {
-		userTaskMap := make(map[string]UserTasks)
 		userTaskDetail := UserTasks{}
 		userTaskDetail.DateOfCreation = m.Settings.DateOfCreation
 		userTaskDetail.TaskName = m.Info.TaskName
@@ -97,10 +97,9 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string)(bool)  {
 		userTaskDetail.Status = helpers.StatusPending
 		userTaskDetail.CustomerName=m.Info.CompanyTeamName
 		userTaskDetail.CompanyId = companyId
-		userTaskMap[taskUniqueID] = userTaskDetail
-		users.Tasks = userTaskMap
+
 		userKey :=key.String()
-		err = dB.Child("/Users/"+userKey+"/Tasks").Set(users.Tasks)
+		err = dB.Child("/Users/"+userKey+"/Tasks/"+taskUniqueID).Set(userTaskDetail)
 		if err!=nil{
 			log.Println("Insertion error:",err)
 			return false

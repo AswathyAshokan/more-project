@@ -55,7 +55,9 @@ $(function () {
                           if (response =="true") {
                               window.location = '/' + companyTeamName +'/contact';
                           } else {
+                              $("#saveButton").attr('disabled', false);
                           }
+                          
                       },
                       error: function (request,status, error) {
                           console.log(error);
@@ -71,6 +73,7 @@ $(function () {
                           if (response =="true") {
                               window.location = '/' + companyTeamName +'/contact';
                           } else {
+                              $("#saveButton").attr('disabled', false);
                           }
                       },
                       error: function (request,status, error) {

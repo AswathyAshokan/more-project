@@ -8,6 +8,8 @@ var companyTeamName = vm.CompanyTeamName;
 var selectedUserArray = []; // contains all selected users and groups
 var selectedGroupArray = []; // contains all selected groups
 var fitToWorkFromDynamicTextBox = []; // contains all fit to work
+var mapLatitude = "";
+var mapLongitude = "";
 var i = 0;
 console.log("Group Members", vm.GroupMembers);
 //function for editing
@@ -31,7 +33,8 @@ $(function () {
         document.getElementById("taskHead").innerHTML = "Edit Task";
     }
     
-    
+   
+  
     
     //function for getting textbox dynamically
     
@@ -56,8 +59,6 @@ $(function () {
         $(this).closest("div").remove();
     });
 });
-
-
 function GetDynamicTextBox(value) {
     
     return ' <input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + value + '" />&nbsp;' +
@@ -91,12 +92,11 @@ $().ready(function() {
     
     
     //function to find latitude and longitude from google map onclick
-    google.maps.event.addListener(map, "click", function (e) {
-     alert("hii");
-    //lat and lng is available in e object
-    var latLng = e.latLng;
-
-});
+//   google.maps.event.addListener(map, 'click', function(event) {
+//       alert( 'Lat: ' + event.latLng.lat() + ' and Longitude is: ' + event.latLng.lng() );
+//   });
+//    
+    
     
     
     /*Function will ceck if the selected value is a group name, and if so 
@@ -174,6 +174,8 @@ $().ready(function() {
            
             var minUsers = $("#minUsers option:selected").val();
             
+            mapLatitude = document.getElementById("latitudeId").value;// variable to store map latitude
+            mapLongitude = document.getElementById("longitudeId").value;// variable to store map longitude
             if (selectedUserArray.length - selectedGroupArray.length >= minUsers) {
                 if(loginTypeRadio.length != 0)
                     {
@@ -182,7 +184,7 @@ $().ready(function() {
                     if ($("#jobName ")[0].selectedIndex <= 0) {
                         document.getElementById('jobName').innerHTML = "";
                     }
-                        var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&addFitToWork=" + fitToWorkFromDynamicTextBox;
+                        var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&addFitToWork=" + fitToWorkFromDynamicTextBox +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude;
                         var selectedContactNames = [];
 
                //get the user's name corresponding to  keys selected from dropdownlist
@@ -220,7 +222,7 @@ $().ready(function() {
                                 if (response == "true" ) {
                                     window.location ='/'  +  companyTeamName  + '/task';
                                 } else {
-                                    $("#saveButton").attr('disabled', true);
+                                    $("#saveButton").attr('disabled', false);
                                 }
                             },
                             error: function (request,status, error) {
@@ -237,7 +239,7 @@ $().ready(function() {
                             if (response == "true" ) {
                                 window.location = '/' + companyTeamName + '/task';
                             } else {
-                                 $("#saveButton").attr('disabled', true);
+                                 $("#saveButton").attr('disabled', false);
                             }
                         },
                             error: function (request,status, error) {
