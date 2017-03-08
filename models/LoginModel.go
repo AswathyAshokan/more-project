@@ -54,8 +54,7 @@ func(m *Login)CheckLogin(ctx context.Context)(bool, Admins, Company, string){
 }
 
 func(m *Login)CheckSuperAdminLogin(ctx context.Context)(bool,map[string]Admins){
-	log.Println("cp3")
-
+	var superAdminDetails SuperAdmins
 	admins := map[string]Admins{}
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
@@ -72,13 +71,12 @@ func(m *Login)CheckSuperAdminLogin(ctx context.Context)(bool,map[string]Admins){
 	if len(admins) == 0{
 		return false,admins
 	}
-	/*err = bcrypt.CompareHashAndPassword(SuperAdmin.In, m.Password)
+	err = bcrypt.CompareHashAndPassword(superAdminDetails.Info.Password, m.Password)
 	if err !=nil{
 		log.Println(err)
-		return false, adminDetails, companyDetails, adminId
+		return false, admins
 
-	}*/
-
+	}
 	return true,admins
 }
 

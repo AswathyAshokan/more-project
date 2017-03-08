@@ -60,8 +60,6 @@ func (c *LoginController) Login() {
 
 }
 
-
-
 func (c *LoginController)Logout(){
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
