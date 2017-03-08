@@ -90,6 +90,15 @@ $().ready(function() {
     }
     
     
+    //function to find latitude and longitude from google map onclick
+    google.maps.event.addListener(map, "click", function (e) {
+     alert("hii");
+    //lat and lng is available in e object
+    var latLng = e.latLng;
+
+});
+    
+    
     /*Function will ceck if the selected value is a group name, and if so 
     function will auto select all users in that group*/
     $("#userOrGroup").on('change', function(evt, params) {

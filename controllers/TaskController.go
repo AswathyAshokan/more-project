@@ -26,7 +26,7 @@ func (c *TaskController)AddNewTask() {
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
 	if r.Method == "POST" {
-		task:=models.Task{}
+		task:=models.Tasks{}
 		task.Info.TaskName= c.GetString("taskName")
 		task.Job.JobName= c.GetString("jobName")
 		task.Job.JobId = c.GetString("jobId")
@@ -38,14 +38,12 @@ func (c *TaskController)AddNewTask() {
 		if err != nil {
 			log.Println(err)
 		}
-		log.Println(startDate.Unix())
 		task.Info.StartDate = startDate.Unix()
 		endDateString := c.GetString("endDate")
 		endDate, err := time.Parse(layout, endDateString)
 		if err != nil {
 			log.Println(err)
 		}
-		log.Println(endDate.Unix())
 		task.Info.EndDate = endDate.Unix()
 		task.Info.TaskLocation = c.GetString("taskLocation")
 		task.Info.TaskDescription = c.GetString("taskDescription")
@@ -60,6 +58,7 @@ func (c *TaskController)AddNewTask() {
 		task.Settings.DateOfCreation =time.Now().UnixNano() / int64(time.Millisecond)
 		task.Settings.Status = helpers.StatusPending
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
+		companyId :=storedSession.CompanyId
 		userMap := make(map[string]models.TaskUser)
 		groupMap := make(map[string]models.TaskGroup)
 		groupNameAndDetails := models.TaskGroup{}
@@ -113,15 +112,25 @@ func (c *TaskController)AddNewTask() {
 		task.UsersAndGroups.User = userMap
 		task.UsersAndGroups.Group = groupMap
 		contactMap := make(map[string]models.TaskContact)
+		contact :=models.ContactUser{}
 		taskContactDetail :=models.TaskContact{}
 		for i := 0; i < len(tempContactId); i++ {
-			taskContactDetail.ContactName = tempContactName[i]
-			contactMap[tempContactId[i]] = taskContactDetail
+
+			 dbStatus,contactDetails := contact.RetrieveContactIdFromDB(c.AppEngineCtx, tempContactId[i])
+			switch dbStatus {
+			case true:
+				taskContactDetail.ContactName = tempContactName[i]
+				taskContactDetail.PhoneNumber = contactDetails.Info.PhoneNumber
+				taskContactDetail.EmailId = contactDetails.Info.Email
+				contactMap[tempContactId[i]] = taskContactDetail
+			case false:
+				log.Println(helpers.ServerConnectionError)
+			}
 		}
-		task.Contact = contactMap
+		task.Contacts = contactMap
 
 		//Add data to task DB
-		dbStatus :=task.AddTaskToDB(c.AppEngineCtx)
+		dbStatus :=task.AddTaskToDB(c.AppEngineCtx,companyId)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -221,7 +230,7 @@ func (c *TaskController)LoadTaskDetail() {
 	storedSession := ReadSession(w, r, companyTeamName)
 	jobId := ""
 	jobId = c.Ctx.Input.Param(":jobId")
-	task := models.Task{}
+	task := models.Tasks{}
 	dbStatus, tasks := task.RetrieveTaskFromDB(c.AppEngineCtx,companyTeamName)
 	viewModel := viewmodels.TaskDetailViewModel{}
 
@@ -297,7 +306,7 @@ func (c *TaskController)LoadDeleteTask() {
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	ReadSession(w, r, companyTeamName)
 	taskId :=c.Ctx.Input.Param(":taskId")
-	task := models.Task{}
+	task := models.Tasks{}
 	dbStatus := task.DeleteTaskFromDB(c.AppEngineCtx, taskId)
 	switch dbStatus {
 	case true:
@@ -316,7 +325,7 @@ func (c *TaskController)LoadEditTask() {
 	taskId := c.Ctx.Input.Param(":taskId")
 
 	if r.Method == "POST" {
-		task := models.Task{}
+		task := models.Tasks{}
 		task.Info.TaskName = c.GetString("taskName")
 		task.Job.JobName = c.GetString("jobName")
 		task.Job.JobId = c.GetString("jobId")
@@ -403,12 +412,21 @@ func (c *TaskController)LoadEditTask() {
 		task.UsersAndGroups.User = userMap
 		task.UsersAndGroups.Group = groupMap
 		contactMap := make(map[string]models.TaskContact)
+		contact :=models.ContactUser{}
 		taskContactDetail := models.TaskContact{}
 		for i := 0; i < len(tempContactId); i++ {
-			taskContactDetail.ContactName = tempContactName[i]
-			contactMap[tempContactId[i]] = taskContactDetail
+			dbStatus,contactDetails := contact.RetrieveContactIdFromDB(c.AppEngineCtx, tempContactId[i])
+			switch dbStatus {
+			case true:
+				taskContactDetail.ContactName = tempContactName[i]
+				taskContactDetail.PhoneNumber = contactDetails.Info.PhoneNumber
+				taskContactDetail.EmailId = contactDetails.Info.Email
+				contactMap[tempContactId[i]] = taskContactDetail
+			case false:
+				log.Println(helpers.ServerConnectionError)
+			}
 		}
-		task.Contact = contactMap
+		task.Contacts = contactMap
 
 		//Add data to task DB
 		dbStatus := task.UpdateTaskToDB(c.AppEngineCtx, taskId)
@@ -421,7 +439,7 @@ func (c *TaskController)LoadEditTask() {
 
 	} else {
 		viewModel := viewmodels.EditTaskViewModel{}
-		task := models.Task{}
+		task := models.Tasks{}
 		user := models.Users{}
 		taskId := c.Ctx.Input.Param(":taskId")
 		dbStatus, taskDetail := task.GetTaskDetailById(c.AppEngineCtx, taskId)
@@ -499,7 +517,7 @@ func (c *TaskController)LoadEditTask() {
 				 dbStatus,contactDetails := task.GetTaskDetailById(c.AppEngineCtx, taskId)
 				switch dbStatus {
 				case true:
-					dataValue := reflect.ValueOf(contactDetails.Contact)
+					dataValue := reflect.ValueOf(contactDetails.Contacts)
 					for _, key := range dataValue.MapKeys() {
 						viewModel.ContactNameToEdit = append(viewModel.ContactNameToEdit, key.String())
 					}

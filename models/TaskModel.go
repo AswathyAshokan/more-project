@@ -9,10 +9,10 @@ import (
 	"app/passporte/helpers"
 )
 
-type Task   struct {
+type Tasks   struct {
 
 	Info           TaskInfo
-	Contact        map[string]TaskContact
+	Contacts       map[string]TaskContact
 	Customer       TaskCustomer
 	Job            TaskJob
 	UsersAndGroups UsersAndGroups
@@ -34,6 +34,8 @@ type TaskInfo struct {
 }
 type TaskContact struct {
 	ContactName	string
+	PhoneNumber	string
+	EmailId		string
 }
 type TaskCustomer struct{
 	CustomerId	string
@@ -65,14 +67,14 @@ type UsersAndGroups struct {
 }
 
 /*add task details to DB*/
-func (m *Task) AddTaskToDB(ctx context.Context )(bool)  {
+func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string)(bool)  {
 
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
 
-	taskData, err := dB.Child("Task").Push(m)
+	taskData, err := dB.Child("Tasks").Push(m)
 	if err!=nil{
 		log.Println("Insertion error:",err)
 		return false
@@ -94,6 +96,7 @@ func (m *Task) AddTaskToDB(ctx context.Context )(bool)  {
 		userTaskDetail.JobName = m.Job.JobName
 		userTaskDetail.Status = helpers.StatusPending
 		userTaskDetail.CustomerName=m.Info.CompanyTeamName
+		userTaskDetail.CompanyId = companyId
 		userTaskMap[taskUniqueID] = userTaskDetail
 		users.Tasks = userTaskMap
 		userKey :=key.String()
@@ -108,10 +111,10 @@ func (m *Task) AddTaskToDB(ctx context.Context )(bool)  {
 }
 
 /*get all task details from DB*/
-func (m *Task) RetrieveTaskFromDB(ctx context.Context,companyTeamName string)(bool,map[string]Task) {
-	taskValue := map[string]Task{}
+func (m *Tasks) RetrieveTaskFromDB(ctx context.Context,companyTeamName string)(bool,map[string]Tasks) {
+	taskValue := map[string]Tasks{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("Task").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&taskValue)
+	err = dB.Child("Tasks").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&taskValue)
 	if err != nil {
 		log.Fatal(err)
 		return false, taskValue
@@ -121,14 +124,14 @@ func (m *Task) RetrieveTaskFromDB(ctx context.Context,companyTeamName string)(bo
 }
 
 /*delete  task details from DB*/
-func (m *Task) DeleteTaskFromDB(ctx context.Context, taskId string)(bool)  {
+func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string)(bool)  {
 
 	dB, err := GetFirebaseClient(ctx,"")
 
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
-	err = dB.Child("/Task/"+ taskId).Remove()
+	err = dB.Child("/Tasks/"+ taskId).Remove()
 	log.Println("deleted successfully")
 	if err!=nil{
 		log.Println("Deletion error:",err)
@@ -141,7 +144,7 @@ func (m *Task) DeleteTaskFromDB(ctx context.Context, taskId string)(bool)  {
 func GetAllJobs(ctx context.Context)(bool,map[string]Job) {
 	jobValue := map[string]Job{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("Job").Value(&jobValue)
+	err = dB.Child("Jobs").Value(&jobValue)
 	if err != nil {
 		log.Fatal(err)
 		return false, jobValue
@@ -150,8 +153,8 @@ func GetAllJobs(ctx context.Context)(bool,map[string]Job) {
 }
 
 /*get all contact details from DB*/
-func (m *Task) GetAllContact(ctx context.Context)(bool,map[string]Task) {
-	contactValue := map[string]Task{}
+func (m *Tasks) GetAllContact(ctx context.Context)(bool,map[string]Tasks) {
+	contactValue := map[string]Tasks{}
 	dB, err := GetFirebaseClient(ctx,"")
 	err = dB.Child("Contacts").Value(&contactValue)
 	if err != nil {
@@ -164,14 +167,14 @@ func (m *Task) GetAllContact(ctx context.Context)(bool,map[string]Task) {
 }
 
 /* Function for update task on DB*/
-func (m *Task) UpdateTaskToDB( ctx context.Context, taskId string)(bool)  {
+func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string)(bool)  {
 
 
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
-	err = dB.Child("/Task/"+ taskId).Update(&m)
+	err = dB.Child("/Tasks/"+ taskId).Update(&m)
 	if err!=nil{
 		log.Println("Insertion error:",err)
 		return false
@@ -181,10 +184,10 @@ func (m *Task) UpdateTaskToDB( ctx context.Context, taskId string)(bool)  {
 }
 
 /*get a specific task detail by id*/
-func (m *Task) GetTaskDetailById(ctx context.Context, taskId string)(bool, Task) {
-	taskDetail := Task{}
+func (m *Tasks) GetTaskDetailById(ctx context.Context, taskId string)(bool, Tasks) {
+	taskDetail := Tasks{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("/Task/"+ taskId).Value(&taskDetail)
+	err = dB.Child("/Tasks/"+ taskId).Value(&taskDetail)
 	if err != nil {
 		log.Fatal(err)
 		return false, taskDetail
@@ -206,10 +209,10 @@ func (m *UsersAndGroups ) GetAllUsers(ctx context.Context)(bool,map[string]Users
 	return true,valueOfUser
 }
 
-func(m *Task) GetContactDetailById(ctx context.Context, contactId string) (Task,bool){
-	contactDetails := Task{}
+func(m *Tasks) GetContactDetailById(ctx context.Context, contactId string) (Tasks,bool){
+	contactDetails := Tasks{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Task/"+ contactId).Value(&contactDetails)
+	err = db.Child("/Tasks/"+ contactId).Value(&contactDetails)
 	if err != nil {
 		log.Fatal(err)
 		return contactDetails, false

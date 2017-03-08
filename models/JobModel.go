@@ -33,7 +33,7 @@ func (m *Job) AddJobToDB( ctx context.Context)(bool)  {
 		log.Println("Connection error:",err)
 		return false
 	}
-	_, err = dB.Child("Job").Push(m)
+	_, err = dB.Child("Jobs").Push(m)
 	if err!=nil{
 		log.Println("Insertion error:",err)
 		return false
@@ -45,7 +45,7 @@ func (m *Job) AddJobToDB( ctx context.Context)(bool)  {
 func (m *Job ) GetAllJobs(ctx context.Context,companyTeamName string)(bool,map[string]Job) {
 	jobDetail := map[string]Job {}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("Job").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&jobDetail)
+	err = dB.Child("Jobs").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&jobDetail)
 	if err != nil {
 		log.Fatal(err)
 		return false, jobDetail
@@ -62,7 +62,7 @@ func (m *Job) DeleteJobFromDB(ctx context.Context, jobId string)(bool)  {
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
-	err = dB.Child("/Job/"+ jobId).Remove()
+	err = dB.Child("/Jobs/"+ jobId).Remove()
 	if err!=nil{
 		log.Println("Deletion error:",err)
 		return false
@@ -74,7 +74,7 @@ func (m *Job) DeleteJobFromDB(ctx context.Context, jobId string)(bool)  {
 func (m *Job) GetJobDetailById(ctx context.Context, jobId string)(bool, Job) {
 	job := Job{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("/Job/"+ jobId).Value(&job)
+	err = dB.Child("/Jobs/"+ jobId).Value(&job)
 	if err != nil {
 		log.Fatal(err)
 		return false, job
@@ -90,7 +90,7 @@ func (m *Job) UpdateJobToDB( ctx context.Context,jobId string)(bool)  {
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
-	err = dB.Child("/Job/"+ jobId).Update(&m)
+	err = dB.Child("/Jobs/"+ jobId).Update(&m)
 	if err!=nil{
 		log.Println("Insertion error:",err)
 		return false
@@ -106,7 +106,7 @@ func CheckJobNameIsUsed(ctx context.Context, jobName string)bool{
 	if err != nil {
 		log.Println("No Db Connection!")
 	}
-	err = dB.Child("Job").OrderBy("JobName").EqualTo(jobName).Value(&job)
+	err = dB.Child("Jobs").OrderBy("JobName").EqualTo(jobName).Value(&job)
 	if err!=nil{
 		log.Println("Error:",err)
 	}
@@ -126,7 +126,7 @@ func CheckJobNumberIsUsed(ctx context.Context, jobNumber string)bool{
 		log.Println("No Db Connection!")
 	}
 	log.Println("JOB NUMBER:",jobNumber)
-	err = dB.Child("Job").OrderBy("JobNumber").EqualTo(jobNumber).Value(&job)
+	err = dB.Child("Jobs").OrderBy("JobNumber").EqualTo(jobNumber).Value(&job)
 	if err!=nil{
 		log.Println("Error:",err)
 	}
