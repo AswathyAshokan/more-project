@@ -97,9 +97,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string)(bool)  {
 		userTaskDetail.StartDate =m.Info.StartDate
 		userTaskDetail.JobName = m.Job.JobName
 		userTaskDetail.Status = helpers.StatusPending
-		userTaskDetail.CustomerName=m.Info.CompanyTeamName
 		userTaskDetail.CompanyId = companyId
-
 		userKey :=key.String()
 		err = dB.Child("/Users/"+userKey+"/Tasks/"+taskUniqueID).Set(userTaskDetail)
 		if err!=nil{
@@ -168,14 +166,26 @@ func (m *Tasks) GetAllContact(ctx context.Context)(bool,map[string]Tasks) {
 }
 
 /* Function for update task on DB*/
-func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string)(bool)  {
-
+func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId string)(bool)  {
 
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
 	err = dB.Child("/Tasks/"+ taskId).Update(&m)
+	userData := reflect.ValueOf(m.UsersAndGroups.User)
+	userTaskDetail := UserTasks{}
+	for _, key := range userData.MapKeys() {
+		userKey :=key.String()
+		userTaskDetail.CompanyId = companyId
+		userTaskDetail.CustomerName = m.Customer.CustomerName
+		userTaskDetail.EndDate = m.Info.EndDate
+		userTaskDetail.JobName = m.Job.JobName
+		userTaskDetail.TaskName = m.Info.TaskName
+		userTaskDetail.StartDate = m.Info.StartDate
+		err = dB.Child("/Users/"+userKey+"/Tasks/"+taskId).Update(&userTaskDetail)
+	}
+
 	if err!=nil{
 		log.Println("Insertion error:",err)
 		return false

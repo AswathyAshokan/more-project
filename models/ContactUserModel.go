@@ -94,7 +94,7 @@ func (m *ContactUser) UpdateContactToDB( ctx context.Context, contactId string)(
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
-	err = dB.Child("/Contacts/"+ contactId).Update(&m)
+	err = dB.Child("/Contacts/"+ contactId).Update(&m.Info)
 	if err!=nil{
 		log.Println("Insertion error:",err)
 		return false

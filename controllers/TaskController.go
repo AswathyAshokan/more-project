@@ -331,6 +331,7 @@ func (c *TaskController)LoadEditTask() {
 
 	if r.Method == "POST" {
 		task := models.Tasks{}
+		companyId :=storedSession.CompanyId
 		task.Info.TaskName = c.GetString("taskName")
 		task.Job.JobName = c.GetString("jobName")
 		task.Job.JobId = c.GetString("jobId")
@@ -438,7 +439,7 @@ func (c *TaskController)LoadEditTask() {
 		task.Contacts = contactMap
 
 		//Add data to task DB
-		dbStatus := task.UpdateTaskToDB(c.AppEngineCtx, taskId)
+		dbStatus := task.UpdateTaskToDB(c.AppEngineCtx, taskId,companyId)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -447,6 +448,7 @@ func (c *TaskController)LoadEditTask() {
 		}
 
 	} else {
+
 		viewModel := viewmodels.EditTaskViewModel{}
 		task := models.Tasks{}
 		user := models.Users{}

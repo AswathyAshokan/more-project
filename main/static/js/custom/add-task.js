@@ -55,14 +55,14 @@ $(function () {
         fitToWorkFromDynamicTextBox.push(fitToWorkValue);
         alert(fitToWorkFromDynamicTextBox);
     });
-    $("body").on("click", ".remove", function () {
-        $(this).closest("div").remove();
+    $("body").on("click", ".delete-decl", function () {
+        $(this).closest("div").delete-decl();
     });
 });
 function GetDynamicTextBox(value) {
     
     return ' <input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + value + '" />&nbsp;' +
-            '<button id="btnAdd" class="remove" name="closePreviewBtn"><span class="delete-decl">+</span></button>'
+            '<button id="btnAdd"  name="closePreviewBtn" class="delete-decl">+</button>'
     i++;
 }
  
