@@ -78,7 +78,6 @@ func (c *CustomerController) CustomerDetails() {
 			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Email)
 			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Phone)
 			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.ContactPerson)
-			//tempValueSlice = append(tempValueSlice,allCustomer[k].Info.)
 			customerViewModel.Values=append(customerViewModel.Values,tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
 		}

@@ -1,23 +1,24 @@
 package controllers
 
-
+import (
+	"reflect"
+	"app/passporte/helpers"
+	"app/passporte/models"
+	"app/passporte/viewmodels"
+	"log"
+)
 
 type CustomerManagementController struct {
 	BaseController
 }
 
 func (c *CustomerManagementController) CustomerManagement() {
-	/*r := c.Ctx.Request
-	w := c.Ctx.ResponseWriter
-	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
-	storedSession := ReadSession(w, r, companyTeamName)
-	log.Println("The userDetails stored in session:",storedSession)
-	customerViewModel := viewmodels.Customer{}
-	allCustomer,dbStatus:= models.GetAllCustomerDetails(c.AppEngineCtx,companyTeamName)
-	log.Println("view",allCustomer)
+	customerManagementViewModel := viewmodels.Customer{}
+	registeredCompany := models.Company{}
+	dbStatus,allCompanyData:= registeredCompany.GetAllRegisteredCompanyDetails(c.AppEngineCtx)
 	switch dbStatus {
 	case true:
-		dataValue := reflect.ValueOf(allCustomer)
+		dataValue := reflect.ValueOf(allCompanyData)
 		var keySlice []string
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
@@ -25,24 +26,36 @@ func (c *CustomerManagementController) CustomerManagement() {
 		log.Println("key",keySlice)
 		for _, k := range keySlice {
 			var tempValueSlice []string
-			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.CustomerName)
-			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Address)
-			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.State)
-			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.ZipCode)
-			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Email)
-			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Phone)
-			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.ContactPerson)
-			//tempValueSlice = append(tempValueSlice,allCustomer[k].Info.)
-			customerViewModel.Values=append(customerViewModel.Values,tempValueSlice)
+			tempValueSlice = append(tempValueSlice, allCompanyData[k].Info.CompanyName)
+			tempValueSlice = append(tempValueSlice, allCompanyData[k].Info.Address)
+			tempValueSlice = append(tempValueSlice, allCompanyData[k].Info.ZipCode)
+			/*tempValueSlice = append(tempValueSlice, allCompanyData[k].Settings.DateOfCreation)*/
+			/*log.Println("temp:",allCompanyData[k].Admins)
+			dataValue := reflect.ValueOf(allCompanyData[k].Admins)
+			var adminKey []string
+			for _, key := range dataValue.MapKeys() {
+				adminKey = append(adminKey, key.String())
+			}
+			var tempAdminDetais []string
+			for _,i := range adminKey{
+
+				tempAdminDetais = append(tempAdminDetais,allCompanyData[k].Admins[i].FirstName)
+
+			}
+			log.Println("tempkey:",tempAdminDetais)
+
+*/
+			log.Println("temp:",tempValueSlice)
+			customerManagementViewModel.Values = append(customerManagementViewModel.Values,tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
+
 		}
-		customerViewModel.Keys = keySlice
-		customerViewModel.CompanyTeamName = storedSession.CompanyTeamName
-		customerViewModel.CompanyPlan = storedSession.CompanyPlan
+
+		customerManagementViewModel.Keys = keySlice
+		c.Data["vm"] = customerManagementViewModel
 		c.TplName = "template/customer-management.html"
 	case false:
 		log.Println(helpers.ServerConnectionError)
-	}*/
-	c.TplName = "template/customer-management.html"
+	}
 }
 

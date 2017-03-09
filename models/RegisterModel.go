@@ -135,3 +135,18 @@ func CheckEmailIsUsed(ctx context.Context, emailId string) bool{
 		return false
 	}
 }
+// get all registered company in passporte for super admin
+func (m *Company)GetAllRegisteredCompanyDetails(ctx context.Context)(bool,map[string]Company)  {
+	companyDetails := map[string]Company{}
+	dB, err := GetFirebaseClient(ctx, "")
+	if err != nil {
+		log.Println("No Db Connection!")
+	}
+	err = dB.Child("Admins").Value(&companyDetails)
+	if err != nil{
+		log.Fatal(err)
+		return false,companyDetails
+	}
+	return true,companyDetails
+
+}
