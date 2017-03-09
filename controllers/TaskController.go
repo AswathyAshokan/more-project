@@ -57,6 +57,8 @@ func (c *TaskController)AddNewTask() {
 		task.Info.Latitude = c.GetString("latitude")
 		task.Info.Longitude = c.GetString("longitude")
 		task.Info.FitToWork = c.GetString("addFitToWork")
+		task.Info.StartTime = c.GetString("startTime")
+		task.Info.EndTime = c.GetString("endTime")
 		task.Settings.DateOfCreation =time.Now().Unix()
 		task.Settings.Status = helpers.StatusPending
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
@@ -361,6 +363,8 @@ func (c *TaskController)LoadEditTask() {
 		task.Info.Latitude = c.GetString("latitude")
 		task.Info.Longitude = c.GetString("longitude")
 		task.Info.FitToWork = c.GetString("addFitToWork")
+		task.Info.StartTime = c.GetString("startTime")
+		task.Info.EndTime = c.GetString("endTime")
 		task.Settings.DateOfCreation = time.Now().Unix()
 		task.Settings.Status = helpers.StatusPending
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName

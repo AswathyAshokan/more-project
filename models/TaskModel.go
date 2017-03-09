@@ -33,6 +33,8 @@ type TaskInfo struct {
 	CompanyTeamName	string
 	Latitude	string
 	Longitude	string
+	StartTime	string
+	EndTime		string
 }
 type TaskContact struct {
 	ContactName	string
