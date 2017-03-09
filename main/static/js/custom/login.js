@@ -19,14 +19,18 @@ $(function(){
                     'password'  :   $("#password").val()
                 },
                 success :   function(data){
-
+                   console.log(data);
                     if(data[0]=="true"){
                         if( localStorage.getItem('loginStatus') != null){
                             window.localStorage.clear();
                             window.location = '/plan'
                         } else{
-                            window.location = '/'+ data[1] +'/invite';
-                        }
+                                window.location = '/'+ data[1] +'/invite';
+                            }
+                            
+                        } else if(data[0] == "SuperAdmin"){
+                        alert("hii");
+                        window.location ='/customer-management';
                     } else{
                         $("#login_err").css({"color": "red", "font-size": "15px"});
                         $("#login_err").html("Invalid Username or Password!").show().fadeOut( 4000 );

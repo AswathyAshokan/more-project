@@ -45,7 +45,7 @@ func init() {
 	beegae.Router("/plan/update", &controllers.PlanController{}, "*:PlanUpdate")
 
 	/*beegae.Router("/superadmin", &controllers.SuperAdminController{}, "*:AddSuperAdmin")*/
-	beegae.Router("/:companyTeamName/customer-management", &controllers.CustomerManagementController{}, "*:CustomerManagement")
+	beegae.Router("/customer-management", &controllers.CustomerManagementController{}, "*:CustomerManagement")
 
 	//Aswathy
 	beegae.Router("/:companyTeamName/contact/add", &controllers.ContactUserController{},"*:AddNewContact")

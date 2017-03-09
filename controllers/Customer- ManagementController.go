@@ -43,5 +43,6 @@ func (c *CustomerManagementController) CustomerManagement() {
 	case false:
 		log.Println(helpers.ServerConnectionError)
 	}*/
+	c.TplName = "template/customer-management.html"
 }
 
