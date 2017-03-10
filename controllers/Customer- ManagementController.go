@@ -35,8 +35,7 @@ func (c *CustomerManagementController) CustomerManagement() {
 			for _, key := range dataValue.MapKeys() {
 				adminKeyFromCompany = append(adminKeyFromCompany, key.String())
 			}
-			/*for i:= 0;i<len(adminKeyFromCompany);i++{*/
-				adminStatus,adminDetails := models.GetAdminDetailsById(c.AppEngineCtx, adminKeyFromCompany)
+			adminStatus,adminDetails := models.GetAdminDetailsById(c.AppEngineCtx, adminKeyFromCompany)
 				switch adminStatus {
 				case true:
 					tempValueSlice = append(tempValueSlice,adminDetails.Info.FirstName)
@@ -46,9 +45,6 @@ func (c *CustomerManagementController) CustomerManagement() {
 					log.Println("false")
 
 				}
-			/*}*/
-
-
 			log.Println("temo",tempValueSlice)
 			customerManagementViewModel.Values = append(customerManagementViewModel.Values,tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
