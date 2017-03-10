@@ -32,15 +32,23 @@ func (c *TaskController)AddNewTask() {
 		task.Job.JobId = c.GetString("jobId")
 		task.Customer.CustomerName = c.GetString("customerName")
 		task.Customer.CustomerId =c.GetString("jobId")
-		startDateString := c.GetString("startDate")
-		layout := "01/02/2006"
+		startDateString := c.GetString("startDateFomJs")
+		log.Println("date from js",startDateString)
+		//StartTime := c.GetString("startTime")
+		//startDateAndTime :=startDateString + " " +StartTime
+		//log.Println("date and time",startDateAndTime)
+
+		layout := " 01/02/2006 3:04:05 "
 		startDate, err := time.Parse(layout, startDateString)
 		if err != nil {
 			log.Println(err)
 		}
+		log.Println("new date",startDate)
 		task.Info.StartDate = startDate.Unix()
 		endDateString := c.GetString("endDate")
-		endDate, err := time.Parse(layout, endDateString)
+		EndTime := c.GetString("endTime")
+		endDateAndTime :=endDateString + " "+EndTime
+		endDate, err := time.Parse(layout, endDateAndTime)
 		if err != nil {
 			log.Println(err)
 		}
@@ -54,11 +62,9 @@ func (c *TaskController)AddNewTask() {
 		tempContactName := c.GetStrings("contactName")
 		tempContactId := c.GetStrings("contactId")
 		task.Info.LoginType=c.GetString("loginType")
-		task.Info.Latitude = c.GetString("latitude")
-		task.Info.Longitude = c.GetString("longitude")
+		task.Location.Latitude = c.GetString("latitude")
+		task.Location.Longitude = c.GetString("longitude")
 		task.Info.FitToWork = c.GetString("addFitToWork")
-		task.Info.StartTime = c.GetString("startTime")
-		task.Info.EndTime = c.GetString("endTime")
 		task.Settings.DateOfCreation =time.Now().Unix()
 		task.Settings.Status = helpers.StatusPending
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
@@ -361,11 +367,17 @@ func (c *TaskController)LoadEditTask() {
 		tempContactName := c.GetStrings("contactName")
 		tempContactId := c.GetStrings("contactId")
 		task.Info.LoginType = c.GetString("loginType")
-		task.Info.Latitude = c.GetString("latitude")
-		task.Info.Longitude = c.GetString("longitude")
+		task.Location.Latitude = c.GetString("latitude")
+		task.Location.Longitude = c.GetString("longitude")
 		task.Info.FitToWork = c.GetString("addFitToWork")
-		task.Info.StartTime = c.GetString("startTime")
-		task.Info.EndTime = c.GetString("endTime")
+		StartTime := c.GetString("startTime")
+		layouts := "12:30"
+		startTimeTask, err := time.Parse(layouts, StartTime)
+		if err != nil {
+			log.Println(err)
+		}
+		log.Println(startTimeTask.Unix())
+		//EndTime := c.GetString("endTime")
 		task.Settings.DateOfCreation = time.Now().Unix()
 		task.Settings.Status = helpers.StatusPending
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName

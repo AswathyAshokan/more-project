@@ -10,6 +10,8 @@ var selectedGroupArray = []; // contains all selected groups
 var fitToWorkFromDynamicTextBox = []; // contains all fit to work
 var mapLatitude = "";
 var mapLongitude = "";
+var startDateToCompare = "";
+var endDateToCompare = "";
 var i = 0;
 console.log("Group Members", vm.GroupMembers);
 //function for editing
@@ -171,20 +173,57 @@ $().ready(function() {
             loginType: "required",
         },
         submitHandler: function() {
-           
+            
+            //code for date and time conversion
+            var startDate = new Date($("#startDate").val());
+            var startTime =  document.getElementById("startTime").value;
+            var endDate = new Date($("#endDate").val());
+            var endTime =  document.getElementById("endTime").value;
+            startTimeArray = startTime.split(':');
+            startHour = parseInt(startTimeArray[0]);
+            startMin = parseInt(startTimeArray[1]);
+            startDate.setHours(startHour);
+            startDate.setMinutes(startMin);
+            endTimeArray = endTime.split(':');
+            endHour = parseInt(endTimeArray[0]);
+            endMin = parseInt(endTimeArray[1]);
+            startDate.setHours(endHour);
+            startDate.setMinutes(endMin);
+            //function to convert  date to mm/dd/yyyy format
+            function formatDate(d){
+                function addZero(n){
+                    return n < 10 ? '0' + n : '' + n;
+                }
+                return addZero(d.getMonth()+1)+"/"+ addZero(d.getDate()) + "/" + d.getFullYear() + " " + 
+                    addZero(d.getHours()) + ":" + addZero(d.getMinutes()) + ":" + addZero(d.getMinutes());
+            }
+            var str = startDate;
+            var date = new Date(Date.parse(str));
+            var startDateOfTask = formatDate(date);
+            alert(startDateOfTask);  //alerts "01/26/2012 22:31:31"
+            
+            
+            
+            $("#saveButton").attr('disabled', true);
             var minUsers = $("#minUsers option:selected").val();
             
             mapLatitude = document.getElementById("latitudeId").value;// variable to store map latitude
             mapLongitude = document.getElementById("longitudeId").value;// variable to store map longitude
+            startDateToCompare = document.getElementById("startDate").value;
+            endDateToCompare = document.getElementById("endDate").value;
             if (selectedUserArray.length - selectedGroupArray.length >= minUsers) {
                 if(loginTypeRadio.length != 0)
                     {
+                      if( endDateToCompare > startDateToCompare) 
+                          {
+                              if( mapLatitude.length  !=0)
+                                  {
                        var taskId=vm.TaskId;
                     var jobnew = $("#jobName option:selected").val()
                     if ($("#jobName ")[0].selectedIndex <= 0) {
                         document.getElementById('jobName').innerHTML = "";
                     }
-                        var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&addFitToWork=" + fitToWorkFromDynamicTextBox +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude;
+                        var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&addFitToWork=" + fitToWorkFromDynamicTextBox +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask ;
                         var selectedContactNames = [];
 
                //get the user's name corresponding to  keys selected from dropdownlist
@@ -246,7 +285,17 @@ $().ready(function() {
                                 console.log(error);
                             }
                         });
-                    } 
+                    }
+                          }
+                              else{
+                                  $("#mapValidationError").css({"color": "red", "font-size": "15px"});
+                                  $("#mapValidationError").html("please select location from map.").show();
+                              }
+                    }
+                        else {
+                            $("#dateValidationError").css({"color": "red", "font-size": "15px"});
+                            $("#dateValidationError").html("please enter a valid date.").show();
+                        }
                     }
                 else {
                     $("#loginTypeValidationError").css({"color": "red", "font-size": "15px"});

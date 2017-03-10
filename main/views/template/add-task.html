@@ -22,6 +22,7 @@
 								</select>
 							</div>
 						</div>
+                        <div class="dateValidationError" id="dateValidationError"></div>
                         <div class="form-group clearfix">
                             <div class="col-sm-6">
 								<label for="startDate" class="">Start Date and Time</label>
@@ -30,7 +31,7 @@
 									<input type="text" class="form-control time"  value="" placeholder="12:00" data-timepicker id="startTime" name="startTime" >
 								</div>
 							</div>
-							<div class="col-sm-6">
+                            <div class="col-sm-6">
 								<label for="endDate" class="">End Date and Time</label>
 								<div class="callender-wrapper">
 									<input type="text" id="endDate" class="datepicker form-control sprites-callender" name="endDate">
@@ -38,6 +39,7 @@
 								</div>
 							</div>
 						</div>
+                        
                         <div class="form-group clearfix">
 							<div class="col-sm-6">
 								<label for="taskLocation" class="">Task Location</label>
@@ -116,6 +118,7 @@
                                 </div>
                             </div>
 						</div>
+                        <div class="mapValidationError" id="mapValidationError"></div>
                         <div class="align-left col-sm-12">
 							<button class="btn btn-primary" type="submit"  name="saveButton" id="saveButton">Save</button>
 							<button class="btn btn-success" type="button" id="cancel">Cancel</button>
@@ -166,7 +169,12 @@
             alert("Latitude: " + e.latLng.lat() + "\r\nLongitude: " + e.latLng.lng());
             document.getElementById('latitudeId').value =e.latLng.lat();
             document.getElementById('longitudeId').value =e.latLng.lng();
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(e.latLng.lat(), e.latLng.lng()),
+                map: map,
+            });
         });
+        
     }
 </script>
 

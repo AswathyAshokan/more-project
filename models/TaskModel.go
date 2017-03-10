@@ -12,6 +12,7 @@ import (
 type Tasks   struct {
 
 	Info           TaskInfo
+	Location	TaskLocation
 	Contacts       map[string]TaskContact
 	Customer       TaskCustomer
 	Job            TaskJob
@@ -31,15 +32,16 @@ type TaskInfo struct {
 	Log             string
 	FitToWork      	string
 	CompanyTeamName	string
-	Latitude	string
-	Longitude	string
-	StartTime	string
-	EndTime		string
+
 }
 type TaskContact struct {
 	ContactName	string
 	PhoneNumber	string
 	EmailId		string
+}
+type TaskLocation struct{
+	Latitude	string
+	Longitude	string
 }
 type TaskCustomer struct{
 	CustomerId	string
@@ -118,7 +120,6 @@ func (m *Tasks) RetrieveTaskFromDB(ctx context.Context,companyTeamName string)(b
 		log.Fatal(err)
 		return false, taskValue
 	}
-	log.Println(taskValue)
 	return true, taskValue
 }
 

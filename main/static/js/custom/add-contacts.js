@@ -43,6 +43,7 @@ $(function () {
               emailAddress: "Please enter a valid email address"
           },
           submitHandler: function() {
+               $("#saveButton").attr('disabled', true);
               var form_data = $("#contactForm").serialize();
               var contactId =vm.ContactId
               if(pageType ==  "edit"){
