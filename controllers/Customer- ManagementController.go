@@ -23,29 +23,33 @@ func (c *CustomerManagementController) CustomerManagement() {
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
 		}
-		log.Println("key",keySlice)
+		var tempValueSlice []string
+		var adminKeyFromCompany []string
 		for _, k := range keySlice {
-			var tempValueSlice []string
 			tempValueSlice = append(tempValueSlice, allCompanyData[k].Info.CompanyName)
 			tempValueSlice = append(tempValueSlice, allCompanyData[k].Info.Address)
-			tempValueSlice = append(tempValueSlice, allCompanyData[k].Info.ZipCode)
+
 			/*tempValueSlice = append(tempValueSlice, allCompanyData[k].Settings.DateOfCreation)*/
-			/*log.Println("temp:",allCompanyData[k].Admins)
 			dataValue := reflect.ValueOf(allCompanyData[k].Admins)
-			var adminKey []string
+
 			for _, key := range dataValue.MapKeys() {
-				adminKey = append(adminKey, key.String())
+				adminKeyFromCompany = append(adminKeyFromCompany, key.String())
 			}
-			var tempAdminDetais []string
-			for _,i := range adminKey{
+			/*for i:= 0;i<len(adminKeyFromCompany);i++{*/
+				adminStatus,adminDetails := models.GetAdminDetailsById(c.AppEngineCtx, adminKeyFromCompany)
+				switch adminStatus {
+				case true:
+					tempValueSlice = append(tempValueSlice,adminDetails.Info.FirstName)
+					tempValueSlice = append(tempValueSlice,adminDetails.Info.Email)
+					tempValueSlice = append(tempValueSlice,adminDetails.Info.PhoneNo)
+				case false:
+					log.Println("false")
 
-				tempAdminDetais = append(tempAdminDetais,allCompanyData[k].Admins[i].FirstName)
+				}
+			/*}*/
 
-			}
-			log.Println("tempkey:",tempAdminDetais)
 
-*/
-			log.Println("temp:",tempValueSlice)
+			log.Println("temo",tempValueSlice)
 			customerManagementViewModel.Values = append(customerManagementViewModel.Values,tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
 
