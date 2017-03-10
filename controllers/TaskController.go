@@ -13,7 +13,6 @@ import (
 	"bytes"
 	"regexp"
 
-
 )
 
 type TaskController struct {
@@ -33,25 +32,22 @@ func (c *TaskController)AddNewTask() {
 		task.Customer.CustomerName = c.GetString("customerName")
 		task.Customer.CustomerId =c.GetString("jobId")
 		startDateString := c.GetString("startDateFomJs")
-		log.Println("date from js",startDateString)
-		//StartTime := c.GetString("startTime")
-		//startDateAndTime :=startDateString + " " +StartTime
-		//log.Println("date and time",startDateAndTime)
-
-		layout := " 01/02/2006 3:04:05 "
+		endDateString :=c.GetString("endDateFromJs")
+		log.Println(" start date from js",startDateString)
+		log.Println(" end date from js",endDateString)
+		layout := "01/02/2006 15:04"
+		//test, err := time.Parse("02/Jan/2006:15:04:05 -0700", "31/Dec/2012:15:32:25 -0800")
 		startDate, err := time.Parse(layout, startDateString)
 		if err != nil {
 			log.Println(err)
 		}
-		log.Println("new date",startDate)
+		log.Println("new  start date",startDate)
 		task.Info.StartDate = startDate.Unix()
-		endDateString := c.GetString("endDate")
-		EndTime := c.GetString("endTime")
-		endDateAndTime :=endDateString + " "+EndTime
-		endDate, err := time.Parse(layout, endDateAndTime)
+		endDate, err := time.Parse(layout, endDateString)
 		if err != nil {
 			log.Println(err)
 		}
+		log.Println("new end  date",endDate)
 		task.Info.EndDate = endDate.Unix()
 		task.Info.TaskLocation = c.GetString("taskLocation")
 		task.Info.TaskDescription = c.GetString("taskDescription")

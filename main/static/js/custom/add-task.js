@@ -47,9 +47,7 @@ $(function () {
     });
     $("#saveButton").bind("click", function () {
         var values = "";
-       
         $("input[name=DynamicTextBox]").each(function () {
-            
             fitToWorkFromDynamicTextBox.push($(this).val())
             //values += $(this).val() +"\n";   
         });
@@ -62,7 +60,6 @@ $(function () {
     });
 });
 function GetDynamicTextBox(value) {
-    
     return ' <input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + value + '" />&nbsp;' +
             '<button id="btnAdd"  name="closePreviewBtn" class="delete-decl">+</button>'
     i++;
@@ -92,12 +89,6 @@ $().ready(function() {
         jobId = jobDropdownId.options[jobDropdownId.selectedIndex].id;
     }
     
-    
-    //function to find latitude and longitude from google map onclick
-//   google.maps.event.addListener(map, 'click', function(event) {
-//       alert( 'Lat: ' + event.latLng.lat() + ' and Longitude is: ' + event.latLng.lng() );
-//   });
-//    
     
     
     
@@ -179,6 +170,9 @@ $().ready(function() {
             var startTime =  document.getElementById("startTime").value;
             var endDate = new Date($("#endDate").val());
             var endTime =  document.getElementById("endTime").value;
+            
+            //setting the time in start date and end date
+            
             startTimeArray = startTime.split(':');
             startHour = parseInt(startTimeArray[0]);
             startMin = parseInt(startTimeArray[1]);
@@ -187,24 +181,29 @@ $().ready(function() {
             endTimeArray = endTime.split(':');
             endHour = parseInt(endTimeArray[0]);
             endMin = parseInt(endTimeArray[1]);
-            startDate.setHours(endHour);
-            startDate.setMinutes(endMin);
+            endDate.setHours(endHour);
+            endDate.setMinutes(endMin);
             //function to convert  date to mm/dd/yyyy format
+            
             function formatDate(d){
                 function addZero(n){
                     return n < 10 ? '0' + n : '' + n;
                 }
                 return addZero(d.getMonth()+1)+"/"+ addZero(d.getDate()) + "/" + d.getFullYear() + " " + 
-                    addZero(d.getHours()) + ":" + addZero(d.getMinutes()) + ":" + addZero(d.getMinutes());
+                    addZero(d.getHours()) + ":" + addZero(d.getMinutes());
             }
-            var str = startDate;
-            var date = new Date(Date.parse(str));
+            var startDateString = startDate;
+            var date = new Date(Date.parse(startDateString));
             var startDateOfTask = formatDate(date);
             alert(startDateOfTask);  //alerts "01/26/2012 22:31:31"
+            var endDateString = endDate;
+            var endDateData = new Date(Date.parse(endDateString));
+            var endDateOfTask = formatDate(endDateData);
+            alert(endDateOfTask);  //alerts "01/26/2012 22:31:31"
             
             
             
-            $("#saveButton").attr('disabled', true);
+           
             var minUsers = $("#minUsers option:selected").val();
             
             mapLatitude = document.getElementById("latitudeId").value;// variable to store map latitude
@@ -218,80 +217,81 @@ $().ready(function() {
                           {
                               if( mapLatitude.length  !=0)
                                   {
-                       var taskId=vm.TaskId;
-                    var jobnew = $("#jobName option:selected").val()
-                    if ($("#jobName ")[0].selectedIndex <= 0) {
-                        document.getElementById('jobName').innerHTML = "";
-                    }
-                        var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&addFitToWork=" + fitToWorkFromDynamicTextBox +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask ;
-                        var selectedContactNames = [];
+                                       $("#saveButton").attr('disabled', true);
+                                      var taskId=vm.TaskId;
+                                      var jobnew = $("#jobName option:selected").val()
+                                      if ($("#jobName ")[0].selectedIndex <= 0) {
+                                          document.getElementById('jobName').innerHTML = "";
+                                      }
+                                      var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&addFitToWork=" + fitToWorkFromDynamicTextBox +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask +"&endDateFromJs="+ endDateOfTask;
+                                      var selectedContactNames = [];
 
                //get the user's name corresponding to  keys selected from dropdownlist
-                    $("#contactId option:selected").each(function () {
-                        var $this = $(this);
-                        if ($this.length) {
-                            var selectedContactName = $this.text();
-                            selectedContactNames.push( selectedContactName);
-                        }
-                    });
-                    for(i = 0; i < selectedContactNames.length; i++) {
-                        formData = formData+"&contactName="+selectedContactNames[i];
-                    }
+                                      $("#contactId option:selected").each(function () {
+                                          var $this = $(this);
+                                          if ($this.length) {
+                                              var selectedContactName = $this.text();
+                                              selectedContactNames.push( selectedContactName);
+                                          }
+                                      });
+                                      for(i = 0; i < selectedContactNames.length; i++) {
+                                          formData = formData+"&contactName="+selectedContactNames[i];
+                                      }
 
                //function to get all users and group
-                    var selectedUserAndGroupName = [];
-                    $("#userOrGroup option:selected").each(function () {
-                        var $this = $(this);
-                        if ($this.length) {
-                            var selectedUserName = $this.text();
-                            console.log(selectedUserName);
-                            selectedUserAndGroupName.push( selectedUserName);
-                        }
-                    });
-                    for(i = 0; i < selectedUserAndGroupName.length; i++) {
-                        formData = formData+"&userAndGroupName="+selectedUserAndGroupName[i];
-                    }
-                    if(pageType == "edit"){
-                        $.ajax({
-                            url: '/' +  companyTeamName  + '/task/' + taskId + '/edit',
-                            type: 'post',
-                            datatype: 'json',
-                            data: formData,
-                            success : function(response) {
-                                if (response == "true" ) {
-                                    window.location ='/'  +  companyTeamName  + '/task';
-                                } else {
-                                    $("#saveButton").attr('disabled', false);
-                                }
-                            },
-                            error: function (request,status, error) {
-                                console.log(error);
-                            }
-                        });
-                    } else {
-                        $.ajax({
-                        url:'/'+ companyTeamName + '/task/add',
-                        type: 'post',
-                        datatype: 'json',
-                        data: formData,
-                        success : function(response) {
-                            if (response == "true" ) {
-                                window.location = '/' + companyTeamName + '/task';
-                            } else {
-                                 $("#saveButton").attr('disabled', false);
-                            }
-                        },
-                            error: function (request,status, error) {
-                                console.log(error);
-                            }
-                        });
-                    }
-                          }
+                                      var selectedUserAndGroupName = [];
+                                      $("#userOrGroup option:selected").each(function () {
+                                          var $this = $(this);
+                                          if ($this.length) {
+                                              var selectedUserName = $this.text();
+                                              console.log(selectedUserName);
+                                              selectedUserAndGroupName.push( selectedUserName);
+                                          }
+                                      });
+                                      for(i = 0; i < selectedUserAndGroupName.length; i++) {
+                                          formData = formData+"&userAndGroupName="+selectedUserAndGroupName[i];
+                                      }
+                                      if(pageType == "edit"){
+                                          $.ajax({
+                                              url: '/' +  companyTeamName  + '/task/' + taskId + '/edit',
+                                              type: 'post',
+                                              datatype: 'json',
+                                              data: formData,
+                                              success : function(response) {
+                                                  if (response == "true" ) {
+                                                      window.location ='/'  +  companyTeamName  + '/task';
+                                                  } else {
+                                                      $("#saveButton").attr('disabled', false);
+                                                  }
+                                              },
+                                              error: function (request,status, error) {
+                                                  console.log(error);
+                                              }
+                                          });
+                                      } else {
+                                          $.ajax({
+                                              url:'/'+ companyTeamName + '/task/add',
+                                              type: 'post',
+                                              datatype: 'json',
+                                              data: formData,
+                                              success : function(response) {
+                                                  if (response == "true" ) {
+                                                      window.location = '/' + companyTeamName + '/task';
+                                                  } else {
+                                                      $("#saveButton").attr('disabled', false);
+                                                  }
+                                              },
+                                              error: function (request,status, error) {
+                                                  console.log(error);
+                                              }
+                                          });
+                                      }
+                                  }
                               else{
                                   $("#mapValidationError").css({"color": "red", "font-size": "15px"});
                                   $("#mapValidationError").html("please select location from map.").show();
                               }
-                    }
+                          }
                         else {
                             $("#dateValidationError").css({"color": "red", "font-size": "15px"});
                             $("#dateValidationError").html("please enter a valid date.").show();
@@ -302,89 +302,14 @@ $().ready(function() {
                     $("#loginTypeValidationError").html("please select a login type.").show();
                 }
                 
-                    
             }
-                else {
-                    $("#minUserValidationError").css({"color": "red", "font-size": "15px"});
-                    $("#minUserValidationError").html("More users need to start this Task.").show();
+            else {
+                $("#minUserValidationError").css({"color": "red", "font-size": "15px"});
+                $("#minUserValidationError").html("More users need to start this Task.").show();
                 }
-            /*var taskId=vm.TaskId;
-           var jobnew = $("#jobName option:selected").val()
-           if ($("#jobName ")[0].selectedIndex <= 0) {
-              document.getElementById('jobName').innerHTML = "";
-           }
-           var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId;
-            var selectedContactNames = [];
-
-           //get the user's name corresponding to  keys selected from dropdownlist
-            $("#contactId option:selected").each(function () {
-                var $this = $(this);
-                if ($this.length) {
-                    var selectedContactName = $this.text();
-                    selectedContactNames.push( selectedContactName);
-                }
-            });
-              for(i = 0; i < selectedContactNames.length; i++) {
-                formData = formData+"&contactName="+selectedContactNames[i];
-            }
-           
-           //function to get all users and group
-           
-           var selectedUserAndGroupName = [];
-           $("#userOrGroup option:selected").each(function () {
-               var $this = $(this);
-                if ($this.length) {
-                    var selectedUserName = $this.text();
-                    console.log(selectedUserName);
-                    selectedUserAndGroupName.push( selectedUserName);
-                }
-            });
-    
-       for(i = 0; i < selectedUserAndGroupName.length; i++) {
-               formData = formData+"&userAndGroupName="+selectedUserAndGroupName[i];
-           }
-           if(pageType == "edit"){
-               $.ajax({
-                   url: '/' +  companyTeamName  + '/task/' + taskId + '/edit',
-                    type: 'post',
-                    datatype: 'json',
-                    data: formData,
-                    success : function(response) {
-                        if (response == "true" ) {
-                            window.location ='/'  +  companyTeamName  + '/task';
-                        } else {
-                            $("#saveButton").attr('disabled', true);
-                        }
-                    },
-                    error: function (request,status, error) {
-                        console.log(error);
-                    }
-                });
-            } else {
-                $.ajax({
-                    url:'/'+ companyTeamName + '/task/add',
-                    type: 'post',
-                    datatype: 'json',
-                    data: formData,
-                    success : function(response) {
-                        if (response == "true" ) {
-                            window.location = '/' + companyTeamName + '/task';
-                        } else {
-                             $("#saveButton").attr('disabled', true);
-                        }
-                    },
-                    error: function (request,status, error) {
-                        console.log(error);
-                    }
-                });
-
-            }*/
-           
         }
-       
     });
-    
     $("#cancel").click(function() {
-            window.location = '/' + companyTeamName + '/task';
+        window.location = '/' + companyTeamName + '/task';
     });
 });
