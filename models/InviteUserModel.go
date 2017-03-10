@@ -58,6 +58,7 @@ func(m *Invitation) AddInviteToDb(ctx context.Context, companyID string)bool {
 	companyUsers := CompanyUsers{}
 	companyUsers.DateOfJoin = time.Now().Unix()
 	companyUsers.Status = helpers.StatusActive
+	companyUsers.FullName = user[userID].Info.FullName
 
 	err = db.Child("Company/"+companyID+"/Users/"+userID).Set(companyUsers)
 	if err != nil {

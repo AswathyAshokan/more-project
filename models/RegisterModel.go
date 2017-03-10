@@ -41,6 +41,7 @@ type CompanySettings struct{
 type CompanyUsers struct{
 	DateOfJoin	int64
 	Status		string
+	FullName	string
 }
 
 //Struct for Admin
