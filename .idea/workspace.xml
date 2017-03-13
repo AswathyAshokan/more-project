@@ -5,9 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/views/template/customer-management.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/Customer- ManagementController.go" afterPath="$PROJECT_DIR$/controllers/Customer- ManagementController.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/RegisterController.go" afterPath="$PROJECT_DIR$/controllers/RegisterController.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/helpers/ConstantHelpers.go" afterPath="$PROJECT_DIR$/helpers/ConstantHelpers.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/CustomerManagementModel.go" afterPath="$PROJECT_DIR$/models/CustomerManagementModel.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routers/router.go" afterPath="$PROJECT_DIR$/routers/router.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,30 +29,18 @@
       <file leaf-file-name="Customer- ManagementController.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/Customer- ManagementController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1099">
-              <caret line="81" column="0" lean-forward="false" selection-start-line="66" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
-              <folding>
-                <element signature="e#21#137#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ContactUserController.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/controllers/ContactUserController.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-396">
-              <caret line="120" column="1" lean-forward="true" selection-start-line="102" selection-start-column="0" selection-end-line="120" selection-end-column="1" />
+            <state relative-caret-position="-859">
+              <caret line="6" column="34" lean-forward="true" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CustomerManagementViewModel.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/viewmodels/CustomerManagementViewModel.go">
+      <file leaf-file-name="router.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routers/router.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+            <state relative-caret-position="257">
+              <caret line="48" column="151" lean-forward="false" selection-start-line="48" selection-start-column="151" selection-end-line="48" selection-end-column="151" />
               <folding />
             </state>
           </provider>
@@ -57,8 +49,8 @@
       <file leaf-file-name="CustomerManagementModel.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/CustomerManagementModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="469">
-              <caret line="43" column="35" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="37" />
+            <state relative-caret-position="432">
+              <caret line="54" column="9" lean-forward="true" selection-start-line="54" selection-start-column="9" selection-end-line="54" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -67,8 +59,8 @@
       <file leaf-file-name="CustomerModel.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/CustomerModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-31">
-              <caret line="53" column="91" lean-forward="false" selection-start-line="53" selection-start-column="34" selection-end-line="53" selection-end-column="91" />
+            <state relative-caret-position="419">
+              <caret line="69" column="9" lean-forward="true" selection-start-line="65" selection-start-column="8" selection-end-line="69" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -87,8 +79,8 @@
       <file leaf-file-name="CustomerController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/CustomerController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1296">
-              <caret line="80" column="46" lean-forward="false" selection-start-line="80" selection-start-column="46" selection-end-line="80" selection-end-column="46" />
+            <state relative-caret-position="378">
+              <caret line="100" column="54" lean-forward="true" selection-start-line="100" selection-start-column="8" selection-end-line="100" selection-end-column="54" />
               <folding />
             </state>
           </provider>
@@ -158,8 +150,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/helpers/ConstantHelpers.go" />
-        <option value="$PROJECT_DIR$/main/views/template/register.html" />
         <option value="$PROJECT_DIR$/controllers/BaseController.go" />
         <option value="$PROJECT_DIR$/main/static/js/custom/layout.js" />
         <option value="$PROJECT_DIR$/main/static/js/custom/add-contacts.js" />
@@ -185,7 +175,6 @@
         <option value="$PROJECT_DIR$/main/static/js/custom.js" />
         <option value="$PROJECT_DIR$/controllers/SessionController.go" />
         <option value="$PROJECT_DIR$/viewmodels/JobViewModel.go" />
-        <option value="$PROJECT_DIR$/routers/router.go" />
         <option value="$PROJECT_DIR$/viewmodels/ContactUserViewModel.go" />
         <option value="$PROJECT_DIR$/main/static/css/style.css" />
         <option value="$PROJECT_DIR$/controllers/ContactUserController.go" />
@@ -208,7 +197,10 @@
         <option value="$PROJECT_DIR$/models/InviteUserModel.go" />
         <option value="$PROJECT_DIR$/viewmodels/CustomerManagementViewModel.go" />
         <option value="$PROJECT_DIR$/models/CustomerManagementModel.go" />
+        <option value="$PROJECT_DIR$/routers/router.go" />
         <option value="$PROJECT_DIR$/controllers/Customer- ManagementController.go" />
+        <option value="$PROJECT_DIR$/controllers/RegisterController.go" />
+        <option value="$PROJECT_DIR$/helpers/ConstantHelpers.go" />
       </list>
     </option>
   </component>
@@ -264,7 +256,103 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="viewmodels" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="routers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="template" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="helpers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -543,13 +631,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
-    </task>
-    <task id="LOCAL-00008" summary="06/02/2017 Fixed validation error">
-      <created>1486379820461</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1486379820461</updated>
     </task>
     <task id="LOCAL-00009" summary="06/02/2017 Fixed template error">
       <created>1486383029691</created>
@@ -887,7 +968,14 @@
       <option name="project" value="LOCAL" />
       <updated>1489139051429</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="14/03/2017  3:13  Customer Management">
+      <created>1489381849105</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1489381849106</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TodoView">
@@ -901,7 +989,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1301" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -909,7 +997,7 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3281493" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32988048" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32200646" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -917,7 +1005,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18064517" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25577688" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25577688" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24940239" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24940239" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -967,7 +1055,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="09/02/2017 Fixed errors" />
     <MESSAGE value="10/02/2017  Tempate Editing" />
     <MESSAGE value="10/02/2017  Editing and Delete" />
     <MESSAGE value="11/02/2017  updated file" />
@@ -992,7 +1079,8 @@
     <MESSAGE value="09/02/2017  row expansion" />
     <MESSAGE value="10/02/2017  row expansion" />
     <MESSAGE value="10/02/2017  3:13  Customer Management" />
-    <option name="LAST_COMMIT_MESSAGE" value="10/02/2017  3:13  Customer Management" />
+    <MESSAGE value="14/03/2017  3:13  Customer Management" />
+    <option name="LAST_COMMIT_MESSAGE" value="14/03/2017  3:13  Customer Management" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1059,13 +1147,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/helpers/ConstantHelpers.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="8" lean-forward="false" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
         </state>
       </provider>
     </entry>
@@ -1144,20 +1225,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="155">
           <caret line="3252" column="46" lean-forward="false" selection-start-line="3252" selection-start-column="46" selection-end-line="3252" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routers/router.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="62" column="53" lean-forward="false" selection-start-line="62" selection-start-column="46" selection-end-line="62" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/viewmodels/GroupViewModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="16" column="40" lean-forward="false" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
         </state>
       </provider>
     </entry>
@@ -1267,13 +1334,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/RegisterController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-270">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/RegisterModel.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="203">
@@ -1305,28 +1365,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/GroupController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="55" column="64" lean-forward="false" selection-start-line="55" selection-start-column="64" selection-end-line="55" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
           <caret line="46" column="30" lean-forward="false" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
           <folding>
-            <element signature="e#44#136#0" expanded="true" />
+            <element signature="e#44#136#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/CustomerController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1296">
-          <caret line="80" column="46" lean-forward="false" selection-start-line="80" selection-start-column="46" selection-end-line="80" selection-end-column="46" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1338,18 +1383,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/viewmodels/CustomerManagementViewModel.go">
+    <entry file="file://$PROJECT_DIR$/viewmodels/GroupViewModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        <state relative-caret-position="288">
+          <caret line="16" column="1" lean-forward="true" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/CustomerModel.go">
+    <entry file="file://$PROJECT_DIR$/controllers/GroupController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-31">
-          <caret line="53" column="91" lean-forward="false" selection-start-line="53" selection-start-column="34" selection-end-line="53" selection-end-column="91" />
+        <state relative-caret-position="448">
+          <caret line="136" column="47" lean-forward="false" selection-start-line="136" selection-start-column="31" selection-end-line="136" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/viewmodels/CustomerManagementViewModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="9" lean-forward="false" selection-start-line="5" selection-start-column="9" selection-end-line="5" selection-end-column="9" />
           <folding />
         </state>
       </provider>
@@ -1362,21 +1415,59 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/CustomerController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="100" column="54" lean-forward="true" selection-start-line="100" selection-start-column="8" selection-end-line="100" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/CustomerModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="419">
+          <caret line="69" column="9" lean-forward="true" selection-start-line="65" selection-start-column="8" selection-end-line="69" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routers/router.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="257">
+          <caret line="48" column="151" lean-forward="false" selection-start-line="48" selection-start-column="151" selection-end-line="48" selection-end-column="151" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/models/CustomerManagementModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="469">
-          <caret line="43" column="35" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="37" />
+        <state relative-caret-position="432">
+          <caret line="54" column="9" lean-forward="true" selection-start-line="54" selection-start-column="9" selection-end-line="54" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/helpers/ConstantHelpers.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="23" lean-forward="false" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/RegisterController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="32" column="16" lean-forward="false" selection-start-line="32" selection-start-column="16" selection-end-line="32" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/Customer- ManagementController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1099">
-          <caret line="81" column="0" lean-forward="false" selection-start-line="66" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
-          <folding>
-            <element signature="e#21#137#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-859">
+          <caret line="6" column="34" lean-forward="true" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -30,7 +30,6 @@ func (c *RegisterController) Register() {
 		company.Settings.Status = helpers.StatusActive
 		company.Settings.DateOfCreation = currentTime
 		company.Plan = helpers.PlanFamily
-
 		admin := models.Admins{}
 		admin.Info.FirstName = c.GetString("firstName")
 		admin.Info.LastName = c.GetString("lastName")

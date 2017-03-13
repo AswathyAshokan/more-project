@@ -41,5 +41,21 @@ func GetAdminDetailsById(ctx context.Context,adminKeyFromCompany []string) (bool
 
 // Delete selected record from database
 
-/*func DeleteCustomerManagementData*/
+func(m *Company) DeleteCustomerManagementData(ctx context.Context,customerManagementId string)(bool){
+
+	dB,err := GetFirebaseClient(ctx,"")
+	if err != nil {
+		log.Println("No Db COnnection!")
+	}
+
+	err = dB.Child("/Company/"+customerManagementId).Value(&m)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	log.Println("vbvbvv:",m)
+	return true
+
+
+}
 

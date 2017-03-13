@@ -6,7 +6,7 @@ const (
 	StatusActive = "Active"
 	StatusPending = "Pending"
 	StatusAccepted = "Accepted"
-	PlanFamily = "Family"
+	PlanFamily = "family"
 )
 
 // Error Messages

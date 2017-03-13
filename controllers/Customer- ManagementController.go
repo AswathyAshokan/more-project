@@ -24,7 +24,6 @@ func (c *CustomerManagementController) CustomerManagement() {
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
 		}
-		log.Println("key",keySlice)
 
 		var adminKeyFromCompany []string
 		for _, k := range keySlice {
@@ -48,7 +47,6 @@ func (c *CustomerManagementController) CustomerManagement() {
 				}
 			tempValueSlice = append(tempValueSlice, strconv.FormatInt(allCompanyData[k].Settings.DateOfCreation,10))
 			tempValueSlice = append(tempValueSlice,allCompanyData[k].Plan)
-			log.Println("temo",tempValueSlice)
 			customerManagementViewModel.Values = append(customerManagementViewModel.Values,tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
 
@@ -64,19 +62,20 @@ func (c *CustomerManagementController) CustomerManagement() {
 
 /*To delete selected record from database*/
 
-/*
-func (c *ContactUserController)LoadDeleteCustomerManagement() {
-	r := c.Ctx.Request
-	w := c.Ctx.ResponseWriter
-	user := models.ContactUser{}
-	dbStatus := user.DeleteContactFromDB(c.AppEngineCtx)
+func (c *CustomerManagementController)LoadDeleteCustomerManagement() {
+	/*r := c.Ctx.Request*/
+	/*w := c.Ctx.ResponseWriter*/
+	customerManagementId :=c.Ctx.Input.Param(":customermanagementid")
+	company := models.Company{}
+	dbStatus := company.DeleteCustomerManagementData(c.AppEngineCtx,customerManagementId)
 	switch dbStatus {
 	case true:
-		w.Write([]byte("true"))
+		log.Println("trueee")
+		/*w.Write([]byte("true"))*/
 	case false :
-		w.Write([]byte("false"))
+		log.Println("falseee")
+		/*w.Write([]byte("false"))*/
 	}
 
 
 }
-*/
