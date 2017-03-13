@@ -20,6 +20,9 @@ func (m *Company)GetAllRegisteredCompanyDetails(ctx context.Context)(bool,map[st
 	return true,companyDetails
 
 }
+
+// Retrieve data of admin from database
+
 func GetAdminDetailsById(ctx context.Context,adminKeyFromCompany []string) (bool, Admins) {
 	adminDetailsById := Admins{}
 	dB, err := GetFirebaseClient(ctx, "")
@@ -33,7 +36,10 @@ func GetAdminDetailsById(ctx context.Context,adminKeyFromCompany []string) (bool
 			log.Fatal(err)
 		}
 	}
-
-	log.Println("same data:",adminDetailsById)
 	return true,adminDetailsById
 }
+
+// Delete selected record from database
+
+/*func DeleteCustomerManagementData*/
+

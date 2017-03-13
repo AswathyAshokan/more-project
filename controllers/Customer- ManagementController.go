@@ -6,6 +6,7 @@ import (
 	"app/passporte/models"
 	"app/passporte/viewmodels"
 	"log"
+	"strconv"
 )
 
 type CustomerManagementController struct {
@@ -13,7 +14,7 @@ type CustomerManagementController struct {
 }
 
 func (c *CustomerManagementController) CustomerManagement() {
-	customerManagementViewModel := viewmodels.Customer{}
+	customerManagementViewModel := viewmodels.CustomerManagement{}
 	registeredCompany := models.Company{}
 	dbStatus,allCompanyData:= registeredCompany.GetAllRegisteredCompanyDetails(c.AppEngineCtx)
 	switch dbStatus {
@@ -23,13 +24,13 @@ func (c *CustomerManagementController) CustomerManagement() {
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
 		}
-		var tempValueSlice []string
+		log.Println("key",keySlice)
+
 		var adminKeyFromCompany []string
 		for _, k := range keySlice {
+			var tempValueSlice []string
 			tempValueSlice = append(tempValueSlice, allCompanyData[k].Info.CompanyName)
 			tempValueSlice = append(tempValueSlice, allCompanyData[k].Info.Address)
-
-			/*tempValueSlice = append(tempValueSlice, allCompanyData[k].Settings.DateOfCreation)*/
 			dataValue := reflect.ValueOf(allCompanyData[k].Admins)
 
 			for _, key := range dataValue.MapKeys() {
@@ -45,12 +46,13 @@ func (c *CustomerManagementController) CustomerManagement() {
 					log.Println("false")
 
 				}
+			tempValueSlice = append(tempValueSlice, strconv.FormatInt(allCompanyData[k].Settings.DateOfCreation,10))
+			tempValueSlice = append(tempValueSlice,allCompanyData[k].Plan)
 			log.Println("temo",tempValueSlice)
 			customerManagementViewModel.Values = append(customerManagementViewModel.Values,tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
 
 		}
-
 		customerManagementViewModel.Keys = keySlice
 		c.Data["vm"] = customerManagementViewModel
 		c.TplName = "template/customer-management.html"
@@ -59,3 +61,22 @@ func (c *CustomerManagementController) CustomerManagement() {
 	}
 }
 
+
+/*To delete selected record from database*/
+
+/*
+func (c *ContactUserController)LoadDeleteCustomerManagement() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	user := models.ContactUser{}
+	dbStatus := user.DeleteContactFromDB(c.AppEngineCtx)
+	switch dbStatus {
+	case true:
+		w.Write([]byte("true"))
+	case false :
+		w.Write([]byte("false"))
+	}
+
+
+}
+*/
