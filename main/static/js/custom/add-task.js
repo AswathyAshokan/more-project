@@ -294,7 +294,7 @@ $().ready(function() {
                           }
                         else {
                             $("#dateValidationError").css({"color": "red", "font-size": "15px"});
-                            $("#dateValidationError").html("please enter a valid date.").show();
+                           $("#dateValidationError").html("please enter a valid date.").show();
                         }
                     }
                 else {

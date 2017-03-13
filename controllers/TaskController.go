@@ -33,21 +33,16 @@ func (c *TaskController)AddNewTask() {
 		task.Customer.CustomerId =c.GetString("jobId")
 		startDateString := c.GetString("startDateFomJs")
 		endDateString :=c.GetString("endDateFromJs")
-		log.Println(" start date from js",startDateString)
-		log.Println(" end date from js",endDateString)
 		layout := "01/02/2006 15:04"
-		//test, err := time.Parse("02/Jan/2006:15:04:05 -0700", "31/Dec/2012:15:32:25 -0800")
 		startDate, err := time.Parse(layout, startDateString)
 		if err != nil {
 			log.Println(err)
 		}
-		log.Println("new  start date",startDate)
 		task.Info.StartDate = startDate.Unix()
 		endDate, err := time.Parse(layout, endDateString)
 		if err != nil {
 			log.Println(err)
 		}
-		log.Println("new end  date",endDate)
 		task.Info.EndDate = endDate.Unix()
 		task.Info.TaskLocation = c.GetString("taskLocation")
 		task.Info.TaskDescription = c.GetString("taskDescription")
@@ -102,10 +97,6 @@ func (c *TaskController)AddNewTask() {
 					for i := 0; i < len(keySliceForGroup); i++ {
 						MemberNameArray = append(MemberNameArray,groupDetails.Members[keySliceForGroup[i]].MemberName)
 					}
-					/*for i := 0; i < len(keySliceForGroup); i++ {
-						members.MemberName = MemberNameArray[i]
-						groupMemberNameMap[keySliceForGroup[i]] = members
-					}*/
 
 				case false:
 					log.Println(helpers.ServerConnectionError)
@@ -147,7 +138,7 @@ func (c *TaskController)AddNewTask() {
 
 	}else {
 		viewModel  := viewmodels.AddTaskViewModel{}
-		user :=models.Users{}
+		companyUsers :=models.Company{}
 		var keySlice []string
 		var keySliceForGroupAndUser 	[]string
 		var keySliceForContact		[]string
@@ -170,14 +161,19 @@ func (c *TaskController)AddNewTask() {
 		//Getting users and groups
 
 
-		 allUsers,dbStatus := user.GetUsersForDropdown(c.AppEngineCtx)
+		dbStatus ,testUser:= companyUsers.GetUsersForDropdownFromCompany(c.AppEngineCtx,companyTeamName)
 		switch dbStatus {
 		case true:
-			dataValue := reflect.ValueOf(allUsers)
+			dataValue := reflect.ValueOf(testUser)
 			for _, key := range dataValue.MapKeys() {
-				keySliceForGroupAndUser = append(keySliceForGroupAndUser, key.String())
-				viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,  allUsers[key.String()].Info.FullName+" (User)")
+				dataValue := reflect.ValueOf(testUser[key.String()].Users)
+				for _, userKey := range dataValue.MapKeys() {
+					viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,testUser[key.String()].Users[userKey.String()].FullName+" (User)")
+					keySliceForGroupAndUser = append(keySliceForGroupAndUser, userKey.String())
+				}
+
 			}
+
 			allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx,companyTeamName)
 			switch dbStatus {
 			case true:
@@ -339,20 +335,18 @@ func (c *TaskController)LoadEditTask() {
 		task.Job.JobId = c.GetString("jobId")
 		task.Customer.CustomerName = c.GetString("customerName")
 		task.Customer.CustomerId = c.GetString("jobId")
-		startDateString := c.GetString("startDate")
-		layout := "01/02/2006 "
+		startDateString := c.GetString("startDateFomJs")
+		endDateString :=c.GetString("endDateFromJs")
+		layout := "01/02/2006 15:04"
 		startDate, err := time.Parse(layout, startDateString)
 		if err != nil {
 			log.Println(err)
 		}
-		log.Println(startDate.Unix())
 		task.Info.StartDate = startDate.Unix()
-		endDateString := c.GetString("endDate")
 		endDate, err := time.Parse(layout, endDateString)
 		if err != nil {
 			log.Println(err)
 		}
-		log.Println(endDate.Unix())
 		task.Info.EndDate = endDate.Unix()
 		task.Info.TaskLocation = c.GetString("taskLocation")
 		task.Info.TaskDescription = c.GetString("taskDescription")
@@ -366,13 +360,6 @@ func (c *TaskController)LoadEditTask() {
 		task.Location.Latitude = c.GetString("latitude")
 		task.Location.Longitude = c.GetString("longitude")
 		task.Info.FitToWork = c.GetString("addFitToWork")
-		StartTime := c.GetString("startTime")
-		layouts := "12:30"
-		startTimeTask, err := time.Parse(layouts, StartTime)
-		if err != nil {
-			log.Println(err)
-		}
-		log.Println(startTimeTask.Unix())
 		//EndTime := c.GetString("endTime")
 		task.Settings.DateOfCreation = time.Now().Unix()
 		task.Settings.Status = helpers.StatusPending
@@ -414,11 +401,6 @@ func (c *TaskController)LoadEditTask() {
 					for i := 0; i < len(keySliceForGroup); i++ {
 						MemberNameArray = append(MemberNameArray, groupDetails.Members[keySliceForGroup[i]].MemberName)
 					}
-					/*for i := 0; i < len(keySliceForGroup); i++ {
-						members.MemberName = MemberNameArray[i]
-						groupMemberNameMap[keySliceForGroup[i]] = members
-					}*/
-
 				case false:
 					log.Println(helpers.ServerConnectionError)
 				}
@@ -459,7 +441,7 @@ func (c *TaskController)LoadEditTask() {
 
 		viewModel := viewmodels.EditTaskViewModel{}
 		task := models.Tasks{}
-		user := models.Users{}
+		companyUsers :=models.Company{}
 		taskId := c.Ctx.Input.Param(":taskId")
 		dbStatus, taskDetail := task.GetTaskDetailById(c.AppEngineCtx, taskId)
 		switch dbStatus {
@@ -482,16 +464,18 @@ func (c *TaskController)LoadEditTask() {
 			case false:
 				log.Println(helpers.ServerConnectionError)
 			}
-			allUsers, dbStatus := user.GetUsersForDropdown(c.AppEngineCtx)
+			//getting all users for drop down
+			dbStatus ,testUser:= companyUsers.GetUsersForDropdownFromCompany(c.AppEngineCtx,companyTeamName)
 			switch dbStatus {
 			case true:
-				dataValue := reflect.ValueOf(allUsers)
+				dataValue := reflect.ValueOf(testUser)
 				for _, key := range dataValue.MapKeys() {
-					keySliceForGroupAndUser = append(keySliceForGroupAndUser, key.String())
-				}
+					dataValue := reflect.ValueOf(testUser[key.String()].Users)
+					for _, userKey := range dataValue.MapKeys() {
+						viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,testUser[key.String()].Users[userKey.String()].FullName+" (User)")
+						keySliceForGroupAndUser = append(keySliceForGroupAndUser, userKey.String())
+					}
 
-				for _, k := range dataValue.MapKeys() {
-					viewModel.GroupNameArray = append(viewModel.GroupNameArray, allUsers[k.String()].Info.FullName + "(User)")
 				}
 				allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx,companyTeamName)
 				switch dbStatus {
