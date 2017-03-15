@@ -38,8 +38,6 @@ func (c *RegisterController) Register() {
 		admin.Info.Password = []byte(c.GetString("password"))
 		admin.Settings.DateOfCreation = currentTime
 		admin.Settings.Status = helpers.StatusActive
-
-
 		dbStatus := admin.CreateAdminAndCompany(c.AppEngineCtx, company)
 		switch dbStatus{
 		case false:

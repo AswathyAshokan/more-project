@@ -8,6 +8,7 @@ import (
 	//"encoding/json"
 	"golang.org/x/crypto/bcrypt"
 	"strings"
+	"app/passporte/helpers"
 )
 
 // Struct for Company
@@ -67,6 +68,7 @@ type AdminSettings struct {
 type AdminCompany struct {
 	CompanyName	string
 	CompanyId	string
+	CompanyStatus	string
 }
 
 //Register new Company Admin
@@ -110,6 +112,7 @@ func (m *Admins)CreateAdminAndCompany(ctx context.Context, company Company) bool
 	adminsCompany := AdminCompany{}
 	adminsCompany.CompanyId = companyUniqueID
 	adminsCompany.CompanyName = company.Info.CompanyName
+	adminsCompany.CompanyStatus = helpers.StatusActive
 
 	err = dB.Child("Admins/"+adminUniqueID+"/Company").Set(adminsCompany)
 	if err != nil {

@@ -6,6 +6,7 @@ const (
 	StatusActive = "Active"
 	StatusPending = "Pending"
 	StatusAccepted = "Accepted"
+	StatusInActive = "Inactive"
 	PlanFamily = "family"
 )
 

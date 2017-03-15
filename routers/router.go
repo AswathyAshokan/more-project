@@ -46,7 +46,7 @@ func init() {
 
 	/*beegae.Router("/superadmin", &controllers.SuperAdminController{}, "*:AddSuperAdmin")*/
 	beegae.Router("/customer-management", &controllers.CustomerManagementController{}, "*:CustomerManagement")
-	beegae.Router("/:customermanagementid/customer-management/delete", &controllers.CustomerManagementController{}, "*:LoadDeleteCustomerManagement")
+	beegae.Router("/customer-management/:customermanagementid/delete", &controllers.CustomerManagementController{}, "*:LoadDeleteCustomerManagement")
 
 
 	//Aswathy

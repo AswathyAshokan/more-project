@@ -6,7 +6,7 @@ import (
 )
 
 // get all registered company in passporte for super admin
-func (m *Company)GetAllRegisteredCompanyDetails(ctx context.Context)(bool,map[string]Company)  {
+func GetAllRegisteredCompanyDetails(ctx context.Context)(bool,map[string]Company)  {
 	companyDetails := map[string]Company{}
 	dB, err := GetFirebaseClient(ctx, "")
 	if err != nil {
@@ -41,21 +41,60 @@ func GetAdminDetailsById(ctx context.Context,adminKeyFromCompany []string) (bool
 
 // Delete selected record from database
 
-func(m *Company) DeleteCustomerManagementData(ctx context.Context,customerManagementId string)(bool){
-
+func DeleteCustomerManagementData(ctx context.Context,customerManagementId string)(bool,Company,map[string]Admins){
+	companyData := Company{}
+	adminData := map[string]Admins{}
 	dB,err := GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println("No Db COnnection!")
 	}
 
-	err = dB.Child("/Company/"+customerManagementId).Value(&m)
+	err = dB.Child("/Company/"+customerManagementId).Value(&companyData)
+	log.Println("cp1")
+	if err != nil {
+		log.Println("cp2")
+		log.Fatal(err)
+		return  false,companyData,adminData
+	} else {
+		log.Println("cp3")
+		err = dB.Child("/Admins/"+customerManagementId).Value(&adminData)
+		if err != nil {
+			log.Fatal(err)
+			return  false,companyData,adminData
+		}
+		log.Println("cp4")
+	}
+	log.Println("cp5")
+	return true,companyData,adminData
+
+
+}
+
+//function for update company status From Company
+func (m *Company)UpdateCompanyStatusToInactive(ctx context.Context,customerManagementId string)(bool)  {
+	dB,err := GetFirebaseClient(ctx,"")
+	if err != nil {
+		log.Println("No Db COnnection!")
+	}
+	err = dB.Child("/Company/"+ customerManagementId).Update(&m)
 	if err != nil {
 		log.Fatal(err)
 		return  false
 	}
-	log.Println("vbvbvv:",m)
 	return true
+}
 
-
+//function for update company status from Admin
+func (m *Admins)UpdateAdminStatusToInactive(ctx context.Context,customerManagementId string)(bool)  {
+	dB,err := GetFirebaseClient(ctx,"")
+	if err != nil {
+		log.Println("No Db COnnection!")
+	}
+	err = dB.Child("/Admins/"+ customerManagementId).Update(&m)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	return true
 }
 
