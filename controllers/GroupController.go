@@ -47,21 +47,22 @@ func (c *GroupController) AddGroup() {
 			w.Write([]byte("false"))
 		}
 	} else {
-		groupUser := models.Users{}
-		GroupMembers,dbStatus :=groupUser.GetUsersForDropdown(c.AppEngineCtx)  // retrive all the keys of a users
+		companyUsers :=models.Company{}
+		groupViewModel := viewmodels.AddGroupViewModel{}
+		var keySlice []string
+		dbStatus,GroupMembers :=companyUsers.GetUsersForDropdownFromCompany(c.AppEngineCtx,companyTeamName)  // retrive all the keys of a users
 		switch dbStatus {
 
 		case true:
-			dataValue := reflect.ValueOf(GroupMembers)	// To store data values of slice
-			var keySlice []string	// To store keys of the slice
+			dataValue := reflect.ValueOf(GroupMembers)
 			for _, key := range dataValue.MapKeys() {
-				keySlice = append(keySlice, key.String())
+				dataValue := reflect.ValueOf(GroupMembers[key.String()].Users)
+				for _, userKey := range dataValue.MapKeys() {
+					groupViewModel.GroupMembers   = append(groupViewModel.GroupMembers ,GroupMembers[key.String()].Users[userKey.String()].FullName)
+					keySlice = append(keySlice, userKey.String())
+				}
+
 			}
-			GroupMemberName,dbStatus:= groupUser.TakeGroupMemberName(c.AppEngineCtx, keySlice)
-			switch dbStatus {
-			case true:
-				groupViewModel := viewmodels.AddGroupViewModel{}
-				groupViewModel.GroupMembers = GroupMemberName
 				groupViewModel.CompanyTeamName = storedSession.CompanyTeamName
 				groupViewModel.CompanyPlan = storedSession.CompanyPlan
 				groupViewModel.GroupKey = keySlice
@@ -72,9 +73,7 @@ func (c *GroupController) AddGroup() {
 			case false:
 				log.Println(helpers.ServerConnectionError)
 			}
-		case false:
-			log.Println(helpers.ServerConnectionError)
-		}
+
 	}
 }
 

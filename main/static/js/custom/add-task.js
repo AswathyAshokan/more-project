@@ -13,7 +13,6 @@ var mapLongitude = "";
 var startDateToCompare = "";
 var endDateToCompare = "";
 var i = 0;
-console.log("Group Members", vm.GroupMembers);
 //function for editing
 $(function () {
 
@@ -38,7 +37,13 @@ $(function () {
    
   
     
+    
+    //google map
+    
+    
+   
     //function for getting textbox dynamically
+    
     
     $("#btnAdd").bind("click", function () {
         var div = $("<div class='plus'/>");
@@ -60,7 +65,7 @@ $(function () {
     });
 });
 function GetDynamicTextBox(value) {
-    return ' <input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + value + '" />&nbsp;' +
+    return ' <input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "" />&nbsp;' +
             '<button id="btnAdd"  name="closePreviewBtn" class="delete-decl">+</button>'
     i++;
 }
@@ -131,7 +136,7 @@ $().ready(function() {
                 }
             }
             
-            for (var i = 0; i < vm.GroupMembers.length; i++) {
+            for (var i = 0; i < vm.GroupMembers[i][0].length; i++) {
                 if (vm.GroupMembers[i][0] == clickedOption) {
                     var memberLength = vm.GroupMembers[i].length;
                     for (var j = 1; j < memberLength; j++) {
