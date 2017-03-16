@@ -120,21 +120,23 @@ $(function(){
             data: dataArray,
             "columnDefs": [
                 { "width": "20%", "targets": 0 },
-                { "width": "10%", "targets": 1 },
-                 { "width": "10%", "targets": 2 },
+                { "width": "20%", "targets": 1 },
+                { "width": "15%", "targets": 2 },
+                { "width": "15%", "targets": 3 },
+                { "width": "15%", "targets": 4 },
+                { "width": "15%", "targets": 5 },
                 {
-                       "targets": 6,
-                       "width": "10%",
-                       "data": null,
-                       "defaultContent": '<div class="edit-wrapper"><span class="icn"></i><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
+                    
+                    "targets": 6,
+                    "width": "20%",
+                    "data": null,
+                    "defaultContent": '<div class="edit-wrapper"><span class="icn"></i><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
                 }]
         });
-        
         var addItem = $('<span>+</span>');
         addItem.click(function() {
             window.location = "/" + companyTeamName + "/task/add";
         });
-        
         var customerDropdown = $('<div class="tbl-dropdown"><select class="form-control sprites-arrow-down" id="customerDropdown"  onchange="customerFilter();"><option>All Customers</option></select></div>');
         
         var jobDropdown = $('<div class="tbl-dropdown"><select class="form-control sprites-arrow-down" id="jobDropdown"  onchange="jobFilter();"><option>All Jobs</option></select></div>');       
@@ -174,7 +176,7 @@ $(function(){
     //.....................editing..................
     $('#task-details tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[12];
+        var key = data[11];
         window.location = '/' + companyTeamName + '/task/' + key + '/edit'
     });
 
@@ -182,7 +184,7 @@ $(function(){
     $('#task-details tbody').on( 'click', '#delete', function () {
         $("#myModal").modal();
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[12];
+        var key = data[11];
         
         $("#confirm").click(function(){
             $.ajax({

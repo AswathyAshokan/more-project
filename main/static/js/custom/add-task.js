@@ -12,8 +12,8 @@ var mapLatitude = "";
 var mapLongitude = "";
 var startDateToCompare = "";
 var endDateToCompare = "";
-var i = 0;
-//function for editing
+var i = 0;//function for editing
+console.log("bfhbshb", vm.StartTime);
 $(function () {
 
    
@@ -31,12 +31,10 @@ $(function () {
         document.getElementById("users").value = vm.UserNumber;
         document.getElementById("log").value = vm.Log ;
         document.getElementById("fitToWork").value = vm.FitToWork;
+        document.getElementById("startTime").value = vm.StartTime;
+        document.getElementById("endTime").value = vm.EndTime;
         document.getElementById("taskHead").innerHTML = "Edit Task";
     }
-    
-   
-  
-    
     
     //google map
     
@@ -200,12 +198,9 @@ $().ready(function() {
             var startDateString = startDate;
             var date = new Date(Date.parse(startDateString));
             var startDateOfTask = formatDate(date);
-            alert(startDateOfTask);  //alerts "01/26/2012 22:31:31"
             var endDateString = endDate;
             var endDateData = new Date(Date.parse(endDateString));
             var endDateOfTask = formatDate(endDateData);
-            alert(endDateOfTask);  //alerts "01/26/2012 22:31:31"
-            
             
             
            

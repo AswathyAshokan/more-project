@@ -29,6 +29,8 @@ type EditTaskViewModel  struct {
 	GroupMembersAndUserToEdit	[]string
 	GroupMembers			[][]string
 	CompanyPlan			string
+	StartTime			string
+	EndTime				string
 
 }
 

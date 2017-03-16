@@ -277,10 +277,12 @@ func (c *TaskController)LoadTaskDetail() {
 			endDate := time.Unix(tasks[k].Info.EndDate, 0).Format("2006/01/02")
 			tempValueSlice = append(tempValueSlice, endDate)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.LoginType)
+			tempValueSlice = append(tempValueSlice,  tasks[k].Info.UserNumber)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Settings.Status)
+
 			tempValueSlice =append(tempValueSlice,"")
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.FitToWork)
-			tempValueSlice = append(tempValueSlice,  tasks[k].Info.UserNumber)
+
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.Log)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.TaskDescription)
 			viewModel.Values = append(viewModel.Values, tempValueSlice)
@@ -513,6 +515,8 @@ func (c *TaskController)LoadEditTask() {
 				viewModel.ContactKey = keySliceForContact
 
 
+
+
 				//contact name to edit
 				 dbStatus,contactDetails := task.GetTaskDetailById(c.AppEngineCtx, taskId)
 				switch dbStatus {
@@ -553,8 +557,19 @@ func (c *TaskController)LoadEditTask() {
 						viewModel.PageType = helpers.SelectPageForEdit
 						viewModel.JobName = taskDetail.Job.JobName
 						viewModel.TaskName = taskDetail.Info.TaskName
-						//viewModel.StartDate = taskDetail.Info.StartDate
-						//viewModel.EndDate = taskDetail.Info.EndDate
+						log.Println("date",taskDetail.Info.StartDate)
+						startDate := time.Unix(taskDetail.Info.StartDate, 0).Format("01/02/2006")
+						viewModel.StartDate = startDate
+						endDate := time.Unix(taskDetail.Info.EndDate, 0).Format("01/02/2006")
+						viewModel.EndDate = endDate
+						startTime :=time.Unix(taskDetail.Info.StartDate, 0).Format("01/02/2006 03:15")
+						lengthStartTime :=len(startTime)
+						startTimeOfTask := startTime[11:lengthStartTime]
+						viewModel.StartTime = startTimeOfTask
+						endTime :=time.Unix(taskDetail.Info.EndDate, 0).Format("01/02/2006 03:15")
+						lengthEndTime :=len(endTime)
+						endTimeOfTask := startTime[11:lengthEndTime]
+						viewModel.EndTime = endTimeOfTask
 						viewModel.TaskDescription = taskDetail.Info.TaskDescription
 						viewModel.UserNumber = taskDetail.Info.UserNumber
 						viewModel.Log = taskDetail.Info.Log
