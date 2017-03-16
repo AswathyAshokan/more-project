@@ -3,6 +3,8 @@ package models
 import (
 	"log"
 	"golang.org/x/net/context"
+	"reflect"
+	"app/passporte/helpers"
 )
 
 // get all registered company in passporte for super admin
@@ -41,60 +43,57 @@ func GetAdminDetailsById(ctx context.Context,adminKeyFromCompany []string) (bool
 
 // Delete selected record from database
 
-func DeleteCustomerManagementData(ctx context.Context,customerManagementId string)(bool,Company,map[string]Admins){
-	companyData := Company{}
-	adminData := map[string]Admins{}
+func DeleteCustomerManagementData(ctx context.Context,customerManagementId string)(bool){
+	companyDataFromCompany := Company{}
+	companyDataFromAdmin := map[string]Admins{}
+	tempCompanyData := Admins{}
 	dB,err := GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println("No Db COnnection!")
 	}
 
-	err = dB.Child("/Company/"+customerManagementId).Value(&companyData)
-	log.Println("cp1")
+	err = dB.Child("/Company/"+customerManagementId).Value(&companyDataFromCompany)
 	if err != nil {
-		log.Println("cp2")
 		log.Fatal(err)
-		return  false,companyData,adminData
-	} else {
-		log.Println("cp3")
-		err = dB.Child("/Admins/"+customerManagementId).Value(&adminData)
+		return  false
+	}
+	companyDataFromCompany.Settings.Status = helpers.StatusInActive
+	err = dB.Child("/Company/"+ customerManagementId).Update(&companyDataFromCompany)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	err = dB.Child("Admins").OrderBy("Company/CompanyId").EqualTo(customerManagementId).Value(&companyDataFromAdmin)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	var keySlice []string
+	dataValue := reflect.ValueOf(companyDataFromAdmin)
+	for _, key := range dataValue.MapKeys() {
+		keySlice = append(keySlice, key.String())
+	}
+	//update company status from admin model
+	for _, k := range keySlice {
+		tempCompanyData.Company.CompanyStatus = helpers.StatusInActive
+		tempCompanyData.Company.CompanyId = companyDataFromAdmin[k].Company.CompanyId
+		tempCompanyData.Company.CompanyName = companyDataFromAdmin[k].Company.CompanyName
+		tempCompanyData.Info.Email = companyDataFromAdmin[k].Info.Email
+		tempCompanyData.Info.FirstName = companyDataFromAdmin[k].Info.FirstName
+		tempCompanyData.Info.LastName = companyDataFromAdmin[k].Info.LastName
+		tempCompanyData.Info.Password = companyDataFromAdmin[k].Info.Password
+		tempCompanyData.Info.PhoneNo = companyDataFromAdmin[k].Info.PhoneNo
+		tempCompanyData.Settings.DateOfCreation = companyDataFromAdmin[k].Settings.DateOfCreation
+		tempCompanyData.Settings.Status = companyDataFromAdmin[k].Settings.Status
+		adminKey :=k
+		err = dB.Child("/Admins/"+ adminKey).Update(&tempCompanyData)
 		if err != nil {
 			log.Fatal(err)
-			return  false,companyData,adminData
+			return  false
 		}
-		log.Println("cp4")
-	}
-	log.Println("cp5")
-	return true,companyData,adminData
-
-
-}
-
-//function for update company status From Company
-func (m *Company)UpdateCompanyStatusToInactive(ctx context.Context,customerManagementId string)(bool)  {
-	dB,err := GetFirebaseClient(ctx,"")
-	if err != nil {
-		log.Println("No Db COnnection!")
-	}
-	err = dB.Child("/Company/"+ customerManagementId).Update(&m)
-	if err != nil {
-		log.Fatal(err)
-		return  false
 	}
 	return true
-}
 
-//function for update company status from Admin
-func (m *Admins)UpdateAdminStatusToInactive(ctx context.Context,customerManagementId string)(bool)  {
-	dB,err := GetFirebaseClient(ctx,"")
-	if err != nil {
-		log.Println("No Db COnnection!")
-	}
-	err = dB.Child("/Admins/"+ customerManagementId).Update(&m)
-	if err != nil {
-		log.Fatal(err)
-		return  false
-	}
-	return true
+
 }
 

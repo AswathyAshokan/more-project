@@ -15,7 +15,7 @@ func (c *ByPassController)ByPass() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	login := models.Login{}
-	login.Email = "johndoe@domain.com"
+	login.Email = "admin@admin.com"
 	login.Password = []byte("12345678")
 	log.Println(login)
 	loginStatus, adminDetails, companyDetails, adminId := login.CheckLogin(c.AppEngineCtx)
@@ -32,7 +32,7 @@ func (c *ByPassController)ByPass() {
 		sessionValues.CompanyPlan = companyDetails.Plan
 		SetSession(w, sessionValues)
 
-		initialLink := "/" + sessionValues.CompanyTeamName + "/task"
+		initialLink := "/customer-management"
 
 		http.Redirect(w, r, initialLink, 302)
 
