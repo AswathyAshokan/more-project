@@ -44,7 +44,6 @@ func (c *TaskController)AddNewTask() {
 			log.Println(err)
 		}
 		task.Info.EndDate = endDate.Unix()
-		task.Info.TaskLocation = c.GetString("taskLocation")
 		task.Info.TaskDescription = c.GetString("taskDescription")
 		task.Info.UserNumber = c.GetString("minUsers")
 		task.Info.Log = c.GetString("log")
@@ -273,7 +272,6 @@ func (c *TaskController)LoadTaskDetail() {
 				viewModel.UniqueJobNames = append(viewModel.UniqueJobNames, tasks[k].Job.JobName)
 			}
 			tempValueSlice = append(tempValueSlice, tasks[k].Info.TaskName)
-			tempValueSlice = append(tempValueSlice, tasks[k].Info.TaskLocation)
 			startDate := time.Unix(tasks[k].Info.StartDate, 0).Format("2006/01/02")
 			tempValueSlice = append(tempValueSlice, startDate)
 			endDate := time.Unix(tasks[k].Info.EndDate, 0).Format("2006/01/02")
@@ -348,7 +346,6 @@ func (c *TaskController)LoadEditTask() {
 			log.Println(err)
 		}
 		task.Info.EndDate = endDate.Unix()
-		task.Info.TaskLocation = c.GetString("taskLocation")
 		task.Info.TaskDescription = c.GetString("taskDescription")
 		task.Info.UserNumber = c.GetString("minUsers")
 		task.Info.Log = c.GetString("log")
@@ -556,7 +553,6 @@ func (c *TaskController)LoadEditTask() {
 						viewModel.PageType = helpers.SelectPageForEdit
 						viewModel.JobName = taskDetail.Job.JobName
 						viewModel.TaskName = taskDetail.Info.TaskName
-						viewModel.TaskLocation = taskDetail.Info.TaskLocation
 						//viewModel.StartDate = taskDetail.Info.StartDate
 						//viewModel.EndDate = taskDetail.Info.EndDate
 						viewModel.TaskDescription = taskDetail.Info.TaskDescription

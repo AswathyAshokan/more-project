@@ -118,10 +118,13 @@ $(function(){
     function dataTableManipulate(dataArray){
         table =  $("#task-details").DataTable({
             data: dataArray,
-            "columnDefs": [  
+            "columnDefs": [
+                { "width": "20%", "targets": 0 },
+                { "width": "10%", "targets": 1 },
+                 { "width": "10%", "targets": 2 },
                 {
-                       "targets": 7,
-                       "width": "5%",
+                       "targets": 6,
+                       "width": "10%",
                        "data": null,
                        "defaultContent": '<div class="edit-wrapper"><span class="icn"></i><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
                 }]

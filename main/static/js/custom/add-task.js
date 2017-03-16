@@ -211,6 +211,7 @@ $().ready(function() {
            
             var minUsers = $("#minUsers option:selected").val();
             
+            //getting map longitude and latitude
             mapLatitude = document.getElementById("latitudeId").value;// variable to store map latitude
             mapLongitude = document.getElementById("longitudeId").value;// variable to store map longitude
             startDateToCompare = document.getElementById("startDate").value;

@@ -23,7 +23,6 @@ type Tasks   struct {
 type TaskInfo struct {
 
 	TaskName        string
-	TaskLocation    string
 	StartDate       int64
 	EndDate         int64
 	LoginType       string
