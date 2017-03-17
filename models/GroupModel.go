@@ -39,8 +39,6 @@ func(m *Group) AddGroupToDb(ctx context.Context) (bool){
 		log.Println(err)
 		return false
 	}
-
-
 	return  true
 }
 
@@ -74,7 +72,7 @@ func (n *Group)DeleteGroup(ctx context.Context, GroupKey string) bool{
 	}
 	GroupDeletion.Status = helpers.StatusInActive
 	GroupDeletion.DateOfCreation = groupStatusUpdate.DateOfCreation
-	err = db.Child("/Group/"+ GroupKey).Update(&GroupDeletion)
+	err = db.Child("/Group/"+ GroupKey+"/Settings").Update(&GroupDeletion)
 	if err != nil {
 		log.Fatal(err)
 		return  false

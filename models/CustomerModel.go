@@ -73,7 +73,7 @@ func(m *Customers) DeleteCustomerById(ctx context.Context,customerKey string) bo
 	}
 	customerDeletion.Status = helpers.StatusInActive
 	customerDeletion.DateOfCreation = customerSettingsUpdation.DateOfCreation
-	err = db.Child("/Customer/"+customerKey).Update(&customerDeletion)
+	err = db.Child("/Customer/"+customerKey+"/Settings").Update(&customerDeletion)
 	if err != nil {
 		log.Fatal(err)
 		return  false

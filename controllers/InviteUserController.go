@@ -133,13 +133,16 @@ func (c *InviteUserController) InvitationDetails() {
 		}
 		for _, k := range keySlice {
 			var tempValueSlice []string
-			tempValueSlice = append(tempValueSlice, info[k].Info.FirstName)
-			tempValueSlice = append(tempValueSlice, info[k].Info.LastName)
-			tempValueSlice = append(tempValueSlice, info[k].Info.Email)
-			tempValueSlice = append(tempValueSlice, info[k].Info.UserType)
-			tempValueSlice = append(tempValueSlice, info[k].Settings.Status)
-			inviteUserViewModel.Values=append(inviteUserViewModel.Values,tempValueSlice)
-			tempValueSlice = tempValueSlice[:0]
+			if info[k].Settings.Status == helpers.StatusActive ||info[k].Settings.Status == helpers.StatusAccepted||info[k].Settings.Status==helpers.StatusPending{
+				tempValueSlice = append(tempValueSlice, info[k].Info.FirstName)
+				tempValueSlice = append(tempValueSlice, info[k].Info.LastName)
+				tempValueSlice = append(tempValueSlice, info[k].Info.Email)
+				tempValueSlice = append(tempValueSlice, info[k].Info.UserType)
+				tempValueSlice = append(tempValueSlice, info[k].Settings.Status)
+				inviteUserViewModel.Values=append(inviteUserViewModel.Values,tempValueSlice)
+				tempValueSlice = tempValueSlice[:0]
+			}
+
 		}
 		inviteUserViewModel.Keys = keySlice
 		inviteUserViewModel.CompanyTeamName = storedSession.CompanyTeamName

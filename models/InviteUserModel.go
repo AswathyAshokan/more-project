@@ -102,9 +102,18 @@ func GetAllInviteUsersDetails(ctx context.Context,companyTeamName string) (map[s
 
 //delete each invite user from database using invite UserId
 func(m *Invitation) DeleteInviteUserById(ctx context.Context, InviteUserId string) bool{
-	//user := User{}
+	InvitationSettingsUpdate := InviteSettings{}
+	InvitationDeletion := InviteSettings{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Invitation/"+ InviteUserId).Remove()
+	err = db.Child("/Invitation/"+ InviteUserId+"/Settings").Value(&InvitationSettingsUpdate)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+	InvitationDeletion.DateOfCreation = InvitationSettingsUpdate.DateOfCreation
+	InvitationDeletion.Status = helpers.StatusInActive
+
+	err = db.Child("/Invitation/"+ InviteUserId+"/Settings").Update(&InvitationDeletion)
 	if err != nil {
 		log.Fatal(err)
 		return  false
