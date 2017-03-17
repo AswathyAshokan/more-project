@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/CustomerModel.go" afterPath="$PROJECT_DIR$/models/CustomerModel.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -632,13 +631,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00017" summary="11/02/2017   edited file">
-      <created>1486987003184</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1486987003184</updated>
-    </task>
     <task id="LOCAL-00018" summary="14/02/2017   Changes">
       <created>1487065175758</created>
       <option name="number" value="00018" />
@@ -975,7 +967,14 @@
       <option name="project" value="LOCAL" />
       <updated>1489746646945</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="17/03/2017  4:00:custmer model changed to customers">
+      <created>1489750911305</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1489750911308</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1055,7 +1054,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="15/02/2017   viewing" />
     <MESSAGE value="16/02/2017   Update" />
     <MESSAGE value="21/02/2017   Update database structure" />
     <MESSAGE value="22/02/2017   Update database structure" />
@@ -1080,7 +1078,8 @@
     <MESSAGE value="17/03/2017  11:45 session creation for super admin" />
     <MESSAGE value="17/03/2017  2:30:customer Deletion" />
     <MESSAGE value="17/03/2017  4:00:customer Deletion" />
-    <option name="LAST_COMMIT_MESSAGE" value="17/03/2017  4:00:customer Deletion" />
+    <MESSAGE value="17/03/2017  4:00:custmer model changed to customers" />
+    <option name="LAST_COMMIT_MESSAGE" value="17/03/2017  4:00:custmer model changed to customers" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
