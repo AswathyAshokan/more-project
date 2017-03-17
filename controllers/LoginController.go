@@ -6,6 +6,8 @@ import (
 	"app/passporte/models"
 	"net/http"
 	"encoding/json"
+	"log"
+	"reflect"
 )
 
 type LoginController struct {
@@ -40,14 +42,32 @@ func (c *LoginController) Login() {
 			sliceToClient, _ := json.Marshal(slices)
 			w.Write(sliceToClient)
 		case false:
-			dbStatus:= login.CheckSuperAdminLogin(c.AppEngineCtx)
+			dbStatus,superAdminDetails:= login.CheckSuperAdminLogin(c.AppEngineCtx)
 
 			switch dbStatus {
 			case true:
-				slices := []interface{}{"SuperAdmin"}
-				sliceToClient, _ := json.Marshal(slices)
-				w.Write(sliceToClient)
+
+				dataValue := reflect.ValueOf(superAdminDetails)
+				var keySlice []string
+				for _, key := range dataValue.MapKeys() {
+					keySlice = append(keySlice, key.String())
+				}
+
+				for _, k := range keySlice {
+					sessionValueForSuperAdmin := SessionForAdminValues{}
+					sessionValueForSuperAdmin.SuperAdminEmail = superAdminDetails[k].Info.Email
+					sessionValueForSuperAdmin.SuperAdminId = k
+					tempAdminFirstName := superAdminDetails[k].Info.FirstName
+					tempAdminLastName := superAdminDetails[k].Info.LastName
+					sessionValueForSuperAdmin.SuperAdminFullName = tempAdminFirstName+" "+tempAdminLastName
+					SetSessionForSuperAdmin(w, sessionValueForSuperAdmin)
+					slices := []interface{}{"SuperAdmin"}
+					sliceToClient, _ := json.Marshal(slices)
+					w.Write(sliceToClient)
+
+				}
 			case false:
+				log.Println("false")
 				w.Write([]byte("false"))
 			}
 
@@ -63,5 +83,13 @@ func (c *LoginController)Logout(){
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	ClearSession(w)
+	http.Redirect(w, r, "/login", 302)
+}
+
+
+func (c *LoginController)LogoutForSuperAdmin(){
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	ClearSessionForSuperAdmin(w)
 	http.Redirect(w, r, "/login", 302)
 }

@@ -53,22 +53,24 @@ func(m *Login)CheckLogin(ctx context.Context)(bool, Admins, Company, string){
 	return true, adminDetails, companyDetails, adminId
 }
 
-func(m *Login)CheckSuperAdminLogin(ctx context.Context)(bool){
+func(m *Login)CheckSuperAdminLogin(ctx context.Context)(bool,map[string]SuperAdmins){
 	/*var superAdminDetails SuperAdmins*/
 	superAdmins := map[string]SuperAdmins{}
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
 
 		log.Println(err)
-		return false
+		return false,superAdmins
 	}
 	log.Println("entered email",m.Email)
-	if err := dB.Child("SuperAdmins").OrderBy("Info/Email").EqualTo(m.Email).Value(&superAdmins); err != nil {
+	err = dB.Child("SuperAdmins").OrderBy("Info/Email").EqualTo(m.Email).Value(&superAdmins)
+	log.Println("detailssss:",superAdmins)
+	if err != nil {
 		log.Println(err)
-		return false
+		return false,superAdmins
 	}
 	if len(superAdmins) == 0{
-		return false
+		return false,superAdmins
 	}
 	dataValue := reflect.ValueOf(superAdmins)
 	var tempValueSlice [][]byte
@@ -80,7 +82,7 @@ func(m *Login)CheckSuperAdminLogin(ctx context.Context)(bool){
 		err = bcrypt.CompareHashAndPassword(tempValueSlice[i], m.Password)
 		if err !=nil{
 			log.Println(err)
-			return false
+			return false,superAdmins
 		}
 
 	}
@@ -91,6 +93,6 @@ func(m *Login)CheckSuperAdminLogin(ctx context.Context)(bool){
 		return false, superAdmins
 
 	}*/
-	return true
+	return true,superAdmins
 }
 

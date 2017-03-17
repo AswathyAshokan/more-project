@@ -14,6 +14,12 @@ type CustomerManagementController struct {
 }
 
 func (c *CustomerManagementController) CustomerManagement() {
+
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+
+	storedSession := ReadSessionForSuperAdmin(w,r)
+	log.Println("read session:",storedSession)
 	customerManagementViewModel := viewmodels.CustomerManagement{}
 	dbStatus,allCompanyData:= models.GetAllRegisteredCompanyDetails(c.AppEngineCtx)
 	switch dbStatus {

@@ -45,6 +45,7 @@ func init() {
 	beegae.Router("/plan/update", &controllers.PlanController{}, "*:PlanUpdate")
 
 	/*beegae.Router("/superadmin", &controllers.SuperAdminController{}, "*:AddSuperAdmin")*/
+	beegae.Router("/logoutForSuperAdmin", &controllers.LoginController{},"*:LogoutForSuperAdmin")
 	beegae.Router("/customer-management", &controllers.CustomerManagementController{}, "*:CustomerManagement")
 	beegae.Router("/customer-management/:customermanagementid/delete", &controllers.CustomerManagementController{}, "*:LoadDeleteCustomerManagement")
 
