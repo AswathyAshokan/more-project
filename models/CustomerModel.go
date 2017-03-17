@@ -39,7 +39,7 @@ func(m *Customers) AddCustomersToDb(ctx context.Context) (bool){
 	if err != nil {
 		log.Println(err)
 	}
-	_,err = db.Child("Customer").Push(m)
+	_,err = db.Child("Customers").Push(m)
 	if err != nil {
 		log.Println(err)
 		return false
@@ -52,7 +52,7 @@ func GetAllCustomerDetails(ctx context.Context,companyTeamName string) (map[stri
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
 	allCustomerDetails := map[string]Customers{}
-	err = db.Child("Customer").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&allCustomerDetails)
+	err = db.Child("Customers").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&allCustomerDetails)
 	if err != nil {
 		log.Fatal(err)
 		return allCustomerDetails,false
@@ -62,18 +62,17 @@ func GetAllCustomerDetails(ctx context.Context,companyTeamName string) (map[stri
 
 // delete customer from database using customer id
 func(m *Customers) DeleteCustomerById(ctx context.Context,customerKey string) bool{
-	//user := User{}
 	customerSettingsUpdation := CustomerSettings{}
 	customerDeletion := CustomerSettings{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Customer/"+ customerKey+"/Settings").Value(&customerSettingsUpdation)
+	err = db.Child("/Customers/"+ customerKey+"/Settings").Value(&customerSettingsUpdation)
 	if err != nil {
 		log.Fatal(err)
 		return  false
 	}
 	customerDeletion.Status = helpers.StatusInActive
 	customerDeletion.DateOfCreation = customerSettingsUpdation.DateOfCreation
-	err = db.Child("/Customer/"+customerKey+"/Settings").Update(&customerDeletion)
+	err = db.Child("/Customers/"+customerKey+"/Settings").Update(&customerDeletion)
 	if err != nil {
 		log.Fatal(err)
 		return  false
@@ -86,7 +85,7 @@ func(m *Customers) EditCustomer(ctx context.Context,customerId string) (Customer
 
 	value := Customers{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Customer/"+customerId).Value(&value)
+	err = db.Child("/Customers/"+customerId).Value(&value)
 	if err != nil {
 		log.Fatal(err)
 		return value , false
@@ -97,7 +96,7 @@ func(m *Customers) EditCustomer(ctx context.Context,customerId string) (Customer
 //update the customer profile
 func(m *Customers) UpdateCustomerDetailsById(ctx context.Context,customerId string) (bool) {
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Customer/"+ customerId).Update(&m)
+	err = db.Child("/Customers/"+ customerId).Update(&m)
 	log.Println("edited details :",m)
 	if err != nil {
 		log.Fatal(err)
@@ -114,7 +113,7 @@ func IsCustomerNameUsed(ctx context.Context,customerName string)(bool) {
 	if err != nil {
 		log.Println("No Db Connection!")
 	}
-	err = db.Child("Customer").OrderBy("CustomerName").EqualTo(customerName).Value(&customerDetails)
+	err = db.Child("Customers").OrderBy("CustomerName").EqualTo(customerName).Value(&customerDetails)
 	if err != nil {
 		log.Fatal(err)
 	}
