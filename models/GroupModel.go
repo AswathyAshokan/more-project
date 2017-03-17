@@ -4,6 +4,7 @@ package models
 import (
 	"golang.org/x/net/context"
 	"log"
+	"app/passporte/helpers"
 )
 type Group struct {
 	Info 		GroupInfo
@@ -61,10 +62,19 @@ func GetAllGroupDetails(ctx context.Context,companyTeamName string) (map[string]
 }
 
 // Delete each group using group id
-func(m *Group) DeleteGroup(ctx context.Context, GroupKey string) bool{
+func (n *Group)DeleteGroup(ctx context.Context, GroupKey string) bool{
 	//user := User{}
+	GroupDeletion := GroupSettings{}
+	groupStatusUpdate := GroupSettings{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Group/"+ GroupKey).Remove()
+	err = db.Child("/Group/"+GroupKey+"/Settings/").Value(&groupStatusUpdate)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	GroupDeletion.Status = helpers.StatusInActive
+	GroupDeletion.DateOfCreation = groupStatusUpdate.DateOfCreation
+	err = db.Child("/Group/"+ GroupKey).Update(&GroupDeletion)
 	if err != nil {
 		log.Fatal(err)
 		return  false

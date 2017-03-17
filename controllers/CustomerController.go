@@ -33,7 +33,7 @@ func (c *CustomerController) AddCustomer() {
 		customer.Info.ZipCode = c.GetString("zipcode")
 		customer.Info.CompanyTeamName = storedSession.CompanyTeamName
 		customer.Settings.DateOfCreation =(time.Now().UnixNano() / 1000000)
-		customer.Settings.Status = "inactive"
+		customer.Settings.Status = helpers.StatusActive
 		dbStatus := customer.AddCustomersToDb(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
@@ -60,7 +60,6 @@ func (c *CustomerController) CustomerDetails() {
 	log.Println("The userDetails stored in session:",storedSession)
 	customerViewModel := viewmodels.Customer{}
 	allCustomer,dbStatus:= models.GetAllCustomerDetails(c.AppEngineCtx,companyTeamName)
-	log.Println("view",allCustomer)
 	switch dbStatus {
 	case true:
 		dataValue := reflect.ValueOf(allCustomer)
@@ -71,15 +70,18 @@ func (c *CustomerController) CustomerDetails() {
 		log.Println("key",keySlice)
 		for _, k := range keySlice {
 			var tempValueSlice []string
-			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.CustomerName)
-			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Address)
-			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.State)
-			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.ZipCode)
-			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Email)
-			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Phone)
-			tempValueSlice = append(tempValueSlice, allCustomer[k].Info.ContactPerson)
-			customerViewModel.Values=append(customerViewModel.Values,tempValueSlice)
-			tempValueSlice = tempValueSlice[:0]
+			if allCustomer[k].Settings.Status == helpers.StatusActive{
+				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.CustomerName)
+				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Address)
+				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.State)
+				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.ZipCode)
+				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Email)
+				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Phone)
+				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.ContactPerson)
+				customerViewModel.Values=append(customerViewModel.Values,tempValueSlice)
+				tempValueSlice = tempValueSlice[:0]
+			}
+
 		}
 		customerViewModel.Keys = keySlice
 		customerViewModel.CompanyTeamName = storedSession.CompanyTeamName

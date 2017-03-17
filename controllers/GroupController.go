@@ -29,7 +29,7 @@ func (c *GroupController) AddGroup() {
 		group.Info.GroupName = c.GetString("groupName")
 		tempGroupId := c.GetStrings("selectedUserIds")
 		group.Settings.DateOfCreation =(time.Now().UnixNano() / 1000000)
-		group.Settings.Status = "inactive"
+		group.Settings.Status = helpers.StatusActive
 		tempGroupMembers := c.GetStrings("selectedUserNames")
 		log.Println("group details :",group)
 		group.Info.CompanyTeamName = storedSession.CompanyTeamName
@@ -126,11 +126,14 @@ func (c *GroupController) GroupDetails() {
 					buffer.Reset()
 				}
 			}
-			tempValueSlice = append(tempValueSlice, allGroups[groupKey].Info.GroupName)
-			tempValueSlice = append(tempValueSlice, strconv.Itoa(membersNumber))
-			tempValueSlice = append(tempValueSlice, tempUserNames)
-			groupViewModel.Values = append(groupViewModel.Values, tempValueSlice)
-			tempValueSlice = tempValueSlice[:0]
+			if allGroups[groupKey].Settings.Status == helpers.StatusActive{
+				tempValueSlice = append(tempValueSlice, allGroups[groupKey].Info.GroupName)
+				tempValueSlice = append(tempValueSlice, strconv.Itoa(membersNumber))
+				tempValueSlice = append(tempValueSlice, tempUserNames)
+				groupViewModel.Values = append(groupViewModel.Values, tempValueSlice)
+				tempValueSlice = tempValueSlice[:0]
+			}
+
 		}
 		groupViewModel.Keys = keySlice
 		groupViewModel.CompanyTeamName = storedSession.CompanyTeamName

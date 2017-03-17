@@ -23,6 +23,7 @@ type SessionValues struct{
 	CompanyPlan	string
 }
 
+// for Super Admin
 type SessionForAdminValues  struct {
 	SuperAdminId		string
 	SuperAdminFullName	string
@@ -193,3 +194,5 @@ func ClearSessionForSuperAdmin(w http.ResponseWriter) {
 	log.Println("The value in session after Logout:", cookie.Value)
 
 }
+
+/*_____________________________________________________________________________________________*/

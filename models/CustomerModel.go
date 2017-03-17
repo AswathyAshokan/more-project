@@ -5,6 +5,7 @@ package models
 import (
 	"golang.org/x/net/context"
 	"log"
+	"app/passporte/helpers"
 )
 
 type Customers struct {
@@ -62,8 +63,17 @@ func GetAllCustomerDetails(ctx context.Context,companyTeamName string) (map[stri
 // delete customer from database using customer id
 func(m *Customers) DeleteCustomerById(ctx context.Context,customerKey string) bool{
 	//user := User{}
+	customerSettingsUpdation := CustomerSettings{}
+	customerDeletion := CustomerSettings{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Customer/"+customerKey).Remove()
+	err = db.Child("/Customer/"+ customerKey+"/Settings").Value(&customerSettingsUpdation)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	customerDeletion.Status = helpers.StatusInActive
+	customerDeletion.DateOfCreation = customerSettingsUpdation.DateOfCreation
+	err = db.Child("/Customer/"+customerKey).Update(&customerDeletion)
 	if err != nil {
 		log.Fatal(err)
 		return  false
