@@ -44,28 +44,22 @@ $(function () {
     
     
     $("#btnAdd").bind("click", function () {
-        var div = $("<div class='plus'/>");
+        var div = $("<div class='plus'>");
         div.html(GetDynamicTextBox(""));
         $("#TextBoxContainer").append(div);
     });
     $("#saveButton").bind("click", function () {
-        var values = "";
-        $("input[name=DynamicTextBox]").each(function () {
-            fitToWorkFromDynamicTextBox.push($(this).val())
-            //values += $(this).val() +"\n";   
-        });
-        var fitToWorkValue = document.getElementById("addFitToWorkValue").value;
-        fitToWorkFromDynamicTextBox.push(fitToWorkValue);
-        alert(fitToWorkFromDynamicTextBox);
+        
     });
     $("body").on("click", ".delete-decl", function () {
-        $(this).closest("div").delete-decl();
+        alert("hii");
+        $(this).closest("div").remove();
     });
 });
 function GetDynamicTextBox(value) {
     return ' <input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "" />&nbsp;' +
-            '<button id="btnAdd"  name="closePreviewBtn" class="delete-decl">+</button>'
-    i++;
+            '<button id="btnAdd" class="delete-decl" >+</button>'+'</div>'
+    
 }
  
 
@@ -224,6 +218,15 @@ $().ready(function() {
                                       if ($("#jobName ")[0].selectedIndex <= 0) {
                                           document.getElementById('jobName').innerHTML = "";
                                       }
+                                      //get all the value of fit to work text box
+                                      var values = "";
+                                      $("input[name=DynamicTextBox]").each(function () {
+                                          fitToWorkFromDynamicTextBox.push($(this).val())
+                                          //values += $(this).val() +"\n";  
+                                      });
+                                      var fitToWorkValue = document.getElementById("addFitToWorkValue").value;
+                                      fitToWorkFromDynamicTextBox.push(fitToWorkValue);
+                                      alert(fitToWorkFromDynamicTextBox);
                                       var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&addFitToWork=" + fitToWorkFromDynamicTextBox +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask +"&endDateFromJs="+ endDateOfTask;
                                       var selectedContactNames = [];
 
