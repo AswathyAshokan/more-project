@@ -279,10 +279,8 @@ func (c *TaskController)LoadTaskDetail() {
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.LoginType)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.UserNumber)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Settings.Status)
-
 			tempValueSlice =append(tempValueSlice,"")
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.FitToWork)
-
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.Log)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.TaskDescription)
 			viewModel.Values = append(viewModel.Values, tempValueSlice)
@@ -557,7 +555,6 @@ func (c *TaskController)LoadEditTask() {
 						viewModel.PageType = helpers.SelectPageForEdit
 						viewModel.JobName = taskDetail.Job.JobName
 						viewModel.TaskName = taskDetail.Info.TaskName
-						log.Println("date",taskDetail.Info.StartDate)
 						startDate := time.Unix(taskDetail.Info.StartDate, 0).Format("01/02/2006")
 						viewModel.StartDate = startDate
 						endDate := time.Unix(taskDetail.Info.EndDate, 0).Format("01/02/2006")

@@ -125,12 +125,17 @@ func (m *Tasks) RetrieveTaskFromDB(ctx context.Context,companyTeamName string)(b
 /*delete  task details from DB*/
 func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string)(bool)  {
 
+	 taskUpdate := TaskSetting{}
+	 taskDeletion :=TaskSetting{}
 	dB, err := GetFirebaseClient(ctx,"")
 
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
-	err = dB.Child("/Tasks/"+ taskId).Remove()
+	taskDeletion.Status =helpers.StatusInActive
+	err = dB.Child("/Tasks/"+ taskId+"/Settings").Value(&taskUpdate)
+	taskDeletion.DateOfCreation =taskUpdate.DateOfCreation
+	err = dB.Child("/Tasks/"+ taskId+"/Settings").Update(&taskDeletion)
 	log.Println("deleted successfully")
 	if err!=nil{
 		log.Println("Deletion error:",err)

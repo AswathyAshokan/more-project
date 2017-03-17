@@ -5,6 +5,7 @@ package models
 import (
 	"golang.org/x/net/context"
 	"log"
+	"app/passporte/helpers"
 )
 type ContactInfo struct {
 	Name        		string
@@ -60,14 +61,18 @@ func GetAllContact(ctx context.Context,companyTeamName string)(bool,map[string]C
 
 func (m *ContactUser) DeleteContactFromDB(ctx context.Context, contactId string)(bool)  {
 
-	log.Println(contactId)
+	contactUpdate :=ContactSettings{}
+	contactDelete := ContactSettings{}
 
 	dB, err := GetFirebaseClient(ctx,"")
 
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
-	err = dB.Child("/Contacts/"+ contactId).Remove()
+	err = dB.Child("/Contacts/"+ contactId+"/Settings").Value(&contactUpdate)
+	contactDelete.Status = helpers.StatusInActive
+	contactDelete.DateOfCreation = contactUpdate.DateOfCreation
+	err = dB.Child("/Contacts/"+ contactId+"/Settings").Update(&contactDelete)
 	if err!=nil{
 		log.Println("Deletion error:",err)
 		return false

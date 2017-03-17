@@ -4,6 +4,7 @@ package models
 import (
 	"log"
 	"golang.org/x/net/context"
+	"app/passporte/helpers"
 )
 type JobInfo struct {
 	JobName		string
@@ -57,12 +58,17 @@ func (m *Job ) GetAllJobs(ctx context.Context,companyTeamName string)(bool,map[s
 /*delete job detail from DB*/
 func (m *Job) DeleteJobFromDB(ctx context.Context, jobId string)(bool)  {
 
+	jobUpdate :=JobSettings{}
+	jobDeletion :=JobSettings{}
 	dB, err := GetFirebaseClient(ctx,"")
+	err = dB.Child("/Jobs/"+ jobId+"/Settings").Value(&jobUpdate)
+	jobDeletion.DateOfCreation =jobUpdate.DateOfCreation
+	jobDeletion.Status =helpers.StatusInActive
 
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
-	err = dB.Child("/Jobs/"+ jobId).Remove()
+	err = dB.Child("/Jobs/"+ jobId+"/Settings").Update(&jobDeletion)
 	if err!=nil{
 		log.Println("Deletion error:",err)
 		return false
