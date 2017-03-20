@@ -3266,3 +3266,10 @@ input.sprites-callender { background-position: right 4px top -20px; cursor: poin
 .dures { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-align: center; -webkit-align-items: center; -ms-flex-align: center; align-items: center; padding-top: 30px; }
 .dures h4 { margin-bottom: 30px; }
 .dures #googleMap { width: 100%; height: 350px; }
+
+/*==============================================================
+					Account
+=================================================================*/
+.edit-account { padding-right: 15px; padding-left: 15px; }
+.edit-account .control-label { text-align: left; max-width: 95px; }
+.edit-account .dis-txt { background: none; border: none; -webkit-box-shadow: none; box-shadow: none; margin-top: -3px; }

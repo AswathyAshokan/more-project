@@ -29,8 +29,7 @@ $(function(){
                             }
                             
                         } else if(data[0] == "SuperAdmin"){
-                        alert("hii");
-                        window.location ='/customer-management';
+                            window.location ='/customer-management';
                     } else{
                         $("#login_err").css({"color": "red", "font-size": "15px"});
                         $("#login_err").html("Invalid Username or Password!").show().fadeOut( 4000 );
