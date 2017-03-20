@@ -1,5 +1,4 @@
-console.log(vm);
-
+document.getElementById("customer-management").className += " active";
 $(function(){ 
     var mainArray = [];   
     var table = "";

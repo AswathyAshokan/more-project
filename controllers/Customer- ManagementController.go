@@ -58,6 +58,7 @@ func (c *CustomerManagementController) CustomerManagement() {
 			}
 			customerManagementViewModel.Keys = keySlice
 			c.Data["vm"] = customerManagementViewModel
+			c.Layout = "layout/layout-superadmin.html"
 			c.TplName = "template/customer-management.html"
 			}
 
@@ -72,15 +73,12 @@ func (c *CustomerManagementController) CustomerManagement() {
 func (c *CustomerManagementController)LoadDeleteCustomerManagement() {
 	w := c.Ctx.ResponseWriter
 	customerManagementId :=c.Ctx.Input.Param(":customermanagementid")
-	log.Println("iddd:",customerManagementId)
 	dbStatus:= models.DeleteCustomerManagementData(c.AppEngineCtx,customerManagementId)
 	switch dbStatus {
 	case true:
-		log.Println("tttt")
-	w.Write([]byte("true"))
+		w.Write([]byte("true"))
 	case false :
-		log.Println("falseee")
-	w.Write([]byte("false"))
+		w.Write([]byte("false"))
 	}
 
 

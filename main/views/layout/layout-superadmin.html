@@ -1,0 +1,52 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Customer Management</title>
+        <link rel="stylesheet" href="/static/css/style.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        <script src="/static/js/jquery-3.1.0.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="/static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+    </head>
+    <body>
+        <section class="header">
+            <div class="container-fluid">
+                <header>
+                    <div class="logo">
+                        <img src="/static/images/logo.png" alt="" class="img-responsive">
+                    </div>
+                </header>
+            </div>
+        </section>
+        
+        <section class="content-section clearfix admin-layout">
+            <div class="container-fluid no-gutter-xs">
+                <div class="col-md-2 main-menu-wrapper">
+                    <nav class="main-menu">
+                        <ul>
+                            <li class="active" id="customer-management"><a href="/customer-management"><i class="sprites-user"></i>Customer Management</a></li>
+                            <li id="accounts"><a href="/accounts"><i class="sprites-task"></i>Account</a></li>
+                            <li><a href="/logoutForSuperAdmin"><i class="sprites-payroll"></i>Logout</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                
+                {{.LayoutContent}}
+            
+            </div>
+        </section>
+       
+        <section class="footer">
+            <div class="container-fluid">
+                <footer>
+                    <div class="footer-logo">
+                        <img src="/static/images/logo-footer.png" alt="" class="img-responsive">
+                    </div>
+                    <ul>
+                        <li>Copyright <span>Passporte</span> Limited</li>
+                        <li>All Rights Reserved</li>
+                    </ul>
+                </footer>
+            </div>
+        </section>
+    </body>
+</html>

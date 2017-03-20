@@ -1,68 +1,14 @@
-<html lang="en">
-<head>
-    <script type="text/javascript">
+<script type="text/javascript">
        var vm = {{.vm}};
-    </script>
-	<meta charset="UTF-8">
-	<title>Customer Management</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <script src="/static/js/jquery-3.1.0.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="/static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
-	<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
-    <script src="/static/js/custom/customer-management.js"></script>
-	
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
- 
-	<link rel="stylesheet" href="/static/css/style.css">
-
-</head>
-<body>
-	<section class="header">
-		<div class="container-fluid">
-			<header>
-				<div class="logo">
-					<img src="/static/images/logo.png" alt="" class="img-responsive">
-				</div>
-				
-				<!-- <div class="right-menu">
-					<ul>
-						<li><a href="">About</a></li>
-						<li><a href="">Contact</a></li>
-						<li><a href="">Licence</a></li>
-					</ul>
-					<div class="dropdown">
-					    <button class="dropdown-toggle no-button-style" type="button" data-toggle="dropdown"><i class="sprites-user-dropdown"></i>
-					    <span class="caret"></span></button>
-					    <ul class="dropdown-menu">
-					      <li><a href="#">user</a></li>
-					      <li><a href="#">Customer</a></li>
-					      <li><a href="#">Logout</a></li>
-					    </ul>
-					</div>
-				</div> -->
-			</header>
-		</div>
-	</section>
-
-	<section class="content-section clearfix admin-layout">
-		<div class="container-fluid no-gutter-xs">
-			<div class="col-md-2 main-menu-wrapper">
-				
-				<nav class="main-menu">
-					<ul>
-						<li class="active"><a href="#"><i class="sprites-user"></i>Customer Management</a></li>
-						<!-- <li class="active"><a href="#"><i class="sprites-group"></i>Licence Management</a></li> -->
-						<li><a href="#"><i class="sprites-task"></i>Account</a></li>
-						<li><a href="/logoutForSuperAdmin"><i class="sprites-payroll"></i>Logout</a></li>
-					</ul>
-				</nav>
-			</div>
-
-		
-            
-            <div class="col-md-12 main-content-wrapper padding-50-each">
+</script>
+<meta charset="UTF-8">
+<title>Customer Management</title>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
+<script src="/static/js/custom/customer-management.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
+<div class="col-md-12 main-content-wrapper padding-50-each">
 	<div class="clearfix">
-		<h1 class="h4">Group Details </h1>
+		<h1 class="h4">Customer Management</h1>
 		<div class="personal-details margin-top-20">
             <div class="table-wrapper">
 				<table class="table table-striped table-bordered   dt-responsive nowrap" id="customerManagement-table">
@@ -85,27 +31,8 @@
         </div>
     </div>
 </div>
-				
-		</div>
-		
-	</section>
 
-	<section class="footer">
-		<div class="container-fluid">
-			<footer>
-				<div class="footer-logo">
-					<img src="/static/images/logo-footer.png" alt="" class="img-responsive">
-				</div>
-				<ul>
-					<li>Copyright <span>Passporte</span> Limited</li>
-					<li>All Rights Reserved</li>
-				</ul>
-			</footer>
-		</div>
-	</section>
-    
-    
-    <div class="modal fade" id="myModal" role="dialog">
+<div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
@@ -118,12 +45,5 @@
             </div>
         </div>
     </div>
-</div>
+</div>    
 
-    
-    
-	<!--<script>
-		$('#tbl_details').dataTable();
-	</script>-->
-</body>
-</html>
