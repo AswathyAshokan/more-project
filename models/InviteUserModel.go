@@ -136,10 +136,18 @@ func(m *Invitation) GetAllInviteUserForEdit(ctx context.Context, InviteUserId st
 }
 
 // update the the profile of user by invite user id
-func(m *Invitation) UpdateInviteUserById(ctx context.Context,InviteUserKey string) (bool) {
+func(m *Invitation) UpdateInviteUserById(ctx context.Context,InviteUserId string) (bool) {
 
+	InvitationSettingsDetails := InviteSettings{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Invitation/"+ InviteUserKey).Update(&m)
+	err = db.Child("/Invitation/"+ InviteUserId+"/Settings").Value(&InvitationSettingsDetails)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+	m.Settings.Status = InvitationSettingsDetails.Status
+	m.Settings.DateOfCreation = InvitationSettingsDetails.DateOfCreation
+	err = db.Child("/Invitation/"+ InviteUserId).Update(&m)
 
 	if err != nil {
 		log.Fatal(err)

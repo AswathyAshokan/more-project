@@ -137,7 +137,6 @@ func CheckJobNumberIsUsed(ctx context.Context, jobNumber string)bool{
 	if err != nil {
 		log.Println("No Db Connection!")
 	}
-	log.Println("JOB NUMBER:",jobNumber)
 	err = dB.Child("Jobs").OrderBy("JobNumber").EqualTo(jobNumber).Value(&job)
 	if err!=nil{
 		log.Println("Error:",err)

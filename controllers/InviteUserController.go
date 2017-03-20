@@ -40,7 +40,7 @@ func (c *InviteUserController) AddInvitation() {
 		inviteUser.Settings.Status = helpers.StatusPending
 		inviteUser.Info.CompanyTeamName = storedSession.CompanyTeamName
 		inviteUser.Info.CompanyName = storedSession.CompanyName
-		userFullname := storedSession.AdminFirstName+" "+storedSession.AdminLastName
+		userFullName := storedSession.AdminFirstName+" "+storedSession.AdminLastName
 		companyID := models.GetCompanyIdByCompanyTeamName(c.AppEngineCtx, companyTeamName)
 		dbStatus := inviteUser.AddInviteToDb(c.AppEngineCtx,companyID)
 		switch dbStatus {
@@ -48,7 +48,7 @@ func (c *InviteUserController) AddInvitation() {
 
 			templateData := TemplateData{}
 			templateData.AdminEmail = storedSession.AdminEmail
-			templateData.AdminName = userFullname
+			templateData.AdminName = userFullName
 			templateData.CompanyName = inviteUser.Info.CompanyName
 			templateData.InvitedUser =  inviteUser.Info.FirstName
 			t,err := template.ParseFiles("views/email/invite-email.html")
@@ -182,6 +182,9 @@ func (c *InviteUserController) EditInvitation() {
 	InviteUserId := c.Ctx.Input.Param(":inviteuserid")
 	inviteUser := models.Invitation{}
 	if r.Method == "POST" {
+		inviteUser.Info.CompanyName = storedSession.CompanyName
+		inviteUser.Info.CompanyPlan = storedSession.CompanyPlan
+		inviteUser.Info.CompanyTeamName= storedSession.CompanyTeamName
 		inviteUser.Info.FirstName = c.GetString("firstname")
 		inviteUser.Info.LastName = c.GetString("lastname")
 		inviteUser.Info.Email = c.GetString("emailid")

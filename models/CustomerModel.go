@@ -96,8 +96,15 @@ func(m *Customers) EditCustomer(ctx context.Context,customerId string) (Customer
 //update the customer profile
 func(m *Customers) UpdateCustomerDetailsById(ctx context.Context,customerId string) (bool) {
 	db,err :=GetFirebaseClient(ctx,"")
+	customerSettingsDetails := CustomerSettings{}
+	err = db.Child("/Customers/"+ customerId+"/Settings").Value(&customerSettingsDetails)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	m.Settings.Status = customerSettingsDetails.Status
+	m.Settings.DateOfCreation = customerSettingsDetails.DateOfCreation
 	err = db.Child("/Customers/"+ customerId).Update(&m)
-	log.Println("edited details :",m)
 	if err != nil {
 		log.Fatal(err)
 		return  false
@@ -107,7 +114,6 @@ func(m *Customers) UpdateCustomerDetailsById(ctx context.Context,customerId stri
 
 //check customer name is already exist
 func IsCustomerNameUsed(ctx context.Context,customerName string)(bool) {
-	log.Println("customerName",customerName)
 	customerDetails := map[string]Customers{}
 	db, err := GetFirebaseClient(ctx, "")
 	if err != nil {

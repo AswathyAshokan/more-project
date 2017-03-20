@@ -52,27 +52,25 @@ func GetAllGroupDetails(ctx context.Context,companyTeamName string) (map[string]
 		log.Fatal(err)
 		return value,false
 	}
-	//log.Println("%s\n", v)
-	//log.Println(reflect.TypeOf(v))
 	return value,true
 
 
 }
 
 // Delete each group using group id
-func (n *Group)DeleteGroup(ctx context.Context, GroupKey string) bool{
+func (n *Group)DeleteGroup(ctx context.Context, groupKey string) bool{
 	//user := User{}
 	GroupDeletion := GroupSettings{}
 	groupStatusUpdate := GroupSettings{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Group/"+GroupKey+"/Settings/").Value(&groupStatusUpdate)
+	err = db.Child("/Group/"+ groupKey +"/Settings/").Value(&groupStatusUpdate)
 	if err != nil {
 		log.Fatal(err)
 		return  false
 	}
 	GroupDeletion.Status = helpers.StatusInActive
 	GroupDeletion.DateOfCreation = groupStatusUpdate.DateOfCreation
-	err = db.Child("/Group/"+ GroupKey+"/Settings").Update(&GroupDeletion)
+	err = db.Child("/Group/"+ groupKey +"/Settings").Update(&GroupDeletion)
 	if err != nil {
 		log.Fatal(err)
 		return  false
@@ -134,8 +132,15 @@ func(m *Group) GetGroupDetailsById(ctx context.Context,groupKey string) (Group,b
 //Update the group details after editing
 func(m *Group) UpdateGroupDetails(ctx context.Context,groupKey string) (bool) {
 
-
+	groupStatusDetails := GroupSettings{}
 	db,err :=GetFirebaseClient(ctx,"")
+	err = db.Child("/Group/"+groupKey+"/Settings/").Value(&groupStatusDetails)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	m.Settings.DateOfCreation = groupStatusDetails.DateOfCreation
+	m.Settings.Status = groupStatusDetails.Status
 	err = db.Child("/Group/"+ groupKey).Update(&m)
 
 	if err != nil {
