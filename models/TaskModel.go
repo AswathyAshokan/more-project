@@ -7,17 +7,25 @@ import (
 	"reflect"
 	"strings"
 	"app/passporte/helpers"
+
 )
 
 type Tasks   struct {
 
-	Info           TaskInfo
-	Location	TaskLocation
-	Contacts       map[string]TaskContact
-	Customer       TaskCustomer
-	Job            TaskJob
-	UsersAndGroups UsersAndGroups
-	Settings       TaskSetting
+	Info           		TaskInfo
+	Location		TaskLocation
+	Contacts      	 	map[string]TaskContact
+	Customer       		TaskCustomer
+	Job           	 	TaskJob
+	UsersAndGroups 		UsersAndGroups
+	Settings       		TaskSetting
+	FitToWork		map[string]TaskFitToWork
+
+}
+type TaskFitToWork struct {
+	Info		string
+	Status		string
+	DateOfCreation	int64
 
 }
 type TaskInfo struct {
@@ -29,7 +37,6 @@ type TaskInfo struct {
 	TaskDescription string
 	UserNumber      string
 	Log             string
-	FitToWork      	string
 	CompanyTeamName	string
 
 }
@@ -72,22 +79,26 @@ type UsersAndGroups struct {
 }
 
 /*add task details to DB*/
-func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string)(bool)  {
+func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string )(bool)  {
 
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
+	/*for i :=0; i<len(m.FitToWork.Info); i++ {
 
+
+	}*/
 	taskData, err := dB.Child("Tasks").Push(m)
 	if err!=nil{
 		log.Println("Insertion error:",err)
 		return false
 	}
-
 	//For inserting task details to User
 	taskDataString := strings.Split(taskData.String(),"/")
 	taskUniqueID := taskDataString[len(taskDataString)-2]
+	log.Println("task id",taskUniqueID)
+
 	userData := reflect.ValueOf(m.UsersAndGroups.User)
 	for _, key := range userData.MapKeys() {
 		userTaskDetail := UserTasks{}

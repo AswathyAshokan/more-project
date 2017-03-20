@@ -13,7 +13,6 @@ import (
 	"bytes"
 	"regexp"
 	"strings"
-
 )
 
 type TaskController struct {
@@ -55,9 +54,19 @@ func (c *TaskController)AddNewTask() {
 		task.Info.LoginType=c.GetString("loginType")
 		task.Location.Latitude = c.GetString("latitude")
 		task.Location.Longitude = c.GetString("longitude")
-		task.Info.FitToWork = c.GetString("addFitToWork")
-		stringSlice := strings.Split(task.Info.FitToWork, ",")
-		log.Println("arraaaaay",stringSlice);
+		FitToWork := c.GetString("addFitToWork")
+		FitToWorkSlice := strings.Split(FitToWork, ",")
+		//log.Println("arraaaaay",stringSlice)
+		fitToWorkMap := make(map[string]models.TaskFitToWork)
+		fitToWorkForTask :=models.TaskFitToWork{}
+		for i := 0; i < len(FitToWorkSlice); i++ {
+			fitToWorkForTask.Info =FitToWorkSlice[i]
+			fitToWorkForTask.DateOfCreation =time.Now().Unix()
+			fitToWorkForTask.Status = helpers.StatusPending
+
+			fitToWorkMap["fgsgdsfn+'i'"] = fitToWorkForTask
+		}
+		task.FitToWork = fitToWorkMap
 		task.Settings.DateOfCreation =time.Now().Unix()
 		task.Settings.Status = helpers.StatusPending
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
@@ -283,7 +292,7 @@ func (c *TaskController)LoadTaskDetail() {
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.UserNumber)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Settings.Status)
 			tempValueSlice =append(tempValueSlice,"")
-			tempValueSlice = append(tempValueSlice,  tasks[k].Info.FitToWork)
+			tempValueSlice = append(tempValueSlice,  "")
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.Log)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.TaskDescription)
 			viewModel.Values = append(viewModel.Values, tempValueSlice)
@@ -359,7 +368,7 @@ func (c *TaskController)LoadEditTask() {
 		task.Info.LoginType = c.GetString("loginType")
 		task.Location.Latitude = c.GetString("latitude")
 		task.Location.Longitude = c.GetString("longitude")
-		task.Info.FitToWork = c.GetString("addFitToWork")
+		//task.Info.FitToWork = c.GetString("addFitToWork")
 		//EndTime := c.GetString("endTime")
 		task.Settings.DateOfCreation = time.Now().Unix()
 		task.Settings.Status = helpers.StatusPending
@@ -574,7 +583,7 @@ func (c *TaskController)LoadEditTask() {
 						viewModel.UserNumber = taskDetail.Info.UserNumber
 						viewModel.Log = taskDetail.Info.Log
 						//viewModel.UserType = taskDetail.UsersOrGroups
-						viewModel.FitToWork = taskDetail.Info.FitToWork
+						viewModel.FitToWork = ""
 						viewModel.TaskId = taskId
 						viewModel.CompanyTeamName = storedSession.CompanyTeamName
 						viewModel.CompanyPlan = storedSession.CompanyPlan
