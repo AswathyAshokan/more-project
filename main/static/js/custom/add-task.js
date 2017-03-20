@@ -25,6 +25,7 @@ $(function () {
         document.getElementById("jobName").value = vm.JobName;
         document.getElementById("taskName").value = vm.TaskName;
         document.getElementById("taskLocation").value = vm.TaskLocation;
+         //$('#startDate').val($.datepicker.formatDate('mm-dd-yy', vm.StartDate));
         document.getElementById("startDate").value = vm.StartDate;
         document.getElementById("endDate").value = vm.EndDate;
         document.getElementById("taskDescription").value = vm.TaskDescription;
@@ -58,8 +59,8 @@ $(function () {
 });
 function GetDynamicTextBox(value) {
     return ' <input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "" />&nbsp;' +
-            '<button id="btnAdd"  name="closePreviewBtn" class="delete-decl">+</button>'
-    i++;
+            '<button id="btnAdd"   class="delete-decl">+</button>'
+    
 }
  
 

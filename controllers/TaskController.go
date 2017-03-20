@@ -12,6 +12,7 @@ import (
 	"log"
 	"bytes"
 	"regexp"
+	"strings"
 
 )
 
@@ -55,8 +56,8 @@ func (c *TaskController)AddNewTask() {
 		task.Location.Latitude = c.GetString("latitude")
 		task.Location.Longitude = c.GetString("longitude")
 		task.Info.FitToWork = c.GetString("addFitToWork")
-		//stringSlice := strings.Split(task.Info.FitToWork, ",")
-
+		stringSlice := strings.Split(task.Info.FitToWork, ",")
+		log.Println("arraaaaay",stringSlice);
 		task.Settings.DateOfCreation =time.Now().Unix()
 		task.Settings.Status = helpers.StatusPending
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
