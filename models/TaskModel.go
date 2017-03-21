@@ -7,6 +7,8 @@ import (
 	"reflect"
 	"strings"
 	"app/passporte/helpers"
+	"time"
+	"github.com/kjk/betterguid"
 
 )
 
@@ -19,7 +21,7 @@ type Tasks   struct {
 	Job           	 	TaskJob
 	UsersAndGroups 		UsersAndGroups
 	Settings       		TaskSetting
-	FitToWork		map[string]TaskFitToWork
+	FitToWork		TaskFitToWork
 
 }
 type TaskFitToWork struct {
@@ -79,12 +81,13 @@ type UsersAndGroups struct {
 }
 
 /*add task details to DB*/
-func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string )(bool)  {
+func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSlice []string)(bool)  {
 
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
+
 	/*for i :=0; i<len(m.FitToWork.Info); i++ {
 
 
@@ -98,6 +101,19 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string )(bool)  {
 	taskDataString := strings.Split(taskData.String(),"/")
 	taskUniqueID := taskDataString[len(taskDataString)-2]
 	log.Println("task id",taskUniqueID)
+
+	fitToWorkMap := make(map[string]TaskFitToWork)
+	fitToWorkForTask :=TaskFitToWork{}
+	for i := 0; i < len(FitToWorkSlice); i++ {
+
+		fitToWorkForTask.Info =FitToWorkSlice[i]
+		fitToWorkForTask.DateOfCreation =time.Now().Unix()
+		fitToWorkForTask.Status = helpers.StatusPending
+		id := betterguid.New()
+		fitToWorkMap[id] = fitToWorkForTask
+		err = dB.Child("/Tasks/"+taskUniqueID+"/FitToWork/").Set(fitToWorkMap)
+
+	}
 
 	userData := reflect.ValueOf(m.UsersAndGroups.User)
 	for _, key := range userData.MapKeys() {

@@ -49,10 +49,6 @@ $(function () {
         div.html(GetDynamicTextBox(""));
         $("#TextBoxContainer").append(div);
     });
-    $("#saveButton").bind("click", function () {
-        
-       
-    });
     $("body").on("click", ".delete-decl", function () {
         $(this).closest("div").delete-decl();
     });
@@ -222,12 +218,14 @@ $().ready(function() {
                                       //get all values of fit to work
                                       
                                       var values = "";
+                                      var fitToWorkValue = document.getElementById("addFitToWorkValue").value;
+                                      fitToWorkFromDynamicTextBox.push(fitToWorkValue);
                                       $("input[name=DynamicTextBox]").each(function () {
                                           fitToWorkFromDynamicTextBox.push($(this).val())
                                       });
-                                      var fitToWorkValue = document.getElementById("addFitToWorkValue").value;
-                                      fitToWorkFromDynamicTextBox.push(fitToWorkValue);
                                       alert(fitToWorkFromDynamicTextBox);
+                                      
+                                      
                                       var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&addFitToWork=" + fitToWorkFromDynamicTextBox +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask +"&endDateFromJs="+ endDateOfTask;
                                       var selectedContactNames = [];
 

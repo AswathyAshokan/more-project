@@ -56,17 +56,6 @@ func (c *TaskController)AddNewTask() {
 		task.Location.Longitude = c.GetString("longitude")
 		FitToWork := c.GetString("addFitToWork")
 		FitToWorkSlice := strings.Split(FitToWork, ",")
-		//log.Println("arraaaaay",stringSlice)
-		fitToWorkMap := make(map[string]models.TaskFitToWork)
-		fitToWorkForTask :=models.TaskFitToWork{}
-		for i := 0; i < len(FitToWorkSlice); i++ {
-			fitToWorkForTask.Info =FitToWorkSlice[i]
-			fitToWorkForTask.DateOfCreation =time.Now().Unix()
-			fitToWorkForTask.Status = helpers.StatusPending
-
-			fitToWorkMap["fgsgdsfn+'i'"] = fitToWorkForTask
-		}
-		task.FitToWork = fitToWorkMap
 		task.Settings.DateOfCreation =time.Now().Unix()
 		task.Settings.Status = helpers.StatusPending
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
@@ -139,7 +128,7 @@ func (c *TaskController)AddNewTask() {
 
 
 		//Add data to task DB
-		dbStatus :=task.AddTaskToDB(c.AppEngineCtx,companyId)
+		dbStatus :=task.AddTaskToDB(c.AppEngineCtx,companyId,FitToWorkSlice)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
