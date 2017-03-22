@@ -6,7 +6,7 @@ var companyTeamName = vm.CompanyTeamName;
 
 $().ready(function() {
     if(vm.PageType == "edit"){        
-            document.getElementById("customername").value = vm.CustomerName;
+           $().ready(function() {
             document.getElementById("contactperson").value = vm.ContactPerson;
             document.getElementById("email").value = vm.Email;
             document.getElementById("phone").value = vm.Phone;
