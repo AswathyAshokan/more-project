@@ -16,7 +16,7 @@
 							<div class="col-sm-6">
 								<label for="jobName" class="">Job Name</label>
 
-								<select class="form-control sprites-arrow-down" id="jobName" name="jobName" onchange="getJobAndCustomer();">
+								<select class="form-control sprites-arrow-down" id="jobName" name="jobName" onclick="getJobAndCustomer();">
 									<option selected disabled value="">Select a Job</option>
 									{{range $key, $val := .vm.JobNameArray}}
 									   <option id="{{index $.vm.Key $key}}" value="{{$val}}" >{{$val}} ({{index $.vm.JobCustomerNameArray $key}})</option>
@@ -98,28 +98,15 @@
                         <div class="form-group clearfix">
 							<div class="col-sm-6" id="TextBoxContainer">
 								<label for="fitToWork" class="">Fit To Work Declaration</label>
-<!--
-								<div class="plus">
-                                    <input class="form-control" id="ex2" type="text">
-                                    <span class="add-decl">+</span>
-                                    <span class="delete-decl">+</span>
-                                </div>
--->
                                 <div class="plus" id="fitToWorkAdd">
                                     <input class="form-control" id="addFitToWorkValue" type="text"  name="addFitToWorkValue"> 
-<!--
-                                    <span class="add-decl"  >+</span>
-                                    <span class="delete-decl">+</span>
-
--->                                 
-                                 
-                                   
-<!--                                    <button  class="add-decl" id="btnAdd" >+</button>-->
                                     <input type="button"  class="add-decl" value="'+'" id="btnAdd" >
                                 </div>
+                                
                             </div>
 						</div>
                         <div class="mapValidationError" id="mapValidationError"></div>
+                        <div class="loginTypeValidationError" id="loginTypeValidationError"></div>
                         <div class="align-left col-sm-12">
 							<button class="btn btn-primary" type="submit"  name="saveButton" id="saveButton">Save</button>
 							<button class="btn btn-success" type="button" id="cancel">Cancel</button>
@@ -128,7 +115,7 @@
 				</div>
 			</div>
             <div class="col-md-3 col-sm-12 col-xs-12">
-				<div class="map-header" id="typeOfLogin"><div  style="width: 25%; float:left; margin: 0px;" class="loginTypeValidationError" id="loginTypeValidationError"></div>
+				<div class="map-header" id="typeOfLogin"><div  style="width: 25%; float:left; margin: 0px;" class="loginTypeValidationError" ></div>
 					<span>Login Type</span>
 					<div class>
 						<label class="radio-inline">
@@ -158,30 +145,6 @@
 <script src="/static/js/select2.min.js"></script>
 <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
 
-<!--
-   <script>
-   function myMap() {
-       var mapCanvas = document.getElementById("map");
-       var mapOptions = {
-           center: new google.maps.LatLng("9.9312", "76.2673"),
-           zoom: 15
-       }
-       var map = new google.maps.Map(mapCanvas, mapOptions);
-       google.maps.event.addListener(map, 'click', function (e) {
-           alert("Latitude: " + e.latLng.lat() + "\r\nLongitude: " + e.latLng.lng());
-           document.getElementById('latitudeId').value =e.latLng.lat();
-           document.getElementById('longitudeId').value =e.latLng.lng();
-           var marker = new google.maps.Marker({
-               position: new google.maps.LatLng(e.latLng.lat(), e.latLng.lng()),
-               map: map,
-           });
-       });
-       
-   }
-</script>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFl3U2s0vqjaN-6rvAaOA8Ts1cfDss_KM&callback=myMap"></script>
--->
 <script>
     var map;
     var marker;
@@ -210,10 +173,24 @@
                     if (results[1]) {
                          document.getElementById("taskLocation").value = results[1].formatted_address ;
                     }
+                    document.getElementById('latitudeId').value =event.latLng.lat();
+                    document.getElementById('longitudeId').value =event.latLng.lng();
                 }
             });
             
         });
+         
+        if ( vm.TaskLocation.length !=0)
+            {
+               
+                 var place = vm.TaskLocation;
+                document.getElementById('latitudeId').value =place.geometry.location.lat();
+                document.getElementById('longitudeId').value =place.geometry.location.lng();
+                marker.setPosition(place.geometry.location);
+                marker.setVisible(true);
+                
+            }
+       
 
   // get places auto-complete when user type in location-text-box
         var input = /** @type {HTMLInputElement} */
@@ -222,11 +199,6 @@
         var autocomplete = new google.maps.places.Autocomplete(input);
         autocomplete.bindTo('bounds', map);
         var infowindow = new google.maps.InfoWindow();
-//        marker = new google.maps.Marker({
-//            map: map,
-//            anchorPoint: new google.maps.Point(0, -29),
-//            draggable: true
-//        });
         google.maps.event.addListener(autocomplete, 'place_changed', function() {
             infowindow.close();
             marker.setVisible(false);
@@ -244,14 +216,6 @@
                 map.setCenter(place.geometry.location);
                 map.setZoom(17); // Why 17? Because it looks good.
             }
-//            marker.setIcon( /** @type {google.maps.Icon} */ ({
-//                url: place.icon,
-//                size: new google.maps.Size(71, 71),
-//                origin: new google.maps.Point(0, 0),
-//                anchor: new google.maps.Point(17, 34),
-//                scaledSize: new google.maps.Size(35, 35)
-//  
-//            }));
             marker.setPosition(place.geometry.location);
             marker.setVisible(true);
             var address = '';

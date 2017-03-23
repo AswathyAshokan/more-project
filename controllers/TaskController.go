@@ -31,6 +31,7 @@ func (c *TaskController)AddNewTask() {
 		task.Job.JobId = c.GetString("jobId")
 		task.Customer.CustomerName = c.GetString("customerName")
 		task.Customer.CustomerId =c.GetString("jobId")
+		task.Info.TaskLocation =c.GetString("taskLocation")
 		startDateString := c.GetString("startDateFomJs")
 		endDateString :=c.GetString("endDateFromJs")
 		layout := "01/02/2006 15:04"
@@ -272,6 +273,29 @@ func (c *TaskController)LoadTaskDetail() {
 			if !helpers.StringInSlice(tasks[k].Job.JobName, viewModel.UniqueJobNames) && tasks[k].Job.JobName != "" {
 				viewModel.UniqueJobNames = append(viewModel.UniqueJobNames, tasks[k].Job.JobName)
 			}
+			//collecting fit to work from task
+			fitToWorkDataValue := reflect.ValueOf(tasks[k].FitToWork)
+			tempFitToWork := ""
+
+			for _, fitToWorkKey := range fitToWorkDataValue.MapKeys() {
+
+				var bufferFitToWork bytes.Buffer
+				if len(tempFitToWork) == 0{
+					bufferFitToWork.WriteString(tasks[k].FitToWork[fitToWorkKey.String()].Info)
+					tempFitToWork = bufferFitToWork.String()
+					bufferFitToWork.Reset()
+				} else {
+					bufferFitToWork.WriteString(tempFitToWork)
+					bufferFitToWork.WriteString(", ")
+					bufferFitToWork.WriteString(tasks[k].FitToWork[fitToWorkKey.String()].Info)
+					tempFitToWork = bufferFitToWork.String()
+					bufferFitToWork.Reset()
+				}
+			}
+
+
+
+
 			tempValueSlice = append(tempValueSlice, tasks[k].Info.TaskName)
 			startDate := time.Unix(tasks[k].Info.StartDate, 0).Format("2006/01/02")
 			tempValueSlice = append(tempValueSlice, startDate)
@@ -281,7 +305,7 @@ func (c *TaskController)LoadTaskDetail() {
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.UserNumber)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Settings.Status)
 			tempValueSlice =append(tempValueSlice,"")
-			tempValueSlice = append(tempValueSlice,  "")
+			tempValueSlice = append(tempValueSlice,  tempFitToWork)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.Log)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.TaskDescription)
 			viewModel.Values = append(viewModel.Values, tempValueSlice)
@@ -334,6 +358,7 @@ func (c *TaskController)LoadEditTask() {
 		task.Job.JobId = c.GetString("jobId")
 		task.Customer.CustomerName = c.GetString("customerName")
 		task.Customer.CustomerId = c.GetString("jobId")
+		task.Info.TaskLocation =c.GetString("taskLocation")
 		startDateString := c.GetString("startDateFomJs")
 		endDateString :=c.GetString("endDateFromJs")
 		layout := "01/02/2006 15:04"
@@ -357,8 +382,8 @@ func (c *TaskController)LoadEditTask() {
 		task.Info.LoginType = c.GetString("loginType")
 		task.Location.Latitude = c.GetString("latitude")
 		task.Location.Longitude = c.GetString("longitude")
-		//task.Info.FitToWork = c.GetString("addFitToWork")
-		//EndTime := c.GetString("endTime")
+		FitToWork := c.GetString("addFitToWork")
+		FitToWorkSlice := strings.Split(FitToWork, ",")
 		task.Settings.DateOfCreation = time.Now().Unix()
 		task.Settings.Status = helpers.StatusPending
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
@@ -427,7 +452,7 @@ func (c *TaskController)LoadEditTask() {
 		task.Contacts = contactMap
 
 		//Add data to task DB
-		dbStatus := task.UpdateTaskToDB(c.AppEngineCtx, taskId,companyId)
+		dbStatus := task.UpdateTaskToDB(c.AppEngineCtx, taskId,companyId,FitToWorkSlice)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -448,6 +473,7 @@ func (c *TaskController)LoadEditTask() {
 			var keySlice                        	[]string
 			var keySliceForGroupAndUser        	[]string
 			var keySliceForContact                	[]string
+			var fitToWorkSlice			[]string
 
 			switch dbStatus {
 			case true:
@@ -513,9 +539,6 @@ func (c *TaskController)LoadEditTask() {
 
 				viewModel.ContactKey = keySliceForContact
 
-
-
-
 				//contact name to edit
 				 dbStatus,contactDetails := task.GetTaskDetailById(c.AppEngineCtx, taskId)
 				switch dbStatus {
@@ -572,10 +595,15 @@ func (c *TaskController)LoadEditTask() {
 						viewModel.UserNumber = taskDetail.Info.UserNumber
 						viewModel.Log = taskDetail.Info.Log
 						//viewModel.UserType = taskDetail.UsersOrGroups
-						viewModel.FitToWork = ""
+						dataValue = reflect.ValueOf(taskDetail.FitToWork)
+						for _, key := range dataValue.MapKeys() {
+							fitToWorkSlice = append(fitToWorkSlice,taskDetail.FitToWork[key.String()].Info)
+						}
+						viewModel.FitToWork = fitToWorkSlice
 						viewModel.TaskId = taskId
 						viewModel.CompanyTeamName = storedSession.CompanyTeamName
 						viewModel.CompanyPlan = storedSession.CompanyPlan
+						viewModel.TaskLocation =taskDetail.Info.TaskLocation
 						c.Data["vm"] = viewModel
 						c.Layout = "layout/layout.html"
 						c.TplName = "template/add-task.html"

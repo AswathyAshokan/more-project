@@ -143,7 +143,7 @@ $(function(){
         
         
         
-        $('.table-wrapper .dataTables_filter').prepend(jobDropdown).prepend(customerDropdown).append(addItem);
+        $('.table-wrapper .dataTables_filter').prepend(jobDropdown).prepend(customerDropdown).append(addItem).prepend( $('#example_wrapper .row:first-child > div.col-sm-6').addClass("gutter-padding")).prepend($('#example_wrapper .row:first-child > div.col-sm-6').removeClass("col-sm-6"));
         
         var customerArray = vm.UniqueCustomerNames;
         

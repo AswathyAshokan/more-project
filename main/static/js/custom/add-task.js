@@ -13,7 +13,7 @@ var mapLongitude = "";
 var startDateToCompare = "";
 var endDateToCompare = "";
 var i = 0;//function for editing
-console.log("bfhbshb", vm.StartTime);
+console.log(vm.FitToWork);
 $(function () {
 
    
@@ -25,20 +25,27 @@ $(function () {
         document.getElementById("jobName").value = vm.JobName;
         document.getElementById("taskName").value = vm.TaskName;
         document.getElementById("taskLocation").value = vm.TaskLocation;
-         //$('#startDate').val($.datepicker.formatDate('mm-dd-yy', vm.StartDate));
         document.getElementById("startDate").value = vm.StartDate;
         document.getElementById("endDate").value = vm.EndDate;
         document.getElementById("taskDescription").value = vm.TaskDescription;
-        document.getElementById("users").value = vm.UserNumber;
         document.getElementById("log").value = vm.Log ;
-        document.getElementById("fitToWork").value = vm.FitToWork;
+        document.getElementById("taskLocation").value =vm.TaskLocation
+        document.getElementById("addFitToWorkValue").value = vm.FitToWork[0];
+        var dynamicTextBox= "";
+        for (var i = 1; i < vm.FitToWork.length; i++) {
+            dynamicTextBox+= '<div class="plus"><input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + vm.FitToWork[i] + '" />&nbsp;' +
+            '<button id="btnAdd"   class="delete-decl" >+</button></div>';
+            
+        }
+        $("#TextBoxContainer").append(dynamicTextBox);
         document.getElementById("startTime").value = vm.StartTime;
         document.getElementById("endTime").value = vm.EndTime;
         document.getElementById("taskHead").innerHTML = "Edit Task";
+         $("body").on("click", ".delete-decl", function () {
+             console.log("delete");
+             $(this).closest("div").remove();
+         });
     }
-    
-    //google map
-    
     
    
     //function for getting textbox dynamically
@@ -50,7 +57,7 @@ $(function () {
         $("#TextBoxContainer").append(div);
     });
     $("body").on("click", ".delete-decl", function () {
-        $(this).closest("div").delete-decl();
+        $(this).closest("div").remove();
     });
 });
 function GetDynamicTextBox(value) {
@@ -125,7 +132,7 @@ $().ready(function() {
                 }
             }
             
-            for (var i = 0; i < vm.GroupMembers[i][0].length; i++) {
+            for (var i = 0; i < vm.GroupMembers[i].length; i++) {
                 if (vm.GroupMembers[i][0] == clickedOption) {
                     var memberLength = vm.GroupMembers[i].length;
                     for (var j = 1; j < memberLength; j++) {
@@ -165,6 +172,7 @@ $().ready(function() {
             var endDate = new Date($("#endDate").val());
             var endTime =  document.getElementById("endTime").value;
             
+
             //setting the time in start date and end date
             
             startTimeArray = startTime.split(':');
@@ -223,8 +231,10 @@ $().ready(function() {
                                       $("input[name=DynamicTextBox]").each(function () {
                                           fitToWorkFromDynamicTextBox.push($(this).val())
                                       });
-                                      alert(fitToWorkFromDynamicTextBox);
-                                      
+                                      if (document.getElementById('jobName').length !=0)
+                                          {
+                                              getJobAndCustomer(); 
+                                          }
                                       
                                       var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&addFitToWork=" + fitToWorkFromDynamicTextBox +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask +"&endDateFromJs="+ endDateOfTask;
                                       var selectedContactNames = [];

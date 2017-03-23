@@ -22,7 +22,7 @@ type EditTaskViewModel  struct {
 	Log				string
 	UserType			[]string
 	Contact				string
-	FitToWork			string
+	FitToWork			[]string
 	TaskId				string
 	ContactNameToEdit		[]string
 	CompanyTeamName			string
@@ -31,6 +31,7 @@ type EditTaskViewModel  struct {
 	CompanyPlan			string
 	StartTime			string
 	EndTime				string
+
 
 }
 

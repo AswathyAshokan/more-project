@@ -21,7 +21,7 @@ type Tasks   struct {
 	Job           	 	TaskJob
 	UsersAndGroups 		UsersAndGroups
 	Settings       		TaskSetting
-	FitToWork		TaskFitToWork
+	FitToWork		map[string]TaskFitToWork
 
 }
 type TaskFitToWork struct {
@@ -39,6 +39,7 @@ type TaskInfo struct {
 	TaskDescription string
 	UserNumber      string
 	Log             string
+	TaskLocation	string
 	CompanyTeamName	string
 
 }
@@ -100,8 +101,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 	//For inserting task details to User
 	taskDataString := strings.Split(taskData.String(),"/")
 	taskUniqueID := taskDataString[len(taskDataString)-2]
-	log.Println("task id",taskUniqueID)
-
+	//for adding fit to work to database
 	fitToWorkMap := make(map[string]TaskFitToWork)
 	fitToWorkForTask :=TaskFitToWork{}
 	for i := 0; i < len(FitToWorkSlice); i++ {
@@ -198,13 +198,26 @@ func (m *Tasks) GetAllContact(ctx context.Context)(bool,map[string]Tasks) {
 }
 
 /* Function for update task on DB*/
-func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId string)(bool)  {
+func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId string,FitToWorkSlice []string)(bool)  {
 
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
 	err = dB.Child("/Tasks/"+ taskId).Update(&m)
+	//for adding fit to work to database
+	fitToWorkMap := make(map[string]TaskFitToWork)
+	fitToWorkForTask :=TaskFitToWork{}
+	for i := 0; i < len(FitToWorkSlice); i++ {
+
+		fitToWorkForTask.Info =FitToWorkSlice[i]
+		fitToWorkForTask.DateOfCreation =time.Now().Unix()
+		fitToWorkForTask.Status = helpers.StatusPending
+		id := betterguid.New()
+		fitToWorkMap[id] = fitToWorkForTask
+		err = dB.Child("/Tasks/"+taskId+"/FitToWork/").Set(fitToWorkMap)
+
+	}
 	userData := reflect.ValueOf(m.UsersAndGroups.User)
 	userTaskDetail := UserTasks{}
 	for _, key := range userData.MapKeys() {
