@@ -49,6 +49,9 @@ func init() {
 	beegae.Router("/customer-management", &controllers.CustomerManagementController{}, "*:CustomerManagement")
 	beegae.Router("/customer-management/:customermanagementid/delete", &controllers.CustomerManagementController{}, "*:LoadDeleteCustomerManagement")
 
+	beegae.Router("/accounts",&controllers.AccountsController{},"*:SuperAdminsAccount")
+	beegae.Router("/accounts/edit",&controllers.AccountsController{},"*:EditSuperAdmin")
+
 
 	//Aswathy
 	beegae.Router("/:companyTeamName/contact/add", &controllers.ContactUserController{},"*:AddNewContact")
