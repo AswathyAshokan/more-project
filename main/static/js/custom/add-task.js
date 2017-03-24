@@ -12,8 +12,9 @@ var mapLatitude = "";
 var mapLongitude = "";
 var startDateToCompare = "";
 var endDateToCompare = "";
+var minUserForTaskEdit ="";
+var loginTypeForEdit ="";
 var i = 0;//function for editing
-console.log(vm.FitToWork);
 $(function () {
 
    
@@ -45,6 +46,13 @@ $(function () {
              console.log("delete");
              $(this).closest("div").remove();
          });
+        if(vm.LoginType =="NFC" ){
+             document.getElementById("loginType1").checked = true;
+        }else{
+            document.getElementById("loginType2").checked = true;
+        }
+        minUserForTaskEdit = vm.UsersToEdit.length;
+        loginTypeForEdit = vm.LoginType;
     }
     
    
@@ -209,8 +217,24 @@ $().ready(function() {
             mapLatitude = document.getElementById("latitudeId").value;// variable to store map latitude
             mapLongitude = document.getElementById("longitudeId").value;// variable to store map longitude
             startDateToCompare = document.getElementById("startDate").value;
-            endDateToCompare = document.getElementById("endDate").value;
-            if (selectedUserArray.length - selectedGroupArray.length >= minUsers) {
+            endDateToCompare = document.getElementById("endDate").value
+            //check minimum number of users during editing
+             minUserForTask =selectedUserArray.length - selectedGroupArray.length;
+            if(minUserForTask == 0)
+            {
+                minUserForTask = minUserForTaskEdit;
+            }
+            else {
+                minUserForTask = minUserForTask;
+            }
+            //check the login type during editing
+            if(loginTypeRadio.length ==0)
+            {
+                loginTypeRadio = loginTypeForEdit;
+            } else {
+                loginTypeRadio = loginTypeRadio;
+            }
+            if (minUserForTask >= minUsers) {
                 if(loginTypeRadio.length != 0)
                     {
                       if( endDateToCompare > startDateToCompare) 

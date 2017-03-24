@@ -108,7 +108,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 
 		fitToWorkForTask.Info =FitToWorkSlice[i]
 		fitToWorkForTask.DateOfCreation =time.Now().Unix()
-		fitToWorkForTask.Status = helpers.StatusPending
+		fitToWorkForTask.Status = helpers.StatusActive
 		id := betterguid.New()
 		fitToWorkMap[id] = fitToWorkForTask
 		err = dB.Child("/Tasks/"+taskUniqueID+"/FitToWork/").Set(fitToWorkMap)
@@ -124,7 +124,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 		userTaskDetail.EndDate = m.Info.EndDate
 		userTaskDetail.StartDate =m.Info.StartDate
 		userTaskDetail.JobName = m.Job.JobName
-		userTaskDetail.Status = helpers.StatusPending
+		userTaskDetail.Status = helpers.StatusActive
 		userTaskDetail.CompanyId = companyId
 		userKey :=key.String()
 		err = dB.Child("/Users/"+userKey+"/Tasks/"+taskUniqueID).Set(userTaskDetail)
@@ -150,10 +150,11 @@ func (m *Tasks) RetrieveTaskFromDB(ctx context.Context,companyTeamName string)(b
 }
 
 /*delete  task details from DB*/
-func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string)(bool)  {
+func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId string)(bool)  {
 
 	 taskUpdate := TaskSetting{}
 	 taskDeletion :=TaskSetting{}
+	taskDetailForUser :=Tasks{}
 	dB, err := GetFirebaseClient(ctx,"")
 
 	if err!=nil{
@@ -163,6 +164,24 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string)(bool)  {
 	err = dB.Child("/Tasks/"+ taskId+"/Settings").Value(&taskUpdate)
 	taskDeletion.DateOfCreation =taskUpdate.DateOfCreation
 	err = dB.Child("/Tasks/"+ taskId+"/Settings").Update(&taskDeletion)
+	err = dB.Child("/Tasks/"+ taskId).Value(&taskDetailForUser)
+	userData := reflect.ValueOf(taskDetailForUser.UsersAndGroups.User)
+	for _, key := range userData.MapKeys() {
+		userTaskDetail := UserTasks{}
+		userTaskDetail.DateOfCreation = taskDetailForUser.Settings.DateOfCreation
+		userTaskDetail.TaskName = taskDetailForUser.Info.TaskName
+		userTaskDetail.CustomerName = taskDetailForUser.Customer.CustomerName
+		userTaskDetail.EndDate = taskDetailForUser.Info.EndDate
+		userTaskDetail.StartDate = taskDetailForUser.Info.StartDate
+		userTaskDetail.JobName = taskDetailForUser.Job.JobName
+		userTaskDetail.Status = helpers.StatusInActive
+		userTaskDetail.CompanyId = companyId
+		userKey := key.String()
+		err = dB.Child("/Users/" + userKey + "/Tasks/" + taskId).Update(&userTaskDetail)
+		if err!=nil{
+			log.Println("Deletion error:",err)
+		}
+	}
 	log.Println("deleted successfully")
 	if err!=nil{
 		log.Println("Deletion error:",err)
@@ -212,7 +231,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 
 		fitToWorkForTask.Info =FitToWorkSlice[i]
 		fitToWorkForTask.DateOfCreation =time.Now().Unix()
-		fitToWorkForTask.Status = helpers.StatusPending
+		fitToWorkForTask.Status = helpers.StatusActive
 		id := betterguid.New()
 		fitToWorkMap[id] = fitToWorkForTask
 		err = dB.Child("/Tasks/"+taskId+"/FitToWork/").Set(fitToWorkMap)

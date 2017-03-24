@@ -33,7 +33,7 @@ func (c *ContactUserController)AddNewContact() {
 		user.Info.Address = c.GetString("address")
 		user.Settings.DateOfCreation =time.Now().UnixNano() / int64(time.Millisecond)
 		fmt.Println(reflect.TypeOf(user.Settings.DateOfCreation))
-		user.Settings.Status = "Completed"
+		user.Settings.Status = helpers.StatusActive
 		user.Info.CompanyTeamName = storedSession.CompanyTeamName
 		dbStatus := user.AddContactToDB(c.AppEngineCtx)
 		switch dbStatus {
@@ -136,7 +136,7 @@ func (c *ContactUserController)LoadEditContact() {
 		user.Info.Address = c.GetString("address")
 		user.Settings.DateOfCreation =time.Now().UnixNano() / int64(time.Millisecond)
 		fmt.Println(reflect.TypeOf(user.Settings.DateOfCreation))
-		user.Settings.Status = helpers.StatusPending
+		user.Settings.Status = helpers.StatusActive
 		user.Info.CompanyTeamName = storedSession.CompanyTeamName
 		dbStatus := user.UpdateContactToDB(c.AppEngineCtx,contactId)
 		switch dbStatus {

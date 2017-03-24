@@ -58,7 +58,7 @@ func (c *TaskController)AddNewTask() {
 		FitToWork := c.GetString("addFitToWork")
 		FitToWorkSlice := strings.Split(FitToWork, ",")
 		task.Settings.DateOfCreation =time.Now().Unix()
-		task.Settings.Status = helpers.StatusPending
+		task.Settings.Status = helpers.StatusActive
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
 		companyId :=storedSession.CompanyId
 		userMap := make(map[string]models.TaskUser)
@@ -293,9 +293,6 @@ func (c *TaskController)LoadTaskDetail() {
 				}
 			}
 
-
-
-
 			tempValueSlice = append(tempValueSlice, tasks[k].Info.TaskName)
 			startDate := time.Unix(tasks[k].Info.StartDate, 0).Format("2006/01/02")
 			tempValueSlice = append(tempValueSlice, startDate)
@@ -330,10 +327,12 @@ func (c *TaskController)LoadDeleteTask() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	ReadSession(w, r, companyTeamName)
+	companyId :=storedSession.CompanyId
 	taskId :=c.Ctx.Input.Param(":taskId")
 	task := models.Tasks{}
-	dbStatus := task.DeleteTaskFromDB(c.AppEngineCtx, taskId)
+	dbStatus := task.DeleteTaskFromDB(c.AppEngineCtx, taskId,companyId)
 	switch dbStatus {
 	case true:
 		w.Write([]byte("true"))
@@ -385,7 +384,7 @@ func (c *TaskController)LoadEditTask() {
 		FitToWork := c.GetString("addFitToWork")
 		FitToWorkSlice := strings.Split(FitToWork, ",")
 		task.Settings.DateOfCreation = time.Now().Unix()
-		task.Settings.Status = helpers.StatusPending
+		task.Settings.Status = helpers.StatusActive
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
 		userMap := make(map[string]models.TaskUser)
 		groupMap := make(map[string]models.TaskGroup)
@@ -474,6 +473,7 @@ func (c *TaskController)LoadEditTask() {
 			var keySliceForGroupAndUser        	[]string
 			var keySliceForContact                	[]string
 			var fitToWorkSlice			[]string
+			groupMember := models.Group{}
 
 			switch dbStatus {
 			case true:
@@ -567,6 +567,16 @@ func (c *TaskController)LoadEditTask() {
 							dataValue := reflect.ValueOf(groupDetails.UsersAndGroups.User)
 							for _, key := range dataValue.MapKeys() {
 								viewModel.GroupMembersAndUserToEdit = append(viewModel.GroupMembersAndUserToEdit,  key.String())
+								viewModel.UsersToEdit= append(viewModel.UsersToEdit,key.String())
+							}
+							groupValue :=reflect.ValueOf(groupDetails.UsersAndGroups.Group)
+							for _, key := range groupValue.MapKeys() {
+								viewModel.GroupMembersAndUserToEdit = append(viewModel.GroupMembersAndUserToEdit,  key.String())
+								groupMemberDetail,_ := groupMember.GetGroupDetailsById(c.AppEngineCtx, key.String())
+								groupMemberValue :=reflect.ValueOf(groupMemberDetail.Members)
+								for _, key := range groupMemberValue.MapKeys() {
+									viewModel.GroupsToEdit = append(viewModel.GroupsToEdit, key.String())
+								}
 							}
 						case false:
 							log.Println(helpers.ServerConnectionError)
@@ -604,6 +614,7 @@ func (c *TaskController)LoadEditTask() {
 						viewModel.CompanyTeamName = storedSession.CompanyTeamName
 						viewModel.CompanyPlan = storedSession.CompanyPlan
 						viewModel.TaskLocation =taskDetail.Info.TaskLocation
+						viewModel.LoginType =taskDetail.Info.LoginType
 						c.Data["vm"] = viewModel
 						c.Layout = "layout/layout.html"
 						c.TplName = "template/add-task.html"

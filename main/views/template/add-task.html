@@ -98,9 +98,12 @@
                         <div class="form-group clearfix">
 							<div class="col-sm-6" id="TextBoxContainer">
 								<label for="fitToWork" class="">Fit To Work Declaration</label>
-                                <div class="plus" id="fitToWorkAdd">
+                                
+                                <div class="plus" id="fitToWorkAdd" >
                                     <input class="form-control" id="addFitToWorkValue" type="text"  name="addFitToWorkValue"> 
-                                    <input type="button"  class="add-decl" value="'+'" id="btnAdd" >
+<!--                                    <input   class="add-decl"  id="btnAdd"  name="btnAdd"  type="image" src="/static/images/fitToWork.png" width="40" height="38" style="float:right; margin-top:-3em;margin-right:-3em " >-->
+                                    <img  id="btnAdd" src="/static/images/fitToWork.png" width="40" height="38" style= "float:right; margin-top:-3em; margin-right:-3em;"  />
+                                    
                                 </div>
                                 
                             </div>
@@ -119,10 +122,10 @@
 					<span>Login Type</span>
 					<div class>
 						<label class="radio-inline">
-							<input class="radio-inline" type="radio"  name="loginType"  id="loginType" value="NFC" >NFC
+							<input class="radio-inline" type="radio"  name="loginType"  id="loginType1" value="NFC" >NFC
 						</label>
 						<label >
-							<input  class="radio-inline" type="radio" name="loginType"  id="loginType"  value="GPS" >GPS
+							<input  class="radio-inline" type="radio" name="loginType"  id="loginType2"  value="GPS" >GPS
 						</label>
 					</div>
 				</div>
@@ -147,26 +150,69 @@
 
 <script>
     var map;
+    var markers = [];
     var marker;
+    var geocoder;
     function initialize() {
-        var mapOptions = {
-            center: new google.maps.LatLng("9.9312", "76.2673"),
-            zoom: 15
-        };
-       
-       
-        map = new google.maps.Map(document.getElementById('map'),
+        geocoder = new google.maps.Geocoder();
+        var taskLocation = document.getElementById("taskLocation");
+        //function in case of edit task.set map according to location in text box
+        if(taskLocation  != 0)
+        {
+            var loc=[];
+            // next line creates asynchronous request
+            geocoder.geocode( { 'address': vm.TaskLocation}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    loc[0]=results[0].geometry.location.lat();
+                    loc[1]=results[0].geometry.location.lng();
+                    var mapOptions = {
+                        center: new google.maps.LatLng(loc[0], loc[1]),
+                        zoom: 15
+                    };
+                    map = new google.maps.Map(document.getElementById('map'),
                                   mapOptions);
-
-          marker = new google.maps.Marker({
-               position: new google.maps.LatLng("9.9312", "76.2673"),
-               map: map,
-              draggable: true
-           });
-       
-        google.maps.event.addListener(marker, 'dragend', function (event) {
+                    marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(loc[0], loc[1]),
+                        map: map,
+                    });
+                    document.getElementById('latitudeId').value =loc[0];
+                    document.getElementById('longitudeId').value =loc[1];
+                } else {
+                    alert("Geocode was not successful for the following reason: " + status);
+                }
+                 google.maps.event.addListener(map, 'click', function (event) {
+                     DeleteMarkers();
+                     var latlng = new google.maps.LatLng(event.latLng.lat(),event.latLng.lng());
+                     placeMarker(event.latLng, map);
+                     var geocoder = geocoder = new google.maps.Geocoder();
+                     geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+                         if (status == google.maps.GeocoderStatus.OK) {
+                             if (results[1]) {
+                                 document.getElementById("taskLocation").value = results[1].formatted_address ;
+                             }
+                             document.getElementById('latitudeId').value =event.latLng.lat();
+                             document.getElementById('longitudeId').value =event.latLng.lng();
+                         }
+                     });
+                 });
         
+            });
+        }
+        
+            var mapOptions = {
+                center: new google.maps.LatLng("9.9312", "76.2673"),
+                zoom: 15
+            };
+            map = new google.maps.Map(document.getElementById('map'),
+                                  mapOptions);
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng("9.9312", "76.2673"),
+                map: map,
+            });
+        google.maps.event.addListener(map, 'click', function (event) {
+            DeleteMarkers();
             var latlng = new google.maps.LatLng(event.latLng.lat(),event.latLng.lng());
+            placeMarker(event.latLng, map);
             var geocoder = geocoder = new google.maps.Geocoder();
             geocoder.geocode({ 'latLng': latlng }, function (results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
@@ -177,19 +223,25 @@
                     document.getElementById('longitudeId').value =event.latLng.lng();
                 }
             });
+           
             
         });
-         
-        if ( vm.TaskLocation.length !=0)
-            {
-               
-                 var place = vm.TaskLocation;
-                document.getElementById('latitudeId').value =place.geometry.location.lat();
-                document.getElementById('longitudeId').value =place.geometry.location.lng();
-                marker.setPosition(place.geometry.location);
-                marker.setVisible(true);
-                
-            }
+        
+        function placeMarker(position, map) {
+           var marker = new google.maps.Marker({
+               position: position,
+               map: map
+           }); 
+           map.panTo(position);
+           markers.push(marker);
+       }
+        //delete markers
+         function DeleteMarkers() {
+             for (var i = 0; i < markers.length; i++) {
+                 markers[i].setMap(null);
+             }
+             markers = [];
+         };
        
 
   // get places auto-complete when user type in location-text-box

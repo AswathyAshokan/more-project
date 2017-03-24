@@ -152,7 +152,7 @@ func (c *JobController)LoadEditJob() {
 		job.Info.JobNumber = c.GetString("jobNumber")
 		job.Info.NumberOfTask = c.GetString("numberOfTask")
 		job.Settings.DateOfCreation = time.Now().UnixNano() / int64(time.Millisecond)
-		job.Settings.Status = "Open"
+		job.Settings.Status = helpers.StatusActive
 		job.Info.CompanyTeamName = storedSession.CompanyTeamName
 		dbStatus := job.UpdateJobToDB(c.AppEngineCtx,jobId)
 		switch dbStatus {
