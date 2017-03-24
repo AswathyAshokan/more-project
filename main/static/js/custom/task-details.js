@@ -21,7 +21,6 @@ $(function(){
             dataTableManipulate(mainArray); 
         } else {
             var tempSelectedCustomer = " (" + selectedCustomer + ")";
-            console.log(tempSelectedCustomer.length);
             for(i = 0; i < mainArray.length; i++){                
                 if (mainArray[i][0].indexOf(tempSelectedCustomer) != '-1'){
                     tempArray.push(mainArray[i]);
@@ -91,7 +90,7 @@ $(function(){
                 tempArray.push(mainArray[i]);
             }
         }
-        console.log("array",tempArray)
+   
         $('#task-details').dataTable().fnDestroy();
         dataTableManipulate(tempArray);
         $("#customerDropdown").val(vm.SelectedCustomerForJob);

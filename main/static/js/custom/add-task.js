@@ -15,6 +15,12 @@ var endDateToCompare = "";
 var minUserForTaskEdit ="";
 var loginTypeForEdit ="";
 var i = 0;//function for editing
+
+if(vm.GroupMembers == null) {
+    vm.GroupMembers = [];
+}
+
+
 $(function () {
 
    
@@ -43,7 +49,6 @@ $(function () {
         document.getElementById("endTime").value = vm.EndTime;
         document.getElementById("taskHead").innerHTML = "Edit Task";
          $("body").on("click", ".delete-decl", function () {
-             console.log("delete");
              $(this).closest("div").remove();
          });
         if(vm.LoginType =="NFC" ){
@@ -281,7 +286,6 @@ $().ready(function() {
                                           var $this = $(this);
                                           if ($this.length) {
                                               var selectedUserName = $this.text();
-                                              console.log(selectedUserName);
                                               selectedUserAndGroupName.push( selectedUserName);
                                           }
                                       });

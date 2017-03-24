@@ -61,7 +61,6 @@ func (c *ContactUserController)DisplayContactDetails() {
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
-	log.Println("The userDetails stored in session:",storedSession)
 	dbStatus, contact := models.GetAllContact(c.AppEngineCtx,companyTeamName)
 	viewModel := viewmodels.ContactUserViewModel{}
 
