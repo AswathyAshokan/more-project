@@ -13,8 +13,7 @@ $().ready(function() {
         document.getElementById("emailid").value = vm.EmailId;
         document.getElementById("usertype").value = vm.UserType;
         document.getElementById("pageTitle").innerHTML = "Edit Invited User"
-
-
+        
     }
     if(vm.AllowInvitations == false){
         $("#InviteUserValidationError").css({"color": "red", "font-size": "15px"});

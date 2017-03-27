@@ -1,83 +1,119 @@
 <script type="text/javascript">
-       var vm = {{.vm}};
+   var vm = {{.vm}};
 </script>
 <script src="/static/js/custom/accounts.js"></script>
+<script src="/static/js/jquery.validate.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
+ <link rel="stylesheet" href="/static/css/custom/custom.css">
 
-<section class="content-section clearfix admin-layout">
-    <div class="container-fluid no-gutter-xs">
-        <div class="col-md-12 main-content-wrapper padding-50-each">
-            <div class="clearfix">
-                <h1 class="h4">Account</h1>
-                <div class="margin-top-20">
+	<section class="content-section clearfix admin-layout">
+		<div class="container-fluid no-gutter-xs">
+			
+            <div class="col-md-12 main-content-wrapper padding-50-each">
+				<div class="clearfix">
+					<h1 class="h4">Account</h1>
 
-                    <form  id="editSuperAdminDetailsForm"class="clearfix max-form-width form-horizontal edit-account" style="">
-                        <div class="form-group clearfix">
-                            <label class="control-label col-sm-2" for="superAdminName">Name:</label>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control dis-txt" id="superAdminName" name="superAdminName" placeholder="Enter email">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group clearfix">
-                            <label class="control-label col-sm-2" for="superadminEmail">Email-id:</label>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control dis-txt" id="superadminEmail" name = "superadminEmail", placeholder="Enter email">
-                            </div>
-                        </div>
+					<div class="margin-top-20">
 
-                        <div class="form-group clearfix">
-                            <label class="control-label col-sm-2" for="superAdminPhone">Phone:</label>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control dis-txt" id="superAdminPhone" name= "superAdminPhone" placeholder="Enter email">
-                            </div>
-                        </div>
+						<form  id="superAdminDetailsForm" class="clearfix max-form-width form-horizontal edit-account" style="">
 
-                        <div class="align-left col-sm-12">
-                            <button class="btn btn-success" id="edit-txt">Edit</button>
-                            <a class="btn btn-primary" data-toggle="modal" data-target="#change-pass">Change Password</a>
-                        </div>
+						    <div class="form-group clearfix">
+						      <label class="control-label col-sm-2" for="superAdminName">Name:</label>
+						      <div class="col-sm-5">
+						        <input type="text" class="form-control dis-txt" id="superAdminName" name="superAdminName">
+						      </div>
+						    </div>
 
-                        <div class="modal fade" id="change-pass" role="dialog">
-                            <div class="modal-dialog modal-sm">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title">Change password</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="form-group clearfix">
-                                            <label class="col-sm-12" for="email">Old password</label>
-                                            <div class="col-sm-12">
-                                                <input type="password" class="form-control" id="" placeholder="Enter old password">
-                                            </div>
-                                        </div>
+						    <div class="form-group clearfix">
+						      <label class="control-label col-sm-2" for="superadminEmail">Email-id:</label>
+						      <div class="col-sm-5">
+						        <input type="text" class="form-control dis-txt" id="superadminEmail" placeholder="Enter email" name="superadminEmail">
+						      </div>
+						    </div>
 
-                                        <div class="form-group clearfix">
-                                            <label class="col-sm-12" for="email">New password</label>
-                                            <div class="col-sm-12">
-                                                <input type="password" class="form-control" id="" placeholder="Enter new password">
-                                            </div>
-                                        </div>
+						    <div class="form-group clearfix">
+						      <label class="control-label col-sm-2" for="superAdminPhone">Phone:</label>
+						      <div class="col-sm-5">
+						        <input type=number class="form-control dis-txt" id="superAdminPhone" name="superAdminPhone">
+						      </div>
+						    </div>
 
-                                        <div class="form-group clearfix">
-                                            <label class="col-sm-12" for="email">Confirm password</label>
-                                            <div class="col-sm-12">
-                                                <input type="password" class="form-control" id="" placeholder="confirm password">
-                                            </div>
-                                        </div>
-                                    </div>
+						    <div class="align-left col-sm-12">
+						    	<button  type="button" class="btn btn-success" id="edit-txt" >Edit</button>
+						    	<a class="btn btn-primary" data-toggle="modal" data-target="#change-pass">Change Password</a>						    	
+						    </div>
+                        </form>
+                           <!-- <form id="passwordChangeModal" >-->
+						    <div i class="modal fade" id="change-pass" role="dialog">
+							    <div class="modal-dialog modal-sm">
+							      <div class="modal-content">
+							        <div class="modal-header">
+							          <button type="button" class="close" data-dismiss="modal">&times;</button>
+							          <h4 class="modal-title">Change password</h4>
+                                      </div>
+                                      <form id="passwordChangeModal" >
+                                          <div class="modal-body">
+                                              
+							          	<div class="form-group clearfix">
+									      <label class="col-sm-12" for="oldPassword">Old password</label>
+									      <div class="col-sm-12">
+									        <input type="text" class="form-control" id="oldPassword" placeholder="Enter old password" name="oldPassword">
+									      </div>
+									    </div>
+
+									    <div class="form-group clearfix">
+									      <label class="col-sm-12" for="newPassword">New password</label>
+									      <div class="col-sm-12">
+									        <input type="text" class="form-control" id="newPassword" placeholder="Enter new password" name="newPassword">
+									      </div>
+									    </div>
+
+									    <div class="form-group clearfix">
+									      <label class="col-sm-12" for="confirmpassword">Confirm password</label>
+									      <div class="col-sm-12">
+									        <input type="text" class="form-control" id="confirmpassword" placeholder="confirm password" name="confirmpassword">
+									      </div>
+									    </div>
                                     
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-success" data-dismiss="modal">Save</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+							        </div>
+							        <div class="modal-footer">
+							          <button type="submit" class="btn btn-success" data-dismiss="modal" id="updatePassword" name="updatePassword">Save</button>
+							        </div>
+                                          </form>
+                                      
+							      </div>
+                                      </div>
+							  </div>
+                       
+					</div>				    
+                    
+									
+
+
+				</div>
+
+
+			</div>
+				
+		</div>
 		
 	</section>
+<!--$('#tbl_details').dataTable();
+    $(".edit-account .dis-txt").prop( "disabled", true );
+    $('#edit-txt').on('click', function () {
+
+        $(".edit-account input").prop( "disabled", false );
+        $(".edit-account input").toggleClass("dis-txt");	        
+
+        var btntxt = $("#edit-txt").text();
+
+        if (btntxt=='Edit') {
+            $('#edit-txt').text("Save");
+            $(".edit-account input").prop( "disabled", false );
+        }
+
+        else if (btntxt=='Save') {
+            $('#edit-txt').text("Edit");
+            $(".edit-account input").prop( "disabled", true );
+        }
+    });-->

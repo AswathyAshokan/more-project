@@ -15,6 +15,7 @@ func GetAllRegisteredCompanyDetails(ctx context.Context)(bool,map[string]Company
 		log.Println("No Db Connection!")
 	}
 	err = dB.Child("Company").Value(&companyDetails)
+	log.Println("company :",companyDetails)
 	if err != nil{
 		log.Fatal(err)
 		return false,companyDetails

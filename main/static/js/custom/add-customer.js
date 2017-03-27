@@ -1,12 +1,14 @@
 /*Created By Farsana*/
 //Below line is for adding active class to layout side menu..
+console.log(vm);
 document.getElementById("crm").className += " active";
 
 var companyTeamName = vm.CompanyTeamName;
 
 $().ready(function() {
     if(vm.PageType == "edit"){        
-           $().ready(function() {
+            
+            document.getElementById("customername").value = vm.CustomerName;
             document.getElementById("contactperson").value = vm.ContactPerson;
             document.getElementById("email").value = vm.Email;
             document.getElementById("phone").value = vm.Phone;
@@ -18,7 +20,7 @@ $().ready(function() {
     $("#addcustomerForm").validate({
         rules: {
           customername:{
-              required:"required",
+              required:true,
               remote:{
                   url: "/iscustomernameused/" + customername + "/" + vm.PageType + "/" + vm.CustomerName,
                   type: "post"

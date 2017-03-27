@@ -136,7 +136,6 @@ var cookieTokenForSuperAdmin = securecookie.New(securecookie.GenerateRandomKey(6
 
 
 func SetSessionForSuperAdmin(w http.ResponseWriter, sessionValueForSuperAdmin SessionForAdminValues){
-	log.Println("cp1")
 	valueOfSuperAdmin := make(map[string]string)
 	valueOfSuperAdmin["superAdminEmail"] = sessionValueForSuperAdmin.SuperAdminEmail
 	valueOfSuperAdmin["superAdminId"] = sessionValueForSuperAdmin.SuperAdminId
@@ -155,29 +154,23 @@ func SetSessionForSuperAdmin(w http.ResponseWriter, sessionValueForSuperAdmin Se
 
 
 func ReadSessionForSuperAdmin (w http.ResponseWriter, r *http.Request) (SessionForAdminValues) {
-	log.Println("cpr1")
 	sessionValues := SessionForAdminValues{}
 	if cookie, err := r.Cookie("sessionForSuperAdmin"); err == nil {
-		log.Println("cpr2")
 		value := make(map[string]string)
 		if err = cookieTokenForSuperAdmin.Decode("sessionForSuperAdmin", cookie.Value, &value); err == nil {
-			log.Println("cpr3")
 			sessionValues.SuperAdminFullName = value["superAdminName"]
 			sessionValues.SuperAdminId = value["superAdminId"]
 			sessionValues.SuperAdminEmail = value["superAdminEmail"]
 			log.Println("sessionValues")
 		} else {
-			log.Println("cpr4")
 			ClearSessionForSuperAdmin(w)
 				http.Redirect(w, r, "/login", 302)
 				log.Println("Access Denied! You are not logged in!")
 			}
 	} else {
-		log.Println("cpr5")
 		http.Redirect(w, r, "/login", 302)
 		log.Println("Access Denied! You are not logged in!")
 	}
-	log.Println("cpr6")
 	return sessionValues
 }
 

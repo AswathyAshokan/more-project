@@ -3273,3 +3273,18 @@ input.sprites-callender { background-position: right 4px top -20px; cursor: poin
 .edit-account { padding-right: 15px; padding-left: 15px; }
 .edit-account .control-label { text-align: left; max-width: 95px; }
 .edit-account .dis-txt { background: none; border: none; -webkit-box-shadow: none; box-shadow: none; margin-top: -3px; }
+
+/*==============================================================
+					    Shared-documents
+=================================================================*/
+@media (min-width: 768px) { .shared-doc .ad-width { width: 200px !important; } }
+@media (min-width: 768px) { .shared-doc .dwnl-btn { padding-right: 30px; } }
+.shared-doc .dwnl-btn i { -webkit-transition: all .7s ease; transition: all .7s ease; color: #747474; cursor: pointer; }
+.shared-doc .dwnl-btn i:hover { opacity: .4; }
+
+.datepic-top { float: left; padding-left: 15px; margin-top: -3px; }
+@media (min-width: 768px) { .datepic-top { padding-left: 50px; } }
+.datepic-top .callender-wrapper { -webkit-box-align: center; -webkit-align-items: center; -ms-flex-align: center; align-items: center; }
+.datepic-top .callender-wrapper input { max-width: 250px; padding-left: 10px; padding-right: 10px; height: 26px; border-radius: 0; background-position: right 4px top -24px; }
+@media (max-width: 767px) { .datepic-top .callender-wrapper input { max-width: 130px; } }
+.datepic-top .callender-wrapper span { padding: 0 10px; }
