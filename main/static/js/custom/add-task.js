@@ -44,7 +44,7 @@ $(function () {
             '<button id="btnAdd"   class="delete-decl" >+</button></div>';
             
         }
-        $("#TextBoxContainer").append(dynamicTextBox);
+        $("#TextBoxContainer").prepend(dynamicTextBox);
         document.getElementById("startTime").value = vm.StartTime;
         document.getElementById("endTime").value = vm.EndTime;
         document.getElementById("taskHead").innerHTML = "Edit Task";
@@ -67,7 +67,7 @@ $(function () {
     $("#btnAdd").bind("click", function () {
         var div = $("<div class='plus'/>");
         div.html(GetDynamicTextBox(""));
-        $("#TextBoxContainer").append(div);
+        $("#TextBoxContainer").prepend(div);
     });
     $("body").on("click", ".delete-decl", function () {
         $(this).closest("div").remove();
@@ -256,9 +256,14 @@ $().ready(function() {
                                       
                                       var values = "";
                                       var fitToWorkValue = document.getElementById("addFitToWorkValue").value;
-                                      fitToWorkFromDynamicTextBox.push(fitToWorkValue);
+                                      if(fitToWorkValue.length !=0)
+                                          {
+                                              fitToWorkFromDynamicTextBox.push(fitToWorkValue);
+                                          }
                                       $("input[name=DynamicTextBox]").each(function () {
-                                          fitToWorkFromDynamicTextBox.push($(this).val())
+                                          if($(this).val().length !=0){
+                                              fitToWorkFromDynamicTextBox.push($(this).val())
+                                          }
                                       });
                                       if (document.getElementById('jobName').length !=0)
                                           {

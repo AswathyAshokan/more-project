@@ -95,10 +95,9 @@
 
 							</div>
                         </div>
+                        <label for="fitToWork" class="form-group clearfix" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   Fit To Work Declaration</label>
                         <div class="form-group clearfix">
 							<div class="col-sm-6" id="TextBoxContainer">
-								<label for="fitToWork" class="">Fit To Work Declaration</label>
-                                
                                 <div class="plus" id="fitToWorkAdd" >
                                     <input class="form-control" id="addFitToWorkValue" type="text"  name="addFitToWorkValue"> 
                                     <img  id="btnAdd" src="/static/images/fitToWork.png" width="40" height="38" style= "float:right; margin-top:-3em; margin-right:-3em;"  />
@@ -166,7 +165,7 @@
                     loc[1]=results[0].geometry.location.lng();
                     var mapOptions = {
                         center: new google.maps.LatLng(loc[0], loc[1]),
-                        zoom: 15
+                        zoom: 17
                     };
                     map = new google.maps.Map(document.getElementById('map'),
                                   mapOptions);
@@ -174,6 +173,7 @@
                         position: new google.maps.LatLng(loc[0], loc[1]),
                         map: map,
                     });
+                    markers.push(marker);
                     document.getElementById('latitudeId').value =loc[0];
                     document.getElementById('longitudeId').value =loc[1];
                 } else {
@@ -200,7 +200,7 @@
         
             var mapOptions = {
                 center: new google.maps.LatLng("9.9312", "76.2673"),
-                zoom: 15
+                zoom: 17
             };
             map = new google.maps.Map(document.getElementById('map'),
                                   mapOptions);
@@ -269,6 +269,7 @@
             }
             marker.setPosition(place.geometry.location);
             marker.setVisible(true);
+            markers.push(marker);
             var address = '';
             if (place.address_components) {
                 address = [
