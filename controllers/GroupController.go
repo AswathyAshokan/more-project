@@ -166,17 +166,14 @@ func (c *GroupController) DeleteGroup() {
 
 //Edit the Group Details
 func (c *GroupController) EditGroup() {
-	log.Println("cp1")
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
 	groupId := c.Ctx.Input.Param(":groupId")
-	log.Println("team name",companyTeamName )
 	group := models.Group{}
 
 	if r.Method == "POST" {
-		log.Println("cp3")
 		m := make(map[string]models.GroupMembers)
 		members := models.GroupMembers{}
 		group.Info.GroupName = c.GetString("groupName")
@@ -189,8 +186,6 @@ func (c *GroupController) EditGroup() {
 		}
 		group.Members = m
 		dbStatus := group.UpdateGroupDetails(c.AppEngineCtx, groupId)
-		log.Println("cp4",dbStatus)
-
 		switch dbStatus {
 		case true:
 			//http.Redirect(w,r,"/group",301)
@@ -199,7 +194,6 @@ func (c *GroupController) EditGroup() {
 			w.Write([]byte("false"))
 		}
 	} else {
-		log.Println("cp2")
 		groupUser := models.Users{}
 		viewModel := viewmodels.EditGroupViewModel{}
 		GroupMembers, dbStatus := groupUser.GetUsersForDropdown(c.AppEngineCtx)

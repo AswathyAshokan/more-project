@@ -58,6 +58,15 @@ $(function(){
         return false;
     });
     
+/*List shared documents wheen click on eye icon*/  
+    $('#inviteuser-table tbody').on( 'click', '#list', function () {
+        window.location = '/shareddocuments';
+        return false;
+    });
+    
+    
+    
+    
 /*Delete user details when click on delete icon*/
     $('#inviteuser-table tbody').on( 'click', '#delete', function () {
         $("#myModal").modal();

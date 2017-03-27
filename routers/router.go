@@ -50,7 +50,11 @@ func init() {
 	beegae.Router("/customer-management/:customermanagementid/delete", &controllers.CustomerManagementController{}, "*:LoadDeleteCustomerManagement")
 
 	beegae.Router("/accounts",&controllers.AccountsController{},"*:SuperAdminsAccount")
-	beegae.Router("/accounts/edit",&controllers.AccountsController{},"*:EditSuperAdmin")
+	beegae.Router("/changePassword",&controllers.AccountsController{},"*:ChangeSuperAdminsPassword")
+
+
+	/*beegae.Router("/shareddocuments",&controllers.SharedDocumentController{},"*:SharedDocuments")*/
+
 
 
 	//Aswathy

@@ -24,8 +24,6 @@ func(m *Login)CheckLogin(ctx context.Context)(bool, Admins, Company, string){
 		log.Println(err)
 		return false, adminDetails, companyDetails, adminId
 	}
-	log.Println("Email: ", m.Email)
-	log.Println("Password: ", m.Password)
 	if err := dB.Child("Admins").OrderBy("Info/Email").EqualTo(m.Email).Value(&admins); err != nil {
 	    	log.Println(err)
 		return false, adminDetails, companyDetails, adminId
@@ -42,8 +40,6 @@ func(m *Login)CheckLogin(ctx context.Context)(bool, Admins, Company, string){
 		log.Println(err)
 		return false, adminDetails, companyDetails, adminId
 	}
-
-	log.Println("admin:",adminDetails.Info.Password)
 	err = bcrypt.CompareHashAndPassword(adminDetails.Info.Password, m.Password)
 	if err !=nil{
 		log.Println(err)
@@ -62,9 +58,7 @@ func(m *Login)CheckSuperAdminLogin(ctx context.Context)(bool,map[string]SuperAdm
 		log.Println(err)
 		return false,superAdmins
 	}
-	log.Println("entered email",m.Email)
 	err = dB.Child("SuperAdmins").OrderBy("Info/Email").EqualTo(m.Email).Value(&superAdmins)
-	log.Println("detailssss:",superAdmins)
 	if err != nil {
 		log.Println(err)
 		return false,superAdmins

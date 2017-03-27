@@ -134,7 +134,7 @@ func(m *Group) UpdateGroupDetails(ctx context.Context,groupKey string) (bool) {
 
 	groupStatusDetails := GroupSettings{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Group/"+groupKey+"/Settings/").Value(&groupStatusDetails)
+	err = db.Child("/Group/"+groupKey+"/Settings").Value(&groupStatusDetails)
 	if err != nil {
 		log.Fatal(err)
 		return  false
