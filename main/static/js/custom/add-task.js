@@ -16,6 +16,7 @@ var minUserForTaskEdit ="";
 var loginTypeForEdit ="";
 var i = 0;//function for editing
 
+//if group members is null ,group member array is initialised
 if(vm.GroupMembers == null) {
     vm.GroupMembers = [];
 }
@@ -118,7 +119,6 @@ $().ready(function() {
                     
                 }
             }
-            
             for (var i = 0; i < vm.GroupMembers.length; i++) {
                 if (vm.GroupMembers[i][0] == clickedOption) {
                     var memberLength = vm.GroupMembers[i].length;
@@ -132,11 +132,9 @@ $().ready(function() {
                     // Inserting group into group array for validating min. no. of users
                     selectedGroupArray.push(clickedOption);
                 }
-            }           
-            
+            }
             selectedUserArray = tempArray;
-            
-            
+        
         } else if (selectedUserArray.length > tempArray.length) { // for deselection
             for (var i = 0; i < selectedUserArray.length; i++) {
                 if (tempArray.indexOf(selectedUserArray[i]) == -1) {
@@ -144,7 +142,6 @@ $().ready(function() {
                     
                 }
             }
-            
             for (var i = 0; i < vm.GroupMembers[i].length; i++) {
                 if (vm.GroupMembers[i][0] == clickedOption) {
                     var memberLength = vm.GroupMembers[i].length;
@@ -154,21 +151,14 @@ $().ready(function() {
                             tempArray.splice(userIndex, 1);
                         }
                         $("#userOrGroup").val(tempArray);
-                    }           
-                    
-                    
+                    }
                     // Removing group from group array for validating min. no. of users
                     var deleteGroupKeyIndex = selectedGroupArray.indexOf(clickedOption);
                     selectedGroupArray.splice(deleteGroupKeyIndex, 1);
                 }
-            }            
-            
+            }
             selectedUserArray = tempArray;
-            
         }
-        
-        
-        
     });
      
        
@@ -217,7 +207,6 @@ $().ready(function() {
             
            
             var minUsers = $("#minUsers option:selected").val();
-            
             //getting map longitude and latitude
             mapLatitude = document.getElementById("latitudeId").value;// variable to store map latitude
             mapLongitude = document.getElementById("longitudeId").value;// variable to store map longitude

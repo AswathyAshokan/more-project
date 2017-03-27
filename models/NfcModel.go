@@ -6,6 +6,7 @@ import (
 	"golang.org/x/net/context"
 	"log"
 	"time"
+	"app/passporte/helpers"
 )
 //Structs for Adding NFC Tag
 type NFCInfo struct{
@@ -52,7 +53,8 @@ func (m *NFC)GetAllNFCDetails(ctx context.Context, companyTeamName string)map[st
 	if err!=nil{
 		log.Println("No DB Connection!")
 	}
-	err = dB.Child("NFCTag").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&nfcDetail)
+	nfcStatus :="Active"
+	err = dB.Child("NFCTag").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).OrderBy("Settings/Status").EqualTo(nfcStatus).Value(&nfcDetail)
 	if err!=nil{
 		log.Println("Retrieving value failed!")
 	}
@@ -100,13 +102,16 @@ func (m *NFC)UpdateNFCDetails(ctx context.Context, nfcId string)bool{
 
 //Delete existing NFC Tag
 func DeleteNFC(ctx  context.Context, key string)bool{
-	log.Println("model:DeleteNFC()")
-	log.Println(key)
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
 		log.Println("No DB Connection!")
 	}
-	err = dB.Child("/NFCTag/"+key).Remove()
+	nfcDetail :=NFC{}
+	nfcUpdate :=NFCSettings{}
+	err = dB.Child("/NFCTag/"+key).Value(&nfcDetail)
+	nfcUpdate.DateOfCreation =nfcDetail.Settings.DateOfCreation
+	nfcUpdate.Status =helpers.StatusInActive
+	err = dB.Child("/NFCTag/"+key+"/Settings").Update(&nfcUpdate)
 	if err!=nil{
 		log.Println("Removing Child Failed!")
 		return false
