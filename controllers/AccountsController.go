@@ -11,38 +11,6 @@ type AccountsController struct {
 	BaseController
 }
 
-/*
-func (c *AccountsController) SuperAdminsAccount() {
-	r := c.Ctx.Request
-	w := c.Ctx.ResponseWriter
-	superAdminViewModel := viewmodels.SuperAdmin{}
-	storedSession := ReadSessionForSuperAdmin(w,r)
-	log.Println("read session:",storedSession)
-	dbStatus,superAdminAllDetails := models.GetAllSuperAdminsDetails(c.AppEngineCtx)
-	switch dbStatus {
-	case true :dataValue := reflect.ValueOf(superAdminAllDetails)
-		for _, key := range dataValue.MapKeys() {
-			superAdminViewModel.FirstName = superAdminAllDetails[key.String()].Info.FirstName
-			superAdminViewModel.LastName = superAdminAllDetails[key.String()].Info.LastName
-			superAdminViewModel.Email = superAdminAllDetails[key.String()].Info.Email
-			superAdminViewModel.PhoneNo = superAdminAllDetails[key.String()].Info.PhoneNo
-
-
-		}
-
-
-		log.Println("true",superAdminViewModel)
-	case false:
-		 log.Println("false...",superAdminViewModel)
-
-	}
-	c.Data["vm"] = superAdminViewModel
-	c.Layout = "layout/layout-superadmin.html"
-	c.TplName = "template/accounts.html"
-}
-*/
-
-
 func (c *AccountsController) SuperAdminsAccount() {
 
 	r := c.Ctx.Request

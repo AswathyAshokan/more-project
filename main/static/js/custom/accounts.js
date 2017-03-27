@@ -55,6 +55,7 @@ $().ready(function() {
         });
     });
     
+  /* $(function() {*/
     
     $('#updatePassword').on('click', function() {
         alert("ffffff");
@@ -93,6 +94,7 @@ $().ready(function() {
                 return false;
             }
         });
-    });
+   /* });*/
+   });
      
 });

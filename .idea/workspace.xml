@@ -5,26 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/controllers/SharedController.go" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/main/views/template/shareddocument.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/AccountsController.go" afterPath="$PROJECT_DIR$/controllers/AccountsController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/ByPassController.go" afterPath="$PROJECT_DIR$/controllers/ByPassController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/Customer- ManagementController.go" afterPath="$PROJECT_DIR$/controllers/Customer- ManagementController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/GroupController.go" afterPath="$PROJECT_DIR$/controllers/GroupController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/SessionController.go" afterPath="$PROJECT_DIR$/controllers/SessionController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/css/style.css" afterPath="$PROJECT_DIR$/main/static/css/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/accounts.js" afterPath="$PROJECT_DIR$/main/static/js/custom/accounts.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-customer.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-customer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-invite-user.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-invite-user.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/invite-user-details.js" afterPath="$PROJECT_DIR$/main/static/js/custom/invite-user-details.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/accounts.html" afterPath="$PROJECT_DIR$/main/views/template/accounts.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/AccountModel.go" afterPath="$PROJECT_DIR$/models/AccountModel.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/CustomerManagementModel.go" afterPath="$PROJECT_DIR$/models/CustomerManagementModel.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/GroupModel.go" afterPath="$PROJECT_DIR$/models/GroupModel.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/LoginModel.go" afterPath="$PROJECT_DIR$/models/LoginModel.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routers/router.go" afterPath="$PROJECT_DIR$/routers/router.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viewmodels/AccountsViewModel.go" afterPath="$PROJECT_DIR$/viewmodels/AccountsViewModel.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -62,10 +46,20 @@
       <file leaf-file-name="AccountsController.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/AccountsController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1171">
-              <caret line="90" column="31" lean-forward="false" selection-start-line="90" selection-start-column="31" selection-end-line="90" selection-end-column="31" />
+            <state relative-caret-position="108">
+              <caret line="6" column="34" lean-forward="true" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TaskModel.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="17" column="44" lean-forward="true" selection-start-line="17" selection-start-column="44" selection-end-line="17" selection-end-column="44" />
               <folding>
-                <element signature="e#21#101#0" expanded="true" />
+                <element signature="e#44#174#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -675,13 +669,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00024" summary="15/02/2017   viewing">
-      <created>1487160837322</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1487160837322</updated>
-    </task>
     <task id="LOCAL-00025" summary="15/02/2017   viewing">
       <created>1487161433666</created>
       <option name="number" value="00025" />
@@ -1018,7 +1005,14 @@
       <option name="project" value="LOCAL" />
       <updated>1490159321350</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="27/03/2017  02:28: super admin details editing">
+      <created>1490605191421</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1490605191423</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1098,7 +1092,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="27/02/2017   Update database structure" />
     <MESSAGE value="29/02/2017   Update database structure" />
     <MESSAGE value="28/02/2017   Update database structure" />
     <MESSAGE value="01/02/2017  group fixed" />
@@ -1123,7 +1116,8 @@
     <MESSAGE value="20/03/2017  12:27: bud cleared in edit" />
     <MESSAGE value="20/03/2017  05:21: super admin layout" />
     <MESSAGE value="22/03/2017  10:38: super admin" />
-    <option name="LAST_COMMIT_MESSAGE" value="22/03/2017  10:38: super admin" />
+    <MESSAGE value="27/03/2017  02:28: super admin details editing" />
+    <option name="LAST_COMMIT_MESSAGE" value="27/03/2017  02:28: super admin details editing" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1363,14 +1357,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-768">
-          <caret line="137" column="0" lean-forward="true" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/controllers/GroupController.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="234">
@@ -1390,6 +1376,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1782">
           <caret line="99" column="0" lean-forward="false" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1397,6 +1384,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4843">
           <caret line="3289" column="57" lean-forward="false" selection-start-line="3289" selection-start-column="57" selection-end-line="3289" selection-end-column="57" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1506,13 +1494,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="17" column="44" lean-forward="true" selection-start-line="17" selection-start-column="44" selection-end-line="17" selection-end-column="44" />
+          <folding>
+            <element signature="e#44#174#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/controllers/AccountsController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1171">
-          <caret line="90" column="31" lean-forward="false" selection-start-line="90" selection-start-column="31" selection-end-line="90" selection-end-column="31" />
-          <folding>
-            <element signature="e#21#101#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="108">
+          <caret line="6" column="34" lean-forward="true" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
+          <folding />
         </state>
       </provider>
     </entry>
