@@ -60,6 +60,8 @@ $().ready(function() {
     $('#updatePassword').on('click', function() {
         alert("ffffff");
         $("#passwordChangeModal").validate({
+            framework: 'bootstrap',
+            excluded: ':disabled',
             rules: {
                 oldPassword:"required",
                 newPassword:"required",
@@ -73,6 +75,7 @@ $().ready(function() {
                 newPassword: "Please enter New Password",
                 confirmpassword:"Retype password is incorrect"
             },
+            
             submitHandler: function(){//to pass all data of a form serial
                 alert("ttttttttt");
                 var formData = $("#passwordChangeModal").serialize();

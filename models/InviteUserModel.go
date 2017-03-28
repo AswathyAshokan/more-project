@@ -36,7 +36,6 @@ type UserCompany struct{
 
 //Add new invite Users to database
 func(m *Invitation) AddInviteToDb(ctx context.Context, companyID string)bool {
-	log.Println("cp9")
 
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {

@@ -60,7 +60,7 @@ $(function(){
     
 /*List shared documents wheen click on eye icon*/  
     $('#inviteuser-table tbody').on( 'click', '#list', function () {
-        window.location = '/shareddocuments';
+        window.location ='/' + companyTeamName +'/shareddocuments/' +key ;
         return false;
     });
     
