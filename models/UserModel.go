@@ -3,22 +3,11 @@
 package models
 
 type Users struct {
-	Expiry			[]Expiry
 	Info			UserInfo
 	NextOfKin		NextOfKin
 	Settings		UserSettings
 	SocialNetworks		UserSocialNetworks
 	Tasks			UserTasks
-}
-
-type Expiry struct {
-	Alert			string
-	DateOfExpiry		string
-	Description		string
-	DocumentLocation	string
-	Mode			string
-	Notify			string
-	Type			string
 }
 
 type UserInfo struct {

@@ -168,9 +168,12 @@ func (c *CustomerController)  CustomerNameCheck(){
 	customerName := c.GetString("customername")
 	pageType := c.Ctx.Input.Param(":type")
 	oldName := c.Ctx.Input.Param(":oldName")
+
+	log.Println("iam therehhh",customerName,pageType,oldName)
 	if pageType == "edit" && strings.Compare(oldName, customerName) == 0 {
 		w.Write([]byte("true"))
 	} else {
+		log.Println("check custname")
 		dbStatus := models.IsCustomerNameUsed(c.AppEngineCtx,customerName)
 		switch dbStatus {
 		case true:

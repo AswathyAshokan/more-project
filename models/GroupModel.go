@@ -153,7 +153,6 @@ func(m *Group) UpdateGroupDetails(ctx context.Context,groupKey string) (bool) {
 
 //check group name is already exist
 func IsGroupNameUsed(ctx context.Context,groupName string)(bool) {
-	log.Println("groupName",groupName)
 	groupDetails := map[string]Group{}
 	db, err := GetFirebaseClient(ctx, "")
 	if err != nil {
@@ -164,7 +163,6 @@ func IsGroupNameUsed(ctx context.Context,groupName string)(bool) {
 		log.Fatal(err)
 	}
 	if len(groupDetails)==0{
-		log.Println("map null:",groupDetails)
 		return true
 	}else{
 		log.Println("map not null:",groupDetails)
