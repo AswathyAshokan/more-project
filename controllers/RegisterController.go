@@ -4,7 +4,6 @@ package controllers
 
 import (
 	"app/passporte/models"
-	"log"
 	"time"
 	"app/passporte/helpers"
 )
@@ -53,7 +52,6 @@ func (c *RegisterController) Register() {
 func (c *RegisterController)CheckEmail(){
 	w := c.Ctx.ResponseWriter
 	emailId := c.GetString("emailId")
-	log.Println("Checking isEmailUsed:",emailId)
 	isEmailUsed := models.CheckEmailIsUsed(c.AppEngineCtx, emailId)
 	if isEmailUsed == false {
 		w.Write([]byte("false"))

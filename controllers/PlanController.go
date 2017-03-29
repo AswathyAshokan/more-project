@@ -2,7 +2,6 @@ package controllers
 
 import (
 
-	"log"
 	"app/passporte/viewmodels"
 
 	"app/passporte/models"
@@ -49,9 +48,6 @@ func (c *PlanController) PlanUpdate() {
 		sessionValues.CompanyPlan = selectedCompanyPlan
 
 		SetSession(w, sessionValues)
-
-		newStoredSession,_ := SessionForPlan(w,r)
-		log.Println("New: ", newStoredSession)
 		slices := []interface{}{"true", sessionValues.CompanyTeamName}
 		sliceToClient, _ := json.Marshal(slices)
 		w.Write(sliceToClient)

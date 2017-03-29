@@ -23,7 +23,6 @@ func (c *CustomerManagementController) CustomerManagement() {
 	dbStatus,allCompanyData:= models.GetAllRegisteredCompanyDetails(c.AppEngineCtx)
 	switch dbStatus {
 	case true:
-		log.Println("cp12")
 		dataValue := reflect.ValueOf(allCompanyData)
 		var keySlice []string
 		for _, key := range dataValue.MapKeys() {
@@ -44,12 +43,11 @@ func (c *CustomerManagementController) CustomerManagement() {
 				adminStatus,adminDetails := models.GetAdminDetailsById(c.AppEngineCtx, adminKeyFromCompany)
 				switch adminStatus {
 				case true:
-					log.Println("cp13")
 					tempValueSlice = append(tempValueSlice,adminDetails.Info.FirstName)
 					tempValueSlice = append(tempValueSlice,adminDetails.Info.Email)
 					tempValueSlice = append(tempValueSlice,adminDetails.Info.PhoneNo)
 				case false:
-					log.Println("false")
+					log.Println(helpers.ServerConnectionError)
 				}
 				tempValueSlice = append(tempValueSlice, strconv.FormatInt(allCompanyData[k].Settings.DateOfCreation,10))
 				tempValueSlice = append(tempValueSlice,allCompanyData[k].Plan)

@@ -132,10 +132,10 @@ func CheckEmailIsUsed(ctx context.Context, emailId string) bool{
 		log.Fatal(err)
 	}
 	if len(companyAdmins)==0{
-		log.Println("map null:",companyAdmins)
+
 		return true
 	}else{
-		log.Println("map not null:",companyAdmins)
+
 		return false
 	}
 }

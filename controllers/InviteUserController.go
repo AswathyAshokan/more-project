@@ -28,7 +28,6 @@ func (c *InviteUserController) AddInvitation() {
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
-	log.Println("session VAlues :",storedSession)
 	inviteUser := models.Invitation{}
 	addViewModel := viewmodels.AddInviteUserViewModel{}
 	if r.Method == "POST" {
@@ -79,8 +78,6 @@ func (c *InviteUserController) AddInvitation() {
 			switch dbStatus {
 			case true:
 				var count = 0
-				companyPlan := storedSession.CompanyPlan
-				log.Println("companyPlan:", companyPlan)
 				var tempValueSlice []string
 				dataValue := reflect.ValueOf(info)
 				var uniqueEmailSlice []string

@@ -80,13 +80,6 @@ func(m *Login)CheckSuperAdminLogin(ctx context.Context)(bool,map[string]SuperAdm
 		}
 
 	}
-	/*err = bcrypt.CompareHashAndPassword(superAdminDetails.Info.Password, m.Password)
-	if err !=nil{
-		log.Println("password error")
-		log.Println(err)
-		return false, superAdmins
-
-	}*/
 	return true,superAdmins
 }
 

@@ -70,8 +70,6 @@ func (c *ContactUserController)DisplayContactDetails() {
 		var keySlice []string
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
-
-
 		}
 		for _, k := range keySlice {
 			var tempValueSlice []string

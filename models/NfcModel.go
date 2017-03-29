@@ -5,7 +5,6 @@ package models
 import (
 	"golang.org/x/net/context"
 	"log"
-	"time"
 	"app/passporte/helpers"
 )
 //Structs for Adding NFC Tag
@@ -37,10 +36,9 @@ func (m *NFC)AddNFC(ctx context.Context)bool{
 
 	_,err = dB.Child("NFCTag").Push(m)
 	if err!=nil{
-		log.Println("NFC Tag Insertion failed!")
+		log.Println(err)
 		return false
 	}else{
-		log.Println("NFC Tag Inserted Successfully!")
 		return true
 	}
 
@@ -56,16 +54,13 @@ func (m *NFC)GetAllNFCDetails(ctx context.Context, companyTeamName string)map[st
 	nfcStatus :="Active"
 	err = dB.Child("NFCTag").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).OrderBy("Settings/Status").EqualTo(nfcStatus).Value(&nfcDetail)
 	if err!=nil{
-		log.Println("Retrieving value failed!")
+		log.Println(err)
 	}
-	log.Println("NFC Details are:",nfcDetail)
-	log.Println("Time:",int32(time.Now().Unix()))
 	return nfcDetail
 }
 
 func (m *NFC)GetNFCDetailsById(ctx context.Context, nfcId string)(bool, NFC){
-	log.Println("GetNFCDetailsById()")
-	log.Println("NFC ID:",nfcId)
+
 	nfcDetails := NFC{}
 	dB, err := GetFirebaseClient(ctx,"")
 	if err !=nil{
@@ -73,11 +68,11 @@ func (m *NFC)GetNFCDetailsById(ctx context.Context, nfcId string)(bool, NFC){
 	}
 	err = dB.Child("/NFCTag/"+nfcId).Value(&nfcDetails)
 	if err!=nil{
-		log.Println("Retrieving value failed!")
+		log.Println(err)
 		return false, nfcDetails
 	}else{
-		log.Println("Retrieving value success!")
-		log.Println(nfcDetails)
+
+
 		return true, nfcDetails
 	}
 
@@ -91,10 +86,9 @@ func (m *NFC)UpdateNFCDetails(ctx context.Context, nfcId string)bool{
 	}
 	err = dB.Child("/NFCTag/"+nfcId+"/Info").Update(&m.Info)
 	if err!=nil{
-		log.Println("Update failed!",err)
+
 		return false
 	}else{
-		log.Println("Update Success!")
 		return true
 	}
 
@@ -113,10 +107,8 @@ func DeleteNFC(ctx  context.Context, key string)bool{
 	nfcUpdate.Status =helpers.StatusInActive
 	err = dB.Child("/NFCTag/"+key+"/Settings").Update(&nfcUpdate)
 	if err!=nil{
-		log.Println("Removing Child Failed!")
 		return false
 	}else{
-		log.Println("Child Removed Successfully!")
 		return true
 	}
 

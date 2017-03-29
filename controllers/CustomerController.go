@@ -57,7 +57,6 @@ func (c *CustomerController) CustomerDetails() {
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
-	log.Println("The userDetails stored in session:",storedSession)
 	customerViewModel := viewmodels.Customer{}
 	allCustomer,dbStatus:= models.GetAllCustomerDetails(c.AppEngineCtx,companyTeamName)
 	switch dbStatus {
@@ -130,7 +129,6 @@ func (c *CustomerController) EditCustomer() {
 		customer.Info.State = c.GetString("state")
 		customer.Info.CompanyTeamName = storedSession.CompanyTeamName
 		dbStatus := customer.UpdateCustomerDetailsById(c.AppEngineCtx, customerId)
-		log.Println("status",dbStatus)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -163,17 +161,13 @@ func (c *CustomerController) EditCustomer() {
 	}
 }
 func (c *CustomerController)  CustomerNameCheck(){
-	log.Println("iam there")
 	w := c.Ctx.ResponseWriter
 	customerName := c.GetString("customername")
 	pageType := c.Ctx.Input.Param(":type")
 	oldName := c.Ctx.Input.Param(":oldName")
-
-	log.Println("iam therehhh",customerName,pageType,oldName)
 	if pageType == "edit" && strings.Compare(oldName, customerName) == 0 {
 		w.Write([]byte("true"))
 	} else {
-		log.Println("check custname")
 		dbStatus := models.IsCustomerNameUsed(c.AppEngineCtx,customerName)
 		switch dbStatus {
 		case true:

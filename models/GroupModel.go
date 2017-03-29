@@ -165,7 +165,6 @@ func IsGroupNameUsed(ctx context.Context,groupName string)(bool) {
 	if len(groupDetails)==0{
 		return true
 	}else{
-		log.Println("map not null:",groupDetails)
 		return false
 	}
 

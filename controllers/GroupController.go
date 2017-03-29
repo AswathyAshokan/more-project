@@ -31,7 +31,6 @@ func (c *GroupController) AddGroup() {
 		group.Settings.DateOfCreation =(time.Now().UnixNano() / 1000000)
 		group.Settings.Status = helpers.StatusActive
 		tempGroupMembers := c.GetStrings("selectedUserNames")
-		log.Println("group details :",group)
 		group.Info.CompanyTeamName = storedSession.CompanyTeamName
 		tempMembersMap := make(map[string]models.GroupMembers)
 		for i := 0; i < len(tempGroupId); i++ {
@@ -83,7 +82,6 @@ func (c *GroupController) GroupDetails() {
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
-	log.Println("The userDetails stored in session:",storedSession)
 	allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx,companyTeamName)
 	switch dbStatus {
 	case true:
@@ -217,7 +215,6 @@ func (c *GroupController) EditGroup() {
 			}
 
 			//Selecting Data which is to be edited...
-			log.Println("group key11 :",groupId)
 			groupDetails, dbStatus := group.GetGroupDetailsById(c.AppEngineCtx, groupId)
 			switch dbStatus {
 			case true:
@@ -249,10 +246,6 @@ func (c *GroupController)  GroupNameCheck(){
 	groupName := c.GetString("groupName")
 	pageType := c.Ctx.Input.Param(":type")
 	oldName := c.Ctx.Input.Param(":oldName")
-	log.Println("groupName:",groupName)
-	log.Println("pageType:",pageType)
-	log.Println("oldName:",oldName)
-
 	if pageType == "edit" && strings.Compare(oldName, groupName) == 0 {
 		w.Write([]byte("true"))
 	} else {

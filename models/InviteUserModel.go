@@ -51,7 +51,6 @@ func(m *Invitation) AddInviteToDb(ctx context.Context, companyID string)bool {
 	err = db.Child("Users").OrderBy("Info/Email").EqualTo(m.Info.Email).Value(&user)
 	var userID string
 	for key := range user{
-		log.Println("KEY>>>",key,user[key])
 		userID = key
 	}
 	companyUsers := CompanyUsers{}
@@ -165,10 +164,8 @@ func GetCompanyIdByCompanyTeamName(ctx context.Context, companyTeamName string)s
 	if err :=  dB.Child("Company").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&company); err != nil {
 		log.Println(err)
 	}
-	log.Println("HERE!!!!:",company)
 	var companyID string
 	for key := range company{
-		log.Println("KEYSSSSSSSS",key,company[key])
 		companyID = key
 	}
 	return companyID
@@ -190,8 +187,6 @@ func(m *Invitation) GetUsersStatus(ctx context.Context, companyTeamName string)(
 	return  value,true
 }
 func (m *Invitation)IsEmailIdUnique(ctx context.Context,emailIdCheck string)(bool) {
-	log.Println("cp5")
-
 	invitationDetails := map[string]Invitation{}
 	dB, err := GetFirebaseClient(ctx, "")
 	if err != nil {
@@ -201,12 +196,8 @@ func (m *Invitation)IsEmailIdUnique(ctx context.Context,emailIdCheck string)(boo
 		log.Fatal(err)
 	}
 	if len(invitationDetails)==0{
-		log.Println("cp6")
-
-		log.Println("map null:",invitationDetails)
 		return true
 	}else{
-		log.Println("map not null:",invitationDetails)
 		return false
 	}
 

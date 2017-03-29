@@ -124,10 +124,8 @@ func CheckJobNameIsUsed(ctx context.Context, jobName string)bool{
 		log.Println("Error:",err)
 	}
 	if len(job)==0{
-		log.Println("map null:",job)
 		return true
 	}else{
-		log.Println("map not null:",job)
 		return false
 	}
 }
@@ -143,10 +141,8 @@ func CheckJobNumberIsUsed(ctx context.Context, jobNumber string)bool{
 		log.Println("Error:",err)
 	}
 	if len(job)==0{
-		log.Println("map null:",job)
 		return true
 	}else{
-		log.Println("map not null:",job)
 		return false
 	}
 }

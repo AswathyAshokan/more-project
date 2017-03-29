@@ -6,7 +6,6 @@ package controllers
 import (
 	"app/passporte/models"
 	"app/passporte/viewmodels"
-	"log"
 	"app/passporte/helpers"
 	"time"
 	"reflect"
@@ -24,11 +23,8 @@ func (c *NfcController) NFCDetails(){
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
 	viewModel := viewmodels.NfcViewModel{}
-	log.Println("The userDetails stored in session:",storedSession)
 	nfcDetails := models.NFC{}
 	allNfcDetails := nfcDetails.GetAllNFCDetails(c.AppEngineCtx, storedSession.CompanyTeamName)
-	log.Println("NFC details:", allNfcDetails)
-
 	dataValue := reflect.ValueOf(allNfcDetails)
 
 	var keySlice []string
@@ -59,7 +55,6 @@ func (c *NfcController)AddNFC(){
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
-	log.Println(companyTeamName)
 	storedSession := ReadSession(w, r, companyTeamName)
 	viewModel := viewmodels.NfcViewModel{}
 	if r.Method=="POST" {
@@ -72,7 +67,6 @@ func (c *NfcController)AddNFC(){
 		nfc.Info.NFCNumber = c.GetString("nfcNumber")
 		nfc.Settings.Status  = helpers.StatusActive
 		nfc.Settings.DateOfCreation = time.Now().Unix()
-		log.Println("NFC Details:", nfc)
 		dbStatus := nfc.AddNFC(c.AppEngineCtx)
 		switch dbStatus{
 		case false:
@@ -114,7 +108,6 @@ func (c *NfcController)EditNFC(){
 		nfcId := c.Ctx.Input.Param(":nfcId")
 		viewModel := viewmodels.EditNfcViewModel{}
 		nfcDetails := models.NFC{}
-		log.Println("NFC Id: ", nfcId)
 		editStatus, nfcDetails := nfcDetails.GetNFCDetailsById(c.AppEngineCtx, nfcId)
 		switch editStatus{
 		case true:
@@ -171,7 +164,6 @@ func (c *NfcController)DeleteNFC(){
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	ReadSession(w, r, companyTeamName)
-	log.Println("Controller:DeleteNFC()")
 	key := c.GetString("Key")
 	deleteStatus := models.DeleteNFC(c.AppEngineCtx, key)
 	if deleteStatus == false {
