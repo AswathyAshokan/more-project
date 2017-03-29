@@ -58,46 +58,51 @@ $().ready(function() {
   /* $(function() {*/
     
     $('#updatePassword').on('click', function() {
-        alert("ffffff");
         $("#passwordChangeModal").validate({
-            framework: 'bootstrap',
-            excluded: ':disabled',
             rules: {
-                oldPassword:"required",
                 newPassword:"required",
                 confirmpassword:{
-                    require :"true",
-                    equalTo : "#oldPassword"
-                } 
+                    equalTo : "#newPassword"
+                } ,
+                oldPassword: {
+                required: true,
+                remote:{
+                    url: "/isOldPasswordCorrect/" + oldPassword,
+                    type: "post"
+                }
+            },
             },
             messages: {
-                oldPassword:"Please enter Old Password ",
+                 oldPassword:{
+                     required: "Please enter Old Password ",
+                     remote: "The password entered is not correct !"
+                 },
                 newPassword: "Please enter New Password",
                 confirmpassword:"Retype password is incorrect"
             },
-            
-            submitHandler: function(){//to pass all data of a form serial
-                alert("ttttttttt");
-                var formData = $("#passwordChangeModal").serialize();
-                $.ajax({
-                    url:'/changePassword',
-                    type:'post',
-                    datatype: 'json',
-                    data: formData,
-                    success : function(response){
-                        if(response == "true"){
-                            window.location = '/accounts';
-                        } else {
-                            alert("password incorrect");
-                        }
-                    },
-                    error: function (request,status, error) {
+           //$("#passwordChangeModal").submit();
+       // $('#passwordChangeModal').modal('hide')
+        submitHandler: function(){//to pass all data of a form serial
+            alert("ttttttttt");
+            //$('#passwordChangeModal').hide(); 
+            var formData = $("#passwordChangeModal").serialize();
+            $.ajax({
+                url:'/changePassword',
+                type:'post',
+                datatype: 'json',
+                data: formData,
+                success : function(response){
+                    if(response == "true"){
+                        window.location = '/accounts';
+                    } else {
+                        alert("password incorrect");
                     }
-                });
-                return false;
-            }
-        });
-   /* });*/
-   });
-     
+                },
+                error: function (request,status, error) {
+                }
+            });
+            return false;
+        }
+    });
+});
 });

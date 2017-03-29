@@ -4,7 +4,7 @@ import (
 	"log"
 	"golang.org/x/net/context"
 
-
+	"golang.org/x/crypto/bcrypt"
 )
 
 func GetAllSuperAdminsDetails(ctx context.Context)(bool,map[string]SuperAdmins) {
@@ -87,6 +87,12 @@ func(m *SuperAdmins) EditSuperAdminPassword(ctx context.Context ,superAdminId st
 	m.Info.PhoneNo = superAdminInfo.Info.PhoneNo
 	m.Info.Email = superAdminInfo.Info.Email
 	log.Println("cp12")
+	hashedPassword, err := bcrypt.GenerateFromPassword(m.Info.Password, bcrypt.DefaultCost)
+	if err != nil {
+		log.Println(err)
+		return false
+	}
+	m.Info.Password = hashedPassword
 	err = dB.Child("/SuperAdmins/"+superAdminId).Update(&m)
 	if err != nil {
 		log.Println("cp13")
@@ -98,7 +104,7 @@ func(m *SuperAdmins) EditSuperAdminPassword(ctx context.Context ,superAdminId st
 }
 
 
-func IsEnteredPasswordCorrect(ctx context.Context ,superAdminId string,enteredOldPassword string) (bool){
+func IsEnteredPasswordCorrect(ctx context.Context ,superAdminId string,enteredOldPassword []byte) (bool){
 	log.Println("cp3")
 	superAdminInfo := SuperAdmins{}
 	dB,err :=GetFirebaseClient(ctx,"")
@@ -112,13 +118,13 @@ func IsEnteredPasswordCorrect(ctx context.Context ,superAdminId string,enteredOl
 		log.Fatal(err)
 		return false
 	}
-	/*err = bcrypt.CompareHashAndPassword(superAdminInfo.Info.Password, enteredOldPassword)
+	err = bcrypt.CompareHashAndPassword(superAdminInfo.Info.Password, enteredOldPassword)
 	if err !=nil{
 		log.Println("cp6")
 		log.Println(err)
-		return false
-	}*/
+		return true
+	}
 	log.Println("cp7")
-	return true
+	return false
 
 }

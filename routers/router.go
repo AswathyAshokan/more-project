@@ -51,6 +51,7 @@ func init() {
 
 	beegae.Router("/accounts",&controllers.AccountsController{},"*:SuperAdminsAccount")
 	beegae.Router("/changePassword",&controllers.AccountsController{},"*:ChangeSuperAdminsPassword")
+	beegae.Router("/isOldPasswordCorrect/:oldPassword", &controllers.AccountsController{},"*:OldPasswordCheck")
 
 
 	beegae.Router("/:companyTeamName/shareddocuments/:inviteuserid",&controllers.SharedDocumentController{},"*:SharedDocuments")
