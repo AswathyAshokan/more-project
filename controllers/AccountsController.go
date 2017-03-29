@@ -5,6 +5,7 @@ import (
 	"app/passporte/models"
 	"reflect"
 	"app/passporte/viewmodels"
+	"app/passporte/helpers"
 )
 
 type AccountsController struct {
@@ -44,7 +45,7 @@ func (c *AccountsController) SuperAdminsAccount() {
 
 			}
 		case false:
-			log.Println("false...",superAdminAllDetails)
+			log.Println(helpers.ServerConnectionError)
 
 		}
 		c.Data["vm"] = superAdminViewModel
