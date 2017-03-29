@@ -57,10 +57,8 @@ func(m *SuperAdmins) EditSuperAdminDetails(ctx context.Context ,superAdminId str
 
 
 func(m *SuperAdmins) EditSuperAdminPassword(ctx context.Context ,superAdminId string) (bool){
-	log.Println("cp9")
 	superAdminsSettings := SuperAdminSettings{}
 	superAdminInfo := SuperAdmins{}
-	log.Println("from model :",m)
 	dB,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println(err)
@@ -68,7 +66,6 @@ func(m *SuperAdmins) EditSuperAdminPassword(ctx context.Context ,superAdminId st
 
 	err = dB.Child("SuperAdmins/"+superAdminId+"/Settings").Value(&superAdminsSettings)
 	if err != nil{
-		log.Println("cp10")
 		log.Fatal(err)
 		return false
 	}
@@ -76,7 +73,6 @@ func(m *SuperAdmins) EditSuperAdminPassword(ctx context.Context ,superAdminId st
 
 	err = dB.Child("SuperAdmins/"+superAdminId).Value(&superAdminInfo)
 	if err != nil{
-		log.Println("cp11")
 		log.Fatal(err)
 		return false
 	}
@@ -86,7 +82,6 @@ func(m *SuperAdmins) EditSuperAdminPassword(ctx context.Context ,superAdminId st
 	m.Info.FirstName = superAdminInfo.Info.FirstName
 	m.Info.PhoneNo = superAdminInfo.Info.PhoneNo
 	m.Info.Email = superAdminInfo.Info.Email
-	log.Println("cp12")
 	hashedPassword, err := bcrypt.GenerateFromPassword(m.Info.Password, bcrypt.DefaultCost)
 	if err != nil {
 		log.Println(err)
@@ -95,36 +90,29 @@ func(m *SuperAdmins) EditSuperAdminPassword(ctx context.Context ,superAdminId st
 	m.Info.Password = hashedPassword
 	err = dB.Child("/SuperAdmins/"+superAdminId).Update(&m)
 	if err != nil {
-		log.Println("cp13")
 		log.Println(err)
 		return false
 	}
-	log.Println("cp14")
 	return  true
 }
 
 
 func IsEnteredPasswordCorrect(ctx context.Context ,superAdminId string,enteredOldPassword []byte) (bool){
-	log.Println("cp3")
 	superAdminInfo := SuperAdmins{}
 	dB,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
-		log.Println("cp4")
 		log.Println(err)
 	}
 	err = dB.Child("SuperAdmins/"+superAdminId).Value(&superAdminInfo)
 	if err != nil{
-		log.Println("cp5")
 		log.Fatal(err)
 		return false
 	}
 	err = bcrypt.CompareHashAndPassword(superAdminInfo.Info.Password, enteredOldPassword)
 	if err !=nil{
-		log.Println("cp6")
 		log.Println(err)
 		return false
 	}
-	log.Println("cp7")
 	return true
 
 }

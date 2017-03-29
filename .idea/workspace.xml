@@ -4,8 +4,6 @@
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/AccountsController.go" afterPath="$PROJECT_DIR$/controllers/AccountsController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/SharedDocumentController.go" afterPath="$PROJECT_DIR$/controllers/SharedDocumentController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/accounts.js" afterPath="$PROJECT_DIR$/main/static/js/custom/accounts.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/AccountModel.go" afterPath="$PROJECT_DIR$/models/AccountModel.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,9 +22,11 @@
       <file leaf-file-name="AccountsController.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/AccountsController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="406">
-              <caret line="86" column="47" lean-forward="true" selection-start-line="86" selection-start-column="47" selection-end-line="86" selection-end-column="47" />
-              <folding />
+            <state relative-caret-position="144">
+              <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+              <folding>
+                <element signature="e#21#101#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -34,8 +34,8 @@
       <file leaf-file-name="AccountModel.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/AccountModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="474">
-              <caret line="128" column="0" lean-forward="true" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
+            <state relative-caret-position="108">
+              <caret line="6" column="36" lean-forward="true" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -44,8 +44,8 @@
       <file leaf-file-name="JobController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/JobController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
-              <caret line="131" column="25" lean-forward="true" selection-start-line="131" selection-start-column="25" selection-end-line="131" selection-end-column="25" />
+            <state relative-caret-position="-768">
+              <caret line="160" column="55" lean-forward="false" selection-start-line="160" selection-start-column="55" selection-end-line="160" selection-end-column="55" />
               <folding />
             </state>
           </provider>
@@ -76,6 +76,7 @@
       <find>companyId</find>
       <find>GroupMemberName</find>
       <find>helpers</find>
+      <find>log</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -145,8 +146,8 @@
         <option value="$PROJECT_DIR$/controllers/RegisterController.go" />
         <option value="$PROJECT_DIR$/routers/router.go" />
         <option value="$PROJECT_DIR$/controllers/SharedDocumentController.go" />
-        <option value="$PROJECT_DIR$/models/AccountModel.go" />
         <option value="$PROJECT_DIR$/controllers/AccountsController.go" />
+        <option value="$PROJECT_DIR$/models/AccountModel.go" />
       </list>
     </option>
   </component>
@@ -689,13 +690,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00025" summary="15/02/2017   viewing">
-      <created>1487161433666</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1487161433666</updated>
-    </task>
     <task id="LOCAL-00026" summary="15/02/2017   viewing">
       <created>1487221978876</created>
       <option name="number" value="00026" />
@@ -1032,7 +1026,14 @@
       <option name="project" value="LOCAL" />
       <updated>1490760031246</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="20/02/2017  row expansion">
+      <created>1490765434971</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1490765434971</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1392,7 +1393,7 @@
         <state relative-caret-position="2430">
           <caret line="144" column="136" lean-forward="false" selection-start-line="144" selection-start-column="88" selection-end-line="144" selection-end-column="136" />
           <folding>
-            <element signature="e#44#174#0" expanded="true" />
+            <element signature="e#44#174#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1452,7 +1453,7 @@
         <state relative-caret-position="216">
           <caret line="25" column="50" lean-forward="true" selection-start-line="25" selection-start-column="50" selection-end-line="25" selection-end-column="50" />
           <folding>
-            <element signature="e#56#137#0" expanded="true" />
+            <element signature="e#56#137#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1488,7 +1489,7 @@
         <state relative-caret-position="200">
           <caret line="12" column="3" lean-forward="false" selection-start-line="10" selection-start-column="2" selection-end-line="12" selection-end-column="3" />
           <folding>
-            <element signature="e#22#81#0" expanded="true" />
+            <element signature="e#22#81#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1503,25 +1504,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/JobController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="131" column="25" lean-forward="true" selection-start-line="131" selection-start-column="25" selection-end-line="131" selection-end-column="25" />
+        <state relative-caret-position="-768">
+          <caret line="160" column="55" lean-forward="false" selection-start-line="160" selection-start-column="55" selection-end-line="160" selection-end-column="55" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/AccountModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="474">
-          <caret line="128" column="0" lean-forward="true" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
+        <state relative-caret-position="108">
+          <caret line="6" column="36" lean-forward="true" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/AccountsController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="86" column="47" lean-forward="true" selection-start-line="86" selection-start-column="47" selection-end-line="86" selection-end-column="47" />
-          <folding />
+        <state relative-caret-position="144">
+          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding>
+            <element signature="e#21#101#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

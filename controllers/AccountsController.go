@@ -23,7 +23,6 @@ func (c *AccountsController) SuperAdminsAccount() {
 		superAdmin.Info.FirstName = c.GetString("superAdminName")
 		superAdmin.Info.Email = c.GetString("superadminEmail")
 		superAdmin.Info.PhoneNo = c.GetString("superAdminPhone")
-		log.Println("from controller :", c.GetString("superAdminName"))
 		dbStatus := superAdmin.EditSuperAdminDetails(c.AppEngineCtx, superAdminId)
 
 		switch dbStatus {
@@ -44,7 +43,6 @@ func (c *AccountsController) SuperAdminsAccount() {
 
 
 			}
-			log.Println("true",superAdminAllDetails)
 		case false:
 			log.Println("false...",superAdminAllDetails)
 
@@ -56,7 +54,6 @@ func (c *AccountsController) SuperAdminsAccount() {
 }
 
 func (c *AccountsController) ChangeSuperAdminsPassword() {
-	log.Println("inside change password")
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	storedSession := ReadSessionForSuperAdmin(w,r)
@@ -74,13 +71,11 @@ func (c *AccountsController) ChangeSuperAdminsPassword() {
 	}
 }
 func (c *AccountsController) OldPasswordCheck(){
-	log.Println("inside oldpssword check")
 	w := c.Ctx.ResponseWriter
 	r := c.Ctx.Request
 	storedSession := ReadSessionForSuperAdmin(w,r)
 	superAdminId := storedSession.SuperAdminId
 	enteredOldPassword := (c.GetString("oldPassword"))
-	//enteredOldPassword := (c.GetString("oldPassword"))
 	dbStatus := models.IsEnteredPasswordCorrect(c.AppEngineCtx,superAdminId,[] byte(enteredOldPassword) )
 		switch dbStatus {
 		case true:
