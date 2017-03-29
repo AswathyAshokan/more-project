@@ -56,42 +56,30 @@ func (c *AccountsController) SuperAdminsAccount() {
 }
 
 func (c *AccountsController) ChangeSuperAdminsPassword() {
-	log.Println("cp13232222")
+	log.Println("inside change password")
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	storedSession := ReadSessionForSuperAdmin(w,r)
 	superAdmin := models.SuperAdmins{}
 	if r.Method == "POST" {
-		log.Println("cp2")
 		superAdminId := storedSession.SuperAdminId
-		enteredOldPassword := (c.GetString("oldPassword"))
-		passwordStatus := models.IsEnteredPasswordCorrect(c.AppEngineCtx, superAdminId,[]byte(enteredOldPassword))
-		switch passwordStatus{
-		case true :
-			log.Println("cp8")
-			superAdmin.Info.Password= []byte(c.GetString("confirmpassword"))
-			dbStatus := superAdmin.EditSuperAdminPassword(c.AppEngineCtx, superAdminId)
-			switch dbStatus {
-
-			case true:
-				log.Println("cp15")
-				w.Write([]byte("true"))
-			case false:
-				log.Println("cp16")
-				w.Write([]byte("false"))
-			}
-		case false :
-			log.Println("cp17")
-
+		superAdmin.Info.Password= []byte(c.GetString("confirmpassword"))
+		dbStatus := superAdmin.EditSuperAdminPassword(c.AppEngineCtx, superAdminId)
+		switch dbStatus {
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
 		}
 	}
 }
-func (c *AccountsController)  OldPasswordCheck(){
+func (c *AccountsController) OldPasswordCheck(){
+	log.Println("inside oldpssword check")
 	w := c.Ctx.ResponseWriter
 	r := c.Ctx.Request
 	storedSession := ReadSessionForSuperAdmin(w,r)
 	superAdminId := storedSession.SuperAdminId
-	enteredOldPassword :=c.Ctx.Input.Param("oldPassword")
+	enteredOldPassword := (c.GetString("oldPassword"))
 	//enteredOldPassword := (c.GetString("oldPassword"))
 	dbStatus := models.IsEnteredPasswordCorrect(c.AppEngineCtx,superAdminId,[] byte(enteredOldPassword) )
 		switch dbStatus {

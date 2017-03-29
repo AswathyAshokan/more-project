@@ -122,9 +122,9 @@ func IsEnteredPasswordCorrect(ctx context.Context ,superAdminId string,enteredOl
 	if err !=nil{
 		log.Println("cp6")
 		log.Println(err)
-		return true
+		return false
 	}
 	log.Println("cp7")
-	return false
+	return true
 
 }

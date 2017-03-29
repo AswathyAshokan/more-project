@@ -75,7 +75,7 @@ $().ready(function() {
             messages: {
                  oldPassword:{
                      required: "Please enter Old Password ",
-                     remote: "The password entered is not correct !"
+                     remote: "The password entered is not correct !!!"
                  },
                 newPassword: "Please enter New Password",
                 confirmpassword:"Retype password is incorrect"
