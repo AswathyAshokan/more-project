@@ -32,11 +32,8 @@ $().ready(function() {
               required:true,
               email:true
           },
-          phone:{
-              required: true,
-              minlength:10,
-              maxlength:10
-          },
+          phone:"required",
+          
           address:"required",
           state: "required",
           zipcode: "required"
@@ -48,8 +45,7 @@ $().ready(function() {
                 },
             contactperson:"Please enter Contact Person",
             phone: {
-                required:"Please enter Phone Number",
-                minlength:"Enter 10 digit"
+                required:"Please enter Phone Number"
             },
             address:"Please enter your Address",
             state: "Please enter your State",
