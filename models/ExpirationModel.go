@@ -13,7 +13,7 @@ type ExpirationInfo struct {
 	AlertType 		string
 	Description 		string
 	DocumentId		string
-	ExpirationDate		string
+	ExpirationDate		int64
 	Mode  			string
 	NotificationType	string
 	Type 			string
@@ -22,6 +22,6 @@ type ExpirationInfo struct {
 
 
 type ExpirationSettings struct {
-	DateOfCreation	string
+	DateOfCreation	int64
 	Status 		string
 }

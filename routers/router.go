@@ -54,7 +54,7 @@ func init() {
 	beegae.Router("/isOldPasswordCorrect/:oldPassword", &controllers.AccountsController{},"*:OldPasswordCheck")
 
 
-	beegae.Router("/:companyTeamName/shareddocuments/:inviteuserid",&controllers.SharedDocumentController{},"*:SharedDocuments")
+	beegae.Router("/:companyTeamName/shareddocuments/:inviteuserid",&controllers.SharedDocumentController{},"*:LoadSharedDocuments")
 
 
 

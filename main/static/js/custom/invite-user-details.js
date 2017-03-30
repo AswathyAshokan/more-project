@@ -1,6 +1,7 @@
 /*Created By Farsana*/
 
 //Below line is for adding active class to layout side menu..
+console.log(vm);
 document.getElementById("user").className += " active";
 
 var companyTeamName = vm.CompanyTeamName;

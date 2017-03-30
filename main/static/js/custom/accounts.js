@@ -54,9 +54,7 @@ $().ready(function() {
             }
         });
     });
-    
-  /* $(function() {*/
-    
+
     $('#updatePassword').on('click', function() {
         $("#passwordChangeModal").validate({
             rules: {
@@ -80,29 +78,27 @@ $().ready(function() {
                 newPassword: "Please enter New Password",
                 confirmpassword:"Retype password is incorrect"
             },
-           //$("#passwordChangeModal").submit();
-       // $('#passwordChangeModal').modal('hide')
-        submitHandler: function(){//to pass all data of a form serial
-            alert("ttttttttt");
-            //$('#passwordChangeModal').hide(); 
-            var formData = $("#passwordChangeModal").serialize();
-            $.ajax({
-                url:'/changePassword',
-                type:'post',
-                datatype: 'json',
-                data: formData,
-                success : function(response){
-                    if(response == "true"){
-                        window.location = '/accounts';
-                    } else {
-                        alert("password incorrect");
+            submitHandler: function(){//to pass all data of a form serial
+                alert("ttttttttt");
+                //$('#passwordChangeModal').hide(); 
+                var formData = $("#passwordChangeModal").serialize();
+                $.ajax({
+                    url:'/changePassword',
+                    type:'post',
+                    datatype: 'json',
+                    data: formData,
+                    success : function(response){
+                        if(response == "true"){
+                            window.location = '/accounts';
+                        } else {
+                            alert("password incorrect");
+                        }
+                    },
+                    error: function (request,status, error) {
                     }
-                },
-                error: function (request,status, error) {
-                }
-            });
-            return false;
-        }
+                });
+                return false;
+            }
+        });
     });
-});
 });
