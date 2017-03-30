@@ -1,5 +1,4 @@
-console.log(vm);
-alert("haiii");
+
 
 $(function(){ 
     var mainArray = [];   
@@ -23,12 +22,17 @@ $(function(){
                 "width": "10%",
                 "data": null,
                 "defaultContent": '<span class="dwnl-btn"><i class="fa fa-download fa-lg" aria-hidden="true"></i></span>'
-            }]
+            }],
+            "searching": false,
+            "paging": true, 
+            "info": false,
+            "lengthChange":false
         });
+        $('#tbl_details_length').after($('.datepic-top'));
     }
-    
     if(vm.Values != null) {
         createDataArray(vm.Values, vm.Keys);
     }
     dataTableManipulate();
 });
+

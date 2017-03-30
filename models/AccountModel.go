@@ -3,7 +3,6 @@ package models
 import (
 	"log"
 	"golang.org/x/net/context"
-
 	"golang.org/x/crypto/bcrypt"
 )
 
