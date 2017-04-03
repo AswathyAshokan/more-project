@@ -13,6 +13,12 @@ func init() {
 	beegae.Router("/", &controllers.LoginController{}, "*:Root")
 	beegae.Router("/login", &controllers.LoginController{}, "*:Login")
 	beegae.Router("/register", &controllers.RegisterController{}, "*:Register")
+	beegae.Router("/:companyTeamName/editProfile", &controllers.RegisterController{}, "*:EditProfile")
+	beegae.Router("/:companyTeamName/changePassword",&controllers.RegisterController{},"*:ChangeAdminsPassword")
+	beegae.Router("/:companyTeamName/isOldAdminPasswordCorrect/:oldPassword", &controllers.RegisterController{},"*:OldAdminPasswordCheck")
+
+
+
 	beegae.Router("/isEmailUsed/:emailId",&controllers.RegisterController{},"*:CheckEmail")
 	beegae.Router("/:companyTeamName/nfc", &controllers.NfcController{},"*:NFCDetails")
 	beegae.Router("/:companyTeamName/nfc/add",&controllers.NfcController{},"*:AddNFC")

@@ -117,6 +117,7 @@ $(function(){
     function dataTableManipulate(dataArray){
         table =  $("#task-details").DataTable({
             data: dataArray,
+            "paging": true,
             "columnDefs": [
                 { "width": "20%", "targets": 0 },
                 { "width": "20%", "targets": 1 },

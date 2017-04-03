@@ -79,7 +79,6 @@ $().ready(function() {
                 confirmpassword:"Retype password is incorrect"
             },
             submitHandler: function(){//to pass all data of a form serial
-                alert("ttttttttt");
                 //$('#passwordChangeModal').hide(); 
                 var formData = $("#passwordChangeModal").serialize();
                 $.ajax({

@@ -100,7 +100,6 @@ func (m *Admins)CreateAdminAndCompany(ctx context.Context, company Company) bool
 	adminMap := make(map[string] CompanyAdmin)
 	adminMap[adminUniqueID] = companyAdmin
 	company.Admins = adminMap
-
 	companyData, err := dB.Child("Company").Push(company)
 	if err != nil {
 		log.Println(err)
@@ -108,12 +107,10 @@ func (m *Admins)CreateAdminAndCompany(ctx context.Context, company Company) bool
 	}
 	companyDataString := strings.Split(companyData.String(),"/")
 	companyUniqueID := companyDataString[len(companyDataString)-2]
-
 	adminsCompany := AdminCompany{}
 	adminsCompany.CompanyId = companyUniqueID
 	adminsCompany.CompanyName = company.Info.CompanyName
 	adminsCompany.CompanyStatus = helpers.StatusActive
-
 	err = dB.Child("Admins/"+adminUniqueID+"/Company").Set(adminsCompany)
 	if err != nil {
 		log.Println(err)
@@ -138,5 +135,98 @@ func CheckEmailIsUsed(ctx context.Context, emailId string) bool{
 
 		return false
 	}
+}
+func (m *Admins)GetCompanyDetails(ctx context.Context, adminId string) (bool,Admins){
+	companyAdmins := Admins{}
+	dB, err := GetFirebaseClient(ctx, "")
+	if err != nil {
+		log.Println("No Db Connection!")
+	}
+	err = dB.Child("Admins/"+adminId).Value(&companyAdmins)
+	log.Println("companydetails",companyAdmins)
+	if err != nil{
+		log.Fatal(err)
+		return false,companyAdmins
+	}
+     return true,companyAdmins
+}
+func(m *Admins) EditAdminDetails(ctx context.Context ,adminId string) (bool){
+	admin := Admins{}
+	dB,err :=GetFirebaseClient(ctx,"")
+	if err != nil {
+		log.Println(err)
+	}
+	err = dB.Child("Admins/"+adminId).Value(&admin)
+	if err != nil{
+		log.Fatal(err)
+		return false
+	}
+	m.Settings.DateOfCreation = admin.Settings.DateOfCreation
+	m.Settings.Status = admin.Settings.Status
+	m.Info.LastName = admin.Info.LastName
+	m.Info.Password = admin.Info.Password
+	m.Company.CompanyId =admin.Company.CompanyId
+	m.Company.CompanyName = admin.Company.CompanyName
+	m.Company.CompanyStatus =admin.Company.CompanyStatus
+	err = dB.Child("/Admins/"+adminId).Update(&m)
+	if err != nil {
+		log.Println(err)
+		return false
+	}
+	return  true
+}
+func(m *Admins) EditAdminPassword(ctx context.Context ,adminId string,confirmPassword []byte) (bool){
+	admin := Admins{}
+	dB,err :=GetFirebaseClient(ctx,"")
+	if err != nil {
+		log.Println(err)
+	}
+	err = dB.Child("Admins/"+adminId).Value(&admin)
+	if err != nil{
+		log.Fatal(err)
+		return false
+	}
+	m.Settings.DateOfCreation = admin.Settings.DateOfCreation
+	m.Settings.Status = admin.Settings.Status
+	m.Info.LastName = admin.Info.LastName
+	m.Info.Email =admin.Info.Email
+	m.Info.FirstName = admin.Info.FirstName
+	m.Info.PhoneNo = admin.Info.PhoneNo
+	m.Company.CompanyId =admin.Company.CompanyId
+	m.Company.CompanyName = admin.Company.CompanyName
+	m.Company.CompanyStatus =admin.Company.CompanyStatus
+	hashedPassword, err := bcrypt.GenerateFromPassword(confirmPassword, bcrypt.DefaultCost)
+	if err != nil {
+		log.Println(err)
+		return false
+	}
+	m.Info.Password = hashedPassword
+	err = dB.Child("/Admins/"+adminId).Update(&m)
+	if err != nil {
+		log.Println(err)
+		return false
+	}
+	return  true
+}
+
+
+func IsEnteredAdminPasswordCorrect(ctx context.Context ,adminId string,enteredOldPassword []byte) (bool){
+	admin :=Admins{}
+	dB,err :=GetFirebaseClient(ctx,"")
+	if err != nil {
+		log.Println(err)
+	}
+	err = dB.Child("Admins/"+adminId).Value(&admin)
+	if err != nil{
+		log.Fatal(err)
+		return false
+	}
+	err = bcrypt.CompareHashAndPassword(admin.Info.Password, enteredOldPassword)
+	if err !=nil{
+		log.Println(err)
+		return false
+	}
+	return true
+
 }
 

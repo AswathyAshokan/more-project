@@ -3115,9 +3115,9 @@ input.sprites-callender { background-position: right 4px top -20px; cursor: poin
 .header header { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-pack: justify; -webkit-justify-content: space-between; -ms-flex-pack: justify; justify-content: space-between; padding-left: 50px; padding-right: 50px; }
 .header header .dropdown { -webkit-align-self: center; -ms-flex-item-align: center; -ms-grid-row-align: center; align-self: center; }
 .header header .dropdown.open { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-flex-flow: column; -ms-flex-flow: column; flex-flow: column; }
-.header header .dropdown button i { width: 23px; height: 23px; display: inline-block; vertical-align: middle; }
+.header header .dropdown button i, .header header .dropdown button img { width: 23px; height: 23px; display: inline-block; vertical-align: middle; }
 .header header .dropdown ul { padding: 0; left: initial; right: 0; }
-.header header .dropdown ul li { display: block; }
+.header header .dropdown ul li { display: block; margin-right: 0; }
 .header header .dropdown ul li a { padding: 7px 20px; }
 
 .right-menu { -webkit-align-self: center; -ms-flex-item-align: center; align-self: center; display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; color: #fff; }
@@ -3187,6 +3187,9 @@ input.sprites-callender { background-position: right 4px top -20px; cursor: poin
 .table-dropdown .dataTables_paginate ul.pagination { margin: 0; }
 .table-dropdown .dataTables_paginate ul.pagination li { font-size: initial; border: none !important; padding: 0; background: none !important; }
 .table-dropdown .dataTables_paginate ul.pagination li a { width: 100%; outline: none; }
+
+.table-slide-wrapper { overflow-x: auto; }
+.table-slide-wrapper .table-wrapper { min-width: 1100px; }
 
 /*==============================================================
 							Customer Details
@@ -3288,3 +3291,17 @@ input.sprites-callender { background-position: right 4px top -20px; cursor: poin
 .datepic-top .callender-wrapper input { max-width: 250px; padding-left: 10px; padding-right: 10px; height: 26px; border-radius: 0; background-position: right 4px top -24px; }
 @media (max-width: 767px) { .datepic-top .callender-wrapper input { max-width: 130px; } }
 .datepic-top .callender-wrapper span { padding: 0 10px; }
+
+/*==============================================================
+					    Edit-profile
+=================================================================*/
+.img-upload-wrapper { text-align: center; display: inline-block; padding-bottom: 10px; }
+.img-upload-wrapper img { padding: 8px 0; max-width: 102px; }
+.img-upload-wrapper .img-upload { position: relative; overflow: hidden; display: inline-block; }
+.img-upload-wrapper .img-upload button { border-radius: 20px; background-color: #337ab7; }
+.img-upload-wrapper .img-upload input[type="file"] { position: absolute; top: 0px; right: 0; max-width: 92px; padding: 6px 12px; opacity: 0; }
+
+.plans-modal .modal-header, .plans-modal .modal-footer { padding: 0; }
+.plans-modal .header, .plans-modal .footer { position: static; }
+.plans-modal .modal-header button { color: #fff; opacity: 1; font-size: 30px; margin-right: 15px; }
+.plans-modal .plan-wrapper { width: 100%; }

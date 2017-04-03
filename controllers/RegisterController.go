@@ -6,6 +6,9 @@ import (
 	"app/passporte/models"
 	"time"
 	"app/passporte/helpers"
+	"app/passporte/viewmodels"
+	"log"
+
 )
 
 type RegisterController struct {
@@ -60,3 +63,84 @@ func (c *RegisterController)CheckEmail(){
 	}
 }
 
+func (c *RegisterController) EditProfile() {
+
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
+	ReadSession(w, r, companyTeamName)
+	adminId :=storedSession.AdminId
+	plan :=storedSession.CompanyPlan
+	admin := models.Admins{}
+	if r.Method == "POST" {
+		admin.Info.FirstName = c.GetString("name")
+		admin.Info.Email = c.GetString("emailId")
+		admin.Info.PhoneNo = c.GetString("phoneNumber")
+		dbStatus := admin.EditAdminDetails(c.AppEngineCtx, adminId)
+
+		switch dbStatus {
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
+		}
+
+	}else {
+
+		viewModel := viewmodels.EditProfileViewModel{}
+
+		dbStatus,adminDetail:= admin.GetCompanyDetails(c.AppEngineCtx, adminId)
+		switch dbStatus {
+		case true:
+			viewModel.Email = adminDetail.Info.Email
+			viewModel.FirstName =adminDetail.Info.FirstName
+			viewModel.LastName = adminDetail.Info.LastName
+			viewModel.PhoneNo = adminDetail.Info.PhoneNo
+			viewModel.CompanyTeamName =companyTeamName
+			viewModel.CompanyPlan =plan
+			log.Println("viewmodel",viewModel)
+			c.Data["vm"] = viewModel
+			c.TplName = "template/edit-profile.html"
+
+		case false:
+			log.Println(helpers.ServerConnectionError)
+		}
+
+	}
+}
+func (c *RegisterController) ChangeAdminsPassword() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
+	ReadSession(w, r, companyTeamName)
+	adminId :=storedSession.AdminId
+	admin := models.Admins{}
+	if r.Method == "POST" {
+		confirmPassword := (c.GetString("confirmpassword"))
+		log.Println(confirmPassword)
+		dbStatus := admin.EditAdminPassword(c.AppEngineCtx, adminId,[] byte(confirmPassword))
+		switch dbStatus {
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
+		}
+	}
+}
+func (c *RegisterController) OldAdminPasswordCheck(){w := c.Ctx.ResponseWriter
+	r := c.Ctx.Request
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
+	ReadSession(w, r, companyTeamName)
+	adminId :=storedSession.AdminId
+	enteredOldPassword := (c.GetString("oldPassword"))
+	dbStatus := models.IsEnteredAdminPasswordCorrect(c.AppEngineCtx,adminId,[] byte(enteredOldPassword) )
+	switch dbStatus {
+	case true:
+		w.Write([]byte("true"))
+	case false:
+		w.Write([]byte("false"))
+	}
+}

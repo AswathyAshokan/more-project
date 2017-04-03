@@ -21,7 +21,7 @@ $(function(){
                 "targets": -1,
                 "width": "10%",
                 "data": null,
-                "defaultContent": '<span class="dwnl-btn"><i class="fa fa-download fa-lg" aria-hidden="true"></i></span>'
+                "defaultContent": '<span class="dwnl-btn" ><i class="fa fa-download fa-lg"  aria-hidden="true"></i></span>'
             }],
             "searching": false,
             "paging": true, 
