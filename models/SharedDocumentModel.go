@@ -52,7 +52,6 @@ func GetExpireDetailsOfUser(ctx context.Context,specifiedUserId string ) (map[st
 		return expiryDetails, false
 	}
 	err = db.Child("/Expirations/"+specifiedUserId).Value(&expiryDetails)
-	log.Println("from model :",expiryDetails)
 	if err != nil{
 		log.Fatal(err)
 		return expiryDetails, false

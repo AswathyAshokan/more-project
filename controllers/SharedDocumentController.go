@@ -6,8 +6,8 @@ import (
 	"app/passporte/models"
 	"reflect"
 	"app/passporte/viewmodels"
-	"strconv"
 	"app/passporte/helpers"
+	"time"
 )
 
 type SharedDocumentController struct {
@@ -47,10 +47,11 @@ func (c *SharedDocumentController) LoadSharedDocuments() {
 					}
 					for _, k := range expiryKeySlice {
 						var tempValueSlice []string
+
 						tempValueSlice = append(tempValueSlice, expiry[k].Info.Description)
-						tempValueSlice = append(tempValueSlice, strconv.FormatInt(expiry[k].Info.ExpirationDate, 10))
+						tempValueSlice = append(tempValueSlice,time.Unix(expiry[k].Info.ExpirationDate, 0).Format("01/02/2006"))
+						tempValueSlice = append(tempValueSlice,expiry[k].Info.DocumentId)
 						documentsViewModels.Values=append(documentsViewModels.Values,tempValueSlice)
-						log.Println("viewmodel :",documentsViewModels)
 						tempValueSlice = tempValueSlice[:0]
 					}
 				case false :
@@ -69,4 +70,13 @@ func (c *SharedDocumentController) LoadSharedDocuments() {
 	}
 
 }
+
+
+
+func (c *SharedDocumentController) DownloadDocuments() {
+
+	log.Println("haiiiiiii")
+
+}
+
 
