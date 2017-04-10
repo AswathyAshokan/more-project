@@ -27,7 +27,7 @@ $(function(){
     });*/
     
     function listSharedDocumentByDate(unixFromDate,unixToDate){
-       
+        var tempArray = [];
         var expiryDate =0;
         var unixExpiryDate = 0;
         for (i =0;i<vm.Values.length;i++){
@@ -36,25 +36,18 @@ $(function(){
             console.log(unixFromDate);
             console.log(unixExpiryDate);
             console.log(unixToDate);
-        }
-        var tempArray = [];
-        for(j = 0; j < mainArray.length; j++){
             if(unixFromDate <= unixExpiryDate && unixToDate == 0){
-                console.log("main",mainArray[j]);
-                tempArray.push(mainArray[j]);
-                tempArray = [];
-            } /*else if(unixFromDate ==0 && unixToDate >=unixExpiryDate){
-                    console.log("to");
-                    for(j = 0; j < mainArray.length; j++){
-                        tempArray.push(mainArray[j]);
-                    } 
-                }else{
-                    console.log("both");
-                    console.log(unixFromDate,unixToDate);
-                    for(j = 0; j < mainArray.length; j++){
-                        tempArray.push(mainArray[j]);
-                    } 
-                }*/
+                console.log("main",mainArray[i]);
+                tempArray.push(mainArray[i]);
+            } else if(unixFromDate ==0 && unixToDate >=unixExpiryDate){
+                console.log("to");
+                tempArray.push(mainArray[i]);
+            }else if(unixFromDate <= unixExpiryDate && unixToDate >=unixExpiryDate ){
+                console.log("both");
+                tempArray.push(mainArray[i]);
+            }else if(unixToDate == 0 && unixFromDate ==0) {
+                dataTableManipulate(mainArray);
+            }
         }
             $('#shareddocument-table').dataTable().fnDestroy();
             dataTableManipulate(tempArray);
