@@ -17,13 +17,6 @@ audio:not([controls]) { display: none; height: 0; }
 
 [hidden], template { display: none; }
 
-/*for username in header */
-.user-name{
-    vertical-align: middle;
-   color: #4af1c9 ;
-   padding-left: 5px;
-}
-
 a { background-color: transparent; }
 
 a:active, a:hover { outline: 0; }
@@ -2210,7 +2203,7 @@ button.close { padding: 0; cursor: pointer; background: transparent; border: 0; 
 @media print { .hidden-print { display: none !important; } }
 @font-face { font-family: 'mont_regular'; src: url("fonts/montserrat/Montserrat-Regular.otf"); font-weight: normal; font-style: normal; }
 @font-face { font-family: 'mont_light'; src: url("fonts/montserrat/Montserrat-Light.otf"); font-weight: normal; font-style: normal; }
-.sprites-sprite, .sprites-arrow-down, .sprites-callender, .sprites-consent, .sprites-contact, .sprites-crm, .sprites-crm1, .sprites-dashboard, .sprites-dures, .sprites-group, .sprites-input-company, .sprites-input-company1, .sprites-input-location, .sprites-input-lock, .sprites-input-mail, .sprites-input-phone, .sprites-input-user, .sprites-job, .sprites-log, .sprites-nfc, .sprites-payroll, .sprites-receipt, .sprites-task, .sprites-user-dropdown, .sprites-user, .sprites-user2 { background-image: url('../images/generated/sprites-s9920fc1c96.png'); background-repeat: no-repeat; }
+.sprites-sprite, .sprites-arrow-down, .sprites-callender, .sprites-consent, .sprites-contact, .sprites-crm, .sprites-crm1, .sprites-dashboard, .sprites-dures, .sprites-group, .sprites-input-company, .sprites-input-company1, .sprites-input-location, .sprites-input-lock, .sprites-input-mail, .sprites-input-phone, .sprites-input-user, .sprites-job, .sprites-leave, .sprites-log, .sprites-nfc, .sprites-payroll, .sprites-receipt, .sprites-task, .sprites-user-dropdown, .sprites-user, .sprites-user2 { background-image: url('../images/generated/sprites-se7b5746725.png'); background-repeat: no-repeat; }
 
 .sprites-arrow-down { background-position: 0 0; }
 
@@ -2220,48 +2213,50 @@ button.close { padding: 0; cursor: pointer; background: transparent; border: 0; 
 
 .sprites-contact { background-position: 0 -105px; }
 
-.sprites-crm { background-position: 0 -141px; }
+.sprites-crm { background-position: 0 -145px; }
 
-.sprites-crm1 { background-position: 0 -183px; }
+.sprites-crm1 { background-position: 0 -187px; }
 
-.sprites-dashboard { background-position: 0 -273px; }
-.sprites-dashboard:target, .sprites-dashboard.dashboard-target { background-position: 0 -227px; }
+.sprites-dashboard { background-position: 0 -277px; }
+.sprites-dashboard:target, .sprites-dashboard.dashboard-target { background-position: 0 -231px; }
 
-.sprites-dures { background-position: 0 -313px; }
+.sprites-dures { background-position: 0 -317px; }
 
-.sprites-group { background-position: 0 -356px; }
+.sprites-group { background-position: 0 -360px; }
 
-.sprites-input-company { background-position: 0 -394px; }
+.sprites-input-company { background-position: 0 -398px; }
 
-.sprites-input-company1 { background-position: 0 -438px; }
+.sprites-input-company1 { background-position: 0 -442px; }
 
-.sprites-input-location { background-position: 0 -478px; }
+.sprites-input-location { background-position: 0 -482px; }
 
-.sprites-input-lock { background-position: 0 -522px; }
+.sprites-input-lock { background-position: 0 -526px; }
 
-.sprites-input-mail { background-position: 0 -566px; }
+.sprites-input-mail { background-position: 0 -570px; }
 
-.sprites-input-phone { background-position: 0 -610px; }
+.sprites-input-phone { background-position: 0 -614px; }
 
-.sprites-input-user { background-position: 0 -654px; }
+.sprites-input-user { background-position: 0 -658px; }
 
-.sprites-job { background-position: 0 -698px; }
+.sprites-job { background-position: 0 -702px; }
 
-.sprites-log { background-position: 0 -744px; }
+.sprites-leave { background-position: 0 -748px; }
 
-.sprites-nfc { background-position: 0 -784px; }
+.sprites-log { background-position: 0 -788px; }
 
-.sprites-payroll { background-position: 0 -828px; }
+.sprites-nfc { background-position: 0 -828px; }
 
-.sprites-receipt { background-position: 0 -866px; }
+.sprites-payroll { background-position: 0 -872px; }
 
-.sprites-task { background-position: 0 -906px; }
+.sprites-receipt { background-position: 0 -910px; }
 
-.sprites-user-dropdown { background-position: 0 -948px; }
+.sprites-task { background-position: 0 -950px; }
 
-.sprites-user { background-position: 0 -990px; }
+.sprites-user-dropdown { background-position: 0 -992px; }
 
-.sprites-user2 { background-position: 0 -1029px; }
+.sprites-user { background-position: 0 -1034px; }
+
+.sprites-user2 { background-position: 0 -1073px; }
 
 .btn { border-radius: 3px; border: none; }
 
@@ -3054,6 +3049,13 @@ option[default] { display: none; }
 
 .select2-container--classic.select2-container--open .select2-dropdown { border-color: #5897fb; }
 
+span.ui-icon.ui-icon-circle-traingle-e { color: black; }
+
+input#startdate { background-image: url("F:/Files/Passport-Web/app/images/sprites/callender.png"); background-repeat: no-repeat; background-position: 130px; border: 1px solid #DADADA; margin-top: 00px; padding-left: 10px; width: 160px; height: 30px; font-size: 14px; }
+
+input#enddate { background-image: url("F:/Files/Passport-Web/app/images/sprites/callender.png"); background-repeat: no-repeat; background-position: 130px; border: 1px solid #DADADA; margin-top: 0px; padding-left: 10px; width: 160px; height: 30px; font-size: 14px; }
+
+@media (max-width: 767px) { .datepic-top .callender-wrapper input { max-width: 160px; } }
 body { font-family: mont_light; background-color: #fafafa; }
 
 h1.h4 { font-family: mont_regular; }
@@ -3126,6 +3128,8 @@ input.sprites-callender { background-position: right 4px top -20px; cursor: poin
 .header header .dropdown ul { padding: 0; left: initial; right: 0; }
 .header header .dropdown ul li { display: block; margin-right: 0; }
 .header header .dropdown ul li a { padding: 7px 20px; }
+
+.user-name { vertical-align: middle; color: #4af1c9; padding-left: 5px; }
 
 .right-menu { -webkit-align-self: center; -ms-flex-item-align: center; align-self: center; display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; color: #fff; }
 .right-menu ul li { margin-right: 30px; }

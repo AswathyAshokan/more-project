@@ -9,7 +9,10 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"strings"
 	"app/passporte/helpers"
+
 )
+
+
 
 // Struct for Company
 type Company struct{
@@ -162,6 +165,8 @@ func(m *Admins) EditAdminDetails(ctx context.Context ,adminId string) (bool){
 		log.Fatal(err)
 		return false
 	}
+
+
 	m.Settings.DateOfCreation = admin.Settings.DateOfCreation
 	m.Settings.Status = admin.Settings.Status
 	m.Info.LastName = admin.Info.LastName
