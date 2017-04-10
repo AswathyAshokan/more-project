@@ -2,8 +2,8 @@ console.log(vm);
 
 
 $(function(){
-    var selectFromDate;
-        var selectedToDate;
+    var unixFromDate = 0;
+    var unixToDate = 0;
     var mainArray = [];   
     var table = "";
     function createDataArray(values, keys){
@@ -17,7 +17,52 @@ $(function(){
             subArray = [];
         }
     }
-
+    
+    
+    /*$('#fromDate-expiry').datepicker({
+        
+        minDate: new Date(2017, 1 -0, 25),
+        maxDate: '+30Y',
+        inline: true
+    });*/
+    
+    function listSharedDocumentByDate(unixFromDate,unixToDate){
+       
+        var expiryDate =0;
+        var unixExpiryDate = 0;
+        for (i =0;i<vm.Values.length;i++){
+            expiryDate = new Date(vm.Values[i][1]);
+            unixExpiryDate = Date.parse(expiryDate)/1000;
+            console.log(unixFromDate);
+            console.log(unixExpiryDate);
+            console.log(unixToDate);
+        }
+        var tempArray = [];
+        for(j = 0; j < mainArray.length; j++){
+            if(unixFromDate <= unixExpiryDate && unixToDate == 0){
+                console.log("main",mainArray[j]);
+                tempArray.push(mainArray[j]);
+                tempArray = [];
+            } /*else if(unixFromDate ==0 && unixToDate >=unixExpiryDate){
+                    console.log("to");
+                    for(j = 0; j < mainArray.length; j++){
+                        tempArray.push(mainArray[j]);
+                    } 
+                }else{
+                    console.log("both");
+                    console.log(unixFromDate,unixToDate);
+                    for(j = 0; j < mainArray.length; j++){
+                        tempArray.push(mainArray[j]);
+                    } 
+                }*/
+        }
+            $('#shareddocument-table').dataTable().fnDestroy();
+            dataTableManipulate(tempArray);
+            
+        
+    }
+    
+    
    function dataTableManipulate(dataArray){
        table =  $("#shareddocument-table").DataTable({
            data: dataArray,
@@ -34,29 +79,33 @@ $(function(){
        });
        $('#tbl_details_length').after($('.datepic-top'));
    }
+
 /*----------------------------------Initialize Datatable--------------------------------------------------*/
     if(vm.Values != null) {
         createDataArray(vm.Values, vm.Keys);
     }
     dataTableManipulate(mainArray);
+
 /*--------------------------------Download-------------------------------------------------------------*/
+
     $('#shareddocument-table tbody').on( 'click', '#view', function () {
         var data = table.row( $(this).parents('tr') ).data();
         window.location =   data[2];
         return false;
     });
 /*-------------------------------------------------------------------------------------------------------------------*/
-    /*$('#dp1').datepicker();*/
-    
-    $('#fromDate-expiry').val('00-00-0000');
-    $('#toDate-expiry').val('00-00-0000');
-    $('#fromDate-expiry').change(function () {
-        
-        selectFromDate = $('#fromDate-expiry').val();
-      
-       
-        alert(selectFromDate);
-       
+
+    $('#fromDate').change(function () {
+        var selectFromDate;
+        var actualFromDate;
+        selectFromDate = $('#fromDate').val();
+        console.log("onclick",selectFromDate)
+        actualFromDate = new Date(selectFromDate);
+        actualFromDate.setHours(0);
+        actualFromDate.setMinutes(0);
+        actualFromDate.setSeconds(0);
+        unixFromDate = Date.parse(actualFromDate)/1000;
+        listSharedDocumentByDate(unixFromDate,unixToDate);        
        /* if(data[1]>=selectFromDate && data[1]<=selectedToDate){*/
              /*var tempArray = [];
         for(i = 0; i < mainArray.length; i++){
@@ -71,22 +120,22 @@ $(function(){
         }*/
              
        /* }*/
-           
-        
-       
-  });
-    
-    
-    $('#toDate-expiry').change(function () {
-        selectedToDate = $('#toDate-expiry').val();
-        alert(selectedToDate);
+
     });
     
-    
-    if(selectFromDate != null || selectedToDate != null){
-         alert(selectFromDate);
-    }
-    
+
+    $('#toDate').change(function () {
+        var selectedToDate;
+        var actualToDate;
+        selectedToDate = $('#toDate').val();
+        actualToDate = new Date(selectedToDate);
+        actualToDate.setHours(23);
+        actualToDate.setMinutes(59);
+        actualToDate.setSeconds(59);
+        unixToDate = Date.parse(actualToDate)/1000;
+        console.log(unixToDate);
+        listSharedDocumentByDate(unixFromDate,unixToDate);   
+    });
     
     
 });
