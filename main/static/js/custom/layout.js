@@ -33,9 +33,16 @@ $(document).ready(function() {
         $('#nfc').bind('click', false);
     }
     
-    
-    
-    
-    
+    document.getElementById("username").textContent=vm.AdminFirstName;
+    if(vm.CompanyPlan == "family")
+    {
+        $('#planChange').attr('data-target','#family');
+    } else if (vm.CompanyPlan == "campus") {
+        $('#planChange').attr('data-target','#campus');
+    }else if (vm.CompanyPlan == "business") {
+        $('#planChange').attr('data-target','#business');
+    }else if (vm.CompanyPlan == "businessPlus") {
+        $('#planChange').attr('data-target','#business-plus');
+    }
     
 } );

@@ -17,6 +17,13 @@ audio:not([controls]) { display: none; height: 0; }
 
 [hidden], template { display: none; }
 
+/*for username in header */
+.user-name{
+    vertical-align: middle;
+   color: #4af1c9 ;
+   padding-left: 5px;
+}
+
 a { background-color: transparent; }
 
 a:active, a:hover { outline: 0; }

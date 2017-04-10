@@ -117,7 +117,7 @@ func (c *LeaveController) LoadUserLeave() {
 		viewModel.CompanyTeamName =storedSession.CompanyTeamName
 		viewModel.UserKeys =keySlice
 		viewModel.Keys = keyForLeave
-		c.Data["array"] = viewModel
+		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/leave-detail.html"
 

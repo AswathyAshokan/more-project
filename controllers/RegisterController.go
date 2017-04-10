@@ -115,8 +115,8 @@ func (c *RegisterController) EditProfile() {
 			viewModel.CompanyPlan =plan
 			viewModel.AdminFirstName = storedSession.AdminFirstName
 			viewModel.AdminLastName = storedSession.AdminLastName
-			log.Println("viewmodel",viewModel)
 			c.Data["vm"] = viewModel
+			c.Layout = "layout/layout.html"
 			c.TplName = "template/edit-profile.html"
 
 		case false:
