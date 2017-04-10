@@ -33,6 +33,8 @@ type EditTaskViewModel  struct {
 	CompanyPlan			string
 	StartTime			string
 	EndTime				string
+	AdminFirstName			string
+	AdminLastName			string
 
 
 }
@@ -48,6 +50,8 @@ type AddTaskViewModel  struct {
 	CompanyTeamName			string
 	GroupMembers			[][]string
 	CompanyPlan			string
+	AdminFirstName			string
+	AdminLastName			string
 
 
 }
@@ -62,5 +66,7 @@ type TaskDetailViewModel  struct {
 	SelectedCustomerForJob		string
 	CompanyTeamName			string
 	CompanyPlan			string
+	AdminFirstName			string
+	AdminLastName			string
 
 }

@@ -66,6 +66,8 @@ func (c *GroupController) AddGroup() {
 				groupViewModel.CompanyPlan = storedSession.CompanyPlan
 				groupViewModel.GroupKey = keySlice
 				groupViewModel.PageType = helpers.SelectPageForAdd
+				groupViewModel.AdminFirstName = storedSession.AdminFirstName
+				groupViewModel.AdminLastName = storedSession.AdminLastName
 				c.Data["vm"] = groupViewModel
 				c.Layout = "layout/layout.html"
 				c.TplName = "template/add-group.html"
@@ -136,6 +138,8 @@ func (c *GroupController) GroupDetails() {
 		groupViewModel.Keys = keySlice
 		groupViewModel.CompanyTeamName = storedSession.CompanyTeamName
 		groupViewModel.CompanyPlan = storedSession.CompanyPlan
+		groupViewModel.AdminFirstName = storedSession.AdminFirstName
+		groupViewModel.AdminLastName = storedSession.AdminLastName
 		c.Data["vm"] = groupViewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/group-details.html"
@@ -228,6 +232,8 @@ func (c *GroupController) EditGroup() {
 				viewModel.CompanyTeamName = storedSession.CompanyTeamName
 				viewModel.CompanyPlan = storedSession.CompanyPlan
 				viewModel.GroupId = groupId
+				viewModel.AdminFirstName = storedSession.AdminFirstName
+				viewModel.AdminLastName = storedSession.AdminLastName
 				c.Data["vm"] = viewModel
 				c.Layout = "layout/layout.html"
 				c.TplName = "template/add-group.html"

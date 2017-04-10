@@ -5,6 +5,8 @@ type NfcViewModel struct {
 	Keys 		[]string
 	CompanyTeamName string
 	CompanyPlan	string
+	AdminFirstName	string
+	AdminLastName	string
 
 }
 
@@ -17,5 +19,7 @@ type EditNfcViewModel struct {
 	NFCNumber	string
 	CompanyTeamName string
 	CompanyPlan	string
+	AdminFirstName	string
+	AdminLastName	string
 
 }

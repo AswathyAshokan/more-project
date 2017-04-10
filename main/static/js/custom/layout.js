@@ -1,4 +1,4 @@
-
+console.log(vm);
 $(document).ready(function() {
     
     //checking plans

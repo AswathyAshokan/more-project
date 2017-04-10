@@ -62,6 +62,8 @@ func (c *JobController)AddNewJob() {
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
+		viewModel.AdminFirstName = storedSession.AdminFirstName
+		viewModel.AdminLastName = storedSession.AdminLastName
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-job.html"
@@ -107,6 +109,8 @@ func (c *JobController)LoadJobDetail() {
 		viewModel.Keys = keySlice
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
 		viewModel.CompanyPlan = storedSession.CompanyPlan
+		viewModel.AdminFirstName = storedSession.AdminFirstName
+		viewModel.AdminLastName = storedSession.AdminLastName
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/job-details.html"
@@ -191,6 +195,8 @@ func (c *JobController)LoadEditJob() {
 				viewModel.JobId = jobId
 				viewModel.CompanyTeamName = storedSession.CompanyTeamName
 				viewModel.CompanyPlan = storedSession.CompanyPlan
+				viewModel.AdminFirstName = storedSession.AdminFirstName
+				viewModel.AdminLastName = storedSession.AdminLastName
 				c.Data["vm"] = viewModel
 				c.Layout = "layout/layout.html"
 				c.TplName = "template/add-job.html"

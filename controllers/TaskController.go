@@ -219,6 +219,8 @@ func (c *TaskController)AddNewTask() {
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
+		viewModel.AdminFirstName = storedSession.AdminFirstName
+		viewModel.AdminLastName = storedSession.AdminLastName
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-task.html"
@@ -311,6 +313,8 @@ func (c *TaskController)LoadTaskDetail() {
 		viewModel.Keys = keySlice
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
 		viewModel.CompanyPlan = storedSession.CompanyPlan
+		viewModel.AdminFirstName = storedSession.AdminFirstName
+		viewModel.AdminLastName = storedSession.AdminLastName
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/task-details.html"
@@ -612,6 +616,8 @@ func (c *TaskController)LoadEditTask() {
 						viewModel.CompanyPlan = storedSession.CompanyPlan
 						viewModel.TaskLocation =taskDetail.Info.TaskLocation
 						viewModel.LoginType =taskDetail.Info.LoginType
+						viewModel.AdminFirstName = storedSession.AdminFirstName
+						viewModel.AdminLastName = storedSession.AdminLastName
 						c.Data["vm"] = viewModel
 						c.Layout = "layout/layout.html"
 						c.TplName = "template/add-task.html"

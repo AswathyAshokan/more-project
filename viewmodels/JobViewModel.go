@@ -17,4 +17,6 @@ type JobViewModel  struct {
 	SelectedCustomer	string
 	CompanyTeamName		string
 	CompanyPlan		string
+	AdminFirstName		string
+	AdminLastName		string
 }

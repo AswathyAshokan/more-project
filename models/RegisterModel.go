@@ -63,6 +63,7 @@ type AdminInfo struct {
 type AdminSettings struct {
 	Status		string
 	DateOfCreation  int64
+	ProfilePicture	string
 }
 
 type AdminCompany struct {

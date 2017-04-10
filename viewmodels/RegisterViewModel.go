@@ -6,4 +6,6 @@ type EditProfileViewModel struct {
 	Email		string
 	CompanyTeamName	string
 	CompanyPlan	string
+	AdminFirstName	string
+	AdminLastName	string
 }

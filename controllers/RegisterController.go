@@ -63,6 +63,13 @@ func (c *RegisterController)CheckEmail(){
 	}
 }
 
+type Storage struct {
+	Token	string
+	RefreshToken string
+	Bucket string
+	APIKey string
+}
+
 func (c *RegisterController) EditProfile() {
 
 	r := c.Ctx.Request
@@ -77,7 +84,14 @@ func (c *RegisterController) EditProfile() {
 		admin.Info.FirstName = c.GetString("name")
 		admin.Info.Email = c.GetString("emailId")
 		admin.Info.PhoneNo = c.GetString("phoneNumber")
+		admin.Settings.ProfilePicture = c.GetString("profilePicture")
 		dbStatus := admin.EditAdminDetails(c.AppEngineCtx, adminId)
+		//s := Storage{
+		//	Token:        "--user access token, from any login method--",
+		//	RefreshToken: "--same, but refresh token--",
+		//	Bucket:       "your-bucket-id.appspot.com",
+		//	APIKey:       "your-project-api-key",
+		//}
 
 		switch dbStatus {
 		case true:
@@ -99,6 +113,8 @@ func (c *RegisterController) EditProfile() {
 			viewModel.PhoneNo = adminDetail.Info.PhoneNo
 			viewModel.CompanyTeamName =companyTeamName
 			viewModel.CompanyPlan =plan
+			viewModel.AdminFirstName = storedSession.AdminFirstName
+			viewModel.AdminLastName = storedSession.AdminLastName
 			log.Println("viewmodel",viewModel)
 			c.Data["vm"] = viewModel
 			c.TplName = "template/edit-profile.html"

@@ -6,4 +6,5 @@ type SuperAdmin struct {
 	Email     	string
 	PhoneNo   	string
 	SuperAdminId	string
+
 }

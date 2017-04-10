@@ -38,7 +38,7 @@ func (c *LoginController) Login() {
 			sessionValues.CompanyTeamName = companyDetails.Info.CompanyTeamName
 			sessionValues.CompanyPlan = companyDetails.Plan
 			SetSession(w, sessionValues)
-			slices := []interface{}{"true", sessionValues.CompanyTeamName}
+			slices := []interface{}{"true", sessionValues.CompanyTeamName,sessionValues.AdminFirstName}
 			sliceToClient, _ := json.Marshal(slices)
 			w.Write(sliceToClient)
 		case false:

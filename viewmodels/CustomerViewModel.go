@@ -14,6 +14,8 @@ type Customer struct {
 	Keys	      	[]string
 	CompanyTeamName	string
 	CompanyPlan	string
+	AdminFirstName	string
+	AdminLastName	string
 }
 type EditCustomerViewModel struct {
 
@@ -28,9 +30,14 @@ type EditCustomerViewModel struct {
 	CustomerId    	string
 	CompanyTeamName	string
 	CompanyPlan	string
+	AdminFirstName	string
+	AdminLastName	string
+
 }
 
 type AddCustomerViewModel struct {
 	CompanyTeamName		string
 	CompanyPlan		string
+	AdminFirstName		string
+	AdminLastName		string
 }

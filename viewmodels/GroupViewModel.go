@@ -5,6 +5,8 @@ type GroupList struct {
 	Keys         		[]string
 	CompanyTeamName		string
 	CompanyPlan		string
+	AdminFirstName		string
+	AdminLastName		string
 }
 
 type AddGroupViewModel struct {
@@ -14,6 +16,8 @@ type AddGroupViewModel struct {
 	CompanyTeamName		string
 	GroupName		string
 	CompanyPlan		string
+	AdminFirstName		string
+	AdminLastName		string
 }
 
 type EditGroupViewModel struct {
@@ -25,4 +29,6 @@ type EditGroupViewModel struct {
 	GroupId                 string
 	CompanyTeamName		string
 	CompanyPlan		string
+	AdminFirstName		string
+	AdminLastName		string
 }

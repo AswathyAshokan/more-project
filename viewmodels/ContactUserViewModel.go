@@ -16,5 +16,7 @@ type ContactUserViewModel  struct {
 	ContactId		string
 	CompanyTeamName  	string
 	CompanyPlan		string
+	AdminFirstName		string
+	AdminLastName		string
 
 }

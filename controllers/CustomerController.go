@@ -45,6 +45,8 @@ func (c *CustomerController) AddCustomer() {
 	} else {
 		addViewModel.CompanyTeamName = storedSession.CompanyTeamName
 		addViewModel.CompanyPlan   =  storedSession.CompanyPlan
+		addViewModel.AdminLastName =storedSession.AdminLastName
+		addViewModel.AdminFirstName =storedSession.AdminFirstName
 		c.Data["vm"] = addViewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-customer.html"
@@ -85,6 +87,8 @@ func (c *CustomerController) CustomerDetails() {
 		customerViewModel.Keys = keySlice
 		customerViewModel.CompanyTeamName = storedSession.CompanyTeamName
 		customerViewModel.CompanyPlan = storedSession.CompanyPlan
+		customerViewModel.AdminFirstName =storedSession.AdminFirstName
+		customerViewModel.AdminLastName =storedSession.AdminLastName
 		c.Data["vm"] = customerViewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/customer-details.html"
@@ -152,6 +156,8 @@ func (c *CustomerController) EditCustomer() {
 			customerViewModel.CustomerId = customerId
 			customerViewModel.CompanyTeamName = storedSession.CompanyTeamName
 			customerViewModel.CompanyPlan = storedSession.CompanyPlan
+			customerViewModel.AdminLastName =storedSession.AdminLastName
+			customerViewModel.AdminFirstName =storedSession.AdminFirstName
 			c.Data["vm"] = customerViewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-customer.html"

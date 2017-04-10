@@ -14,6 +14,8 @@ type InviteUserViewModel struct {
 	Keys             	[]string
 	CompanyTeamName		string
 	CompanyPlan		string
+	AdminFirstName		string
+	AdminLastName		string
 }
 
 type EditInviteUserViewModel struct {
@@ -26,10 +28,14 @@ type EditInviteUserViewModel struct {
 	InviteId        	string
 	CompanyTeamName		string
 	CompanyPlan		string
+	AdminFirstName		string
+	AdminLastName		string
 
 }
 type AddInviteUserViewModel struct {
 	CompanyTeamName		string
 	CompanyPlan		string
 	AllowInvitations	bool
+	AdminFirstName		string
+	AdminLastName		string
 }
