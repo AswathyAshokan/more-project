@@ -6,6 +6,12 @@ $(function(){
     var unixToDate = 0;
     var mainArray = [];   
     var table = "";
+    var selectedToDate;
+    var actualToDate;
+    var selectFromDate;
+    var actualFromDate;
+    var completeTable =[];
+    
     function createDataArray(values, keys){
         var subArray = [];
         for(i = 0; i < values.length; i++) {
@@ -17,9 +23,15 @@ $(function(){
             subArray = [];
         }
     }
-    
-    
-    /*$('#fromDate-expiry').datepicker({
+   
+    completeTable = mainArray;
+    $('#refreshButton').click(function(e) {
+        $('#shareddocument-table').dataTable().fnDestroy();
+        $('#fromDate').datepicker('setDate', null);
+        $('#toDate').datepicker('setDate', null);
+        dataTableManipulate(completeTable);
+     });
+    /*$('#fromDate').datepicker({
         
         minDate: new Date(2017, 1 -0, 25),
         maxDate: '+30Y',
@@ -33,26 +45,20 @@ $(function(){
         for (i =0;i<vm.Values.length;i++){
             expiryDate = new Date(vm.Values[i][1]);
             unixExpiryDate = Date.parse(expiryDate)/1000;
-            console.log(unixFromDate);
-            console.log(unixExpiryDate);
-            console.log(unixToDate);
             if(unixFromDate <= unixExpiryDate && unixToDate == 0){
-                console.log("main",mainArray[i]);
                 tempArray.push(mainArray[i]);
+            
             } else if(unixFromDate ==0 && unixToDate >=unixExpiryDate){
-                console.log("to");
                 tempArray.push(mainArray[i]);
+            
             }else if(unixFromDate <= unixExpiryDate && unixToDate >=unixExpiryDate ){
-                console.log("both");
                 tempArray.push(mainArray[i]);
-            }else if(unixToDate == 0 && unixFromDate ==0) {
-                dataTableManipulate(mainArray);
+            
             }
-        }
+            
             $('#shareddocument-table').dataTable().fnDestroy();
             dataTableManipulate(tempArray);
-            
-        
+        }
     }
     
     
@@ -88,46 +94,42 @@ $(function(){
     });
 /*-------------------------------------------------------------------------------------------------------------------*/
 
+   
+    
+    
     $('#fromDate').change(function () {
-        var selectFromDate;
-        var actualFromDate;
+        
+       /* $('#toDate').datepicker({
+            minDate: new Date(selectedToDate),
+            maxDate: '+30Y',
+            inline: true
+        });*/
+      
         selectFromDate = $('#fromDate').val();
-        console.log("onclick",selectFromDate)
         actualFromDate = new Date(selectFromDate);
         actualFromDate.setHours(0);
         actualFromDate.setMinutes(0);
         actualFromDate.setSeconds(0);
         unixFromDate = Date.parse(actualFromDate)/1000;
-        listSharedDocumentByDate(unixFromDate,unixToDate);        
-       /* if(data[1]>=selectFromDate && data[1]<=selectedToDate){*/
-             /*var tempArray = [];
-        for(i = 0; i < mainArray.length; i++){
-             var data = table.row( $(this).parents('tr') ).data();
-             if(mainArray[i][1].indexOf(vm.ExpirationDate)>=selectFromDate){
-                 alert("haiai");
-                tempArray.push(mainArray[i]);
-            }
-            $('#shareddocument-table').dataTable().fnDestroy();
-            dataTableManipulate(tempArray);   
-            
-        }*/
-             
-       /* }*/
-
+        listSharedDocumentByDate(unixFromDate,unixToDate);
     });
     
 
     $('#toDate').change(function () {
-        var selectedToDate;
-        var actualToDate;
+       /* $('#fromDate').datetimepicker({
+            format: 'MM-DD-YYYY',
+            maxDate: new Date
+        }); 
+        */
+        
+        
         selectedToDate = $('#toDate').val();
         actualToDate = new Date(selectedToDate);
         actualToDate.setHours(23);
         actualToDate.setMinutes(59);
         actualToDate.setSeconds(59);
         unixToDate = Date.parse(actualToDate)/1000;
-        console.log(unixToDate);
-        listSharedDocumentByDate(unixFromDate,unixToDate);   
+        listSharedDocumentByDate(unixFromDate,unixToDate);
     });
     
     

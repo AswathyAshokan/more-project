@@ -7,6 +7,7 @@
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/shareddocuments.js" afterPath="$PROJECT_DIR$/main/static/js/custom/shareddocuments.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/shareddocument.html" afterPath="$PROJECT_DIR$/main/views/template/shareddocument.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -36,9 +37,11 @@
       <file leaf-file-name="ByPassController.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="257">
-              <caret line="36" column="53" lean-forward="true" selection-start-line="36" selection-start-column="53" selection-end-line="36" selection-end-column="53" />
-              <folding />
+            <state relative-caret-position="36">
+              <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+              <folding>
+                <element signature="e#21#74#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -48,9 +51,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1062">
               <caret line="62" column="0" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
-              <folding>
-                <marker date="1491823289308" expanded="true" signature="134:5990" ph="{...}" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -90,9 +91,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="54">
               <caret line="3" column="32" lean-forward="false" selection-start-line="3" selection-start-column="32" selection-end-line="3" selection-end-column="42" />
-              <folding>
-                <marker date="1491823289432" expanded="true" signature="47:151" ph="{...}" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -256,7 +255,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -270,23 +268,10 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="passporte" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="passporte" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -310,152 +295,6 @@
       <recent name="$PROJECT_DIR$/main/views/template" />
       <recent name="$PROJECT_DIR$/static/js/custom" />
     </key>
-  </component>
-  <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
-    <UpdatedFiles>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Updated from server" />
-        <option name="myStatusName" value="Changed on server" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="CHANGED_ON_SERVER" />
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Updated" />
-          <option name="myStatusName" value="Changed" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/workspace.xml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/controllers/ByPassController.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/controllers/ContactUserController.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/controllers/CustomerController.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/controllers/GroupController.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/controllers/InviteUserController.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/controllers/JobController.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/controllers/LoginController.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/controllers/NfcController.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/controllers/RegisterController.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/controllers/TaskController.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/main/static/css/style.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/main/static/images/sprites/contact.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/main/static/js/custom/layout.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/main/views/layout/layout.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/models/RegisterModel.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/routers/router.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/viewmodels/AccountsViewModel.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/viewmodels/ContactUserViewModel.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/viewmodels/CustomerManagementViewModel.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/viewmodels/CustomerViewModel.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/viewmodels/GroupViewModel.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/viewmodels/InviteUserViewModel.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/viewmodels/JobViewModel.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/viewmodels/NfcViewModel.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/viewmodels/PlanViewModels.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/viewmodels/RegisterViewModel.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/viewmodels/SharedDocumentViewModel.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/viewmodels/TaskViewModel.go</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Created" />
-          <option name="myStatusName" value="Created" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CREATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/controllers/LeaveController.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/main/static/images/avatar.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/main/static/images/generated/sprites-se7b5746725.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/main/static/images/img1.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/main/static/images/leave.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/main/static/images/sprites/leave.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/models/LeaveModel.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/viewmodels/LeaveViewModel.go</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Deleted" />
-          <option name="myStatusName" value="Deleted" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="true" />
-          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Restored" />
-          <option name="myStatusName" value="Will be restored" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="RESTORED" />
-        </FILE-GROUP>
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Modified" />
-        <option name="myStatusName" value="Modified" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MODIFIED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Skipped" />
-        <option name="myStatusName" value="Skipped" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="SKIPPED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with conflicts" />
-        <option name="myStatusName" value="Will be merged with conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_CONFLICTS" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with tree conflicts" />
-        <option name="myStatusName" value="Merged with tree conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with property conflicts" />
-        <option name="myStatusName" value="Will be merged with property conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged" />
-        <option name="myStatusName" value="Will be merged" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Not in repository" />
-        <option name="myStatusName" value="Not in repository" />
-        <option name="mySupportsDeletion" value="true" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="UNKNOWN" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Locally added" />
-        <option name="myStatusName" value="Locally added" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="LOCALLY_ADDED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Locally removed" />
-        <option name="myStatusName" value="Locally removed" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="LOCALLY_REMOVED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Switched" />
-        <option name="myStatusName" value="Switched" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="SWITCHED" />
-      </FILE-GROUP>
-    </UpdatedFiles>
   </component>
   <component name="RunManager">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -693,13 +532,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
-    </task>
-    <task id="LOCAL-00032" summary="24/02/2017   Update database structure">
-      <created>1487910433608</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1487910433608</updated>
     </task>
     <task id="LOCAL-00033" summary="24/02/2017   Update database structure">
       <created>1487935567747</created>
@@ -1037,7 +869,14 @@
       <option name="project" value="LOCAL" />
       <updated>1491824140146</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="10/04/2017  5:23: shared documents1">
+      <created>1491825220653</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1491825220655</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1067,7 +906,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18064517" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34023905" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34581673" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24940239" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24940239" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1117,7 +956,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="08/02/2017  row expansion" />
     <MESSAGE value="09/02/2017  row expansion" />
     <MESSAGE value="10/02/2017  row expansion" />
     <MESSAGE value="10/02/2017  3:13  Customer Management" />
@@ -1142,7 +980,8 @@
     <MESSAGE value="29/03/2017  12:12: shared documents1" />
     <MESSAGE value="6/04/2017  12:12: shared documents1" />
     <MESSAGE value="10/04/2017  5:05: shared documents1" />
-    <option name="LAST_COMMIT_MESSAGE" value="10/04/2017  5:05: shared documents1" />
+    <MESSAGE value="10/04/2017  5:23: shared documents1" />
+    <option name="LAST_COMMIT_MESSAGE" value="10/04/2017  5:23: shared documents1" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1463,9 +1302,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
           <caret line="3" column="32" lean-forward="false" selection-start-line="3" selection-start-column="32" selection-end-line="3" selection-end-column="42" />
-          <folding>
-            <marker date="1491823289432" expanded="true" signature="47:151" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1507,17 +1344,17 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1062">
           <caret line="62" column="0" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
-          <folding>
-            <marker date="1491823289308" expanded="true" signature="134:5990" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="36" column="53" lean-forward="true" selection-start-line="36" selection-start-column="53" selection-end-line="36" selection-end-column="53" />
-          <folding />
+        <state relative-caret-position="36">
+          <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+          <folding>
+            <element signature="e#21#74#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
