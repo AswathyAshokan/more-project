@@ -7,6 +7,7 @@
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/shareddocuments.js" afterPath="$PROJECT_DIR$/main/static/js/custom/shareddocuments.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/layout/layout.html" afterPath="$PROJECT_DIR$/main/views/layout/layout.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/shareddocument.html" afterPath="$PROJECT_DIR$/main/views/template/shareddocument.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -533,13 +534,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00033" summary="24/02/2017   Update database structure">
-      <created>1487935567747</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1487935567747</updated>
-    </task>
     <task id="LOCAL-00034" summary="24/02/2017   Update database structure">
       <created>1487938411209</created>
       <option name="number" value="00034" />
@@ -876,7 +870,14 @@
       <option name="project" value="LOCAL" />
       <updated>1491825220655</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="11/04/2017  11:30: shared documents">
+      <created>1491890457269</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1491890457270</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TodoView">
@@ -956,7 +957,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="09/02/2017  row expansion" />
     <MESSAGE value="10/02/2017  row expansion" />
     <MESSAGE value="10/02/2017  3:13  Customer Management" />
     <MESSAGE value="14/03/2017  3:13  Customer Management" />
@@ -981,7 +981,8 @@
     <MESSAGE value="6/04/2017  12:12: shared documents1" />
     <MESSAGE value="10/04/2017  5:05: shared documents1" />
     <MESSAGE value="10/04/2017  5:23: shared documents1" />
-    <option name="LAST_COMMIT_MESSAGE" value="10/04/2017  5:23: shared documents1" />
+    <MESSAGE value="11/04/2017  11:30: shared documents" />
+    <option name="LAST_COMMIT_MESSAGE" value="11/04/2017  11:30: shared documents" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">

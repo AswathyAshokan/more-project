@@ -33,7 +33,7 @@ $(function(){
      });
     /*$('#fromDate').datepicker({
         
-        minDate: new Date(2017, 1 -0, 25),
+        minDate: new Date(2017, 4, 25),
         maxDate: '+30Y',
         inline: true
     });*/
@@ -99,13 +99,14 @@ $(function(){
     
     $('#fromDate').change(function () {
         
-       /* $('#toDate').datepicker({
+       
+      
+        selectFromDate = $('#fromDate').val();
+         /*$('#toDate').datepicker({
             minDate: new Date(selectedToDate),
             maxDate: '+30Y',
             inline: true
         });*/
-      
-        selectFromDate = $('#fromDate').val();
         actualFromDate = new Date(selectFromDate);
         actualFromDate.setHours(0);
         actualFromDate.setMinutes(0);
@@ -116,13 +117,13 @@ $(function(){
     
 
     $('#toDate').change(function () {
-       /* $('#fromDate').datetimepicker({
-            format: 'MM-DD-YYYY',
-            maxDate: new Date
-        }); 
-        */
-        
-        
+        var output = selectFromDate.replace(/(\d\d)\/(\d\d)\/(\d{4})/, "$3-$1-$2");
+        console.log("outt",output);
+        $('#fromDate').datepicker({
+            minDate:  output,
+            maxDate: '+30Y',
+            inline: true
+        });
         selectedToDate = $('#toDate').val();
         actualToDate = new Date(selectedToDate);
         actualToDate.setHours(23);
@@ -131,7 +132,6 @@ $(function(){
         unixToDate = Date.parse(actualToDate)/1000;
         listSharedDocumentByDate(unixFromDate,unixToDate);
     });
-    
     
 });
 
