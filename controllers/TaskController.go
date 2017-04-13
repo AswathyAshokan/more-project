@@ -283,13 +283,13 @@ func (c *TaskController)LoadTaskDetail() {
 
 				var bufferFitToWork bytes.Buffer
 				if len(tempFitToWork) == 0{
-					bufferFitToWork.WriteString(tasks[k].FitToWork[fitToWorkKey.String()].Info)
+					bufferFitToWork.WriteString(tasks[k].FitToWork[fitToWorkKey.String()].Description)
 					tempFitToWork = bufferFitToWork.String()
 					bufferFitToWork.Reset()
 				} else {
 					bufferFitToWork.WriteString(tempFitToWork)
 					bufferFitToWork.WriteString(", ")
-					bufferFitToWork.WriteString(tasks[k].FitToWork[fitToWorkKey.String()].Info)
+					bufferFitToWork.WriteString(tasks[k].FitToWork[fitToWorkKey.String()].Description)
 					tempFitToWork = bufferFitToWork.String()
 					bufferFitToWork.Reset()
 				}
@@ -608,7 +608,7 @@ func (c *TaskController)LoadEditTask() {
 						viewModel.Log = taskDetail.Info.Log
 						dataValue = reflect.ValueOf(taskDetail.FitToWork)
 						for _, key := range dataValue.MapKeys() {
-							fitToWorkSlice = append(fitToWorkSlice,taskDetail.FitToWork[key.String()].Info)
+							fitToWorkSlice = append(fitToWorkSlice,taskDetail.FitToWork[key.String()].Description)
 						}
 						viewModel.FitToWork = fitToWorkSlice
 						viewModel.TaskId = taskId

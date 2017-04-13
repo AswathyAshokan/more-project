@@ -64,9 +64,10 @@ type AdminInfo struct {
 }
 
 type AdminSettings struct {
-	Status		string
-	DateOfCreation  int64
-	ProfilePicture	string
+	Status			string
+	DateOfCreation  	int64
+	ProfilePicture		string
+	ThumbProfilePicture	string
 }
 
 type AdminCompany struct {
@@ -74,6 +75,13 @@ type AdminCompany struct {
 	CompanyId	string
 	CompanyStatus	string
 }
+type Storage struct {
+	Bucket       string
+	Token        string
+	RefreshToken string
+	APIKey       string
+}
+
 
 //Register new Company Admin
 func (m *Admins)CreateAdminAndCompany(ctx context.Context, company Company) bool {
@@ -155,6 +163,7 @@ func (m *Admins)GetCompanyDetails(ctx context.Context, adminId string) (bool,Adm
      return true,companyAdmins
 }
 func(m *Admins) EditAdminDetails(ctx context.Context ,adminId string) (bool){
+
 	admin := Admins{}
 	dB,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
@@ -165,6 +174,7 @@ func(m *Admins) EditAdminDetails(ctx context.Context ,adminId string) (bool){
 		log.Fatal(err)
 		return false
 	}
+
 
 
 	m.Settings.DateOfCreation = admin.Settings.DateOfCreation

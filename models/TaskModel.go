@@ -25,9 +25,9 @@ type Tasks   struct {
 
 }
 type TaskFitToWork struct {
-	Info		string
-	Status		string
-	DateOfCreation	int64
+	Description    string
+	Status         string
+	DateOfCreation int64
 
 }
 type TaskInfo struct {
@@ -106,7 +106,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 	fitToWorkForTask :=TaskFitToWork{}
 	for i := 0; i < len(FitToWorkSlice); i++ {
 
-		fitToWorkForTask.Info =FitToWorkSlice[i]
+		fitToWorkForTask.Description =FitToWorkSlice[i]
 		fitToWorkForTask.DateOfCreation =time.Now().Unix()
 		fitToWorkForTask.Status = helpers.StatusActive
 		id := betterguid.New()
@@ -124,7 +124,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 		userTaskDetail.EndDate = m.Info.EndDate
 		userTaskDetail.StartDate =m.Info.StartDate
 		userTaskDetail.JobName = m.Job.JobName
-		userTaskDetail.Status = helpers.StatusActive
+		userTaskDetail.Status = helpers.StatusPending
 		userTaskDetail.CompanyId = companyId
 		userKey :=key.String()
 		err = dB.Child("/Users/"+userKey+"/Tasks/"+taskUniqueID).Set(userTaskDetail)
@@ -230,7 +230,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	fitToWorkForTask :=TaskFitToWork{}
 	for i := 0; i < len(FitToWorkSlice); i++ {
 
-		fitToWorkForTask.Info =FitToWorkSlice[i]
+		fitToWorkForTask.Description =FitToWorkSlice[i]
 		fitToWorkForTask.DateOfCreation =time.Now().Unix()
 		fitToWorkForTask.Status = helpers.StatusActive
 		id := betterguid.New()
@@ -248,6 +248,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userTaskDetail.JobName = m.Job.JobName
 		userTaskDetail.TaskName = m.Info.TaskName
 		userTaskDetail.StartDate = m.Info.StartDate
+		userTaskDetail.Status =helpers.StatusPending
 		err = dB.Child("/Users/"+userKey+"/Tasks/"+taskId).Update(&userTaskDetail)
 	}
 

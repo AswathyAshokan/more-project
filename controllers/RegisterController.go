@@ -85,13 +85,9 @@ func (c *RegisterController) EditProfile() {
 		admin.Info.Email = c.GetString("emailId")
 		admin.Info.PhoneNo = c.GetString("phoneNumber")
 		admin.Settings.ProfilePicture = c.GetString("profilePicture")
+		//profile :=c.GetString("profilePicturePath")
+		//_ := admin.ImageUpload(c.AppEngineCtx, profile)
 		dbStatus := admin.EditAdminDetails(c.AppEngineCtx, adminId)
-		//s := Storage{
-		//	Token:        "--user access token, from any login method--",
-		//	RefreshToken: "--same, but refresh token--",
-		//	Bucket:       "your-bucket-id.appspot.com",
-		//	APIKey:       "your-project-api-key",
-		//}
 
 		switch dbStatus {
 		case true:
