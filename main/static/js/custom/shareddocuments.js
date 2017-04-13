@@ -1,5 +1,3 @@
-console.log(vm);
-
 
 $(function(){
     var unixFromDate = 0;
@@ -11,7 +9,6 @@ $(function(){
     var selectFromDate;
     var actualFromDate;
     var completeTable =[];
-    
     function createDataArray(values, keys){
         var subArray = [];
         for(i = 0; i < values.length; i++) {
@@ -23,7 +20,6 @@ $(function(){
             subArray = [];
         }
     }
-   
     completeTable = mainArray;
     $('#refreshButton').click(function(e) {
         $('#shareddocument-table').dataTable().fnDestroy();
@@ -31,13 +27,6 @@ $(function(){
         $('#toDate').datepicker('setDate', null);
         dataTableManipulate(completeTable);
      });
-    /*$('#fromDate').datepicker({
-        
-        minDate: new Date(2017, 4, 25),
-        maxDate: '+30Y',
-        inline: true
-    });*/
-    
     function listSharedDocumentByDate(unixFromDate,unixToDate){
         var tempArray = [];
         var expiryDate =0;
@@ -55,14 +44,12 @@ $(function(){
                 tempArray.push(mainArray[i]);
             
             }
-            
             $('#shareddocument-table').dataTable().fnDestroy();
             dataTableManipulate(tempArray);
         }
     }
-    
-    
-   function dataTableManipulate(dataArray){
+
+    function dataTableManipulate(dataArray){
        table =  $("#shareddocument-table").DataTable({
            data: dataArray,
            "columnDefs": [{
@@ -92,22 +79,14 @@ $(function(){
         window.location =   data[2];
         return false;
     });
-/*-------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------*/
 
-   
-    
-    
     $('#fromDate').change(function () {
-        
-       
-      
         selectFromDate = $('#fromDate').val();
-         /*$('#toDate').datepicker({
-            minDate: new Date(selectedToDate),
-            maxDate: '+30Y',
-            inline: true
-        });*/
-        actualFromDate = new Date(selectFromDate);
+        var fromYear = selectFromDate.substring(6, 10);
+        var fromDay = selectFromDate.substring(3, 5);
+        var fromMonth = selectFromDate.substring(0, 2);
+        $('#toDate').datepicker("option", "minDate", new Date(fromYear, fromMonth-1, fromDay));
         actualFromDate.setHours(0);
         actualFromDate.setMinutes(0);
         actualFromDate.setSeconds(0);
@@ -115,16 +94,12 @@ $(function(){
         listSharedDocumentByDate(unixFromDate,unixToDate);
     });
     
-
     $('#toDate').change(function () {
-        var output = selectFromDate.replace(/(\d\d)\/(\d\d)\/(\d{4})/, "$3-$1-$2");
-        console.log("outt",output);
-        $('#fromDate').datepicker({
-            minDate:  output,
-            maxDate: '+30Y',
-            inline: true
-        });
         selectedToDate = $('#toDate').val();
+        var year = selectedToDate.substring(6, 10);
+        var day = selectedToDate.substring(3, 5);
+        var month = selectedToDate.substring(0, 2);
+        $('#fromDate').datepicker("option", "maxDate", new Date(year, month-1, day));
         actualToDate = new Date(selectedToDate);
         actualToDate.setHours(23);
         actualToDate.setMinutes(59);

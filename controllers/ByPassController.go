@@ -32,7 +32,7 @@ func (c *ByPassController)ByPass() {
 		sessionValues.CompanyPlan = companyDetails.Plan
 		SetSession(w, sessionValues)
 
-		initialLink := "/xyzteam/shareddocuments/-KgSiehMCY8ELVqEnOL1"
+		initialLink := "/cynere1/shareddocuments/-KhWjQkaIhtJhHl1VowF"
 
 		http.Redirect(w, r, initialLink, 302)
 

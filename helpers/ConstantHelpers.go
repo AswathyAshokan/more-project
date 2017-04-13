@@ -8,6 +8,7 @@ const (
 	StatusAccepted = "Accepted"
 	StatusInActive = "Inactive"
 	PlanFamily = "family"
+	PlanBusiness = "businessPlus"
 )
 
 // Error Messages
