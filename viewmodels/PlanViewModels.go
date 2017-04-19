@@ -6,6 +6,7 @@ type Plan struct {
 	CompanyPlan		string
 	AdminFirstName		string
 	AdminLastName		string
+	ProfilePicture		string
 }
 
 

@@ -64,6 +64,7 @@ func (c *JobController)AddNewJob() {
 		}
 		viewModel.AdminFirstName = storedSession.AdminFirstName
 		viewModel.AdminLastName = storedSession.AdminLastName
+		viewModel.ProfilePicture =storedSession.ProfilePicture
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-job.html"
@@ -111,6 +112,7 @@ func (c *JobController)LoadJobDetail() {
 		viewModel.CompanyPlan = storedSession.CompanyPlan
 		viewModel.AdminFirstName = storedSession.AdminFirstName
 		viewModel.AdminLastName = storedSession.AdminLastName
+		viewModel.ProfilePicture =storedSession.ProfilePicture
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/job-details.html"
@@ -197,6 +199,7 @@ func (c *JobController)LoadEditJob() {
 				viewModel.CompanyPlan = storedSession.CompanyPlan
 				viewModel.AdminFirstName = storedSession.AdminFirstName
 				viewModel.AdminLastName = storedSession.AdminLastName
+				viewModel.ProfilePicture =storedSession.ProfilePicture
 				c.Data["vm"] = viewModel
 				c.Layout = "layout/layout.html"
 				c.TplName = "template/add-job.html"

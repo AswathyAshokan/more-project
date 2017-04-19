@@ -3,7 +3,7 @@
 	<div class="clearfix">
 		<h4 id="taskHead">Add Task </h4>
         <div class="personal-details margin-top-20 clearfix bg-border task-add">
-            <div class="col-md-9 col-sm-12 col-xs-12">
+            <div class="col-md-8 col-sm-12 col-xs-12">
 				<div class="row">
 					<form class="clearfix no-bg-border" method="POST" id="taskDoneForm">
                         <div class="form-group clearfix">
@@ -25,6 +25,7 @@
 							</div>
 						</div>
                         <div class="dateValidationError" id="dateValidationError"></div>
+                        <div class="timeValidationError" id="timeValidationError"></div>
                         <div class="form-group clearfix">
                             <div class="col-sm-6">
 								<label for="startDate" class="">Start Date and Time</label>
@@ -100,7 +101,7 @@
 							<div class="col-sm-6" id="TextBoxContainer">
                                 <div class="plus" id="fitToWorkAdd" >
                                     <input class="form-control" id="addFitToWorkValue" type="text"  name="addFitToWorkValue"> 
-                                    <img  id="btnAdd" src="/static/images/fitToWork.png" width="40" height="38" style= "float:right; margin-top:-3em; margin-right:-3em;"  />
+                                    <img  id="btnAdd" src="/static/images/fitToWork.png" width="40" height="38" style= "float:right; margin-top:-3em; margin-right:-3em;" onclick="initialize();" />
                                     
                                 </div>
                                 
@@ -115,7 +116,7 @@
                     </form>
 				</div>
 			</div>
-            <div class="col-md-3 col-sm-12 col-xs-12">
+            <div class="col-md-4 col-sm-12 col-xs-12">
 				<div class="map-header" id="typeOfLogin"><div  style="width: 25%; float:left; margin: 0px;" class="loginTypeValidationError" ></div>
 					<span>Login Type</span>
 					<div class>

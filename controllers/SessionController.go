@@ -21,6 +21,7 @@ type SessionValues struct{
 	CompanyName	string
 	CompanyTeamName	string
 	CompanyPlan	string
+	ProfilePicture	string
 }
 
 // for Super Admin

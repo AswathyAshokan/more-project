@@ -7,4 +7,5 @@ type LeaveViewModel  struct {
 	AdminLastName			string
 	CompanyTeamName			string
 	CompanyPlan			string
+	ProfilePicture			string
 }

@@ -115,6 +115,7 @@ func (c *LeaveController) LoadUserLeave() {
 		viewModel.AdminLastName =storedSession.AdminLastName
 		viewModel.CompanyPlan =storedSession.CompanyPlan
 		viewModel.CompanyTeamName =storedSession.CompanyTeamName
+		viewModel.ProfilePicture =storedSession.ProfilePicture
 		viewModel.UserKeys =keySlice
 		viewModel.Keys = keyForLeave
 		c.Data["vm"] = viewModel

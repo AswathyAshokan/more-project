@@ -5,4 +5,5 @@ type SharedDocument struct {
 	Keys         		[]string
 	AdminFirstName			string
 	AdminLastName			string
+	ProfilePicture			string
 }

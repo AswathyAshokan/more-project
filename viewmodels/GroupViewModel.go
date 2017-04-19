@@ -7,6 +7,7 @@ type GroupList struct {
 	CompanyPlan		string
 	AdminFirstName		string
 	AdminLastName		string
+	ProfilePicture		string
 }
 
 type AddGroupViewModel struct {
@@ -18,6 +19,7 @@ type AddGroupViewModel struct {
 	CompanyPlan		string
 	AdminFirstName		string
 	AdminLastName		string
+	ProfilePicture		string
 }
 
 type EditGroupViewModel struct {
@@ -31,4 +33,5 @@ type EditGroupViewModel struct {
 	CompanyPlan		string
 	AdminFirstName		string
 	AdminLastName		string
+	ProfilePicture		string
 }

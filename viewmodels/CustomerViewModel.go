@@ -16,6 +16,7 @@ type Customer struct {
 	CompanyPlan	string
 	AdminFirstName	string
 	AdminLastName	string
+	ProfilePicture		string
 }
 type EditCustomerViewModel struct {
 
@@ -32,6 +33,7 @@ type EditCustomerViewModel struct {
 	CompanyPlan	string
 	AdminFirstName	string
 	AdminLastName	string
+	ProfilePicture		string
 
 }
 
@@ -40,4 +42,5 @@ type AddCustomerViewModel struct {
 	CompanyPlan		string
 	AdminFirstName		string
 	AdminLastName		string
+	ProfilePicture		string
 }

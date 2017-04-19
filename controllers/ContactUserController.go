@@ -48,6 +48,7 @@ func (c *ContactUserController)AddNewContact() {
 		viewModel.CompanyPlan = storedSession.CompanyPlan
 		viewModel.AdminLastName =storedSession.AdminLastName
 		viewModel.AdminFirstName =storedSession.AdminFirstName
+		viewModel.ProfilePicture =storedSession.ProfilePicture
 		viewModel.PageType = helpers.SelectPageForAdd
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
@@ -88,6 +89,7 @@ func (c *ContactUserController)DisplayContactDetails() {
 		viewModel.AdminFirstName =storedSession.AdminFirstName
 		viewModel.AdminLastName =storedSession.AdminLastName
 		viewModel.CompanyPlan = storedSession.CompanyPlan
+		viewModel.ProfilePicture =storedSession.ProfilePicture
 		viewModel.Keys = keySlice
 		viewModel.PageType=helpers.SelectPageForAdd
 		c.Data["vm"] = viewModel
@@ -167,6 +169,7 @@ func (c *ContactUserController)LoadEditContact() {
 			viewModel.CompanyPlan = storedSession.CompanyPlan
 			viewModel.AdminFirstName =storedSession.AdminFirstName
 			viewModel.AdminLastName = storedSession.AdminLastName
+			viewModel.ProfilePicture =storedSession.ProfilePicture
 			c.Data["vm"] = viewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-contacts.html"

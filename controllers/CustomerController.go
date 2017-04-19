@@ -47,6 +47,7 @@ func (c *CustomerController) AddCustomer() {
 		addViewModel.CompanyPlan   =  storedSession.CompanyPlan
 		addViewModel.AdminLastName =storedSession.AdminLastName
 		addViewModel.AdminFirstName =storedSession.AdminFirstName
+		addViewModel.ProfilePicture =storedSession.ProfilePicture
 		c.Data["vm"] = addViewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-customer.html"
@@ -89,6 +90,7 @@ func (c *CustomerController) CustomerDetails() {
 		customerViewModel.CompanyPlan = storedSession.CompanyPlan
 		customerViewModel.AdminFirstName =storedSession.AdminFirstName
 		customerViewModel.AdminLastName =storedSession.AdminLastName
+		customerViewModel.ProfilePicture =storedSession.ProfilePicture
 		c.Data["vm"] = customerViewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/customer-details.html"
@@ -158,6 +160,7 @@ func (c *CustomerController) EditCustomer() {
 			customerViewModel.CompanyPlan = storedSession.CompanyPlan
 			customerViewModel.AdminLastName =storedSession.AdminLastName
 			customerViewModel.AdminFirstName =storedSession.AdminFirstName
+			customerViewModel.ProfilePicture =storedSession.ProfilePicture
 			c.Data["vm"] = customerViewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-customer.html"

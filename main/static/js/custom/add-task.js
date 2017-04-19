@@ -171,9 +171,11 @@ $().ready(function() {
             
             //code for date and time conversion
             var startDate = new Date($("#startDate").val());
+            console.log(startDate);
             var startTime =  document.getElementById("startTime").value;
             var endDate = new Date($("#endDate").val());
             var endTime =  document.getElementById("endTime").value;
+            console.log(endTime);
             
 
             //setting the time in start date and end date
@@ -231,8 +233,10 @@ $().ready(function() {
             if (minUserForTask >= minUsers) {
                 if(loginTypeRadio.length != 0)
                     {
-                      if( endDateToCompare > startDateToCompare) 
+                      if( endDateToCompare >= startDateToCompare) 
                           {
+                            if( endDateToCompare != startDateToCompare|| (endDateToCompare == startDateToCompare && startTime <endTime))
+                                 {
                               if( mapLatitude.length  !=0)
                                   {
                                        $("#saveButton").attr('disabled', true);
@@ -325,6 +329,11 @@ $().ready(function() {
                               else{
                                   $("#mapValidationError").css({"color": "red", "font-size": "15px"});
                                   $("#mapValidationError").html("please select location from map.").show();
+                              }
+                          }
+                              else{
+                                  $("#timeValidationError").css({"color": "red", "font-size": "15px"});
+                                  $("#timeValidationError").html("please select valid a time.").show();
                               }
                           }
                         else {

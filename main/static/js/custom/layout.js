@@ -34,6 +34,7 @@ $(document).ready(function() {
     }
     
     document.getElementById("username").textContent=vm.AdminFirstName;
+    document.getElementById("imageId").src=vm.ProfilePicture;
     if(vm.CompanyPlan == "family")
     {
         $('#planChange').attr('data-target','#family');

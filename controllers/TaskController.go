@@ -221,6 +221,7 @@ func (c *TaskController)AddNewTask() {
 		}
 		viewModel.AdminFirstName = storedSession.AdminFirstName
 		viewModel.AdminLastName = storedSession.AdminLastName
+		viewModel.ProfilePicture =storedSession.ProfilePicture
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-task.html"
@@ -295,6 +296,45 @@ func (c *TaskController)LoadTaskDetail() {
 				}
 			}
 
+			//displaying users
+			usersDataValue := reflect.ValueOf(tasks[k].UsersAndGroups.User)
+			tempusersDataValue := ""
+
+			for _, userKey := range usersDataValue.MapKeys() {
+
+				var bufferUser bytes.Buffer
+				if len(tempusersDataValue) == 0{
+					bufferUser.WriteString(tasks[k].UsersAndGroups.User[userKey.String()].FullName)
+					tempusersDataValue = bufferUser.String()
+					bufferUser.Reset()
+				} else {
+					bufferUser.WriteString(tempusersDataValue)
+					bufferUser.WriteString(", ")
+					bufferUser.WriteString(tasks[k].UsersAndGroups.User[userKey.String()].FullName)
+					tempusersDataValue = bufferUser.String()
+					bufferUser.Reset()
+				}
+			}
+			//displaying contacts
+			contactDataValue := reflect.ValueOf(tasks[k].Contacts)
+			tempcontactDataValue := ""
+
+			for _, contactKey := range contactDataValue.MapKeys() {
+
+				var bufferContact bytes.Buffer
+				if len(tempcontactDataValue) == 0{
+					bufferContact.WriteString(tasks[k].Contacts[contactKey.String()].ContactName)
+					tempcontactDataValue = bufferContact.String()
+					bufferContact.Reset()
+				} else {
+					bufferContact.WriteString(tempcontactDataValue)
+					bufferContact.WriteString(", ")
+					bufferContact.WriteString(tasks[k].Contacts[contactKey.String()].ContactName)
+					tempcontactDataValue = bufferContact.String()
+					bufferContact.Reset()
+				}
+			}
+
 			tempValueSlice = append(tempValueSlice, tasks[k].Info.TaskName)
 			startDate := time.Unix(tasks[k].Info.StartDate, 0).Format("2006/01/02")
 			tempValueSlice = append(tempValueSlice, startDate)
@@ -304,9 +344,11 @@ func (c *TaskController)LoadTaskDetail() {
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.UserNumber)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Settings.Status)
 			tempValueSlice =append(tempValueSlice,"")
-			tempValueSlice = append(tempValueSlice,  tempFitToWork)
+			//tempValueSlice = append(tempValueSlice,  tempFitToWork)
 			tempValueSlice = append(tempValueSlice,  tasks[k].Info.Log)
-			tempValueSlice = append(tempValueSlice,  tasks[k].Info.TaskDescription)
+			tempValueSlice = append(tempValueSlice, tempusersDataValue)
+			tempValueSlice = append(tempValueSlice, tempcontactDataValue)
+
 			viewModel.Values = append(viewModel.Values, tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
 		}
@@ -315,6 +357,7 @@ func (c *TaskController)LoadTaskDetail() {
 		viewModel.CompanyPlan = storedSession.CompanyPlan
 		viewModel.AdminFirstName = storedSession.AdminFirstName
 		viewModel.AdminLastName = storedSession.AdminLastName
+		viewModel.ProfilePicture =storedSession.ProfilePicture
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/task-details.html"
@@ -618,6 +661,7 @@ func (c *TaskController)LoadEditTask() {
 						viewModel.LoginType =taskDetail.Info.LoginType
 						viewModel.AdminFirstName = storedSession.AdminFirstName
 						viewModel.AdminLastName = storedSession.AdminLastName
+						viewModel.ProfilePicture =storedSession.ProfilePicture
 						c.Data["vm"] = viewModel
 						c.Layout = "layout/layout.html"
 						c.TplName = "template/add-task.html"

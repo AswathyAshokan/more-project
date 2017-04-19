@@ -80,6 +80,7 @@ func (c *NfcController)AddNFC(){
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
 		viewModel.AdminFirstName = storedSession.AdminFirstName
 		viewModel.AdminLastName = storedSession.AdminLastName
+		viewModel.ProfilePicture =storedSession.ProfilePicture
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-nfc.html"
@@ -125,6 +126,7 @@ func (c *NfcController)EditNFC(){
 			viewModel.CompanyPlan = storedSession.CompanyPlan
 			viewModel.AdminFirstName = storedSession.AdminFirstName
 			viewModel.AdminLastName = storedSession.AdminLastName
+			viewModel.ProfilePicture =storedSession.ProfilePicture
 			c.Data["vm"] = viewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-nfc.html"

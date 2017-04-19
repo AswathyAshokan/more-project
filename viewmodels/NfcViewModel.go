@@ -7,6 +7,7 @@ type NfcViewModel struct {
 	CompanyPlan	string
 	AdminFirstName	string
 	AdminLastName	string
+	ProfilePicture	string
 
 }
 
@@ -21,5 +22,6 @@ type EditNfcViewModel struct {
 	CompanyPlan	string
 	AdminFirstName	string
 	AdminLastName	string
+	ProfilePicture	string
 
 }

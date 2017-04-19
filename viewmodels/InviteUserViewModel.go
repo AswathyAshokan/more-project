@@ -16,6 +16,7 @@ type InviteUserViewModel struct {
 	CompanyPlan		string
 	AdminFirstName		string
 	AdminLastName		string
+	ProfilePicture		string
 }
 
 type EditInviteUserViewModel struct {
@@ -30,6 +31,7 @@ type EditInviteUserViewModel struct {
 	CompanyPlan		string
 	AdminFirstName		string
 	AdminLastName		string
+	ProfilePicture		string
 
 }
 type AddInviteUserViewModel struct {
@@ -38,4 +40,5 @@ type AddInviteUserViewModel struct {
 	AllowInvitations	bool
 	AdminFirstName		string
 	AdminLastName		string
+	ProfilePicture		string
 }

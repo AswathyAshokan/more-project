@@ -18,5 +18,6 @@ type ContactUserViewModel  struct {
 	CompanyPlan		string
 	AdminFirstName		string
 	AdminLastName		string
+	ProfilePicture		string
 
 }

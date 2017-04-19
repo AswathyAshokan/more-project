@@ -19,4 +19,5 @@ type JobViewModel  struct {
 	CompanyPlan		string
 	AdminFirstName		string
 	AdminLastName		string
+	ProfilePicture		string
 }

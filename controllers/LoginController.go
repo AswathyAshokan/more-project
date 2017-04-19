@@ -37,6 +37,7 @@ func (c *LoginController) Login() {
 			sessionValues.CompanyName = companyDetails.Info.CompanyName
 			sessionValues.CompanyTeamName = companyDetails.Info.CompanyTeamName
 			sessionValues.CompanyPlan = companyDetails.Plan
+			sessionValues.ProfilePicture =adminDetails.Settings.ThumbProfilePicture
 			SetSession(w, sessionValues)
 			slices := []interface{}{"true", sessionValues.CompanyTeamName,sessionValues.AdminFirstName}
 			sliceToClient, _ := json.Marshal(slices)

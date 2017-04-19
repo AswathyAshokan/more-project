@@ -85,8 +85,7 @@ func (c *RegisterController) EditProfile() {
 		admin.Info.Email = c.GetString("emailId")
 		admin.Info.PhoneNo = c.GetString("phoneNumber")
 		admin.Settings.ProfilePicture = c.GetString("profilePicture")
-		//profile :=c.GetString("profilePicturePath")
-		//_ := admin.ImageUpload(c.AppEngineCtx, profile)
+		admin.Settings.ThumbProfilePicture=c.GetString("thumbPicture")
 		dbStatus := admin.EditAdminDetails(c.AppEngineCtx, adminId)
 
 		switch dbStatus {
@@ -111,6 +110,7 @@ func (c *RegisterController) EditProfile() {
 			viewModel.CompanyPlan =plan
 			viewModel.AdminFirstName = storedSession.AdminFirstName
 			viewModel.AdminLastName = storedSession.AdminLastName
+			viewModel.ProfilePicture =storedSession.ProfilePicture
 			c.Data["vm"] = viewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/edit-profile.html"

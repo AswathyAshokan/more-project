@@ -35,6 +35,7 @@ type EditTaskViewModel  struct {
 	EndTime				string
 	AdminFirstName			string
 	AdminLastName			string
+	ProfilePicture			string
 
 
 }
@@ -52,6 +53,7 @@ type AddTaskViewModel  struct {
 	CompanyPlan			string
 	AdminFirstName			string
 	AdminLastName			string
+	ProfilePicture			string
 
 
 }
@@ -68,5 +70,6 @@ type TaskDetailViewModel  struct {
 	CompanyPlan			string
 	AdminFirstName			string
 	AdminLastName			string
+	ProfilePicture			string
 
 }
