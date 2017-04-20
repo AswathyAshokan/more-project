@@ -138,7 +138,7 @@ func(m *Invitation) GetAllInviteUserForEdit(ctx context.Context, InviteUserId st
 }
 
 // update the the profile of user by invite user id
-func(m *Invitation) UpdateInviteUserById(ctx context.Context,InviteUserId string) (bool) {
+func(m *Company) UpdateInviteUserById(ctx context.Context,InviteUserId string) (bool) {
 
 	InvitationSettingsDetails := InviteSettings{}
 	db,err :=GetFirebaseClient(ctx,"")

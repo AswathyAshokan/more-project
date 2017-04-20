@@ -77,39 +77,40 @@ func (c *InviteUserController) AddInvitation() {
 			w.Write([]byte("false"))
 		}
 	} else {
-		/*companyPlan := storedSession.CompanyPlan*/
-		/*if companyPlan == "family" {
-			_, dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx, companyTeamName)
+		companyPlan := storedSession.CompanyPlan
+		if companyPlan == "family" {
+			info, dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx, companyTeamName)
 			switch dbStatus {
 			case true:
 				var count = 0
 				var tempValueSlice []string
+				var keySlice []string
 				dataValue := reflect.ValueOf(info)
 				var uniqueEmailSlice []string
 				for _, key := range dataValue.MapKeys() {
-					log.Println("key",info[key.String()])
+					keySlice = append(keySlice, key.String())
+				}
+				for _, key := range keySlice{
 					//check is email id is present in the slice
-					if helpers.StringInSlice(info[key.String()].Info.Email, uniqueEmailSlice) == false {
-						tempValueSlice = append(tempValueSlice, info[key.String()].Settings.Status)
-						uniqueEmailSlice = append(uniqueEmailSlice, info[key.String()].Info.Email)//appent email id into slice
+					if helpers.StringInSlice(info[key].Email, uniqueEmailSlice) == false {
+						tempValueSlice = append(tempValueSlice, info[key].Status)
+						uniqueEmailSlice = append(uniqueEmailSlice, info[key].Email)//appent email id into slice
 					}
-
-								for i := 0; i < len(tempValueSlice); i++ {
-					if tempValueSlice[i] == helpers.StatusPending || tempValueSlice[i] == helpers.StatusAccepted {
-						count = count + 1
+					for i := 0; i < len(tempValueSlice); i++ {
+						if tempValueSlice[i] == helpers.StatusPending || tempValueSlice[i] == helpers.StatusAccepted {
+							count = count + 1
+						}
+					}
+					for i := count; i < 4; i++ {
+						addViewModel.AllowInvitations = true
 					}
 				}
-				for i := count; i < 4; i++ {
-					addViewModel.AllowInvitations = true
-				}
-
 			case false:
 				log.Println("failed")
 			}
 		}else {
 			addViewModel.AllowInvitations =true
-		}*/
-		addViewModel.AllowInvitations =true
+		}
 		addViewModel.CompanyTeamName = storedSession.CompanyTeamName
 		addViewModel.CompanyPlan = storedSession.CompanyPlan
 		addViewModel.AdminFirstName = storedSession.AdminFirstName
@@ -133,35 +134,35 @@ func (c *InviteUserController) InvitationDetails() {
 	switch dbStatus {
 	case true:
 		dataValue := reflect.ValueOf(info)
-
-		    //to store the keys of slice
+		//to store the keys of slice
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
 		}
 
 		for _, k := range keySlice {
-			var tempValueSlice []string
-			tempValueSlice = append(tempValueSlice, info[k].FirstName)
-			tempValueSlice = append(tempValueSlice, info[k].LastName)
-			tempValueSlice = append(tempValueSlice, info[k].Email)
-			tempValueSlice = append(tempValueSlice, info[k].UserType)
-			tempValueSlice = append(tempValueSlice, info[k].Status)
-			inviteUserViewModel.Values=append(inviteUserViewModel.Values,tempValueSlice)
-			tempValueSlice = tempValueSlice[:0]
-		//if invitationByEmail[key].Settings.Status == helpers.StatusActive ||invitationByEmail[key].Settings.Status == helpers.StatusAccepted||invitationByEmail[key].Settings.Status==helpers.StatusPending{
-
+			if info[k].Status == helpers.StatusActive ||info[k].Status == helpers.StatusAccepted||info[k].Status==helpers.StatusPending {
+				var tempValueSlice []string
+				tempValueSlice = append(tempValueSlice, info[k].FirstName)
+				tempValueSlice = append(tempValueSlice, info[k].LastName)
+				tempValueSlice = append(tempValueSlice, info[k].Email)
+				tempValueSlice = append(tempValueSlice, info[k].UserType)
+				tempValueSlice = append(tempValueSlice, info[k].Status)
+				inviteUserViewModel.Values = append(inviteUserViewModel.Values, tempValueSlice)
+				tempValueSlice = tempValueSlice[:0]
 			}
+		}
 
 	case false:
 		log.Println(helpers.ServerConnectionError)
 	}
 	inviteUserViewModel.CompanyTeamName = storedSession.CompanyTeamName
+	log.Println("Team Name: ", storedSession.CompanyTeamName)
 	inviteUserViewModel.CompanyPlan = storedSession.CompanyPlan
 	inviteUserViewModel.AdminFirstName = storedSession.AdminFirstName
 	inviteUserViewModel.AdminLastName = storedSession.AdminLastName
 	inviteUserViewModel.Keys = keySlice
 	log.Println("view",inviteUserViewModel)
-	c.Data["array"] = inviteUserViewModel
+	c.Data["vm"] = inviteUserViewModel
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/invite-user-details.html"
 }
@@ -191,15 +192,12 @@ func (c *InviteUserController) EditInvitation() {
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
 	InviteUserId := c.Ctx.Input.Param(":inviteuserid")
-	inviteUser := models.EmailInvitation{}
+	inviteUser := models.CompanyInvitations{}
 	if r.Method == "POST" {
-		inviteUser.Info.CompanyName = storedSession.CompanyName
-		inviteUser.Info.CompanyPlan = storedSession.CompanyPlan
-		inviteUser.Info.CompanyTeamName= storedSession.CompanyTeamName
-		inviteUser.Info.FirstName = c.GetString("firstname")
-		inviteUser.Info.LastName = c.GetString("lastname")
-		inviteUser.Info.Email = c.GetString("emailid")
-		inviteUser.Info.UserType = c.GetString("usertype")
+		inviteUser.FirstName = c.GetString("firstname")
+		inviteUser.LastName = c.GetString("lastname")
+		inviteUser.Email = c.GetString("emailid")
+		inviteUser.UserType = c.GetString("usertype")
 		dbStatus := inviteUser.UpdateInviteUserById(c.AppEngineCtx, InviteUserId)
 
 		switch dbStatus {
@@ -227,10 +225,10 @@ func (c *InviteUserController) EditInvitation() {
 			c.Data["vm"] = invitationViewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-invite-user.html"
-		case false:*/
+		case false:
 			log.Println(helpers.ServerConnectionError)
-		/*}*/
-	/*}*/
+		}
+	}*/
 }
 
 
