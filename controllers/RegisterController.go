@@ -103,27 +103,15 @@ func (c *RegisterController) EditProfile() {
 		admin.Info.Email = c.GetString("emailId")
 		admin.Info.PhoneNo = c.GetString("phoneNumber")
 		tempProfile :=c.GetString("profilePicture")
-		profilePicture :=strings.Replace(tempProfile, "/", "%2F", -2)
-		//log.Println("dfhsfhshfsjfhhsfhhs",newone)
+		parts := strings.Split(tempProfile, "/")
+		parts = append(parts[:len(parts)-3], strings.Join(parts[len(parts)-3:], "%2F"))
+		profilePicture := strings.Join(parts, "/")
+		log.Println("orginal",profilePicture)
 		admin.Settings.ProfilePicture = profilePicture
-		//result := strings.Split(admin.Settings.ProfilePicture, "/")
-		//
-		//// Display all elements.
-		//for i := range result {
-		//	var urlOfPrifle []string
-		//	urlOfPrifle =append(urlOfPrifle,result[i]+"//")
-		//	urlOfPrifle =append(urlOfPrifle,result[i]+"/")
-		//	urlOfPrifle =append(urlOfPrifle,result[i]+"/")
-		//	urlOfPrifle =append(urlOfPrifle,result[i]+"/")
-		//	urlOfPrifle =append(urlOfPrifle,result[i]+"/")
-		//	urlOfPrifle =append(urlOfPrifle,result[i]+"/")
-		//	urlOfPrifle =append(urlOfPrifle,result[i]+"%2F")
-		//	urlOfPrifle =append(urlOfPrifle,result[i]+"%2F")
-		//	urlOfPrifle = urlOfPrifle[:0]
-		//}
-		//log.Println("profilecontoller",urlOfPrifle)
 		tempThumbProfile :=c.GetString("thumbPicture")
-		thumbPicture :=strings.Replace(tempThumbProfile, "/", "%2F", -2)
+		thumParts := strings.Split(tempThumbProfile, "/")
+		thumParts = append(thumParts[:len(thumParts)-3], strings.Join(thumParts[len(thumParts)-3:], "%2F"))
+		thumbPicture := strings.Join(thumParts, "/")
 		admin.Settings.ThumbProfilePicture=thumbPicture
 		dbStatus := admin.EditAdminDetails(c.AppEngineCtx, adminId)
 

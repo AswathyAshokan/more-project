@@ -111,16 +111,17 @@ func (c *LeaveController) LoadUserLeave() {
 		case false :
 			log.Println(helpers.ServerConnectionError)
 		}
-		viewModel.AdminFirstName =storedSession.AdminFirstName
-		viewModel.AdminLastName =storedSession.AdminLastName
-		viewModel.CompanyPlan =storedSession.CompanyPlan
-		viewModel.CompanyTeamName =storedSession.CompanyTeamName
-		viewModel.ProfilePicture =storedSession.ProfilePicture
-		viewModel.UserKeys =keySlice
-		viewModel.Keys = keyForLeave
+
 
 
 	}
+	viewModel.AdminFirstName =storedSession.AdminFirstName
+	viewModel.AdminLastName =storedSession.AdminLastName
+	viewModel.CompanyPlan =storedSession.CompanyPlan
+	viewModel.CompanyTeamName =storedSession.CompanyTeamName
+	viewModel.ProfilePicture =storedSession.ProfilePicture
+	viewModel.UserKeys =keySlice
+	viewModel.Keys = keyForLeave
 	c.Data["vm"] = viewModel
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/leave-detail.html"

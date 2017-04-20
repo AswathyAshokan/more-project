@@ -115,6 +115,7 @@ func (c *InviteUserController) AddInvitation() {
 		addViewModel.CompanyPlan = storedSession.CompanyPlan
 		addViewModel.AdminFirstName = storedSession.AdminFirstName
 		addViewModel.AdminLastName = storedSession.AdminLastName
+		addViewModel.ProfilePicture =storedSession.ProfilePicture
 		c.Data["vm"] = addViewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-invite-user.html"
@@ -160,6 +161,7 @@ func (c *InviteUserController) InvitationDetails() {
 	inviteUserViewModel.CompanyPlan = storedSession.CompanyPlan
 	inviteUserViewModel.AdminFirstName = storedSession.AdminFirstName
 	inviteUserViewModel.AdminLastName = storedSession.AdminLastName
+	inviteUserViewModel.ProfilePicture =storedSession.ProfilePicture
 	inviteUserViewModel.Keys = keySlice
 	log.Println("view",inviteUserViewModel)
 	c.Data["vm"] = inviteUserViewModel

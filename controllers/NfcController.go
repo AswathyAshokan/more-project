@@ -47,6 +47,7 @@ func (c *NfcController) NFCDetails(){
 	viewModel.CompanyPlan = storedSession.CompanyPlan
 	viewModel.AdminFirstName = storedSession.AdminFirstName
 	viewModel.AdminLastName = storedSession.AdminLastName
+	viewModel.ProfilePicture =storedSession.ProfilePicture
 	c.Data["vm"] = viewModel
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/nfc-details.html"

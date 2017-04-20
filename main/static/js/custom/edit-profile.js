@@ -95,7 +95,8 @@ $().ready(function() {
                 unixDateTime = Date.parse(datetime)/1000;
 //                tempProfilePicture  =file.name(' ').join('_');
 //                console.log("temp",tempProfilePicture);
-                var storageRef = firebase.storage().ref('profilePicturesOfAbmin/original/'+unixDateTime+file.name);
+                 var tempProfilePicture = file.name.replace(/\s/g, '');
+                var storageRef = firebase.storage().ref('profilePicturesOfAbmin/original/'+unixDateTime+tempProfilePicture);
                 storageRef.put(file);
                 function error(err) {
                     console.log("error",err);
@@ -103,13 +104,14 @@ $().ready(function() {
                 
                 //retrieve image from firebase storage
                 //tempThumbPicture  =img.name(' ').join('_');
-                var storageRef = firebase.storage().ref('profilePicturesOfAbmin/thumbnail/'+unixDateTime+img.name);
+                var tempThumbPicture =img.name.replace(/\s/g, '');
+                var storageRef = firebase.storage().ref('profilePicturesOfAbmin/thumbnail/'+unixDateTime+tempThumbPicture);
                 storageRef.put(img);
                 function error(err) {
                     console.log("error",err);
                 }
                 
-                var displayThumbRef = firebase.storage().ref('profilePicturesOfAbmin/thumbnail/'+unixDateTime+img.name);
+                var displayThumbRef = firebase.storage().ref('profilePicturesOfAbmin/thumbnail/'+unixDateTime+tempThumbPicture);
                 setTimeout(function() { displayThumbRef.getDownloadURL().then(function(url) {
                     // Get the download URL for 'images/stars.jpg'
                     // This can be inserted into an <img> tag
@@ -118,7 +120,7 @@ $().ready(function() {
                 }).catch(function(error) {
                     console.error(error);
                 }); }, 3000);
-                 var displayProfileRef = firebase.storage().ref('profilePicturesOfAbmin/original/'+unixDateTime+file.name);
+                 var displayProfileRef = firebase.storage().ref('profilePicturesOfAbmin/original/'+unixDateTime+tempProfilePicture);
                 setTimeout(function() { displayProfileRef.getDownloadURL().then(function(url) {
                     // Get the download URL for 'images/stars.jpg'
                     // This can be inserted into an <img> tag
