@@ -16,11 +16,19 @@ import (
 
 // Struct for Company
 type Company struct{
-	Admins		map[string]CompanyAdmin
-	Info 		CompanyInfo
-	Settings 	CompanySettings
-	Plan            string
-	Users		map[string]CompanyUsers
+	Admins			map[string]CompanyAdmin
+	Info 			CompanyInfo
+	Settings 		CompanySettings
+	Plan            	string
+	Users			map[string]CompanyUsers
+	Invitation       	map[string]CompanyInvitations
+}
+type CompanyInvitations struct {
+	FirstName	string
+	LastName	string
+	UserType	string
+	Status 		string
+	Email 		string
 }
 
 type CompanyAdmin struct {
@@ -84,23 +92,23 @@ type Storage struct {
 
 
 //Register new Company Admin
-func (m *Admins)CreateAdminAndCompany(ctx context.Context, company Company) bool {
+func (m *Admins)CreateAdminAndCompany(ctx context.Context, company Company) (bool,Company) {
 
 	dB, err := GetFirebaseClient(ctx, "")
 	if err != nil {
 		log.Println("No Db Connection!")
-		return false
+		return false,company
 	}
 	hashedPassword, err := bcrypt.GenerateFromPassword(m.Info.Password, bcrypt.DefaultCost)
 	if err != nil {
 		log.Println(err)
-		return false
+		return false,company
 	}
 	m.Info.Password = hashedPassword
 	adminData, err := dB.Child("Admins").Push(m)
 	if err != nil {
 		log.Println(err)
-		return false
+		return false,company
 	}
 	adminDataString := strings.Split(adminData.String(),"/")
 	adminUniqueID := adminDataString[len(adminDataString)-2]
@@ -115,7 +123,7 @@ func (m *Admins)CreateAdminAndCompany(ctx context.Context, company Company) bool
 	companyData, err := dB.Child("Company").Push(company)
 	if err != nil {
 		log.Println(err)
-		return false
+		return false,company
 	}
 	companyDataString := strings.Split(companyData.String(),"/")
 	companyUniqueID := companyDataString[len(companyDataString)-2]
@@ -126,9 +134,9 @@ func (m *Admins)CreateAdminAndCompany(ctx context.Context, company Company) bool
 	err = dB.Child("Admins/"+adminUniqueID+"/Company").Set(adminsCompany)
 	if err != nil {
 		log.Println(err)
-		return false
+		return false,company
 	}
-	return true
+	return true,company
 }
 
 func CheckEmailIsUsed(ctx context.Context, emailId string) bool{
@@ -223,6 +231,23 @@ func(m *Admins) EditAdminPassword(ctx context.Context ,adminId string,confirmPas
 		return false
 	}
 	return  true
+}
+
+func (m *Company)UpdateCompanyTeamName(ctx context.Context) (bool) {
+	log.Println("in model")
+	db,err :=GetFirebaseClient(ctx,"")
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	err = db.Child("Company").Update(&m)
+
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	return true
+
 }
 
 

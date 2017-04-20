@@ -1,37 +1,6 @@
 /*Author: Sarath
 Date:01/02/2017*/
 $(function(){
-   /* $("#register").click(function(){
-        $.ajax({
-            type    : 'POST',
-            url     : '/register',
-            data    : {
-                'firstName'     : $("#firstName").val(),
-                'lastName'      : $("#lastName").val(),
-                'phoneNo'       : $("#phoneNo").val(),
-                'emailId'       : $("#emailId").val(),
-                'password'      : $("#password").val(),
-                'companyName'   : $("#companyName").val(),
-                'address'       : $("#address").val(),
-                'state'         : $("#state").val(),
-                'zipCode'       : $("#zipCode").val()
-            },
-            success : function(data){
-                if(data=="true"){
-                    window.location='';
-                }
-                else{
-
-                }
-            },
-            error: function (request,status, error) {
-           					            console.log(error);
-            }
-
-        });
-        return false;
-    });*/
-    
     //Enabling Register button when if I Agree check box is chechked
     $("#agree").click(function() {
       $("#register").attr("disabled", !this.checked);

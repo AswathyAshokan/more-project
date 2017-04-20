@@ -2,12 +2,12 @@ package controllers
 
 
 import (
-	"log"
+	/*"log"
 	"app/passporte/models"
 	"reflect"
 	"app/passporte/viewmodels"
 	"app/passporte/helpers"
-	"time"
+	"time"*/
 )
 
 type SharedDocumentController struct {
@@ -15,7 +15,7 @@ type SharedDocumentController struct {
 }
 
 func (c *SharedDocumentController) LoadSharedDocuments() {
-	r := c.Ctx.Request
+	/*r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	userId :=c.Ctx.Input.Param(":inviteuserid")
@@ -67,16 +67,12 @@ func (c *SharedDocumentController) LoadSharedDocuments() {
 		}
 	case false:
 		log.Println(helpers.ServerConnectionError)
-	}
+	}*/
 
 }
 
 
 
-func (c *SharedDocumentController) DownloadDocuments() {
 
-	log.Println("haiiiiiii")
-
-}
 
 

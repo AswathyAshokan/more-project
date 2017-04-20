@@ -22,7 +22,6 @@ func (c *RegisterController) Register() {
 	w := c.Ctx.ResponseWriter
 	if r.Method == "POST" {
 		currentTime := time.Now().Unix()
-
 		company := models.Company{}
 		company.Info.CompanyName = c.GetString("companyName")
 		company.Info.CompanyTeamName = c.GetString("teamName")
@@ -40,11 +39,28 @@ func (c *RegisterController) Register() {
 		admin.Info.Password = []byte(c.GetString("password"))
 		admin.Settings.DateOfCreation = currentTime
 		admin.Settings.Status = helpers.StatusActive
-		dbStatus := admin.CreateAdminAndCompany(c.AppEngineCtx, company)
+		dbStatus,_:= admin.CreateAdminAndCompany(c.AppEngineCtx, company)
 		switch dbStatus{
 		case false:
+
 			w.Write([]byte("false"))
 		case true:
+			/*var keySlice string
+			dataValue := reflect.ValueOf(companyDetails)
+			for _, key := range dataValue.MapKeys() {
+				keySlice = key.String()
+			}
+			company.Info.CompanyTeamName = keySlice
+			log.Println("company",companyDetails)*/
+			/*companyStatus :=companyDetails.UpdateCompanyTeamName(c.AppEngineCtx)
+			switch companyStatus  {
+			case true:
+
+				log.Println("true")
+			case false:
+				log.Println("false")
+
+			}*/
 			w.Write([]byte("true"))
 		}
 	} else {

@@ -4,11 +4,13 @@ package models
 import (
 	"golang.org/x/net/context"
 	"log"
-	"time"
 	"app/passporte/helpers"
 	"strings"
 )
 type Invitation struct {
+ 	Email map[string]EmailInvitation
+}
+type EmailInvitation struct {
 	Info            inviteUser
 	Settings        InviteSettings
 }
@@ -16,11 +18,13 @@ type Invitation struct {
 type inviteUser struct {
 	FirstName 		string
 	LastName 		string
-	Email	 		string
 	UserType 		string
 	CompanyTeamName		string
+	Email 			string
 	CompanyName		string
-	CompanyPlan		string
+	/*CompanyPlan		string*/
+	CompanyAdmin            string
+	CompanyId   		string
 }
 
 type InviteSettings struct {
@@ -35,62 +39,62 @@ type UserCompany struct{
 }
 
 //Add new invite Users to database
-func(m *Invitation) AddInviteToDb(ctx context.Context, companyID string)bool {
-
+func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string)bool {
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
-
 		log.Println(err)
 	}
-	invitedUserData, err := db.Child("Invitation").Push(m)
+	//Dots containing in email id replaced into underscore because firebase does not allow email id as a child in which containing dot
+	formattedEmail := strings.Replace(m.Info.Email, ".", "_", -1)
+	invitationData,err := db.Child("Invitation").Child(formattedEmail).Push(m)
 	if err != nil {
 		log.Println(err)
 		return  false
 	}
-	user := map[string]Users{}
-	err = db.Child("Users").OrderBy("Info/Email").EqualTo(m.Info.Email).Value(&user)
-	var userID string
-	for key := range user{
-		userID = key
-	}
-	companyUsers := CompanyUsers{}
-	companyUsers.DateOfJoin = time.Now().Unix()
-	companyUsers.Status = helpers.StatusActive
-	companyUsers.FullName = user[userID].Info.FullName
-
-	err = db.Child("Company/"+companyID+"/Users/"+userID).Set(companyUsers)
-	if err != nil {
-		log.Println(err)
-		return false
-	}
-
-	userCompany := UserCompany{}
-	userCompany.Status = helpers.StatusActive
-	userCompany.DateOfJoin = companyUsers.DateOfJoin
-	userCompany.CompanyTeamName = m.Info.CompanyTeamName
-	userCompany.CompanyName = m.Info.CompanyName
-
-	err = db.Child("Users/"+userID+"/Company/"+companyID).Set(userCompany)
-	if err != nil {
-		log.Println(err)
-		return false
-	}
-
-	invitedUserDataString := strings.Split(invitedUserData.String(),"/")
-	invitedUserUniqueID := invitedUserDataString[len(invitedUserDataString)-2]
-	m.Settings.Status = helpers.StatusAccepted
-
-	err = db.Child("Invitation/"+invitedUserUniqueID+"/Settings/Status").Set(m.Settings.Status)
+	invitationDataString := strings.Split(invitationData.String(),"/")
+	invitationUniqueID := invitationDataString[len(invitationDataString)-2]
+	invitation := CompanyInvitations{}
+	invitation.FirstName = m.Info.FirstName
+	invitation.LastName = m.Info.LastName
+	invitation.Status = m.Settings.Status
+	invitation.UserType = m.Info.UserType
+	invitation.Email = m.Info.Email
+	err = db.Child("/Company/"+companyID+"/Invitation/"+invitationUniqueID).Set(invitation)
 	return true
 }
 
+func GetInvitationByEmailId(ctx context.Context,email string,companyTeamName string)(map[string]EmailInvitation,bool) {
+	value := map[string]EmailInvitation{}
+	db,err :=GetFirebaseClient(ctx,"")
+	if err != nil {
+		log.Println(err)
+		return  value,false
+	}
+
+	//dB.Child("Admins").OrderBy("Info/Email").EqualTo(m.Email).Value(&admins)
+
+	err = db.Child("Company").Child("Invitation").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&value)
+	if err != nil {
+		log.Fatal(err)
+		return value,false
+	}
+	return value,true
+
+}
+
+
+
 
 //Fetch all the details of invite user from database
-func GetAllInviteUsersDetails(ctx context.Context,companyTeamName string) (map[string]Invitation,bool) {
-	//user := User{}
+func GetAllInviteUsersDetails(ctx context.Context,companyId string) (map[string]CompanyInvitations,bool) {
+	value :=map[string]CompanyInvitations{}
 	db,err :=GetFirebaseClient(ctx,"")
-	value := map[string]Invitation{}
-	err = db.Child("Invitation").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&value)
+	if err != nil {
+		log.Println(err)
+		return  value,false
+	}
+	err = db.Child("/Company/"+companyId+"/Invitation").Value(&value)
+	log.Println("in model ",value)
 	if err != nil {
 		log.Fatal(err)
 		return value,false
@@ -143,8 +147,8 @@ func(m *Invitation) UpdateInviteUserById(ctx context.Context,InviteUserId string
 		log.Fatal(err)
 		return false
 	}
-	m.Settings.Status = InvitationSettingsDetails.Status
-	m.Settings.DateOfCreation = InvitationSettingsDetails.DateOfCreation
+	/*m.Settings.Status = InvitationSettingsDetails.Status
+	m.Settings.DateOfCreation = InvitationSettingsDetails.DateOfCreation*/
 	err = db.Child("/Invitation/"+ InviteUserId).Update(&m)
 
 	if err != nil {

@@ -1,13 +1,15 @@
 /*Created By Farsana*/
 
 //Below line is for adding active class to layout side menu..
+console.log(vm.companyTeamName);
 document.getElementById("user").className += " active";
 
 var companyTeamName = vm.CompanyTeamName;
 
 $().ready(function() {
     
-    if(vm.PageType == "edit"){        
+    if(vm.PageType == "edit"){  
+        document.getElementById("emailid").style.display='block'; 
         document.getElementById("firstname").value = vm.FirstName;
         document.getElementById("lastname").value = vm.LastName;
         document.getElementById("emailid").value = vm.EmailId;

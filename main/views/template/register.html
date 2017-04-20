@@ -20,23 +20,13 @@ Date:09/02/2017-->
 				<div class="logo">
 					<img src="static/images/logo.png" alt="" class="img-responsive">
 				</div>
-				
-				<div class="right-menu">
+                <div class="right-menu">
 					<ul>
-						<li><a href="">About</a></li>
+                        <li><a href="">About</a></li>
 						<li><a href="">Contact</a></li>
 						<li><a href="">Licence</a></li>
 					</ul>
-					<!-- <div class="dropdown">
-					    <button class="dropdown-toggle no-button-style" type="button" data-toggle="dropdown"><i class="sprites-user-dropdown"></i>
-					    <span class="caret"></span></button>
-					    <ul class="dropdown-menu">
-					      <li><a href="#">user</a></li>
-					      <li><a href="#">Customer</a></li>
-					      <li><a href="#">Logout</a></li>
-					    </ul>
-					</div> -->
-				</div>
+                </div>
 			</header>
 		</div>
 	</section>
@@ -44,139 +34,111 @@ Date:09/02/2017-->
 	<section class="content-section clearfix register">
 		<div class="container-fluid no-gutter-xs padding-50-each">
 
-			<div class="col-md-12 ">
-				<div class="clearfix">
-					<h1 class="h4">Company Registration</h1>
-
-
-					<form class="clearfix max-form-width form-edit-wrapper" id="companyRegisterForm">
-
-						<div class="personal-details margin-top-20">
+            <div class="col-md-12 ">
+                <div class="clearfix">
+                    <h1 class="h4">Company Registration</h1>
+                    <form class="clearfix max-form-width form-edit-wrapper" id="companyRegisterForm">
+                        <div class="personal-details margin-top-20">
 							<h5>Personal Details</h5>
+                            <div class="form-edit">
+                                <div class="form-group clearfix">
+                                    <div class="col-sm-6">
+                                        <label for="firstName" class="">First Name</label>
+                                        <input class="form-control" id="firstName" name="firstName" type="text">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="lastName" class="">Last Name</label>
+                                        <input class="form-control" id="lastName" name="lastName" type="text">
+                                    </div>
+                                </div>
 
-							
-
-							    <div class="form-edit">
-							    	<div class="form-group clearfix">						    	
-
-										<div class="col-sm-6">
-											<label for="firstName" class="">First Name</label>
-											<input class="form-control" id="firstName" name="firstName" type="text">
-										</div>
-										<div class="col-sm-6">
-											<label for="lastName" class="">Last Name</label>
-											<input class="form-control" id="lastName" name="lastName" type="text">
-										</div>
-								    </div>
-
-								    <div class="form-group clearfix">						    	
-
-										<div class="col-sm-6">
+                                <div class="form-group clearfix">
+                                    <div class="col-sm-6">
 											<label for="phoneNo" class="">Phone No.</label>
 											<input class="form-control" id="phoneNo" name="phoneNo" type="number">
 										</div>
-										<div class="col-sm-6">
-											<label for="emailId" class="">Email-ID</label>
-											<input class="form-control" id="emailId" name="emailId" type="email">
-										</div>
-								    </div>
-
-								     <div class="form-group clearfix">						    	
-
-										<div class="col-sm-6">
+                                    <div class="col-sm-6">
+                                        <label for="emailId" class="">Email-ID</label>
+                                        <input class="form-control" id="emailId" name="emailId" type="email">
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <div class="col-sm-6">
 											<label for="password" class="">Password</label>
 											<input class="form-control" id="password" name="password" type="Password">
-										</div>
-										<div class="col-sm-6">
-											<label for="confirmPassword" class="">Confirm Password</label>
-											<input class="form-control" id="confirmPassword" name="confirmPassword" type="Password">
-										</div>
-								    </div>
-							    </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="confirmPassword" class="">Confirm Password</label>
+                                        <input class="form-control" id="confirmPassword" name="confirmPassword" type="Password">
+                                    </div>
+                                </div>
+                            </div>
 
-
-
-
-
-							    <div class="official-details margin-top-50">
-									<h5>Official Details</h5>
-
-									<div class="clearfix form-edit">
-
-									    <div class="form-group clearfix">						    	
-
-											<div class="col-sm-6">
-												<label for="companyName" class="">Company Name</label>
-												<input class="form-control" id="companyName" name="companyName" type="text">
-											</div>
-
-											<div class="col-sm-6">
+                            <div class="official-details margin-top-50">
+                                <h5>Official Details</h5>
+                                <div class="clearfix form-edit">
+                                    <div class="form-group clearfix">
+                                        <div class="col-sm-6">
+                                            <label for="companyName" class="">Company Name</label>
+                                            <input class="form-control" id="companyName" name="companyName" type="text">
+                                        </div>
+                                        <div class="col-sm-6">
 												<label for="teamName" class="">Passporte Team Name</label>
 												<input class="form-control" id="teamName" name="teamName" type="text" placeholder="myteam or myteam01 or myteam-01">
-											</div>
-									    </div>
-
-									    <div class="form-group clearfix">
-
-											<div class="col-sm-6">
+                                         </div>
+                                        <!--<div class="col-sm-6">
 												<label for="address" class="">Address</label>
 												<input class="form-control" id="address" name="address" type="text">
-											</div>								
-
-											<div class="col-sm-6">
-												<label for="state" class="">State</label>
-												<input class="form-control" id="state" name="state" type="text">
+                                        </div>	-->
+                                    </div>
+                                    <div class="form-group clearfix">
+                                            <div class="col-sm-6">
+												<label for="address" class="">Address</label>
+												<input class="form-control" id="address" name="address" type="text">
 											</div>
-									    </div>
-                                        
-                                        <div class="form-group clearfix">
+                                        <div class="col-sm-6">
+                                            <label for="state" class="">State</label>
+                                            <input class="form-control" id="state" name="state" type="text">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="zipCode" class="">Zipcode</label>
+                                            <input class="form-control" id="zipCode" name="zipCode" type="text">
+                                        </div>
+                                    </div>
+                                    <!--<div class="form-group clearfix">
 
 											<div class="col-sm-6">
 												<label for="zipCode" class="">Zipcode</label>
 												<input class="form-control" id="zipCode" name="zipCode" type="text">
 											</div>
-									    </div>
-
-									</div>
-								</div>
-
-
-						</div>
-
-					
-
-					<div class="checkbox margin-top-35 terms-link">
-				      <label><input type="checkbox" id="agree">I agree to the <a>Terms and Conditions</a> of this website.</label>
-				    </div>
-
-				    <div class="align-left margin-top-35">
-				    	<button class="btn button-blue" id="register" disabled="true" type="submit">Register</button>
-				    </div>
-					
-									
+                                    </div>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="checkbox margin-top-35 terms-link">
+                            <label><input type="checkbox" id="agree">I agree to the <a>Terms and Conditions</a> of this website.</label>
+                        </div>
+                        <div class="align-left margin-top-35">
+                            <button class="btn button-blue" id="register" disabled="true" type="submit">Register</button>
+                        </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
-				</div>
-
-
-			</div>
-				
-		</div>
-		
-	</section>
-
-	<section class="footer">
-		<div class="container-fluid">
-			<footer>
-				<div class="footer-logo">
+    <section class="footer">
+        <div class="container-fluid">
+            <footer>
+                <div class="footer-logo">
 					<img src="static/images/logo-footer.png" alt="" class="img-responsive">
 				</div>
 				<ul>
-					<li>Copyright <span>Passporte</span> Limited</li>
+                    <li>Copyright <span>Passporte</span> Limited</li>
 					<li>All Rights Reserved</li>
-				</ul>
-			</footer>
-		</div>
-	</section>
-</body>
+                </ul>
+            </footer>
+        </div>
+    </section>
+    </body>
 </html>
