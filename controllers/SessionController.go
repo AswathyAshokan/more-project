@@ -40,6 +40,7 @@ func SetSession(w http.ResponseWriter, sessionValues SessionValues){
 	value["adminEmail"] = sessionValues.AdminEmail
 	value["adminFirstName"] = sessionValues.AdminFirstName
 	value["adminLastName"] = sessionValues.AdminLastName
+	value["profilePicture"] = sessionValues.ProfilePicture
 	value["companyId"] = sessionValues.CompanyId
 	value["companyName"] = sessionValues.CompanyName
 	value["companyTeamName"] = sessionValues.CompanyTeamName
@@ -67,6 +68,7 @@ func ReadSession (w http.ResponseWriter, r *http.Request, companyTeamName string
 				sessionValues.AdminEmail = value["adminEmail"]
 				sessionValues.AdminFirstName = value["adminFirstName"]
 				sessionValues.AdminLastName = value["adminLastName"]
+				sessionValues.ProfilePicture =value["profilePicture"]
 				sessionValues.CompanyId = value["companyId"]
 				sessionValues.CompanyName = value["companyName"]
 				sessionValues.CompanyPlan = value["companyPlan"]
@@ -115,6 +117,7 @@ func SessionForPlan(w http.ResponseWriter, r *http.Request) (SessionValues, bool
 			sessionValues.AdminEmail = value["adminEmail"]
 			sessionValues.AdminFirstName = value["adminFirstName"]
 			sessionValues.AdminLastName = value["adminLastName"]
+			sessionValues.ProfilePicture =value["profilePicture"]
 			sessionValues.CompanyId = value["companyId"]
 			sessionValues.CompanyName = value["companyName"]
 			sessionValues.CompanyPlan = value["companyPlan"]

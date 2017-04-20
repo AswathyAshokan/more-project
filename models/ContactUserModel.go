@@ -49,6 +49,7 @@ func GetAllContact(ctx context.Context,companyTeamName string)(bool,map[string]C
 	contactDetail := map[string]ContactUser{}
 	dB, err := GetFirebaseClient(ctx,"")
 	contactStatus := "Active";
+	log.Println("model",companyTeamName)
 	err = dB.Child("Contacts").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).OrderBy("Settings/Status").EqualTo(contactStatus).Value(&contactDetail)
 	if err != nil {
 		log.Fatal(err)

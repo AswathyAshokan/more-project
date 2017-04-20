@@ -63,8 +63,10 @@ func (c *ContactUserController)DisplayContactDetails() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	log.Println("company...",companyTeamName)
 	storedSession := ReadSession(w, r, companyTeamName)
 	dbStatus, contact := models.GetAllContact(c.AppEngineCtx,companyTeamName)
+	log.Println(contact)
 	viewModel := viewmodels.ContactUserViewModel{}
 
 	switch dbStatus {
@@ -90,6 +92,7 @@ func (c *ContactUserController)DisplayContactDetails() {
 		viewModel.AdminLastName =storedSession.AdminLastName
 		viewModel.CompanyPlan = storedSession.CompanyPlan
 		viewModel.ProfilePicture =storedSession.ProfilePicture
+		log.Println("dhdghgdfh",viewModel.ProfilePicture)
 		viewModel.Keys = keySlice
 		viewModel.PageType=helpers.SelectPageForAdd
 		c.Data["vm"] = viewModel

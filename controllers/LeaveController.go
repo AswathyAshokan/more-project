@@ -118,11 +118,12 @@ func (c *LeaveController) LoadUserLeave() {
 		viewModel.ProfilePicture =storedSession.ProfilePicture
 		viewModel.UserKeys =keySlice
 		viewModel.Keys = keyForLeave
-		c.Data["vm"] = viewModel
-		c.Layout = "layout/layout.html"
-		c.TplName = "template/leave-detail.html"
+
 
 	}
+	c.Data["vm"] = viewModel
+	c.Layout = "layout/layout.html"
+	c.TplName = "template/leave-detail.html"
 }
 
 func (c *LeaveController) LoadAcceptUserLeave() {

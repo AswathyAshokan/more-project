@@ -8,6 +8,7 @@ import (
 	"app/passporte/helpers"
 	"app/passporte/viewmodels"
 	"log"
+	"strings"
 
 )
 
@@ -92,6 +93,7 @@ func (c *RegisterController) EditProfile() {
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
+
 	ReadSession(w, r, companyTeamName)
 	adminId :=storedSession.AdminId
 	plan :=storedSession.CompanyPlan
@@ -100,8 +102,29 @@ func (c *RegisterController) EditProfile() {
 		admin.Info.FirstName = c.GetString("name")
 		admin.Info.Email = c.GetString("emailId")
 		admin.Info.PhoneNo = c.GetString("phoneNumber")
-		admin.Settings.ProfilePicture = c.GetString("profilePicture")
-		admin.Settings.ThumbProfilePicture=c.GetString("thumbPicture")
+		tempProfile :=c.GetString("profilePicture")
+		profilePicture :=strings.Replace(tempProfile, "/", "%2F", -2)
+		//log.Println("dfhsfhshfsjfhhsfhhs",newone)
+		admin.Settings.ProfilePicture = profilePicture
+		//result := strings.Split(admin.Settings.ProfilePicture, "/")
+		//
+		//// Display all elements.
+		//for i := range result {
+		//	var urlOfPrifle []string
+		//	urlOfPrifle =append(urlOfPrifle,result[i]+"//")
+		//	urlOfPrifle =append(urlOfPrifle,result[i]+"/")
+		//	urlOfPrifle =append(urlOfPrifle,result[i]+"/")
+		//	urlOfPrifle =append(urlOfPrifle,result[i]+"/")
+		//	urlOfPrifle =append(urlOfPrifle,result[i]+"/")
+		//	urlOfPrifle =append(urlOfPrifle,result[i]+"/")
+		//	urlOfPrifle =append(urlOfPrifle,result[i]+"%2F")
+		//	urlOfPrifle =append(urlOfPrifle,result[i]+"%2F")
+		//	urlOfPrifle = urlOfPrifle[:0]
+		//}
+		//log.Println("profilecontoller",urlOfPrifle)
+		tempThumbProfile :=c.GetString("thumbPicture")
+		thumbPicture :=strings.Replace(tempThumbProfile, "/", "%2F", -2)
+		admin.Settings.ThumbProfilePicture=thumbPicture
 		dbStatus := admin.EditAdminDetails(c.AppEngineCtx, adminId)
 
 		switch dbStatus {

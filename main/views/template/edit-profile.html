@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript">
+        var vm = {{.vm}};
+    </script>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+    <script src="/static/js/jquery-3.1.0.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/js/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/js/custom/layout.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+    <script src="/static/js/custom/edit-profile.js"></script>
+    <script src="/static/js/jquery.validate.js"></script>
+    <link rel="stylesheet" href="/static/css/custom/custom.css">
+    </head>
+    <title>edit-profile</title>
+    <body>
+        <div class="col-md-12 main-content-wrapper padding-50-each">
+            <div class="clearfix">
+                <h1 class="h4">Edit profile</h1>
+                <div class="margin-top-20">
+                    <form class="clearfix max-form-width form-horizontal edit-account" style="" id="adminAccountDetail"  name="adminAccountDetail" enctype="multipart/form-data">
+                        <div class="col-sm-8">
+                            <div class="form-group clearfix">
+                                <label class="control-label col-sm-4" for="email">Name:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control dis dis-txt"  placeholder="Enter name" id="name"  name="name">
+                                </div>
+                            </div>
+                            <div class="form-group clearfix">
+                                <label class="control-label col-sm-4" for="email">Email-id:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control dis dis-txt"  placeholder="Enter email" id="emailId" name="emailId">
+                                </div>
+                            </div>
+                            <div class="form-group clearfix">
+                                <label class="control-label col-sm-4" for="email">Phone:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control dis dis-txt"  placeholder="Enter phone " id="phoneNumber" name="phoneNumber">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="img-upload-wrapper">
+                                <img src="/static/images/avatar.png" alt="" class="img-responsive" id="imageUpload" style="border-radius:50% 50% 50% 50%; width:100px; height:100px;">
+                                <div>
+                                    <span class="img-upload">
+                                        <button class="btn btn-success" id="imageUpload">Browse</button>
+                                        <input type="file" onchange="displayImage(),resizeImg()" id="fileButton"  >
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="align-left col-sm-12">
+                            <button  type="button" class="btn btn-success" id="edit-txt" >Edit</button>
+                            <a class="btn btn-primary" data-toggle="modal" data-target="#change-pass">Change Password</a>	
+                        </div>
+                    </form>
+
+						   <!-- <form id="passwordChangeModal" >-->
+                    <div i class="modal fade" id="change-pass" role="dialog">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Change password</h4>
+                                </div>
+                                <form id="adminPasswordChangeModal" name="adminPasswordChangeModal" method="post" >
+                                    <div class="modal-body">
+                                        <div class="form-group clearfix">
+                                            <label class="col-sm-12" for="oldPassword">Old password</label>
+                                            <div class="col-sm-12">
+                                                <input type="password" class="form-control" id="oldPassword" placeholder="Enter old password" name="oldPassword">
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="col-sm-12" for="newPassword">New password</label>
+                                            <div class="col-sm-12">
+                                                <input type="password" class="form-control" id="newPassword" placeholder="Enter new password" name="newPassword">
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix">
+                                            <label class="col-sm-12" for="confirmpassword">Confirm password</label>
+                                            <div class="col-sm-12">
+                                                <input type="password" class="form-control" id="confirmpassword" placeholder="confirm password" name="confirmpassword">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success"  id="updateAdminPassword" name="updateAdminPassword" >Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+					</div>
+                </div>
+    </div>
+
+
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
+    <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
+
+
+
+</body>
+</html>
