@@ -183,3 +183,10 @@ func (c *RegisterController) OldAdminPasswordCheck(){w := c.Ctx.ResponseWriter
 		w.Write([]byte("false"))
 	}
 }
+func (c *RegisterController) ForgotPassword(){
+	//w := c.Ctx.ResponseWriter
+	//r := c.Ctx.Request
+	c.Layout = "layout/layout.html"
+	c.TplName = "template/forgot-password.html"
+
+}

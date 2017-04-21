@@ -121,12 +121,15 @@ func (m *Admins)CreateAdminAndCompany(ctx context.Context, company Company) (boo
 	adminMap[adminUniqueID] = companyAdmin
 	company.Admins = adminMap
 	companyData, err := dB.Child("Company").Push(company)
+
 	if err != nil {
 		log.Println(err)
 		return false,company
 	}
 	companyDataString := strings.Split(companyData.String(),"/")
 	companyUniqueID := companyDataString[len(companyDataString)-2]
+	company.Info.CompanyTeamName =companyUniqueID
+	err = dB.Child("/Company/"+companyUniqueID).Update(&company)
 	adminsCompany := AdminCompany{}
 	adminsCompany.CompanyId = companyUniqueID
 	adminsCompany.CompanyName = company.Info.CompanyName

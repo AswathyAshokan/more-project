@@ -16,7 +16,7 @@ func init() {
 	beegae.Router("/:companyTeamName/editProfile", &controllers.RegisterController{}, "*:EditProfile")
 	beegae.Router("/:companyTeamName/changePassword",&controllers.RegisterController{},"*:ChangeAdminsPassword")
 	beegae.Router("/:companyTeamName/isOldAdminPasswordCorrect/:oldPassword", &controllers.RegisterController{},"*:OldAdminPasswordCheck")
-
+	beegae.Router("/forgotPassword", &controllers.RegisterController{}, "*:ForgotPassword")
 
 
 	beegae.Router("/isEmailUsed/:emailId",&controllers.RegisterController{},"*:CheckEmail")

@@ -1,5 +1,6 @@
 /* Author :Aswathy Ashok */
 //Below line is for adding active class to layout side menu..
+console.log(vm.CustomerName)
 document.getElementById("job").className += " active";
 var companyTeamName = vm.CompanyTeamName
 $().ready(function() {
@@ -7,10 +8,12 @@ $().ready(function() {
     var pageType = vm.PageType;
     
     if(pageType == "edit") {
-       $("#customerId").val(vm.CustomerName);
+       var selectArray =vm.CustomerName;
         document.getElementById("jobName").value = vm.JobName;
         document.getElementById("jobNumber").value = vm.JobNumber;
         document.getElementById("numberOfTask").value = vm.NumberOfTask;
+       // $("#customerId").val(selectArray);
+        $("#customerId option[text=selectArray]").attr("selected","selected");
         document.getElementById("jobHead").innerHTML = "Edit Job";
     }
     $("#jobForm").validate({

@@ -304,13 +304,13 @@ func (c *TaskController)LoadTaskDetail() {
 
 				var bufferUser bytes.Buffer
 				if len(tempusersDataValue) == 0{
-					bufferUser.WriteString(tasks[k].UsersAndGroups.User[userKey.String()].FullName)
+					bufferUser.WriteString(tasks[k].UsersAndGroups.User[userKey.String()].FullName+" "+"("+tasks[k].Settings.Status+")")
 					tempusersDataValue = bufferUser.String()
 					bufferUser.Reset()
 				} else {
 					bufferUser.WriteString(tempusersDataValue)
 					bufferUser.WriteString(", ")
-					bufferUser.WriteString(tasks[k].UsersAndGroups.User[userKey.String()].FullName)
+					bufferUser.WriteString(tasks[k].UsersAndGroups.User[userKey.String()].FullName+" "+"("+tasks[k].Settings.Status+")")
 					tempusersDataValue = bufferUser.String()
 					bufferUser.Reset()
 				}
