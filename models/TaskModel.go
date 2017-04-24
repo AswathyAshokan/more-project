@@ -142,8 +142,8 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 func (m *Tasks) RetrieveTaskFromDB(ctx context.Context,companyTeamName string)(bool,map[string]Tasks) {
 	taskValue := map[string]Tasks{}
 	dB, err := GetFirebaseClient(ctx,"")
-	taskStatus := "Active"
-	err = dB.Child("Tasks").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).OrderBy("Settings/Status").EqualTo(taskStatus).Value(&taskValue)
+	//taskStatus := "Active"
+	err = dB.Child("Tasks").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&taskValue)
 	if err != nil {
 		log.Fatal(err)
 		return false, taskValue

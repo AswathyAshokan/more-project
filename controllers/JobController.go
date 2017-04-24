@@ -77,6 +77,7 @@ func (c *JobController)LoadJobDetail() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	log.Println("company name",companyTeamName)
 	storedSession := ReadSession(w, r, companyTeamName)
 	customerId := ""
 	customerId = c.Ctx.Input.Param(":customerId")
@@ -91,20 +92,22 @@ func (c *JobController)LoadJobDetail() {
 			keySlice = append(keySlice, key.String())
 		}
 		for _, k := range keySlice {
-			var tempValueSlice []string
-			tempValueSlice = append(tempValueSlice, jobs[k].Customer.CustomerName)
-			if !helpers.StringInSlice(jobs[k].Customer.CustomerName, viewModel.UniqueCustomerNames) {
-				viewModel.UniqueCustomerNames = append(viewModel.UniqueCustomerNames, jobs[k].Customer.CustomerName)
+			if jobs[k].Settings.Status == "Active" {
+				var tempValueSlice []string
+				tempValueSlice = append(tempValueSlice, jobs[k].Customer.CustomerName)
+				if !helpers.StringInSlice(jobs[k].Customer.CustomerName, viewModel.UniqueCustomerNames) {
+					viewModel.UniqueCustomerNames = append(viewModel.UniqueCustomerNames, jobs[k].Customer.CustomerName)
+				}
+				if customerId == jobs[k].Customer.CustomerId {
+					viewModel.SelectedCustomer = jobs[k].Customer.CustomerName
+				}
+				tempValueSlice = append(tempValueSlice, jobs[k].Info.JobName)
+				tempValueSlice = append(tempValueSlice, jobs[k].Info.JobNumber)
+				tempValueSlice = append(tempValueSlice, jobs[k].Info.NumberOfTask)
+				tempValueSlice = append(tempValueSlice, jobs[k].Settings.Status)
+				viewModel.Values = append(viewModel.Values, tempValueSlice)
+				tempValueSlice = tempValueSlice[:0]
 			}
-			if customerId == jobs[k].Customer.CustomerId{
-				viewModel.SelectedCustomer = jobs[k].Customer.CustomerName
-			}
-			tempValueSlice = append(tempValueSlice, jobs[k].Info.JobName)
-			tempValueSlice = append(tempValueSlice, jobs[k].Info.JobNumber)
-			tempValueSlice = append(tempValueSlice, jobs[k].Info.NumberOfTask)
-			tempValueSlice = append(tempValueSlice, jobs[k].Settings.Status)
-			viewModel.Values = append(viewModel.Values, tempValueSlice)
-			tempValueSlice = tempValueSlice[:0]
 		}
 		if len(customerId) ==0 {
 			viewModel.SelectedCustomer= ""

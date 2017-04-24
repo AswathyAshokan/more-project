@@ -118,10 +118,10 @@ $(function(){
             data: dataArray,
             "paging": true,
             "columnDefs": [
-                {  "targets": 0 },
-                {  "targets": 1 },
-                {  "targets": 2 },
-                {  "targets": 3 },
+                { "width": "15%", "targets": 0 },
+                { "width": "15%", "targets": 1 },
+                {   "width": "15%","targets": 2 },
+                {   "width": "15%","targets": 3 },
                 { "width": "15%", "targets": 4 },
                 { "width": "15%", "targets": 5 },
                 {
