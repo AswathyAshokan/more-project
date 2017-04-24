@@ -171,6 +171,9 @@ $(function(){
        taskAccordingToJob();
     }
     
+//    if (vm..SelectedJob =="No Job"){
+//        
+//    }
     
     
     //.....................editing..................

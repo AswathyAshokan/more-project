@@ -1,5 +1,6 @@
 /* Author :Aswathy Ashok */
 //Below line is for adding active class to layout side menu..
+console.log("dhvchs", vm.ContactNameToEdit);
 document.getElementById("task").className += " active";
 var pageType = vm.PageType;
 var customerName = "";

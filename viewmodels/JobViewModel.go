@@ -20,4 +20,5 @@ type JobViewModel  struct {
 	AdminFirstName		string
 	AdminLastName		string
 	ProfilePicture		string
+	CustomerId		string
 }

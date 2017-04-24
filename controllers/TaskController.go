@@ -237,6 +237,7 @@ func (c *TaskController)LoadTaskDetail() {
 	storedSession := ReadSession(w, r, companyTeamName)
 	jobId := ""
 	jobId = c.Ctx.Input.Param(":jobId")
+	log.Println("jobid",jobId)
 	task := models.Tasks{}
 	dbStatus, tasks := task.RetrieveTaskFromDB(c.AppEngineCtx,companyTeamName)
 	viewModel := viewmodels.TaskDetailViewModel{}
@@ -270,8 +271,14 @@ func (c *TaskController)LoadTaskDetail() {
 				viewModel.UniqueCustomerNames = append(viewModel.UniqueCustomerNames, tasks[k].Customer.CustomerName)
 			}
 			if jobId == tasks[k].Job.JobId{
+				log.Println("match")
 				viewModel.SelectedJob = tasks[k].Job.JobName
 				viewModel.SelectedCustomerForJob=tasks[k].Customer.CustomerName
+			}
+			if jobId != tasks[k].Job.JobId{
+				viewModel.SelectedJob = "No Job"
+				viewModel.SelectedCustomerForJob="No Customer"
+				log.Println("not match")
 			}
 			if !helpers.StringInSlice(tasks[k].Job.JobName, viewModel.UniqueJobNames) && tasks[k].Job.JobName != "" {
 				viewModel.UniqueJobNames = append(viewModel.UniqueJobNames, tasks[k].Job.JobName)

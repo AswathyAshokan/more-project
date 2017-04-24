@@ -93,6 +93,7 @@ func (m *Job) GetJobDetailById(ctx context.Context, jobId string)(bool, Job) {
 /* Update job details to DB*/
 func (m *Job) UpdateJobToDB( ctx context.Context,jobId string)(bool)  {
 	job :=Job{}
+	jobDetail :=Job{}
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
 		log.Println("Connection error:",err)
@@ -103,6 +104,10 @@ func (m *Job) UpdateJobToDB( ctx context.Context,jobId string)(bool)  {
 	job.Info.NumberOfTask = m.Info.NumberOfTask
 	job.Customer.CustomerName = m.Customer.CustomerName
 	job.Customer.CustomerId = m.Customer.CustomerId
+	err = dB.Child("/Jobs/"+ jobId).Value(&jobDetail)
+
+	job.Settings.Status =jobDetail.Settings.Status
+	job.Settings.DateOfCreation =jobDetail.Settings.DateOfCreation
 	err = dB.Child("/Jobs/"+ jobId).Update(&job)
 	if err!=nil{
 		log.Println("Insertion error:",err)
