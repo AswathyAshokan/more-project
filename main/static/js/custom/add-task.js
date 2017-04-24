@@ -61,6 +61,9 @@ $(function () {
         }
         minUserForTaskEdit = vm.UsersToEdit.length;
         loginTypeForEdit = vm.LoginType;
+        if(vm.FitToWorkCheck =="Active") {
+            document.getElementById("fitToWorkCheck").checked = true;
+        }
     }
     
     

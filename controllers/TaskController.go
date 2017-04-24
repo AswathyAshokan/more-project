@@ -454,6 +454,12 @@ func (c *TaskController)LoadEditTask() {
 		FitToWork := c.GetString("addFitToWork")
 		FitToWorkSlice := strings.Split(FitToWork, ",")
 		task.Settings.DateOfCreation = time.Now().Unix()
+		tempFitToWorkCheck :=c.GetString("fitToWorkCheck")
+		if tempFitToWorkCheck =="on" {
+			task.Settings.FitToWorkStatus ="Active"
+		} else {
+			task.Settings.FitToWorkStatus = "Inactive"
+		}
 		task.Settings.Status = helpers.StatusActive
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
 		userMap := make(map[string]models.TaskUser)
@@ -676,6 +682,7 @@ func (c *TaskController)LoadEditTask() {
 						for _, key := range dataValue.MapKeys() {
 							fitToWorkSlice = append(fitToWorkSlice,taskDetail.FitToWork[key.String()].Description)
 						}
+						viewModel.FitToWorkCheck=taskDetail.Settings.FitToWorkStatus
 						viewModel.FitToWork = fitToWorkSlice
 						viewModel.TaskId = taskId
 						viewModel.CompanyTeamName = storedSession.CompanyTeamName
