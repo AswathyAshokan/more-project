@@ -101,7 +101,7 @@
 							<div class="col-sm-6" id="TextBoxContainer">
                                 <div class="plus" id="fitToWorkAdd" >
                                     <input class="form-control" id="addFitToWorkValue" type="text"  name="addFitToWorkValue"> 
-                                    <img  id="btnAdd" src="/static/images/fitToWork.png" width="40" height="38" style= "float:right; margin-top:-3em; margin-right:-3em;" onclick="initialize();" />
+                                    <img  id="btnAdd" src="/static/images/fitToWork.png" width="40" height="38" style= "float:right; margin-top:-3em; margin-right:-3em;" onclick="onload();" />
                                     
                                 </div>
                                 
@@ -144,8 +144,184 @@
         </div>
     </div>
 </div>
+<!--..............................................................................-->
+
+<script> 
+//    var defaultLatitude = "54.9682059";
+//    var defaultLongitude = "-1.6121358";
+    var map;
+    var markers = [];
+    var marker;
+    var geocoder;
+    //var initialLocation = document.getElementById("taskLocation").value;
+    function onload() {
+        geocoder = new google.maps.Geocoder();
+        var taskLocation = document.getElementById("taskLocation");
+        //function in case of edit task.set map according to location in text box
+        if(taskLocation  != 0){
+            var loc=[];
+            // next line creates asynchronous request
+            geocoder.geocode( { 'address': vm.TaskLocation}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    loc[0]=results[0].geometry.location.lat();
+                    loc[1]=results[0].geometry.location.lng();
+                    var mapOptions = {
+                        center: new google.maps.LatLng(loc[0], loc[1]),
+                        zoom: 17
+                    };
+                    map = new google.maps.Map(document.getElementById('map'),
+                                  mapOptions);
+                    marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(loc[0], loc[1]),
+                        map: map,
+                    });
+                    markers.push(marker);
+                    document.getElementById('latitudeId').value =loc[0];
+                    document.getElementById('longitudeId').value =loc[1];
+                } else {
+                    alert("Geocode was not successful for the following reason: " + status);
+                }
+                google.maps.event.addListener(map, 'click', function (event) {
+                    DeleteMarkers();
+                    var latlng = new google.maps.LatLng(event.latLng.lat(),event.latLng.lng());
+                    placeMarker(event.latLng, map);
+                    var geocoder = geocoder = new google.maps.Geocoder();
+                    geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            if (results[1]) {
+                                document.getElementById("taskLocation").value = results[1].formatted_address ;
+                            }
+                            document.getElementById('latitudeId').value =event.latLng.lat();
+                            document.getElementById('longitudeId').value =event.latLng.lng();
+                        }
+                    });
+                });
+            });
+        }
+//        if (initialLocation == "") {
+//            document.getElementById("taskLocation").value = "Clavering House, Clavering Place, Newcastle Upon Tyne";
+//            geocoder.geocode( { 'address': "Clavering House, Clavering Place, Newcastle Upon Tyne"}, function(results, status) {
+//                if (status == google.maps.GeocoderStatus.OK) {
+//                    loc[0]=results[0].geometry.location.lat();
+//                    loc[1]=results[0].geometry.location.lng();
+//                    var mapOptions = {
+//                        center: new google.maps.LatLng(loc[0], loc[1]),
+//                        zoom: 13
+//                    };
+//                    map = new google.maps.Map(document.getElementById('map'),
+//                                  mapOptions);
+//                    marker = new google.maps.Marker({
+//                        position: new google.maps.LatLng(loc[0], loc[1]),
+//                        map: map,
+//                    });
+//                    markers.push(marker);
+//                    document.getElementById('latitudeId').value =loc[0];
+//                    document.getElementById('longitudeId').value =loc[1];
+//                } else {
+//                    alert("Geocode was not successful for the following reason: " + status);
+//                }
+//                google.maps.event.addListener(map, 'click', function (event) {
+//                    DeleteMarkers();
+//                    var latlng = new google.maps.LatLng(event.latLng.lat(),event.latLng.lng());
+//                    placeMarker(event.latLng, map);
+//                    var geocoder = geocoder = new google.maps.Geocoder();
+//                    geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+//                        if (status == google.maps.GeocoderStatus.OK) {
+//                            if (results[1]) {
+//                                document.getElementById("taskLocation").value = results[1].formatted_address ;
+//                            }
+//                            document.getElementById('latitudeId').value =event.latLng.lat();
+//                            document.getElementById('longitudeId').value =event.latLng.lng();
+//                        }
+//                    });
+//                });
+//            });
+//        }
+        var mapOptions = {
+            center: new google.maps.LatLng(defaultLatitude, defaultLongitude),
+            zoom: 17
+        };
+        map = new google.maps.Map(document.getElementById('map'),
+                                  mapOptions);
+        marker = new google.maps.Marker({
+            position: new google.maps.LatLng(defaultLatitude, defaultLongitude),
+            map: map,
+        });
+        google.maps.event.addListener(map, 'click', function (event) {
+            DeleteMarkers();
+            var latlng = new google.maps.LatLng(event.latLng.lat(),event.latLng.lng());
+            placeMarker(event.latLng, map);
+            var geocoder = geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[1]) {
+                         document.getElementById("taskLocation").value = results[1].formatted_address ;
+                    }
+                    document.getElementById('latitudeId').value =event.latLng.lat();
+                    document.getElementById('longitudeId').value =event.latLng.lng();
+                }
+            });
+        });
+        function placeMarker(position, map) {
+            var marker = new google.maps.Marker({
+                position: position,
+                map: map
+            });
+            map.panTo(position);
+            markers.push(marker);
+        }
+        //delete markers
+        function DeleteMarkers() {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(null);
+            }
+            markers = [];
+        };
+       
+
+  // get places auto-complete when user type in location-text-box
+        var input = /** @type {HTMLInputElement} */
+            (
+                document.getElementById('taskLocation'));
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+        var infowindow = new google.maps.InfoWindow();
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            infowindow.close();
+            marker.setVisible(false);
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                return;
+            }
+            document.getElementById('latitudeId').value =place.geometry.location.lat();
+            document.getElementById('longitudeId').value =place.geometry.location.lng();
+
+    // If the place has a geometry, then present it on a map.
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+                map.setZoom(17); // Why 17? Because it looks good.
+            }
+            marker.setPosition(place.geometry.location);
+            marker.setVisible(true);
+            markers.push(marker);
+            var address = '';
+            if (place.address_components) {
+                address = [
+                    (place.address_components[0] && place.address_components[0].short_name || ''), (place.address_components[1] && place.address_components[1].short_name || ''), (place.address_components[2] && place.address_components[2].short_name || '')
+                ].join(' ');
+            }
+        });
+    }
+</script>
 
 
+
+
+
+
+<!--...............................................................................-->
 <script type="text/javascript">
     var vm = {{.vm}};
 </script>
