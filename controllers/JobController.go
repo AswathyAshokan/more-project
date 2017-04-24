@@ -110,6 +110,11 @@ func (c *JobController)LoadJobDetail() {
 		viewModel.Keys = keySlice
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
 		viewModel.CompanyPlan = storedSession.CompanyPlan
+		if  len(viewModel.SelectedCustomer) ==0{
+			log.Println("dfdgfdgdgd")
+			viewModel.SelectedCustomer = "No Customer"
+
+		}
 		viewModel.AdminFirstName = storedSession.AdminFirstName
 		viewModel.AdminLastName = storedSession.AdminLastName
 		viewModel.ProfilePicture =storedSession.ProfilePicture

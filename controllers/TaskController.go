@@ -275,11 +275,11 @@ func (c *TaskController)LoadTaskDetail() {
 				viewModel.SelectedJob = tasks[k].Job.JobName
 				viewModel.SelectedCustomerForJob=tasks[k].Customer.CustomerName
 			}
-			if jobId != tasks[k].Job.JobId{
-				viewModel.SelectedJob = "No Job"
-				viewModel.SelectedCustomerForJob="No Customer"
-				log.Println("not match")
-			}
+			//if jobId != tasks[k].Job.JobId{
+			//	viewModel.SelectedJob = "No Job"
+			//	viewModel.SelectedCustomerForJob="No Customer"
+			//	log.Println("not match")
+			//}
 			if !helpers.StringInSlice(tasks[k].Job.JobName, viewModel.UniqueJobNames) && tasks[k].Job.JobName != "" {
 				viewModel.UniqueJobNames = append(viewModel.UniqueJobNames, tasks[k].Job.JobName)
 			}
@@ -365,6 +365,12 @@ func (c *TaskController)LoadTaskDetail() {
 		viewModel.AdminFirstName = storedSession.AdminFirstName
 		viewModel.AdminLastName = storedSession.AdminLastName
 		viewModel.ProfilePicture =storedSession.ProfilePicture
+		if  len(viewModel.SelectedJob) ==0{
+			log.Println("dfdgfdgdgd")
+			viewModel.SelectedJob = "No Job"
+			viewModel.SelectedCustomerForJob= "No Customer"
+
+		}
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/task-details.html"

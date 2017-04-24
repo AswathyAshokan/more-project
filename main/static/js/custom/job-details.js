@@ -1,5 +1,6 @@
 /* Author :Aswathy Ashok */
 //Below line is for adding active class to layout side menu..
+console.log(vm.SelectedCustomer);
 document.getElementById("job").className += " active";
 var companyTeamName = vm.CompanyTeamName
 $(function(){  

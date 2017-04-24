@@ -3,6 +3,8 @@
 //Below line is for adding active class to layout side menu..
 document.getElementById("task").className += " active";
 var companyTeamName = vm.CompanyTeamName
+console.log(vm.SelectedJob);
+console.log(vm.SelectedCustomerForJob);
 
 $(function(){ 
     
@@ -84,6 +86,7 @@ $(function(){
     
      /*Function for setting task details of a particular job*/
     function taskAccordingToJob(){
+        console.log("inside loop");
         var tempArray = [];
         for(i = 0; i < mainArray.length; i++){
             if (mainArray[i][0].indexOf(vm.SelectedJob) != '-1'){
