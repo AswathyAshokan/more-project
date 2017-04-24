@@ -59,6 +59,12 @@ func (c *TaskController)AddNewTask() {
 		FitToWorkSlice := strings.Split(FitToWork, ",")
 		task.Settings.DateOfCreation =time.Now().Unix()
 		task.Settings.Status = helpers.StatusActive
+		tempFitToWorkCheck :=c.GetString("fitToWorkCheck")
+		if tempFitToWorkCheck =="on" {
+			task.Settings.FitToWorkStatus ="Active"
+		} else {
+			task.Settings.FitToWorkStatus = "Inactive"
+		}
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
 		companyId :=storedSession.CompanyId
 		userMap := make(map[string]models.TaskUser)
@@ -275,6 +281,11 @@ func (c *TaskController)LoadTaskDetail() {
 				viewModel.SelectedJob = tasks[k].Job.JobName
 				viewModel.SelectedCustomerForJob=tasks[k].Customer.CustomerName
 			}
+			 if len(jobId) ==0 {
+				 viewModel.SelectedJob= ""
+				 viewModel.JobMatch="true"
+
+			 }
 			//if jobId != tasks[k].Job.JobId{
 			//	viewModel.SelectedJob = "No Job"
 			//	viewModel.SelectedCustomerForJob="No Customer"
@@ -365,11 +376,10 @@ func (c *TaskController)LoadTaskDetail() {
 		viewModel.AdminFirstName = storedSession.AdminFirstName
 		viewModel.AdminLastName = storedSession.AdminLastName
 		viewModel.ProfilePicture =storedSession.ProfilePicture
-		if  len(viewModel.SelectedJob) ==0{
+		if  len(viewModel.SelectedJob) ==0 && len(jobId) !=0{
 			log.Println("dfdgfdgdgd")
-			viewModel.SelectedJob = "No Job"
-			viewModel.SelectedCustomerForJob= "No Customer"
-
+			viewModel.JobMatch ="false"
+			viewModel.SelectedJob ="false"
 		}
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"

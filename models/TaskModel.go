@@ -73,6 +73,7 @@ type  GroupMemberName struct {
 type TaskSetting struct {
 	Status		string
 	DateOfCreation	int64
+	FitToWorkStatus  string
 
 }
 type UsersAndGroups struct {

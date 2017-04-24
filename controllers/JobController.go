@@ -106,15 +106,24 @@ func (c *JobController)LoadJobDetail() {
 			viewModel.Values = append(viewModel.Values, tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
 		}
+		if len(customerId) ==0 {
+			viewModel.SelectedCustomer= ""
+			viewModel.CustomerMatch="true"
 
+		}
 		viewModel.Keys = keySlice
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
 		viewModel.CompanyPlan = storedSession.CompanyPlan
-		if  len(viewModel.SelectedCustomer) ==0{
-			log.Println("dfdgfdgdgd")
-			viewModel.SelectedCustomer = "No Customer"
+		if  len(viewModel.SelectedCustomer) ==0 && len(customerId) !=0{
 
+			viewModel.CustomerMatch ="false"
+			viewModel.SelectedCustomer ="false"
 		}
+		//if  len(viewModel.SelectedCustomer) ==0{
+		//	log.Println("dfdgfdgdgd")
+		//	viewModel.SelectedCustomer = "No Customer"
+		//
+		//}
 		viewModel.AdminFirstName = storedSession.AdminFirstName
 		viewModel.AdminLastName = storedSession.AdminLastName
 		viewModel.ProfilePicture =storedSession.ProfilePicture

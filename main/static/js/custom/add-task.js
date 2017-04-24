@@ -16,6 +16,7 @@ var endDateToCompare = "";
 var minUserForTaskEdit ="";
 var loginTypeForEdit ="";
 var i = 0;//function for editing
+var fitToWorkCheck ="";
 
 //if group members is null ,group member array is initialised
 if(vm.GroupMembers == null) {
@@ -61,6 +62,8 @@ $(function () {
         minUserForTaskEdit = vm.UsersToEdit.length;
         loginTypeForEdit = vm.LoginType;
     }
+    
+    
     
    
     //function for getting textbox dynamically
@@ -264,7 +267,14 @@ $().ready(function() {
                                               getJobAndCustomer(); 
                                           }
                                       
-                                      var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&addFitToWork=" + fitToWorkFromDynamicTextBox +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask +"&endDateFromJs="+ endDateOfTask;
+                                      //function to get fit to work 
+                                      var chkPassport = document.getElementById("fitToWorkCheck");
+                                      if (chkPassport.checked) {
+                                          fitToWorkCheck ="Active";
+                                      }else {
+                                          fitToWorkCheck ="Inactive";
+                                      }
+                                      var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&addFitToWork=" + fitToWorkFromDynamicTextBox +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask +"&endDateFromJs="+ endDateOfTask+"&fitToWorkCheck="+ fitToWorkCheck;
                                       var selectedContactNames = [];
 
                //get the user's name corresponding to  keys selected from dropdownlist

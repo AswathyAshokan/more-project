@@ -71,5 +71,6 @@ type TaskDetailViewModel  struct {
 	AdminFirstName			string
 	AdminLastName			string
 	ProfilePicture			string
-
+	NoCustomer			string
+	JobMatch			string
 }

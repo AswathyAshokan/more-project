@@ -1,11 +1,7 @@
 /* Author :Aswathy Ashok */
-
 //Below line is for adding active class to layout side menu..
 document.getElementById("task").className += " active";
 var companyTeamName = vm.CompanyTeamName
-console.log(vm.SelectedJob);
-console.log(vm.SelectedCustomerForJob);
-
 $(function(){ 
     
     var mainArray = [];   
@@ -13,6 +9,7 @@ $(function(){
     var selectedCustomer = "";
     var tempJobArray = [];
     var tempArray = [];
+    var tempViewArray = [];
     
     /*Function for Customer selection dropdown*/
     customerFilter = function(){
@@ -86,7 +83,6 @@ $(function(){
     
      /*Function for setting task details of a particular job*/
     function taskAccordingToJob(){
-        console.log("inside loop");
         var tempArray = [];
         for(i = 0; i < mainArray.length; i++){
             if (mainArray[i][0].indexOf(vm.SelectedJob) != '-1'){
@@ -122,12 +118,12 @@ $(function(){
             data: dataArray,
             "paging": true,
             "columnDefs": [
-                { "width": "15%", "targets": 0 },
-                {  "width": "15%","targets": 1 },
-                {  "width": "15%","targets": 2 },
+                {  "targets": 0 },
+                {  "targets": 1 },
+                {  "targets": 2 },
                 {  "targets": 3 },
                 { "width": "15%", "targets": 4 },
-                { "width": "5%", "targets": 5 },
+                { "width": "15%", "targets": 5 },
                 {
                     
                     "targets": 6,
@@ -168,15 +164,18 @@ $(function(){
     if(vm.Values != null) {
         createDataArray(vm.Values, vm.Keys);
     }
-    if(vm.SelectedJob == ""){
+    if(vm.SelectedJob == "" && vm.JobMatch == "true"){
+        console.log("set1");
         dataTableManipulate(mainArray);
-    } else {
+    } else if(vm.JobMatch=="false" && vm.SelectedJob =="false"){
+        console.log("set2");
+        dataTableManipulate(tempViewArray);
+    }
+    else {
+        console.log("set3")
        taskAccordingToJob();
     }
     
-//    if (vm..SelectedJob =="No Job"){
-//        
-//    }
     
     
     //.....................editing..................
@@ -185,7 +184,6 @@ $(function(){
         var key = data[11];
         window.location = '/' + companyTeamName + '/task/' + key + '/edit'
     });
-
 //................deleting.........................
     $('#task-details tbody').on( 'click', '#delete', function () {
         $("#myModal").modal();
@@ -215,11 +213,8 @@ $(function(){
                         console.log("Removing Failed!");
                     }
                 }
-
             });
         });
     });
     
 });
-
-
