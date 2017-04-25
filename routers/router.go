@@ -46,7 +46,7 @@ func init() {
 	beegae.Router("/:companyTeamName/invite", &controllers.InviteUserController{}, "*:InvitationDetails")
 	beegae.Router("/:companyTeamName/invite/:inviteuserid/delete", &controllers.InviteUserController{}, "*:DeleteInvitation")
 	beegae.Router("/:companyTeamName/invite/:inviteuserid/edit", &controllers.InviteUserController{}, "*:EditInvitation")
-	beegae.Router("/isEmailUsedInvitation/:emailId",&controllers.InviteUserController{},"*:CheckEmailInvitation")
+	//beegae.Router("/:companyTeamName/isEmailUsedInvitation/:emailId",&controllers.InviteUserController{},"*:CheckEmailInvitation")
 	beegae.Router("/plan", &controllers.PlanController{}, "*:PlanDetails")
 	beegae.Router("/plan/update", &controllers.PlanController{}, "*:PlanUpdate")
 

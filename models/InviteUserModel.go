@@ -45,27 +45,56 @@ func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string)bool
 	if err != nil {
 		log.Println(err)
 	}
-	//Dots containing in email id replaced into underscore because firebase does not allow email id as a child in which containing dot
-	formattedEmail := strings.Replace(m.Info.Email, ".", "_", -1)
-	invitationData,err := db.Child("Invitation").Child(formattedEmail).Push(m)
+	companyInvitation := map[string]Company{}
+	companyInvitaionCheck :=CompanyInvitations{}
+	//CompanyId :=companyId
+	var keySlice []string
+
+	dB, err := GetFirebaseClient(ctx, "")
 	if err != nil {
-		log.Println(err)
-		return  false
+		log.Println("No Db Connection!")
 	}
-	invitationDataString := strings.Split(invitationData.String(),"/")
-	invitationUniqueID := invitationDataString[len(invitationDataString)-2]
-	invitation := CompanyInvitations{}
-	invitation.FirstName = m.Info.FirstName
-	invitation.LastName = m.Info.LastName
-	invitation.UserResponse = m.Settings.UserResponse
-	invitation.Status = m.Settings.Status
-	invitation.UserType = m.Info.UserType
-	invitation.Email = m.Info.Email
-	err = db.Child("/Company/"+companyID+"/Invitation/"+invitationUniqueID).Set(invitation)
-	if err != nil {
-		log.Println(err)
-		return  false
+	err =  dB.Child("Company/"+companyID+"/Invitation").Value(&companyInvitation)
+	dataValue := reflect.ValueOf(companyInvitation)
+	for _, key := range dataValue.MapKeys() {
+		keySlice = append(keySlice, key.String())
 	}
+	log.Println("key slice",keySlice)
+	for _, keyIn := range keySlice {
+		log.Println("key",keyIn)
+		err =  dB.Child("Company/"+companyID+"/Invitation/"+keyIn).Value(&companyInvitaionCheck)
+		log.Println("db email",companyInvitaionCheck.Email)
+		log.Println("form email", m.Info.Email)
+		log.Println("corresponding key",keyIn)
+		if companyInvitaionCheck.Email == m.Info.Email && companyInvitaionCheck.Status=="Active" &&companyInvitaionCheck.UserResponse=="Accepted"{
+			log.Println("condition true")
+			return  false
+		} else {
+			log.Println("condition false")
+			//Dots containing in email id replaced into underscore because firebase does not allow email id as a child in which containing dot
+			formattedEmail := strings.Replace(m.Info.Email, ".", "_", -1)
+			invitationData,err := db.Child("Invitation").Child(formattedEmail).Push(m)
+			if err != nil {
+				log.Println(err)
+				return  false
+			}
+			invitationDataString := strings.Split(invitationData.String(),"/")
+			invitationUniqueID := invitationDataString[len(invitationDataString)-2]
+			invitation := CompanyInvitations{}
+			invitation.FirstName = m.Info.FirstName
+			invitation.LastName = m.Info.LastName
+			invitation.UserResponse = m.Settings.UserResponse
+			invitation.Status = m.Settings.Status
+			invitation.UserType = m.Info.UserType
+			invitation.Email = m.Info.Email
+			err = db.Child("/Company/"+companyID+"/Invitation/"+invitationUniqueID).Set(invitation)
+			if err != nil {
+				log.Println(err)
+				return  false
+			}
+
+		}
+		}
 	return true
 }
 
@@ -273,23 +302,36 @@ func GetInvitationById( ctx context.Context,InviteUserId string,key string)(map[
 
 
 
-func CheckEmailIsUsedInvitation(ctx context.Context, emailId string) bool{
-	/*companyInvitation := map[string]Company{}
+func CheckEmailIsUsedInvitation(ctx context.Context, emailId string,companyId string) bool{
+	companyInvitation := map[string]Company{}
+	companyInvitaionCheck :=CompanyInvitations{}
+	//CompanyId :=companyId
+	var keySlice []string
 
 	dB, err := GetFirebaseClient(ctx, "")
 	if err != nil {
 		log.Println("No Db Connection!")
 	}
-	if err =  dB.Child("Company").OrderBy("Info/Email").EqualTo(emailId).Value(&companyAdmins); err != nil {
-		log.Fatal(err)
+	 err =  dB.Child("Company/"+companyId+"/Invitation").Value(&companyInvitation)
+	dataValue := reflect.ValueOf(companyInvitation)
+	for _, key := range dataValue.MapKeys() {
+		keySlice = append(keySlice, key.String())
+		log.Println("all key", keySlice)
 	}
-	if len(companyAdmins)==0{
-
-		return true
-	}else{
-
-		return false
-	}*/
-	return false
+	for _, keyIn := range keySlice {
+		err =  dB.Child("Company/"+companyId+"/Invitation/"+keyIn).Value(&companyInvitaionCheck)
+		log.Println(companyInvitaionCheck)
+		log.Println(emailId)
+		log.Println(companyInvitaionCheck.Email)
+		if companyInvitaionCheck.Email == emailId {
+			log.Println("condition true")
+			return false
+		}
+	}
+	return true
+	//if err != nil {
+	//	return
+	//}
+	//return value
 }
 

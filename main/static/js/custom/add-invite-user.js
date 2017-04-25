@@ -31,16 +31,13 @@ $().ready(function() {
           emailid:{
               required:true,
               email:true,
-               remote:{
-                    url:"/isEmailUsedInvitation/" + emailid,
-                    type: "post"
-                }
+               
           },
       },
         messages: {
             firstname:"please enter First name ",
             usertype :"Plese select UserType",
-            emailid:"please enter a valid Email address!"
+            emailid:"email Address is already inuse!"
         },
         submitHandler: function(){//to pass all data of a form serial
             $("#saveButton").attr('disabled', true);
@@ -57,6 +54,8 @@ $().ready(function() {
                         if(response == "true"){
                             window.location='/' + companyTeamName +'/invite';
                         }else {
+                            $("#emailValidationError").css({"color": "red", "font-size": "15px"});
+                            $("#emailValidationError").html("please select location from map.").show();
                         }
                     },
                     error: function (request,status, error) {

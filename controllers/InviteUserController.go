@@ -257,15 +257,22 @@ func (c *InviteUserController) EditInvitation() {
 
 	}
 }
-func (c *InviteUserController)CheckEmailInvitation(){
-	w := c.Ctx.ResponseWriter
-	emailId := c.GetString("emailId")
-	isEmailUsed := models.CheckEmailIsUsedInvitation(c.AppEngineCtx, emailId)
-	if isEmailUsed == false {
-		w.Write([]byte("false"))
-	}else{
-		w.Write([]byte("true"))
-	}
-}
+//func (c *InviteUserController)CheckEmailInvitation(){
+//	log.Println("inside")
+//	w := c.Ctx.ResponseWriter
+//	r := c.Ctx.Request
+//	emailId :=  c.GetString("emailId")
+//	log.Println("email in contro",emailId)
+//	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+//	storedSession := ReadSession(w, r, companyTeamName)
+//	companyId :=storedSession.CompanyId
+//
+//	isEmailUsed := models.CheckEmailIsUsedInvitation(c.AppEngineCtx, emailId,companyId)
+//	if isEmailUsed == false {
+//		w.Write([]byte("false"))
+//	}else{
+//		w.Write([]byte("true"))
+//	}
+//}
 
 

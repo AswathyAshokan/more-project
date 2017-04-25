@@ -78,14 +78,16 @@ func (c *ContactUserController)DisplayContactDetails() {
 		}
 		for _, k := range keySlice {
 			var tempValueSlice []string
-			tempValueSlice = append(tempValueSlice, contact[k].Info.Name)
-			tempValueSlice = append(tempValueSlice, contact[k].Info.Address)
-			tempValueSlice = append(tempValueSlice, contact[k].Info.State)
-			tempValueSlice = append(tempValueSlice, contact[k].Info.ZipCode)
-			tempValueSlice = append(tempValueSlice, contact[k].Info.Email)
-			tempValueSlice = append(tempValueSlice, contact[k].Info.PhoneNumber)
-			viewModel.Values = append(viewModel.Values, tempValueSlice)
-			tempValueSlice = tempValueSlice[:0]
+			if contact[k].Settings.Status == helpers.StatusActive {
+				tempValueSlice = append(tempValueSlice, contact[k].Info.Name)
+				tempValueSlice = append(tempValueSlice, contact[k].Info.Address)
+				tempValueSlice = append(tempValueSlice, contact[k].Info.State)
+				tempValueSlice = append(tempValueSlice, contact[k].Info.ZipCode)
+				tempValueSlice = append(tempValueSlice, contact[k].Info.Email)
+				tempValueSlice = append(tempValueSlice, contact[k].Info.PhoneNumber)
+				viewModel.Values = append(viewModel.Values, tempValueSlice)
+				tempValueSlice = tempValueSlice[:0]
+			}
 		}
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
 		viewModel.AdminFirstName =storedSession.AdminFirstName
