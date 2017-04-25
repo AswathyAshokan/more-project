@@ -61,7 +61,7 @@ $(function () {
         }
         minUserForTaskEdit = vm.UsersToEdit.length;
         loginTypeForEdit = vm.LoginType;
-        if(vm.FitToWorkCheck =="Active") {
+        if(vm.FitToWorkCheck =="EachTime") {
             document.getElementById("fitToWorkCheck").checked = true;
         }
     }
@@ -273,9 +273,9 @@ $().ready(function() {
                                       //function to get fit to work 
                                       var chkPassport = document.getElementById("fitToWorkCheck");
                                       if (chkPassport.checked) {
-                                          fitToWorkCheck ="Active";
+                                          fitToWorkCheck ="EachTime";
                                       }else {
-                                          fitToWorkCheck ="Inactive";
+                                          fitToWorkCheck ="OnceADay";
                                       }
                                       var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&addFitToWork=" + fitToWorkFromDynamicTextBox +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask +"&endDateFromJs="+ endDateOfTask+"&fitToWorkCheck="+ fitToWorkCheck;
                                       var selectedContactNames = [];

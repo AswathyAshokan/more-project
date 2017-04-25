@@ -61,9 +61,9 @@ func (c *TaskController)AddNewTask() {
 		task.Settings.Status = helpers.StatusActive
 		tempFitToWorkCheck :=c.GetString("fitToWorkCheck")
 		if tempFitToWorkCheck =="on" {
-			task.Settings.FitToWorkStatus ="Active"
+			task.Settings.FitToWorkDisplay ="EachTime"
 		} else {
-			task.Settings.FitToWorkStatus = "Inactive"
+			task.Settings.FitToWorkDisplay = "OnceADay"
 		}
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
 		companyId :=storedSession.CompanyId
@@ -456,9 +456,9 @@ func (c *TaskController)LoadEditTask() {
 		task.Settings.DateOfCreation = time.Now().Unix()
 		tempFitToWorkCheck :=c.GetString("fitToWorkCheck")
 		if tempFitToWorkCheck =="on" {
-			task.Settings.FitToWorkStatus ="Active"
+			task.Settings.FitToWorkDisplay ="EachTime"
 		} else {
-			task.Settings.FitToWorkStatus = "Inactive"
+			task.Settings.FitToWorkDisplay = "OnceADay"
 		}
 		task.Settings.Status = helpers.StatusActive
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
@@ -682,7 +682,7 @@ func (c *TaskController)LoadEditTask() {
 						for _, key := range dataValue.MapKeys() {
 							fitToWorkSlice = append(fitToWorkSlice,taskDetail.FitToWork[key.String()].Description)
 						}
-						viewModel.FitToWorkCheck=taskDetail.Settings.FitToWorkStatus
+						viewModel.FitToWorkCheck=taskDetail.Settings.FitToWorkDisplay
 						viewModel.FitToWork = fitToWorkSlice
 						viewModel.TaskId = taskId
 						viewModel.CompanyTeamName = storedSession.CompanyTeamName

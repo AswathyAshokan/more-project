@@ -46,34 +46,41 @@ func (c *InviteUserController) AddInvitation() {
 		inviteUser.Info.CompanyName = storedSession.CompanyName
 		userFullName := storedSession.AdminFirstName+" "+storedSession.AdminLastName
 		companyID := models.GetCompanyIdByCompanyTeamName(c.AppEngineCtx, companyTeamName)
-		dbStatus := inviteUser.AddInviteToDb(c.AppEngineCtx,companyID)
+		dbStatus := inviteUser.CheckEmailIdInDb(c.AppEngineCtx,companyID)
+		log.Println("status",dbStatus)
 		switch dbStatus {
 		case true:
-
-			templateData := TemplateData{}
-			templateData.AdminEmail = storedSession.AdminEmail
-			templateData.AdminName = userFullName
-			templateData.CompanyName = inviteUser.Info.CompanyName
-			templateData.InvitedUser =  inviteUser.Info.FirstName
-			t,err := template.ParseFiles("views/email/invite-email.html")
-			if err != nil {
+			dbStatus := inviteUser.AddInviteToDb(c.AppEngineCtx,companyID)
+			switch dbStatus {
+			case true:
+				templateData := TemplateData{}
+				templateData.AdminEmail = storedSession.AdminEmail
+				templateData.AdminName = userFullName
+				templateData.CompanyName = inviteUser.Info.CompanyName
+				templateData.InvitedUser =  inviteUser.Info.FirstName
+				t,err := template.ParseFiles("views/email/invite-email.html")
+				if err != nil {
+					log.Println(err)
+				}
+				buf := new(bytes.Buffer)
+				if err = t.Execute(buf, templateData); err != nil {
+					log.Println(err)
+				}
+				body := buf.String()
+				from := "passportetest@gmail.com"
+				to := inviteUser.Info.Email
+				subject := "Subject: Passporte - Invitation\n"
+				mime := "MIME-version: 1.0;\r\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+				message := []byte(subject + mime + "\n" + body)
+				if err := smtp.SendMail("smtp.gmail.com:587", smtp.PlainAuth("", "passportetest@gmail.com", "passporte123", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
 				log.Println(err)
+				}
+				w.Write([]byte("true"))
+			case false:
+				w.Write([]byte("false"))
 			}
-			buf := new(bytes.Buffer)
-			if err = t.Execute(buf, templateData); err != nil {
-				log.Println(err)
-			}
-			body := buf.String()
-			from := "passportetest@gmail.com"
-			to := inviteUser.Info.Email
-			subject := "Subject: Passporte - Invitation\n"
-			mime := "MIME-version: 1.0;\r\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
-			message := []byte(subject + mime + "\n" + body)
-			if err := smtp.SendMail("smtp.gmail.com:587", smtp.PlainAuth("", "passportetest@gmail.com", "passporte123", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
-				log.Println(err)
-			}
-			w.Write([]byte("true"))
 		case false:
+			log.Println("condition failed and return false")
 			w.Write([]byte("false"))
 		}
 	} else {

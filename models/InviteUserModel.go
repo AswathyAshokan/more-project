@@ -6,6 +6,7 @@ import (
 	"log"
 	"strings"
 	"reflect"
+
 )
 type Invitation struct {
  	Email map[string]EmailInvitation
@@ -40,15 +41,17 @@ type UserCompany struct{
 }
 
 //Add new invite Users to database
-func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string)bool {
-	db,err :=GetFirebaseClient(ctx,"")
-	if err != nil {
-		log.Println(err)
-	}
+func(m *EmailInvitation) CheckEmailIdInDb(ctx context.Context,companyID string)bool {
+	//db,err :=GetFirebaseClient(ctx,"")
+	//if err != nil {
+	//	log.Println(err)
+	//}
 	companyInvitation := map[string]Company{}
 	companyInvitaionCheck :=CompanyInvitations{}
 	//CompanyId :=companyId
 	var keySlice []string
+	var Condition =""
+
 
 	dB, err := GetFirebaseClient(ctx, "")
 	if err != nil {
@@ -61,41 +64,60 @@ func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string)bool
 	}
 	log.Println("key slice",keySlice)
 	for _, keyIn := range keySlice {
-		log.Println("key",keyIn)
-		err =  dB.Child("Company/"+companyID+"/Invitation/"+keyIn).Value(&companyInvitaionCheck)
-		log.Println("db email",companyInvitaionCheck.Email)
-		log.Println("form email", m.Info.Email)
-		log.Println("corresponding key",keyIn)
-		if companyInvitaionCheck.Email == m.Info.Email && companyInvitaionCheck.Status=="Active" &&companyInvitaionCheck.UserResponse=="Accepted"{
+		log.Println("key", keyIn)
+		err = dB.Child("Company/" + companyID + "/Invitation/" + keyIn).Value(&companyInvitaionCheck)
+
+		if companyInvitaionCheck.Email == m.Info.Email && companyInvitaionCheck.Status == "Active" &&companyInvitaionCheck.UserResponse == "Accepted" {
 			log.Println("condition true")
-			return  false
+			Condition = "true"
+			break
+
 		} else {
-			log.Println("condition false")
-			//Dots containing in email id replaced into underscore because firebase does not allow email id as a child in which containing dot
-			formattedEmail := strings.Replace(m.Info.Email, ".", "_", -1)
-			invitationData,err := db.Child("Invitation").Child(formattedEmail).Push(m)
-			if err != nil {
-				log.Println(err)
-				return  false
-			}
-			invitationDataString := strings.Split(invitationData.String(),"/")
-			invitationUniqueID := invitationDataString[len(invitationDataString)-2]
-			invitation := CompanyInvitations{}
-			invitation.FirstName = m.Info.FirstName
-			invitation.LastName = m.Info.LastName
-			invitation.UserResponse = m.Settings.UserResponse
-			invitation.Status = m.Settings.Status
-			invitation.UserType = m.Info.UserType
-			invitation.Email = m.Info.Email
-			err = db.Child("/Company/"+companyID+"/Invitation/"+invitationUniqueID).Set(invitation)
-			if err != nil {
-				log.Println(err)
-				return  false
-			}
+			Condition = "false"
+
 
 		}
+	}
+	log.Println("untimaleegxav",Condition)
+		if Condition =="true"{
+			return false
+
+		} else{
+			return true
 		}
+
 	return true
+}
+
+
+func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string)bool {
+	db,err :=GetFirebaseClient(ctx,"")
+	if err != nil {
+		log.Println(err)
+	}
+	log.Println("condition false")
+	//Dots containing in email id replaced into underscore because firebase does not allow email id as a child in which containing dot
+	formattedEmail := strings.Replace(m.Info.Email, ".", "_", -1)
+	invitationData,err := db.Child("Invitation").Child(formattedEmail).Push(m)
+	if err != nil {
+		log.Println(err)
+		return  false
+	}
+	invitationDataString := strings.Split(invitationData.String(),"/")
+	invitationUniqueID := invitationDataString[len(invitationDataString)-2]
+	invitation := CompanyInvitations{}
+	invitation.FirstName = m.Info.FirstName
+	invitation.LastName = m.Info.LastName
+	invitation.UserResponse = m.Settings.UserResponse
+	invitation.Status = m.Settings.Status
+	invitation.UserType = m.Info.UserType
+	invitation.Email = m.Info.Email
+	err = db.Child("/Company/"+companyID+"/Invitation/"+invitationUniqueID).Set(invitation)
+	if err != nil {
+		log.Println(err)
+		return  false
+	}
+ return true
 }
 
 func GetInvitationByEmailId(ctx context.Context,email string,companyTeamName string)(map[string]EmailInvitation,bool) {

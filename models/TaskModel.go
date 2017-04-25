@@ -71,9 +71,9 @@ type  GroupMemberName struct {
 	MemberName	string
 }
 type TaskSetting struct {
-	Status		string
-	DateOfCreation	int64
-	FitToWorkStatus  string
+	Status           string
+	DateOfCreation   int64
+	FitToWorkDisplay string
 
 }
 type UsersAndGroups struct {

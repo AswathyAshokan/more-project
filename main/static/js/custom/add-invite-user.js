@@ -37,7 +37,7 @@ $().ready(function() {
         messages: {
             firstname:"please enter First name ",
             usertype :"Plese select UserType",
-            emailid:"email Address is already inuse!"
+            emailid:"please enter email id!"
         },
         submitHandler: function(){//to pass all data of a form serial
             $("#saveButton").attr('disabled', true);
@@ -51,11 +51,13 @@ $().ready(function() {
                     data: formData,
                     //call back or get response here
                     success : function(response){
+                        
+                        //alert(success);
                         if(response == "true"){
                             window.location='/' + companyTeamName +'/invite';
                         }else {
-                            $("#emailValidationError").css({"color": "red", "font-size": "15px"});
-                            $("#emailValidationError").html("please select location from map.").show();
+                               
+                           
                         }
                     },
                     error: function (request,status, error) {
@@ -73,6 +75,8 @@ $().ready(function() {
                             window.location='/' + companyTeamName +'/invite';
                         }else {
                               $("#saveButton").attr('disabled', false);
+                             $("#emailValidationError").css({"color": "red", "font-size": "15px"});
+                            $("#emailValidationError").html("email already in use.").show();
                         }
                     },
                     error: function (request,status, error) {
