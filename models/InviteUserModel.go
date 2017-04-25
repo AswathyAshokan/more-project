@@ -68,21 +68,18 @@ func(m *EmailInvitation) CheckEmailIdInDb(ctx context.Context,companyID string)b
 		err = dB.Child("Company/" + companyID + "/Invitation/" + keyIn).Value(&companyInvitaionCheck)
 
 		if companyInvitaionCheck.Email == m.Info.Email && companyInvitaionCheck.Status == "Active" &&companyInvitaionCheck.UserResponse == "Accepted" {
-			log.Println("condition true")
+
 			Condition = "true"
 			break
 
 		} else {
 			Condition = "false"
-
-
 		}
 	}
-	log.Println("untimaleegxav",Condition)
-		if Condition =="true"{
-			return false
+	if Condition =="true"{
 
-		} else{
+			return false
+	} else{
 			return true
 		}
 
