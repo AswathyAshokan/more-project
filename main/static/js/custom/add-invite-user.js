@@ -9,6 +9,7 @@ var companyTeamName = vm.CompanyTeamName;
 $().ready(function() {
     
     if(vm.PageType == "edit"){  
+        
         document.getElementById("emailid").style.display='block'; 
         document.getElementById("firstname").value = vm.FirstName;
         document.getElementById("lastname").value = vm.LastName;
@@ -26,17 +27,23 @@ $().ready(function() {
     $("#adduserForm").validate({
 	  rules: {
           firstname: "required",
+          usertype :"required",
           emailid:{
               required:true,
-              email:true
+              email:true,
+               remote:{
+                    url:"/isEmailUsedInvitation/" + emailid,
+                    type: "post"
+                }
           },
       },
         messages: {
             firstname:"please enter First name ",
+            usertype :"Plese select UserType",
             emailid:"please enter a valid Email address!"
         },
         submitHandler: function(){//to pass all data of a form serial
-              $("#saveButton").attr('disabled', true);
+            $("#saveButton").attr('disabled', true);
             if (vm.PageType == "edit"){
                 var formData = $("#adduserForm").serialize();
                 var InviteId = vm.InviteId;
@@ -76,6 +83,32 @@ $().ready(function() {
             return false;
         }
     });
+    
+    
+    /*$('#updateButton').on('click', function() {
+        
+         $("#adduserForm").validate({
+             rules: {
+                 firstname: "required",
+                 usertype :"required",
+                 emailid:{
+                     required:true,
+                     email:true,
+                 },
+             },
+             messages: {
+                 firstname:"please enter First name ",
+                 usertype :"Plese select UserType",
+                 emailid:"please enter a valid Email address!"
+             },
+             submitHandler: function(){
+             $("#saveButton").attr('disabled', false);
+             $("#updateButton").attr('disabled', true);
+             });
+         
+         });
+    
+    });*/
     
     $("#cancel").click(function() {
             window.location = '/' + companyTeamName +'/invite';

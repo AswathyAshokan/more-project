@@ -299,10 +299,12 @@ func(m *Tasks) GetContactDetailById(ctx context.Context, contactId string) (Task
 }
 //getting users from company
 func (m *Company) GetUsersForDropdownFromCompany(ctx context.Context,companyTeamName string)(bool,map[string]Company) {
+	log.Println("cpa2")
 	companyUsers := map[string]Company{}
 	dB, err := GetFirebaseClient(ctx,"")
 	err = dB.Child("Company").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&companyUsers)
 	if err != nil {
+		log.Println("cpa3")
 		log.Fatal(err)
 		return false, companyUsers
 	}

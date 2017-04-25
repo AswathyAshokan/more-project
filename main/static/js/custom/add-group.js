@@ -20,7 +20,7 @@ $().ready(function() {
             groupName:{
                 required:"required",
                 remote:{
-                    url: "/isgroupnameused/" + groupName + "/" + vm.PageType + "/" + vm.GroupNameToEdit,
+                    url: "/isgroupnameused/" + groupName + "/" + vm.PageType + "/" + vm.GroupNameToEdit ,
                     type: "post"
                 }
             },

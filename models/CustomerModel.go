@@ -6,6 +6,7 @@ import (
 	"golang.org/x/net/context"
 	"log"
 	"app/passporte/helpers"
+	"reflect"
 )
 
 type Customers struct {
@@ -126,8 +127,16 @@ func IsCustomerNameUsed(ctx context.Context,customerName string)(bool) {
 	if len(customerDetails)==0{
 		return true
 	} else {
-		return false
+		dataValue := reflect.ValueOf(customerDetails)
+		for _, key := range dataValue.MapKeys() {
+			if customerDetails[key.String()].Settings.Status == helpers.StatusActive {
+				return false
+			}
+		}
+
 	}
+	return true
+
 
 }
 

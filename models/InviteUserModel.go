@@ -4,8 +4,8 @@ package models
 import (
 	"golang.org/x/net/context"
 	"log"
-	"app/passporte/helpers"
 	"strings"
+	"reflect"
 )
 type Invitation struct {
  	Email map[string]EmailInvitation
@@ -29,6 +29,7 @@ type inviteUser struct {
 
 type InviteSettings struct {
 	Status 		string
+	UserResponse    string
 	DateOfCreation  int64
 }
 type UserCompany struct{
@@ -56,10 +57,15 @@ func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string)bool
 	invitation := CompanyInvitations{}
 	invitation.FirstName = m.Info.FirstName
 	invitation.LastName = m.Info.LastName
+	invitation.UserResponse = m.Settings.UserResponse
 	invitation.Status = m.Settings.Status
 	invitation.UserType = m.Info.UserType
 	invitation.Email = m.Info.Email
 	err = db.Child("/Company/"+companyID+"/Invitation/"+invitationUniqueID).Set(invitation)
+	if err != nil {
+		log.Println(err)
+		return  false
+	}
 	return true
 }
 
@@ -94,7 +100,6 @@ func GetAllInviteUsersDetails(ctx context.Context,companyId string) (map[string]
 		return  value,false
 	}
 	err = db.Child("/Company/"+companyId+"/Invitation").Value(&value)
-	log.Println("in model ",value)
 	if err != nil {
 		log.Fatal(err)
 		return value,false
@@ -103,10 +108,44 @@ func GetAllInviteUsersDetails(ctx context.Context,companyId string) (map[string]
 }
 
 //delete each invite user from database using invite UserId
-func(m *Invitation) DeleteInviteUserById(ctx context.Context, InviteUserId string) bool{
-	InvitationSettingsUpdate := InviteSettings{}
+func(m *Invitation) DeleteInviteUserById(ctx context.Context, InviteUserId string,companyTeamName string) bool{
+	companyData := map[string]Company{}
+	invitationData := map[string]CompanyInvitations{}
+	var keySlice []string
+	
+	db,err := GetFirebaseClient(ctx,"")
+	if err !=nil{
+		log.Fatal(err)
+		return false
+	}
+	err = db.Child("Company").Value(&companyData)
+	if err !=nil{
+		return false
+	}
+
+
+	dataValue := reflect.ValueOf(companyData)
+	for _, key := range dataValue.MapKeys() {
+		keySlice = append(keySlice, key.String())
+	}
+	for _, key := range keySlice{
+		err = db.Child("Company/"+key+"/Invitation").Value(&invitationData)
+		/*inviteValues :=reflect.ValueOf(invitationData)
+		for _, k := range dataValue.MapKeys() {
+			inviteKeySlice = append(inviteKeySlice, k.String())
+		}
+		for _, k := range inviteKeySlice{
+
+		}*/
+
+	}
+	/*InvitationSettingsUpdate := InviteSettings{}
 	InvitationDeletion := InviteSettings{}
 	db,err :=GetFirebaseClient(ctx,"")
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
 	err = db.Child("/Invitation/"+ InviteUserId+"/Settings").Value(&InvitationSettingsUpdate)
 	if err != nil {
 		log.Fatal(err)
@@ -119,16 +158,17 @@ func(m *Invitation) DeleteInviteUserById(ctx context.Context, InviteUserId strin
 	if err != nil {
 		log.Fatal(err)
 		return  false
-	}
+	}*/
 	return  true
+
 
 }
 
 //fetch all the details of users for editing purpose
-func(m *Invitation) GetAllInviteUserForEdit(ctx context.Context, InviteUserId string) (Invitation,bool){
-	value := Invitation{}
+func GetAllInviteUserForEdit(ctx context.Context) (map[string]Invitation,bool){
+	value := map[string]Invitation{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Invitation/"+ InviteUserId).Value(&value)
+	err = db.Child("Invitation").Value(&value)
 	if err != nil {
 		log.Fatal(err)
 		return value , false
@@ -138,23 +178,34 @@ func(m *Invitation) GetAllInviteUserForEdit(ctx context.Context, InviteUserId st
 }
 
 // update the the profile of user by invite user id
-func(m *Company) UpdateInviteUserById(ctx context.Context,InviteUserId string) (bool) {
+func(m *CompanyInvitations) UpdateInviteUserById(ctx context.Context,InviteUserId string) (bool) {
 
-	InvitationSettingsDetails := InviteSettings{}
+	/*InvitationFromComapy := InviteSettings{}*/
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Invitation/"+ InviteUserId+"/Settings").Value(&InvitationSettingsDetails)
 	if err != nil {
 		log.Fatal(err)
 		return false
 	}
-	/*m.Settings.Status = InvitationSettingsDetails.Status
-	m.Settings.DateOfCreation = InvitationSettingsDetails.DateOfCreation*/
+	err = db.Child("company").Child("/Invitation/"+ InviteUserId).Update(&m)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	/*err = db.Child("/Company/Invitation/"+InviteUserId).Value(&InvitationFromComapy)*/
+	/*err = db.Child("/Invitation/"+ InviteUserId+"/Settings").Value(&InvitationSettingsDetails)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+	*//*m.Settings.Status = InvitationSettingsDetails.Status
+	m.Settings.DateOfCreation = InvitationSettingsDetails.DateOfCreation*//*
 	err = db.Child("/Invitation/"+ InviteUserId).Update(&m)
 
 	if err != nil {
 		log.Fatal(err)
 		return  false
 	}
+	return true*/
 	return true
 
 }
@@ -205,5 +256,40 @@ func (m *Invitation)IsEmailIdUnique(ctx context.Context,emailIdCheck string)(boo
 		return false
 	}
 
+}
+
+func GetInvitationById( ctx context.Context,InviteUserId string,key string)(map[string]EmailInvitation)  {
+	value := map[string]EmailInvitation{}
+	dB, err := GetFirebaseClient(ctx, "")
+	if err != nil {
+		log.Println("No Db Connection!")
+	}
+	err = dB.Child("/Invitation/"+key).Value(&value)
+	if err != nil {
+		return value
+	}
+	return value
+}
+
+
+
+func CheckEmailIsUsedInvitation(ctx context.Context, emailId string) bool{
+	/*companyInvitation := map[string]Company{}
+
+	dB, err := GetFirebaseClient(ctx, "")
+	if err != nil {
+		log.Println("No Db Connection!")
+	}
+	if err =  dB.Child("Company").OrderBy("Info/Email").EqualTo(emailId).Value(&companyAdmins); err != nil {
+		log.Fatal(err)
+	}
+	if len(companyAdmins)==0{
+
+		return true
+	}else{
+
+		return false
+	}*/
+	return false
 }
 

@@ -9,14 +9,12 @@ type Users struct {
 	SocialNetworks		UserSocialNetworks
 	Tasks			UserTasks
 }
-
 type UserInfo struct {
 	Address			string
 	DateOfBirth		int64
 	Email			string
 	FullName		string
 	Phone			int64
-	UserName		string
 }
 
 type NextOfKin struct {
@@ -28,7 +26,9 @@ type NextOfKin struct {
 
 type UserSettings struct {
 	DateOfCreation		int64
+	ProfilePicture		string
 	Status			string
+	ThumbProfilePicture	string
 }
 
 type UserSocialNetworks struct {

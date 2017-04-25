@@ -2,20 +2,19 @@ package controllers
 
 
 import (
-	/*"log"
+	"log"
 	"app/passporte/models"
 	"reflect"
 	"app/passporte/viewmodels"
 	"app/passporte/helpers"
-	"time"*/
+	"time"
 )
-
 type SharedDocumentController struct {
 	BaseController
 }
 
 func (c *SharedDocumentController) LoadSharedDocuments() {
-	/*r := c.Ctx.Request
+	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	userId :=c.Ctx.Input.Param(":inviteuserid")
@@ -26,7 +25,7 @@ func (c *SharedDocumentController) LoadSharedDocuments() {
 	var expiryKeySlice []string
 	switch dbStatus {
 	case true:
-
+		log.Println("11")
 		tempEmailId := info.Email
 		UserDetails,expiryStatus  := models.GetAllUserDetail(c.AppEngineCtx,tempEmailId)
 		switch expiryStatus {
@@ -67,7 +66,7 @@ func (c *SharedDocumentController) LoadSharedDocuments() {
 		}
 	case false:
 		log.Println(helpers.ServerConnectionError)
-	}*/
+	}
 
 }
 

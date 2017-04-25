@@ -21,7 +21,6 @@ $(function(){
             subArray = [];
         }
     }
-    
 /*Function for assigning data array into data table*/
     function dataTableManipulate(){
         table =  $("#group-table").DataTable({
@@ -33,7 +32,6 @@ $(function(){
                        "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
             }]
         });
-        
 /*Add a plus symbol in webpage for add new groups*/
         var item = $('<span>+</span>');
         item.click(function() {

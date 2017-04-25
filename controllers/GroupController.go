@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"bytes"
 	"strings"
+
 )
 
 type GroupController struct {
@@ -46,35 +47,37 @@ func (c *GroupController) AddGroup() {
 			w.Write([]byte("false"))
 		}
 	} else {
+		log.Println("cpa1")
 		companyUsers :=models.Company{}
 		groupViewModel := viewmodels.AddGroupViewModel{}
 		var keySlice []string
 		dbStatus,GroupMembers :=companyUsers.GetUsersForDropdownFromCompany(c.AppEngineCtx,companyTeamName)  // retrive all the keys of a users
 		switch dbStatus {
-
 		case true:
+			log.Println("cpa3")
 			dataValue := reflect.ValueOf(GroupMembers)
 			for _, key := range dataValue.MapKeys() {
 				dataValue := reflect.ValueOf(GroupMembers[key.String()].Users)
 				for _, userKey := range dataValue.MapKeys() {
-					groupViewModel.GroupMembers   = append(groupViewModel.GroupMembers ,GroupMembers[key.String()].Users[userKey.String()].FullName)
+					groupViewModel.GroupMembers = append(groupViewModel.GroupMembers, GroupMembers[key.String()].Users[userKey.String()].FullName)
 					keySlice = append(keySlice, userKey.String())
 				}
 
 			}
-				groupViewModel.CompanyTeamName = storedSession.CompanyTeamName
-				groupViewModel.CompanyPlan = storedSession.CompanyPlan
-				groupViewModel.GroupKey = keySlice
-				groupViewModel.PageType = helpers.SelectPageForAdd
-				groupViewModel.AdminFirstName = storedSession.AdminFirstName
-				groupViewModel.AdminLastName = storedSession.AdminLastName
-				groupViewModel.ProfilePicture =storedSession.ProfilePicture
-				c.Data["vm"] = groupViewModel
-				c.Layout = "layout/layout.html"
-				c.TplName = "template/add-group.html"
-			case false:
-				log.Println(helpers.ServerConnectionError)
-			}
+			groupViewModel.CompanyTeamName = storedSession.CompanyTeamName
+			groupViewModel.CompanyPlan = storedSession.CompanyPlan
+			groupViewModel.GroupKey = keySlice
+			groupViewModel.PageType = helpers.SelectPageForAdd
+			groupViewModel.AdminFirstName = storedSession.AdminFirstName
+			groupViewModel.AdminLastName = storedSession.AdminLastName
+			groupViewModel.ProfilePicture = storedSession.ProfilePicture
+			c.Data["vm"] = groupViewModel
+			c.Layout = "layout/layout.html"
+			c.TplName = "template/add-group.html"
+		case false:
+			log.Println("cpa4")
+			log.Println(helpers.ServerConnectionError)
+		}
 
 	}
 }
@@ -200,7 +203,7 @@ func (c *GroupController) EditGroup() {
 	} else {
 		groupUser := models.Users{}
 		viewModel := viewmodels.EditGroupViewModel{}
-		GroupMembers, dbStatus := groupUser.GetUsersForDropdown(c.AppEngineCtx)
+		GroupMembers, dbStatus := models.GetUsersForDropdown(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
 			dataValue := reflect.ValueOf(GroupMembers)        // To store data values of slice
@@ -236,17 +239,18 @@ func (c *GroupController) EditGroup() {
 				viewModel.GroupId = groupId
 				viewModel.AdminFirstName = storedSession.AdminFirstName
 				viewModel.AdminLastName = storedSession.AdminLastName
-				viewModel.ProfilePicture =storedSession.ProfilePicture
+				viewModel.ProfilePicture = storedSession.ProfilePicture
 				c.Data["vm"] = viewModel
 				c.Layout = "layout/layout.html"
 				c.TplName = "template/add-group.html"
 			case false:
 				log.Println(helpers.ServerConnectionError)
-			case false:
+			}
+		case false:
 				log.Println(helpers.ServerConnectionError)
 			}
 		}
-	}
+
 }
 
 func (c *GroupController)  GroupNameCheck(){
@@ -266,6 +270,8 @@ func (c *GroupController)  GroupNameCheck(){
 			w.Write([]byte("false"))
 		}
 	}
+
+
 
 
 

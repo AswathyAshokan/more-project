@@ -35,9 +35,12 @@ func GetAllUserDetail(ctx context.Context,tempEmailId string ) (map[string]Users
 		log.Fatal(err)
 		return usersDetails, false
 	}
+	log.Println("13")
 	err = db.Child("Users").OrderBy("Info/Email").EqualTo(tempEmailId).Value(&usersDetails)
 	if err != nil{
-		log.Fatal(err)
+		log.Println("13")
+		log.Println(err)
+		log.Println(usersDetails)
 		return usersDetails, false
 	}
 	return usersDetails,true

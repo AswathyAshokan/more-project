@@ -9,7 +9,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"strings"
 	"app/passporte/helpers"
-
 )
 
 
@@ -29,6 +28,7 @@ type CompanyInvitations struct {
 	UserType	string
 	Status 		string
 	Email 		string
+	UserResponse    string
 }
 
 type CompanyAdmin struct {

@@ -5,6 +5,7 @@ import (
 	"golang.org/x/net/context"
 	"log"
 	"app/passporte/helpers"
+	"reflect"
 )
 type Group struct {
 	Info 		GroupInfo
@@ -59,7 +60,7 @@ func GetAllGroupDetails(ctx context.Context,companyTeamName string) (map[string]
 
 // Delete each group using group id
 func (n *Group)DeleteGroup(ctx context.Context, groupKey string) bool{
-	//user := User{}
+
 	GroupDeletion := GroupSettings{}
 	groupStatusUpdate := GroupSettings{}
 	db,err :=GetFirebaseClient(ctx,"")
@@ -70,6 +71,7 @@ func (n *Group)DeleteGroup(ctx context.Context, groupKey string) bool{
 	}
 	GroupDeletion.Status = helpers.StatusInActive
 	GroupDeletion.DateOfCreation = groupStatusUpdate.DateOfCreation
+	log.Println("delete",GroupDeletion)
 	err = db.Child("/Group/"+ groupKey +"/Settings").Update(&GroupDeletion)
 	if err != nil {
 		log.Fatal(err)
@@ -80,18 +82,15 @@ func (n *Group)DeleteGroup(ctx context.Context, groupKey string) bool{
 }
 
 // To get all the keys of User
-func (m *Users)GetUsersForDropdown(ctx context.Context) (map[string]Users,bool) {
+func GetUsersForDropdown(ctx context.Context) (map[string]Users,bool) {
 	db,err :=GetFirebaseClient(ctx,"")
 	allUser := map[string]Users{}
 	err = db.Child("Users").Value(&allUser)
-	//err = db.Child("Users").Value(&allUser)
 	if err != nil {
 		log.Println(err)
 		return allUser,false
 	}
 	return allUser,true
-
-
 }
 
 // for fill the dropdown list using name(users) in add group
@@ -154,20 +153,29 @@ func(m *Group) UpdateGroupDetails(ctx context.Context,groupKey string) (bool) {
 //check group name is already exist
 func IsGroupNameUsed(ctx context.Context,groupName string)(bool) {
 	groupDetails := map[string]Group{}
+
 	db, err := GetFirebaseClient(ctx, "")
 	if err != nil {
-		log.Println("No Db Connection!")
+		log.Fatal(err)
 	}
 	err = db.Child("Group").OrderBy("Info/GroupName").EqualTo(groupName).Value(&groupDetails)
 	if err != nil {
 		log.Fatal(err)
 	}
-	if len(groupDetails)==0{
-		return true
-	}else{
-		return false
-	}
+	if len(groupDetails) == 0 {
 
+		return true
+	} else {
+		dataValue := reflect.ValueOf(groupDetails)
+		for _, key := range dataValue.MapKeys() {
+			if groupDetails[key.String()].Settings.Status == helpers.StatusActive {
+				return false
+			}
+		}
+	}
+	return true
 }
+
+
 
 

@@ -9,6 +9,9 @@ const (
 	StatusInActive = "Inactive"
 	PlanFamily = "family"
 	PlanBusiness = "businessPlus"
+	UserResponsePending = "Pending"
+	UserResponseAccepted = "Accepted"
+	UserResponseRejected = "Rejected"
 )
 
 // Error Messages

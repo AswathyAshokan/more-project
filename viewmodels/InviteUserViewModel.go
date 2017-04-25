@@ -6,6 +6,7 @@ type InviteUserViewModel struct {
 	EmailId        		string
 	UserType      		string
 	Status         		string
+	UserResponse      	string
 	DateOfCreation 		int64
 	InviteUserKey  		[]string
 	PageType        	string
@@ -32,6 +33,7 @@ type EditInviteUserViewModel struct {
 	AdminFirstName		string
 	AdminLastName		string
 	ProfilePicture		string
+	UserResponse      	string
 
 }
 type AddInviteUserViewModel struct {

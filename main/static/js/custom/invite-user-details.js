@@ -21,6 +21,15 @@ $(function(){
             subArray = [];
         }
     }
+    function deleteUser(key) {
+        for (i =0;i<vm.Values.length;i++){
+            console.log("values",vm.Values[i][4]);
+            if (vm.Values[i][4] == "Inactive"){
+                
+                  window.location = '/' + companyTeamName +'/invite/'+ key + '/delete';
+            }
+        }
+    }
     
 /*Function for assigning data array into data table*/
     function dataTableManipulate(){
@@ -54,7 +63,7 @@ $(function(){
 /*Edit user details when click on edit icon*/
     $('#inviteuser-table tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[5];
+        var key = data[6];
         window.location = '/' + companyTeamName +'/invite/'+ key + '/edit';
         return false;
     });
@@ -62,7 +71,7 @@ $(function(){
 /*List shared documents wheen click on eye icon*/  
     $('#inviteuser-table tbody').on( 'click', '#list', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[5];
+        var key = data[6];
         window.location ='/' + companyTeamName +'/shareddocuments/'+key ;
         return false;
     });
@@ -74,8 +83,8 @@ $(function(){
     $('#inviteuser-table tbody').on( 'click', '#delete', function () {
         $("#myModal").modal();
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[5];
-        
+        var key = data[6];
+        deleteUser(key);
         $("#confirm").click(function(){
             $.ajax({
                 type: "POST",

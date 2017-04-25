@@ -33,14 +33,14 @@ func (c *InviteUserController) AddInvitation() {
 	inviteUser := models.EmailInvitation{}
 	addViewModel := viewmodels.AddInviteUserViewModel{}
 	if r.Method == "POST" {
-		log.Println("cp1",storedSession.CompanyTeamName)
 		inviteUser.Info.CompanyAdmin = storedSession.AdminFirstName+" "+storedSession.AdminLastName
 		inviteUser.Info.FirstName = c.GetString("firstname")
 		inviteUser.Info.LastName = c.GetString("lastname")
 		inviteUser.Info.Email = c.GetString("emailid")
 		inviteUser.Info.UserType = c.GetString("usertype")
 		inviteUser.Settings.DateOfCreation =(time.Now().UnixNano() / 1000000)
-		inviteUser.Settings.Status = helpers.StatusPending
+		inviteUser.Settings.Status = helpers.StatusInActive
+		inviteUser.Settings.UserResponse = helpers.UserResponsePending
 		inviteUser.Info.CompanyTeamName = storedSession.CompanyTeamName
 		inviteUser.Info.CompanyId = storedSession.CompanyId
 		inviteUser.Info.CompanyName = storedSession.CompanyName
@@ -93,11 +93,11 @@ func (c *InviteUserController) AddInvitation() {
 				for _, key := range keySlice{
 					//check is email id is present in the slice
 					if helpers.StringInSlice(info[key].Email, uniqueEmailSlice) == false {
-						tempValueSlice = append(tempValueSlice, info[key].Status)
+						tempValueSlice = append(tempValueSlice, info[key].UserResponse)
 						uniqueEmailSlice = append(uniqueEmailSlice, info[key].Email)//appent email id into slice
 					}
 					for i := 0; i < len(tempValueSlice); i++ {
-						if tempValueSlice[i] == helpers.StatusPending || tempValueSlice[i] == helpers.StatusAccepted {
+						if tempValueSlice[i] == helpers.UserResponsePending || tempValueSlice[i] == helpers.UserResponseAccepted{
 							count = count + 1
 						}
 					}
@@ -141,12 +141,13 @@ func (c *InviteUserController) InvitationDetails() {
 		}
 
 		for _, k := range keySlice {
-			if info[k].Status == helpers.StatusActive ||info[k].Status == helpers.StatusAccepted||info[k].Status==helpers.StatusPending {
+			if info[k].UserResponse == helpers.UserResponseAccepted ||info[k].UserResponse == helpers.UserResponsePending{
 				var tempValueSlice []string
 				tempValueSlice = append(tempValueSlice, info[k].FirstName)
 				tempValueSlice = append(tempValueSlice, info[k].LastName)
 				tempValueSlice = append(tempValueSlice, info[k].Email)
 				tempValueSlice = append(tempValueSlice, info[k].UserType)
+				tempValueSlice = append(tempValueSlice,info[k].UserResponse)
 				tempValueSlice = append(tempValueSlice, info[k].Status)
 				inviteUserViewModel.Values = append(inviteUserViewModel.Values, tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]
@@ -157,13 +158,11 @@ func (c *InviteUserController) InvitationDetails() {
 		log.Println(helpers.ServerConnectionError)
 	}
 	inviteUserViewModel.CompanyTeamName = storedSession.CompanyTeamName
-	log.Println("Team Name: ", storedSession.CompanyTeamName)
 	inviteUserViewModel.CompanyPlan = storedSession.CompanyPlan
 	inviteUserViewModel.AdminFirstName = storedSession.AdminFirstName
 	inviteUserViewModel.AdminLastName = storedSession.AdminLastName
 	inviteUserViewModel.ProfilePicture =storedSession.ProfilePicture
 	inviteUserViewModel.Keys = keySlice
-	log.Println("view",inviteUserViewModel)
 	c.Data["vm"] = inviteUserViewModel
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/invite-user-details.html"
@@ -177,7 +176,7 @@ func (c *InviteUserController) DeleteInvitation() {
 	ReadSession(w, r, companyTeamName)
 	InviteUserId :=c.Ctx.Input.Param(":inviteuserid")
 	InviteUser := models.Invitation{}
-	result := InviteUser.DeleteInviteUserById(c.AppEngineCtx, InviteUserId)
+	result := InviteUser.DeleteInviteUserById(c.AppEngineCtx, InviteUserId,companyTeamName)
 	switch result {
 	case true:
 		w.Write([]byte("true"))
@@ -189,48 +188,84 @@ func (c *InviteUserController) DeleteInvitation() {
 
 //edit profile of each invite user using invite user id
 func (c *InviteUserController) EditInvitation() {
-	/*r := c.Ctx.Request
+	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
+	invitationViewModel := viewmodels.EditInviteUserViewModel{}
+	InviteUserId := c.Ctx.Input.Param(":inviteuserid")
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
-	InviteUserId := c.Ctx.Input.Param(":inviteuserid")
-	inviteUser := models.CompanyInvitations{}
-	if r.Method == "POST" {
-		inviteUser.FirstName = c.GetString("firstname")
-		inviteUser.LastName = c.GetString("lastname")
-		inviteUser.Email = c.GetString("emailid")
-		inviteUser.UserType = c.GetString("usertype")
-		dbStatus := inviteUser.UpdateInviteUserById(c.AppEngineCtx, InviteUserId)
 
+	if r.Method == "POST" {
+		invitation := models.CompanyInvitations{}
+		invitation.FirstName = c.GetString("firstname")
+		invitation.LastName = c.GetString("lastname")
+		invitation.Email = c.GetString("emailid")
+		invitation.UserType = c.GetString("usertype")
+		dbStatus := invitation.UpdateInviteUserById(c.AppEngineCtx, InviteUserId)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
 		case false:
 			w.Write([]byte("false"))
 		}
+
 	} else {
-		editResult, DbStatus := inviteUser.GetAllInviteUserForEdit(c.AppEngineCtx, InviteUserId)
+		editResult, DbStatus := models.GetAllInviteUserForEdit(c.AppEngineCtx)
+		log.Println("all", editResult)
 		switch DbStatus {
 		case true:
-			invitationViewModel := viewmodels.EditInviteUserViewModel{}
-			invitationViewModel.FirstName = editResult.Info.FirstName
-			invitationViewModel.LastName = editResult.Info.LastName
-			invitationViewModel.EmailId = editResult.Info.Email
-			invitationViewModel.UserType = editResult.Info.UserType
-			invitationViewModel.Status = editResult.Settings.Status
-			invitationViewModel.PageType = helpers.SelectPageForEdit
-			invitationViewModel.InviteId = InviteUserId
-			invitationViewModel.CompanyTeamName= storedSession.CompanyTeamName
-			invitationViewModel.CompanyPlan = storedSession.CompanyPlan
-			invitationViewModel.AdminFirstName = storedSession.AdminFirstName
-			invitationViewModel.AdminLastName = storedSession.AdminLastName
-			c.Data["vm"] = invitationViewModel
-			c.Layout = "layout/layout.html"
-			c.TplName = "template/add-invite-user.html"
+
+			var keySlice []string
+			var keySliceById []string
+			dataValue := reflect.ValueOf(editResult)
+			for _, key := range dataValue.MapKeys() {
+				keySlice = append(keySlice, key.String())
+				log.Println("all key", keySlice)
+			}
+			for _, keyIn := range keySlice {
+				invitationData := models.GetInvitationById(c.AppEngineCtx, InviteUserId, keyIn)
+				log.Println("log", invitationData)
+				dataValueOfInvite := reflect.ValueOf(invitationData)
+				for _, k := range dataValueOfInvite.MapKeys() {
+					keySliceById = append(keySliceById, k.String())
+				}
+				for _, k := range keySliceById {
+					if InviteUserId == k {
+						invitationViewModel.FirstName = invitationData[k].Info.FirstName
+						invitationViewModel.LastName = invitationData[k].Info.LastName
+						invitationViewModel.UserType = invitationData[k].Info.UserType
+						invitationViewModel.UserResponse = invitationData[k].Settings.UserResponse
+						invitationViewModel.Status = invitationData[k].Settings.Status
+						invitationViewModel.PageType = helpers.SelectPageForEdit
+						invitationViewModel.CompanyTeamName = storedSession.CompanyTeamName
+						invitationViewModel.CompanyPlan = storedSession.CompanyPlan
+						invitationViewModel.AdminFirstName = storedSession.AdminFirstName
+						invitationViewModel.AdminLastName = storedSession.AdminLastName
+						invitationViewModel.EmailId = invitationData[k].Info.Email
+						invitationViewModel.InviteId = InviteUserId
+						log.Println("view", invitationViewModel)
+						c.Data["vm"] = invitationViewModel
+						c.Layout = "layout/layout.html"
+						c.TplName = "template/add-invite-user.html"
+
+					}
+				}
+			}
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
-	}*/
+
+	}
+}
+func (c *InviteUserController)CheckEmailInvitation(){
+	w := c.Ctx.ResponseWriter
+	emailId := c.GetString("emailId")
+	isEmailUsed := models.CheckEmailIsUsedInvitation(c.AppEngineCtx, emailId)
+	if isEmailUsed == false {
+		w.Write([]byte("false"))
+	}else{
+		w.Write([]byte("true"))
+	}
 }
 
 
