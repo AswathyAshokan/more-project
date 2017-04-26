@@ -8,6 +8,7 @@ var companyTeamName = vm.CompanyTeamName;
 
 /*Function for creating Data Array for data table*/
 $(function(){ 
+    var userResponse;
     var mainArray = [];   
     var table = "";
     function createDataArray(values, keys){
@@ -21,17 +22,12 @@ $(function(){
             subArray = [];
         }
     }
-    function deleteUser(key) {
-        for (i =0;i<vm.Values.length;i++){
-            console.log("values",vm.Values[i][4]);
-            if (vm.Values[i][4] == "Inactive"){
-                
-                  window.location = '/' + companyTeamName +'/invite/'+ key + '/delete';
-            }
+    var hihihi = function(){
+            
+            return "false";
         }
-    }
-    
-/*Function for assigning data array into data table*/
+
+    /*Function for assigning data array into data table*/
     function dataTableManipulate(){
         table =  $("#inviteuser-table").DataTable({
             data: mainArray,
@@ -40,8 +36,18 @@ $(function(){
                        "width": "10%",
                        "data": null,
                        "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-eye" aria-hidden="true"id="list"></i><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
+            },
+                          {
+                       "targets": -2,
+                       "width": "10%",
+                       "data": null,
+                        "render": function ( data, type, full, meta ) {
+                             return '<button class="btn btn-primary btn-xs " style="width:75px; height:25px;" type="submit">'+data[5]+'</button>';
+                        }
             }]
         });
+        
+        
         
 /*Add a plus symbol in webpage for add new groups*/
         var item = $('<span>+</span>');
@@ -49,6 +55,7 @@ $(function(){
             window.location = "/" + companyTeamName +"/invite/add";
         });
         $('.table-wrapper .dataTables_filter').append(item);
+        
     }
     
 /*---------------------------Initial data table calling---------------------------------------------------*/
@@ -59,6 +66,8 @@ $(function(){
     dataTableManipulate();
 /*--------------------------Ending Initial data table calling---------------------------------------------*/
 
+    
+    
     
 /*Edit user details when click on edit icon*/
     $('#inviteuser-table tbody').on( 'click', '#edit', function () {
@@ -84,32 +93,32 @@ $(function(){
         $("#myModal").modal();
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[6];
-        deleteUser(key);
         $("#confirm").click(function(){
-            $.ajax({
-                type: "POST",
-                url: '/' + companyTeamName +'/invite/'+ key + '/delete',
-                data: '',
-                success: function(data){
-                    if(data=="true"){
-                        $('#inviteuser-table').dataTable().fnDestroy();
-                        var index = "";
-                        for(var i = 0; i < mainArray.length; i++) {
-                            index = mainArray[i].indexOf(key);
-                            if(index != -1) {
-                                console.log("dddd", i);
-                                break;
+                        $.ajax({
+                            type: "POST",
+                            url: '/' + companyTeamName +'/invite/'+ key + '/delete',
+                            data: '',
+                            success: function(data){
+                                if(data=="true"){
+                                    alert("eeeeeee");
+                                    /*$('#inviteuser-table').dataTable().fnDestroy();
+                                    var index = "";
+                                    for(var i = 0; i < mainArray.length; i++) {
+                                        index = mainArray[i].indexOf(key);
+                                        if(index != -1) {
+                                            console.log("dddd", i);
+                                            break;
+                                        }
+                                    }
+                                    mainArray.splice(i, 1);
+                                    dataTableManipulate()*/
+                                }
+                                else {
+                                    alert("He is on work confirm Deletion?");
+                                }
                             }
-                        }
-                        mainArray.splice(i, 1);
-                        dataTableManipulate()
-                    }
-                    else {
-                        console.log("Removing Failed!");
-                    }
-                }
-            });
-        });
+                        });
+                    });
     });
     
 });

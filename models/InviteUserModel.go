@@ -156,37 +156,57 @@ func GetAllInviteUsersDetails(ctx context.Context,companyId string) (map[string]
 }
 
 //delete each invite user from database using invite UserId
-func(m *Invitation) DeleteInviteUserById(ctx context.Context, InviteUserId string,companyTeamName string) bool{
+func(m *Invitation) DeleteInviteUserById(ctx context.Context, InviteUserId string,companyTeamName string) bool {
 	companyData := map[string]Company{}
-	invitationData := map[string]CompanyInvitations{}
+	TaskMap := map[string]UserTasks{}
+	value := map[string]Users{}
+	invitationData := CompanyInvitations{}
 	var keySlice []string
-	
-	db,err := GetFirebaseClient(ctx,"")
-	if err !=nil{
+	var taskkeySlice []string
+	/*var inviteKeySlice []string
+	var template []string*/
+	db, err := GetFirebaseClient(ctx, "")
+	if err != nil {
 		log.Fatal(err)
 		return false
 	}
 	err = db.Child("Company").Value(&companyData)
-	if err !=nil{
+	if err != nil {
 		return false
 	}
-
 
 	dataValue := reflect.ValueOf(companyData)
 	for _, key := range dataValue.MapKeys() {
 		keySlice = append(keySlice, key.String())
 	}
-	for _, key := range keySlice{
-		err = db.Child("Company/"+key+"/Invitation").Value(&invitationData)
-		/*inviteValues :=reflect.ValueOf(invitationData)
-		for _, k := range dataValue.MapKeys() {
-			inviteKeySlice = append(inviteKeySlice, k.String())
+	for _, key := range keySlice {
+		err = db.Child("Company/" + key + "/Invitation/" + InviteUserId).Value(&invitationData)
+		if err != nil {
+			return false
 		}
-		for _, k := range inviteKeySlice{
-
-		}*/
 
 	}
+	err = db.Child("Users").OrderBy("Info/Email").EqualTo(invitationData.Email).Value(&value)
+	log.Println("in model ", value)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+	taskValues := reflect.ValueOf(value)
+	for _, taskKey := range taskValues.MapKeys() {
+		taskkeySlice = append(taskkeySlice, taskKey.String())
+	}
+	for _, taskKey := range taskkeySlice {
+		err = db.Child("Users/" + taskKey + "/Tasks").Value(&TaskMap)
+		log.Println("111")
+		if len(TaskMap) == 0 {
+			return true
+		} else {
+			return false
+		}
+	}
+	return true
+}
 	/*InvitationSettingsUpdate := InviteSettings{}
 	InvitationDeletion := InviteSettings{}
 	db,err :=GetFirebaseClient(ctx,"")
@@ -207,10 +227,9 @@ func(m *Invitation) DeleteInviteUserById(ctx context.Context, InviteUserId strin
 		log.Fatal(err)
 		return  false
 	}*/
-	return  true
 
 
-}
+
 
 //fetch all the details of users for editing purpose
 func GetAllInviteUserForEdit(ctx context.Context) (map[string]Invitation,bool){
@@ -313,6 +332,7 @@ func GetInvitationById( ctx context.Context,InviteUserId string,key string)(map[
 		log.Println("No Db Connection!")
 	}
 	err = dB.Child("/Invitation/"+key).Value(&value)
+	log.Println("invite",value)
 	if err != nil {
 		return value
 	}

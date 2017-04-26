@@ -39,7 +39,7 @@ func (c *InviteUserController) AddInvitation() {
 		inviteUser.Info.Email = c.GetString("emailid")
 		inviteUser.Info.UserType = c.GetString("usertype")
 		inviteUser.Settings.DateOfCreation =(time.Now().UnixNano() / 1000000)
-		inviteUser.Settings.Status = helpers.StatusInActive
+		inviteUser.Settings.Status = helpers.StatusActive
 		inviteUser.Settings.UserResponse = helpers.UserResponsePending
 		inviteUser.Info.CompanyTeamName = storedSession.CompanyTeamName
 		inviteUser.Info.CompanyId = storedSession.CompanyId
@@ -236,19 +236,19 @@ func (c *InviteUserController) EditInvitation() {
 				for _, k := range dataValueOfInvite.MapKeys() {
 					keySliceById = append(keySliceById, k.String())
 				}
-				for _, k := range keySliceById {
-					if InviteUserId == k {
-						invitationViewModel.FirstName = invitationData[k].Info.FirstName
-						invitationViewModel.LastName = invitationData[k].Info.LastName
-						invitationViewModel.UserType = invitationData[k].Info.UserType
-						invitationViewModel.UserResponse = invitationData[k].Settings.UserResponse
-						invitationViewModel.Status = invitationData[k].Settings.Status
+				for _, inviteKey := range keySliceById {
+					if InviteUserId == inviteKey {
+						invitationViewModel.FirstName = invitationData[inviteKey].Info.FirstName
+						invitationViewModel.LastName = invitationData[inviteKey].Info.LastName
+						invitationViewModel.UserType = invitationData[inviteKey].Info.UserType
+						invitationViewModel.UserResponse = invitationData[inviteKey].Settings.UserResponse
+						invitationViewModel.Status = invitationData[inviteKey].Settings.Status
 						invitationViewModel.PageType = helpers.SelectPageForEdit
 						invitationViewModel.CompanyTeamName = storedSession.CompanyTeamName
 						invitationViewModel.CompanyPlan = storedSession.CompanyPlan
 						invitationViewModel.AdminFirstName = storedSession.AdminFirstName
 						invitationViewModel.AdminLastName = storedSession.AdminLastName
-						invitationViewModel.EmailId = invitationData[k].Info.Email
+						invitationViewModel.EmailId = invitationData[inviteKey].Info.Email
 						invitationViewModel.InviteId = InviteUserId
 						log.Println("view", invitationViewModel)
 						c.Data["vm"] = invitationViewModel
