@@ -168,18 +168,28 @@ func (c *TaskController)AddNewTask() {
 
 		//Getting users and groups
 
-
+		usersDetail :=models.Users{}
 		dbStatus ,testUser:= companyUsers.GetUsersForDropdownFromCompany(c.AppEngineCtx,companyTeamName)
 		switch dbStatus {
 		case true:
 			dataValue := reflect.ValueOf(testUser)
 			for _, key := range dataValue.MapKeys() {
-				dataValue := reflect.ValueOf(testUser[key.String()].Users)
-				for _, userKey := range dataValue.MapKeys() {
-					viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,testUser[key.String()].Users[userKey.String()].FullName+" (User)")
-					keySliceForGroupAndUser = append(keySliceForGroupAndUser, userKey.String())
-				}
 
+				dataValue := reflect.ValueOf(testUser[key.String()].Users)
+				for _, userKeys := range dataValue.MapKeys() {
+					//viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,testUser[key.String()].Users[userKey.String()].FullName+" (User)")
+					dbStatus := usersDetail.GetActiveUsersEmailForDropDown(c.AppEngineCtx, userKeys.String(),testUser[key.String()].Users[userKeys.String()].Email,companyTeamName)
+					switch dbStatus {
+					case true:
+						viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,testUser[key.String()].Users[userKeys.String()].FullName+" (User)")
+						keySliceForGroupAndUser = append(keySliceForGroupAndUser, userKeys.String())
+					case false:
+						log.Println(helpers.ServerConnectionError)
+
+
+					}
+
+				}
 			}
 
 			allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx,companyTeamName)
@@ -576,18 +586,30 @@ func (c *TaskController)LoadEditTask() {
 				log.Println(helpers.ServerConnectionError)
 			}
 			//getting all users for drop down
+			usersDetail :=models.Users{}
 			dbStatus ,testUser:= companyUsers.GetUsersForDropdownFromCompany(c.AppEngineCtx,companyTeamName)
 			switch dbStatus {
 			case true:
 				dataValue := reflect.ValueOf(testUser)
 				for _, key := range dataValue.MapKeys() {
-					dataValue := reflect.ValueOf(testUser[key.String()].Users)
-					for _, userKey := range dataValue.MapKeys() {
-						viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,testUser[key.String()].Users[userKey.String()].FullName+" (User)")
-						keySliceForGroupAndUser = append(keySliceForGroupAndUser, userKey.String())
-					}
 
+					dataValue := reflect.ValueOf(testUser[key.String()].Users)
+					for _, userKeys := range dataValue.MapKeys() {
+						//viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,testUser[key.String()].Users[userKey.String()].FullName+" (User)")
+						dbStatus := usersDetail.GetActiveUsersEmailForDropDown(c.AppEngineCtx, userKeys.String(),testUser[key.String()].Users[userKeys.String()].Email,companyTeamName)
+						switch dbStatus {
+						case true:
+							viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,testUser[key.String()].Users[userKeys.String()].FullName+" (User)")
+							keySliceForGroupAndUser = append(keySliceForGroupAndUser, userKeys.String())
+						case false:
+							log.Println(helpers.ServerConnectionError)
+
+
+						}
+
+					}
 				}
+
 				allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx,companyTeamName)
 				switch dbStatus {
 				case true:

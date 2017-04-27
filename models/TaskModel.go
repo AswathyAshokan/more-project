@@ -278,7 +278,7 @@ func (m *Tasks) GetTaskDetailById(ctx context.Context, taskId string)(bool, Task
 func (m *UsersAndGroups ) GetAllUsers(ctx context.Context)(bool,map[string]UsersAndGroups) {
 	valueOfUser := map[string]UsersAndGroups{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("User").Value(&valueOfUser)
+	err = dB.Child("Users").Value(&valueOfUser)
 	if err != nil {
 		log.Fatal(err)
 		return false,valueOfUser
@@ -309,4 +309,39 @@ func (m *Company) GetUsersForDropdownFromCompany(ctx context.Context,companyTeam
 		return false, companyUsers
 	}
 	return true, companyUsers
+}
+func (m *Users) GetActiveUsersEmailForDropDown(ctx context.Context,userKeys string,email string,companyTeamName string)bool {
+	log.Println("cpa2")
+	//companyUsers := map[string]Company{}
+	//userEmail := map[string]Users{}
+	//userEmail :=UserInfo{}
+	var keySlice []string
+	//var Condition =""
+	invitationData := map[string]CompanyInvitations{}
+	dB, err := GetFirebaseClient(ctx,"")
+	err = dB.Child("Company/" + companyTeamName + "/Invitation/" ).Value(&invitationData)
+	dataValue := reflect.ValueOf(invitationData)
+	for _, key := range dataValue.MapKeys() {
+		keySlice = append(keySlice, key.String())
+	}
+	for _, key := range keySlice {
+		if invitationData[key].Email ==email && invitationData[key].Status =="Active" &&invitationData[key].UserResponse=="Accepted"{
+			return true
+			break
+
+		}
+	}
+
+	//if Condition =="true"{
+	//	return true
+	//}else{
+	//	return false
+	//
+	//}
+	if err != nil {
+		log.Println("cpa3")
+		log.Fatal(err)
+		return false
+	}
+	return false
 }
