@@ -311,12 +311,9 @@ func (m *Company) GetUsersForDropdownFromCompany(ctx context.Context,companyTeam
 	return true, companyUsers
 }
 func (m *Users) GetActiveUsersEmailForDropDown(ctx context.Context,userKeys string,email string,companyTeamName string)bool {
-	log.Println("cpa2")
-	//companyUsers := map[string]Company{}
-	//userEmail := map[string]Users{}
-	//userEmail :=UserInfo{}
+
 	var keySlice []string
-	//var Condition =""
+
 	invitationData := map[string]CompanyInvitations{}
 	dB, err := GetFirebaseClient(ctx,"")
 	err = dB.Child("Company/" + companyTeamName + "/Invitation/" ).Value(&invitationData)
@@ -328,16 +325,9 @@ func (m *Users) GetActiveUsersEmailForDropDown(ctx context.Context,userKeys stri
 		if invitationData[key].Email ==email && invitationData[key].Status =="Active" &&invitationData[key].UserResponse=="Accepted"{
 			return true
 			break
-
 		}
 	}
 
-	//if Condition =="true"{
-	//	return true
-	//}else{
-	//	return false
-	//
-	//}
 	if err != nil {
 		log.Println("cpa3")
 		log.Fatal(err)
