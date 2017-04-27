@@ -320,7 +320,9 @@ func (c *TaskController)LoadTaskDetail() {
 				var userCount =0
 
 				for _, userKey := range usersDataValue.MapKeys() {
-
+					var userArray []string
+					userArray =append(userArray,tasks[k].UsersAndGroups.User[userKey.String()].FullName)
+					userArray =append(userArray,tasks[k].Settings.Status)
 					var bufferUser bytes.Buffer
 					if len(tempusersDataValue) == 0 {
 						bufferUser.WriteString(tasks[k].UsersAndGroups.User[userKey.String()].FullName + " " + "(" + tasks[k].Settings.Status + ")")
@@ -334,6 +336,8 @@ func (c *TaskController)LoadTaskDetail() {
 						bufferUser.Reset()
 					}
 					userCount =userCount+1
+					viewModel.UserArray =append(viewModel.UserArray,userArray)
+					userArray = userArray[:0]
 				}
 				tempuserCount := strconv.Itoa(userCount)
 				//displaying contacts
@@ -373,6 +377,7 @@ func (c *TaskController)LoadTaskDetail() {
 				//tempValueSlice = append(tempValueSlice, tempcontactDataValue)
 
 				viewModel.Values = append(viewModel.Values, tempValueSlice)
+
 				tempValueSlice = tempValueSlice[:0]
 			}
 		}

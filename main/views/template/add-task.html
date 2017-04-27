@@ -58,10 +58,14 @@
                             <div class="col-sm-6">
 								<label for="users" class="">Min. No. of Users to Start Work</label>
 								<select class="form-control sprites-arrow-down" id="minUsers" name="minUsers">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>5</option>
+									<option id="1" value="1">1</option>
+									<option id="2" value="2">2</option>
+									<option id="3" value="3">3</option>
+									<option id="4" value="4">4</option>
+                                    <option id="5" value="5">5</option>
+                                    <option id="6" value="6">6</option>
+                                    <option id="7" value="7">7</option>
+                                    <option id="8" value="8">8</option>
 								</select>
 							</div>
 							<div class="col-sm-6">
@@ -112,7 +116,7 @@
                              <label for="fitToWorkDeclaration" class=""> Fit To Work Declaration Each Time User Renter into Task</label>
                              <input type="checkbox" name="fitToWorkCheck" value="Bike" id ="fitToWorkCheck">
 -->
-                              <label><p><input type="checkbox" id="fitToWorkCheck" name="fitToWorkCheck">&nbsp;&nbsp;&nbsp;Fit To Work Declaration Each Time User Renter into Task.</p> </label>
+                              <label><p><input type="checkbox" id="fitToWorkCheck" name="fitToWorkCheck">&nbsp;&nbsp;&nbsp;Fit To Work Declaration Each Time User Re-enter into Task.</p> </label>
 
 							</div>
                         
@@ -181,7 +185,7 @@
                     loc[1]=results[0].geometry.location.lng();
                     var mapOptions = {
                         center: new google.maps.LatLng(loc[0], loc[1]),
-                        zoom: 17
+                        zoom: 13
                     };
                     map = new google.maps.Map(document.getElementById('map'),
                                   mapOptions);
@@ -212,7 +216,7 @@
                 });
             });
         }
-        if (initialLocation == "") {
+        if (initialLocation == "" && taskLocation ==0 ) {
             document.getElementById("taskLocation").value = "Clavering House, Clavering Place, Newcastle Upon Tyne";
             geocoder.geocode( { 'address': "Clavering House, Clavering Place, Newcastle Upon Tyne"}, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {

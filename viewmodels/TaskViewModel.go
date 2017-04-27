@@ -75,4 +75,5 @@ type TaskDetailViewModel  struct {
 	ProfilePicture			string
 	NoCustomer			string
 	JobMatch			string
+	UserArray			[][]string
 }

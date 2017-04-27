@@ -42,6 +42,7 @@ $(function () {
         document.getElementById("log").value = vm.Log ;
         document.getElementById("taskLocation").value =vm.TaskLocation
         document.getElementById("addFitToWorkValue").value = vm.FitToWork[0];
+        document.getElementById("minUsers").value = vm.UserNumber;
         var dynamicTextBox= "";
         for (var i = 1; i < vm.FitToWork.length; i++) {
             dynamicTextBox+= '<div class="plus"><input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + vm.FitToWork[i] + '" />&nbsp;' +

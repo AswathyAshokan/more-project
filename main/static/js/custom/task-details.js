@@ -2,9 +2,8 @@
 //Below line is for adding active class to layout side menu..
 document.getElementById("task").className += " active";
 var companyTeamName = vm.CompanyTeamName
-$(function(){ 
-    
-    var mainArray = [];   
+$(function(){
+    var mainArray = []; 
     var table = "";
     var selectedCustomer = "";
     var tempJobArray = [];
@@ -137,10 +136,8 @@ $(function(){
         
         var jobDropdown = $('<div class="tbl-dropdown"><select class="form-control sprites-arrow-down" id="jobDropdown"  onchange="jobFilter();"><option>All Jobs</option></select></div>');       
         
-//        var table = $('#task-details').DataTable( {
-//            "order": [[1, 'asc']]
-//        } );
-        
+
+        //function to show expanded row
         $('.table-wrapper .dataTables_filter').prepend(jobDropdown).prepend(customerDropdown).append(addItem);
         $('#task-details tbody').on('click', 'td.details-control', function () {
             alert("ss");
@@ -157,8 +154,16 @@ $(function(){
                 tr.addClass('shown');
             }
         } );
+        
+        
+        //function to display data inside expanded area
         function format ( d ) {
     // `d` is the original data object for the row
+            
+            
+            
+            
+            
     return     '<div class="pull-left dropdown-tbl" style="padding-right: 50px;">'+
 	    '<table cellpadding="5" cellspacing="0"  style="padding-left:50px; border: 1px solid #dddddd !important;">'+
 	        '<thead>'+
@@ -205,6 +210,28 @@ $(function(){
     '</div>';
 }
         
+        
+        
+//        var table = "<table>"; // Open Table
+//
+//for(i=0; i<orderArray.length; i++)
+//{
+// table += "<tr>"; // Open Row
+//
+// for(i2=0; i2<orderArray[i].length; i2++) {
+// {
+//  table += "<td>" + orderArray[i][i2] + "</td>"; // Each Column
+// }
+//
+// table += "</tr>"; // Close Row
+//}
+//
+//table += "</table>";
+//        
+        
+        
+        
+        //......................................................
         var customerArray = vm.UniqueCustomerNames;
         
         for(i = 0; i < customerArray.length; i++){
