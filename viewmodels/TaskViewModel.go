@@ -37,6 +37,7 @@ type EditTaskViewModel  struct {
 	AdminLastName			string
 	ProfilePicture			string
 	FitToWorkCheck			string
+	JobId				string
 
 
 }

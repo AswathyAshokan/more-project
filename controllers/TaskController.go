@@ -13,6 +13,7 @@ import (
 	"bytes"
 	"regexp"
 	"strings"
+	"strconv"
 )
 
 type TaskController struct {
@@ -150,7 +151,7 @@ func (c *TaskController)AddNewTask() {
 		var keySliceForGroupAndUser 	[]string
 		var keySliceForContact		[]string
 		//Getting Jobs
-		dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx)
+		dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx,companyTeamName)
 		switch dbStatus {
 		case true:
 			dataValue := reflect.ValueOf(allJobs)
@@ -269,7 +270,7 @@ func (c *TaskController)LoadTaskDetail() {
 					tempJobAndCustomer = buffer.String()
 					buffer.Reset()
 				}
-
+				tempValueSlice = append(tempValueSlice, "")
 				tempValueSlice = append(tempValueSlice, tempJobAndCustomer)
 
 				if !helpers.StringInSlice(tasks[k].Customer.CustomerName, viewModel.UniqueCustomerNames) && tasks[k].Customer.CustomerName != "" {
@@ -316,6 +317,7 @@ func (c *TaskController)LoadTaskDetail() {
 				//displaying users
 				usersDataValue := reflect.ValueOf(tasks[k].UsersAndGroups.User)
 				tempusersDataValue := ""
+				var userCount =0
 
 				for _, userKey := range usersDataValue.MapKeys() {
 
@@ -331,9 +333,12 @@ func (c *TaskController)LoadTaskDetail() {
 						tempusersDataValue = bufferUser.String()
 						bufferUser.Reset()
 					}
+					userCount =userCount+1
 				}
+				tempuserCount := strconv.Itoa(userCount)
 				//displaying contacts
 				contactDataValue := reflect.ValueOf(tasks[k].Contacts)
+
 				tempcontactDataValue := ""
 
 				for _, contactKey := range contactDataValue.MapKeys() {
@@ -353,18 +358,19 @@ func (c *TaskController)LoadTaskDetail() {
 				}
 
 				tempValueSlice = append(tempValueSlice, tasks[k].Info.TaskName)
+				tempValueSlice = append(tempValueSlice,tempuserCount)
 				startDate := time.Unix(tasks[k].Info.StartDate, 0).Format("2006/01/02")
 				tempValueSlice = append(tempValueSlice, startDate)
 				endDate := time.Unix(tasks[k].Info.EndDate, 0).Format("2006/01/02")
 				tempValueSlice = append(tempValueSlice, endDate)
-				tempValueSlice = append(tempValueSlice, tasks[k].Info.LoginType)
-				tempValueSlice = append(tempValueSlice, tasks[k].Info.UserNumber)
-				tempValueSlice = append(tempValueSlice, tasks[k].Settings.Status)
-				tempValueSlice = append(tempValueSlice, "")
-				//tempValueSlice = append(tempValueSlice,  tempFitToWork)
-				tempValueSlice = append(tempValueSlice, tasks[k].Info.Log)
-				tempValueSlice = append(tempValueSlice, tempusersDataValue)
-				tempValueSlice = append(tempValueSlice, tempcontactDataValue)
+				//tempValueSlice = append(tempValueSlice, tasks[k].Info.LoginType)
+				//tempValueSlice = append(tempValueSlice, tasks[k].Info.UserNumber)
+				//tempValueSlice = append(tempValueSlice, tasks[k].Settings.Status)
+				//tempValueSlice = append(tempValueSlice, "")
+				////tempValueSlice = append(tempValueSlice,  tempFitToWork)
+				//tempValueSlice = append(tempValueSlice, tasks[k].Info.Log)
+				//tempValueSlice = append(tempValueSlice, tempusersDataValue)
+				//tempValueSlice = append(tempValueSlice, tempcontactDataValue)
 
 				viewModel.Values = append(viewModel.Values, tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]
@@ -544,7 +550,7 @@ func (c *TaskController)LoadEditTask() {
 		dbStatus, taskDetail := task.GetTaskDetailById(c.AppEngineCtx, taskId)
 		switch dbStatus {
 		case true:
-			dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx)
+			dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx,companyTeamName)
 			var keySlice                        	[]string
 			var keySliceForGroupAndUser        	[]string
 			var keySliceForContact                	[]string
@@ -684,6 +690,7 @@ func (c *TaskController)LoadEditTask() {
 						}
 						viewModel.FitToWorkCheck=taskDetail.Settings.FitToWorkDisplay
 						viewModel.FitToWork = fitToWorkSlice
+						viewModel.JobId = taskDetail.Job.JobId
 						viewModel.TaskId = taskId
 						viewModel.CompanyTeamName = storedSession.CompanyTeamName
 						viewModel.CompanyPlan = storedSession.CompanyPlan

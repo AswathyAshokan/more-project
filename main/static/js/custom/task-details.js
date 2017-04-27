@@ -118,16 +118,13 @@ $(function(){
             data: dataArray,
             "paging": true,
             "columnDefs": [
-                { "width": "15%", "targets": 0 },
-                { "width": "15%", "targets": 1 },
-                {   "width": "15%","targets": 2 },
-                {   "width": "15%","targets": 3 },
-                { "width": "15%", "targets": 4 },
-                { "width": "15%", "targets": 5 },
+                { className: "details-control" , "targets": [ 0 ] },
                 {
-                    
+                    "order": [[1, 'asc']]
+                },
+                {
                     "targets": 6,
-                    "width": "20%",
+                    "width": "10%",
                     "data": null,
                     "defaultContent": '<div class="edit-wrapper"><span class="icn"></i><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
                 }]
@@ -140,9 +137,73 @@ $(function(){
         
         var jobDropdown = $('<div class="tbl-dropdown"><select class="form-control sprites-arrow-down" id="jobDropdown"  onchange="jobFilter();"><option>All Jobs</option></select></div>');       
         
+//        var table = $('#task-details').DataTable( {
+//            "order": [[1, 'asc']]
+//        } );
         
-        
-        $('.table-wrapper .dataTables_filter').prepend(jobDropdown).prepend(customerDropdown).append(addItem).prepend( $('#example_wrapper .row:first-child > div.col-sm-6').addClass("gutter-padding")).prepend($('#example_wrapper .row:first-child > div.col-sm-6').removeClass("col-sm-6"));
+        $('.table-wrapper .dataTables_filter').prepend(jobDropdown).prepend(customerDropdown).append(addItem);
+        $('#task-details tbody').on('click', 'td.details-control', function () {
+            alert("ss");
+            var tr = $(this).closest('tr');
+            var row = table.row( tr );
+            if ( row.child.isShown() ) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                row.child( format(row.data()) ).show();
+                tr.addClass('shown');
+            }
+        } );
+        function format ( d ) {
+    // `d` is the original data object for the row
+    return     '<div class="pull-left dropdown-tbl" style="padding-right: 50px;">'+
+	    '<table cellpadding="5" cellspacing="0"  style="padding-left:50px; border: 1px solid #dddddd !important;">'+
+	        '<thead>'+
+		        '<tr>'+
+		        	'<th>User assigned</th>'+
+		        	'<th>Status</th>'+
+		        '</tr>'+
+	        '</thead>'+
+	        '<tbody>'+
+		        '<tr>'+
+		        	'<td>User1</td>'+
+		        	'<td>Open</td>'+
+		        '</tr>'+
+		        '<tr>'+
+		        	'<td>User5</td>'+
+		        	'<td>Open</td>'+
+		        '</tr>'+
+		        '<tr>'+
+		        	'<td>User4</td>'+
+		        	'<td>Open</td>'+
+		        '</tr>'+
+		        '<tr>'+
+		        	'<td>User1</td>'+
+		        	'<td>Open</td>'+
+		        '</tr>'+
+		        '<tr>'+
+		        	'<td>User8</td>'+
+		        	'<td>Open</td>'+
+		        '</tr>'+
+	        '</tbody>'+
+	    '</table>'+
+    '</div>'+
+    '<div class="">'+
+    '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+    	'<tr>'+
+            '<td>Minimum no of users </td>'+
+            '<td>2</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Login type </td>'+
+            '<td>Gps</td>'+
+        '</tr>'+        
+    '</table>'+
+    '</div>';
+}
         
         var customerArray = vm.UniqueCustomerNames;
         
@@ -181,14 +242,14 @@ $(function(){
     //.....................editing..................
     $('#task-details tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[11];
+        var key = data[6];
         window.location = '/' + companyTeamName + '/task/' + key + '/edit'
     });
 //................deleting.........................
     $('#task-details tbody').on( 'click', '#delete', function () {
         $("#myModal").modal();
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[11];
+        var key = data[6];
         
         $("#confirm").click(function(){
             $.ajax({

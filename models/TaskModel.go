@@ -193,10 +193,10 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 }
 
 /*get all job details from DB*/
-func GetAllJobs(ctx context.Context)(bool,map[string]Job) {
+func GetAllJobs(ctx context.Context,companyTeamName string)(bool,map[string]Job) {
 	jobValue := map[string]Job{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("Jobs").Value(&jobValue)
+	err = dB.Child("Jobs").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&jobValue)
 	if err != nil {
 		log.Fatal(err)
 		return false, jobValue

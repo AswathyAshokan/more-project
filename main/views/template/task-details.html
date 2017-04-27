@@ -1,16 +1,34 @@
 <title>Task Details</title>
 <head>
-   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
-   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css"/>
-   <script type="text/javascript">
-       var vm = {{.vm}};
-   </script>
-   <script src="/static/js/custom/task-details.js" type="text/javascript" charset="utf-8"></script>
-<!--    <script src="/static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>-->
-   <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
-   <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/> -->
+     <script src="/static/js/custom/task-details.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"/>
 
 <!--<script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>-->
+    <link rel="stylesheet" href="/static/css/style.css">
+
+	<style>
+
+		.details-control{
+			position: relative;
+			/* width: 10px; */
+		}
+
+		.odd .details-control{
+			background: url('/static/images/open.png') no-repeat center center;
+    		cursor: pointer;
+		}
+
+		.odd.shown .details-control{
+			background: url('/static/images/close.png') no-repeat center center;
+		}
+
+		.dropdown-tbl table thead th {
+		    border-bottom: 1px solid #dddddd;
+		}
+
+	</style>
 </head>
 <div class="col-md-12 main-content-wrapper padding-50-each">
    <div class="clearfix">
@@ -19,21 +37,17 @@
            <div class="table-wrapper table-dropdown">
                <div class="table-wrapper">
                    <table class="table table-striped table-bordered   dt-responsive nowrap" id="task-details">
-                        <thead>
-                           <tr>
-                               <th >Job Name</th>
-                               <th >Task Name</th>
-                               <th >Start Date</th>
-                               <th >End Date</th>
-                               <th >Login Type</th>
-                               <th>User Number</th>
-                               <th >Status</th>
-                               <th></th>
-                               <th>Log</th>
-                               <th >Users</th>
-                               <th>Contacts</th>
-                           </tr>
-                        </thead>
+                         <thead>
+							      <tr>
+							      	<th style="background: none;cursor: initial;"></th>
+							        <th>Project Name</th>
+							        <th>Task Name</th>
+							        <th>Number Of Users</th>
+							        <th>Start Date</th>
+							        <th>End Date</th>
+							        <th style="background: none;cursor: initial;"></th>
+							      </tr>
+							    </thead>
                         <tbody></tbody>
                     </table>
                 </div>
@@ -42,6 +56,13 @@
     </div>
 </div>
 </div>
+<script src="/static/js/jquery-3.1.0.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	<!-- <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script> -->
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<!--<script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>-->
+
+
 <div class="modal fade" id="myModal" role="dialog">
            <div class="modal-dialog">
                <!-- Modal content-->
