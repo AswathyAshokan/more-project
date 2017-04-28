@@ -58,6 +58,8 @@ $().ready(function() {
                             if(response == "true"){
                                 window.location='/' + companyTeamName +'/invite';
                             }else {
+                                $("#emailValidationError").css({"color": "red", "font-size": "15px"});
+                                  $("#emailValidationError").html("email already in use.").show();
                                   $("#saveButton").attr('disabled', false);
                             }
                         },

@@ -175,6 +175,10 @@ $().ready(function() {
         rules: {
             taskName: "required",
             loginType: "required",
+            startDate :"required",
+            endDate :"required",
+            taskDescription:"required"
+            
         },
         submitHandler: function() {
             

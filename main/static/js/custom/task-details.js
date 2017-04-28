@@ -150,7 +150,7 @@ $(function(){
             }
             else {
                 // Open this row
-                row.child( format(row.data()) ).show();
+                row.child( format(vm.UserArray)).show();
                 tr.addClass('shown');
             }
         } );
