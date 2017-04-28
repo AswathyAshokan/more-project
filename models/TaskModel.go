@@ -321,8 +321,12 @@ func (m *Users) GetActiveUsersEmailForDropDown(ctx context.Context,userKeys stri
 	for _, key := range dataValue.MapKeys() {
 		keySlice = append(keySlice, key.String())
 	}
+	log.Println("invite data",invitationData)
+	log.Println("actuall email",email)
 	for _, key := range keySlice {
+		log.Println("inside sbdadb",invitationData[key].Email)
 		if invitationData[key].Email ==email && invitationData[key].Status =="Active" &&invitationData[key].UserResponse=="Accepted"{
+			log.Println("condition true")
 			return true
 			break
 		}

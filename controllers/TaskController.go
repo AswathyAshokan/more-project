@@ -170,12 +170,14 @@ func (c *TaskController)AddNewTask() {
 
 		usersDetail :=models.Users{}
 		dbStatus ,testUser:= companyUsers.GetUsersForDropdownFromCompany(c.AppEngineCtx,companyTeamName)
+		log.Println("dfsg",testUser)
 		switch dbStatus {
 		case true:
 			dataValue := reflect.ValueOf(testUser)
 			for _, key := range dataValue.MapKeys() {
 
 				dataValue := reflect.ValueOf(testUser[key.String()].Users)
+				log.Println("jhjhjhjh",dataValue)
 				for _, userKeys := range dataValue.MapKeys() {
 					//viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,testUser[key.String()].Users[userKey.String()].FullName+" (User)")
 					dbStatus := usersDetail.GetActiveUsersEmailForDropDown(c.AppEngineCtx, userKeys.String(),testUser[key.String()].Users[userKeys.String()].Email,companyTeamName)

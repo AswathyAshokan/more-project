@@ -157,58 +157,22 @@ $(function(){
         
         
         //function to display data inside expanded area
-        function format ( d ) {
+        function format ( myArray ) {
     // `d` is the original data object for the row
-            
-            
-            
-            
-            
-    return     '<div class="pull-left dropdown-tbl" style="padding-right: 50px;">'+
-	    '<table cellpadding="5" cellspacing="0"  style="padding-left:50px; border: 1px solid #dddddd !important;">'+
-	        '<thead>'+
-		        '<tr>'+
-		        	'<th>User assigned</th>'+
-		        	'<th>Status</th>'+
-		        '</tr>'+
-	        '</thead>'+
-	        '<tbody>'+
-		        '<tr>'+
-		        	'<td>User1</td>'+
-		        	'<td>Open</td>'+
-		        '</tr>'+
-		        '<tr>'+
-		        	'<td>User5</td>'+
-		        	'<td>Open</td>'+
-		        '</tr>'+
-		        '<tr>'+
-		        	'<td>User4</td>'+
-		        	'<td>Open</td>'+
-		        '</tr>'+
-		        '<tr>'+
-		        	'<td>User1</td>'+
-		        	'<td>Open</td>'+
-		        '</tr>'+
-		        '<tr>'+
-		        	'<td>User8</td>'+
-		        	'<td>Open</td>'+
-		        '</tr>'+
-	        '</tbody>'+
-	    '</table>'+
-    '</div>'+
-    '<div class="">'+
-    '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
-    	'<tr>'+
-            '<td>Minimum no of users </td>'+
-            '<td>2</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td>Login type </td>'+
-            '<td>Gps</td>'+
-        '</tr>'+        
-    '</table>'+
-    '</div>';
-}
+        
+            var result = "<table border=1>";
+            result += '<th>User assigned</th>';
+             result += '<th>Status</th>';
+            for(var i=0; i<myArray.length; i++) {
+                result += "<tr>";
+                for(var j=0; j<myArray[i].length; j++){
+                    result += "<td>"+myArray[i][j]+"</td>";
+                }
+                result += "</tr>";
+            }
+            result += "</table>";
+            return result;
+        }
         
         
         
