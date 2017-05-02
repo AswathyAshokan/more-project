@@ -114,7 +114,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 	fitToWorkMap := make(map[string]TaskFitToWork)
 	fitToWorkForTask :=TaskFitToWork{}
 	if FitToWorkSlice[0] !=""{
-		log.Println("inside wrong fit to work")
+
 		for i := 0; i < len(FitToWorkSlice); i++ {
 
 			fitToWorkForTask.Description =FitToWorkSlice[i]
@@ -131,7 +131,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 	ExposureMap := make(map[string]TaskExposure)
 	ExposureTask :=TaskExposure{}
 	if WorkBreakSlice[0] !=""{
-		log.Println("inside work")
+
 		for i := 0; i < len(WorkBreakSlice); i++ {
 
 			ExposureTask.BreakTime =WorkBreakSlice[i]
@@ -271,7 +271,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	ExposureMap := make(map[string]TaskExposure)
 	ExposureTask :=TaskExposure{}
 	if WorkBreakSlice[0] !=""{
-		log.Println("inside work")
+
 		for i := 0; i < len(WorkBreakSlice); i++ {
 
 			ExposureTask.BreakTime =WorkBreakSlice[i]
@@ -309,7 +309,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 func (m *Tasks) GetTaskDetailById(ctx context.Context, taskId string)(bool, Tasks) {
 	taskDetail := Tasks{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("/Tasks/"+ taskId).Value(&taskDetail)
+	err = dB.Child("Tasks/"+ taskId).Value(&taskDetail)
 	if err != nil {
 		log.Fatal(err)
 		return false, taskDetail
@@ -343,12 +343,12 @@ func(m *Tasks) GetContactDetailById(ctx context.Context, contactId string) (Task
 }
 //getting users from company
 func (m *Company) GetUsersForDropdownFromCompany(ctx context.Context,companyTeamName string)(bool,map[string]Company) {
-	log.Println("cpa2")
+
 	companyUsers := map[string]Company{}
 	dB, err := GetFirebaseClient(ctx,"")
 	err = dB.Child("Company").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&companyUsers)
 	if err != nil {
-		log.Println("cpa3")
+
 		log.Fatal(err)
 		return false, companyUsers
 	}
@@ -365,21 +365,33 @@ func (m *Users) GetActiveUsersEmailForDropDown(ctx context.Context,userKeys stri
 	for _, key := range dataValue.MapKeys() {
 		keySlice = append(keySlice, key.String())
 	}
-	log.Println("invite data",invitationData)
-	log.Println("actuall email",email)
+
+
 	for _, key := range keySlice {
-		log.Println("inside sbdadb",invitationData[key].Email)
+
 		if invitationData[key].Email ==email && invitationData[key].Status =="Active" &&invitationData[key].UserResponse=="Accepted"{
-			log.Println("condition true")
+
 			return true
 			break
 		}
 	}
 
 	if err != nil {
-		log.Println("cpa3")
+
 		log.Fatal(err)
 		return false
 	}
 	return false
+}
+//function to get  break time deatil
+func (m *TaskExposure) GetTaskWorkBreakDetailById(ctx context.Context, taskId string)(bool, map[string] TaskExposure) {
+	taskBreakDetail :=map[string] TaskExposure{}
+	dB, err := GetFirebaseClient(ctx,"")
+	err = dB.Child("Tasks/"+ taskId+"/WorkExposure/").Value(&taskBreakDetail)
+	if err != nil {
+		log.Fatal(err)
+		return false, taskBreakDetail
+	}
+	return true, taskBreakDetail
+
 }

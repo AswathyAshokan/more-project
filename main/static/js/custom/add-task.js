@@ -67,6 +67,15 @@ $(function () {
         if(vm.FitToWorkCheck =="EachTime") {
             document.getElementById("fitToWorkCheck").checked = true;
         }
+        
+        if(vm.WorkBreak.length !=0){
+            document.getElementById("workExplosure").checked = true;
+            var div = document.getElementById('work');
+            div.style.visibility = 'visible';
+            div.style.display ='inline';
+            var workBreakTime = vm.WorkBreak.join(",")
+            document.getElementById("workExplosureText").value =workBreakTime
+        }
     }
     
     

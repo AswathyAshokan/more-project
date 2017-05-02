@@ -175,7 +175,7 @@ func (c *TaskController)AddNewTask() {
 
 		usersDetail :=models.Users{}
 		dbStatus ,testUser:= companyUsers.GetUsersForDropdownFromCompany(c.AppEngineCtx,companyTeamName)
-		log.Println("dfsg",testUser)
+
 		switch dbStatus {
 		case true:
 			dataValue := reflect.ValueOf(testUser)
@@ -261,7 +261,7 @@ func (c *TaskController)LoadTaskDetail() {
 	storedSession := ReadSession(w, r, companyTeamName)
 	jobId := ""
 	jobId = c.Ctx.Input.Param(":jobId")
-	log.Println("jobid",jobId)
+
 	task := models.Tasks{}
 	dbStatus, tasks := task.RetrieveTaskFromDB(c.AppEngineCtx,companyTeamName)
 	viewModel := viewmodels.TaskDetailViewModel{}
@@ -294,7 +294,7 @@ func (c *TaskController)LoadTaskDetail() {
 					viewModel.UniqueCustomerNames = append(viewModel.UniqueCustomerNames, tasks[k].Customer.CustomerName)
 				}
 				if jobId == tasks[k].Job.JobId {
-					log.Println("match")
+
 					viewModel.SelectedJob = tasks[k].Job.JobName
 					viewModel.SelectedCustomerForJob = tasks[k].Customer.CustomerName
 				}
@@ -333,7 +333,7 @@ func (c *TaskController)LoadTaskDetail() {
 
 				//displaying users
 				usersDataValue := reflect.ValueOf(tasks[k].UsersAndGroups.User)
-				log.Println("dhgfdgd",usersDataValue)
+
 				//tempusersDataValue := ""
 				var userCount =0
 
@@ -410,7 +410,7 @@ func (c *TaskController)LoadTaskDetail() {
 		viewModel.AdminLastName = storedSession.AdminLastName
 		viewModel.ProfilePicture =storedSession.ProfilePicture
 		if  len(viewModel.SelectedJob) ==0 && len(jobId) !=0{
-			log.Println("dfdgfdgdgd")
+
 			viewModel.JobMatch ="false"
 			viewModel.SelectedJob ="false"
 		}
@@ -579,6 +579,7 @@ func (c *TaskController)LoadEditTask() {
 		companyUsers :=models.Company{}
 		taskId := c.Ctx.Input.Param(":taskId")
 		dbStatus, taskDetail := task.GetTaskDetailById(c.AppEngineCtx, taskId)
+		log.Println("full detail..........",taskDetail)
 		switch dbStatus {
 		case true:
 			dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx,companyTeamName)
@@ -710,6 +711,20 @@ func (c *TaskController)LoadEditTask() {
 					case false:
 						log.Println(helpers.ServerConnectionError)
 					}
+					//function to getting break details by task id
+					taskWork :=models.TaskExposure{}
+					dbStatus, taskWorkBreak := taskWork.GetTaskWorkBreakDetailById(c.AppEngineCtx, taskId)
+					switch dbStatus {
+					case true:
+						workValue := reflect.ValueOf(taskWorkBreak)
+						log.Println("work value",taskWorkBreak)
+						for _, key := range workValue.MapKeys() {
+							log.Println("dhfhsfhshajhfa",key.String())
+							WorkBreak = append(WorkBreak,taskWorkBreak[key.String()].BreakTime)
+						}
+					case false:
+						log.Println(helpers.ServerConnectionError)
+					}
 
 						viewModel.Key = keySlice
 						viewModel.PageType = helpers.SelectPageForEdit
@@ -732,10 +747,7 @@ func (c *TaskController)LoadEditTask() {
 						for _, key := range dataValue.MapKeys() {
 							fitToWorkSlice = append(fitToWorkSlice,taskDetail.FitToWork[key.String()].Description)
 						}
-						dataValue = reflect.ValueOf(taskDetail.Exposure)
-						for _, key := range dataValue.MapKeys() {
-							WorkBreak = append(fitToWorkSlice,taskDetail.Exposure[key.String()].BreakTime)
-						}
+
 						viewModel.FitToWorkCheck=taskDetail.Settings.FitToWorkDisplay
 						viewModel.FitToWork = fitToWorkSlice
 						viewModel.WorkBreak = WorkBreak
