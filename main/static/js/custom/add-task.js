@@ -10,6 +10,7 @@ var companyTeamName = vm.CompanyTeamName;
 var selectedUserArray = []; // contains all selected users and groups
 var selectedGroupArray = []; // contains all selected groups
 var fitToWorkFromDynamicTextBox = []; // contains all fit to work
+var fitToWorkFromDynamicTextBoxValue =[];
 var mapLatitude = "";
 var mapLongitude = "";
 var startDateToCompare = "";
@@ -113,7 +114,15 @@ $().ready(function() {
         jobId = jobDropdownId.options[jobDropdownId.selectedIndex].id;
     }
     
-    
+    //function to show break time when checkbox is clicked
+  $('#workExplosure').click(function () {
+      console.log("ghfhgfgf");
+//      var $this = $(this);
+//      if ($this.is(':checked')) {
+//          $var div = document.getElementById('work');
+//          div.style.visibility = 'visible';
+//      } 
+  });
     
     
     /*Function will ceck if the selected value is a group name, and if so 
@@ -262,11 +271,14 @@ $().ready(function() {
                                       
                                       var values = "";
                                       var fitToWorkValue = document.getElementById("addFitToWorkValue").value;
+                                    
                                       if(fitToWorkValue.length !=0)
                                           {
+                                              
                                               fitToWorkFromDynamicTextBox.push(fitToWorkValue);
                                           }
                                       $("input[name=DynamicTextBox]").each(function () {
+                                          
                                           if($(this).val().length !=0){
                                               fitToWorkFromDynamicTextBox.push($(this).val())
                                           }
@@ -275,6 +287,7 @@ $().ready(function() {
                                           {
                                               getJobAndCustomer(); 
                                           }
+                                       
                                       
                                       //function to get fit to work 
                                       var chkPassport = document.getElementById("fitToWorkCheck");

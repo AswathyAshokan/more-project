@@ -62,6 +62,7 @@ type TaskJob struct {
 }
 type TaskUser struct {
 	FullName	string
+	Status		string
 }
 type TaskGroup struct{
 	GroupName	string
@@ -105,16 +106,20 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 	//for adding fit to work to database
 	fitToWorkMap := make(map[string]TaskFitToWork)
 	fitToWorkForTask :=TaskFitToWork{}
-	for i := 0; i < len(FitToWorkSlice); i++ {
+	if FitToWorkSlice[0] !=""{
+		log.Println("inside wrong fit to work")
+		for i := 0; i < len(FitToWorkSlice); i++ {
 
-		fitToWorkForTask.Description =FitToWorkSlice[i]
-		fitToWorkForTask.DateOfCreation =time.Now().Unix()
-		fitToWorkForTask.Status = helpers.StatusActive
-		id := betterguid.New()
-		fitToWorkMap[id] = fitToWorkForTask
-		err = dB.Child("/Tasks/"+taskUniqueID+"/FitToWork/").Set(fitToWorkMap)
+			fitToWorkForTask.Description =FitToWorkSlice[i]
+			fitToWorkForTask.DateOfCreation =time.Now().Unix()
+			fitToWorkForTask.Status = helpers.StatusActive
+			id := betterguid.New()
+			fitToWorkMap[id] = fitToWorkForTask
+			err = dB.Child("/Tasks/"+taskUniqueID+"/FitToWork/").Set(fitToWorkMap)
 
+		}
 	}
+
 
 	userData := reflect.ValueOf(m.UsersAndGroups.User)
 	for _, key := range userData.MapKeys() {

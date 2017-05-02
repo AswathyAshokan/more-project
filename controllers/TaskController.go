@@ -86,6 +86,7 @@ func (c *TaskController)AddNewTask() {
 			if((userOrGroupSelection[1]) == "User") {
 				tempName = tempName[:len(tempName)-7]
 				userName.FullName = tempName
+				userName.Status =helpers.StatusActive
 				userMap[tempId] = userName
 			} else {
 				tempName = tempName[:len(tempName)-8]
@@ -328,29 +329,34 @@ func (c *TaskController)LoadTaskDetail() {
 
 				//displaying users
 				usersDataValue := reflect.ValueOf(tasks[k].UsersAndGroups.User)
-				tempusersDataValue := ""
+				log.Println("dhgfdgd",usersDataValue)
+				//tempusersDataValue := ""
 				var userCount =0
 
+
 				for _, userKey := range usersDataValue.MapKeys() {
+					log.Println("user key",userKey)
 					var userArray []string
+
 					userArray =append(userArray,tasks[k].UsersAndGroups.User[userKey.String()].FullName)
 					userArray =append(userArray,tasks[k].Settings.Status)
-					var bufferUser bytes.Buffer
-					if len(tempusersDataValue) == 0 {
-						bufferUser.WriteString(tasks[k].UsersAndGroups.User[userKey.String()].FullName + " " + "(" + tasks[k].Settings.Status + ")")
-						tempusersDataValue = bufferUser.String()
-						bufferUser.Reset()
-					} else {
-						bufferUser.WriteString(tempusersDataValue)
-						bufferUser.WriteString(", ")
-						bufferUser.WriteString(tasks[k].UsersAndGroups.User[userKey.String()].FullName + " " + "(" + tasks[k].Settings.Status + ")")
-						tempusersDataValue = bufferUser.String()
-						bufferUser.Reset()
-					}
+					//var bufferUser bytes.Buffer
+					//if len(tempusersDataValue) == 0 {
+					//	bufferUser.WriteString(tasks[k].UsersAndGroups.User[userKey.String()].FullName + " " + "(" + tasks[k].Settings.Status + ")")
+					//	tempusersDataValue = bufferUser.String()
+					//	bufferUser.Reset()
+					//} else {
+					//	bufferUser.WriteString(tempusersDataValue)
+					//	bufferUser.WriteString(", ")
+					//	bufferUser.WriteString(tasks[k].UsersAndGroups.User[userKey.String()].FullName + " " + "(" + tasks[k].Settings.Status + ")")
+					//	tempusersDataValue = bufferUser.String()
+					//	bufferUser.Reset()
+					//}
 					userCount =userCount+1
 					viewModel.UserArray =append(viewModel.UserArray,userArray)
 					userArray = userArray[:0]
 				}
+
 				tempuserCount := strconv.Itoa(userCount)
 				//displaying contacts
 				contactDataValue := reflect.ValueOf(tasks[k].Contacts)
@@ -503,6 +509,7 @@ func (c *TaskController)LoadEditTask() {
 			if ((userOrGroupSelection[1]) == "User") {
 				tempName = tempName[:len(tempName) - 7]
 				userName.FullName = tempName
+				userName.Status =helpers.StatusActive
 				userMap[tempId] = userName
 			} else {
 				tempName = tempName[:len(tempName) - 8]
