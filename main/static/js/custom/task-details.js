@@ -232,12 +232,14 @@ $(function(){
     
     //.....................editing..................
     $('#task-details tbody').on( 'click', '#edit', function () {
+        console.log("edit");
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[6];
         window.location = '/' + companyTeamName + '/task/' + key + '/edit'
     });
 //................deleting.........................
     $('#task-details tbody').on( 'click', '#delete', function () {
+        console.log("delete");
         $("#myModal").modal();
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[6];

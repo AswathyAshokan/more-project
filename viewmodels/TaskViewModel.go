@@ -23,6 +23,7 @@ type EditTaskViewModel  struct {
 	UserType			[]string
 	Contact				string
 	FitToWork			[]string
+	WorkBreak			[]string
 	TaskId				string
 	ContactNameToEdit		[]string
 	CompanyTeamName			string

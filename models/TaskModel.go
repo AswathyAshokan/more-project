@@ -248,7 +248,7 @@ func (m *Tasks) GetAllContact(ctx context.Context)(bool,map[string]Tasks) {
 }
 
 /* Function for update task on DB*/
-func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId string,FitToWorkSlice []string)(bool)  {
+func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId string,FitToWorkSlice []string,WorkBreakSlice []string)(bool)  {
 
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
@@ -267,6 +267,21 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		fitToWorkMap[id] = fitToWorkForTask
 		err = dB.Child("/Tasks/"+taskId+"/FitToWork/").Set(fitToWorkMap)
 
+	}
+	ExposureMap := make(map[string]TaskExposure)
+	ExposureTask :=TaskExposure{}
+	if WorkBreakSlice[0] !=""{
+		log.Println("inside work")
+		for i := 0; i < len(WorkBreakSlice); i++ {
+
+			ExposureTask.BreakTime =WorkBreakSlice[i]
+			ExposureTask.DateOfCreation =time.Now().Unix()
+			ExposureTask.Status = helpers.StatusActive
+			id := betterguid.New()
+			ExposureMap[id] = ExposureTask
+			err = dB.Child("/Tasks/"+taskId+"/WorkExposure/").Set(ExposureMap)
+
+		}
 	}
 	userData := reflect.ValueOf(m.UsersAndGroups.User)
 	userTaskDetail := UserTasks{}

@@ -488,6 +488,9 @@ func (c *TaskController)LoadEditTask() {
 		FitToWorkSlice := strings.Split(FitToWork, ",")
 		task.Settings.DateOfCreation = time.Now().Unix()
 		tempFitToWorkCheck :=c.GetString("fitToWorkCheck")
+
+		WorkBreak :=c.GetString("workExplosureText")
+		WorkBreakSlice :=strings.Split(WorkBreak, ",")
 		if tempFitToWorkCheck =="on" {
 			task.Settings.FitToWorkDisplay ="EachTime"
 		} else {
@@ -561,7 +564,7 @@ func (c *TaskController)LoadEditTask() {
 		task.Contacts = contactMap
 
 		//Add data to task DB
-		dbStatus := task.UpdateTaskToDB(c.AppEngineCtx, taskId,companyId,FitToWorkSlice)
+		dbStatus := task.UpdateTaskToDB(c.AppEngineCtx, taskId,companyId,FitToWorkSlice,WorkBreakSlice)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -583,6 +586,7 @@ func (c *TaskController)LoadEditTask() {
 			var keySliceForGroupAndUser        	[]string
 			var keySliceForContact                	[]string
 			var fitToWorkSlice			[]string
+			var WorkBreak				[]string
 			groupMember := models.Group{}
 
 			switch dbStatus {
@@ -728,8 +732,13 @@ func (c *TaskController)LoadEditTask() {
 						for _, key := range dataValue.MapKeys() {
 							fitToWorkSlice = append(fitToWorkSlice,taskDetail.FitToWork[key.String()].Description)
 						}
+						dataValue = reflect.ValueOf(taskDetail.Exposure)
+						for _, key := range dataValue.MapKeys() {
+							WorkBreak = append(fitToWorkSlice,taskDetail.Exposure[key.String()].BreakTime)
+						}
 						viewModel.FitToWorkCheck=taskDetail.Settings.FitToWorkDisplay
 						viewModel.FitToWork = fitToWorkSlice
+						viewModel.WorkBreak = WorkBreak
 						viewModel.JobId = taskDetail.Job.JobId
 						viewModel.TaskId = taskId
 						viewModel.CompanyTeamName = storedSession.CompanyTeamName
