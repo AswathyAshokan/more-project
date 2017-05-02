@@ -22,10 +22,17 @@ type Tasks   struct {
 	UsersAndGroups 		UsersAndGroups
 	Settings       		TaskSetting
 	FitToWork		map[string]TaskFitToWork
+	Exposure		map[string]TaskExposure
 
 }
 type TaskFitToWork struct {
 	Description    string
+	Status         string
+	DateOfCreation int64
+
+}
+type TaskExposure struct {
+	BreakTime    string
 	Status         string
 	DateOfCreation int64
 
@@ -84,7 +91,7 @@ type UsersAndGroups struct {
 }
 
 /*add task details to DB*/
-func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSlice []string)(bool)  {
+func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSlice []string,WorkBreakSlice []string)(bool)  {
 
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
@@ -119,8 +126,25 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 
 		}
 	}
+	// for adding work break to database
 
+	ExposureMap := make(map[string]TaskExposure)
+	ExposureTask :=TaskExposure{}
+	if WorkBreakSlice[0] !=""{
+		log.Println("inside work")
+		for i := 0; i < len(WorkBreakSlice); i++ {
 
+			ExposureTask.BreakTime =WorkBreakSlice[i]
+			ExposureTask.DateOfCreation =time.Now().Unix()
+			ExposureTask.Status = helpers.StatusActive
+			id := betterguid.New()
+			ExposureMap[id] = ExposureTask
+			err = dB.Child("/Tasks/"+taskUniqueID+"/WorkExposure/").Set(ExposureMap)
+
+		}
+	}
+
+	//...........................................................
 	userData := reflect.ValueOf(m.UsersAndGroups.User)
 	for _, key := range userData.MapKeys() {
 		userTaskDetail := UserTasks{}

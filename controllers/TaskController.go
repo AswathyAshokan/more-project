@@ -60,6 +60,10 @@ func (c *TaskController)AddNewTask() {
 		FitToWorkSlice := strings.Split(FitToWork, ",")
 		task.Settings.DateOfCreation =time.Now().Unix()
 		task.Settings.Status = helpers.StatusActive
+
+		WorkBreak :=c.GetString("workExplosureText")
+		WorkBreakSlice :=strings.Split(WorkBreak, ",")
+
 		tempFitToWorkCheck :=c.GetString("fitToWorkCheck")
 		if tempFitToWorkCheck =="on" {
 			task.Settings.FitToWorkDisplay ="EachTime"
@@ -137,7 +141,7 @@ func (c *TaskController)AddNewTask() {
 
 
 		//Add data to task DB
-		dbStatus :=task.AddTaskToDB(c.AppEngineCtx,companyId,FitToWorkSlice)
+		dbStatus :=task.AddTaskToDB(c.AppEngineCtx,companyId,FitToWorkSlice,WorkBreakSlice)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))

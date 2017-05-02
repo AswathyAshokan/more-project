@@ -116,12 +116,15 @@ $().ready(function() {
     
     //function to show break time when checkbox is clicked
   $('#workExplosure').click(function () {
-      console.log("ghfhgfgf");
-//      var $this = $(this);
-//      if ($this.is(':checked')) {
-//          $var div = document.getElementById('work');
-//          div.style.visibility = 'visible';
-//      } 
+      if ($(this).is(":checked")) {
+          var div = document.getElementById('work');
+          div.style.visibility = 'visible';
+          div.style.display ='inline';
+      }else {
+          var div = document.getElementById('work');
+          div.style.visibility = 'hidden';
+          div.style.display ='none';
+      }
   });
     
     
