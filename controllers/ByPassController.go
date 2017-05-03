@@ -32,11 +32,7 @@ func (c *ByPassController)ByPass() {
 		sessionValues.CompanyPlan = companyDetails.Plan
 		SetSession(w, sessionValues)
 
-<<<<<<< Updated upstream
-		initialLink := "/" + sessionValues.CompanyTeamName + "/invite"
-=======
 		initialLink := "/" + sessionValues.CompanyTeamName + "/leave"
->>>>>>> Stashed changes
 
 		http.Redirect(w, r, initialLink, 302)
 
