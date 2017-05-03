@@ -39,15 +39,14 @@ func (c *InviteUserController) AddInvitation() {
 		inviteUser.Info.Email = c.GetString("emailid")
 		inviteUser.Info.UserType = c.GetString("usertype")
 		inviteUser.Settings.DateOfCreation =(time.Now().UnixNano() / 1000000)
-		inviteUser.Settings.Status = helpers.StatusActive
+		inviteUser.Settings.Status = helpers.StatusInActive
 		inviteUser.Settings.UserResponse = helpers.UserResponsePending
 		inviteUser.Info.CompanyTeamName = storedSession.CompanyTeamName
 		inviteUser.Info.CompanyId = storedSession.CompanyId
 		inviteUser.Info.CompanyName = storedSession.CompanyName
 		userFullName := storedSession.AdminFirstName+" "+storedSession.AdminLastName
-		companyID := models.GetCompanyIdByCompanyTeamName(c.AppEngineCtx, companyTeamName)
+		companyID := storedSession.CompanyTeamName
 		dbStatus := inviteUser.CheckEmailIdInDb(c.AppEngineCtx,companyID)
-		log.Println("status",dbStatus)
 		switch dbStatus {
 		case true:
 			dbStatus := inviteUser.AddInviteToDb(c.AppEngineCtx,companyID)
@@ -72,7 +71,7 @@ func (c *InviteUserController) AddInvitation() {
 				subject := "Subject: Passporte - Invitation\n"
 				mime := "MIME-version: 1.0;\r\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
 				message := []byte(subject + mime + "\n" + body)
-				if err := smtp.SendMail("smtp.gmail.com:587", smtp.PlainAuth("", "passportetest@gmail.com", "passporte123", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
+				if err := smtp.SendMail("smtp.gmail.com:587", smtp.PlainAuth("", "aswathy.a@cynere.com", "00000000", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
 				log.Println(err)
 				}
 				w.Write([]byte("true"))
@@ -148,17 +147,20 @@ func (c *InviteUserController) InvitationDetails() {
 		}
 
 		for _, k := range keySlice {
-			if info[k].UserResponse == helpers.UserResponseAccepted ||info[k].UserResponse == helpers.UserResponsePending{
-				var tempValueSlice []string
-				tempValueSlice = append(tempValueSlice, info[k].FirstName)
-				tempValueSlice = append(tempValueSlice, info[k].LastName)
-				tempValueSlice = append(tempValueSlice, info[k].Email)
-				tempValueSlice = append(tempValueSlice, info[k].UserType)
-				tempValueSlice = append(tempValueSlice,info[k].UserResponse)
-				tempValueSlice = append(tempValueSlice, info[k].Status)
-				inviteUserViewModel.Values = append(inviteUserViewModel.Values, tempValueSlice)
-				tempValueSlice = tempValueSlice[:0]
+			if(info[k].Status != helpers.UserStatusDeleted){
+				if info[k].UserResponse == helpers.UserResponseAccepted ||info[k].UserResponse == helpers.UserResponsePending{
+					var tempValueSlice []string
+					tempValueSlice = append(tempValueSlice, info[k].FirstName)
+					tempValueSlice = append(tempValueSlice, info[k].LastName)
+					tempValueSlice = append(tempValueSlice, info[k].Email)
+					tempValueSlice = append(tempValueSlice, info[k].UserType)
+					tempValueSlice = append(tempValueSlice,info[k].UserResponse)
+					inviteUserViewModel.Values = append(inviteUserViewModel.Values, tempValueSlice)
+					tempValueSlice = tempValueSlice[:0]
+				}
+
 			}
+
 		}
 
 	case false:
@@ -177,19 +179,21 @@ func (c *InviteUserController) InvitationDetails() {
 
 //delete invite user details using invite user id
 func (c *InviteUserController) DeleteInvitation() {
+	log.Println("cp1")
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	ReadSession(w, r, companyTeamName)
 	InviteUserId :=c.Ctx.Input.Param(":inviteuserid")
 	InviteUser := models.Invitation{}
-	result := InviteUser.DeleteInviteUserById(c.AppEngineCtx, InviteUserId,companyTeamName)
+	result := InviteUser.CheckJobIsAssigned(c.AppEngineCtx, InviteUserId,companyTeamName)
 	switch result {
 	case true:
 		w.Write([]byte("true"))
 	case false:
 		w.Write([]byte("false"))
 	}
+
 }
 
 
@@ -208,7 +212,7 @@ func (c *InviteUserController) EditInvitation() {
 		invitation.LastName = c.GetString("lastname")
 		invitation.Email = c.GetString("emailid")
 		invitation.UserType = c.GetString("usertype")
-		dbStatus := invitation.UpdateInviteUserById(c.AppEngineCtx, InviteUserId)
+		dbStatus := invitation.UpdateInviteUserById(c.AppEngineCtx, InviteUserId,companyTeamName)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -217,69 +221,72 @@ func (c *InviteUserController) EditInvitation() {
 		}
 
 	} else {
-		editResult, DbStatus := models.GetAllInviteUserForEdit(c.AppEngineCtx)
-		log.Println("all", editResult)
+		editViewResult, DbStatus := models.GetAllUserFormCompanyEdit(c.AppEngineCtx,companyTeamName,InviteUserId)
+		log.Println("all", editViewResult)
 		switch DbStatus {
 		case true:
-
-			var keySlice []string
-			var keySliceById []string
-			dataValue := reflect.ValueOf(editResult)
-			for _, key := range dataValue.MapKeys() {
-				keySlice = append(keySlice, key.String())
-				log.Println("all key", keySlice)
+			if editViewResult.UserResponse !=helpers.UserStatusDeleted{
+				invitationViewModel.FirstName = editViewResult.FirstName
+				invitationViewModel.LastName = editViewResult.LastName
+				invitationViewModel.UserType = editViewResult.UserType
+				invitationViewModel.UserResponse = editViewResult.UserResponse
+				invitationViewModel.PageType = helpers.SelectPageForEdit
+				invitationViewModel.CompanyTeamName = storedSession.CompanyTeamName
+				invitationViewModel.CompanyPlan = storedSession.CompanyPlan
+				invitationViewModel.AdminFirstName = storedSession.AdminFirstName
+				invitationViewModel.AdminLastName = storedSession.AdminLastName
+				invitationViewModel.EmailId = editViewResult.Email
+				invitationViewModel.InviteId = InviteUserId
+				c.Data["vm"] = invitationViewModel
+				c.Layout = "layout/layout.html"
+				c.TplName = "template/add-invite-user.html"
 			}
-			for _, keyIn := range keySlice {
-				invitationData := models.GetInvitationById(c.AppEngineCtx, InviteUserId, keyIn)
-				log.Println("log", invitationData)
-				dataValueOfInvite := reflect.ValueOf(invitationData)
-				for _, k := range dataValueOfInvite.MapKeys() {
-					keySliceById = append(keySliceById, k.String())
-				}
-				for _, inviteKey := range keySliceById {
-					if InviteUserId == inviteKey {
-						invitationViewModel.FirstName = invitationData[inviteKey].Info.FirstName
-						invitationViewModel.LastName = invitationData[inviteKey].Info.LastName
-						invitationViewModel.UserType = invitationData[inviteKey].Info.UserType
-						invitationViewModel.UserResponse = invitationData[inviteKey].Settings.UserResponse
-						invitationViewModel.Status = invitationData[inviteKey].Settings.Status
-						invitationViewModel.PageType = helpers.SelectPageForEdit
-						invitationViewModel.CompanyTeamName = storedSession.CompanyTeamName
-						invitationViewModel.CompanyPlan = storedSession.CompanyPlan
-						invitationViewModel.AdminFirstName = storedSession.AdminFirstName
-						invitationViewModel.AdminLastName = storedSession.AdminLastName
-						invitationViewModel.EmailId = invitationData[inviteKey].Info.Email
-						invitationViewModel.InviteId = InviteUserId
-						log.Println("view", invitationViewModel)
-						c.Data["vm"] = invitationViewModel
-						c.Layout = "layout/layout.html"
-						c.TplName = "template/add-invite-user.html"
 
-					}
-				}
-			}
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
 
 	}
 }
-//func (c *InviteUserController)CheckEmailInvitation(){
-//	log.Println("inside")
-//	w := c.Ctx.ResponseWriter
-//	r := c.Ctx.Request
-//	emailId :=  c.GetString("emailId")
-//	log.Println("email in contro",emailId)
-//	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
-//	storedSession := ReadSession(w, r, companyTeamName)
-//	companyId :=storedSession.CompanyId
-//
-//	isEmailUsed := models.CheckEmailIsUsedInvitation(c.AppEngineCtx, emailId,companyId)
-//	if isEmailUsed == false {
-//		w.Write([]byte("false"))
-//	}else{
-//		w.Write([]byte("true"))
-//	}
-//}
+
+
+func (c *InviteUserController) RemoveUserFromTask() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
+	InviteUserId := c.Ctx.Input.Param(":inviteuserid")
+	dbStatus := models.RemoveUsersFromTaskForDelete(c.AppEngineCtx,companyTeamName, InviteUserId)
+	switch dbStatus {
+	case true:
+		dbStatus := models.DeleteInviteUserById(c.AppEngineCtx, InviteUserId, companyTeamName)
+		switch dbStatus {
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
+		}
+	case false:
+		log.Println("false")
+	}
+}
+
+func (c *InviteUserController) DeleteUserIfNotInTask() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
+	InviteUserId := c.Ctx.Input.Param(":inviteuserid")
+	dbStatus := models.DeleteInviteUserById(c.AppEngineCtx, InviteUserId, companyTeamName)
+	switch dbStatus {
+	case true:
+		w.Write([]byte("true"))
+	case false:
+		w.Write([]byte("false"))
+	}
+
+}
+
+
 
 

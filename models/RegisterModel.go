@@ -54,7 +54,7 @@ type CompanyUsers struct{
 	DateOfJoin	int64
 	Status		string
 	FullName	string
-	Email 		string
+	Email           string
 
 }
 

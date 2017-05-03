@@ -8,6 +8,7 @@ type Users struct {
 	Settings		UserSettings
 	SocialNetworks		UserSocialNetworks
 	Tasks			map[string]UserTasks
+	Company          	map[string]UsersCompany
 }
 type UserInfo struct {
 	Address			string
@@ -15,6 +16,11 @@ type UserInfo struct {
 	Email			string
 	FullName		string
 	Phone			int64
+}
+type UsersCompany struct{
+	CompanyName             string
+	DateOfJoin		int64
+	Status			string
 }
 
 type NextOfKin struct {

@@ -12,6 +12,7 @@ const (
 	UserResponsePending = "Pending"
 	UserResponseAccepted = "Accepted"
 	UserResponseRejected = "Rejected"
+	UserStatusDeleted = "Deleted"
 )
 
 // Error Messages

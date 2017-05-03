@@ -13,8 +13,6 @@ func GetAllInvitationDetail(ctx context.Context,userId string ) (inviteUser,bool
 	//user := User{}
 	db,err :=GetFirebaseClient(ctx,"")
 	invitationDetails := inviteUser{}
-	/*value := map[string]Expiry{}*/
-
 	err = db.Child("/Invitation/"+userId+"/Info").Value(&invitationDetails)
 	if err != nil {
 		log.Fatal(err)

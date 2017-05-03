@@ -22,11 +22,6 @@ $(function(){
             subArray = [];
         }
     }
-    var hihihi = function(){
-            
-            return "false";
-        }
-
     /*Function for assigning data array into data table*/
     function dataTableManipulate(){
         table =  $("#inviteuser-table").DataTable({
@@ -36,14 +31,6 @@ $(function(){
                        "width": "10%",
                        "data": null,
                        "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-eye" aria-hidden="true"id="list"></i><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
-            },
-                          {
-                       "targets": -2,
-                       "width": "10%",
-                       "data": null,
-                        "render": function ( data, type, full, meta ) {
-                             return '<button class="btn btn-primary btn-xs " style="width:75px; height:25px;" type="submit">'+data[5]+'</button>';
-                        }
             }]
         });
         
@@ -65,14 +52,11 @@ $(function(){
     }
     dataTableManipulate();
 /*--------------------------Ending Initial data table calling---------------------------------------------*/
-
     
-    
-    
-/*Edit user details when click on edit icon*/
+    /*Edit user details when click on edit icon*/
     $('#inviteuser-table tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[6];
+        var key = data[5];
         window.location = '/' + companyTeamName +'/invite/'+ key + '/edit';
         return false;
     });
@@ -80,46 +64,76 @@ $(function(){
 /*List shared documents wheen click on eye icon*/  
     $('#inviteuser-table tbody').on( 'click', '#list', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[6];
+        var key = data[5];
         window.location ='/' + companyTeamName +'/shareddocuments/'+key ;
         return false;
     });
     
+
     
-    
-    
-/*Delete user details when click on delete icon*/
+    /*Delete user details when click on delete icon*/
     $('#inviteuser-table tbody').on( 'click', '#delete', function () {
-        $("#myModal").modal();
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[6];
-        $("#confirm").click(function(){
-                        $.ajax({
+        var key = data[5];
+        $.ajax({
+            type: "POST",
+            url: '/' + companyTeamName +'/invite/'+ key + '/delete',
+            data: '',
+            success: function(data){
+                if(data=="true"){
+                    $.ajax({
                             type: "POST",
-                            url: '/' + companyTeamName +'/invite/'+ key + '/delete',
+                            url: '/' + companyTeamName +'/invite/'+ key + '/deletionOfUser',
                             data: '',
-                            success: function(data){
-                                if(data=="true"){
-                                    alert("eeeeeee");
-                                    /*$('#inviteuser-table').dataTable().fnDestroy();
+                            success: function(feedback){
+                                if(feedback=="true"){
+                                    $('#inviteuser-table').dataTable().fnDestroy(); 
                                     var index = "";
                                     for(var i = 0; i < mainArray.length; i++) {
-                                        index = mainArray[i].indexOf(key);
-                                        if(index != -1) {
-                                            console.log("dddd", i);
-                                            break;
-                                        }
+                                    index = mainArray[i].indexOf(key);
+                                    if(index != -1) {
+                                        console.log("dddd", i);
+                                        break;
                                     }
-                                    mainArray.splice(i, 1);
-                                    dataTableManipulate()*/
+                                }
+                                mainArray.splice(i, 1);
+                                dataTableManipulate()
                                 }
                                 else {
-                                    alert("He is on work confirm Deletion?");
+                                }
+                            }
+                        });
+                }
+                else {
+                    alert("before");
+                     $("#myModal").modal();
+                    $("#confirm").click(function(){
+                        $.ajax({
+                            type: "POST",
+                            url: '/' + companyTeamName +'/invite/'+ key + '/RemoveTask',
+                            data: '',
+                            success: function(response){
+                                if(response=="true"){
+                                    $('#inviteuser-table').dataTable().fnDestroy(); 
+                                    var index = "";
+                                    for(var i = 0; i < mainArray.length; i++) {
+                                    index = mainArray[i].indexOf(key);
+                                    if(index != -1) {
+                                        console.log("dddd", i);
+                                        break;
+                                    }
+                                }
+                                mainArray.splice(i, 1);
+                                dataTableManipulate()
+                                }
+                                else {
                                 }
                             }
                         });
                     });
+                }
+            }
+        });
     });
-    
 });
 

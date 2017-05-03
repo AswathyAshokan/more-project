@@ -8,10 +8,9 @@ var companyTeamName = vm.CompanyTeamName;
 
 $().ready(function() {
     
-    if(vm.PageType == "edit"){  
+    if(vm.PageType == "edit"){
         document.getElementById("firstname").value = vm.FirstName;
         document.getElementById("lastname").value = vm.LastName;
-       /* document.getElementById("emailid").value = vm.EmailId;*/
         document.getElementById("usertype").value = vm.UserType;
         document.getElementById("pageTitle").innerHTML = "Edit Invited User"
         $("#updateButton").attr('disabled', false);
@@ -47,7 +46,7 @@ $().ready(function() {
             },
             submitHandler: function(){//to pass all data of a form serial
                 $("#saveButton").attr('disabled', true);
-                $("#updateButton").attr('disabled', false);
+                $("#updateButton").attr('disabled', true);
                 var formData = $("#adduserForm").serialize();
                     $.ajax({
                         url:'/' + companyTeamName +'/invite/add',
