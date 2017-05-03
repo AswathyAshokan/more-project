@@ -105,8 +105,7 @@ $(function(){
                         });
                 }
                 else {
-                    alert("before");
-                     $("#myModal").modal();
+                    $("#myModal").modal();
                     $("#confirm").click(function(){
                         $.ajax({
                             type: "POST",

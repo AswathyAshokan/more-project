@@ -452,3 +452,50 @@ func RemoveUsersFromTaskForDelete(ctx context.Context,companyTeamName  string,In
 	return true
 }
 
+func CheckStatusInInvitationOfCompany(ctx context.Context,InviteUserId string, companyTeamName string)(bool) {
+	log.Println("id",InviteUserId)
+	value :=CompanyInvitations{}
+	db,err :=GetFirebaseClient(ctx,"")
+	if err != nil {
+		log.Println(err)
+	}
+	err = db.Child("Company/"+companyTeamName+"/Invitation/"+InviteUserId).Value(&value)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println("value",value.UserResponse)
+	if value.UserResponse == helpers.UserResponsePending || value.UserResponse == helpers.UserResponseRejected{
+		return false
+	} else  {
+		return true
+	}
+}
+
+func DeleteInviteUserIfStatusIsPending(ctx context.Context,InviteUserId string,companyTeamName string)(bool) {
+	value := CompanyInvitations{}
+	updateStatus :=CompanyInvitations{}
+	db,err :=GetFirebaseClient(ctx,"")
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+	err = db.Child("Company/"+companyTeamName+"/Invitation/"+InviteUserId).Value(&value)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+	updateStatus.UserResponse = helpers.UserStatusDeleted
+	updateStatus.Email = value.Email
+	updateStatus.FirstName = value.FirstName
+	updateStatus.LastName = value.LastName
+	updateStatus.Status = value.Status
+	updateStatus.UserType = value.UserType
+	err = db.Child("Company/"+companyTeamName+"/Invitation/"+ InviteUserId).Update(&updateStatus)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	return true
+
+}
+
