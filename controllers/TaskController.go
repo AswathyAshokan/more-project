@@ -40,7 +40,9 @@ func (c *TaskController)AddNewTask() {
 		if err != nil {
 			log.Println(err)
 		}
-		task.Info.StartDate = startDate.Unix()
+		log.Println("Timeeeeeeeeeeeeeeeeeeeeeee: ", startDate.UTC().Unix())
+		log.Println("Timeeeeeeeeeeeeeeeeeeeeeee: ", startDate.Unix())
+		task.Info.StartDate = startDate.UTC().Unix()
 		endDate, err := time.Parse(layout, endDateString)
 		if err != nil {
 			log.Println(err)
@@ -380,10 +382,14 @@ func (c *TaskController)LoadTaskDetail() {
 
 				tempValueSlice = append(tempValueSlice, tasks[k].Info.TaskName)
 				tempValueSlice = append(tempValueSlice,tempuserCount)
+				startTime := time.Unix(tasks[k].Info.StartDate, 0)
+				startTimeOfTask := startTime.String()[11:16]
 				startDate := time.Unix(tasks[k].Info.StartDate, 0).Format("2006/01/02")
-				tempValueSlice = append(tempValueSlice, startDate)
+				tempValueSlice = append(tempValueSlice, startDate+" "+"("+startTimeOfTask+")")
+				endTime := time.Unix(tasks[k].Info.EndDate, 0)
+				endTimeOfTask := endTime.String()[11:16]
 				endDate := time.Unix(tasks[k].Info.EndDate, 0).Format("2006/01/02")
-				tempValueSlice = append(tempValueSlice, endDate)
+				tempValueSlice = append(tempValueSlice, endDate+" "+"("+endTimeOfTask+")")
 				//tempValueSlice = append(tempValueSlice, tasks[k].Info.LoginType)
 				//tempValueSlice = append(tempValueSlice, tasks[k].Info.UserNumber)
 				//tempValueSlice = append(tempValueSlice, tasks[k].Settings.Status)

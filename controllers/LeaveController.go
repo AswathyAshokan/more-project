@@ -92,7 +92,7 @@ func (c *LeaveController) LoadUserLeave() {
 		case true:
 			dataValue := reflect.ValueOf(leaveDetailOfUser)
 			for _, key := range dataValue.MapKeys() {
-				if(leaveDetailOfUser[key.String()].Settings.Status == "Pending") {
+
 					keyForLeave = append(keyForLeave, key.String())
 					var tempValueSlice []string
 					tempValueSlice = append(tempValueSlice, userDetail.FullName)
@@ -104,22 +104,14 @@ func (c *LeaveController) LoadUserLeave() {
 					tempValueSlice = append(tempValueSlice, numberOfDays)
 					tempValueSlice = append(tempValueSlice, leaveDetailOfUser[key.String()].Info.Reason)
 					///tempValueSlice = append(tempValueSlice, leaveDetailOfUser[key.String()].Settings.Status)
+					tempValueSlice =append(tempValueSlice,leaveDetailOfUser[key.String()].Settings.Status)
 					tempValueSlice = append(tempValueSlice, key.String())
 					tempValueSlice = append(tempValueSlice, specifiedUserId)
 					viewModel.Values = append(viewModel.Values, tempValueSlice)
 					tempValueSlice = tempValueSlice[:0]
-				}
+
 			}
-			viewModel.AdminFirstName =storedSession.AdminFirstName
-			viewModel.AdminLastName =storedSession.AdminLastName
-			viewModel.CompanyPlan =storedSession.CompanyPlan
-			viewModel.CompanyTeamName =storedSession.CompanyTeamName
-			viewModel.ProfilePicture =storedSession.ProfilePicture
-			viewModel.UserKeys =keySlice
-			viewModel.Keys = keyForLeave
-			c.Data["vm"] = viewModel
-			c.Layout = "layout/layout.html"
-			c.TplName = "template/leave-detail.html"
+
 		case false :
 			log.Println(helpers.ServerConnectionError)
 		}
@@ -127,7 +119,16 @@ func (c *LeaveController) LoadUserLeave() {
 
 
 	}
-
+	viewModel.AdminFirstName =storedSession.AdminFirstName
+	viewModel.AdminLastName =storedSession.AdminLastName
+	viewModel.CompanyPlan =storedSession.CompanyPlan
+	viewModel.CompanyTeamName =storedSession.CompanyTeamName
+	viewModel.ProfilePicture =storedSession.ProfilePicture
+	viewModel.UserKeys =keySlice
+	viewModel.Keys = keyForLeave
+	c.Data["vm"] = viewModel
+	c.Layout = "layout/layout.html"
+	c.TplName = "template/leave-detail.html"
 }
 
 func (c *LeaveController) LoadAcceptUserLeave() {
