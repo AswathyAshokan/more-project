@@ -66,9 +66,9 @@ func (c *TaskController)AddNewTask() {
 
 		tempFitToWorkCheck :=c.GetString("fitToWorkCheck")
 		if tempFitToWorkCheck =="on" {
-			task.Settings.FitToWorkDisplay ="EachTime"
+			task.Settings.FitToWorkDisplayStatus ="EachTime"
 		} else {
-			task.Settings.FitToWorkDisplay = "OnceADay"
+			task.Settings.FitToWorkDisplayStatus = "OnceADay"
 		}
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
 		companyId :=storedSession.CompanyId
@@ -182,7 +182,6 @@ func (c *TaskController)AddNewTask() {
 			for _, key := range dataValue.MapKeys() {
 
 				dataValue := reflect.ValueOf(testUser[key.String()].Users)
-				log.Println("jhjhjhjh",dataValue)
 				for _, userKeys := range dataValue.MapKeys() {
 					//viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,testUser[key.String()].Users[userKey.String()].FullName+" (User)")
 					dbStatus := usersDetail.GetActiveUsersEmailForDropDown(c.AppEngineCtx, userKeys.String(),testUser[key.String()].Users[userKeys.String()].Email,companyTeamName)
@@ -303,11 +302,7 @@ func (c *TaskController)LoadTaskDetail() {
 					viewModel.JobMatch = "true"
 
 				}
-				//if jobId != tasks[k].Job.JobId{
-				//	viewModel.SelectedJob = "No Job"
-				//	viewModel.SelectedCustomerForJob="No Customer"
-				//	log.Println("not match")
-				//}
+
 				if !helpers.StringInSlice(tasks[k].Job.JobName, viewModel.UniqueJobNames) && tasks[k].Job.JobName != "" {
 					viewModel.UniqueJobNames = append(viewModel.UniqueJobNames, tasks[k].Job.JobName)
 				}
@@ -492,9 +487,9 @@ func (c *TaskController)LoadEditTask() {
 		WorkBreak :=c.GetString("workExplosureText")
 		WorkBreakSlice :=strings.Split(WorkBreak, ",")
 		if tempFitToWorkCheck =="on" {
-			task.Settings.FitToWorkDisplay ="EachTime"
+			task.Settings.FitToWorkDisplayStatus ="EachTime"
 		} else {
-			task.Settings.FitToWorkDisplay = "OnceADay"
+			task.Settings.FitToWorkDisplayStatus = "OnceADay"
 		}
 		task.Settings.Status = helpers.StatusActive
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
@@ -579,7 +574,6 @@ func (c *TaskController)LoadEditTask() {
 		companyUsers :=models.Company{}
 		taskId := c.Ctx.Input.Param(":taskId")
 		dbStatus, taskDetail := task.GetTaskDetailById(c.AppEngineCtx, taskId)
-		log.Println("full detail..........",taskDetail)
 		switch dbStatus {
 		case true:
 			dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx,companyTeamName)
@@ -717,9 +711,7 @@ func (c *TaskController)LoadEditTask() {
 					switch dbStatus {
 					case true:
 						workValue := reflect.ValueOf(taskWorkBreak)
-						log.Println("work value",taskWorkBreak)
 						for _, key := range workValue.MapKeys() {
-							log.Println("dhfhsfhshajhfa",key.String())
 							WorkBreak = append(WorkBreak,taskWorkBreak[key.String()].BreakTime)
 						}
 					case false:
@@ -748,7 +740,7 @@ func (c *TaskController)LoadEditTask() {
 							fitToWorkSlice = append(fitToWorkSlice,taskDetail.FitToWork[key.String()].Description)
 						}
 
-						viewModel.FitToWorkCheck=taskDetail.Settings.FitToWorkDisplay
+						viewModel.FitToWorkCheck=taskDetail.Settings.FitToWorkDisplayStatus
 						viewModel.FitToWork = fitToWorkSlice
 						viewModel.WorkBreak = WorkBreak
 						viewModel.JobId = taskDetail.Job.JobId

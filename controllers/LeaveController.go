@@ -17,6 +17,7 @@ func (c *LeaveController) LoadUserLeave() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	log.Println("company team name",companyTeamName)
 	var keySliceForUser []string
 	var keySlice []string
 	var commonKey []string
@@ -86,6 +87,7 @@ func (c *LeaveController) LoadUserLeave() {
 	}
 	for _, specifiedUserId := range userLeaveKey {
 		status, leaveDetailOfUser,userDetail := leave.GetAllLeaveRequestById(c.AppEngineCtx, specifiedUserId,companyId)
+		log.Println("leavedetail",leaveDetailOfUser)
 		switch status {
 		case true:
 			dataValue := reflect.ValueOf(leaveDetailOfUser)
@@ -108,6 +110,16 @@ func (c *LeaveController) LoadUserLeave() {
 					tempValueSlice = tempValueSlice[:0]
 				}
 			}
+			viewModel.AdminFirstName =storedSession.AdminFirstName
+			viewModel.AdminLastName =storedSession.AdminLastName
+			viewModel.CompanyPlan =storedSession.CompanyPlan
+			viewModel.CompanyTeamName =storedSession.CompanyTeamName
+			viewModel.ProfilePicture =storedSession.ProfilePicture
+			viewModel.UserKeys =keySlice
+			viewModel.Keys = keyForLeave
+			c.Data["vm"] = viewModel
+			c.Layout = "layout/layout.html"
+			c.TplName = "template/leave-detail.html"
 		case false :
 			log.Println(helpers.ServerConnectionError)
 		}
@@ -115,16 +127,7 @@ func (c *LeaveController) LoadUserLeave() {
 
 
 	}
-	viewModel.AdminFirstName =storedSession.AdminFirstName
-	viewModel.AdminLastName =storedSession.AdminLastName
-	viewModel.CompanyPlan =storedSession.CompanyPlan
-	viewModel.CompanyTeamName =storedSession.CompanyTeamName
-	viewModel.ProfilePicture =storedSession.ProfilePicture
-	viewModel.UserKeys =keySlice
-	viewModel.Keys = keyForLeave
-	c.Data["vm"] = viewModel
-	c.Layout = "layout/layout.html"
-	c.TplName = "template/leave-detail.html"
+
 }
 
 func (c *LeaveController) LoadAcceptUserLeave() {

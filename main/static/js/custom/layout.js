@@ -35,6 +35,9 @@ $(document).ready(function() {
     
     document.getElementById("username").textContent=vm.AdminFirstName;
     document.getElementById("imageId").src=vm.ProfilePicture;
+    if (vm.ProfilePicture ==""){
+        document.getElementById("imageId").src="https://firebasestorage.googleapis.com/v0/b/passporte-b9070.appspot.com/o/profilePicturesOfAbmin%2default.png?alt=media"
+    }
     if(vm.CompanyPlan == "family")
     {
         $('#planChange').attr('data-target','#family');

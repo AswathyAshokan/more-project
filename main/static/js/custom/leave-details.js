@@ -3,6 +3,7 @@ console.log(vm);
 //Below line is for adding active class to layout side menu..
 document.getElementById("leave").className += " active";
  var companyTeamName = vm.CompanyTeamName;
+console.log("company team name",companyTeamName);
 $(function(){ 
     
     var mainArray = [];   
@@ -19,6 +20,7 @@ $(function(){
             
         }
     }
+    console.log("main array",vm.Values);
     function dataTableManipulate(){
         table =  $("#leave_details").DataTable({
             data: mainArray,
@@ -36,6 +38,7 @@ $(function(){
         
     }
     if(vm.Values != null) {
+        console.log("inside array creation");
         createDataArray(vm.Values, vm.Keys);
     }
     dataTableManipulate();
