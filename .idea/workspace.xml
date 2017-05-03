@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/LeaveController.go" afterPath="$PROJECT_DIR$/controllers/LeaveController.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -33,8 +34,8 @@
       <file leaf-file-name="LeaveController.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/LeaveController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="106" column="125" lean-forward="false" selection-start-line="106" selection-start-column="125" selection-end-line="106" selection-end-column="125" />
+            <state relative-caret-position="72">
+              <caret line="88" column="127" lean-forward="false" selection-start-line="88" selection-start-column="127" selection-end-line="88" selection-end-column="127" />
               <folding />
             </state>
           </provider>
@@ -536,13 +537,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00044" summary="02/02/2017  group fixed">
-      <created>1488427906596</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1488427906596</updated>
-    </task>
     <task id="LOCAL-00045" summary="02/02/2017  group fixed">
       <created>1488431876914</created>
       <option name="number" value="00045" />
@@ -879,7 +873,14 @@
       <option name="project" value="LOCAL" />
       <updated>1493804882360</updated>
     </task>
-    <option name="localTasksCounter" value="93" />
+    <task id="LOCAL-00093" summary="26/04/2017  9:57: invitation">
+      <created>1493804945234</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1493804945234</updated>
+    </task>
+    <option name="localTasksCounter" value="94" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1358,8 +1359,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/LeaveController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="106" column="125" lean-forward="false" selection-start-line="106" selection-start-column="125" selection-end-line="106" selection-end-column="125" />
+        <state relative-caret-position="72">
+          <caret line="88" column="127" lean-forward="false" selection-start-line="88" selection-start-column="127" selection-end-line="88" selection-end-column="127" />
           <folding />
         </state>
       </provider>

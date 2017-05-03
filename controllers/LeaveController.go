@@ -87,7 +87,6 @@ func (c *LeaveController) LoadUserLeave() {
 	}
 	for _, specifiedUserId := range userLeaveKey {
 		status, leaveDetailOfUser,userDetail := leave.GetAllLeaveRequestById(c.AppEngineCtx, specifiedUserId,companyId)
-		log.Println("leavedetail",leaveDetailOfUser)
 		switch status {
 		case true:
 			dataValue := reflect.ValueOf(leaveDetailOfUser)
