@@ -147,9 +147,8 @@ func (c *InviteUserController) InvitationDetails() {
 		}
 
 		for _, k := range keySlice {
-			if(info[k].Status != helpers.UserStatusDeleted){
-				if info[k].UserResponse == helpers.UserResponseAccepted ||info[k].UserResponse == helpers.UserResponsePending{
-					var tempValueSlice []string
+			if(info[k].UserResponse != helpers.UserStatusDeleted){
+				var tempValueSlice []string
 					tempValueSlice = append(tempValueSlice, info[k].FirstName)
 					tempValueSlice = append(tempValueSlice, info[k].LastName)
 					tempValueSlice = append(tempValueSlice, info[k].Email)
@@ -159,9 +158,6 @@ func (c *InviteUserController) InvitationDetails() {
 					inviteUserViewModel.Values = append(inviteUserViewModel.Values, tempValueSlice)
 					tempValueSlice = tempValueSlice[:0]
 				}
-
-			}
-
 		}
 
 	case false:
@@ -180,7 +176,6 @@ func (c *InviteUserController) InvitationDetails() {
 
 //delete invite user details using invite user id
 func (c *InviteUserController) DeleteInvitation() {
-	log.Println("cp1")
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
@@ -223,7 +218,6 @@ func (c *InviteUserController) EditInvitation() {
 
 	} else {
 		editViewResult, DbStatus := models.GetAllUserFormCompanyEdit(c.AppEngineCtx,companyTeamName,InviteUserId)
-		log.Println("all", editViewResult)
 		switch DbStatus {
 		case true:
 			if editViewResult.UserResponse !=helpers.UserStatusDeleted{
@@ -283,7 +277,6 @@ func (c *InviteUserController) DeleteUserIfNotInTask() {
 	switch companyInvitationStatus {
 	case true:
 		dbStatus := models.DeleteInviteUserById(c.AppEngineCtx, InviteUserId, companyTeamName)
-		log.Println("ccccc")
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -292,7 +285,6 @@ func (c *InviteUserController) DeleteUserIfNotInTask() {
 		}
 	case false:
 		status :=models.DeleteInviteUserIfStatusIsPending(c.AppEngineCtx, InviteUserId, companyTeamName)
-		log.Println("bbbbb")
 		switch status {
 		case true:
 			w.Write([]byte("true"))

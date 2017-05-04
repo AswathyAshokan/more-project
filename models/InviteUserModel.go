@@ -62,9 +62,9 @@ func(m *EmailInvitation) CheckEmailIdInDb(ctx context.Context,companyID string)b
 	for _, keyIn := range keySlice {
 		log.Println("key", keyIn)
 		err = dB.Child("Company/" + companyID + "/Invitation/" + keyIn).Value(&companyInvitaionCheck)
-
-		if companyInvitaionCheck.Email == m.Info.Email && companyInvitaionCheck.Status == "Active" &&companyInvitaionCheck.UserResponse == "Accepted" {
-
+		log.Println("ggg",companyInvitaionCheck.Email,"from",m.Info.Email)
+		if companyInvitaionCheck.Email == m.Info.Email &&( companyInvitaionCheck.UserResponse =="Pending" ||companyInvitaionCheck.UserResponse == "Accepted") {
+			log.Println("bnvbnb")
 			Condition = "true"
 			break
 

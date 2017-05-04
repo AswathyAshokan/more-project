@@ -14,9 +14,16 @@ $().ready(function() {
         document.getElementById("usertype").value = vm.UserType;
         document.getElementById("emailid").value = vm.EmailId;
         document.getElementById("pageTitle").innerHTML = "Edit Invited User"
-        $("#updateButton").attr('disabled', false);
-        $("#saveButton").attr('disabled', true);
-        $("#emailid").attr("disabled", "disabled");
+        if(vm.UserResponse == "Rejected"){
+            $("#saveButton").attr('disabled', false);
+            $("#updateButton").attr('disabled', true);
+        } 
+        else{
+            $("#updateButton").attr('disabled', false);
+            $("#saveButton").attr('disabled', true);
+            $("#emailid").attr("disabled", "disabled");
+        }
+        
     }
     else{
          $("#saveButton").attr('disabled', false);
