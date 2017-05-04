@@ -56,14 +56,15 @@ func (c *SharedDocumentController) LoadSharedDocuments() {
 				case false :
 					log.Println(helpers.ServerConnectionError)
 				}
-				documentsViewModels.Keys= expiryKeySlice
-				c.Data["array"] = documentsViewModels
-				c.Layout = "layout/layout.html"
-				c.TplName = "template/shareddocument.html"
+
 			}
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
+		documentsViewModels.Keys= expiryKeySlice
+		c.Data["array"] = documentsViewModels
+		c.Layout = "layout/layout.html"
+		c.TplName = "template/shareddocument.html"
 	case false:
 		log.Println(helpers.ServerConnectionError)
 	}

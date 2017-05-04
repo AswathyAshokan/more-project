@@ -69,7 +69,6 @@ $(function(){
         return false;
     });
     
-
     
     /*Delete user details when click on delete icon*/
     $('#inviteuser-table tbody').on( 'click', '#delete', function () {
@@ -81,6 +80,9 @@ $(function(){
             data: '',
             success: function(data){
                 if(data=="true"){
+                    $("#myModalForPendingUsers").modal();
+                    $("#deleteNotTask").click(function(){
+                    alert("haii");
                     $.ajax({
                             type: "POST",
                             url: '/' + companyTeamName +'/invite/'+ key + '/deletionOfUser',
@@ -103,10 +105,13 @@ $(function(){
                                 }
                             }
                         });
+                    });
+                    
                 }
                 else {
                     $("#myModal").modal();
                     $("#confirm").click(function(){
+                        alert("ddd");
                         $.ajax({
                             type: "POST",
                             url: '/' + companyTeamName +'/invite/'+ key + '/RemoveTask',

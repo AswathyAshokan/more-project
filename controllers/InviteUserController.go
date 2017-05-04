@@ -252,6 +252,7 @@ func (c *InviteUserController) EditInvitation() {
 
 
 func (c *InviteUserController) RemoveUserFromTask() {
+	log.Println("e1")
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")

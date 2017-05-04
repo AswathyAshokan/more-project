@@ -87,6 +87,7 @@ $(function(){
         var fromDay = selectFromDate.substring(3, 5);
         var fromMonth = selectFromDate.substring(0, 2);
         $('#toDate').datepicker("option", "minDate", new Date(fromYear, fromMonth-1, fromDay));
+        actualFromDate = new Date(selectedToDate);
         actualFromDate.setHours(0);
         actualFromDate.setMinutes(0);
         actualFromDate.setSeconds(0);
@@ -100,7 +101,7 @@ $(function(){
         var day = selectedToDate.substring(3, 5);
         var month = selectedToDate.substring(0, 2);
         $('#fromDate').datepicker("option", "maxDate", new Date(year, month-1, day));
-        actualToDate = new Date(selectedToDate);
+        actualToDate = new Date(selectFromDate);
         actualToDate.setHours(23);
         actualToDate.setMinutes(59);
         actualToDate.setSeconds(59);

@@ -12,7 +12,7 @@ $().ready(function() {
         document.getElementById("firstname").value = vm.FirstName;
         document.getElementById("lastname").value = vm.LastName;
         document.getElementById("usertype").value = vm.UserType;
-        document.getElementById("emailid").value = vm.Email;
+        document.getElementById("emailid").value = vm.EmailId;
         document.getElementById("pageTitle").innerHTML = "Edit Invited User"
         $("#updateButton").attr('disabled', false);
         $("#saveButton").attr('disabled', true);

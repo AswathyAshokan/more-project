@@ -139,11 +139,13 @@ func(m *Invitation) CheckJobIsAssigned(ctx context.Context, InviteUserId string,
 	var taskKeySlice []string
 	db, err := GetFirebaseClient(ctx, "")
 	if err != nil {
+		log.Println("t2")
 		log.Fatal(err)
 		return false
 	}
 	err = db.Child("Company").Value(&companyData)
 	if err != nil {
+		log.Println("t3")
 		return false
 	}
 	dataValue := reflect.ValueOf(companyData)
@@ -153,12 +155,13 @@ func(m *Invitation) CheckJobIsAssigned(ctx context.Context, InviteUserId string,
 	for _, key := range keySlice {
 		err = db.Child("Company/" + key + "/Invitation/" + InviteUserId).Value(&invitationData)
 		if err != nil {
+			log.Println("t4")
 			return false
 		}
 	}
 	err = db.Child("Users").OrderBy("Info/Email").EqualTo(invitationData.Email).Value(&value)
 	if err != nil {
-
+		log.Println("t5")
 		log.Fatal(err)
 		return false
 	}
@@ -169,13 +172,16 @@ func(m *Invitation) CheckJobIsAssigned(ctx context.Context, InviteUserId string,
 	for _, taskKey := range taskKeySlice {
 		err = db.Child("Users/" + taskKey + "/Tasks").Value(&TaskMap)
 		if err != nil {
+			log.Println("t6")
 			log.Fatal(err)
 		}
 
 	}
 	if len(TaskMap) == 0 {
+		log.Println("t7")
 		return true
 	} else {
+		log.Println("t8")
 		return false
 	}
 }
@@ -386,16 +392,19 @@ func RemoveUsersFromTaskForDelete(ctx context.Context,companyTeamName  string,In
 	var taskKeySlice []string
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
+		log.Println("e2")
 		log.Println(err)
 		return  false
 	}
 	err = db.Child("Company/"+companyTeamName+"/Invitation/"+InviteUserId).Value(&value)
 	if err != nil {
+		log.Println("e3")
 		log.Fatal(err)
 		return false
 	}
 	err = db.Child("Users").OrderBy("Info/Email").EqualTo(value.Email).Value(&userMap)
 	if err != nil {
+		log.Println("e4")
 		log.Fatal(err)
 		return false
 	}
@@ -406,6 +415,7 @@ func RemoveUsersFromTaskForDelete(ctx context.Context,companyTeamName  string,In
 	for _, k := range keySlice {
 		err = db.Child("Users/" + k + "/Tasks").Value(&taskInUsersMap)
 		if err != nil {
+			log.Println("e5")
 			log.Fatal(err)
 			return false
 		}
@@ -417,6 +427,7 @@ func RemoveUsersFromTaskForDelete(ctx context.Context,companyTeamName  string,In
 			err = db.Child("Users/" + k + "/Tasks/"+specificTaskKey).Value(&eachTaskInUser)
 			log.Println("tasks ",eachTaskInUser)
 			if err != nil {
+				log.Println("e6")
 				log.Fatal(err)
 				return false
 			}
@@ -430,11 +441,13 @@ func RemoveUsersFromTaskForDelete(ctx context.Context,companyTeamName  string,In
 			updateTask.TaskName = eachTaskInUser.TaskName
 			err = db.Child("Users/" + k + "/Tasks/"+specificTaskKey).Update(&updateTask)
 			if err != nil {
+				log.Println("e8")
 				log.Fatal(err)
 				return false
 			}
 			err = db.Child("Tasks/"+specificTaskKey+"/UsersAndGroups/User/"+k).Value(&usersInTask)
 			if err != nil {
+				log.Println("e9")
 				log.Fatal(err)
 				return false
 			}
@@ -442,6 +455,7 @@ func RemoveUsersFromTaskForDelete(ctx context.Context,companyTeamName  string,In
 			updateUsersInTask.FullName = usersInTask.FullName
 			err = db.Child("Tasks/"+specificTaskKey+"/UsersAndGroups/User/"+k).Update(&updateUsersInTask)
 			if err != nil {
+				log.Println("e10")
 				log.Fatal(err)
 				return false
 			}
