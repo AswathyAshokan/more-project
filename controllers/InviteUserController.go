@@ -155,6 +155,7 @@ func (c *InviteUserController) InvitationDetails() {
 					tempValueSlice = append(tempValueSlice, info[k].Email)
 					tempValueSlice = append(tempValueSlice, info[k].UserType)
 					tempValueSlice = append(tempValueSlice,info[k].UserResponse)
+					tempValueSlice = append(tempValueSlice,k)
 					inviteUserViewModel.Values = append(inviteUserViewModel.Values, tempValueSlice)
 					tempValueSlice = tempValueSlice[:0]
 				}
@@ -277,13 +278,28 @@ func (c *InviteUserController) DeleteUserIfNotInTask() {
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	ReadSession(w, r, companyTeamName)
 	InviteUserId := c.Ctx.Input.Param(":inviteuserid")
-	dbStatus := models.DeleteInviteUserById(c.AppEngineCtx, InviteUserId, companyTeamName)
-	switch dbStatus {
+	companyInvitationStatus := models.CheckStatusInInvitationOfCompany(c.AppEngineCtx, InviteUserId, companyTeamName)
+	switch companyInvitationStatus {
 	case true:
-		w.Write([]byte("true"))
+		dbStatus := models.DeleteInviteUserById(c.AppEngineCtx, InviteUserId, companyTeamName)
+		log.Println("ccccc")
+		switch dbStatus {
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
+		}
 	case false:
-		w.Write([]byte("false"))
+		status :=models.DeleteInviteUserIfStatusIsPending(c.AppEngineCtx, InviteUserId, companyTeamName)
+		log.Println("bbbbb")
+		switch status {
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
+		}
 	}
+
 
 }
 
