@@ -7,6 +7,15 @@ $(function(){
     
     var mainArray = [];   
     var table = "";
+    var unixFromDate = 0;
+    var unixToDate = 0;
+    var mainArray = [];   
+    var table = "";
+    var selectedToDate;
+    var actualToDate;
+    var selectFromDate;
+    var actualFromDate;
+    var completeTable =[];
     function createDataArray(values, keys){
         var subArray = [];
         for(i = 0; i < values.length; i++) {
@@ -19,10 +28,40 @@ $(function(){
             
         }
     }
-    function dataTableManipulate(){
+   completeTable = mainArray;
+    $('#refreshButton').click(function(e) {
+        $('#leave_details').dataTable().fnDestroy();
+        $('#fromDate').datepicker('setDate', null);
+        $('#toDate').datepicker('setDate', null);
+        dataTableManipulate(completeTable);
+     });
+    function listSharedDocumentByDate(unixFromDate,unixToDate){
+        var tempArray = [];
+        var startDate =0;
+        var unixEndDate =0;
+        var unixStartDate = 0;
+        for (i =0;i<vm.Values.length;i++){
+            startDate = new Date(vm.Values[i][1]);
+            endDate = new Date(vm.Values[i][2]);
+            unixStartDate = Date.parse(startDate)/1000;
+            unixEndDate = Date.parse(endDate)/1000;
+           if( (unixFromDate <= unixStartDate && unixStartDate <= unixToDate) || (unixFromDate <= unixEndDate && unixEndDate <= unixToDate) || (unixFromDate >= startDate && unixEndDate >= unixToDate)) {
+               
+                tempArray.push(mainArray[i]);
+           }
+            
+            $('#leave_details').dataTable().fnDestroy();
+            dataTableManipulate(tempArray);
+        }
+    } 
+    
+    
+    
+    
+    
+    function dataTableManipulate(mainArray){
         table =  $("#leave_details").DataTable({
             data: mainArray,
-            "searching": false,
             "paging": true, 
             "info": false,
             "lengthChange":false,
@@ -42,12 +81,13 @@ $(function(){
 //                "defaultContent": '<button class="btn btn-primary btn-xs " id ="accept">Accept</button>'+"  "+'<button class="btn btn-danger btn-xs " id="reject">Reject</button>'
             }]
         });
+        $('#tbl_details_length').after($('.datepic-top'));
         
     }
     if(vm.Values != null) {
         createDataArray(vm.Values, vm.Keys);
     }
-    dataTableManipulate();
+    dataTableManipulate(mainArray);
     
     //function when click on accept button
     $('#leave_details').on( 'click', '#accept', function () {
@@ -68,7 +108,7 @@ $(function(){
                         for(var i = 0; i < mainArray.length; i++) {
                            index = mainArray[i].indexOf(leaveKey);
                            if(index != -1) {
-                               console.log("dddd", i);
+                              
                              break;
                            }
                         }
@@ -102,7 +142,7 @@ $(function(){
                         for(var i = 0; i < mainArray.length; i++) {
                            index = mainArray[i].indexOf(leaveKey);
                            if(index != -1) {
-                               console.log("dddd", i);
+                               
                              break;
                            }
                         }
@@ -118,6 +158,34 @@ $(function(){
     });
 
 
+    
+    $('#fromDate').change(function () {
+        selectFromDate = $('#fromDate').val();
+        var fromYear = selectFromDate.substring(6, 10);
+        var fromDay = selectFromDate.substring(3, 5);
+        var fromMonth = selectFromDate.substring(0, 2);
+        $('#toDate').datepicker("option", "minDate", new Date(fromYear, fromMonth-1, fromDay));
+        actualFromDate = new Date(selectFromDate);
+        actualFromDate.setHours(0);
+        actualFromDate.setMinutes(0);
+        actualFromDate.setSeconds(0);
+        unixFromDate = Date.parse(actualFromDate)/1000;
+        listSharedDocumentByDate(unixFromDate,unixToDate);
+    });
+    
+    $('#toDate').change(function () {
+        selectedToDate = $('#toDate').val();
+        var year = selectedToDate.substring(6, 10);
+        var day = selectedToDate.substring(3, 5);
+        var month = selectedToDate.substring(0, 2);
+        $('#fromDate').datepicker("option", "maxDate", new Date(year, month-1, day));
+        actualToDate = new Date(selectedToDate);
+        actualToDate.setHours(23);
+        actualToDate.setMinutes(59);
+        actualToDate.setSeconds(59);
+        unixToDate = Date.parse(actualToDate)/1000;
+        listSharedDocumentByDate(unixFromDate,unixToDate);
+    });
 //    $('#leave_details tbody').on( 'click', '#delete', function () {
 //        $("#myModal").modal();
 //        var data = table.row( $(this).parents('tr') ).data();
