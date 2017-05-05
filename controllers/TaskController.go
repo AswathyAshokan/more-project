@@ -271,6 +271,7 @@ func (c *TaskController)LoadTaskDetail() {
 	case true:
 		dataValue := reflect.ValueOf(tasks)
 		var keySlice []string
+		var userKeySlice []string
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
 		}
@@ -333,14 +334,37 @@ func (c *TaskController)LoadTaskDetail() {
 
 				//tempusersDataValue := ""
 				var userCount =0
-
+				for _, key := range usersDataValue.MapKeys() {
+					userKeySlice = append(userKeySlice, key.String())
+				}
 
 				for _, userKey := range usersDataValue.MapKeys() {
 					log.Println("user key",userKey)
 					var userArray []string
-
 					userArray =append(userArray,tasks[k].UsersAndGroups.User[userKey.String()].FullName)
 					userArray =append(userArray,tasks[k].Settings.Status)
+					//// using append
+					// taskKeyCount :=len(k)
+					//log.Println(keySlice)
+					//log.Println("ggggggg",taskKeyCount)
+					//	userKeyCount :=len(userKeySlice)
+					//log.Println("hhhhh",userKeyCount)
+					//	matrix := make([][]string, taskKeyCount,userKeyCount) // dim*dim matrix
+					//	for i := 0; i < taskKeyCount; i++ {
+					//		log.Println("cp1")
+					//		matrix[i] = make([]string, 0, taskKeyCount)
+					//		vector := make([]string, userKeyCount)
+					//		for j := 0; j < userKeyCount; j++ {
+					//			log.Println("cp2")
+					//			vector[j] = tasks[k].UsersAndGroups.User[userKey.String()].FullName
+					//			vector[j] =vector[j]+ tasks[k].Settings.Status
+					//			matrix[i] = append(matrix[i], vector[j])
+					//		}
+					//
+					//	}
+					//	log.Println("hdhdshfhsfhshfgshgfhs",matrix)
+					//
+
 					//var bufferUser bytes.Buffer
 					//if len(tempusersDataValue) == 0 {
 					//	bufferUser.WriteString(tasks[k].UsersAndGroups.User[userKey.String()].FullName + " " + "(" + tasks[k].Settings.Status + ")")
@@ -404,6 +428,7 @@ func (c *TaskController)LoadTaskDetail() {
 				tempValueSlice = tempValueSlice[:0]
 			}
 		}
+		//taskKeyCount =taskKeyCount+1
 		viewModel.Keys = keySlice
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
 		viewModel.CompanyPlan = storedSession.CompanyPlan

@@ -9,7 +9,6 @@ $(function(){
     var tempJobArray = [];
     var tempArray = [];
     var tempViewArray = [];
-    
     /*Function for Customer selection dropdown*/
     customerFilter = function(){
         tempArray = [];
@@ -19,8 +18,10 @@ $(function(){
             dataTableManipulate(mainArray); 
         } else {
             var tempSelectedCustomer = " (" + selectedCustomer + ")";
+            console.log(tempSelectedCustomer);
             for(i = 0; i < mainArray.length; i++){                
-                if (mainArray[i][0].indexOf(tempSelectedCustomer) != '-1'){
+                if (mainArray[i][1].indexOf(tempSelectedCustomer) != '-1'){
+                    console.log("inside");
                     tempArray.push(mainArray[i]);
                 }
             }
@@ -34,7 +35,7 @@ $(function(){
             
             for(i = 0; i < tempArray.length; i++){                
                 var tempCustomer = " (" + selectedCustomer + ")";
-                var tempJob = tempArray[i][0].replace(tempCustomer, '');
+                var tempJob = tempArray[i][1].replace(tempCustomer, '');
                 if (tempJobArray.indexOf(tempJob) == '-1') {
                     tempJobArray.push(tempJob);
                 }
@@ -62,7 +63,7 @@ $(function(){
             var tempJobTableArray = [];
             var tempSelectedJob = selectedJob + " (";
             for(i = 0; i < mainArray.length; i++){                
-                if (mainArray[i][0].indexOf(tempSelectedJob) != '-1'){
+                if (mainArray[i][1].indexOf(tempSelectedJob) != '-1'){
                     tempJobTableArray.push(mainArray[i]);
                 }
             }
@@ -79,12 +80,11 @@ $(function(){
         $("#customerDropdown").val(selectedCustomer);
     }
     
-    
      /*Function for setting task details of a particular job*/
     function taskAccordingToJob(){
         var tempArray = [];
         for(i = 0; i < mainArray.length; i++){
-            if (mainArray[i][0].indexOf(vm.SelectedJob) != '-1'){
+            if (mainArray[i][1].indexOf(vm.SelectedJob) != '-1'){
                 tempArray.push(mainArray[i]);
             }
         }

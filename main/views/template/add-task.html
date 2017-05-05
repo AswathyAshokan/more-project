@@ -112,23 +112,18 @@
                             </div>
 						</div>
                          <div class="col-sm-6">
-<!--
-                             <label for="fitToWorkDeclaration" class=""> Fit To Work Declaration Each Time User Renter into Task</label>
-                             <input type="checkbox" name="fitToWorkCheck" value="Bike" id ="fitToWorkCheck">
--->
-                              <label><p><input type="checkbox" id="fitToWorkCheck" name="fitToWorkCheck">&nbsp;&nbsp;&nbsp;Fit To Work Declaration Each Time User Re-enter into Task.</p> </label>
+                             <label><p><input type="checkbox" id="fitToWorkCheck" name="fitToWorkCheck">&nbsp;&nbsp;&nbsp;Fit To Work Declaration Each Time User Re-enter into Task.</p> </label>
                              <label for="workExplosure">
                                  <input type="checkbox" id="workExplosure" name="workExplosure"  >
                                      Exposure.
                              </label>
                              <div class="col-sm-12" id ="work" style="visibility: hidden; display:none;"  >
 								<label for="workExplosureText" class="">Break Time</label>
-								<input class="form-control" rows="5" id="workExplosureText" name="workExplosureText" placeholder="20 min after 4 hrs work, 8 hrs after 10 hrs of work,.." size="35"><br>
+<!--								<input class="form-control" rows="5" id="workExplosureText" name="workExplosureText" placeholder="20 min after 4 hrs work, 8 hrs after 10 hrs of work,.." size="35"><br>-->
+                                 <input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5"> After<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" >
+                                 <img  id="btnAddForExposure" src="/static/images/fitToWork.png" width="40" height="38" style= "float:right; margin-top:-9em; margin-right:-5em;" onclick="onload();" /><br><br>
 							</div>
-                              
-                             
                         </div>
-                        
                         <div class="mapValidationError" id="mapValidationError"></div>
                         <div class="loginTypeValidationError" id="loginTypeValidationError"></div>
                         <div class="align-left col-sm-12">
