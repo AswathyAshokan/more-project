@@ -82,8 +82,7 @@ $(function(){
                 if(data=="true"){
                     $("#myModalForPendingUsers").modal();
                     $("#deleteNotTask").click(function(){
-                    alert("haii");
-                    $.ajax({
+                        $.ajax({
                             type: "POST",
                             url: '/' + companyTeamName +'/invite/'+ key + '/deletionOfUser',
                             data: '',
@@ -111,7 +110,6 @@ $(function(){
                 else {
                     $("#myModal").modal();
                     $("#confirm").click(function(){
-                        alert("ddd");
                         $.ajax({
                             type: "POST",
                             url: '/' + companyTeamName +'/invite/'+ key + '/RemoveTask',

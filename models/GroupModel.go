@@ -69,7 +69,7 @@ func (n *Group)DeleteGroup(ctx context.Context, groupKey string) bool{
 		log.Fatal(err)
 		return  false
 	}
-	GroupDeletion.Status = helpers.StatusInActive
+	GroupDeletion.Status = helpers.UserStatusDeleted
 	GroupDeletion.DateOfCreation = groupStatusUpdate.DateOfCreation
 	log.Println("delete",GroupDeletion)
 	err = db.Child("/Group/"+ groupKey +"/Settings").Update(&GroupDeletion)
@@ -82,10 +82,16 @@ func (n *Group)DeleteGroup(ctx context.Context, groupKey string) bool{
 }
 
 // To get all the keys of User
-func GetUsersForDropdown(ctx context.Context) (map[string]Users,bool) {
+func GetUsersForDropdown(ctx context.Context,companyId string) (UsersCompany,bool) {
 	db,err :=GetFirebaseClient(ctx,"")
-	allUser := map[string]Users{}
+	allUser := UsersCompany{}
+	err = db.Child("Company/"+companyId+"/Users").Value(&allUser)
+	if err != nil {
+		log.Fatal(err)
+		return allUser,false
+	}
 	err = db.Child("Users").Value(&allUser)
+	log.Println("vvvv",allUser)
 	if err != nil {
 		log.Println(err)
 		return allUser,false
@@ -94,26 +100,21 @@ func GetUsersForDropdown(ctx context.Context) (map[string]Users,bool) {
 }
 
 // for fill the dropdown list using name(users) in add group
-func(m *Users) TakeGroupMemberName(ctx context.Context,groupKeySlice []string) ([]string, bool) {
-	allUserDetails :=Users{}
-	var allUserNames [] string
+func(m *Users) TakeGroupMemberName(ctx context.Context,companyTeamName string) ( map[string]CompanyUsers,bool) {
+	allUserDetails :=map[string]CompanyUsers{}
+
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Fatal(err)
-		return allUserNames, false
+		return allUserDetails,false
+	}
+	err = db.Child("Company/"+companyTeamName+"/Users").Value(&allUserDetails)
+	if err != nil{
+		log.Fatal(err)
+		return allUserDetails,false
 	}
 
-	for i := 0; i <len(groupKeySlice); i++ {
-		//err = db.Child("/Users/"+groupKeySlice[i]).Child("Info").Value(&v)
-		err = db.Child("/Users/"+groupKeySlice[i]).Value(&allUserDetails)
-		if err != nil{
-			log.Fatal(err)
-			return allUserNames, false
-		}
-		allUserNames = append(allUserNames, (allUserDetails.Info.FullName))
-
-	}
-	return allUserNames, true
+	return allUserDetails,true
 }
 
 //Collecting Group details using Id

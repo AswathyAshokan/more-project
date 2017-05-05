@@ -63,6 +63,7 @@ func GetAllCustomerDetails(ctx context.Context,companyTeamName string) (map[stri
 
 // delete customer from database using customer id
 func(m *Customers) DeleteCustomerById(ctx context.Context,customerKey string) bool{
+	log.Println("id",customerKey)
 	customerSettingsUpdation := CustomerSettings{}
 	customerDeletion := CustomerSettings{}
 	db,err :=GetFirebaseClient(ctx,"")
@@ -71,9 +72,9 @@ func(m *Customers) DeleteCustomerById(ctx context.Context,customerKey string) bo
 		log.Fatal(err)
 		return  false
 	}
-	customerDeletion.Status = helpers.StatusInActive
+	customerDeletion.Status = helpers.UserStatusDeleted
 	customerDeletion.DateOfCreation = customerSettingsUpdation.DateOfCreation
-	err = db.Child("/Customers/"+customerKey+"/Settings").Update(&customerDeletion)
+	err = db.Child("Customers/"+customerKey+"/Settings").Update(&customerDeletion)
 	if err != nil {
 		log.Fatal(err)
 		return  false

@@ -360,15 +360,12 @@ func (m *Users) GetActiveUsersEmailForDropDown(ctx context.Context,userKeys stri
 
 	invitationData := map[string]CompanyInvitations{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("Company/" + companyTeamName + "/Invitation/" ).Value(&invitationData)
+	err = dB.Child("Company/" + companyTeamName + "/Invitation" ).Value(&invitationData)
 	dataValue := reflect.ValueOf(invitationData)
 	for _, key := range dataValue.MapKeys() {
 		keySlice = append(keySlice, key.String())
 	}
-
-
 	for _, key := range keySlice {
-
 		if invitationData[key].Email ==email && invitationData[key].Status =="Active" &&invitationData[key].UserResponse=="Accepted"{
 
 			return true

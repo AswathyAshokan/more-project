@@ -147,7 +147,7 @@ func (c *InviteUserController) InvitationDetails() {
 		}
 
 		for _, k := range keySlice {
-			if(info[k].UserResponse != helpers.UserStatusDeleted){
+			if info[k].Status != helpers.UserStatusDeleted &&info[k].Status !=helpers.UserStatusDeleted{
 				var tempValueSlice []string
 					tempValueSlice = append(tempValueSlice, info[k].FirstName)
 					tempValueSlice = append(tempValueSlice, info[k].LastName)
@@ -157,7 +157,8 @@ func (c *InviteUserController) InvitationDetails() {
 					tempValueSlice = append(tempValueSlice,k)
 					inviteUserViewModel.Values = append(inviteUserViewModel.Values, tempValueSlice)
 					tempValueSlice = tempValueSlice[:0]
-				}
+			}
+
 		}
 
 	case false:
@@ -176,6 +177,7 @@ func (c *InviteUserController) InvitationDetails() {
 
 //delete invite user details using invite user id
 func (c *InviteUserController) DeleteInvitation() {
+	log.Println("cp1")
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
@@ -208,6 +210,7 @@ func (c *InviteUserController) EditInvitation() {
 		invitation.LastName = c.GetString("lastname")
 		invitation.Email = c.GetString("emailid")
 		invitation.UserType = c.GetString("usertype")
+
 		dbStatus := invitation.UpdateInviteUserById(c.AppEngineCtx, InviteUserId,companyTeamName)
 		switch dbStatus {
 		case true:
@@ -218,6 +221,7 @@ func (c *InviteUserController) EditInvitation() {
 
 	} else {
 		editViewResult, DbStatus := models.GetAllUserFormCompanyEdit(c.AppEngineCtx,companyTeamName,InviteUserId)
+		log.Println("all", editViewResult)
 		switch DbStatus {
 		case true:
 			if editViewResult.UserResponse !=helpers.UserStatusDeleted{

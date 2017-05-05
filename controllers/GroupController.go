@@ -21,6 +21,7 @@ type GroupController struct {
 func (c *GroupController) AddGroup() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
+	groupViewModel := viewmodels.AddGroupViewModel{}
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
 	if r.Method == "POST" {
@@ -47,22 +48,24 @@ func (c *GroupController) AddGroup() {
 			w.Write([]byte("false"))
 		}
 	} else {
-		log.Println("cpa1")
-		companyUsers :=models.Company{}
-		groupViewModel := viewmodels.AddGroupViewModel{}
+		groupUser := models.Users{}
+
 		var keySlice []string
-		dbStatus,GroupMembers :=companyUsers.GetUsersForDropdownFromCompany(c.AppEngineCtx,companyTeamName)  // retrive all the keys of a users
+		var allUserNames [] string
+		allUserDetails, dbStatus := groupUser.TakeGroupMemberName(c.AppEngineCtx, companyTeamName)
 		switch dbStatus {
 		case true:
-			log.Println("cpa3")
-			dataValue := reflect.ValueOf(GroupMembers)
-			for _, key := range dataValue.MapKeys() {
-				dataValue := reflect.ValueOf(GroupMembers[key.String()].Users)
-				for _, userKey := range dataValue.MapKeys() {
-					groupViewModel.GroupMembers = append(groupViewModel.GroupMembers, GroupMembers[key.String()].Users[userKey.String()].FullName)
-					keySlice = append(keySlice, userKey.String())
-				}
+			dataValue := reflect.ValueOf(allUserDetails)
 
+			for _, groupKey := range dataValue.MapKeys() {
+				keySlice = append(keySlice, groupKey.String())
+			}
+			for _, k := range keySlice {
+				if allUserDetails[k].Status != helpers.UserStatusDeleted {
+					allUserNames = append(allUserNames, allUserDetails[k].FullName)
+					groupViewModel.GroupMembers = allUserNames
+					groupViewModel.GroupKey = keySlice
+				}
 			}
 			groupViewModel.CompanyTeamName = storedSession.CompanyTeamName
 			groupViewModel.CompanyPlan = storedSession.CompanyPlan
@@ -71,15 +74,13 @@ func (c *GroupController) AddGroup() {
 			groupViewModel.AdminFirstName = storedSession.AdminFirstName
 			groupViewModel.AdminLastName = storedSession.AdminLastName
 			groupViewModel.ProfilePicture = storedSession.ProfilePicture
-			c.Data["vm"] = groupViewModel
-			c.Layout = "layout/layout.html"
-			c.TplName = "template/add-group.html"
 		case false:
-			log.Println("cpa4")
 			log.Println(helpers.ServerConnectionError)
 		}
-
 	}
+	c.Data["vm"] = groupViewModel
+	c.Layout = "layout/layout.html"
+	c.TplName = "template/add-group.html"
 }
 
 // show the details of whole group from database
@@ -130,7 +131,7 @@ func (c *GroupController) GroupDetails() {
 					buffer.Reset()
 				}
 			}
-			if allGroups[groupKey].Settings.Status == helpers.StatusActive{
+			if allGroups[groupKey].Settings.Status != helpers.UserStatusDeleted{
 				tempValueSlice = append(tempValueSlice, allGroups[groupKey].Info.GroupName)
 				tempValueSlice = append(tempValueSlice, strconv.Itoa(membersNumber))
 				tempValueSlice = append(tempValueSlice, tempUserNames)
@@ -184,7 +185,7 @@ func (c *GroupController) EditGroup() {
 		m := make(map[string]models.GroupMembers)
 		members := models.GroupMembers{}
 		group.Info.GroupName = c.GetString("groupName")
-		group.Info.CompanyTeamName=companyTeamName
+		group.Info.CompanyTeamName = companyTeamName
 		tempGroupId := c.GetStrings("selectedUserIds")
 		tempGroupMembers := c.GetStrings("selectedUserNames")
 		for i := 0; i < len(tempGroupId); i++ {
@@ -195,7 +196,6 @@ func (c *GroupController) EditGroup() {
 		dbStatus := group.UpdateGroupDetails(c.AppEngineCtx, groupId)
 		switch dbStatus {
 		case true:
-			//http.Redirect(w,r,"/group",301)
 			w.Write([]byte("true"))
 		case false:
 			w.Write([]byte("false"))
@@ -203,54 +203,52 @@ func (c *GroupController) EditGroup() {
 	} else {
 		groupUser := models.Users{}
 		viewModel := viewmodels.EditGroupViewModel{}
-		GroupMembers, dbStatus := models.GetUsersForDropdown(c.AppEngineCtx)
+		var allUserNames [] string
+		var keySlice []string
+		// Getting all Data for page load...
+		allUserDetails, dbStatus := groupUser.TakeGroupMemberName(c.AppEngineCtx, companyTeamName)
 		switch dbStatus {
 		case true:
-			dataValue := reflect.ValueOf(GroupMembers)        // To store data values of slice
-			var keySlice []string        // To store keys of the slice
+			dataValue := reflect.ValueOf(allUserDetails)
+
 			for _, groupKey := range dataValue.MapKeys() {
 				keySlice = append(keySlice, groupKey.String())
 			}
-
-			// Getting all Data for page load...
-			GroupMemberName, dbStatus := groupUser.TakeGroupMemberName(c.AppEngineCtx, keySlice)
-			switch dbStatus {
-			case true:
-				viewModel.GroupMembers = GroupMemberName
-				viewModel.GroupKey = keySlice
-				viewModel.PageType = helpers.SelectPageForEdit
-			case false:
-				log.Println(helpers.ServerConnectionError)
-			}
-
-			//Selecting Data which is to be edited...
-			groupDetails, dbStatus := group.GetGroupDetailsById(c.AppEngineCtx, groupId)
-			switch dbStatus {
-			case true:
-				viewModel.GroupNameToEdit = groupDetails.Info.GroupName
-				memberData := reflect.ValueOf(groupDetails.Members)
-
-				for _, selectedMemberKey := range memberData.MapKeys() {
-					viewModel.GroupMembersToEdit = append(viewModel.GroupMembersToEdit, selectedMemberKey.String())
+			for _, k := range keySlice {
+				if allUserDetails[k].Status != helpers.UserStatusDeleted {
+					allUserNames = append(allUserNames, allUserDetails[k].FullName)
+					viewModel.GroupMembers = allUserNames
+					viewModel.GroupKey = keySlice
+					viewModel.PageType = helpers.SelectPageForEdit
 				}
-				viewModel.PageType = helpers.SelectPageForEdit
-				viewModel.CompanyTeamName = storedSession.CompanyTeamName
-				viewModel.CompanyPlan = storedSession.CompanyPlan
-				viewModel.GroupId = groupId
-				viewModel.AdminFirstName = storedSession.AdminFirstName
-				viewModel.AdminLastName = storedSession.AdminLastName
-				viewModel.ProfilePicture = storedSession.ProfilePicture
-				c.Data["vm"] = viewModel
-				c.Layout = "layout/layout.html"
-				c.TplName = "template/add-group.html"
-			case false:
-				log.Println(helpers.ServerConnectionError)
 			}
 		case false:
-				log.Println(helpers.ServerConnectionError)
-			}
+			log.Println(helpers.ServerConnectionError)
 		}
+		//Selecting Data which is to be edited...
+		groupDetails, dbStatus := group.GetGroupDetailsById(c.AppEngineCtx, groupId)
+		switch dbStatus {
+		case true:
+			viewModel.GroupNameToEdit = groupDetails.Info.GroupName
+			memberData := reflect.ValueOf(groupDetails.Members)
 
+			for _, selectedMemberKey := range memberData.MapKeys() {
+				viewModel.GroupMembersToEdit = append(viewModel.GroupMembersToEdit, selectedMemberKey.String())
+			}
+			viewModel.PageType = helpers.SelectPageForEdit
+			viewModel.CompanyTeamName = storedSession.CompanyTeamName
+			viewModel.CompanyPlan = storedSession.CompanyPlan
+			viewModel.GroupId = groupId
+			viewModel.AdminFirstName = storedSession.AdminFirstName
+			viewModel.AdminLastName = storedSession.AdminLastName
+			viewModel.ProfilePicture = storedSession.ProfilePicture
+			c.Data["vm"] = viewModel
+			c.Layout = "layout/layout.html"
+			c.TplName = "template/add-group.html"
+		case false:
+			log.Println(helpers.ServerConnectionError)
+		}
+	}
 }
 
 func (c *GroupController)  GroupNameCheck(){

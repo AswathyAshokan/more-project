@@ -69,10 +69,9 @@ func (c *CustomerController) CustomerDetails() {
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
 		}
-		log.Println("key",keySlice)
 		for _, k := range keySlice {
 			var tempValueSlice []string
-			if allCustomer[k].Settings.Status == helpers.StatusActive{
+			if allCustomer[k].Settings.Status != helpers.UserStatusDeleted{
 				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.CustomerName)
 				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Address)
 				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.State)
@@ -80,6 +79,7 @@ func (c *CustomerController) CustomerDetails() {
 				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Email)
 				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Phone)
 				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.ContactPerson)
+				tempValueSlice = append(tempValueSlice,k)
 				customerViewModel.Values=append(customerViewModel.Values,tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]
 			}
