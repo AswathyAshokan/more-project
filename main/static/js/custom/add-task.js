@@ -1,7 +1,7 @@
 /* Author :Aswathy Ashok */
 //Below line is for adding active class to layout side menu..
-console.log("job", vm.JobName);
-console.log("jobid",vm.JobId);
+
+
 document.getElementById("task").className += " active";
 var pageType = vm.PageType;
 var customerName = "";
@@ -15,7 +15,7 @@ var mapLatitude = "";
 var mapLongitude = "";
 var startDateToCompare = "";
 var endDateToCompare = "";
-var minUserForTaskEdit ="";
+//var minUserForTaskEdit ="";
 var loginTypeForEdit ="";
 var i = 0;//function for editing
 var fitToWorkCheck ="";
@@ -27,9 +27,15 @@ if(vm.GroupMembers == null) {
 
 
 $(function () {
-
-   
     if (pageType == "edit") {
+        var element = document.getElementById('minUsers');
+        element.value = vm.UserNumber;
+        if(vm.LoginType =="NFC" ){
+             document.getElementById("loginType1").checked = true;
+        }else{
+            document.getElementById("loginType2").checked = true;
+        }
+        loginTypeForEdit = vm.LoginType;
         var selectArray =  vm.ContactNameToEdit;
        $("#contactId").val(selectArray);
         var selectArrayForGroup = vm.GroupMembersAndUserToEdit;
@@ -43,7 +49,6 @@ $(function () {
         document.getElementById("log").value = vm.Log ;
         document.getElementById("taskLocation").value =vm.TaskLocation
         document.getElementById("addFitToWorkValue").value = vm.FitToWork[0];
-        document.getElementById("minUsers").value = vm.UserNumber;
         var dynamicTextBox= "";
         for (var i = 1; i < vm.FitToWork.length; i++) {
             dynamicTextBox+= '<div class="plus"><input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + vm.FitToWork[i] + '" />&nbsp;' +
@@ -57,13 +62,9 @@ $(function () {
          $("body").on("click", ".delete-decl", function () {
              $(this).closest("div").remove();
          });
-        if(vm.LoginType =="NFC" ){
-             document.getElementById("loginType1").checked = true;
-        }else{
-            document.getElementById("loginType2").checked = true;
-        }
-        minUserForTaskEdit = vm.UsersToEdit.length;
-        loginTypeForEdit = vm.LoginType;
+        
+//        minUserForTaskEdit = vm.UsersToEdit.length;
+        
         if(vm.FitToWorkCheck =="EachTime") {
             document.getElementById("fitToWorkCheck").checked = true;
         }
@@ -76,10 +77,11 @@ $(function () {
             var workBreakTime = vm.WorkBreak.join(",")
             document.getElementById("workExplosureText").value =workBreakTime
         }
+         console.log("login type for edit",loginTypeForEdit);
     }
     
     
-    
+   
    
     //function for getting textbox dynamically
     
@@ -139,57 +141,57 @@ $().ready(function() {
     
     /*Function will ceck if the selected value is a group name, and if so 
     function will auto select all users in that group*/
-    $("#userOrGroup").on('change', function(evt, params) {
-        var tempArray = $(this).val();
-        var clickedOption = "";
-        if (selectedUserArray.length < tempArray.length) { // for selection
-            for (var i = 0; i < tempArray.length; i++) {
-                if (selectedUserArray.indexOf(tempArray[i]) == -1) {
-                    clickedOption = tempArray[i];
-                    
-                }
-            }
-            for (var i = 0; i < vm.GroupMembers.length; i++) {
-                if (vm.GroupMembers[i][0] == clickedOption) {
-                    var memberLength = vm.GroupMembers[i].length;
-                    for (var j = 1; j < memberLength; j++) {
-                        if (tempArray.indexOf(vm.GroupMembers[i][j]) == -1) {
-                            tempArray.push(vm.GroupMembers[i][j])
-                        }
-                        $("#userOrGroup").val(tempArray);
-                    }
-                    
-                    // Inserting group into group array for validating min. no. of users
-                    selectedGroupArray.push(clickedOption);
-                }
-            }
-            selectedUserArray = tempArray;
-        
-        } else if (selectedUserArray.length > tempArray.length) { // for deselection
-            for (var i = 0; i < selectedUserArray.length; i++) {
-                if (tempArray.indexOf(selectedUserArray[i]) == -1) {
-                    clickedOption = selectedUserArray[i];
-                    
-                }
-            }
-            for (var i = 0; i < vm.GroupMembers[i].length; i++) {
-                if (vm.GroupMembers[i][0] == clickedOption) {
-                    var memberLength = vm.GroupMembers[i].length;
-                    for (var j = 1; j < memberLength; j++) {
-                        var userIndex = tempArray.indexOf(vm.GroupMembers[i][j]);
-                        if (userIndex != -1) {
-                            tempArray.splice(userIndex, 1);
-                        }
-                        $("#userOrGroup").val(tempArray);
-                    }
-                    // Removing group from group array for validating min. no. of users
-                    var deleteGroupKeyIndex = selectedGroupArray.indexOf(clickedOption);
-                    selectedGroupArray.splice(deleteGroupKeyIndex, 1);
-                }
-            }
-            selectedUserArray = tempArray;
-        }
-    });
+//    $("#userOrGroup").on('change', function(evt, params) {
+//        var tempArray = $(this).val();
+//        var clickedOption = "";
+//        if (selectedUserArray.length < tempArray.length) { // for selection
+//            for (var i = 0; i < tempArray.length; i++) {
+//                if (selectedUserArray.indexOf(tempArray[i]) == -1) {
+//                    clickedOption = tempArray[i];
+//                    
+//                }
+//            }
+//            for (var i = 0; i < vm.GroupMembers.length; i++) {
+//                if (vm.GroupMembers[i][0] == clickedOption) {
+//                    var memberLength = vm.GroupMembers[i].length;
+//                    for (var j = 1; j < memberLength; j++) {
+//                        if (tempArray.indexOf(vm.GroupMembers[i][j]) == -1) {
+//                            tempArray.push(vm.GroupMembers[i][j])
+//                        }
+//                        $("#userOrGroup").val(tempArray);
+//                    }
+//                    
+//                    // Inserting group into group array for validating min. no. of users
+//                    selectedGroupArray.push(clickedOption);
+//                }
+//            }
+//            selectedUserArray = tempArray;
+//        
+//        } else if (selectedUserArray.length > tempArray.length) { // for deselection
+//            for (var i = 0; i < selectedUserArray.length; i++) {
+//                if (tempArray.indexOf(selectedUserArray[i]) == -1) {
+//                    clickedOption = selectedUserArray[i];
+//                    
+//                }
+//            }
+//            for (var i = 0; i < vm.GroupMembers[i].length; i++) {
+//                if (vm.GroupMembers[i][0] == clickedOption) {
+//                    var memberLength = vm.GroupMembers[i].length;
+//                    for (var j = 1; j < memberLength; j++) {
+//                        var userIndex = tempArray.indexOf(vm.GroupMembers[i][j]);
+//                        if (userIndex != -1) {
+//                            tempArray.splice(userIndex, 1);
+//                        }
+//                        $("#userOrGroup").val(tempArray);
+//                    }
+//                    // Removing group from group array for validating min. no. of users
+//                    var deleteGroupKeyIndex = selectedGroupArray.indexOf(clickedOption);
+//                    selectedGroupArray.splice(deleteGroupKeyIndex, 1);
+//                }
+//            }
+//            selectedUserArray = tempArray;
+//        }
+//    });
      
        
     $("#taskDoneForm").validate({
@@ -242,29 +244,30 @@ $().ready(function() {
             
             
            
-            var minUsers = $("#minUsers option:selected").val();
+            //var minUsers = $("#minUsers option:selected").val();
             //getting map longitude and latitude
             mapLatitude = document.getElementById("latitudeId").value;// variable to store map latitude
             mapLongitude = document.getElementById("longitudeId").value;// variable to store map longitude
             startDateToCompare = document.getElementById("startDate").value;
             endDateToCompare = document.getElementById("endDate").value
             //check minimum number of users during editing
-             minUserForTask =selectedUserArray.length - selectedGroupArray.length;
-            if(minUserForTask == 0)
-            {
-                minUserForTask = minUserForTaskEdit;
-            }
-            else {
-                minUserForTask = minUserForTask;
-            }
+//             minUserForTask =selectedUserArray.length - selectedGroupArray.length;
+//            if(minUserForTask == 0)
+//            {
+//                minUserForTask = minUserForTaskEdit;
+//            }
+//            else {
+//                minUserForTask = minUserForTask;
+//            }
             //check the login type during editing
             if(loginTypeRadio.length ==0)
             {
+                console.log("dghafgfaghdgahg",loginTypeForEdit);
                 loginTypeRadio = loginTypeForEdit;
             } else {
                 loginTypeRadio = loginTypeRadio;
             }
-            if (minUserForTask >= minUsers) {
+//            if (minUserForTask >= minUsers) {
                 if(loginTypeRadio.length != 0)
                     {
                       if( endDateToCompare >= startDateToCompare) 
@@ -391,11 +394,11 @@ $().ready(function() {
                     $("#loginTypeValidationError").html("please select a login type.").show();
                 }
                 
-            }
-            else {
-                $("#minUserValidationError").css({"color": "red", "font-size": "15px"});
-                $("#minUserValidationError").html("More users need to start this Task.").show();
-                }
+//            }
+//            else {
+//                $("#minUserValidationError").css({"color": "red", "font-size": "15px"});
+//                $("#minUserValidationError").html("More users need to start this Task.").show();
+//                }
         }
     });
     $("#cancel").click(function() {

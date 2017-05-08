@@ -3,12 +3,14 @@
 document.getElementById("task").className += " active";
 var companyTeamName = vm.CompanyTeamName
 $(function(){
+    console.log(vm.UserArray);
     var mainArray = []; 
     var table = "";
     var selectedCustomer = "";
     var tempJobArray = [];
     var tempArray = [];
     var tempViewArray = [];
+    var rowIndex ="";
     /*Function for Customer selection dropdown*/
     customerFilter = function(){
         tempArray = [];
@@ -140,7 +142,6 @@ $(function(){
         //function to show expanded row
         $('.table-wrapper .dataTables_filter').prepend(jobDropdown).prepend(customerDropdown).append(addItem);
         $('#task-details tbody').on('click', 'td.details-control', function () {
-            alert("ss");
             var tr = $(this).closest('tr');
             var row = table.row( tr );
             if ( row.child.isShown() ) {
@@ -150,26 +151,50 @@ $(function(){
             }
             else {
                 // Open this row
-                row.child( format(vm.UserArray)).show();
+//                var tr = $(this).closest("tr");
+//                var rowindex = tr.index();
+                row.child( format(vm.UserArray,row.data())).show();
+                
                 tr.addClass('shown');
             }
         } );
         
         
         //function to display data inside expanded area
-        function format ( myArray ) {
+        function format ( userDetailsArray, data ) {
     // `d` is the original data object for the row
-        
-            var result = "<table border=1>";
-            result += '<th>User assigned</th>';
-             result += '<th>Status</th>';
-            for(var i=0; i<myArray.length; i++) {
-                result += "<tr>";
-                for(var j=0; j<myArray[i].length; j++){
-                    result += "<td>"+myArray[i][j]+"</td>";
+            var taskID  = data[6];
+            var result = "<table>";
+                    result += '<th>User assigned</th>';
+                    result += '<th>Status</th>';
+                    result += "<tr>";
+            for (var i = 0; i < userDetailsArray.length; i++) {
+                if(userDetailsArray[i] != null && userDetailsArray[i][0].TaskId == taskID) {
+                     
+                    
+//                    console.log(userDetailsArray[i]);
+                    for (var j=0; j<userDetailsArray[i].length ;j++){
+                        result += "<td>"+userDetailsArray[i][j].Name+"</td>";
+                        result += "<td>"+userDetailsArray[i][j].Status+"</td>";
+                        result += "</tr>";
+                        
+                    }
+                     
+//                } else if (userDetailsArray[i] == null) {
+//                     var result = "<table>";
+//                    result += '<th>No User assigned</th>';
                 }
-                result += "</tr>";
+                
             }
+           
+            
+//            for(var i=0; i<myArray[rowIndex].length; i++) {
+//                result += "<tr>";
+//                for(var j=0; j<myArray[j].length; j++){
+//                    result += "<td>"+myArray[rowIndex][i][j]+"</td>";
+//                }
+//                result += "</tr>";
+//            }
             result += "</table>";
             return result;
         }

@@ -61,6 +61,12 @@ type AddTaskViewModel  struct {
 
 }
 
+type TaskUsers struct {
+	TaskId 	string
+	Name	string
+	Status	string
+}
+
 type TaskDetailViewModel  struct {
 	Values            		[][]string
 	Keys              		[]string
@@ -76,5 +82,5 @@ type TaskDetailViewModel  struct {
 	ProfilePicture			string
 	NoCustomer			string
 	JobMatch			string
-	UserArray			[][]string
+	UserArray			[][]TaskUsers
 }

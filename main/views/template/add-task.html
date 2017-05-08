@@ -63,9 +63,7 @@
 									<option id="3" value="3">3</option>
 									<option id="4" value="4">4</option>
                                     <option id="5" value="5">5</option>
-                                    <option id="6" value="6">6</option>
-                                    <option id="7" value="7">7</option>
-                                    <option id="8" value="8">8</option>
+                                    
 								</select>
 							</div>
 							<div class="col-sm-6">
@@ -216,17 +214,21 @@
         console.log("location",taskLocation);
         //function in case of edit task.set map according to location in text box
         if(taskLocation.length  != 0){
-            console.log("edit")
+            console.log("edit1");
             var loc=[];
             // next line creates asynchronous request
             geocoder.geocode( { 'address': vm.TaskLocation}, function(results, status) {
+               console.log("edit2");
                 
                 if (status == google.maps.GeocoderStatus.OK) {
+                    console.log("edit3");
                     loc[0]=results[0].geometry.location.lat();
                     loc[1]=results[0].geometry.location.lng();
                     var mapOptions = {
                         center: new google.maps.LatLng(loc[0], loc[1]),
-                        zoom: 13
+                        zoom: 13,
+                         mapTypeId: google.maps.MapTypeId.ROADMAP,
+                                   disableDefaultUI: true
                     };
                     map = new google.maps.Map(document.getElementById('map'),
                                   mapOptions);
@@ -244,11 +246,14 @@
                        document.getElementById("taskLocation").value = "Clavering House, Clavering Place, Newcastle Upon Tyne";
                        geocoder.geocode( { 'address': "Clavering House, Clavering Place, Newcastle Upon Tyne"}, function(results, status) {
                            if (status == google.maps.GeocoderStatus.OK) {
+                               console.log("edit4");
                                loc[0]=results[0].geometry.location.lat();
                                loc[1]=results[0].geometry.location.lng();
                                var mapOptions = {
                                    center: new google.maps.LatLng(loc[0], loc[1]),
-                                   zoom: 13
+                                   zoom: 13,
+                                   mapTypeId: google.maps.MapTypeId.ROADMAP,
+                                   disableDefaultUI: true
                                };
                                map = new google.maps.Map(document.getElementById('map'),
                                   mapOptions);
@@ -303,7 +308,9 @@
         
         var mapOptions = {
             center: new google.maps.LatLng(defaultLatitude, defaultLongitude),
-            zoom: 14
+            zoom: 14,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+                                   disableDefaultUI: true
         };
         map = new google.maps.Map(document.getElementById('map'),
                                   mapOptions);

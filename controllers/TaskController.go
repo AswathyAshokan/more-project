@@ -254,6 +254,9 @@ func (c *TaskController)AddNewTask() {
 
 }
 
+
+
+
 /* display all task details*/
 func (c *TaskController)LoadTaskDetail() {
 	r := c.Ctx.Request
@@ -275,6 +278,7 @@ func (c *TaskController)LoadTaskDetail() {
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
 		}
+		var taskUserSlice [][]viewmodels.TaskUsers
 		for _, k := range keySlice {
 			if tasks[k].Settings.Status == "Active" {
 				var tempValueSlice []string
@@ -337,75 +341,53 @@ func (c *TaskController)LoadTaskDetail() {
 				for _, key := range usersDataValue.MapKeys() {
 					userKeySlice = append(userKeySlice, key.String())
 				}
+				var userStructSlice []viewmodels.TaskUsers
 
 				for _, userKey := range usersDataValue.MapKeys() {
-					log.Println("user key",userKey)
-					var userArray []string
-					userArray =append(userArray,tasks[k].UsersAndGroups.User[userKey.String()].FullName)
-					userArray =append(userArray,tasks[k].Settings.Status)
-					//// using append
-					// taskKeyCount :=len(k)
-					//log.Println(keySlice)
-					//log.Println("ggggggg",taskKeyCount)
-					//	userKeyCount :=len(userKeySlice)
-					//log.Println("hhhhh",userKeyCount)
-					//	matrix := make([][]string, taskKeyCount,userKeyCount) // dim*dim matrix
-					//	for i := 0; i < taskKeyCount; i++ {
-					//		log.Println("cp1")
-					//		matrix[i] = make([]string, 0, taskKeyCount)
-					//		vector := make([]string, userKeyCount)
-					//		for j := 0; j < userKeyCount; j++ {
-					//			log.Println("cp2")
-					//			vector[j] = tasks[k].UsersAndGroups.User[userKey.String()].FullName
-					//			vector[j] =vector[j]+ tasks[k].Settings.Status
-					//			matrix[i] = append(matrix[i], vector[j])
-					//		}
-					//
-					//	}
-					//	log.Println("hdhdshfhsfhshfgshgfhs",matrix)
-					//
 
-					//var bufferUser bytes.Buffer
-					//if len(tempusersDataValue) == 0 {
-					//	bufferUser.WriteString(tasks[k].UsersAndGroups.User[userKey.String()].FullName + " " + "(" + tasks[k].Settings.Status + ")")
-					//	tempusersDataValue = bufferUser.String()
-					//	bufferUser.Reset()
-					//} else {
-					//	bufferUser.WriteString(tempusersDataValue)
-					//	bufferUser.WriteString(", ")
-					//	bufferUser.WriteString(tasks[k].UsersAndGroups.User[userKey.String()].FullName + " " + "(" + tasks[k].Settings.Status + ")")
-					//	tempusersDataValue = bufferUser.String()
-					//	bufferUser.Reset()
-					//}
+					var userStruct viewmodels.TaskUsers
+					userStruct.Name = tasks[k].UsersAndGroups.User[userKey.String()].FullName
+					userStruct.Status = tasks[k].UsersAndGroups.User[userKey.String()].Status
+					userStruct.TaskId =k
+					userStructSlice = append(userStructSlice, userStruct)
+					//userArray =append(userArray,tasks[k].UsersAndGroups.User[userKey.String()].FullName)
+					//userArray =append(userArray,tasks[k].Settings.Status)
+					//taskKeyCount :=len(keySlice)
+					//userKeyCount :=len(userKeySlice)
+					//var innerSlice []string
+
+					//userArray =append(userArray,tasks[k].UsersAndGroups.User[userKey.String()].FullName)
+					//userArray =append(userArray,tasks[k].UsersAndGroups.User[userKey.String()].Status)
+					//outerSlice = append(outerSlice, userArray)
 					userCount =userCount+1
-					viewModel.UserArray =append(viewModel.UserArray,userArray)
-					userArray = userArray[:0]
 				}
-
-				tempuserCount := strconv.Itoa(userCount)
+				taskUserSlice = append(taskUserSlice, userStructSlice)
+				//viewModel.UserArray = outerSlice
+				//log.Println("array",outerSlice)
+				tempUserCount := strconv.Itoa(userCount)
 				//displaying contacts
 				contactDataValue := reflect.ValueOf(tasks[k].Contacts)
 
-				tempcontactDataValue := ""
+				tempContactDataValue := ""
 
 				for _, contactKey := range contactDataValue.MapKeys() {
 
 					var bufferContact bytes.Buffer
-					if len(tempcontactDataValue) == 0 {
+					if len(tempContactDataValue) == 0 {
 						bufferContact.WriteString(tasks[k].Contacts[contactKey.String()].ContactName)
-						tempcontactDataValue = bufferContact.String()
+						tempContactDataValue = bufferContact.String()
 						bufferContact.Reset()
 					} else {
-						bufferContact.WriteString(tempcontactDataValue)
+						bufferContact.WriteString(tempContactDataValue)
 						bufferContact.WriteString(", ")
 						bufferContact.WriteString(tasks[k].Contacts[contactKey.String()].ContactName)
-						tempcontactDataValue = bufferContact.String()
+						tempContactDataValue = bufferContact.String()
 						bufferContact.Reset()
 					}
 				}
 
 				tempValueSlice = append(tempValueSlice, tasks[k].Info.TaskName)
-				tempValueSlice = append(tempValueSlice,tempuserCount)
+				tempValueSlice = append(tempValueSlice, tempUserCount)
 				startTime := time.Unix(tasks[k].Info.StartDate, 0)
 				startTimeOfTask := startTime.String()[11:16]
 				startDate := time.Unix(tasks[k].Info.StartDate, 0).Format("2006/01/02")
@@ -428,6 +410,9 @@ func (c *TaskController)LoadTaskDetail() {
 				tempValueSlice = tempValueSlice[:0]
 			}
 		}
+
+		viewModel.UserArray = taskUserSlice
+
 		//taskKeyCount =taskKeyCount+1
 		viewModel.Keys = keySlice
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
