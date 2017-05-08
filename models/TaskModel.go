@@ -33,6 +33,7 @@ type TaskFitToWork struct {
 }
 type TaskExposure struct {
 	BreakTime    string
+	WorkTime     string
 	Status         string
 	DateOfCreation int64
 
@@ -91,7 +92,7 @@ type UsersAndGroups struct {
 }
 
 /*add task details to DB*/
-func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSlice []string,WorkBreakSlice []string)(bool)  {
+func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSlice []string,WorkBreakSlice []string,TaskWorkTimeSlice []string)(bool)  {
 
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
@@ -135,6 +136,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 		for i := 0; i < len(WorkBreakSlice); i++ {
 
 			ExposureTask.BreakTime =WorkBreakSlice[i]
+			ExposureTask.WorkTime =TaskWorkTimeSlice[i]
 			ExposureTask.DateOfCreation =time.Now().Unix()
 			ExposureTask.Status = helpers.StatusActive
 			id := betterguid.New()

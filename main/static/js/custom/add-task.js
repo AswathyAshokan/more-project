@@ -19,6 +19,11 @@ var endDateToCompare = "";
 var loginTypeForEdit ="";
 var i = 0;//function for editing
 var fitToWorkCheck ="";
+var exposureSlice =[];
+var exposureTimeArray =[];
+var exposureWorkSlice =[];
+var exposureWorkTimeArray =[];
+
 
 //if group members is null ,group member array is initialised
 if(vm.GroupMembers == null) {
@@ -101,6 +106,31 @@ function GetDynamicTextBox(value) {
     
 }
  
+
+//function for getting exposure dynamically
+
+$("#btnAddForExposure").bind("click", function () {
+    
+        var div = $("<div class='exposureId'/>");
+        div.html(GetDynamicTextBoxForExposure(""));
+        $("#exposureTextBoxAppend").prepend(div);
+    });
+//$("#exposureDelete").bind("click", function () {
+    $("body").on("click", ".delete-exposure", function () {
+    console.log("inside");
+    $(this).closest("div").remove();
+});
+
+function GetDynamicTextBoxForExposure(value) {
+    return ' <label for="workExplosureText" class="">Break Time</label>'+
+        '<input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5">'+ 'After'+'<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="25" height="25" style= "float:right; margin-top:-1em; margin-right:-1em;"  class="delete-exposure" />'
+                
+    
+}
+
+
+
+
 
 
 //function to load add task
@@ -212,10 +242,15 @@ $().ready(function() {
             var endDate = new Date($("#endDate").val());
             var endTime =  document.getElementById("endTime").value;
             console.log(endTime);
+            var exposureHour ="";
+            var exposureMinute ="";
+            var TotalBreakTime ="";
+            var exposureWorkHour ="";
+            var exposureWorkMinute ="";
+            var TotalWorkTime ="";
             
 
             //setting the time in start date and end date
-            
             startTimeArray = startTime.split(':');
             startHour = parseInt(startTimeArray[0]);
             startMin = parseInt(startTimeArray[1]);
@@ -303,6 +338,30 @@ $().ready(function() {
                                               getJobAndCustomer(); 
                                           }
                                        
+                                      // function to get values of exposure dynamic text box
+                                      $("input[name=breakTime]").each(function () {
+                                          
+                                          if($(this).val().length !=0){
+                                              exposureTimeArray = $(this).val().split(':');
+                                              exposureHour = parseInt(exposureTimeArray[0]);
+                                              exposureMinute = parseInt(exposureTimeArray[1]);
+                                              TotalBreakTime =exposureMinute+(exposureHour*60);
+                                              exposureSlice.push(TotalBreakTime);
+                                          }
+                                      });
+                                      
+                                      $("input[name=workTime]").each(function () {
+                                          
+                                          if($(this).val().length !=0){
+                                              exposureWorkTimeArray = $(this).val().split(':');
+                                              exposureWorkHour = parseInt(exposureWorkTimeArray[0]);
+                                              exposureWorkMinute = parseInt(exposureWorkTimeArray[1]);
+                                              TotalWorkTime =exposureWorkMinute+(exposureWorkHour*60);
+                                              exposureWorkSlice.push(TotalWorkTime);
+                                          }
+                                      });
+                                      console.log("exposure slice",exposureSlice);
+                                      console.log("exposure work",exposureWorkSlice);
                                       
                                       //function to get fit to work 
                                       var chkPassport = document.getElementById("fitToWorkCheck");
@@ -311,7 +370,7 @@ $().ready(function() {
                                       }else {
                                           fitToWorkCheck ="OnceADay";
                                       }
-                                      var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&addFitToWork=" + fitToWorkFromDynamicTextBox +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask +"&endDateFromJs="+ endDateOfTask+"&fitToWorkCheck="+ fitToWorkCheck;
+                                      var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&addFitToWork=" + fitToWorkFromDynamicTextBox +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask +"&endDateFromJs="+ endDateOfTask+"&fitToWorkCheck="+ fitToWorkCheck+"&exposureBreakTime="+ exposureSlice+"&exposureWorkTime="+ exposureWorkSlice;
                                       var selectedContactNames = [];
 
                //get the user's name corresponding to  keys selected from dropdownlist

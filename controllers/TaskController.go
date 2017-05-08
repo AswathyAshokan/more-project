@@ -58,13 +58,17 @@ func (c *TaskController)AddNewTask() {
 		task.Info.LoginType=c.GetString("loginType")
 		task.Location.Latitude = c.GetString("latitude")
 		task.Location.Longitude = c.GetString("longitude")
+		exposureTask := c.GetString("exposureBreakTime")
+		exposureWorkTime := c.GetString("exposureWorkTime")
+		log.Println("breakkkkk time",exposureTask)
 		FitToWork := c.GetString("addFitToWork")
 		FitToWorkSlice := strings.Split(FitToWork, ",")
 		task.Settings.DateOfCreation =time.Now().Unix()
 		task.Settings.Status = helpers.StatusActive
 
-		WorkBreak :=c.GetString("workExplosureText")
-		WorkBreakSlice :=strings.Split(WorkBreak, ",")
+		//WorkBreak :=c.GetString("workExplosureText")
+		TaskBreakTimeSlice :=strings.Split(exposureTask, ",")
+		TaskWorkTimeSlice :=strings.Split(exposureWorkTime, ",")
 
 		tempFitToWorkCheck :=c.GetString("fitToWorkCheck")
 		if tempFitToWorkCheck =="on" {
@@ -143,7 +147,7 @@ func (c *TaskController)AddNewTask() {
 
 
 		//Add data to task DB
-		dbStatus :=task.AddTaskToDB(c.AppEngineCtx,companyId,FitToWorkSlice,WorkBreakSlice)
+		dbStatus :=task.AddTaskToDB(c.AppEngineCtx,companyId,FitToWorkSlice, TaskBreakTimeSlice,TaskWorkTimeSlice)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -722,17 +726,17 @@ func (c *TaskController)LoadEditTask() {
 						log.Println(helpers.ServerConnectionError)
 					}
 					//function to getting break details by task id
-					taskWork :=models.TaskExposure{}
-					dbStatus, taskWorkBreak := taskWork.GetTaskWorkBreakDetailById(c.AppEngineCtx, taskId)
-					switch dbStatus {
-					case true:
-						workValue := reflect.ValueOf(taskWorkBreak)
-						for _, key := range workValue.MapKeys() {
-							WorkBreak = append(WorkBreak,taskWorkBreak[key.String()].BreakTime)
-						}
-					case false:
-						log.Println(helpers.ServerConnectionError)
-					}
+					//taskWork :=models.TaskBreakTime{}
+					//dbStatus, taskWorkBreak := taskWork.GetTaskWorkBreakDetailById(c.AppEngineCtx, taskId)
+					//switch dbStatus {
+					//case true:
+					//	workValue := reflect.ValueOf(taskWorkBreak)
+					//	for _, key := range workValue.MapKeys() {
+					//		WorkBreak = append(WorkBreak,taskWorkBreak[key.String()].BreakTime)
+					//	}
+					//case false:
+					//	log.Println(helpers.ServerConnectionError)
+					//}
 
 						viewModel.Key = keySlice
 						viewModel.PageType = helpers.SelectPageForEdit

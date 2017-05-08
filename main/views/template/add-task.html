@@ -109,17 +109,19 @@
 <!--                                onclick="initialize();"-->
                             </div>
 						</div>
-                         <div class="col-sm-6">
+                         <div class="col-sm-6" >
                              <label><p><input type="checkbox" id="fitToWorkCheck" name="fitToWorkCheck">&nbsp;&nbsp;&nbsp;Fit To Work Declaration Each Time User Re-enter into Task.</p> </label>
                              <label for="workExplosure">
                                  <input type="checkbox" id="workExplosure" name="workExplosure"  >
                                      Exposure.
                              </label>
-                             <div class="col-sm-12" id ="work" style="visibility: hidden; display:none;"  >
+                             <div class="col-sm-12" id ="work" style="visibility: hidden; display:none;"  id="exposureId" >
+                                 <div id="exposureTextBoxAppend" class="form-group clearfix" >
 								<label for="workExplosureText" class="">Break Time</label>
 <!--								<input class="form-control" rows="5" id="workExplosureText" name="workExplosureText" placeholder="20 min after 4 hrs work, 8 hrs after 10 hrs of work,.." size="35"><br>-->
                                  <input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5"> After<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" >
-                                 <img  id="btnAddForExposure" src="/static/images/fitToWork.png" width="40" height="38" style= "float:right; margin-top:-9em; margin-right:-5em;" onclick="onload();" /><br><br>
+                                 <img  id="btnAddForExposure" src="/static/images/fitToWork.png" width="40" height="38" style= "float:right; margin-top:-1em; margin-right:-1em;" onclick="onload();" /><br><br>
+                                     </div>
 							</div>
                         </div>
                         <div class="mapValidationError" id="mapValidationError"></div>
