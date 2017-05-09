@@ -2,7 +2,6 @@
 
 //Below line is for adding active class to layout side menu..
 document.getElementById("group").className += " active";
-
 var companyTeamName = vm.CompanyTeamName;
 
 /*Function for creating Data Array for data table*/

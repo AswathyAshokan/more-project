@@ -135,6 +135,7 @@ func (c *GroupController) GroupDetails() {
 				tempValueSlice = append(tempValueSlice, allGroups[groupKey].Info.GroupName)
 				tempValueSlice = append(tempValueSlice, strconv.Itoa(membersNumber))
 				tempValueSlice = append(tempValueSlice, tempUserNames)
+				tempValueSlice = append(tempValueSlice,groupKey)
 				groupViewModel.Values = append(groupViewModel.Values, tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]
 			}

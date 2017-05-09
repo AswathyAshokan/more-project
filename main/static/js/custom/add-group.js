@@ -6,15 +6,15 @@ document.getElementById("group").className += " active";
 console.log(vm);
 
 var companyTeamName = vm.CompanyTeamName;
-console.log(companyTeamName);
 $().ready(function() {
     if(vm.PageType == "edit"){ 
         var selectArray = vm.GroupMembersToEdit;
+        console.log("array",selectArray);
         document.getElementById("groupName").value = vm.GroupNameToEdit;
         document.getElementById("groupHead").innerHTML = "Edit Group";//for display heading of each webpage
         $("#selectedUserIds").val(selectArray);
     }
-    
+
     $("#addgroupForm").validate({
         rules: {
             groupName:{
@@ -28,8 +28,8 @@ $().ready(function() {
         },
         messages: {
             groupName:{
-                required: "Please enter Group Name ",
-                remote: "The Group Name is already in use !"
+                required: "Please enter Group Name",
+                remote: "The Group Name is already in use!"
                 },
             selectedUserIds:"please fill this column",
         },

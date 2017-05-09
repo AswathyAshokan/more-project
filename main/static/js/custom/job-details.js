@@ -91,13 +91,10 @@ $(function(){
         createDataArray(vm.Values, vm.Keys);
     }
     if(vm.SelectedCustomer == ""&&  vm.CustomerMatch == "true"){
-         console.log("set1");
         dataTableManipulate(mainArray);
     } else if(vm.CustomerMatch=="false" && vm.SelectedCustomer =="false"){
-        console.log("set2");
         dataTableManipulate(tempViewArray);
     }else {
-        console.log("set3");
         jobAccordingToCustomer();
     }
     
