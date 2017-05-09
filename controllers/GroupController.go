@@ -236,6 +236,7 @@ func (c *GroupController) EditGroup() {
 			for _, selectedMemberKey := range memberData.MapKeys() {
 				viewModel.GroupMembersToEdit = append(viewModel.GroupMembersToEdit, selectedMemberKey.String())
 			}
+			log.Println("key of seledtede",viewModel.GroupMembersToEdit)
 			viewModel.PageType = helpers.SelectPageForEdit
 			viewModel.CompanyTeamName = storedSession.CompanyTeamName
 			viewModel.CompanyPlan = storedSession.CompanyPlan

@@ -189,7 +189,6 @@ func (c *JobController)LoadEditJob() {
 
 	} else {
 		jobId := c.Ctx.Input.Param(":jobId")
-		log.Println("job id",jobId)
 		viewModel := viewmodels.JobViewModel{}
 		job := models.Job{}
 		dbStatus, jobDetail := job.GetJobDetailById(c.AppEngineCtx, jobId)
@@ -211,7 +210,6 @@ func (c *JobController)LoadEditJob() {
 				viewModel.PageType = helpers.SelectPageForEdit
 				viewModel.CustomerName = jobDetail.Customer.CustomerName
 				viewModel.CustomerId =jobDetail.Customer.CustomerId
-				log.Println("customer id",viewModel.CustomerId)
 				viewModel.JobName = jobDetail.Info.JobName
 				viewModel.JobNumber = jobDetail.Info.JobNumber
 				viewModel.NumberOfTask = jobDetail.Info.NumberOfTask
