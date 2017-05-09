@@ -39,6 +39,8 @@ type EditTaskViewModel  struct {
 	ProfilePicture			string
 	FitToWorkCheck			string
 	JobId				string
+	WorkTime			[]string
+	BreakTime			[]string
 
 
 }

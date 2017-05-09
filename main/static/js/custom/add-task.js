@@ -23,6 +23,7 @@ var exposureSlice =[];
 var exposureTimeArray =[];
 var exposureWorkSlice =[];
 var exposureWorkTimeArray =[];
+console.log("work",vm.WorkTime);
 
 
 //if group members is null ,group member array is initialised
@@ -74,15 +75,23 @@ $(function () {
             document.getElementById("fitToWorkCheck").checked = true;
         }
         
-        if(vm.WorkBreak.length !=0){
+        if(vm.WorkTime.length !=0){
+            console.log("inside work");
             document.getElementById("workExplosure").checked = true;
             var div = document.getElementById('work');
             div.style.visibility = 'visible';
             div.style.display ='inline';
-            var workBreakTime = vm.WorkBreak.join(",")
-            document.getElementById("workExplosureText").value =workBreakTime
+//            var workBreakTime = vm.WorkBreak.join(",")
+            document.getElementById("workTime").value =vm.WorkTime[0];
+             document.getElementById("breakTime").value =vm.BreakTime[0];
+            var DynamicExposureTextBox ="";
+            for (var i=1; i<vm.WorkTime.length; i++){
+                
+                DynamicExposureTextBox+=        ' <label for="workExplosureText" class="">Break Time</label>'+
+                    '<input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5" value="'+ vm.BreakTime[i] +'">'+ 'After'+'<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" value="'+ vm.WorkTime[i] +'" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="25" height="25" style= "float:right; margin-top:-1em; margin-right:-1em;"  class="delete-exposure" />';
+            }
+            $("#exposureTextBoxAppend").prepend(DynamicExposureTextBox);
         }
-         console.log("login type for edit",loginTypeForEdit);
     }
     
     
@@ -117,7 +126,7 @@ $("#btnAddForExposure").bind("click", function () {
     });
 //$("#exposureDelete").bind("click", function () {
     $("body").on("click", ".delete-exposure", function () {
-    console.log("inside");
+    
     $(this).closest("div").remove();
 });
 
@@ -237,11 +246,11 @@ $().ready(function() {
             
             //code for date and time conversion
             var startDate = new Date($("#startDate").val());
-            console.log(startDate);
+            
             var startTime =  document.getElementById("startTime").value;
             var endDate = new Date($("#endDate").val());
             var endTime =  document.getElementById("endTime").value;
-            console.log(endTime);
+            
             var exposureHour ="";
             var exposureMinute ="";
             var TotalBreakTime ="";
@@ -297,7 +306,7 @@ $().ready(function() {
             //check the login type during editing
             if(loginTypeRadio.length ==0)
             {
-                console.log("dghafgfaghdgahg",loginTypeForEdit);
+                
                 loginTypeRadio = loginTypeForEdit;
             } else {
                 loginTypeRadio = loginTypeRadio;
@@ -360,8 +369,7 @@ $().ready(function() {
                                               exposureWorkSlice.push(TotalWorkTime);
                                           }
                                       });
-                                      console.log("exposure slice",exposureSlice);
-                                      console.log("exposure work",exposureWorkSlice);
+                                      
                                       
                                       //function to get fit to work 
                                       var chkPassport = document.getElementById("fitToWorkCheck");

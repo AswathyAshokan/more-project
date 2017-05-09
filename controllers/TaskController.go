@@ -14,6 +14,8 @@ import (
 	"regexp"
 	"strings"
 	"strconv"
+	"fmt"
+
 )
 
 type TaskController struct {
@@ -504,8 +506,12 @@ func (c *TaskController)LoadEditTask() {
 		task.Settings.DateOfCreation = time.Now().Unix()
 		tempFitToWorkCheck :=c.GetString("fitToWorkCheck")
 
-		WorkBreak :=c.GetString("workExplosureText")
-		WorkBreakSlice :=strings.Split(WorkBreak, ",")
+		//WorkBreak :=c.GetString("workExplosureText")
+		//WorkBreakSlice :=strings.Split(WorkBreak, ",")
+		exposureTask := c.GetString("exposureBreakTime")
+		exposureWorkTime := c.GetString("exposureWorkTime")
+		TaskBreakTimeSlice :=strings.Split(exposureTask, ",")
+		TaskWorkTimeSlice :=strings.Split(exposureWorkTime, ",")
 		if tempFitToWorkCheck =="on" {
 			task.Settings.FitToWorkDisplayStatus ="EachTime"
 		} else {
@@ -579,7 +585,7 @@ func (c *TaskController)LoadEditTask() {
 		task.Contacts = contactMap
 
 		//Add data to task DB
-		dbStatus := task.UpdateTaskToDB(c.AppEngineCtx, taskId,companyId,FitToWorkSlice,WorkBreakSlice)
+		dbStatus := task.UpdateTaskToDB(c.AppEngineCtx, taskId,companyId,FitToWorkSlice,TaskBreakTimeSlice,TaskWorkTimeSlice)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -601,7 +607,8 @@ func (c *TaskController)LoadEditTask() {
 			var keySliceForGroupAndUser        	[]string
 			var keySliceForContact                	[]string
 			var fitToWorkSlice			[]string
-			var WorkBreak				[]string
+			var WorkTime                            []string
+			var BreakTime				[]string
 			groupMember := models.Group{}
 
 			switch dbStatus {
@@ -726,17 +733,75 @@ func (c *TaskController)LoadEditTask() {
 						log.Println(helpers.ServerConnectionError)
 					}
 					//function to getting break details by task id
-					//taskWork :=models.TaskBreakTime{}
-					//dbStatus, taskWorkBreak := taskWork.GetTaskWorkBreakDetailById(c.AppEngineCtx, taskId)
-					//switch dbStatus {
-					//case true:
-					//	workValue := reflect.ValueOf(taskWorkBreak)
-					//	for _, key := range workValue.MapKeys() {
-					//		WorkBreak = append(WorkBreak,taskWorkBreak[key.String()].BreakTime)
-					//	}
-					//case false:
-					//	log.Println(helpers.ServerConnectionError)
-					//}
+					taskWork :=models.TaskExposure{}
+					dbStatus, taskWorkBreak := taskWork.GetTaskWorkBreakDetailById(c.AppEngineCtx, taskId)
+					switch dbStatus {
+					case true:
+						workValue := reflect.ValueOf(taskWorkBreak)
+						for _, key := range workValue.MapKeys() {
+							breakHourInInt, err := strconv.Atoi(taskWorkBreak[key.String()].BreakTime)
+							//workHourInInt, err := strconv.Atoi(taskWorkBreak[key.String()].WorkTime)
+							if err != nil {
+								// handle error
+								log.Println(err)
+
+							}
+							var breakHours = breakHourInInt/60
+							var breakMinutes =breakHourInInt %60
+							var breakHourInString =string(breakHours)
+							var breakMinutesInString =string(breakMinutes)
+							var prependBreakHours =""
+							var prependBreakMinutes =""
+							if len(breakHourInString) ==1 {
+
+								prependBreakHours = fmt.Sprintf("%02d", breakHours)
+							} else {
+								prependBreakHours = string(breakHours)
+							}
+							if len(breakMinutesInString) ==1 {
+
+								prependBreakMinutes = fmt.Sprintf("%02d", breakMinutes)
+							} else {
+								prependBreakMinutes = string(breakMinutes)
+							}
+							breakTimeForTask :=prependBreakHours+":"+prependBreakMinutes
+							log.Println("break time ",breakTimeForTask)
+							BreakTime = append(BreakTime,breakTimeForTask)
+
+							workHourInInt, err := strconv.Atoi(taskWorkBreak[key.String()].WorkTime)
+							//workHourInInt, err := strconv.Atoi(taskWorkBreak[key.String()].WorkTime)
+							if err != nil {
+								// handle error
+								log.Println(err)
+
+							}
+							var workHours = workHourInInt/60
+							var workMinutes =workHourInInt %60
+							var workHourInString =string(workHours)
+							var workMinutesInString =string(workMinutes)
+							var prependWorkHours =""
+							var prependWorkMinutes =""
+							if len(workHourInString) ==1 {
+
+								prependWorkHours = fmt.Sprintf("%02d", workHours)
+							} else {
+								prependWorkHours = string(workHours)
+							}
+							if len(workMinutesInString) ==1 {
+
+								prependWorkMinutes = fmt.Sprintf("%02d", workMinutes)
+							} else {
+								prependWorkMinutes = string(breakMinutes)
+							}
+							workTimeForTask :=prependWorkHours+":"+prependWorkMinutes
+							log.Println("break time ",workTimeForTask)
+
+							WorkTime = append(WorkTime,workTimeForTask)
+
+						}
+					case false:
+						log.Println(helpers.ServerConnectionError)
+					}
 
 						viewModel.Key = keySlice
 						viewModel.PageType = helpers.SelectPageForEdit
@@ -762,7 +827,8 @@ func (c *TaskController)LoadEditTask() {
 
 						viewModel.FitToWorkCheck=taskDetail.Settings.FitToWorkDisplayStatus
 						viewModel.FitToWork = fitToWorkSlice
-						viewModel.WorkBreak = WorkBreak
+						viewModel.WorkTime = WorkTime
+						viewModel.BreakTime =BreakTime
 						viewModel.JobId = taskDetail.Job.JobId
 						viewModel.TaskId = taskId
 						viewModel.CompanyTeamName = storedSession.CompanyTeamName
