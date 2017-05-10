@@ -164,7 +164,8 @@ $(function(){
         function format ( userDetailsArray, data,minUserArray ) {
     // `d` is the original data object for the row
             var taskID  = data[6];
-            var result = "<table >";
+            var result   ='<div class="pull-left dropdown-tbl" style="padding-right: 50px;">';
+             result += "<table cellpadding='5' cellspacing='0'  style='padding-left:50px; border: 1px solid #dddddd !important;'>";
                     result += '<th>User assigned</th>';
                     result += '<th>Status</th>';
                     result += "<tr>";
@@ -196,7 +197,8 @@ $(function(){
 //                result += "</tr>";
 //            }
             result += "</table  >";
-            var minUser ="<div style='padding-left:300px;'>"
+            result +="</div>";
+            var minUser ="<div>"
             
             minUser +="<table cellpadding='5' cellspacing='0' border='0' style='padding-left:100px;'>";
             
