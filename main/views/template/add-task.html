@@ -173,10 +173,10 @@
  function onload () {
     geocoder = new google.maps.Geocoder();
         var taskLocation = document.getElementById("taskLocation");
-        console.log("location",taskLocation);
+       
         //function in case of edit task.set map according to location in text box
         if(taskLocation.length  != 0){
-            console.log("edit")
+            
             var loc=[];
             // next line creates asynchronous request
             geocoder.geocode( { 'address': vm.TaskLocation}, function(results, status) {
@@ -213,14 +213,14 @@
     function initialize() {
         geocoder = new google.maps.Geocoder();
         var taskLocation = document.getElementById("taskLocation");
-        console.log("location",taskLocation);
+        
         //function in case of edit task.set map according to location in text box
         if(taskLocation.length  != 0){
-            console.log("edit1");
+        
             var loc=[];
             // next line creates asynchronous request
             geocoder.geocode( { 'address': vm.TaskLocation}, function(results, status) {
-               console.log("edit2");
+            
                 
                 if (status == google.maps.GeocoderStatus.OK) {
                     console.log("edit3");
@@ -244,7 +244,7 @@
                     var templat = marker.getPosition().lat();
                     var templng = marker.getPosition().lng();
                    if(templat == "27.6648274"  &&  templng =="-81.51575350000002"){
-                       console.log("wrong");
+                    
                        document.getElementById("taskLocation").value = "Clavering House, Clavering Place, Newcastle Upon Tyne";
                        geocoder.geocode( { 'address': "Clavering House, Clavering Place, Newcastle Upon Tyne"}, function(results, status) {
                            if (status == google.maps.GeocoderStatus.OK) {

@@ -281,6 +281,7 @@ func (c *TaskController)LoadTaskDetail() {
 		dataValue := reflect.ValueOf(tasks)
 		var keySlice []string
 		var userKeySlice []string
+
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
 		}
@@ -288,6 +289,7 @@ func (c *TaskController)LoadTaskDetail() {
 		for _, k := range keySlice {
 			if tasks[k].Settings.Status == "Active" {
 				var tempValueSlice []string
+				var minUserArray []string
 
 				tempJobAndCustomer := ""
 				if tasks[k].Job.JobName != "" {
@@ -414,10 +416,17 @@ func (c *TaskController)LoadTaskDetail() {
 				viewModel.Values = append(viewModel.Values, tempValueSlice)
 
 				tempValueSlice = tempValueSlice[:0]
+				minUserArray = append(minUserArray,tasks[k].Info.UserNumber)
+				minUserArray = append(minUserArray,tasks[k].Info.LoginType)
+				minUserArray = append(minUserArray,k)
+				viewModel.MinUserAndLoginTypeArray =append(viewModel.MinUserAndLoginTypeArray,minUserArray)
+				minUserArray =minUserArray[:0]
+
 			}
 		}
 
 		viewModel.UserArray = taskUserSlice
+
 
 		//taskKeyCount =taskKeyCount+1
 		viewModel.Keys = keySlice

@@ -68,21 +68,27 @@ type TaskUsers struct {
 	Name	string
 	Status	string
 }
+type TaskMinUsers struct {
+	TaskId 		string
+	MinimumUser	string
+	LoginType	string
+}
 
 type TaskDetailViewModel  struct {
-	Values            		[][]string
-	Keys              		[]string
-	UniqueCustomerNames		[]string
-	UniqueJobNames			[]string
-	SelectedJob			string
-	SelectedCustomer		string
-	SelectedCustomerForJob		string
-	CompanyTeamName			string
-	CompanyPlan			string
-	AdminFirstName			string
-	AdminLastName			string
-	ProfilePicture			string
-	NoCustomer			string
-	JobMatch			string
-	UserArray			[][]TaskUsers
+	Values            			[][]string
+	Keys              			[]string
+	UniqueCustomerNames			[]string
+	UniqueJobNames				[]string
+	SelectedJob				string
+	SelectedCustomer			string
+	SelectedCustomerForJob			string
+	CompanyTeamName				string
+	CompanyPlan				string
+	AdminFirstName				string
+	AdminLastName				string
+	ProfilePicture				string
+	NoCustomer				string
+	JobMatch				string
+	UserArray				[][]TaskUsers
+	MinUserAndLoginTypeArray		[][]string
 }

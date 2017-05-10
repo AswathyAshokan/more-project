@@ -15,7 +15,7 @@ var mapLatitude = "";
 var mapLongitude = "";
 var startDateToCompare = "";
 var endDateToCompare = "";
-//var minUserForTaskEdit ="";
+var minUserForTaskEdit ="";
 var loginTypeForEdit ="";
 var i = 0;//function for editing
 var fitToWorkCheck ="";
@@ -69,7 +69,7 @@ $(function () {
              $(this).closest("div").remove();
          });
         
-//        minUserForTaskEdit = vm.UsersToEdit.length;
+        minUserForTaskEdit = vm.UsersToEdit.length;
         
         if(vm.FitToWorkCheck =="EachTime") {
             document.getElementById("fitToWorkCheck").checked = true;
@@ -180,39 +180,44 @@ $().ready(function() {
     
     /*Function will ceck if the selected value is a group name, and if so 
     function will auto select all users in that group*/
-//    $("#userOrGroup").on('change', function(evt, params) {
-//        var tempArray = $(this).val();
-//        var clickedOption = "";
-//        if (selectedUserArray.length < tempArray.length) { // for selection
-//            for (var i = 0; i < tempArray.length; i++) {
-//                if (selectedUserArray.indexOf(tempArray[i]) == -1) {
-//                    clickedOption = tempArray[i];
-//                    
-//                }
-//            }
-//            for (var i = 0; i < vm.GroupMembers.length; i++) {
-//                if (vm.GroupMembers[i][0] == clickedOption) {
-//                    var memberLength = vm.GroupMembers[i].length;
-//                    for (var j = 1; j < memberLength; j++) {
-//                        if (tempArray.indexOf(vm.GroupMembers[i][j]) == -1) {
-//                            tempArray.push(vm.GroupMembers[i][j])
-//                        }
-//                        $("#userOrGroup").val(tempArray);
-//                    }
-//                    
-//                    // Inserting group into group array for validating min. no. of users
-//                    selectedGroupArray.push(clickedOption);
-//                }
-//            }
-//            selectedUserArray = tempArray;
-//        
-//        } else if (selectedUserArray.length > tempArray.length) { // for deselection
-//            for (var i = 0; i < selectedUserArray.length; i++) {
-//                if (tempArray.indexOf(selectedUserArray[i]) == -1) {
-//                    clickedOption = selectedUserArray[i];
-//                    
-//                }
-//            }
+    $("#userOrGroup").on('change', function(evt, params) {
+        console.log("inside group1");
+        var tempArray = $(this).val();
+        var clickedOption = "";
+        console.log("selected array",selectedUserArray);
+        console.log("temp array",tempArray);
+        if (selectedUserArray.length < tempArray.length) { // for selection
+            for (var i = 0; i < tempArray.length; i++) {
+                if (selectedUserArray.indexOf(tempArray[i]) == -1) {
+                    console.log("clicked");
+                    clickedOption = tempArray[i];
+                    
+                }
+            }
+            for (var i = 0; i < vm.GroupMembers.length; i++) {
+                if (vm.GroupMembers[i][0] == clickedOption) {
+                    var memberLength = vm.GroupMembers[i].length;
+                    for (var j = 1; j < memberLength; j++) {
+                        if (tempArray.indexOf(vm.GroupMembers[i][j]) == -1) {
+                            tempArray.push(vm.GroupMembers[i][j])
+                        }
+                        console.log("values of temp array",tempArray);
+                        $("#userOrGroup").val(tempArray);
+                    }
+                    
+                    // Inserting group into group array for validating min. no. of users
+                    selectedGroupArray.push(clickedOption);
+                }
+            }
+            selectedUserArray = tempArray;
+        
+        } else if (selectedUserArray.length > tempArray.length) { // for deselection
+            for (var i = 0; i < selectedUserArray.length; i++) {
+                if (tempArray.indexOf(selectedUserArray[i]) == -1) {
+                    clickedOption = selectedUserArray[i];
+                    
+                }
+            }
 //            for (var i = 0; i < vm.GroupMembers[i].length; i++) {
 //                if (vm.GroupMembers[i][0] == clickedOption) {
 //                    var memberLength = vm.GroupMembers[i].length;
@@ -228,9 +233,9 @@ $().ready(function() {
 //                    selectedGroupArray.splice(deleteGroupKeyIndex, 1);
 //                }
 //            }
-//            selectedUserArray = tempArray;
-//        }
-//    });
+            selectedUserArray = tempArray;
+        }
+    });
      
        
     $("#taskDoneForm").validate({
@@ -288,7 +293,7 @@ $().ready(function() {
             
             
            
-            //var minUsers = $("#minUsers option:selected").val();
+            var minUsers = $("#minUsers option:selected").val();
             //getting map longitude and latitude
             mapLatitude = document.getElementById("latitudeId").value;// variable to store map latitude
             mapLongitude = document.getElementById("longitudeId").value;// variable to store map longitude
@@ -460,7 +465,7 @@ $().ready(function() {
                     $("#loginTypeValidationError").css({"color": "red", "font-size": "15px"});
                     $("#loginTypeValidationError").html("please select a login type.").show();
                 }
-                
+//                
 //            }
 //            else {
 //                $("#minUserValidationError").css({"color": "red", "font-size": "15px"});

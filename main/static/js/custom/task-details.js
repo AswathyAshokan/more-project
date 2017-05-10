@@ -153,7 +153,7 @@ $(function(){
                 // Open this row
 //                var tr = $(this).closest("tr");
 //                var rowindex = tr.index();
-                row.child( format(vm.UserArray,row.data())).show();
+                row.child( format(vm.UserArray,row.data(),vm.MinUserAndLoginTypeArray)).show();
                 
                 tr.addClass('shown');
             }
@@ -161,10 +161,10 @@ $(function(){
         
         
         //function to display data inside expanded area
-        function format ( userDetailsArray, data ) {
+        function format ( userDetailsArray, data,minUserArray ) {
     // `d` is the original data object for the row
             var taskID  = data[6];
-            var result = "<table>";
+            var result = "<table >";
                     result += '<th>User assigned</th>';
                     result += '<th>Status</th>';
                     result += "<tr>";
@@ -195,11 +195,30 @@ $(function(){
 //                }
 //                result += "</tr>";
 //            }
-            result += "</table>";
-            return result;
+            result += "</table  >";
+            var minUser ="<div style='padding-left:300px;'>"
+            
+            minUser +="<table cellpadding='5' cellspacing='0' border='0' style='padding-left:100px;'>";
+            
+            minUser +='<tr>';
+            for (var i=0; i<minUserArray.length; i++){
+                if(minUserArray[i] != null && minUserArray[i][2] == taskID) {
+                    minUser +='<td>Minimum no of users </td>';
+                    minUser +='<td>'+minUserArray[i][0]+'</td>';
+                    minUser +='</tr>';
+                    minUser +='<tr>';
+                    minUser +='<td>Login type </td>';
+                    minUser +='<td>'+minUserArray[i][1]+'</td>';
+                    minUser +='</tr>';
+                
+            }
+            
         }
         
-        
+        minUser +="</table>";
+            minUser +="</div>";
+            return result+minUser;
+        }
         
 //        var table = "<table>"; // Open Table
 //
