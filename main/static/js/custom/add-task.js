@@ -119,28 +119,20 @@ function GetDynamicTextBox(value) {
 //function for getting exposure dynamically
 
 $("#btnAddForExposure").bind("click", function () {
-    
-        var div = $("<div class='exposureId'/>");
-        div.html(GetDynamicTextBoxForExposure(""));
-        $("#exposureTextBoxAppend").prepend(div);
-    });
+        $.getScript( '/static/js/timepicker.js', function( data, textStatus, jqxhr ) {
+            var div = $("<div class='exposureId'/>");
+            div.html(GetDynamicTextBoxForExposure(""));
+            $("#exposureTextBoxAppend").prepend(div);
+        } );
+});
 //$("#exposureDelete").bind("click", function () {
     $("body").on("click", ".delete-exposure", function () {
-    
-    $(this).closest("div").remove();
-});
-
+        $(this).closest("div").remove();
+    });
 function GetDynamicTextBoxForExposure(value) {
     return ' <label for="workExplosureText" class="">Break Time</label>'+
         '<input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5">'+ 'After'+'<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="25" height="25" style= "float:right; margin-top:-1em; margin-right:-1em;"  class="delete-exposure" />'
-                
-    
 }
-
-
-
-
-
 
 //function to load add task
 var addItem = $('<span>+</span>');

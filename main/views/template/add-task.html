@@ -1,3 +1,53 @@
+<style>
+[data-tip] {
+	position:relative;
+
+}
+[data-tip]:before {
+	content:'';
+	/* hides the tooltip when not hovered */
+	display:none;
+	content:'';
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid #1a1a1a;	
+	position:absolute;
+	top:30px;
+	left:35px;
+	z-index:8;
+	font-size:0;
+	line-height:0;
+	width:0;
+	height:0;
+}
+[data-tip]:after {
+	display:none;
+	content:attr(data-tip);
+	position:absolute;
+	top:30px;
+	left:0px;
+	padding:5px 8px;
+	background:#1a1a1a;
+	color:#fff;
+	z-index:9;
+	font-size: 0.75em;
+	height:18px;
+	line-height:10px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	white-space:nowrap;
+	word-wrap:normal;
+}
+[data-tip]:hover:before,
+[data-tip]:hover:after {
+	display:block;
+}
+</style>
+
+
+
+
 <title>Add Task</title>
 <div class="col-md-12 main-content-wrapper padding-50-each">
 	<div class="clearfix">
@@ -115,11 +165,11 @@
                                  <input type="checkbox" id="workExplosure" name="workExplosure"  >
                                      Exposure.
                              </label>
-                             <div class="col-sm-12" id ="work" style="visibility: hidden; display:none;"  id="exposureId" >
+                             <div class="col-sm-12" id ="work" style="visibility: hidden; display:none;"  id="exposureId" data-tip="Break Time 20 min After 4 hrs Work">
                                  <div id="exposureTextBoxAppend" class="form-group clearfix" >
 								<label for="workExplosureText" class="">Break Time</label>
 <!--								<input class="form-control" rows="5" id="workExplosureText" name="workExplosureText" placeholder="20 min after 4 hrs work, 8 hrs after 10 hrs of work,.." size="35"><br>-->
-                                 <input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5"> After<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" >
+                                 <input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5" > After<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5">
                                  <img  id="btnAddForExposure" src="/static/images/fitToWork.png" width="40" height="38" style= "float:right; margin-top:-1em; margin-right:-1em;" onclick="onload();" /><br><br>
                                      </div>
 							</div>
