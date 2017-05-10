@@ -1,0 +1,136 @@
+<script type="text/javascript">
+        var vm = {{.vm}};
+</script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<script src="/static/js/custom/task-details.js" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<script src="/static/js/custom/consentreceipt-deatils.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"/>
+
+<link rel="stylesheet" href="css/style.css">
+<style>
+
+		.details-control{
+			position: relative;
+			/* width: 10px; */
+		}
+
+		.odd .details-control{
+			background: url('/static/images/open.png') no-repeat center center;
+    		cursor: pointer;
+		}
+
+		.odd.shown .details-control{
+			background: url('/static/images/close.png') no-repeat center center;
+		}
+
+        .even .details-control{
+			background: url('/static/images/open.png') no-repeat center center;
+    		cursor: pointer;
+		}
+
+		.even.shown .details-control{
+			background: url('/static/images/close.png') no-repeat center center;
+		}
+
+		.dropdown-tbl table thead th {
+		    border-bottom: 1px solid #dddddd;
+		}
+
+	</style>
+<title>Consent details</title>
+<div class="col-md-12 main-content-wrapper padding-50-each">
+    <div class="clearfix">
+        <h1 class="h4">Consent Receipt Details</h1>
+        <div class="personal-details margin-top-20">
+
+            <div class="table-wrapper fixed-row-tbl">
+                <table class="table table-striped table-bordered   dt-responsive nowrap" id="tbl_details">
+                    <thead>
+                    <tr>
+                        <th style="background: none;cursor: initial;border-right: none ; padding: 20px"></th>
+                        <th style="border-right: none; border-left: none">Project Name</th>
+                        <th style="background: none;cursor: initial;border-left: none"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class=" details-control"></td>
+                        <td>Project Name  (customer Name)</td>
+                        <td>
+                            <div class="edit-wrapper">
+                                <span class="icn">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/jquery-3.1.0.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script>
+    function format ( d ) {
+    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="drp-tbl-wrp">'+
+            '<tr>'+
+                '<td>Instruction:</td>'+
+                '<td>Inst ructionsIns tructions</td>'+
+            '</tr>'+
+            '<tr>'+
+                '<td>Accepted users:</td>'+
+                '<td><span>user1</span><span>user2</span></td>'+
+            '</tr>'+
+            '<tr>'+
+                '<td>Declined users:</td>'+
+                '<td><span>Thomas</span><span>user1</span></td>'+
+            '</tr>'+
+        '</table>'+
+
+         '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="drp-tbl-wrp">'+
+            '<tr>'+
+                '<td>Instructions:</td>'+
+                '<td>Inst ructionsIns tructions</td>'+
+            '</tr>'+
+            '<tr>'+
+                '<td>Accepted users:</td>'+
+                '<td><span>user1</span><span>user2</span></td>'+
+            '</tr>'+
+            '<tr>'+
+                '<td>Declined users:</td>'+
+                '<td><span>Thomas</span><span>user1</span></td>'+
+            '</tr>'+
+        '</table>';
+    }
+
+
+
+</script>
+
+
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>Are you sure about this?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="confirm">Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
