@@ -3049,13 +3049,12 @@ option[default] { display: none; }
 
 .select2-container--classic.select2-container--open .select2-dropdown { border-color: #5897fb; }
 
-span.ui-icon.ui-icon-circle-traingle-e { color: black; }
+.task-add1 .plus { margin-top: 15px; position: relative; padding-right: 32px; }
 
-input#startdate { background-image: url("F:/Files/Passport-Web/app/images/sprites/callender.png"); background-repeat: no-repeat; background-position: 130px; border: 1px solid #DADADA; margin-top: 00px; padding-left: 10px; width: 160px; height: 30px; font-size: 14px; }
+.task-add1 .plus:last-child span.add-decl { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; }
 
-input#enddate { background-image: url("F:/Files/Passport-Web/app/images/sprites/callender.png"); background-repeat: no-repeat; background-position: 130px; border: 1px solid #DADADA; margin-top: 0px; padding-left: 10px; width: 160px; height: 30px; font-size: 14px; }
+.task-add1 .plus span { display: none; background-color: #666666; width: 20px; height: 20px; -webkit-box-align: center; -webkit-align-items: center; -ms-flex-align: center; align-items: center; -webkit-box-pack: center; -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center; font-size: 25px; color: white; font-weight: bold; cursor: pointer; padding-bottom: 3px; position: absolute; right: 0px; top: 32px; border-radius: 50%; }
 
-@media (max-width: 767px) { .datepic-top .callender-wrapper input { max-width: 160px; } }
 body { font-family: mont_light; background-color: #fafafa; }
 
 h1.h4 { font-family: mont_regular; }
@@ -3147,10 +3146,14 @@ input.sprites-callender { background-position: right 4px top -20px; cursor: poin
 
 .content-section { padding-top: 78px; padding-bottom: 90px; background-color: #fafafa; }
 
+.lines-wrapper span::after { content: ''; }
+
 .main-menu-wrapper { width: 220px; background-color: #36393e; position: fixed; left: 0; top: 0; bottom: 0; padding: 0; z-index: 5; font-size: 13px; overflow-y: auto; }
 .main-menu-wrapper::-webkit-scrollbar { display: none; }
+@media (max-width: 767px) { .main-menu-wrapper { max-width: 0; } }
 
 .main-content-wrapper { padding-left: 220px; }
+@media (max-width: 767px) { .main-content-wrapper { padding: 0; } }
 
 .main-menu ul { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-flex-flow: column; -ms-flex-flow: column; flex-flow: column; color: #ced2d5; padding-top: 120px; padding-bottom: 60px; }
 .main-menu ul li { padding: 15px 12px; padding-left: 65px; position: relative; }
@@ -3194,7 +3197,6 @@ input.sprites-callender { background-position: right 4px top -20px; cursor: poin
 =================================================================*/
 .table-dropdown td.child ul { display: block !important; }
 .table-dropdown td.child ul li { display: block; }
-.table-dropdown .dataTables_paginate { font-size: 0; }
 .table-dropdown .dataTables_paginate ul.pagination { margin: 0; }
 .table-dropdown .dataTables_paginate ul.pagination li { font-size: initial; border: none !important; padding: 0; background: none !important; }
 .table-dropdown .dataTables_paginate ul.pagination li a { width: 100%; outline: none; }
@@ -3316,3 +3318,11 @@ input.sprites-callender { background-position: right 4px top -20px; cursor: poin
 .plans-modal .header, .plans-modal .footer { position: static; }
 .plans-modal .modal-header button { color: #fff; opacity: 1; font-size: 30px; margin-right: 15px; }
 .plans-modal .plan-wrapper { width: 100%; }
+
+/*==============================================================
+					    Consent details
+=================================================================*/
+td .drp-tbl-wrp:not(:last-child) { margin-bottom: 20px; }
+
+.drp-tbl-wrp td span:not(:last-child) { position: relative; padding-right: 14px; }
+.drp-tbl-wrp td span:not(:last-child):after { content: ","; font-size: 24px; position: absolute; right: 4px; bottom: -4px; color: #333; }

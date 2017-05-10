@@ -7,8 +7,7 @@
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/ByPassController.go" afterPath="$PROJECT_DIR$/controllers/ByPassController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-task.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-task.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/add-task.html" afterPath="$PROJECT_DIR$/main/views/template/add-task.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/css/style.css" afterPath="$PROJECT_DIR$/main/static/css/style.css" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -88,14 +87,24 @@
       <file leaf-file-name="ByPassController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="32" column="44" lean-forward="true" selection-start-line="32" selection-start-column="44" selection-end-line="32" selection-end-column="44" />
+            <state relative-caret-position="324">
+              <caret line="34" column="75" lean-forward="false" selection-start-line="34" selection-start-column="75" selection-end-line="34" selection-end-column="75" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="timepicker.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="style.css" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/main/static/css/style.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="265">
+              <caret line="3315" column="0" lean-forward="true" selection-start-line="3315" selection-start-column="0" selection-end-line="3315" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="timepicker.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/static/js/timepicker.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
@@ -204,7 +213,6 @@
         <option value="$PROJECT_DIR$/controllers/SharedController.go" />
         <option value="$PROJECT_DIR$/models/ExpirationModel.go" />
         <option value="$PROJECT_DIR$/viewmodels/SharedDocumentViewModel.go" />
-        <option value="$PROJECT_DIR$/main/static/css/style.css" />
         <option value="$PROJECT_DIR$/controllers/RegisterController.go" />
         <option value="$PROJECT_DIR$/viewmodels/InviteUserViewModel.go" />
         <option value="$PROJECT_DIR$/helpers/ConstantHelpers.go" />
@@ -224,8 +232,9 @@
         <option value="$PROJECT_DIR$/models/TaskModel.go" />
         <option value="$PROJECT_DIR$/viewmodels/TaskViewModel.go" />
         <option value="$PROJECT_DIR$/controllers/TaskController.go" />
-        <option value="$PROJECT_DIR$/controllers/ByPassController.go" />
         <option value="$PROJECT_DIR$/main/static/js/timepicker.js" />
+        <option value="$PROJECT_DIR$/controllers/ByPassController.go" />
+        <option value="$PROJECT_DIR$/main/static/css/style.css" />
       </list>
     </option>
   </component>
@@ -724,13 +733,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00050" summary="08/02/2017  row expansion">
-      <created>1488951348901</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1488951348902</updated>
-    </task>
     <task id="LOCAL-00051" summary="08/02/2017  row expansion">
       <created>1488972875461</created>
       <option name="number" value="00051" />
@@ -1067,7 +1069,14 @@
       <option name="project" value="LOCAL" />
       <updated>1494406813711</updated>
     </task>
-    <option name="localTasksCounter" value="99" />
+    <task id="LOCAL-00099" summary="9/04/2017  10:38:  new version">
+      <created>1494412485053</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1494412485053</updated>
+    </task>
+    <option name="localTasksCounter" value="100" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1254,13 +1263,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1638">
           <caret line="95" column="1" lean-forward="false" selection-start-line="95" selection-start-column="1" selection-end-line="95" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/static/css/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1441">
-          <caret line="3289" column="57" lean-forward="false" selection-start-line="3289" selection-start-column="57" selection-end-line="3289" selection-end-column="57" />
         </state>
       </provider>
     </entry>
@@ -1539,18 +1541,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="32" column="44" lean-forward="true" selection-start-line="32" selection-start-column="44" selection-end-line="32" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/static/js/timepicker.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="14" lean-forward="false" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="34" column="75" lean-forward="false" selection-start-line="34" selection-start-column="75" selection-end-line="34" selection-end-column="75" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/static/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="265">
+          <caret line="3315" column="0" lean-forward="true" selection-start-line="3315" selection-start-column="0" selection-end-line="3315" selection-end-column="0" />
           <folding />
         </state>
       </provider>
