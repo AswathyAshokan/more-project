@@ -6,6 +6,7 @@ import (
 	"app/passporte/viewmodels"
 	"reflect"
 	"log"
+	"strings"
 )
 type ConsentReceiptController struct {
 	BaseController
@@ -17,13 +18,14 @@ func (c *ConsentReceiptController) AddConsentReceipt() {
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	consentData := models.ConsentReceipts{}
 	storedSession := ReadSession(w, r, companyTeamName)
-
 	if r.Method == "POST" {
 		members := models.ConsentMembers{}
 		consentData.Info.ReceiptName = c.GetString("recieptName")
 		tempGroupId := c.GetStrings("selectedUserIds")
 		tempGroupMembers := c.GetStrings("selectedUserNames")
-		consentData.Info.Instructions = c.GetString("instructions")
+		instructions := c.GetString("instructionsForUser")
+		instructionSlice := strings.Split(instructions, ",")
+		log.Println("firt tot work id ",instructions)
 		consentData.Settings.DateOfCreation = (time.Now().UnixNano() / 1000000)
 		consentData.Settings.Status = helpers.StatusActive
 		tempMembersMap := make(map[string]models.ConsentMembers)
@@ -32,7 +34,7 @@ func (c *ConsentReceiptController) AddConsentReceipt() {
 			tempMembersMap[tempGroupId[i]] = members
 		}
 		consentData.Members = tempMembersMap
-		dbStatus := consentData.AddConsentToDb(c.AppEngineCtx)
+		dbStatus := consentData.AddConsentToDb(c.AppEngineCtx,instructionSlice)
 
 		switch dbStatus {
 		case true:
@@ -73,6 +75,55 @@ func (c *ConsentReceiptController) AddConsentReceipt() {
 	}
 }
 func (c* ConsentReceiptController)LoadConsentReceipt(){
+
+	//r := c.Ctx.Request
+	//w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	//storedSession := ReadSession(w, r, companyTeamName)
+	//customerViewModel := viewmodels.Customer{}
+	dbStatus,allConsent:= models.GetAllConsentReceiptDetails(c.AppEngineCtx,companyTeamName)
+	log.Println("hhhh",allConsent,dbStatus)
+	switch dbStatus {
+	case true:
+		dataValue := reflect.ValueOf(allConsent)
+		var keySlice []string
+		for _, key := range dataValue.MapKeys() {
+			keySlice = append(keySlice, key.String())
+		}
+		for _, k := range keySlice {
+			var tempValueSlice []string
+			if allConsent[k].Settings.Status != helpers.UserStatusDeleted {
+				tempValueSlice = append(tempValueSlice, allConsent[k].Info.ReceiptName)
+				/*tempValueSlice = append(tempValueSlice, allConsent[k].Info)
+				tempValueSlice = append(tempValueSlice, allConsent[k].Info.)
+				tempValueSlice = append(tempValueSlice, allConsent[k].Info.ZipCode)
+				tempValueSlice = append(tempValueSlice, allConsent[k].Info.Email)
+				tempValueSlice = append(tempValueSlice, allConsent[k].Info.Phone)
+				tempValueSlice = append(tempValueSlice, allConsent[k].Info.ContactPerson)
+				tempValueSlice = append(tempValueSlice,k)
+				customerViewModel.Values=append(customerViewModel.Values,tempValueSlice)
+				tempValueSlice = tempValueSlice[:0]
+			}
+
+		}
+		customerViewModel.Keys = keySlice
+		customerViewModel.CompanyTeamName = storedSession.CompanyTeamName
+		customerViewModel.CompanyPlan = storedSession.CompanyPlan
+		customerViewModel.AdminFirstName =storedSession.AdminFirstName
+		customerViewModel.AdminLastName =storedSession.AdminLastName
+		customerViewModel.ProfilePicture =storedSession.ProfilePicture
+		c.Data["vm"] = customerViewModel
+		c.Layout = "layout/layout.html"
+		c.TplName = "template/customer-details.html"
+	*//*case false:
+		log.Println(helpers.ServerConnectionError)
+	}*/
+
+
+			}
+		}
+	}
+
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/consentreceipt-details.html"
 

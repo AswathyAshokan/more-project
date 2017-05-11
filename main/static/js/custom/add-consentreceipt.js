@@ -2,6 +2,7 @@ document.getElementById("consent").className += " active";
 
 console.log(vm);
 
+
 var companyTeamName = vm.CompanyTeamName;
 $().ready(function() {
     if(vm.PageType == "edit"){ 
@@ -40,7 +41,7 @@ function GetDynamicTextBox(value) {
              $("#saveButton").attr('disabled', true);
             var formData = $("#addConsentForm").serialize();
             var selectedUsersNames = [];
-            
+            var instructionFromDynamicTextBox = [];
 //get the user's name corresponding to  keys selected from dropdownlist 
             $("#selectedUserIds option:selected").each(function () {
                 var $this = $(this);
@@ -54,6 +55,17 @@ function GetDynamicTextBox(value) {
             for(i = 0; i < selectedUsersNames.length; i++) {
                 formData = formData+"&selectedUserNames="+selectedUsersNames[i];
             }
+            
+            var ConsentValue = document.getElementById("addConsentValue").value;
+            if(ConsentValue.length !=0){
+                instructionFromDynamicTextBox.push(ConsentValue);
+            }
+            $("input[name=DynamicTextBox]").each(function () {
+                 if($(this).val().length !=0){
+                     instructionFromDynamicTextBox.push($(this).val())
+                 }
+            });
+            formData = formData+"&instructionsForUser="+instructionFromDynamicTextBox;
             var groupId = vm.GroupId;
             if (vm.PageType == "edit"){
                 

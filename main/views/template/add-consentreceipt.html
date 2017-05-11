@@ -19,7 +19,7 @@
                                 <input class="form-control" id="recieptName" type="text" name="recieptName">
                             </div>
                             <div class="col-sm-6">
-									<label for="addUser" class="">Add Users to Group</label>
+									<label for="addUser" class="">Users</label>
 								    <select class="form-control sprites-arrow-down multiple-drop" id="selectedUserIds" name="selectedUserIds" multiple="multiple">
                                         {{range $key, $val := .vm.GroupMembers}}
 									       <option value="{{index $.vm.GroupKey $key}}">{{$val}}</option> 
@@ -27,20 +27,12 @@
 								  	</select>
                                 </div>
                         </div>
-
-                        <label for="consent" class="form-group clearfix" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   Fit To Work Declaration</label>
                         <div class="form-group clearfix">
 							<div class="col-sm-6" id="TextBoxContainer">
                                 <div class="plus" id="consentAdd" >
+                                    <label for="addConsentValue" class="form-group clearfix" >Instructions</label>
                                     <input class="form-control" id="addConsentValue" type="text"  name="addConsentValue"> 
                                     <img  id="btnAdd" src="/static/images/fitToWork.png" width="40" height="38" style= "float:right; margin-top:-3em; margin-right:-3em;"/>
-                                    
-                                </div>
-<!--                                onclick="initialize();"-->
-                                 <div class="plus" id="consentAdd" >
-                                    <input class="form-control" id="addConsentValue" type="text"  name="addConsentValue"> 
-                                   <button id="btnAdd"   class="delete-decl">+</button>
-                                    
                                 </div>
                             </div>
 						</div>
