@@ -3192,6 +3192,10 @@ input.sprites-callender { background-position: right 4px top -20px; cursor: poin
 .map-header .radio-inline-wrapper { margin: 0; }
 @media (max-width: 991px) { .map-header { margin-top: 15px; } }
 
+.exposureId { padding-bottom: 15px; display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-align: center; -webkit-align-items: center; -ms-flex-align: center; align-items: center; }
+.exposureId label, .exposureId input { margin-right: 10px; margin-bottom: 0; }
+.exposureId img { width: 20px; }
+
 /*==============================================================
 					 	Task -details
 =================================================================*/
