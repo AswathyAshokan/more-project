@@ -130,8 +130,8 @@ $("#btnAddForExposure").bind("click", function () {
         $(this).closest("div").remove();
     });
 function GetDynamicTextBoxForExposure(value) {
-    return ' <div class="exposureId" > <label for="workExplosureText" class="">Break Time</label>'+
-        '<input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5">'+ 'After'+'<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="30" height="30" style= "float:right; margin-top:-1em; margin-right:-1em;"  class="delete-exposure" /> </div>'
+    return ' <label for="workExplosureText" class="">Break Time</label>'+
+        '<input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5">'+ 'After'+'<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg"  class="delete-exposure" />'
 }
 
 //function to load add task
