@@ -27,6 +27,7 @@ type ConsentMembers struct {
 }
 type ConsentData struct {
 	ReceiptName  	string
+	CompanyTeamName	string
 }
 
 type ConsentSettings struct {
@@ -72,16 +73,15 @@ func(m *ConsentReceipts) AddConsentToDb(ctx context.Context,instructionSlice []s
 }
 
 
+
 func GetAllConsentReceiptDetails(ctx context.Context,CompanyTeamName string) (bool,map[string]ConsentReceipts){
 	consentValue := map[string]ConsentReceipts{}
 	dB, err := GetFirebaseClient(ctx,"")
 	//taskStatus := "Active"
-	err = dB.Child("Tasks").OrderBy("Info/CompanyTeamName").EqualTo(CompanyTeamName).Value(&consentValue)
+	err = dB.Child("ConsentReceipts").OrderBy("Info/CompanyTeamName").EqualTo(CompanyTeamName).Value(&consentValue)
 	if err != nil {
 		log.Fatal(err)
 		return false, consentValue
 	}
 	return true, consentValue
 }
-
-

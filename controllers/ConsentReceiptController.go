@@ -21,6 +21,7 @@ func (c *ConsentReceiptController) AddConsentReceipt() {
 	if r.Method == "POST" {
 		members := models.ConsentMembers{}
 		consentData.Info.ReceiptName = c.GetString("recieptName")
+		consentData.Info.CompanyTeamName = companyTeamName
 		tempGroupId := c.GetStrings("selectedUserIds")
 		tempGroupMembers := c.GetStrings("selectedUserNames")
 		instructions := c.GetString("instructionsForUser")
@@ -76,55 +77,65 @@ func (c *ConsentReceiptController) AddConsentReceipt() {
 }
 func (c* ConsentReceiptController)LoadConsentReceipt(){
 
-	//r := c.Ctx.Request
-	//w := c.Ctx.ResponseWriter
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
-	//storedSession := ReadSession(w, r, companyTeamName)
-	//customerViewModel := viewmodels.Customer{}
+	storedSession := ReadSession(w, r, companyTeamName)
 	dbStatus,allConsent:= models.GetAllConsentReceiptDetails(c.AppEngineCtx,companyTeamName)
 	log.Println("hhhh",allConsent,dbStatus)
+	consentViewModel :=viewmodels.LoadConsent{}
+	var innerTableData [][]viewmodels.ConsentStruct
+	var consentRecievedDatails []viewmodels.ConsentStruct
+	var consentStruct viewmodels.ConsentStruct
 	switch dbStatus {
 	case true:
 		dataValue := reflect.ValueOf(allConsent)
 		var keySlice []string
+		var instructionKeySlice []string
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
 		}
 		for _, k := range keySlice {
 			var tempValueSlice []string
 			if allConsent[k].Settings.Status != helpers.UserStatusDeleted {
-				tempValueSlice = append(tempValueSlice, allConsent[k].Info.ReceiptName)
-				/*tempValueSlice = append(tempValueSlice, allConsent[k].Info)
-				tempValueSlice = append(tempValueSlice, allConsent[k].Info.)
-				tempValueSlice = append(tempValueSlice, allConsent[k].Info.ZipCode)
-				tempValueSlice = append(tempValueSlice, allConsent[k].Info.Email)
-				tempValueSlice = append(tempValueSlice, allConsent[k].Info.Phone)
-				tempValueSlice = append(tempValueSlice, allConsent[k].Info.ContactPerson)
-				tempValueSlice = append(tempValueSlice,k)
-				customerViewModel.Values=append(customerViewModel.Values,tempValueSlice)
+				tempValueSlice = append(tempValueSlice,"")
+				tempValueSlice = append(tempValueSlice,allConsent[k].Info.ReceiptName)
+				//tempValueSlice = append(tempValueSlice,k)
+				consentViewModel.Values = append(consentViewModel.Values,tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]
+				log.Println("name",allConsent[k].Info.ReceiptName)
+				log.Println("yyy",allConsent[k].Instructions)
+				consentStruct.UserName =allConsent[k].Info.ReceiptName
+				consentStruct.UserKey = k
+				instructionDataValue := reflect.ValueOf(allConsent[k].Instructions)
+				for _, consentKey := range instructionDataValue.MapKeys() {
+					instructionKeySlice = append(instructionKeySlice, consentKey.String())
+				}
+				for _, eachKey := range instructionKeySlice {
+					//var instructionArray []string
+					consentStruct.InstructionArray = append(consentStruct.InstructionArray,allConsent[k].Instructions[eachKey].Description)
+				}
+				consentRecievedDatails= append(consentRecievedDatails,consentStruct)
+				innerTableData = append(innerTableData,consentRecievedDatails)
+				consentViewModel.InnerContent = innerTableData
+				innerTableData = innerTableData[:0]
+
 			}
 
+
 		}
-		customerViewModel.Keys = keySlice
-		customerViewModel.CompanyTeamName = storedSession.CompanyTeamName
-		customerViewModel.CompanyPlan = storedSession.CompanyPlan
-		customerViewModel.AdminFirstName =storedSession.AdminFirstName
-		customerViewModel.AdminLastName =storedSession.AdminLastName
-		customerViewModel.ProfilePicture =storedSession.ProfilePicture
-		c.Data["vm"] = customerViewModel
+		log.Println("view model",consentRecievedDatails)
+		consentViewModel.Keys = keySlice
+		consentViewModel.CompanyTeamName = storedSession.CompanyTeamName
+		c.Data["array"] = consentViewModel
 		c.Layout = "layout/layout.html"
-		c.TplName = "template/customer-details.html"
-	*//*case false:
+		c.TplName = "template/consentreceipt-details.html"
+	case false:
 		log.Println(helpers.ServerConnectionError)
-	}*/
-
-
-			}
-		}
 	}
-
+	/*
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/consentreceipt-details.html"
+	*/
 
 }

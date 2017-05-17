@@ -23,7 +23,6 @@ $(function(){
             console.log(tempSelectedCustomer);
             for(i = 0; i < mainArray.length; i++){                
                 if (mainArray[i][1].indexOf(tempSelectedCustomer) != '-1'){
-                    console.log("inside");
                     tempArray.push(mainArray[i]);
                 }
             }
@@ -90,14 +89,12 @@ $(function(){
                 tempArray.push(mainArray[i]);
             }
         }
-   
         $('#task-details').dataTable().fnDestroy();
         dataTableManipulate(tempArray);
         $("#customerDropdown").val(vm.SelectedCustomerForJob);
         $("#jobDropdown").val(vm.SelectedJob);
     }
-    
-    
+
     //create data for datatable
     
     function createDataArray(values, keys){
@@ -145,14 +142,10 @@ $(function(){
             var tr = $(this).closest('tr');
             var row = table.row( tr );
             if ( row.child.isShown() ) {
-                // This row is already open - close it
                 row.child.hide();
                 tr.removeClass('shown');
             }
             else {
-                // Open this row
-//                var tr = $(this).closest("tr");
-//                var rowindex = tr.index();
                 row.child( format(vm.UserArray,row.data(),vm.MinUserAndLoginTypeArray)).show();
                 
                 tr.addClass('shown');
@@ -162,46 +155,28 @@ $(function(){
         
         //function to display data inside expanded area
         function format ( userDetailsArray, data,minUserArray ) {
-    // `d` is the original data object for the row
+        // `d` is the original data object for the row
             var taskID  = data[6];
             var result   ='<div class="pull-left dropdown-tbl" style="padding-right: 50px;">';
-             result += "<table cellpadding='5' cellspacing='0'  style='padding-left:50px; border: 1px solid #dddddd !important;'>";
-                    result += '<th>User assigned</th>';
-                    result += '<th>Status</th>';
-                    result += "<tr>";
+            result += "<table cellpadding='5' cellspacing='0'  style='padding-left:50px; border: 1px solid #dddddd !important;'>";
+            result += '<th>User assigned</th>';
+            result += '<th>Status</th>';
+            result += "<tr>";
             for (var i = 0; i < userDetailsArray.length; i++) {
+                console.log("userDetailsArray[i][0].TaskId",userDetailsArray[i][0].TaskId);
+                console.log("taskID",taskID);
                 if(userDetailsArray[i] != null && userDetailsArray[i][0].TaskId == taskID) {
-                     
-                    
-//                    console.log(userDetailsArray[i]);
                     for (var j=0; j<userDetailsArray[i].length ;j++){
                         result += "<td>"+userDetailsArray[i][j].Name+"</td>";
                         result += "<td>"+userDetailsArray[i][j].Status+"</td>";
                         result += "</tr>";
-                        
                     }
-                     
-//                } else if (userDetailsArray[i] == null) {
-//                     var result = "<table>";
-//                    result += '<th>No User assigned</th>';
                 }
-                
             }
-           
-            
-//            for(var i=0; i<myArray[rowIndex].length; i++) {
-//                result += "<tr>";
-//                for(var j=0; j<myArray[j].length; j++){
-//                    result += "<td>"+myArray[rowIndex][i][j]+"</td>";
-//                }
-//                result += "</tr>";
-//            }
             result += "</table  >";
             result +="</div>";
             var minUser ="<div>"
-            
             minUser +="<table cellpadding='5' cellspacing='0' border='0' style='padding-left:100px;'>";
-            
             minUser +='<tr>';
             for (var i=0; i<minUserArray.length; i++){
                 if(minUserArray[i] != null && minUserArray[i][2] == taskID) {
@@ -212,70 +187,35 @@ $(function(){
                     minUser +='<td>Login type </td>';
                     minUser +='<td>'+minUserArray[i][1]+'</td>';
                     minUser +='</tr>';
-                
+                }
             }
-            
-        }
-        
-        minUser +="</table>";
+            minUser +="</table>";
             minUser +="</div>";
             return result+minUser;
         }
-        
-//        var table = "<table>"; // Open Table
-//
-//for(i=0; i<orderArray.length; i++)
-//{
-// table += "<tr>"; // Open Row
-//
-// for(i2=0; i2<orderArray[i].length; i2++) {
-// {
-//  table += "<td>" + orderArray[i][i2] + "</td>"; // Each Column
-// }
-//
-// table += "</tr>"; // Close Row
-//}
-//
-//table += "</table>";
-//        
-        
-        
-        
         //......................................................
         var customerArray = vm.UniqueCustomerNames;
-        
         for(i = 0; i < customerArray.length; i++){
             $("#customerDropdown").append("<option>"+customerArray[i]+"</option>");
         }
-        
         var jobArray = vm.UniqueJobNames;
         
         for(i = 0; i < jobArray.length; i++){
             $("#jobDropdown").append("<option>"+jobArray[i]+"</option>");
         }
     }
-    
-    
-    
-    
     //..................data table calling.......................
     if(vm.Values != null) {
         createDataArray(vm.Values, vm.Keys);
     }
     if(vm.SelectedJob == "" && vm.JobMatch == "true"){
-        console.log("set1");
         dataTableManipulate(mainArray);
     } else if(vm.JobMatch=="false" && vm.SelectedJob =="false"){
-        console.log("set2");
         dataTableManipulate(tempViewArray);
     }
     else {
-        console.log("set3")
-       taskAccordingToJob();
+        taskAccordingToJob();
     }
-    
-    
-    
     //.....................editing..................
     $('#task-details tbody').on( 'click', '#edit', function () {
         console.log("edit");
