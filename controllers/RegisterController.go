@@ -9,12 +9,17 @@ import (
 	"app/passporte/viewmodels"
 	"log"
 	"strings"
+	"net/smtp"
+	"math/rand"
+	"reflect"
+
 
 )
 
 type RegisterController struct {
 	BaseController
 }
+
 
 //Register new Company Admin
 func (c *RegisterController) Register() {
@@ -74,8 +79,10 @@ func (c *RegisterController)CheckEmail(){
 	emailId := c.GetString("emailId")
 	isEmailUsed := models.CheckEmailIsUsed(c.AppEngineCtx, emailId)
 	if isEmailUsed == false {
+		log.Println("truesss")
 		w.Write([]byte("false"))
 	}else{
+
 		w.Write([]byte("true"))
 	}
 }
@@ -189,4 +196,71 @@ func (c *RegisterController) ForgotPassword(){
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/forgot-password.html"
 
+}
+
+
+func (c *RegisterController)CheckingEmailId(){
+	w := c.Ctx.ResponseWriter
+	//viewModel := viewmodels.ForgotPassword{}
+	emailId := c.GetString("emailId")
+	log.Println("used email",emailId)
+	isEmailUsed := models.CheckEmailIsUsed(c.AppEngineCtx, emailId)
+	log.Println("inside",isEmailUsed)
+	if isEmailUsed == false {
+
+		const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		b := make([]byte, 8)
+		for i := range b {
+			b[i] = letterBytes[rand.Intn(len(letterBytes))]
+		}
+
+		body :="Dear member, we received a request for password change .this is your automatic genereted key "+string(b)
+		//+"Go to site to set your new password. The key will be active for 10 minutes"
+
+			//"Regards,"+
+			//"The Passporte team"
+		from := "passportetest@gmail.com"
+		to := emailId
+		subject := "Subject: Passporte - Forgot Password\n"
+		mime := "MIME-version: 1.0;\r\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+		message := []byte(subject + mime + "\n" + body)
+		if err := smtp.SendMail("smtp.gmail.com:587", smtp.PlainAuth("", "passportetest@gmail.com", "passporte123", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
+			log.Println(err)
+		}
+		w.Write([]byte("false,"))
+		w.Write([]byte(string(b)))
+	}else{
+
+		w.Write([]byte("true"))
+	}
+}
+
+func (c *RegisterController) ResetPassword() {
+	//r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	admin := models.Admins{}
+	confirmPassword := []byte(c.GetString("confirmPassword"))
+	emailId := (c.GetString("emailAddress"))
+	dbStatus,adminDetails := admin.AdminDetails(c.AppEngineCtx)
+	switch dbStatus {
+	case true:
+		dataValue := reflect.ValueOf(adminDetails)
+		for _, key := range dataValue.MapKeys() {
+			if adminDetails[key.String()].Info.Email == emailId{
+				dbStatus := admin.EditAdminPassword(c.AppEngineCtx, key.String(),[] byte(confirmPassword))
+				switch dbStatus {
+				case true:
+					w.Write([]byte("true"))
+				case false:
+					w.Write([]byte("false"))
+				}
+
+			}
+
+		}
+
+		//w.Write([]byte("true"))
+	case false:
+		log.Println(helpers.ServerConnectionError)
+	}
 }

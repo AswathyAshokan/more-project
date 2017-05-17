@@ -64,6 +64,9 @@ $().ready(function() {
    $('#edit-txt').on('click', function() {
         var btntxt = $("#edit-txt").text();
         if (btntxt == 'Edit') {
+            var div = document.getElementById('imageUploadDiv');
+            div.style.visibility = 'visible';
+            div.style.display ='inline';
             $(".edit-account input").prop( "disabled", false );
             $(".edit-account input").toggleClass("dis-txt");	
             $('#edit-txt').text("Save");

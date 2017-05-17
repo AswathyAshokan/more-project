@@ -10,3 +10,7 @@ type EditProfileViewModel struct {
 	AdminLastName	string
 	ProfilePicture	string
 }
+
+type ForgotPassword struct {
+	VerificationKey string
+}

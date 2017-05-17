@@ -275,4 +275,16 @@ func IsEnteredAdminPasswordCorrect(ctx context.Context ,adminId string,enteredOl
 	return true
 
 }
-
+func (m *Admins)AdminDetails(ctx context.Context) (bool,map[string]Admins){
+	companyAdmins := map[string]Admins{}
+	dB, err := GetFirebaseClient(ctx, "")
+	if err != nil {
+		log.Println("No Db Connection!")
+	}
+	err = dB.Child("Admins/").Value(&companyAdmins)
+	if err != nil{
+		log.Fatal(err)
+		return false,companyAdmins
+	}
+	return true,companyAdmins
+}
