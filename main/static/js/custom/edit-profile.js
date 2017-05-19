@@ -1,4 +1,3 @@
-
 var companyTeamName = vm.CompanyTeamName;
 var thumbnail = "";
 var file ="";
@@ -64,9 +63,6 @@ $().ready(function() {
    $('#edit-txt').on('click', function() {
         var btntxt = $("#edit-txt").text();
         if (btntxt == 'Edit') {
-            var div = document.getElementById('imageUploadDiv');
-            div.style.visibility = 'visible';
-            div.style.display ='inline';
             $(".edit-account input").prop( "disabled", false );
             $(".edit-account input").toggleClass("dis-txt");	
             $('#edit-txt').text("Save");
@@ -99,7 +95,7 @@ $().ready(function() {
 //                tempProfilePicture  =file.name(' ').join('_');
 //                console.log("temp",tempProfilePicture);
                  var tempProfilePicture = file.name.replace(/\s/g, '');
-                var storageRef = firebase.storage().ref('profilePicturesOfAbmin/original/'+unixDateTime+tempProfilePicture);
+                var storageRef = firebase.storage().ref('profilePicturesOfAdmin/original/'+unixDateTime+tempProfilePicture);
                 storageRef.put(file);
                 function error(err) {
                     console.log("error",err);
@@ -108,13 +104,13 @@ $().ready(function() {
                 //retrieve image from firebase storage
                 //tempThumbPicture  =img.name(' ').join('_');
                 var tempThumbPicture =img.name.replace(/\s/g, '');
-                var storageRef = firebase.storage().ref('profilePicturesOfAbmin/thumbnail/'+unixDateTime+tempThumbPicture);
+                var storageRef = firebase.storage().ref('profilePicturesOfAdmin/thumbnail/'+unixDateTime+tempThumbPicture);
                 storageRef.put(img);
                 function error(err) {
                     console.log("error",err);
                 }
                 
-                var displayThumbRef = firebase.storage().ref('profilePicturesOfAbmin/thumbnail/'+unixDateTime+tempThumbPicture);
+                var displayThumbRef = firebase.storage().ref('profilePicturesOfAdmin/thumbnail/'+unixDateTime+tempThumbPicture);
                 setTimeout(function() { displayThumbRef.getDownloadURL().then(function(url) {
                     // Get the download URL for 'images/stars.jpg'
                     // This can be inserted into an <img> tag
@@ -123,7 +119,7 @@ $().ready(function() {
                 }).catch(function(error) {
                     console.error(error);
                 }); }, 3000);
-                 var displayProfileRef = firebase.storage().ref('profilePicturesOfAbmin/original/'+unixDateTime+tempProfilePicture);
+                 var displayProfileRef = firebase.storage().ref('profilePicturesOfAdmin/original/'+unixDateTime+tempProfilePicture);
                 setTimeout(function() { displayProfileRef.getDownloadURL().then(function(url) {
                     // Get the download URL for 'images/stars.jpg'
                     // This can be inserted into an <img> tag
@@ -192,7 +188,7 @@ $().ready(function() {
                     data: formData,
                     success : function(response){
                         if(response == "true"){
-                            window.location = '/'+ companyTeamName + '/editProfile';
+                            window.location =  '/login';
                         } else {
                             alert("password incorrect");
                         }

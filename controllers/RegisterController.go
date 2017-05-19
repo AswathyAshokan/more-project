@@ -239,8 +239,10 @@ func (c *RegisterController) ResetPassword() {
 	//r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	admin := models.Admins{}
-	confirmPassword := []byte(c.GetString("confirmPassword"))
-	emailId := (c.GetString("emailAddress"))
+	confirmPassword := []byte(c.GetString("confirmpassword"))
+	log.Println("confirmpassword",confirmPassword)
+	emailId := (c.GetString("emailId"))
+	log.Println("emailAddress",emailId)
 	dbStatus,adminDetails := admin.AdminDetails(c.AppEngineCtx)
 	switch dbStatus {
 	case true:
