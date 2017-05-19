@@ -58,7 +58,7 @@ $(function () {
         var dynamicTextBox= "";
         for (var i = 1; i < vm.FitToWork.length; i++) {
             dynamicTextBox+= '<div class="plus"><input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + vm.FitToWork[i] + '" />&nbsp;' +
-            '<button id="btnAdd"   class="delete-decl" >+</button></div>';
+            '<button    class="delete-decl" >+</button></div>';
             
         }
         $("#TextBoxContainer").prepend(dynamicTextBox);
@@ -91,7 +91,9 @@ $(function () {
                     '<input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5" value="'+ vm.BreakTime[i] +'">'+ 'After'+'<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" value="'+ vm.WorkTime[i] +'" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="25" height="25" style= "float:right; margin-top:-1em; margin-right:-1em;"  class="delete-exposure" />';
             }
             $("#exposureTextBoxAppend").prepend(DynamicExposureTextBox);
+             
         }
+        
     }
     
     
@@ -111,7 +113,7 @@ $(function () {
 });
 function GetDynamicTextBox(value) {
     return ' <input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "" />&nbsp;' +
-            '<button id="btnAdd"   class="delete-decl">+</button>'
+            '<button    class="delete-decl">+</button>'
     
 }
  
