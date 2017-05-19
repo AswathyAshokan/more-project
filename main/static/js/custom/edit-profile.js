@@ -139,9 +139,10 @@ $().ready(function() {
                     //call back or get response here
                                           success : function(response){
                                               if(response == "true"){
-                                                  $('#edit-txt').text("Edit");
-                                                  $(".edit-account input").prop( "disabled", true );
-                                                  $('#edit-txt').attr('type', 'button');
+                                                   window.location =  '/login';
+//                                                  $('#edit-txt').text("Edit");
+//                                                  $(".edit-account input").prop( "disabled", true );
+//                                                  $('#edit-txt').attr('type', 'button');
                                               } else {
                                                   $('#edit-txt').text("Edit");
                                               }
