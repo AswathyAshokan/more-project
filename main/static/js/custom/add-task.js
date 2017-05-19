@@ -87,8 +87,8 @@ $(function () {
             var DynamicExposureTextBox ="";
             for (var i=1; i<vm.WorkTime.length; i++){
                 
-                DynamicExposureTextBox+=        ' <label for="workExplosureText" class="">Break Time</label>'+
-                    '<input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5" value="'+ vm.BreakTime[i] +'">'+ 'After'+'<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" value="'+ vm.WorkTime[i] +'" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="25" height="25" style= "float:right; margin-top:-1em; margin-right:-1em;"  class="delete-exposure" />';
+                DynamicExposureTextBox+=        '<div class="exposureId"> <label for="workExplosureText" class="">Break Time</label>'+
+                    '<input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5" value="'+ vm.BreakTime[i] +'">'+ 'After'+'<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" value="'+ vm.WorkTime[i] +'" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="20" height="20" style= "float:right; margin-top:0em; margin-right:0em;"  class="delete-exposure" /></div>';
             }
             $("#exposureTextBoxAppend").prepend(DynamicExposureTextBox);
              

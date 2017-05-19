@@ -5,6 +5,7 @@ package routers
 import (
 	"app/passporte/controllers"
 	"github.com/astaxie/beegae"
+
 )
 
 func init() {
@@ -97,5 +98,14 @@ func init() {
 
 	//Login Bypass
 	beegae.Router("/bypass", &controllers.ByPassController{},"*:ByPass")
+
+
+	//Paypal sections'
+
+	beegae.Router("/payment",&controllers.PaymentController{},"*:Home")
+	beegae.Router("/paymentcancelreturn",&controllers.PaymentController{},"*:PaymentCancelReturn")
+	beegae.Router("/paymentsuccess" ,&controllers.PaymentController{},"*:PaymentSuccess" )
+	beegae.Router("/ipn" ,&controllers.PaymentController{},"*:IPN")
+
 
 }
