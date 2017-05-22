@@ -16,7 +16,7 @@ $().ready(function(){
               success : function(data){
                 var jsonData = JSON.parse(data)
                 if(jsonData[0] == "true"){
-                    window.location = '/'+ jsonData[1] +'/invite';
+                    window.location = '/'+ jsonData[1] +'/'+ jsonData[2] +'/payment';
                 } else {
                       window.location = '/login';
                 }

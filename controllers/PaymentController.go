@@ -1,12 +1,14 @@
 package controllers
 
 import (
-	"fmt"
+	"log"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"regexp"
 	"strings"
+	"fmt"
+
 )
 type PaymentController struct {
 	BaseController
@@ -23,9 +25,9 @@ var image_url = "https://d1ohg4ss876yi2.cloudfront.net/logo35x35.png" // image o
 
 // change socketloop.com:8080 to your domain name
 // REMEMBER : localhost won't work and IPN simulator only deal with port 80 or 443
-var cancel_return = "http://localhost:8080/paymentcancelreturn"
-var return_url = "http://localhost:8080/paymentsuccess" // return is Golang's keyword
-var notify_url = "http://localhost:8080/ipn"            // <--- important for IPN to work!
+var cancel_return = "http://localhost:8080/:companyTeamName/:companyPlan/paymentcancelreturn"
+var return_url = "http://localhost:8080/:companyTeamName/:companyPlan/paymentsuccess" // return is Golang's keyword
+var notify_url = "http://localhost:8080/:companyTeamName/:companyPlan/ipn"            // <--- important for IPN to work!
 
 // just an example for custom field, could be username, etc. Use custom field
 // for extra verification purpose or to mark PAID status in
@@ -49,6 +51,10 @@ var amount = "5" // keeping it simple for this tutorial. You should accept the a
 var paypal_url = "https://www.sandbox.paypal.com/cgi-bin/webscr"
 func (c *PaymentController)Home() {
 	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	log.Println("company name",companyTeamName)
+	companyPlan := c.Ctx.Input.Param(":companyPlan")
+	log.Println("company plan",companyPlan)
 	html := "<html><body><h1>You will be directed to PayPal now to pay USD " + amount + " to SocketLoop!</h1>"
 	html = html + "<form action=' " + paypal_url + "' method='post'>"
 	// now add the PayPal variables to be posted
@@ -104,12 +110,12 @@ func (c *PaymentController)IPN() {
 
 	// For this tutorial, we'll just print out all the IPN data.
 
-	fmt.Println("IPN received from PayPal")
+	log.Println("IPN received from PayPal")
 
 	err := r.ParseForm() // need this to get PayPal's HTTP POST of IPN data
 
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return
 	}
 
@@ -118,8 +124,8 @@ func (c *PaymentController)IPN() {
 		var postStr string = paypal_url + "&cmd=_notify-validate&"
 
 		for k, v := range r.Form {
-			fmt.Println("key :", k)
-			fmt.Println("value :", strings.Join(v, ""))
+			log.Println("key :", k)
+			log.Println("value :", strings.Join(v, ""))
 
 			// NOTE : Store the IPN data k,v into a slice. It will be useful for database entry later.
 
@@ -141,7 +147,7 @@ func (c *PaymentController)IPN() {
 		req, err := http.NewRequest("POST", postStr, nil)
 
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 			return
 		}
 
@@ -152,14 +158,14 @@ func (c *PaymentController)IPN() {
 		resp, err := client.Do(req)
 
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 			return
 		}
 
-		fmt.Println("Response : ")
-		fmt.Println(resp)
-		fmt.Println("Status :")
-		fmt.Println(resp.Status)
+		log.Println("Response : ")
+		log.Println(resp)
+		log.Println("Status :")
+		log.Println(resp.Status)
 
 
 		// convert response to string
@@ -170,16 +176,16 @@ func (c *PaymentController)IPN() {
 		verified, err := regexp.MatchString("VERIFIED", string(respStr))
 
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 			return
 		}
 
 		if verified {
-			fmt.Println("IPN verified")
-			fmt.Println("TODO : Email receipt, increase credit, etc")
+			log.Println("IPN verified")
+			log.Println("TODO : Email receipt, increase credit, etc")
 		} else {
-			fmt.Println("IPN validation failed!")
-			fmt.Println("Do not send the stuff out yet!")
+			log.Println("IPN validation failed!")
+			log.Println("Do not send the stuff out yet!")
 		}
 
 	}
