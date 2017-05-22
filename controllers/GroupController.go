@@ -233,10 +233,9 @@ func (c *GroupController) EditGroup() {
 			viewModel.GroupNameToEdit = groupDetails.Info.GroupName
 			memberData := reflect.ValueOf(groupDetails.Members)
 
-			for _, selectedMemberKey := range memberData.MapKeys() {
+			for _, selectedMemberKey := range memberData.MapKeys(){
 				viewModel.GroupMembersToEdit = append(viewModel.GroupMembersToEdit, selectedMemberKey.String())
 			}
-			log.Println("key of seledtede",viewModel.GroupMembersToEdit)
 			viewModel.PageType = helpers.SelectPageForEdit
 			viewModel.CompanyTeamName = storedSession.CompanyTeamName
 			viewModel.CompanyPlan = storedSession.CompanyPlan
@@ -255,7 +254,6 @@ func (c *GroupController) EditGroup() {
 
 func (c *GroupController)  GroupNameCheck(){
 	w := c.Ctx.ResponseWriter
-	//groupName :=c.Ctx.Input.Param("groupName")
 	groupName := c.GetString("groupName")
 	pageType := c.Ctx.Input.Param(":type")
 	oldName := c.Ctx.Input.Param(":oldName")

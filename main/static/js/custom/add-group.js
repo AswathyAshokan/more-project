@@ -17,13 +17,12 @@ $().ready(function() {
 
     $("#addgroupForm").validate({
         rules: {
-            groupName:{
-                required:"required",
-                remote:{
+            groupName:"required",
+                /*remote:{
                     url: "/isgroupnameused/" + groupName + "/" + vm.PageType + "/" + vm.GroupNameToEdit ,
                     type: "post"
-                }
-            },
+                }*/
+            /*},*/
             selectedUserIds : "required",
         },
         messages: {

@@ -657,7 +657,6 @@ func (c *TaskController)LoadEditTask() {
 
 					}
 				}
-
 				allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx,companyTeamName)
 				switch dbStatus {
 				case true:
@@ -706,7 +705,6 @@ func (c *TaskController)LoadEditTask() {
 					}
 
 					//Selecting group name which is to be edited...
-
 					dbStatus,groupDetails := task.GetTaskDetailById(c.AppEngineCtx, taskId)
 					switch dbStatus {
 					case true:

@@ -7,6 +7,7 @@ import(
 	"github.com/kjk/betterguid"
 	"strings"
 	"app/passporte/helpers"
+	"reflect"
 )
 type ConsentReceipts struct {
 	Info     	ConsentData
@@ -17,13 +18,14 @@ type ConsentReceipts struct {
 }
 type ConsentReceiptInstructions struct {
 	Description    string
-	Status         string
+	//Status         string
 	DateOfCreation int64
 
 }
 
 type ConsentMembers struct {
 	MemberName	string
+	Status          string
 }
 type ConsentData struct {
 	ReceiptName  	string
@@ -53,12 +55,10 @@ func(m *ConsentReceipts) AddConsentToDb(ctx context.Context,instructionSlice []s
 	consentValueString := strings.Split(consentValue.String(),"/")
 	consentUniqueID := consentValueString[len(consentValueString)-2]
 	if instructionSlice[0] !=""{
-
 		for i := 0; i < len(instructionSlice); i++ {
-
 			InstructionForConsent.Description =instructionSlice[i]
 			InstructionForConsent.DateOfCreation =time.Now().Unix()
-			InstructionForConsent.Status = helpers.StatusActive
+			//InstructionForConsent.Status = helpers.StatusPending
 			id := betterguid.New()
 			instructionMap[id] = InstructionForConsent
 			err = db.Child("/ConsentReceipts/"+consentUniqueID+"/Instructions/").Set(instructionMap)
@@ -85,3 +85,103 @@ func GetAllConsentReceiptDetails(ctx context.Context,CompanyTeamName string) (bo
 	}
 	return true, consentValue
 }
+
+func GetSelectedUsersName(ctx context.Context,consentId string)(ConsentReceipts){
+	consent :=ConsentReceipts{}
+	db,err :=GetFirebaseClient(ctx,"")
+	err = db.Child("/ConsentReceipts/"+consentId).Value(&consent)
+	log.Println("model",consent)
+	if err != nil {
+		log.Fatal(err)
+		return consent
+	}
+	return consent
+
+}
+
+func(m *ConsentReceipts) UpdateConsentDetails(ctx context.Context,consentId string,instructionSlice []string) (bool) {
+	ConsentStatusDetails :=ConsentSettings{}
+	db, err := GetFirebaseClient(ctx, "")
+	if err != nil {
+		log.Println(err)
+	}
+
+	err = db.Child("/ConsentReceipts/"+consentId+"/Settings").Value(&ConsentStatusDetails)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+
+	m.Settings.DateOfCreation = ConsentStatusDetails.DateOfCreation
+	m.Settings.Status = ConsentStatusDetails.Status
+	err = db.Child("/ConsentReceipts/"+ consentId).Update(&m)
+
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	instructionMap := make(map[string]ConsentReceiptInstructions)
+	InstructionForConsent :=ConsentReceiptInstructions{}
+	for i := 0; i < len(instructionSlice); i++ {
+		InstructionForConsent.Description =instructionSlice[i]
+		InstructionForConsent.DateOfCreation =time.Now().Unix()
+		//InstructionForConsent.Status = helpers.StatusActive
+		id := betterguid.New()
+		instructionMap[id] = InstructionForConsent
+		err = db.Child("/ConsentReceipts/"+consentId+"/Instructions/").Set(instructionMap)
+		if err != nil {
+			log.Println(err)
+			return false
+		}
+	}
+	return true
+}
+
+func DeleteConsentRecieptById(ctx context.Context,consentId string)(bool)  {
+	var keySlice []string
+	ConsentStatusDetails :=ConsentSettings{}
+	instructions := map[string]ConsentReceiptInstructions{}
+	updateInstructionStatus :=ConsentReceiptInstructions{}
+	updateConsentStatus := ConsentSettings{}
+	db, err := GetFirebaseClient(ctx, "")
+	if err != nil {
+		log.Println(err)
+	}
+	err = db.Child("/ConsentReceipts/"+consentId+"/Settings").Value(&ConsentStatusDetails)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	updateConsentStatus.DateOfCreation = ConsentStatusDetails.DateOfCreation
+	updateConsentStatus.Status = helpers.UserStatusDeleted
+	err = db.Child("ConsentReceipts/"+consentId+"/Settings").Update(&updateConsentStatus)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	err = db.Child("/ConsentReceipts/"+consentId+"/Instructions").Value(&instructions)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	log.Println("hhhhh",instructions)
+	dataValue := reflect.ValueOf(instructions)
+
+	for _, key := range dataValue.MapKeys() {
+		keySlice = append(keySlice, key.String())
+	}
+	log.Println("key",keySlice)
+	for _,k := range keySlice {
+		updateInstructionStatus.DateOfCreation =instructions[k].DateOfCreation
+		//updateInstructionStatus.Status = helpers.UserStatusDeleted
+		updateInstructionStatus.Description = instructions[k].Description
+		err = db.Child("ConsentReceipts/"+consentId+"/Instructions/"+k).Update(&updateInstructionStatus)
+		if err != nil {
+			log.Fatal(err)
+			return  false
+		}
+	}
+
+	return true
+}
+

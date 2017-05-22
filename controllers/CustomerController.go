@@ -17,6 +17,7 @@ type CustomerController struct {
 
 // add new customer to database
 func (c *CustomerController) AddCustomer() {
+	log.Println("cp11")
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
@@ -43,6 +44,8 @@ func (c *CustomerController) AddCustomer() {
 		}
 
 	} else {
+		log.Println("cp12")
+		storedSession := ReadSession(w, r, companyTeamName)
 		addViewModel.CompanyTeamName = storedSession.CompanyTeamName
 		addViewModel.CompanyPlan   =  storedSession.CompanyPlan
 		addViewModel.AdminLastName =storedSession.AdminLastName

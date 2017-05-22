@@ -6,12 +6,18 @@ console.log(vm);
 var companyTeamName = vm.CompanyTeamName;
 $().ready(function() {
     if(vm.PageType == "edit"){ 
-        var selectArray = vm.GroupMembersToEdit;
-        console.log("array",selectArray);
-        document.getElementById("recieptName").value = vm.GroupNameToEdit;
-        
-        document.getElementById("groupHead").innerHTML = "Edit Group";//for display heading of each webpage
+        console.log("instructions",vm.InstructionArrayToEdit[0]);
+        var selectArray = vm.UserNameToEdit;
         $("#selectedUserIds").val(selectArray);
+        document.getElementById("recieptName").value = vm.ReceiptName;
+        document.getElementById("addConsentValue").value = vm.InstructionArrayToEdit[0];
+        document.getElementById("consentHead").innerHTML = "Edit Consent Receipt";//for display heading of each webpage
+        var dynamicTextBox= "";
+        for (var i = 1; i < vm.InstructionArrayToEdit.length; i++) {
+            console.log("cp1");
+            dynamicTextBox+= '<div class="plus"><input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + vm.InstructionArrayToEdit[i] + '" />&nbsp;'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="25" height="25" style= "float:right; margin-top:-1em; margin-right:-1em;"  class="delete-exposure" />';
+        }
+        $("#TextBoxContainer").prepend(dynamicTextBox);
     }
     $("#btnAdd").on("click", function () {
         var div = $("<div class='plus'/>");
@@ -21,13 +27,11 @@ $().ready(function() {
     $("body").on("click", ".delete-decl", function () {
         $(this).closest("div").remove();
     });
-
-function GetDynamicTextBox(value) {
-    return ' <input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "" />&nbsp;' +
-            '<button id="btnAdd"   class="delete-decl">+</button>'
     
-}
-
+    function GetDynamicTextBox(value) {
+    return ' <input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "" />&nbsp;' +'<button id="btnAdd"class="delete-decl">+</button>'
+    }
+    
     $("#addConsentForm").validate({
         rules: {
             recieptName:"required",
@@ -42,7 +46,8 @@ function GetDynamicTextBox(value) {
             var formData = $("#addConsentForm").serialize();
             var selectedUsersNames = [];
             var instructionFromDynamicTextBox = [];
-//get the user's name corresponding to  keys selected from dropdownlist 
+            
+            //get the user's name corresponding to  keys selected from dropdownlist 
             $("#selectedUserIds option:selected").each(function () {
                 var $this = $(this);
                 if ($this.length) {
@@ -51,7 +56,7 @@ function GetDynamicTextBox(value) {
                 }
             });
             
-// Serialialize all the selected invite user name from dropdown list with form data
+            // Serialialize all the selected invite user name from dropdown list with form data
             for(i = 0; i < selectedUsersNames.length; i++) {
                 formData = formData+"&selectedUserNames="+selectedUsersNames[i];
             }
@@ -66,18 +71,17 @@ function GetDynamicTextBox(value) {
                  }
             });
             formData = formData+"&instructionsForUser="+instructionFromDynamicTextBox;
-            var groupId = vm.GroupId;
+            var ConsentId = vm.ConsentId;
             if (vm.PageType == "edit"){
-                
                 $.ajax({
-                    url:'/' + companyTeamName +'/group/'+ groupId  +'/edit',
+                    url:'/' + companyTeamName +'/consent/'+ ConsentId  +'/edit',
                     type:'post',
                     datatype: 'json',
                     data: formData,
                     //call back or get response here
                     success : function(response){
                         if(response == "true"){
-                            window.location='/' + companyTeamName +'/group';
+                            window.location='/' + companyTeamName +'/consent';
                         }else {
                              $("#saveButton").attr('disabled', false);
                         }

@@ -32,15 +32,14 @@ $(function(){
                 "targets": -1,
                 "width": "10%",
                 "data": null,
-                "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-eye" aria-hidden="true" id="view"></i><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
+                "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
             }]
            
         });
         $('#consent-details tbody').on('click', 'td.details-control', function () {
-            alert("hhh")
             var tr = $(this).closest('tr');
-            var row = table.row( tr );
-            if ( row.child.isShown() ) {
+            var row = table.row(tr);
+            if ( row.child.isShown()){
                 // This row is already open - close it
                 row.child.hide();
                 tr.removeClass('shown');
@@ -54,26 +53,35 @@ $(function(){
         //function to display data inside expanded area
         function format ( InnerContent,data) {
             var userId  = data[2];
-            var result   ='<div class="pull-left dropdown-tbl" style="padding-right: 50px;">';
+            var result  ='<div class="pull-left dropdown-tbl" style="padding-right: 50px;">';
              result += "<table cellpadding='5' cellspacing='0'  style='padding-left:50px; border: 1px solid #dddddd !important;'>";
-            result += '<th>Instruction</th>';
+            result += '<th>Instructions</th>';
+            result += '<th>Accepted Users</th>';
+            result += '<th>Rejected Users</th>';
+             result += '<th>Status</th>';
             result += "<tr>";
-            
             for (var i=0; i<InnerContent.length;i++){
                 for (var j=0; j<InnerContent[i].length ;j++){
-                    console.log("userKey",InnerContent[i][j].UserKey);
-                    console.log("cp2");
                     if(InnerContent[i][j].UserKey ==userId){
-                        console.log("cp1");
-                        console.log("array",InnerContent[i][j].UserName)
-                        result += "<td>"+InnerContent[i][j].UserName+"</td>";
-                        result += "<td>"+InnerContent[i][j].UserKey+"</td>";
-                        result += "</tr>";
+                        for(var k=0;k<InnerContent[i][j].InstructionArray.length;k++){
+                            result += "<td>"+InnerContent[i][j].InstructionArray[k]+"</td>";
+                            if(InnerContent[i][j].Status == "Accepted"){
+                               result += "<td>"+InnerContent[i][j].UserName+"</td>"; 
+                            }
+                            else{
+                                 result += "<td>"+InnerContent[i][j].UserName+"</td>"; 
+                            }
+                            
+                            result += "<td>"+InnerContent[i][j].Status+"</td>";
+                            result += "</tr>";
+                        }
+                       
                     }
                 }
             }
             result += "</table>";
             result +="</div>";
+             return result;
         }
         
 /*Add a plus symbol in webpage for add new groups*/
@@ -84,10 +92,52 @@ $(function(){
         
         $('.table-wrapper .dataTables_filter').append(item);
     }
-/*---------------------------Initial data table calling---------------------------------------------------*/
+    /*---------------------------Initial data table calling---------------------------------------------------*/
 
     if(vm.Values != null) {
         createDataArray(vm.Values, vm.Keys);
     }
     dataTableManipulate(); 
+    
+    $('#consent-details tbody').on( 'click', '#edit', function () {
+        var data = table.row( $(this).parents('tr') ).data();
+        var consentId = data[2];
+        window.location = "/" + companyTeamName + "/consent/"+consentId+"/edit";
+        return false;
+    });
+    
+     $('#consent-details tbody').on( 'click', '#delete', function () {
+        $("#myModal").modal();
+        var data = table.row( $(this).parents('tr') ).data();
+        var  consentId = data[2];
+        console.log(data, consentId);
+        $("#confirm").click(function(){
+            console.log("cp1");
+            $.ajax({
+                type: "POST",
+                url: '/' + companyTeamName +'/consent/'+ consentId + '/delete',
+                data: '',
+                success: function(data){
+                    if(data=="true"){
+                        $('#consent-details').dataTable().fnDestroy();
+                        var index = "";
+                        for(var i = 0; i < mainArray.length; i++) {
+                            index = mainArray[i].indexOf(consentId);
+                            if(index != -1) {
+                                console.log("dddd", i);
+                                break;
+                            }
+                        }
+                        mainArray.splice(i, 1);
+                        console.log(mainArray);
+                        dataTableManipulate(); 
+                    }
+                    else {
+                        console.log("Removing Failed!");
+                    }
+                }
+            });
+        });
+    });
+    
 });

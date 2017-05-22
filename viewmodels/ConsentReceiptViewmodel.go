@@ -10,8 +10,6 @@ type ConsentReceipt struct {
 }
 
 type LoadConsent struct {
-	//InstructionArray	[][]string
-	//ReceiptName             string
 	Values                  [][]string
 	Keys			[]string
 	InnerContent            [][]ConsentStruct
@@ -20,7 +18,23 @@ type LoadConsent struct {
 }
 type ConsentStruct struct {
 	InstructionArray        []string
-	UserName     		string
+	AcceptedUsers           []string
+	RejectedUsers		[]string
 	UserKey 		string
+	Status 			string
 
+}
+type EditConsentReceipt struct {
+	ReceiptName    		string
+	GroupKey       		[]string
+	GroupMembers		[]string
+	CompanyTeamName		string
+	CompanyPlan		string
+	AdminFirstName		string
+	AdminLastName		string
+	ProfilePicture		string
+	PageType    		string
+	UserNameToEdit         	[]string
+	InstructionArrayToEdit  []string
+	ConsentId   		string
 }
