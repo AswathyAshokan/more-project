@@ -52,7 +52,14 @@ func (c *TaskController)AddNewTask() {
 		task.Info.EndDate = endDate.Unix()
 		task.Info.TaskDescription = c.GetString("taskDescription")
 		task.Info.UserNumber = c.GetString("minUsers")
-		task.Info.Log = c.GetString("log")
+		logInMinutes :=c.GetString("log")
+		logInMinutesInString, err := strconv.ParseInt(logInMinutes, 10, 64)
+		if err != nil {
+			// handle error
+			fmt.Println(err)
+
+		}
+		task.Info.LogTimeInMinutes = logInMinutesInString
 		UserOrGroupIdArray := c.GetStrings("userOrGroup")
 		UserOrGroupNameArray := c.GetStrings("userAndGroupName")
 		tempContactName := c.GetStrings("contactName")
@@ -502,7 +509,14 @@ func (c *TaskController)LoadEditTask() {
 		task.Info.EndDate = endDate.Unix()
 		task.Info.TaskDescription = c.GetString("taskDescription")
 		task.Info.UserNumber = c.GetString("minUsers")
-		task.Info.Log = c.GetString("log")
+		logInMinutes :=c.GetString("log")
+		logInMinutesInString, err := strconv.ParseInt(logInMinutes, 10, 64)
+		if err != nil {
+			// handle error
+			fmt.Println(err)
+
+		}
+		task.Info.LogTimeInMinutes = logInMinutesInString
 		UserOrGroupIdArray := c.GetStrings("userOrGroup")
 		UserOrGroupNameArray := c.GetStrings("userAndGroupName")
 		tempContactName := c.GetStrings("contactName")
@@ -826,7 +840,7 @@ func (c *TaskController)LoadEditTask() {
 						viewModel.EndTime = endTimeOfTask
 						viewModel.TaskDescription = taskDetail.Info.TaskDescription
 						viewModel.UserNumber = taskDetail.Info.UserNumber
-						viewModel.Log = taskDetail.Info.Log
+						viewModel.Log = string(taskDetail.Info.LogTimeInMinutes)
 						dataValue = reflect.ValueOf(taskDetail.FitToWork)
 						for _, key := range dataValue.MapKeys() {
 							fitToWorkSlice = append(fitToWorkSlice,taskDetail.FitToWork[key.String()].Description)

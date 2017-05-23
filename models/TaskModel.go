@@ -40,15 +40,15 @@ type TaskExposure struct {
 }
 type TaskInfo struct {
 
-	TaskName        string
-	StartDate       int64
-	EndDate         int64
-	LoginType       string
-	TaskDescription string
-	UserNumber      string
-	Log             string
-	TaskLocation	string
-	CompanyTeamName	string
+	TaskName         string
+	StartDate        int64
+	EndDate          int64
+	LoginType        string
+	TaskDescription  string
+	UserNumber       string
+	LogTimeInMinutes int64
+	TaskLocation     string
+	CompanyTeamName  string
 
 }
 type TaskContact struct {
