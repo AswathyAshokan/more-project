@@ -73,7 +73,7 @@ func (c *InviteUserController) AddInvitation() {
 				subject := "Subject: Passporte - Invitation\n"
 				mime := "MIME-version: 1.0;\r\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
 				message := []byte(subject + mime + "\n" + body)
-				if err := smtp.SendMail("smtp.gmail.com:587", smtp.PlainAuth("", "passportetest@gmail.com", "passporte123", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
+				if err := smtp.SendMail("smtp.gmail.com:587", smtp.PlainAuth("", "aswathyashok1992@yahoo.com", "no5ear@chu", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
 				log.Println(err)
 				}
 				slices := []interface{}{"true", err}

@@ -104,10 +104,12 @@ func (c *LeaveController) LoadUserLeave() {
 
 
 					}
+					t := time.Now()
+					_, offset := t.Zone()
 
-					startDate := time.Unix(leaveDetailOfUser[key.String()].Info.StartDate, 0).Format("01/02/2006")
+					startDate := time.Unix(leaveDetailOfUser[key.String()].Info.StartDate+int64(offset), 0).Format("01/02/2006")
 					tempValueSlice = append(tempValueSlice, startDate)
-					endDate := time.Unix(leaveDetailOfUser[key.String()].Info.EndDate, 0).Format("01/02/2006")
+					endDate := time.Unix(leaveDetailOfUser[key.String()].Info.EndDate+int64(offset), 0).Format("01/02/2006")
 					tempValueSlice = append(tempValueSlice, endDate)
 					numberOfDays := strconv.FormatInt(leaveDetailOfUser[key.String()].Info.NumberOfDays, 10)
 					tempValueSlice = append(tempValueSlice, numberOfDays)
