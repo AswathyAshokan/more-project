@@ -1,0 +1,63 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Log</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
+ 
+	<link rel="stylesheet" href="static/css/style.css">
+
+</head>
+    <div class="col-md-12 main-content-wrapper padding-50-each">
+				<div class="clearfix">
+					<h1 class="h4">Time Sheet</h1>
+
+					<div class="personal-details margin-top-20">
+						<div class="table-wrapper">
+							<div class="datepic-top"> 
+								<div class="callender-wrapper">
+									<input type="text" id="" class="datepicker form-control sprites-callender">
+									<span>to</span>
+									<input type="text" id="" class="datepicker form-control sprites-callender">
+								</div>	
+							 </div>
+								<table class="table table-striped table-bordered   dt-responsive nowrap" id="log_details">
+									<thead>
+								      <tr>
+								        <th>User Name</th>
+								        <th>Status</th>
+								        <th>Duration</th>
+								        <th>Between</th>
+								        <th>Location</th>
+								      </tr>
+							    	</thead>
+
+							    	<tbody>
+                                    </tbody>
+								</table>
+						</div>
+					</div>
+				</div>
+			</div>
+    <script src="/static/js/jquery-3.1.0.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
+
+	<script src="/static/js/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+
+	<script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
+
+	<script>
+
+		$(document).ready(function() {
+		      
+		      $('#log_details').dataTable();
+
+
+		      $('#log_details_length').after($('.datepic-top'));
+		  } );
+	</script>
+
+	
+
+</html>
