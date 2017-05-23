@@ -86,15 +86,25 @@ func (c *LeaveController) LoadUserLeave() {
 		userLeaveKey = append(userLeaveKey, key)
 	}
 	for _, specifiedUserId := range userLeaveKey {
-		status, leaveDetailOfUser,userDetail := leave.GetAllLeaveRequestById(c.AppEngineCtx, specifiedUserId,companyId)
+		status, leaveDetailOfUser,userDetail,userInvitation := leave.GetAllLeaveRequestById(c.AppEngineCtx, specifiedUserId,companyId)
 		switch status {
 		case true:
+
 			dataValue := reflect.ValueOf(leaveDetailOfUser)
 			for _, key := range dataValue.MapKeys() {
 
 					keyForLeave = append(keyForLeave, key.String())
 					var tempValueSlice []string
-					tempValueSlice = append(tempValueSlice, userDetail.FullName)
+					inviteUser := reflect.ValueOf(userInvitation)
+					for _, InviteKey := range inviteUser.MapKeys() {
+						if userDetail.Email == userInvitation[InviteKey.String()].Email {
+							tempValueSlice = append(tempValueSlice, userDetail.FullName+""+"("+userInvitation[InviteKey.String()].UserType+")")
+							//tempValueSlice[8]=userInvitation[InviteKey.String()].UserType
+						}
+
+
+					}
+
 					startDate := time.Unix(leaveDetailOfUser[key.String()].Info.StartDate, 0).Format("01/02/2006")
 					tempValueSlice = append(tempValueSlice, startDate)
 					endDate := time.Unix(leaveDetailOfUser[key.String()].Info.EndDate, 0).Format("01/02/2006")
@@ -103,10 +113,26 @@ func (c *LeaveController) LoadUserLeave() {
 					tempValueSlice = append(tempValueSlice, numberOfDays)
 					tempValueSlice = append(tempValueSlice, leaveDetailOfUser[key.String()].Info.Reason)
 					///tempValueSlice = append(tempValueSlice, leaveDetailOfUser[key.String()].Settings.Status)
-					tempValueSlice =append(tempValueSlice,leaveDetailOfUser[key.String()].Settings.Status)
+				for _, InviteKeys := range inviteUser.MapKeys() {
+					if userDetail.Email == userInvitation[InviteKeys.String()].Email {
+						if userInvitation[InviteKeys.String()].UserType == "Subcontractor"{
+							tempValueSlice = append(tempValueSlice, "Subcontractor")
+						} else {
+							tempValueSlice = append(tempValueSlice, leaveDetailOfUser[key.String()].Settings.Status)
+						}
+						//tempValueSlice = append(tempValueSlice,userInvitation[InviteKeys.String()].UserType)
+						//tempValueSlice[8]=userInvitation[InviteKey.String()].UserType
+					}
+
+
+				}
+
 					tempValueSlice = append(tempValueSlice, key.String())
 					tempValueSlice = append(tempValueSlice, specifiedUserId)
-					viewModel.Values = append(viewModel.Values, tempValueSlice)
+
+
+
+				viewModel.Values = append(viewModel.Values, tempValueSlice)
 					tempValueSlice = tempValueSlice[:0]
 
 			}

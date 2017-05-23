@@ -6,6 +6,7 @@ import (
 	//"golang.org/x/crypto/bcrypt"
 	//"strings"
 	//"app/passporte/helpers"
+
 )
 type LeaveInfo struct {
 
@@ -42,20 +43,22 @@ func (m *LeaveRequests)GetAllLeaveRequest(ctx context.Context,userKeySlice []str
 	return true,leaveDetail
 
 }
-func (m *LeaveRequests)GetAllLeaveRequestById(ctx context.Context,userKey string,companyId string)(bool,map[string]LeaveRequests,CompanyUsers) {
+func (m *LeaveRequests)GetAllLeaveRequestById(ctx context.Context,userKey string,companyId string)(bool,map[string]LeaveRequests,CompanyUsers,map[string]CompanyInvitations) {
 	leaveDetailOfUser := map[string]LeaveRequests{}
 	company :=CompanyUsers{}
+	companyInvitation :=map[string]CompanyInvitations{}
 	dB, err := GetFirebaseClient(ctx, "")
 	if err != nil {
 		log.Println("Connection error:", err)
 	}
 	err = dB.Child("/LeaveRequests/"+userKey).Value(&leaveDetailOfUser)
 	err = dB.Child("/Company/"+companyId+"/Users/"+userKey).Value(&company)
+	err = dB.Child("/Company/"+companyId+"/Invitation").Value(&companyInvitation)
 	if err != nil {
 		log.Fatal(err)
-		return false,leaveDetailOfUser,company
+		return false,leaveDetailOfUser,company,companyInvitation
 	}
-	return true,leaveDetailOfUser,company
+	return true,leaveDetailOfUser,company,companyInvitation
 }
 func (m *LeaveRequests) AcceptLeaveRequestById( ctx context.Context,leaveId string,userId string)(bool)  {
 	leaveDetailOfUser :=LeaveRequests{}

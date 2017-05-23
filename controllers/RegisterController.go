@@ -14,6 +14,7 @@ import (
 	"reflect"
 
 
+
 )
 
 type RegisterController struct {
@@ -207,14 +208,21 @@ func (c *RegisterController)CheckingEmailId(){
 	isEmailUsed := models.CheckEmailIsUsed(c.AppEngineCtx, emailId)
 	log.Println("inside",isEmailUsed)
 	if isEmailUsed == false {
+		var r *rand.Rand
+		r = rand.New(rand.NewSource(time.Now().UnixNano()))
 
-		const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-		b := make([]byte, 8)
-		for i := range b {
-			b[i] = letterBytes[rand.Intn(len(letterBytes))]
+		const chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+		result := make([]byte, 8)
+		for i := range result {
+			result[i] = chars[r.Intn(len(chars))]
 		}
+		//const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		//b := make([]byte, 8)
+		//for i := range b {
+		//	b[i] = letterBytes[rand.Intn(len(letterBytes))]
+		//}
 
-		body :="Dear member, we received a request for password change .this is your automatic genereted key "+string(b)
+		body :="Dear member, we received a request for password change .this is your automatic genereted key "+string(result)
 		//+"Go to site to set your new password. The key will be active for 10 minutes"
 
 			//"Regards,"+
@@ -228,7 +236,7 @@ func (c *RegisterController)CheckingEmailId(){
 			log.Println(err)
 		}
 		w.Write([]byte("false,"))
-		w.Write([]byte(string(b)))
+		w.Write([]byte(string(result)))
 	}else{
 
 		w.Write([]byte("true"))

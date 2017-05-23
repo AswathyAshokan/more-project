@@ -72,6 +72,7 @@ $(function(){
                          case 'Accepted' : return '<button class="btn btn-primary btn-xs " >Accepted</button>'; break;
                          case 'Rejected' : return '<button class="btn btn-danger btn-xs " >Rejected</button>'; break;
                          case 'Pending' : return '<button class="btn btn-primary btn-xs " id ="accept">Accept</button>'+"  "+'<button class="btn btn-danger btn-xs " id="reject">Reject</button>'; break;
+                         case 'Subcontractor':return '<button class="btn btn-primary btn-xs " >Leave Applied</button>'; break;
                              
                          default  : return 'N/A';
                      }
@@ -113,7 +114,8 @@ $(function(){
                            }
                         }
                         mainArray.splice(i, 1);
-                        dataTableManipulate(mainArray);   
+                        dataTableManipulate(mainArray); 
+                        window.location =  '/'+ companyTeamName +'/leave';
                     }
                     else {
                         console.log("Updation Failed!");
@@ -147,7 +149,9 @@ $(function(){
                            }
                         }
                         mainArray.splice(i, 1);
-                        dataTableManipulate(mainArray);   
+                        dataTableManipulate(mainArray); 
+                         window.location =  '/'+ companyTeamName +'/leave';
+                        
                     }
                     else {
                         console.log("Updation Failed!");
