@@ -3051,7 +3051,9 @@ option[default] { display: none; }
 
 .task-add1 .plus { margin-top: 15px; position: relative; padding-right: 32px; }
 
-.task-add1 .plus span.add-decl, .task-add1 .plus button.add-decl { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; background-color: #b54e4e; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg); width: 20px; height: 20px; -webkit-box-align: center; -webkit-align-items: center; -ms-flex-align: center; align-items: center; -webkit-box-pack: center; -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center; font-size: 25px; color: white; font-weight: bold; cursor: pointer; padding-bottom: 3px; position: absolute; right: 0px; top: 32px; border-radius: 50%; }
+.task-add1 .wrp-plus .plus:first-child { margin-top: 3px; }
+
+.task-add1 .plus span.add-decl, .task-add1 .plus button.add-decl { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; background-color: #b54e4e; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg); width: 20px; height: 20px; -webkit-box-align: center; -webkit-align-items: center; -ms-flex-align: center; align-items: center; -webkit-box-pack: center; -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center; font-size: 25px; color: white; font-weight: bold; cursor: pointer; padding-bottom: 3px; position: absolute; right: 0px; top: 10px; border-radius: 50%; }
 .task-add1 .plus button.add-decl { border: none; padding: 0; padding-left: 1px; padding-bottom: 4px; line-height: 0; }
 .task-add1 .plus:last-child span.add-decl, .task-add1 .plus:last-child button.add-decl { background-color: #666666; -webkit-transform: none; -ms-transform: none; transform: none; }
 

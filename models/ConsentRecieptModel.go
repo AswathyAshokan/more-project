@@ -90,7 +90,6 @@ func GetSelectedUsersName(ctx context.Context,consentId string)(ConsentReceipts)
 	consent :=ConsentReceipts{}
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("/ConsentReceipts/"+consentId).Value(&consent)
-	log.Println("model",consent)
 	if err != nil {
 		log.Fatal(err)
 		return consent
@@ -125,7 +124,6 @@ func(m *ConsentReceipts) UpdateConsentDetails(ctx context.Context,consentId stri
 	for i := 0; i < len(instructionSlice); i++ {
 		InstructionForConsent.Description =instructionSlice[i]
 		InstructionForConsent.DateOfCreation =time.Now().Unix()
-		//InstructionForConsent.Status = helpers.StatusActive
 		id := betterguid.New()
 		instructionMap[id] = InstructionForConsent
 		err = db.Child("/ConsentReceipts/"+consentId+"/Instructions/").Set(instructionMap)
@@ -137,11 +135,11 @@ func(m *ConsentReceipts) UpdateConsentDetails(ctx context.Context,consentId stri
 	return true
 }
 
-func DeleteConsentRecieptById(ctx context.Context,consentId string)(bool)  {
+func DeleteConsentReceiptById(ctx context.Context,consentId string)(bool)  {
 	var keySlice []string
 	ConsentStatusDetails :=ConsentSettings{}
-	instructions := map[string]ConsentReceiptInstructions{}
-	updateInstructionStatus :=ConsentReceiptInstructions{}
+	instructions := map[string]ConsentMembers{}
+	updateInstructionStatus :=ConsentMembers{}
 	updateConsentStatus := ConsentSettings{}
 	db, err := GetFirebaseClient(ctx, "")
 	if err != nil {
@@ -159,12 +157,11 @@ func DeleteConsentRecieptById(ctx context.Context,consentId string)(bool)  {
 		log.Fatal(err)
 		return  false
 	}
-	err = db.Child("/ConsentReceipts/"+consentId+"/Instructions").Value(&instructions)
+	err = db.Child("/ConsentReceipts/"+consentId+"/Members").Value(&instructions)
 	if err != nil {
 		log.Fatal(err)
 		return  false
 	}
-	log.Println("hhhhh",instructions)
 	dataValue := reflect.ValueOf(instructions)
 
 	for _, key := range dataValue.MapKeys() {
@@ -172,10 +169,9 @@ func DeleteConsentRecieptById(ctx context.Context,consentId string)(bool)  {
 	}
 	log.Println("key",keySlice)
 	for _,k := range keySlice {
-		updateInstructionStatus.DateOfCreation =instructions[k].DateOfCreation
-		//updateInstructionStatus.Status = helpers.UserStatusDeleted
-		updateInstructionStatus.Description = instructions[k].Description
-		err = db.Child("ConsentReceipts/"+consentId+"/Instructions/"+k).Update(&updateInstructionStatus)
+		updateInstructionStatus.MemberName =instructions[k].MemberName
+		updateInstructionStatus.Status = helpers.UserStatusDeleted
+		err = db.Child("ConsentReceipts/"+consentId+"/Members/"+k).Update(&updateInstructionStatus)
 		if err != nil {
 			log.Fatal(err)
 			return  false

@@ -58,21 +58,16 @@ $(function(){
             result += '<th>Instructions</th>';
             result += '<th>Accepted Users</th>';
             result += '<th>Rejected Users</th>';
-             result += '<th>Status</th>';
             result += "<tr>";
+            console.log("hhhh",userId);
             for (var i=0; i<InnerContent.length;i++){
                 for (var j=0; j<InnerContent[i].length ;j++){
                     if(InnerContent[i][j].UserKey ==userId){
+                        console.log("cp1");
                         for(var k=0;k<InnerContent[i][j].InstructionArray.length;k++){
                             result += "<td>"+InnerContent[i][j].InstructionArray[k]+"</td>";
-                            if(InnerContent[i][j].Status == "Accepted"){
-                               result += "<td>"+InnerContent[i][j].UserName+"</td>"; 
-                            }
-                            else{
-                                 result += "<td>"+InnerContent[i][j].UserName+"</td>"; 
-                            }
-                            
-                            result += "<td>"+InnerContent[i][j].Status+"</td>";
+                            result += "<td>"+InnerContent[i][j].AcceptedUsers+"</td>"; 
+                            result += "<td>"+InnerContent[i][j].RejectedUsers+"</td>";
                             result += "</tr>";
                         }
                        

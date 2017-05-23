@@ -96,20 +96,13 @@ func (c* ConsentReceiptController)LoadConsentReceipt(){
 		for _, k :=range keySlice{
 			var tempValueSlice []string
 			if allConsent[k].Settings.Status != helpers.UserStatusDeleted {
-				log.Println("in loop 1")
 				tempValueSlice = append(tempValueSlice, "")
 				tempValueSlice = append(tempValueSlice, allConsent[k].Info.ReceiptName)
+				tempValueSlice = append(tempValueSlice,k)
 				consentViewModel.Values = append(consentViewModel.Values, tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]
-			//}
-
-		//}
-		//for _, k := range keySlice {
-			//if allConsent[k].Settings.Status != helpers.UserStatusDeleted {
-				log.Println("in loop 2")
-				var consentRecievedDetails []viewmodels.ConsentStruct
+				var consentReceivedDetails []viewmodels.ConsentStruct
 				var consentStruct viewmodels.ConsentStruct
-				//consentStruct.Status = allConsent[k].Settings.Status
 				memberDataValue :=reflect.ValueOf(allConsent[k].Members)
 				// for get name of members from members map
 				for _, membersKey := range memberDataValue.MapKeys() {
@@ -118,13 +111,9 @@ func (c* ConsentReceiptController)LoadConsentReceipt(){
 				for _, eachMemberKey := range memberKeySlice {
 					if allConsent[k].Members[eachMemberKey].Status ==helpers.StatusAccepted{
 						consentStruct.AcceptedUsers = append(consentStruct.AcceptedUsers,allConsent[k].Members[eachMemberKey].MemberName)
-						consentStruct.AcceptedUsers = append(consentStruct.AcceptedUsers, k)
-					} else {
+					} else  if allConsent[k].Members[eachMemberKey].Status ==helpers.UserResponseRejected{
 						consentStruct.RejectedUsers = append(consentStruct.RejectedUsers,allConsent[k].Members[eachMemberKey].MemberName)
-						consentStruct.AcceptedUsers = append(consentStruct.RejectedUsers, k)
 					}
-					//consentStruct.Status = allConsent[k].Members[eachMemberKey].Status
-					//consentStruct.UserName = append(consentStruct.UserName,allConsent[k].Members[eachMemberKey].MemberName)
 				}
 				memberKeySlice = memberKeySlice[:0]
 
@@ -135,13 +124,12 @@ func (c* ConsentReceiptController)LoadConsentReceipt(){
 					instructionKeySlice = append(instructionKeySlice, consentKey.String())
 				}
 				for _, eachKey := range instructionKeySlice {
-					//consentStruct.Status = allConsent[k].Instructions[eachKey].Status
 					consentStruct.InstructionArray = append(consentStruct.InstructionArray,allConsent[k].Instructions[eachKey].Description)
 				}
 
 				instructionKeySlice =instructionKeySlice[:0]
-				consentRecievedDetails = append(consentRecievedDetails,consentStruct)
-				innerTableData = append(innerTableData, consentRecievedDetails)
+				consentReceivedDetails = append(consentReceivedDetails,consentStruct)
+				innerTableData = append(innerTableData, consentReceivedDetails)
 				consentViewModel.InnerContent = innerTableData
 			}
 		}
@@ -247,7 +235,7 @@ func (c *ConsentReceiptController) DeleteConsentReceipt() {
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	ReadSession(w, r, companyTeamName)
 	consentId :=c.Ctx.Input.Param(":consentId")
-	dbStatus :=models.DeleteConsentRecieptById(c.AppEngineCtx, consentId)
+	dbStatus :=models.DeleteConsentReceiptById(c.AppEngineCtx, consentId)
 	switch dbStatus {
 	case true:
 		w.Write([]byte("true"))

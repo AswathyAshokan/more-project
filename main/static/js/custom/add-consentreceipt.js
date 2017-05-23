@@ -1,4 +1,4 @@
-document.getElementById("consent").className += " active";
+document.getElementById("consent").className += "active";
 
 console.log(vm);
 

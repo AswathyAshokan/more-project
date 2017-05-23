@@ -1,6 +1,6 @@
 /*Created By Farsana*/
 //Below line is for adding active class to layout side menu..
-
+console.log("js",vm.CompanyTeamName);
 document.getElementById("crm").className += " active";
 
 var companyTeamName = vm.CompanyTeamName;
@@ -36,7 +36,8 @@ $(function(){
 /*Add a plus symbol in webpage for add new groups*/
         var item = $('<span>+</span>');
         item.click(function() {
-            window.location ="/" + companyTeamName + "/customer/add";
+            console.log("temname",companyTeamName);
+            window.location ='/' + companyTeamName + '/customer/add';
         });
         
         $('.table-wrapper .dataTables_filter').append(item);

@@ -21,10 +21,11 @@ func (c *CustomerController) AddCustomer() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	log.Println("teamname",companyTeamName)
+
 	storedSession := ReadSession(w, r, companyTeamName)
-	customer := models.Customers{}
-	addViewModel := viewmodels.AddCustomerViewModel{}
 	if r.Method == "POST" {
+		customer := models.Customers{}
 		customer.Info.CustomerName = c.GetString("customername")
 		customer.Info.ContactPerson = c.GetString("contactperson")
 		customer.Info.Address = c.GetString("address")
@@ -44,8 +45,9 @@ func (c *CustomerController) AddCustomer() {
 		}
 
 	} else {
+		addViewModel := viewmodels.AddCustomerViewModel{}
+
 		log.Println("cp12")
-		storedSession := ReadSession(w, r, companyTeamName)
 		addViewModel.CompanyTeamName = storedSession.CompanyTeamName
 		addViewModel.CompanyPlan   =  storedSession.CompanyPlan
 		addViewModel.AdminLastName =storedSession.AdminLastName
@@ -94,6 +96,7 @@ func (c *CustomerController) CustomerDetails() {
 		customerViewModel.AdminFirstName =storedSession.AdminFirstName
 		customerViewModel.AdminLastName =storedSession.AdminLastName
 		customerViewModel.ProfilePicture =storedSession.ProfilePicture
+		log.Println("team name ",customerViewModel.CompanyTeamName)
 		c.Data["vm"] = customerViewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/customer-details.html"

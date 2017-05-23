@@ -32,11 +32,10 @@ $().ready(function() {
               required:true,
               email:true
           },
-          phone:"required",
-          
-          address:"required",
-          state: "required",
-          zipcode: "required"
+            phone:"required",
+            address:"required",
+            state: "required",
+            zipcode: "required"
       },
         messages: {
             customername:{

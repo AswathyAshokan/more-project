@@ -1,15 +1,17 @@
 /*Created By Farsana*/
-<script type="text/javascript">
-   var vm = {{.vm}};
-</script>
-<script src="/static/js/custom/add-customer.js"></script>
-<script src="/static/js/jquery.validate.js"></script>
-
+<head>
+    <script type="text/javascript">
+       var vm = {{.vm}};
+    </script>
+    <script src="/static/js/custom/add-customer.js"></script>
+    <script src="/static/js/jquery.validate.js"></script>
+    <link rel="stylesheet" href="/static/css/custom/custom.css">
+</head>
 <div class="col-md-12 main-content-wrapper padding-50-each">
     <div class="clearfix">
         <h1 class="h4" id="customerEdit" >Add Customer</h1>
 
-        <div class="personal-details margin-top-20">
+        <div class="personal-details margin-top-20" style="overflow: auto;padding-bottom: 25px;">
 
             <form class="clearfix max-form-width" method="post" id="addcustomerForm">
 
@@ -29,7 +31,7 @@
 
                     <div class="col-sm-6">
                         <label for="phone" class="">Phone</label>
-                        <input class="form-control" id="phone" name="phone"type="text" >
+                        <input class="form-control" id="phone" name="phone"type="number" >
                     </div>
                     <div class="col-sm-6">
                         <label for="email" class="">Email</label>

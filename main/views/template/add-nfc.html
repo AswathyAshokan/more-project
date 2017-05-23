@@ -1,11 +1,14 @@
 <!--Author: Sarath
 Date:01/02/2017-->
-<script type="text/javascript">var array = {{.array}};</script>
-<script src="/static/js/jquery.validate.js"type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript">
+<head>
+    <script type="text/javascript">
        var vm = {{ .vm}};
-  </script>
-<script src="/static/js/custom/add-nfc.js" type="text/javascript" charset="utf-8"></script>
+    </script>
+    <link rel="stylesheet" href="/static/css/custom/custom.css">
+    <script type="text/javascript">var array = {{.vm}};</script>
+    <script src="/static/js/jquery.validate.js"type="text/javascript" charset="utf-8"></script>
+    <script src="/static/js/custom/add-nfc.js" type="text/javascript" charset="utf-8"></script>
+</head>
 
 			<div class="col-md-12 main-content-wrapper padding-50-each">
 				<div class="clearfix">
@@ -37,7 +40,7 @@ Date:01/02/2017-->
 								</div>
 								<div class="col-sm-6">
 									<label for="nfcNumber" class="">NFC Number</label>
-									<input class="form-control" id="nfcNumber" name="nfcNumber" type="text">
+									<input class="form-control" id="nfcNumber" name="nfcNumber" type="number">
 								</div>
 						    </div>
 
