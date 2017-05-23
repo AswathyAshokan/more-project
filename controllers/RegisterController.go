@@ -203,7 +203,7 @@ func (c *RegisterController) ForgotPassword(){
 
 func (c *RegisterController)CheckingEmailId(){
 	w := c.Ctx.ResponseWriter
-	var err =""
+
 	//viewModel := viewmodels.ForgotPassword{}
 	emailId := c.GetString("emailId")
 	log.Println("used email",emailId)
@@ -234,12 +234,12 @@ func (c *RegisterController)CheckingEmailId(){
 		subject := "Subject: Passporte - Forgot Password\n"
 		mime := "MIME-version: 1.0;\r\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
 		message := []byte(subject + mime + "\n" + body)
-		if err = smtp.SendMail("smtp.gmail.com:587", smtp.PlainAuth("", "passportetest@gmail.com", "passporte123", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
+		if err := smtp.SendMail("smtp.gmail.com:587", smtp.PlainAuth("", "passportetest@gmail.com", "passporte123", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
 			log.Println(err)
 		}
 		//w.Write([]byte("false,"))
 		//w.Write([]byte(string(result)))
-		slices := []interface{}{"false", string(result),err}
+		slices := []interface{}{"false", string(result)}
 		sliceToClient, _ := json.Marshal(slices)
 		w.Write(sliceToClient)
 	}else{
