@@ -12,6 +12,7 @@ import (
 	"bytes"
 
 	"reflect"
+	"encoding/json"
 )
 
 type InviteUserController struct {
@@ -33,6 +34,7 @@ func (c *InviteUserController) AddInvitation() {
 	inviteUser := models.EmailInvitation{}
 	addViewModel := viewmodels.AddInviteUserViewModel{}
 	if r.Method == "POST" {
+
 		inviteUser.Info.CompanyAdmin = storedSession.AdminFirstName+" "+storedSession.AdminLastName
 		inviteUser.Info.FirstName = c.GetString("firstname")
 		inviteUser.Info.LastName = c.GetString("lastname")
@@ -74,7 +76,10 @@ func (c *InviteUserController) AddInvitation() {
 				if err := smtp.SendMail("smtp.gmail.com:587", smtp.PlainAuth("", "aswathy.a@cynere.com", "00000000", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
 				log.Println(err)
 				}
-				w.Write([]byte("true"))
+				slices := []interface{}{"true", err}
+				sliceToClient, _ := json.Marshal(slices)
+				w.Write(sliceToClient)
+
 			case false:
 				w.Write([]byte("false"))
 			}

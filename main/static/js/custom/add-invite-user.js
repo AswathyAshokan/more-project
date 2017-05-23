@@ -61,8 +61,10 @@ $().ready(function() {
                         type:'post',
                         data: formData,
                         //call back or get response here
-                        success : function(response){
-                            if(response == "true"){
+                        success : function(data){
+                            var jsonData = JSON.parse(data)
+                            if(jsonData[0] == "true"){
+                                console.log("error",jsonData[1]);
                                 window.location='/' + companyTeamName +'/invite';
                             }else {
                                 $("#emailValidationError").css({"color": "red", "font-size": "15px"});
