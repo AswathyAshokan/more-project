@@ -112,4 +112,7 @@ func init() {
 
 
 	beegae.Router("/:companyTeamName/workLog",&controllers.LogController{},"*:LoadLogDetails")
+
+	//dash board section
+	beegae.Router("/:companyTeamName/dashBoard", &controllers.DashBoardController{},"*:LoadDashBoard")
 }
