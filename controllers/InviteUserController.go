@@ -66,12 +66,12 @@ func (c *InviteUserController) AddInvitation() {
 					log.Println(err)
 				}
 				body := buf.String()
-				from := "passportetest@gmail.com"
+				from := "aswathy.a@cynere.com"
 				to := inviteUser.Info.Email
 				subject := "Subject: Passporte - Invitation\n"
 				mime := "MIME-version: 1.0;\r\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
 				message := []byte(subject + mime + "\n" + body)
-				if err := smtp.SendMail("smtp.gmail.com:465", smtp.PlainAuth("", "passportetest@gmail.com", "passporte123", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
+				if err := smtp.SendMail("smtp.gmail.com:465", smtp.PlainAuth("", "aswathy.a@cynere.com", "aswathyashok", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
 					log.Println(err)
 				}
 				w.Write([]byte("true"))
