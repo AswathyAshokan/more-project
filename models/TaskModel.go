@@ -32,10 +32,10 @@ type TaskFitToWork struct {
 
 }
 type TaskExposure struct {
-	BreakTime    string
-	WorkTime     string
-	Status         string
-	DateOfCreation int64
+	BreakDurationInMinutes  string
+	BreakStartTimeInMinutes string
+	Status                  string
+	DateOfCreation          int64
 
 }
 type TaskInfo struct {
@@ -135,8 +135,8 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 
 		for i := 0; i < len(WorkBreakSlice); i++ {
 
-			ExposureTask.BreakTime =WorkBreakSlice[i]
-			ExposureTask.WorkTime =TaskWorkTimeSlice[i]
+			ExposureTask.BreakDurationInMinutes =WorkBreakSlice[i]
+			ExposureTask.BreakStartTimeInMinutes =TaskWorkTimeSlice[i]
 			ExposureTask.DateOfCreation =time.Now().Unix()
 			ExposureTask.Status = helpers.StatusActive
 			id := betterguid.New()
@@ -276,8 +276,8 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 
 		for i := 0; i < len(WorkBreakSlice); i++ {
 
-			ExposureTask.BreakTime =WorkBreakSlice[i]
-			ExposureTask.WorkTime = TaskWorkTimeSlice[i]
+			ExposureTask.BreakDurationInMinutes =WorkBreakSlice[i]
+			ExposureTask.BreakStartTimeInMinutes = TaskWorkTimeSlice[i]
 			ExposureTask.DateOfCreation =time.Now().Unix()
 			ExposureTask.Status = helpers.StatusActive
 			id := betterguid.New()

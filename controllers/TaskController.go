@@ -760,7 +760,7 @@ func (c *TaskController)LoadEditTask() {
 					case true:
 						workValue := reflect.ValueOf(taskWorkBreak)
 						for _, key := range workValue.MapKeys() {
-							breakHourInInt, err := strconv.Atoi(taskWorkBreak[key.String()].BreakTime)
+							breakHourInInt, err := strconv.Atoi(taskWorkBreak[key.String()].BreakDurationInMinutes)
 							//workHourInInt, err := strconv.Atoi(taskWorkBreak[key.String()].WorkTime)
 							if err != nil {
 								// handle error
@@ -789,7 +789,7 @@ func (c *TaskController)LoadEditTask() {
 							log.Println("break time ",breakTimeForTask)
 							BreakTime = append(BreakTime,breakTimeForTask)
 
-							workHourInInt, err := strconv.Atoi(taskWorkBreak[key.String()].WorkTime)
+							workHourInInt, err := strconv.Atoi(taskWorkBreak[key.String()].BreakStartTimeInMinutes)
 							//workHourInInt, err := strconv.Atoi(taskWorkBreak[key.String()].WorkTime)
 							if err != nil {
 								// handle error
@@ -812,7 +812,7 @@ func (c *TaskController)LoadEditTask() {
 
 								prependWorkMinutes = fmt.Sprintf("%02d", workMinutes)
 							} else {
-								prependWorkMinutes = string(breakMinutes)
+								prependWorkMinutes = string(workMinutes)
 							}
 							workTimeForTask :=prependWorkHours+":"+prependWorkMinutes
 							log.Println("break time ",workTimeForTask)
@@ -840,7 +840,9 @@ func (c *TaskController)LoadEditTask() {
 						viewModel.EndTime = endTimeOfTask
 						viewModel.TaskDescription = taskDetail.Info.TaskDescription
 						viewModel.UserNumber = taskDetail.Info.UserNumber
-						viewModel.Log = string(taskDetail.Info.LogTimeInMinutes)
+						log.Println("logTime",taskDetail.Info.LogTimeInMinutes)
+						logTimeOfUser := strconv.FormatInt(taskDetail.Info.LogTimeInMinutes,10)
+						viewModel.Log = logTimeOfUser
 						dataValue = reflect.ValueOf(taskDetail.FitToWork)
 						for _, key := range dataValue.MapKeys() {
 							fitToWorkSlice = append(fitToWorkSlice,taskDetail.FitToWork[key.String()].Description)

@@ -108,5 +108,8 @@ func init() {
 	beegae.Router("/:companyTeamName/:companyPlan/paymentsuccess" ,&controllers.PaymentController{},"*:PaymentSuccess" )
 	beegae.Router("/:companyTeamName/:companyPlan/ipn" ,&controllers.PaymentController{},"*:IPN")
 
+	//user log detail section
 
+
+	beegae.Router("/:companyTeamName/workLog",&controllers.LogController{},"*:LoadLogDetails")
 }

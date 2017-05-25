@@ -23,7 +23,7 @@ var exposureSlice =[];
 var exposureTimeArray =[];
 var exposureWorkSlice =[];
 var exposureWorkTimeArray =[];
-console.log("work",vm.WorkTime);
+console.log("log",vm.Log);
 
 
 //if group members is null ,group member array is initialised
@@ -36,6 +36,8 @@ $(function () {
     if (pageType == "edit") {
         var element = document.getElementById('minUsers');
         element.value = vm.UserNumber;
+        var logUser =document.getElementById("log");
+        logUser.value=vm.Log;
         if(vm.LoginType =="NFC" ){
              document.getElementById("loginType1").checked = true;
         }else{
@@ -52,7 +54,6 @@ $(function () {
         document.getElementById("startDate").value = vm.StartDate;
         document.getElementById("endDate").value = vm.EndDate;
         document.getElementById("taskDescription").value = vm.TaskDescription;
-        document.getElementById("log").value = vm.Log ;
         document.getElementById("taskLocation").value =vm.TaskLocation
         document.getElementById("addFitToWorkValue").value = vm.FitToWork[0];
         var dynamicTextBox= "";
@@ -81,9 +82,8 @@ $(function () {
             var div = document.getElementById('work');
             div.style.visibility = 'visible';
             div.style.display ='inline';
-//            var workBreakTime = vm.WorkBreak.join(",")
             document.getElementById("workTime").value =vm.WorkTime[0];
-             document.getElementById("breakTime").value =vm.BreakTime[0];
+            document.getElementById("breakTime").value =vm.BreakTime[0];
             var DynamicExposureTextBox ="";
             for (var i=1; i<vm.WorkTime.length; i++){
                 
