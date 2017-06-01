@@ -54,11 +54,14 @@ func(m *EmailInvitation) CheckEmailIdInDb(ctx context.Context,companyID string)b
 		log.Println("No Db Connection!")
 	}
 	err =  dB.Child("Company/"+companyID+"/Invitation").Value(&companyInvitation)
+	if err != nil {
+		log.Println("No Db Connection!")
+	}
 	dataValue := reflect.ValueOf(companyInvitation)
 	for _, key := range dataValue.MapKeys() {
 		keySlice = append(keySlice, key.String())
 	}
-	log.Println("key slice",keySlice)
+
 	for _, keyIn := range keySlice {
 		err = dB.Child("Company/" + companyID + "/Invitation/" + keyIn).Value(&companyInvitaionCheck)
 		if companyInvitaionCheck.Email == m.Info.Email &&( companyInvitaionCheck.UserResponse =="Pending" ||companyInvitaionCheck.UserResponse == "Accepted") {

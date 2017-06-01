@@ -59,11 +59,9 @@ $(function(){
             result += '<th>Accepted Users</th>';
             result += '<th>Rejected Users</th>';
             result += "<tr>";
-            console.log("hhhh",userId);
             for (var i=0; i<InnerContent.length;i++){
                 for (var j=0; j<InnerContent[i].length ;j++){
                     if(InnerContent[i][j].UserKey ==userId){
-                        console.log("cp1");
                         for(var k=0;k<InnerContent[i][j].InstructionArray.length;k++){
                             result += "<td>"+InnerContent[i][j].InstructionArray[k]+"</td>";
                             result += "<td>"+InnerContent[i][j].AcceptedUsers+"</td>"; 

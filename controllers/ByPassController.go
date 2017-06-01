@@ -31,10 +31,14 @@ func (c *ByPassController)ByPass() {
 		sessionValues.CompanyTeamName = companyDetails.Info.CompanyTeamName
 		sessionValues.CompanyPlan = companyDetails.Plan
 		SetSession(w, sessionValues)
-		initialLink := "/-KlNing_F-39LDlRvVw1/dashBoard"
+
+		initialLink := "-KlNing_F-39LDlRvVw1/consent"
+
 		http.Redirect(w, r, initialLink, 302)
 
 	case false:
 		log.Println("Bypass Failed")
+
+
 	}
 }

@@ -9,6 +9,12 @@ type Users struct {
 	SocialNetworks		UserSocialNetworks
 	Tasks			map[string]UserTasks
 	Company          	map[string]UsersCompany
+	ConsentReceipts          map[string]ConsentReceiptDetails
+}
+type ConsentReceiptDetails struct {
+	UserResponse		string
+	CompanyId		string
+
 }
 type UserInfo struct {
 	Address			string

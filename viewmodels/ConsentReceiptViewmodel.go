@@ -20,6 +20,7 @@ type ConsentStruct struct {
 	InstructionArray        []string
 	AcceptedUsers           []string
 	RejectedUsers		[]string
+	PendingUsers		[]string
 	UserKey 		string
 	Status 			string
 

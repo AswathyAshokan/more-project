@@ -66,8 +66,8 @@ func init() {
 
 	beegae.Router("/:companyTeamName/consent/add", &controllers.ConsentReceiptController{}, "*:AddConsentReceipt")
 	beegae.Router("/:companyTeamName/consent", &controllers.ConsentReceiptController{}, "*:LoadConsentReceipt")
-	beegae.Router("/:companyTeamName/consent/:consentId/edit", &controllers.ConsentReceiptController{}, "*:EditConsentReceipt")
-	beegae.Router("/:companyTeamName/consent/:consentId/delete", &controllers.ConsentReceiptController{}, "*:DeleteConsentReceipt")
+	//beegae.Router("/:companyTeamName/consent/:consentId/edit", &controllers.ConsentReceiptController{}, "*:EditConsentReceipt")
+	//beegae.Router("/:companyTeamName/consent/:consentId/delete", &controllers.ConsentReceiptController{}, "*:DeleteConsentReceipt")
 
 	//Aswathy
 	beegae.Router("/:companyTeamName/contact/add", &controllers.ContactUserController{},"*:AddNewContact")
