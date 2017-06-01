@@ -21,6 +21,13 @@ type Company struct{
 	Plan            	string
 	Users			map[string]CompanyUsers
 	Invitation       	map[string]CompanyInvitations
+	Tasks			map[string] TaskIdInfo
+}
+type TaskIdInfo struct {
+	Status			string
+	DateOfCreation		int64
+	FitToWorkDisplayStatus	string
+	TaskStatus		string
 }
 type CompanyInvitations struct {
 	FirstName	string

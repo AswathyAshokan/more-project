@@ -35,6 +35,8 @@ type UserSettings struct {
 	ProfilePicture		string
 	Status			string
 	ThumbProfilePicture	string
+	LastLatitude		float64
+	LastLongitude		float64
 }
 
 type UserSocialNetworks struct {

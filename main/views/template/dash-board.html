@@ -5,152 +5,108 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
-
     <link rel="stylesheet" href="/static/css/style.css">
-
-</head>
+    </head>
 <body>
-
-
-
-
-        <div class="col-md-12 main-content-wrapper padding-50-each">
-            <div class="clearfix dashboard">
-                <h1 class="h4">Dashboard</h1>
-                <div class="piechart-wrapper clearfix">
-                    <div class="pie1 col-sm-6">
-                        <p>All jobs</p>
-                        <div class="piechart">
-                            <div id="pie1" class="example" style="width: 100px;"></div>
-                            <div class="range">
-                                <span class="range-completed">Compiled</span>
-                                <span class="range-pending">Pending</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pie2 col-sm-6">
-                        <p>All jobs</p>
-                        <div class="piechart">
-                            <div id="pie2" class="example" style="width: 100px;"></div>
-                            <div class="range">
-                                <span class="range-invited">Invited</span>
-                                <span class="range-accepted">Accepted</span>
-                                <span class="range-rejected">Rejected</span>
-                            </div>
+    <div class="col-md-12 main-content-wrapper padding-50-each">
+        <div class="clearfix dashboard">
+            <h1 class="h4">Dashboard</h1>
+            <div class="piechart-wrapper clearfix">
+                <div class="pie1 col-sm-6">
+                    <p>All jobs</p>
+                    <div class="piechart">
+                        <div id="pie1" class="example" style="width: 100px;"></div>
+                        <div class="range">
+                            <span class="range-completed">Compiled</span>
+                            <span class="range-pending">Pending</span>
                         </div>
                     </div>
                 </div>
-
-                <div class="task-graph-wrapper">
-                    <select class="form-control sprites-arrow-down" id="">
-                        <option>Job Name</option>
-                        <option>Name</option>
-                    </select>
-
-                    <div class="task-graph">
-                        <div class="col-sm-6 tsk-lst-wrapper">
-                            <h4>Task Listing</h4>
-                            <div class="tsk-lst">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <span><a href="/0">See More Tasks</a></span>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <h5 style="text-align: center;margin-bottom: -36px;margin-top: -3px;">Task Status and Users</h5>
-                            <!-- <img src="images/grapg.png" alt=""> -->
-                            <div id="chart"></div>
+                <div class="pie2 col-sm-6">
+                    <p>All jobs</p>
+                    <div class="piechart">
+                        <div id="pie2" class="example" style="width: 100px;"></div>
+                        <div class="range">
+                            <span class="range-invited">Invited</span>
+                            <span class="range-accepted">Accepted</span>
+                            <span class="range-rejected">Rejected</span>
                         </div>
                     </div>
                 </div>
-
-
+            </div>
+            <div class="task-graph-wrapper">
+                <select class="form-control sprites-arrow-down" id="">
+                    <option>Job Name</option>
+                    <option>Name</option>
+                </select>
+                <div class="task-graph">
+                    <div class="col-sm-6 tsk-lst-wrapper">
+                        <h4>Task Listing</h4>
+                        <div class="tsk-lst">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                            <span><a href="/0">See More Tasks</a></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <h5 style="text-align: center;margin-bottom: -36px;margin-top: -3px;">Task Status and Users</h5>
+                        <div id="chart"></div>
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
-</section>
-
-
-
-
+    </div>
+    </section>
 <script src="/static/js/jquery-3.1.0.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="/static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
-
 <script src="/static/js/radial-progress-bar.js"></script>
-<!-- <script src="js/fusioncharts-jquery-plugin.js"></script> -->
 <script src="/static/js/barChart.jquery.js"></script>
-
 <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
-
 <script>
-
-		$(document).ready(function() {
-
-		     jQuery("#pie1").radialPieChart("init", {
-				  'font-size': 13,
-				  'fill': 25,
-				  "size": 150,
-				  'text-color': "transparent",
-				  // "background": "#29a0ff",
-				  'data': [
-				    {'color': "#29a0ff", 'perc': 78},
-				    {'color': "#6abdff", 'perc': 30}
-				  ]
-				});
-
-		     jQuery("#pie2").radialPieChart("init", {
-				  'font-size': 13,
-				  'fill': 25,
-				  "size": 150,
-				  'text-color': "transparent",
-				  'data': [
-				    {'color': "#5b93c2", 'perc': 20},
-				    {'color': "#06599e", 'perc': 30},
-				    {'color': "#8fb4d3", 'perc': 50}
-				  ]
-				});
-
-
-
-		  } );
-	</script>
-
+    $(document).ready(function() {
+        jQuery("#pie1").radialPieChart("init", {
+            'font-size': 13,
+            'fill': 25,
+            "size": 150,
+            'text-color': "transparent",
+            'data': [
+                {'color': "#29a0ff", 'perc': 90},
+                {'color': "#6abdff", 'perc': 10}
+            ]
+        });
+        jQuery("#pie2").radialPieChart("init", {
+            'font-size': 13,
+            'fill': 25,
+            "size": 150,
+            'text-color': "transparent",
+            'data': [
+                {'color': "#5b93c2", 'perc': 20},
+                {'color': "#06599e", 'perc': 30},
+                {'color': "#8fb4d3", 'perc': 50}
+            ]
+        });
+    } );
+</script>
 <script>
-
-			$(document).ready(function(){
-
-				$('#chart').barChart({
-					height : 379,
-					bars : [
-						{
-							name : 'Dataset 1',
-							values : [['user1',40],['user2',30],['user3',10],['user4',100]]
-						}
-					]
-				});
-
-			});
-
-		</script>
-
-
+    $(document).ready(function(){
+        $('#chart').barChart({
+            height : 379,
+            bars : [
+                {
+                    name : 'Dataset 1',
+                    values : [['user1',40],['user2',30],['user3',10],['user4',100]]
+                }
+            ]
+        });
+    });
+</script>
 </body>
 </html>

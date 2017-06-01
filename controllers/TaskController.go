@@ -74,6 +74,7 @@ func (c *TaskController)AddNewTask() {
 		FitToWorkSlice := strings.Split(FitToWork, ",")
 		task.Settings.DateOfCreation =time.Now().Unix()
 		task.Settings.Status = helpers.StatusActive
+		task.Settings.TaskStatus =helpers.StatusPending
 
 		//WorkBreak :=c.GetString("workExplosureText")
 		TaskBreakTimeSlice :=strings.Split(exposureTask, ",")
@@ -86,6 +87,7 @@ func (c *TaskController)AddNewTask() {
 			task.Settings.FitToWorkDisplayStatus = "OnceADay"
 		}
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
+		task.Info.CompanyName =storedSession.CompanyName
 		companyId :=storedSession.CompanyId
 		userMap := make(map[string]models.TaskUser)
 		groupMap := make(map[string]models.TaskGroup)
@@ -106,6 +108,7 @@ func (c *TaskController)AddNewTask() {
 				tempName = tempName[:len(tempName)-7]
 				userName.FullName = tempName
 				userName.Status =helpers.StatusActive
+				userName.UserTaskStatus =helpers.StatusPending
 				userMap[tempId] = userName
 			} else {
 				tempName = tempName[:len(tempName)-8]
@@ -542,6 +545,7 @@ func (c *TaskController)LoadEditTask() {
 		}
 		task.Settings.Status = helpers.StatusActive
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
+		task.Info.CompanyName =storedSession.CompanyName
 		userMap := make(map[string]models.TaskUser)
 		groupMap := make(map[string]models.TaskGroup)
 		groupNameAndDetails := models.TaskGroup{}
@@ -561,6 +565,7 @@ func (c *TaskController)LoadEditTask() {
 				tempName = tempName[:len(tempName) - 7]
 				userName.FullName = tempName
 				userName.Status =helpers.StatusActive
+
 				userMap[tempId] = userName
 			} else {
 				tempName = tempName[:len(tempName) - 8]

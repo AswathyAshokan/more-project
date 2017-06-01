@@ -62,7 +62,7 @@ $(function () {
             '<button    class="delete-decl" >+</button></div>';
             
         }
-        $("#TextBoxContainer").prepend(dynamicTextBox);
+        $("#TextBoxContainer").append(dynamicTextBox);
         document.getElementById("startTime").value = vm.StartTime;
         document.getElementById("endTime").value = vm.EndTime;
         document.getElementById("taskHead").innerHTML = "Edit Task";
@@ -90,7 +90,7 @@ $(function () {
                 DynamicExposureTextBox+=        '<div class="exposureId"> <label for="workExplosureText" class="">Break Time</label>'+
                     '<input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5" value="'+ vm.BreakTime[i] +'">'+ 'After'+'<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" value="'+ vm.WorkTime[i] +'" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="20" height="20" style= "float:right; margin-top:0em; margin-right:0em;"  class="delete-exposure" /></div>';
             }
-            $("#exposureTextBoxAppend").prepend(DynamicExposureTextBox);
+            $("#exposureTextBoxAppend").append(DynamicExposureTextBox);
              
         }
         
@@ -105,7 +105,7 @@ $(function () {
     $("#btnAdd").bind("click", function () {
         var div = $("<div class='plus'/>");
         div.html(GetDynamicTextBox(""));
-        $("#TextBoxContainer").prepend(div);
+        $("#TextBoxContainer").append(div);
     });
     $("body").on("click", ".delete-decl", function () {
         $(this).closest("div").remove();
@@ -124,7 +124,7 @@ $("#btnAddForExposure").bind("click", function () {
         $.getScript( '/static/js/timepicker.js', function( data, textStatus, jqxhr ) {
             var div = $("<div class='exposureId'/>");
             div.html(GetDynamicTextBoxForExposure(""));
-            $("#exposureTextBoxAppend").prepend(div);
+            $("#exposureTextBoxAppend").append(div);
         } );
 });
 //$("#exposureDelete").bind("click", function () {

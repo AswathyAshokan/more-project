@@ -49,6 +49,7 @@ type TaskInfo struct {
 	LogTimeInMinutes int64
 	TaskLocation     string
 	CompanyTeamName  string
+	CompanyName	string
 
 }
 type TaskContact struct {
@@ -71,6 +72,7 @@ type TaskJob struct {
 type TaskUser struct {
 	FullName	string
 	Status		string
+	UserTaskStatus	string
 }
 type TaskGroup struct{
 	GroupName	string
@@ -80,9 +82,12 @@ type  GroupMemberName struct {
 	MemberName	string
 }
 type TaskSetting struct {
-	Status                 string
-	DateOfCreation         int64
-	FitToWorkDisplayStatus string
+	Status			string
+	DateOfCreation		int64
+	FitToWorkDisplayStatus	string
+	TaskStatus		string
+	CompletedPercentage	float32
+	PendingPercentage	float32
 
 }
 type UsersAndGroups struct {
@@ -166,6 +171,19 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 		}
 
 	}
+	//setting task Id to company
+	TaskIdForCompany :=TaskIdInfo{}
+
+	TaskIdForCompany.DateOfCreation =m.Settings.DateOfCreation
+	TaskIdForCompany.FitToWorkDisplayStatus =m.Settings.FitToWorkDisplayStatus
+	TaskIdForCompany.Status =m.Settings.Status
+	TaskIdForCompany.TaskStatus =m.Settings.TaskStatus
+	err = dB.Child("/Company/"+companyId+"/Tasks/"+taskUniqueID).Set(TaskIdForCompany)
+	if err!=nil{
+		log.Println("Insertion error:",err)
+		return false
+	}
+
 	return true
 }
 
@@ -256,6 +274,12 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
+	taskValues :=Tasks{}
+	err = dB.Child("/Tasks/"+ taskId).Update(&taskValues)
+	m.Settings.TaskStatus=taskValues.Settings.TaskStatus
+	m.Settings.DateOfCreation =taskValues.Settings.DateOfCreation
+	m.Settings.FitToWorkDisplayStatus =taskValues.Settings.FitToWorkDisplayStatus
+	m.Settings.Status =taskValues.Settings.Status
 	err = dB.Child("/Tasks/"+ taskId).Update(&m)
 	//for adding fit to work to database
 	fitToWorkMap := make(map[string]TaskFitToWork)
