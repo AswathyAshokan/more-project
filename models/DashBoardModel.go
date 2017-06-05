@@ -38,3 +38,15 @@ func (m *TaskSetting)UpdateTaskStatus(ctx context.Context,taskId string,taskStat
 	return true
 
 }
+func (m *CompanyInvitations)InviteUserFromCompany(ctx context.Context,companyId string)(bool,map[string]CompanyInvitations) {
+	companyInvitaionCheck :=map[string]CompanyInvitations{}
+	dB, err := GetFirebaseClient(ctx,"")
+	err = dB.Child("Company/" + companyId + "/Invitation/" ).Value(&companyInvitaionCheck)
+	if err != nil {
+		log.Fatal(err)
+		return false, companyInvitaionCheck
+	}
+
+	return true, companyInvitaionCheck
+
+}

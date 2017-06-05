@@ -24,8 +24,6 @@ var exposureTimeArray =[];
 var exposureWorkSlice =[];
 var exposureWorkTimeArray =[];
 console.log("log",vm.Log);
-
-
 //if group members is null ,group member array is initialised
 if(vm.GroupMembers == null) {
     vm.GroupMembers = [];

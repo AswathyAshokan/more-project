@@ -90,7 +90,7 @@ $().ready(function() {
             console.log("verification",verificationKey);
             if (localStorageValue == verificationKey  ){
 //                $('#verifyKey').data("target") === "#change-pass";
-                $('#verifyKey').attr('data-target','#change-pass');
+                $('#verifyKey'<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>).attr('data-target','#change-pass');
             }
             else{
                 $("#verifyValidationError").css({"color": "red", "font-size": "15px"});

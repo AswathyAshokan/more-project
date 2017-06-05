@@ -47,9 +47,9 @@ func (m *Job ) GetAllJobs(ctx context.Context,companyTeamName string)(bool,map[s
 	jobDetail := map[string]Job {}
 	dB, err := GetFirebaseClient(ctx,"")
 	//jobStatus := "Active"
-	log.Println("in model company",companyTeamName)
+
 	err = dB.Child("Jobs").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&jobDetail)
-	log.Println(jobDetail)
+
 	if err != nil {
 		log.Fatal(err)
 		return false, jobDetail
