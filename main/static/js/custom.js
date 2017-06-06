@@ -22,5 +22,7 @@ $(document).ready(function() {
 	// 	}
 	// });
 
+	// $(".edit-account .dis-txt").prop( "disabled", true );
+
 
 });
