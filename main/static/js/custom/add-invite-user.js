@@ -62,14 +62,17 @@ $().ready(function() {
                         data: formData,
                         //call back or get response here
                         success : function(data){
-                            var jsonData = JSON.parse(data)
-                            if(jsonData[0] == "true"){
-                                console.log("error",jsonData[1]);
+                            console.log("error",data);
+//                            var jsonData = JSON.parse(data)
+                            if(data == "true"){
+                                
                                 window.location='/' + companyTeamName +'/invite';
-                            }else {
+                            }else if(data = "false"){
                                 $("#emailValidationError").css({"color": "red", "font-size": "15px"});
                                   $("#emailValidationError").html("email already in use.").show();
                                   $("#saveButton").attr('disabled', false);
+                            } else{
+                                console.log("Server Problem");
                             }
                         },
                         error: function (request,status, error) {

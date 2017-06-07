@@ -39,7 +39,10 @@ $(function(){
                         teamName:{
                             required: true,
                             teamRegEx: true,
-                        }
+                        },
+                        planType :"required"
+                        
+                        
                     },
                     messages: {
                         firstName:{
@@ -67,8 +70,13 @@ $(function(){
                             required: "Please enter your Passporte Team Name!",
                             teamRegEx: "Only lower case alphanumeric characters and '-' is allowed!",
                         },
+                        planType: "Please select Plan Type!"
+                        
+                        
                     },
+        
     	            submitHandler: function() {
+                        localStorage.setItem('planType',planType.value);
                         var formData = $("#companyRegisterForm").serialize();
     				    $.ajax({
                                 type    : 'POST',

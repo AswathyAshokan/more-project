@@ -49,9 +49,10 @@ func (c *InviteUserController) AddInvitation() {
 		dbStatus := inviteUser.CheckEmailIdInDb(c.AppEngineCtx,companyID)
 		switch dbStatus {
 		case true:
-			dbStatus := inviteUser.AddInviteToDb(c.AppEngineCtx,companyID)
-			switch dbStatus {
+			Status := inviteUser.AddInviteToDb(c.AppEngineCtx,companyID)
+			switch Status {
 			case true:
+				log.Println("true add")
 				templateData := TemplateData{}
 				templateData.AdminEmail = storedSession.AdminEmail
 				templateData.AdminName = userFullName
@@ -74,9 +75,10 @@ func (c *InviteUserController) AddInvitation() {
 				if err := smtp.SendMail("smtp.gmail.com:465", smtp.PlainAuth("", "aswathy.a@cynere.com", "aswathyashok", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
 					log.Println(err)
 				}
+
 				w.Write([]byte("true"))
 			case false:
-				w.Write([]byte("false"))
+				w.Write([]byte("false in Add"))
 			}
 		case false:
 			log.Println("condition failed and return false")

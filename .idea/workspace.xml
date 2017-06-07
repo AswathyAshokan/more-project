@@ -2,17 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/GOPATH__passporte_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/GOPATH__passporte_2.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/ConsentReceiptController.go" afterPath="$PROJECT_DIR$/controllers/ConsentReceiptController.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/InviteUserController.go" afterPath="$PROJECT_DIR$/controllers/InviteUserController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/SharedDocumentController.go" afterPath="$PROJECT_DIR$/controllers/SharedDocumentController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-consentreceipt.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-consentreceipt.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/consentreceipt-deatils.js" afterPath="$PROJECT_DIR$/main/static/js/custom/consentreceipt-deatils.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/consentreceipt-details.html" afterPath="$PROJECT_DIR$/main/views/template/consentreceipt-details.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/ConsentRecieptModel.go" afterPath="$PROJECT_DIR$/models/ConsentRecieptModel.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routers/router.go" afterPath="$PROJECT_DIR$/routers/router.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viewmodels/ConsentReceiptViewmodel.go" afterPath="$PROJECT_DIR$/viewmodels/ConsentReceiptViewmodel.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/LoginController.go" afterPath="$PROJECT_DIR$/controllers/LoginController.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/RegisterController.go" afterPath="$PROJECT_DIR$/controllers/RegisterController.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-invite-user.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-invite-user.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/login.js" afterPath="$PROJECT_DIR$/main/static/js/custom/login.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/plan.js" afterPath="$PROJECT_DIR$/main/static/js/custom/plan.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/register.js" afterPath="$PROJECT_DIR$/main/static/js/custom/register.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/register.html" afterPath="$PROJECT_DIR$/main/views/template/register.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/InviteUserModel.go" afterPath="$PROJECT_DIR$/models/InviteUserModel.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -39,21 +38,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RegisterController.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="RegisterController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/RegisterController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-40">
-              <caret line="228" column="0" lean-forward="false" selection-start-line="226" selection-start-column="16" selection-end-line="228" selection-end-column="0" />
+            <state relative-caret-position="-198">
+              <caret line="40" column="52" lean-forward="false" selection-start-line="40" selection-start-column="52" selection-end-line="40" selection-end-column="52" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserModel.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/UserModel.go">
+      <file leaf-file-name="LoginController.go" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/controllers/LoginController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="4" column="10" lean-forward="false" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="10" />
+            <state relative-caret-position="230">
+              <caret line="41" column="43" lean-forward="false" selection-start-line="41" selection-start-column="43" selection-end-line="41" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConstantHelpers.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/helpers/ConstantHelpers.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="11" column="39" lean-forward="true" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -62,7 +71,7 @@
       <file leaf-file-name="ConsentReceiptViewmodel.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/viewmodels/ConsentReceiptViewmodel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
+            <state relative-caret-position="268">
               <caret line="23" column="30" lean-forward="false" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
               <folding />
             </state>
@@ -72,8 +81,8 @@
       <file leaf-file-name="ConsentReceiptController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/ConsentReceiptController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4608">
-              <caret line="264" column="43" lean-forward="false" selection-start-line="264" selection-start-column="43" selection-end-line="264" selection-end-column="43" />
+            <state relative-caret-position="1170">
+              <caret line="269" column="34" lean-forward="true" selection-start-line="269" selection-start-column="34" selection-end-line="269" selection-end-column="34" />
               <folding>
                 <element signature="e#20#144#0" expanded="true" />
               </folding>
@@ -81,41 +90,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="router.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routers/router.go">
+      <file leaf-file-name="PlanController.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controllers/PlanController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1170">
-              <caret line="69" column="8" lean-forward="false" selection-start-line="69" selection-start-column="8" selection-end-line="69" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="InviteUserController.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/controllers/InviteUserController.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2916">
-              <caret line="173" column="12" lean-forward="false" selection-start-line="173" selection-start-column="12" selection-end-line="173" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SharedDocumentController.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/controllers/SharedDocumentController.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1260">
-              <caret line="77" column="0" lean-forward="false" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TaskViewModel.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/viewmodels/TaskViewModel.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1656">
-              <caret line="92" column="8" lean-forward="false" selection-start-line="92" selection-start-column="8" selection-end-line="92" selection-end-column="8" />
+            <state relative-caret-position="122">
+              <caret line="39" column="48" lean-forward="true" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -145,6 +124,7 @@
       <find>minUs</find>
       <find>instructionKey.String()</find>
       <find>userKey.String()</find>
+      <find>con</find>
     </findStrings>
     <replaceStrings>
       <replace>instructionKeyString</replace>
@@ -188,7 +168,6 @@
         <option value="$PROJECT_DIR$/controllers/SharedController.go" />
         <option value="$PROJECT_DIR$/models/ExpirationModel.go" />
         <option value="$PROJECT_DIR$/viewmodels/SharedDocumentViewModel.go" />
-        <option value="$PROJECT_DIR$/controllers/RegisterController.go" />
         <option value="$PROJECT_DIR$/viewmodels/InviteUserViewModel.go" />
         <option value="$PROJECT_DIR$/helpers/ConstantHelpers.go" />
         <option value="$PROJECT_DIR$/models/SharedDocumentModel.go" />
@@ -206,22 +185,23 @@
         <option value="$PROJECT_DIR$/viewmodels/TaskViewModel.go" />
         <option value="$PROJECT_DIR$/controllers/TaskController.go" />
         <option value="$PROJECT_DIR$/models/LoginModel.go" />
-        <option value="$PROJECT_DIR$/controllers/LoginController.go" />
         <option value="$PROJECT_DIR$/controllers/CustomerController.go" />
         <option value="$PROJECT_DIR$/controllers/GroupController.go" />
         <option value="$PROJECT_DIR$/models/GroupModel.go" />
         <option value="$PROJECT_DIR$/controllers/Customer- ManagementController.go" />
         <option value="$PROJECT_DIR$/main/static/css/style.css" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
-        <option value="$PROJECT_DIR$/models/InviteUserModel.go" />
         <option value="$PROJECT_DIR$/models/UserModel.go" />
         <option value="$PROJECT_DIR$/controllers/ByPassController.go" />
         <option value="$PROJECT_DIR$/controllers/SharedDocumentController.go" />
-        <option value="$PROJECT_DIR$/controllers/InviteUserController.go" />
         <option value="$PROJECT_DIR$/viewmodels/ConsentReceiptViewmodel.go" />
         <option value="$PROJECT_DIR$/routers/router.go" />
         <option value="$PROJECT_DIR$/controllers/ConsentReceiptController.go" />
         <option value="$PROJECT_DIR$/models/ConsentRecieptModel.go" />
+        <option value="$PROJECT_DIR$/models/InviteUserModel.go" />
+        <option value="$PROJECT_DIR$/controllers/InviteUserController.go" />
+        <option value="$PROJECT_DIR$/controllers/RegisterController.go" />
+        <option value="$PROJECT_DIR$/controllers/LoginController.go" />
       </list>
     </option>
   </component>
@@ -286,7 +266,35 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="viewmodels" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="helpers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -681,13 +689,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00055" summary="10/02/2017  row expansion">
-      <created>1489131229380</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1489131229380</updated>
-    </task>
     <task id="LOCAL-00056" summary="10/02/2017  3:13  Customer Management">
       <created>1489139051428</created>
       <option name="number" value="00056" />
@@ -1024,12 +1025,19 @@
       <option name="project" value="LOCAL" />
       <updated>1496313029839</updated>
     </task>
-    <option name="localTasksCounter" value="104" />
+    <task id="LOCAL-00104" summary="1/06/2013:28:   check box">
+      <created>1496811288109</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1496811288110</updated>
+    </task>
+    <option name="localTasksCounter" value="105" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1301" height="744" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1039,7 +1047,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32580644" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="top" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32258064" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31612903" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31612903" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18064517" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -1095,7 +1103,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="29/03/2017  12:12: shared documents" />
     <MESSAGE value="29/03/2017  12:12: shared documents1" />
     <MESSAGE value="6/04/2017  12:12: shared documents1" />
     <MESSAGE value="10/04/2017  5:05: shared documents1" />
@@ -1120,7 +1127,8 @@
     <MESSAGE value="21/05/2013:28:   consent receipt details" />
     <MESSAGE value="22/05/2013:28:   consent receipt details" />
     <MESSAGE value="1/06/2013:28:   consent receipt details" />
-    <option name="LAST_COMMIT_MESSAGE" value="1/06/2013:28:   consent receipt details" />
+    <MESSAGE value="1/06/2013:28:   check box" />
+    <option name="LAST_COMMIT_MESSAGE" value="1/06/2013:28:   check box" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1208,13 +1216,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
           <caret line="12" column="22" lean-forward="false" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/RegisterModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="51" column="0" lean-forward="true" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1319,13 +1320,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/PlanController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="49" column="16" lean-forward="false" selection-start-line="49" selection-start-column="16" selection-end-line="49" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/views/layout/layout.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
@@ -1337,13 +1331,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="558">
           <caret line="45" column="62" lean-forward="false" selection-start-line="45" selection-start-column="62" selection-end-line="45" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/LoginController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="554">
-          <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1368,32 +1355,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/helpers/ConstantHelpers.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" column="8" lean-forward="false" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/InviteUserModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="115" column="5" lean-forward="false" selection-start-line="115" selection-start-column="5" selection-end-line="115" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/GroupModel.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="268">
           <caret line="50" column="81" lean-forward="true" selection-start-line="50" selection-start-column="81" selection-end-line="50" selection-end-column="81" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/GroupController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="91" column="46" lean-forward="false" selection-start-line="91" selection-start-column="46" selection-end-line="91" selection-end-column="46" />
         </state>
       </provider>
     </entry>
@@ -1441,14 +1407,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/InviteUserController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2916">
-          <caret line="173" column="12" lean-forward="false" selection-start-line="173" selection-start-column="12" selection-end-line="173" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routers/router.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1170">
@@ -1465,24 +1423,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/ConsentReceiptController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4608">
-          <caret line="264" column="43" lean-forward="false" selection-start-line="264" selection-start-column="43" selection-end-line="264" selection-end-column="43" />
-          <folding>
-            <element signature="e#20#144#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/viewmodels/ConsentReceiptViewmodel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="23" column="30" lean-forward="false" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/ConsentRecieptModel.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
@@ -1493,10 +1433,84 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/models/RegisterModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="159" column="111" lean-forward="true" selection-start-line="159" selection-start-column="111" selection-end-line="159" selection-end-column="111" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/InviteUserModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-354">
+          <caret line="44" column="25" lean-forward="false" selection-start-line="44" selection-start-column="25" selection-end-line="44" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/GroupController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-234">
+          <caret line="91" column="46" lean-forward="false" selection-start-line="91" selection-start-column="46" selection-end-line="91" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/InviteUserController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="348">
+          <caret line="84" column="45" lean-forward="false" selection-start-line="84" selection-start-column="40" selection-end-line="84" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/ConsentReceiptController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1170">
+          <caret line="269" column="34" lean-forward="true" selection-start-line="269" selection-start-column="34" selection-end-line="269" selection-end-column="34" />
+          <folding>
+            <element signature="e#20#144#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/viewmodels/ConsentReceiptViewmodel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="23" column="30" lean-forward="false" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/PlanController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122">
+          <caret line="39" column="48" lean-forward="true" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/helpers/ConstantHelpers.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="39" lean-forward="true" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/controllers/RegisterController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-40">
-          <caret line="228" column="0" lean-forward="false" selection-start-line="226" selection-start-column="16" selection-end-line="228" selection-end-column="0" />
+        <state relative-caret-position="-198">
+          <caret line="40" column="52" lean-forward="false" selection-start-line="40" selection-start-column="52" selection-end-line="40" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/LoginController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="41" column="43" lean-forward="false" selection-start-line="41" selection-start-column="43" selection-end-line="41" selection-end-column="43" />
           <folding />
         </state>
       </provider>

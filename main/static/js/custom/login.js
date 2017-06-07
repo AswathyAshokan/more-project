@@ -21,7 +21,12 @@ $(function(){
                 success :   function(data){
                    console.log(data);
                     if(data[0]=="true"){
+                        if(data[3]=="Pending"){
+                           console.log("haii iam here");
+                           window.location = '/plan'
+                           }
                         if( localStorage.getItem('loginStatus') != null){
+                            console.log("jjjjj");
                             window.localStorage.clear();
                             window.location = '/plan'
                         } else{

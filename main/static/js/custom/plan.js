@@ -2,7 +2,12 @@ var companyTeamName = vm.CompanyTeamName;
 var sessionFlag = vm.SessionFlag;
 
 $().ready(function(){
-    
+     if (localStorage.getItem('planType') == "Family"){
+         console.log("haiii");
+          $("#campus").attr('disabled', false);
+         $("#business").attr('disabled', false);
+         $("#businessPlus").attr('disabled', false);
+     }
     $(".selectPlanButton").click(function(){
         if(sessionFlag == true){
             var companyPlan = $(this).attr('id');//to get the id of selected plan
