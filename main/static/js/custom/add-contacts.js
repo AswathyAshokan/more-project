@@ -55,6 +55,10 @@ $(function () {
                       success : function(response) {
                           if (response =="true") {
                               window.location = '/' + companyTeamName +'/contact';
+                              var jsonData = JSON.parse(data)
+                              console.log("listRes",jsonData[]);
+                              console.log("res",jsonData[1]);
+                              console.log("error",jsonData[2]);
                           } else {
                               $("#saveButton").attr('disabled', false);
                           }

@@ -365,7 +365,7 @@ func (c *TaskController)LoadTaskDetail() {
 
 					var userStruct viewmodels.TaskUsers
 					userStruct.Name = tasks[k].UsersAndGroups.User[userKey.String()].FullName
-					userStruct.Status = tasks[k].UsersAndGroups.User[userKey.String()].Status
+					userStruct.Status = tasks[k].UsersAndGroups.User[userKey.String()].UserTaskStatus
 					userStruct.TaskId =k
 					userStructSlice = append(userStructSlice, userStruct)
 					//userArray =append(userArray,tasks[k].UsersAndGroups.User[userKey.String()].FullName)

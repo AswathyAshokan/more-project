@@ -11,6 +11,8 @@ import (
 	"fmt"
 	"reflect"
 	"app/passporte/helpers"
+	"github.com/tbalthazar/onesignal-go"
+	"encoding/json"
 )
 
 type ContactUserController struct {
@@ -38,7 +40,23 @@ func (c *ContactUserController)AddNewContact() {
 		dbStatus := user.AddContactToDB(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
-			w.Write([]byte("true"))
+			client := onesignal.NewClient(nil)
+			//client.UserKey = "YourOneSignalUserKey"
+			client.AppKey = "c4df0d1f-ac5e-4757-9446-2e3c75dbbebb"
+			listOpt := &onesignal.PlayerListOptions{
+				AppID:  client.AppKey,
+				Limit:  10,
+				Offset: 0,
+			}
+			listRes, res, err := client.Players.List(listOpt)
+			if err != nil {
+				log.Println("Error on APP connection: ",err)
+			}
+			log.Println("ListRes: ", listRes)
+			log.Println("Res: ", res)
+			slices := []interface{}{"true",listRes, res,err}
+			sliceToClient, _ := json.Marshal(slices)
+			w.Write(sliceToClient)
 		case false:
 			w.Write([]byte("false"))
 		}
