@@ -162,6 +162,7 @@ func (c *DashBoardController)LoadDashBoard() {
 	viewModel.PendingUsers =pendingUsersPercentageForViewModel
 
 
+
 	//get job details
 
 	dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx,companyTeamName)
