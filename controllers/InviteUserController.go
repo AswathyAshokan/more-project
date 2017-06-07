@@ -149,14 +149,14 @@ func (c *InviteUserController) InvitationDetails() {
 		for _, k := range keySlice {
 			if info[k].Status != helpers.UserStatusDeleted &&info[k].Status !=helpers.UserStatusDeleted{
 				var tempValueSlice []string
-					tempValueSlice = append(tempValueSlice, info[k].FirstName)
-					tempValueSlice = append(tempValueSlice, info[k].LastName)
-					tempValueSlice = append(tempValueSlice, info[k].Email)
-					tempValueSlice = append(tempValueSlice, info[k].UserType)
-					tempValueSlice = append(tempValueSlice,info[k].UserResponse)
-					tempValueSlice = append(tempValueSlice,k)
-					inviteUserViewModel.Values = append(inviteUserViewModel.Values, tempValueSlice)
-					tempValueSlice = tempValueSlice[:0]
+				tempValueSlice = append(tempValueSlice, info[k].FirstName)
+				tempValueSlice = append(tempValueSlice, info[k].LastName)
+				tempValueSlice = append(tempValueSlice, info[k].Email)
+				tempValueSlice = append(tempValueSlice, info[k].UserType)
+				tempValueSlice = append(tempValueSlice,info[k].UserResponse)
+				tempValueSlice = append(tempValueSlice,k)
+				inviteUserViewModel.Values = append(inviteUserViewModel.Values, tempValueSlice)
+				tempValueSlice = tempValueSlice[:0]
 			}
 
 		}

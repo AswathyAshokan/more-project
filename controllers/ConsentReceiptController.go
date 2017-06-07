@@ -71,7 +71,7 @@ func (c *ConsentReceiptController) AddConsentReceipt() {
 		}
 		c.Data["vm"] = consentView
 		c.Layout = "layout/layout.html"
-		c.TplName = "template/add-consentreceipt.html"
+		c.TplName ="template/add-consentreceipt.html"
 	}
 }
 
@@ -83,15 +83,10 @@ func (c* ConsentReceiptController)LoadConsentReceipt(){
 	storedSession := ReadSession(w, r, companyTeamName)
 	dbStatus,allConsent:= models.GetAllConsentReceiptDetails(c.AppEngineCtx)
 	consentViewModel :=viewmodels.LoadConsent{}
-	var innerTableData [][]viewmodels.ConsentStruct
 	switch dbStatus {
 	case true:
 		var keySlice []string
 		var tempKeySlice []string
-		var instructionKeySlice []string
-		var userKeySlice []string
-		//var instructionKeySlice []string
-		//var memberKeySlice []string
 		dataValue := reflect.ValueOf(allConsent)
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
@@ -105,92 +100,43 @@ func (c* ConsentReceiptController)LoadConsentReceipt(){
 			for _, eachKey :=range tempKeySlice{
 				log.Println("key",eachKey)
 				var tempValueSlice []string
+
 				if consentById[eachKey].Settings.Status!= helpers.UserStatusDeleted {
 					tempValueSlice = append(tempValueSlice, "")
 					tempValueSlice = append(tempValueSlice, consentById[eachKey].Info.ReceiptName)
 					tempValueSlice = append(tempValueSlice,eachKey)
 					consentViewModel.Values = append(consentViewModel.Values, tempValueSlice)
 					tempValueSlice = tempValueSlice[:0]
-					var consentReceivedDetails []viewmodels.ConsentStruct
-					var consentStruct viewmodels.ConsentStruct
-					getInstructions := models.GetAllInstructionsById(c.AppEngineCtx,k,eachKey)
-					instructionDataValues := reflect.ValueOf(getInstructions)
-					for _, instructionKey := range instructionDataValues.MapKeys() {
-						instructionKeySlice = append(instructionKeySlice, instructionKey.String())
-					}
-					for _, eachInstructionId :=range instructionKeySlice{
-						log.Println("athyaavisham ulla id",eachInstructionId)
-						consentStruct.InstructionArray = append(consentStruct.InstructionArray,getInstructions[eachInstructionId].Description)
-						getUsers := models.GetAllUsersNameAndStatus(c.AppEngineCtx,k,eachKey,eachInstructionId)
-						usersDataValues := reflect.ValueOf(getUsers)
-						for _, usersKey := range usersDataValues.MapKeys() {
-							userKeySlice = append(userKeySlice, usersKey.String())
-						}
-						for _, eachUsersId :=range userKeySlice{
-							if getUsers[eachUsersId].UserResponse == helpers.UserResponseAccepted{
-								consentStruct.AcceptedUsers =append(consentStruct.AcceptedUsers,getUsers[eachUsersId].FullName)
-							} else if getUsers[eachUsersId].UserResponse == helpers.UserResponseRejected{
-								consentStruct.RejectedUsers = append(consentStruct.RejectedUsers,getUsers[eachUsersId].FullName)
-							} else {
-								consentStruct.PendingUsers = append(consentStruct.PendingUsers,getUsers[eachUsersId].FullName)
-							}
-							eachUsersId = eachUsersId[:0]
-						}
 
-						userKeySlice = userKeySlice[:0]
+					getInstructions := models.GetAllInstructionsById(c.AppEngineCtx,k,eachKey)
+
+					for _, instructionKey := range reflect.ValueOf(getInstructions).MapKeys() {
+						var consentStructVM viewmodels.ConsentStruct
+						var instructionKeySlice []string
+						instructionKeyString := instructionKey.String()
+						consentStructVM.InstructionKey = eachKey
+						instructionKeySlice = append(instructionKeySlice, instructionKeyString)
+						consentStructVM.Description = getInstructions[instructionKeyString].Description
+						users := getInstructions[instructionKeyString].Users
+						for _, userKey := range reflect.ValueOf(users).MapKeys() {
+							userKeyString := userKey.String()
+							if users[userKeyString].UserResponse == helpers.UserResponseAccepted {
+								consentStructVM.AcceptedUsers = append(consentStructVM.AcceptedUsers, users[userKeyString].FullName)
+							} else if users[userKeyString].UserResponse == helpers.UserResponseRejected {
+								consentStructVM.RejectedUsers = append(consentStructVM.RejectedUsers, users[userKeyString].FullName)
+							} else { // Pending
+								consentStructVM.PendingUsers = append(consentStructVM.PendingUsers, users[userKeyString].FullName)
+							}
+						}
+						consentViewModel.InnerContent = append(consentViewModel.InnerContent, consentStructVM)
 					}
-					instructionKeySlice =instructionKeySlice[:0]
-					consentStruct.UserKey = eachKey
-					consentReceivedDetails = append(consentReceivedDetails,consentStruct)
-					innerTableData = append(innerTableData, consentReceivedDetails)
-					consentViewModel.InnerContent = innerTableData
 				}
 
 			}
-
-			/*var tempValueSlice []string
-			if allConsent[k].Settings.Status != helpers.UserStatusDeleted {
-				tempValueSlice = append(tempValueSlice, "")
-				tempValueSlice = append(tempValueSlice, allConsent[k].Info.ReceiptName)
-				tempValueSlice = append(tempValueSlice,k)
-				consentViewModel.Values = append(consentViewModel.Values, tempValueSlice)
-				log.Println("tempValeus",allConsent[k].Info.ReceiptName)
-				tempValueSlice = tempValueSlice[:0]
-				var consentReceivedDetails []viewmodels.ConsentStruct
-				var consentStruct viewmodels.ConsentStruct
-				memberDataValue :=reflect.ValueOf(allConsent[k].Instructions.Users)
-				// for get name of members from members map
-				for _, membersKey := range memberDataValue.MapKeys() {
-					memberKeySlice = append(memberKeySlice, membersKey.String())
-				}
-				for _, eachMemberKey := range memberKeySlice {
-					if allConsent[k].Instructions.Users[eachMemberKey].UserResponse ==helpers.StatusAccepted{
-						consentStruct.AcceptedUsers = append(consentStruct.AcceptedUsers,allConsent[k].Instructions.Users[eachMemberKey].FullName)
-					} else  if allConsent[k].Instructions.Users[eachMemberKey].UserResponse ==helpers.UserResponseRejected{
-						consentStruct.RejectedUsers = append(consentStruct.RejectedUsers,allConsent[k].Instructions.Users[eachMemberKey].FullName)
-					}
-				}
-				memberKeySlice = memberKeySlice[:0]
-				consentStruct.UserKey = k
-				instructionDataValue := reflect.ValueOf(allConsent[k].Instructions)
-				//for get each instructions  from instruction map
-				for _, consentKey := range instructionDataValue.MapKeys() {
-					instructionKeySlice = append(instructionKeySlice, consentKey.String())
-				}
-				*//*for _, eachKey := range instructionKeySlice {
-					consentStruct.InstructionArray = append(consentStruct.InstructionArray, allConsent[k].Instructions.Description)
-
-				}*//*
-				instructionKeySlice =instructionKeySlice[:0]
-				consentReceivedDetails = append(consentReceivedDetails,consentStruct)
-				innerTableData = append(innerTableData, consentReceivedDetails)
-				consentViewModel.InnerContent = innerTableData
-			}*/
 		}
 		consentViewModel.Keys = keySlice
-		log.Println("bdbdbd",consentViewModel)
 		consentViewModel.CompanyTeamName = storedSession.CompanyTeamName
-		c.Data["array"] = consentViewModel
+		c.Data["vm"] = consentViewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/consentreceipt-details.html"
 	case false:
@@ -308,7 +254,7 @@ func (c* ConsentReceiptController)LoadConsentReceipt(){
 	c.Data["vm"] = consentView
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/add-consentreceipt.html"
-}
+}*/
 
 func (c *ConsentReceiptController) DeleteConsentReceipt() {
 	r := c.Ctx.Request
@@ -316,11 +262,11 @@ func (c *ConsentReceiptController) DeleteConsentReceipt() {
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	ReadSession(w, r, companyTeamName)
 	consentId :=c.Ctx.Input.Param(":consentId")
-	dbStatus :=models.DeleteConsentReceiptById(c.AppEngineCtx, consentId)
+	dbStatus :=models.DeleteConsentReceiptById(c.AppEngineCtx, consentId,companyTeamName)
 	switch dbStatus {
 	case true:
 		w.Write([]byte("true"))
 	case false:
 		w.Write([]byte("false"))
 	}
-}*/
+}

@@ -135,11 +135,23 @@ func GetAllUsersNameAndStatus(ctx context.Context,companyTeamName string,consent
 	consent :=map[string]ConsentMembers{}
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("ConsentReceipts/"+companyTeamName+"/"+consentId+"/Instructions"+"/"+instructionId+"/Users").Value(&consent)
+	log.Println("users",instructionId)
 	if err != nil {
 		log.Fatal(err)
 	}
 	return consent
 
+}
+
+func GetEachUserDetailsById(ctx context.Context,companyTeamName string,consentId string,instructionId string,specificId string) (ConsentMembers) {
+	consentUsers :=ConsentMembers{}
+	db,err :=GetFirebaseClient(ctx,"")
+	err = db.Child("ConsentReceipts/"+companyTeamName+"/"+consentId+"/Instructions"+"/"+instructionId+"/Users/"+specificId).Value(&consentUsers)
+	log.Println("users",specificId)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return consentUsers
 }
 
 
@@ -238,46 +250,26 @@ func(m *ConsentReceipts) UpdateConsentDetails(ctx context.Context,consentId stri
 	return true
 }
 
-func DeleteConsentReceiptById(ctx context.Context,consentId string)(bool)  {
-	var keySlice []string
+func DeleteConsentReceiptById(ctx context.Context,consentId string,companyTeamName string)(bool)  {
 	ConsentStatusDetails :=ConsentSettings{}
-	members := map[string]ConsentMembers{}
-	updateMemberStatus :=ConsentMembers{}
 	updateConsentStatus := ConsentSettings{}
 	db, err := GetFirebaseClient(ctx, "")
 	if err != nil {
 		log.Println(err)
 	}
-	err = db.Child("/ConsentReceipts/"+consentId+"/Settings").Value(&ConsentStatusDetails)
+	err = db.Child("/ConsentReceipts/"+companyTeamName+"/"+consentId+"/Settings").Value(&ConsentStatusDetails)
 	if err != nil {
 		log.Fatal(err)
 		return  false
 	}
+	log.Println("hhhh",ConsentStatusDetails)
 	updateConsentStatus.DateOfCreation = ConsentStatusDetails.DateOfCreation
 	updateConsentStatus.Status = helpers.UserStatusDeleted
-	err = db.Child("ConsentReceipts/"+consentId+"/Settings").Update(&updateConsentStatus)
+	err = db.Child("ConsentReceipts/"+companyTeamName+"/"+consentId+"/Settings").Update(&updateConsentStatus)
 	if err != nil {
 		log.Fatal(err)
 		return  false
 	}
-	err = db.Child("/ConsentReceipts/"+consentId+"/Members").Value(&members)
-	if err != nil {
-		log.Fatal(err)
-		return  false
-	}
-	dataValue := reflect.ValueOf(members)
-
-	for _, key := range dataValue.MapKeys() {
-		keySlice = append(keySlice, key.String())
-	}
-	for _,k := range keySlice {
-		err = db.Child("ConsentReceipts/"+consentId+"/Members/"+k).Update(&updateMemberStatus)
-		if err != nil {
-			log.Fatal(err)
-			return  false
-		}
-	}
-
 	return true
 }
 

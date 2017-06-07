@@ -12,17 +12,16 @@ type ConsentReceipt struct {
 type LoadConsent struct {
 	Values                  [][]string
 	Keys			[]string
-	InnerContent            [][]ConsentStruct
+	InnerContent            []ConsentStruct
 	CompanyTeamName          string
 
 }
 type ConsentStruct struct {
-	InstructionArray        []string
-	AcceptedUsers           []string
-	RejectedUsers		[]string
-	PendingUsers		[]string
-	UserKey 		string
-	Status 			string
+	Description   	string
+	AcceptedUsers 	[]string
+	RejectedUsers 	[]string
+	PendingUsers  	[]string
+	InstructionKey  string
 
 }
 type EditConsentReceipt struct {

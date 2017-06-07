@@ -1,7 +1,5 @@
 document.getElementById("consent").className += " active";
-
 var companyTeamName = vm.CompanyTeamName;
-console.log(vm);
 /*Function for creating Data Array for data table*/
 $(function(){ 
     var mainArray = []; 
@@ -24,7 +22,7 @@ $(function(){
             data: mainArray,
             "columnDefs": [
                 
-                { className: "details-control" , "targets": [ 0 ] },
+                { className: "details-control" , "targets": [0]},
                 {
                     "order": [[1, 'asc']]
                 },
@@ -33,8 +31,7 @@ $(function(){
                 "width": "10%",
                 "data": null,
                 "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
-            }]
-           
+                }]
         });
         $('#consent-details tbody').on('click', 'td.details-control', function () {
             var tr = $(this).closest('tr');
@@ -58,31 +55,29 @@ $(function(){
             result += '<th>Instructions</th>';
             result += '<th>Accepted Users</th>';
             result += '<th>Rejected Users</th>';
+            result +='<th>Pending Users</th>'
             result += "<tr>";
             for (var i=0; i<InnerContent.length;i++){
-                for (var j=0; j<InnerContent[i].length ;j++){
-                    if(InnerContent[i][j].UserKey ==userId){
-                        for(var k=0;k<InnerContent[i][j].InstructionArray.length;k++){
-                            result += "<td>"+InnerContent[i][j].InstructionArray[k]+"</td>";
-                            result += "<td>"+InnerContent[i][j].AcceptedUsers+"</td>"; 
-                            result += "<td>"+InnerContent[i][j].RejectedUsers+"</td>";
-                            result += "</tr>";
-                        }
-                       
-                    }
+                if(InnerContent[i].InstructionKey ==userId){
+                    result += "<td>"+InnerContent[i].Description+"</td>";
+                    result += "<td>"+InnerContent[i].AcceptedUsers+"</td>";
+                    result += "<td>"+InnerContent[i].RejectedUsers+"</td>";
+                    result += "<td>"+InnerContent[i].PendingUsers+"</td>";
+                    result += "</tr>";
                 }
             }
+            result += "</tr>";
             result += "</table>";
             result +="</div>";
-             return result;
+            return result;
         }
         
 /*Add a plus symbol in webpage for add new groups*/
         var item = $('<span>+</span>');
         item.click(function() {
+            console.log("teamname",companyTeamName)
             window.location ="/" + companyTeamName + "/consent/add";
         });
-        
         $('.table-wrapper .dataTables_filter').append(item);
     }
     /*---------------------------Initial data table calling---------------------------------------------------*/

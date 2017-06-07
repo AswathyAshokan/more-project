@@ -1,8 +1,4 @@
 document.getElementById("consent").className += "active";
-
-console.log(vm);
-
-
 var companyTeamName = vm.CompanyTeamName;
 $().ready(function() {
     if(vm.PageType == "edit"){ 

@@ -72,7 +72,7 @@ func (c *SharedDocumentController) LoadSharedDocuments() {
 
 	}
 	documentsViewModels.Keys= expiryKeySlice
-	c.Data["array"] = documentsViewModels
+	c.Data["vm"] = documentsViewModels
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/shareddocument.html"
 
