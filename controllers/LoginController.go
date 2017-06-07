@@ -39,7 +39,8 @@ func (c *LoginController) Login() {
 			sessionValues.CompanyPlan = companyDetails.Plan
 			sessionValues.ProfilePicture =adminDetails.Settings.ThumbProfilePicture
 			SetSession(w, sessionValues)
-			slices := []interface{}{"true", sessionValues.CompanyTeamName,sessionValues.AdminFirstName}
+			log.Println("hhhh",sessionValues.CompanyPlan)
+			slices := []interface{}{"true", sessionValues.CompanyTeamName,sessionValues.AdminFirstName,sessionValues.CompanyPlan}
 			sliceToClient, _ := json.Marshal(slices)
 			w.Write(sliceToClient)
 		case false:

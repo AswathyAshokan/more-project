@@ -64,18 +64,29 @@ func(m *EmailInvitation) CheckEmailIdInDb(ctx context.Context,companyID string)b
 
 	for _, keyIn := range keySlice {
 		err = dB.Child("Company/" + companyID + "/Invitation/" + keyIn).Value(&companyInvitaionCheck)
-		if companyInvitaionCheck.Email == m.Info.Email &&( companyInvitaionCheck.UserResponse =="Pending" ||companyInvitaionCheck.UserResponse == "Accepted") {
+		if err != nil {
+			log.Println("cpp1")
+			log.Println("No Db Connection!")
+		}
+		log.Println("companyInvitaionCheck.Email",companyInvitaionCheck.Email)
+		log.Println(" m.Info.Email", m.Info.Email)
+		log.Println("companyInvitaionCheck.UserResponse",companyInvitaionCheck.UserResponse)
+		if companyInvitaionCheck.Email == m.Info.Email &&( companyInvitaionCheck.UserResponse ==helpers.UserResponsePending ||companyInvitaionCheck.UserResponse == helpers.UserResponseAccepted) {
+			log.Println("cpp2")
 			Condition = "true"
 			break
 
 		} else {
+			log.Println("cpp3")
 			Condition = "false"
 		}
 	}
+	log.Println("condition",Condition)
 	if Condition =="true"{
-
+		log.Println("cpp4")
 			return false
 	} else{
+		log.Println("cpp5")
 			return true
 		}
 
@@ -263,6 +274,7 @@ func (m *Invitation)IsEmailIdUnique(ctx context.Context,emailIdCheck string)(boo
 		log.Println("No Db Connection!")
 	}
 	if err :=  dB.Child("Invitation").OrderBy("Info/Email").EqualTo(emailIdCheck).Value(&invitationDetails); err != nil {
+		log.Println("cp1")
 		log.Fatal(err)
 	}
 	if len(invitationDetails)==0{
