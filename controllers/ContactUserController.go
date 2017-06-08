@@ -54,7 +54,7 @@ func (c *ContactUserController)AddNewContact() {
 			//log.Println("Res: ", res)
 			//slices := []interface{}{"true",listRes, res,err}
 			//sliceToClient, _ := json.Marshal(slices)
-			w.Write("true")
+			w.Write([]byte("true"))
 		case false:
 			w.Write([]byte("false"))
 		}
