@@ -11,5 +11,9 @@ type DashBoardViewModel struct {
 	JobCustomerNameArray 	[]string
 	TaskDetailArray		[][]string
 	CompanyTeamName         string
+	CompanyPlan		string
+	AdminFirstName		string
+	AdminLastName		string
+	ProfilePicture		string
 
 }

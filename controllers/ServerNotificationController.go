@@ -3,14 +3,15 @@ package controllers
 import (
 	"github.com/tbalthazar/onesignal-go"
 	"log"
-	"encoding/json"
+
+	"app/passporte/viewmodels"
 )
 type ServerNotificationController struct {
 	BaseController
 }
 func (c *ServerNotificationController)ServerNotificationDetails() {
 
-	w := c.Ctx.ResponseWriter
+	viewModel := viewmodels.TimeSheetViewModel{}
 	client := onesignal.NewClient(nil)
 	//client.UserKey = "YourOneSignalUserKey"
 	client.AppKey = "c4df0d1f-ac5e-4757-9446-2e3c75dbbebb"
@@ -78,11 +79,10 @@ func (c *ServerNotificationController)ServerNotificationDetails() {
 	if err != nil {
 		log.Println("Error on APP connection: ",err)
 	}
-	log.Println("ListRes: ", listRes)
-	log.Println("Res: ", res)
-	slices := []interface{}{listRes, res,err}
-	sliceToClient, _ := json.Marshal(slices)
-	w.Write(sliceToClient)
+	viewModel.Error =err
+	viewModel.Nfs =listRes
+	viewModel.Res =res
+	c.Data["vm"] = viewModel
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/time-sheet.html"
 
