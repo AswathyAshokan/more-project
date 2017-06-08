@@ -35,7 +35,6 @@ func (c *DashBoardController)LoadDashBoard() {
 
 		dataValue := reflect.ValueOf(companyTaskDetails)
 		var keySlice []string
-
 		var totalUserStatus string
 
 		for _, key := range dataValue.MapKeys() {
@@ -199,7 +198,8 @@ func (c *DashBoardController)LoadDashBoard() {
 
 	viewModel.Key = jobKeySlice
 	viewModel.JobArrayLength =len(jobKeySlice)
-	c.Data["array"] = viewModel
+	viewModel.CompanyTeamName =companyTeamName
+	c.Data["vm"] = viewModel
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/dash-board.html"
 

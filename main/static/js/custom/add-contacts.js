@@ -53,12 +53,14 @@ $(function () {
                       datatype: 'json',
                       data: form_data,
                       success : function(response) {
+//                          var jsonData = JSON.parse(data)
                           if (response =="true") {
+                              
                               window.location = '/' + companyTeamName +'/contact';
-                              var jsonData = JSON.parse(data)
-                              console.log("listRes",jsonData[]);
-                              console.log("res",jsonData[1]);
-                              console.log("error",jsonData[2]);
+                              
+                              console.log("listRes",jsonData[1]);
+                              console.log("res",jsonData[2]);
+                              console.log("error",jsonData[3]);
                           } else {
                               $("#saveButton").attr('disabled', false);
                           }

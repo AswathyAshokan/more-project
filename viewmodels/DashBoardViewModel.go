@@ -10,5 +10,6 @@ type DashBoardViewModel struct {
 	JobArrayLength		int
 	JobCustomerNameArray 	[]string
 	TaskDetailArray		[][]string
+	CompanyTeamName         string
 
 }

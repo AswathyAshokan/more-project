@@ -1,112 +1,472 @@
-
+<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Dashboard</title>
+	<meta charset="UTF-8">
+	<title>Dashboard</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
+    <script type="text/javascript">
+        var vm = {{.vm}};
+    </script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
 <!--    <script src="/static/js/jquery-3.1.0.min.js" type="text/javascript" charset="utf-8"></script>-->
     <script src="/static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
-    <script type="text/javascript">
-        var vm = {{.array}};
-    </script>
     <script src="/static/js/custom/dash-board.js"></script>
     <script src="/static/js/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/static/js/select2.min.js"></script>
     <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
     <script src="/static/js/radial-progress-bar.js"></script>
     <script src="/static/js/barChart.jquery.js"></script>
-    </head>
-    <body>
-        <div class="col-md-12 main-content-wrapper padding-50-each">
-            <div class="clearfix dashboard">
-                <h1 class="h4">Dashboard</h1>
-                <div class="piechart-wrapper clearfix">
-                    <div class="pie1 col-sm-6">
-                        <p>All jobs</p>
-                        <div class="piechart">
-                            <div id="pie1" class="example" style="width: 100px;"></div>
-                            <div class="range">
-                                <span class="range-completed">Completed</span>
-                                <span class="range-pending">Pending</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pie2 col-sm-6">
-                        <p>All users</p>
-                        <div class="piechart">
-                            <div id="pie2" class="example" style="width: 100px;"></div>
-                            <div class="range">
-                                <span class="range-invited">Invited</span>
-                                <span class="range-accepted">Accepted</span>
-                                <span class="range-rejected">Rejected</span>
-                            </div>
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+	<section class="header">
+	    <div class="container-fluid">
+		<header>
+		    <div class="logo">
+		        <img src="/static/images/logo.png" alt="" class="img-responsive">
+		    </div>
+
+		    <div class="right-menu">
+		        <ul>
+		            <li><a href="">About</a></li>
+		            <li><a href="">Contact</a></li>
+		            <li><a href="">Licence</a></li>
+		        </ul>
+		        <div class="dropdown">
+		            <button class="dropdown-toggle no-button-style" type="button" data-toggle="dropdown"><i><img src="" id="imageId" style="border-radius:50% 50% 50% 50%; width:30px; height:30px;"></i>
+<!--                        <img src="images/user-dropdown.png">--> 
+                       &emsp; <span class="user-name" id="username"> User</span>
+		                <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+		                <li><a href='/{{.vm.CompanyTeamName}}/editProfile'>Edit Profile</a></li>
+		                <li  ><a href="#" data-toggle="modal" id="planChange" >Package</a></li>
+		                <li><a href="/logout">Logout</a></li>
+		            </ul>
+		        </div>
+		    </div>
+		</header>
+	    </div>
+	</section>
+
+	<section class="content-section clearfix">
+	    <div class="container-fluid no-gutter-xs">
+            <div class="col-md-2 main-menu-wrapper">
+
+                <nav class="main-menu admin-layout">
+                    <ul>
+                        <li id="dashBoard"><a href='/{{.vm.CompanyTeamName}}/dashBoard'><i class="sprites-dashboard"></i>Dashboard</a></li> 
+                        <li id="user"><a href='/{{.vm.CompanyTeamName}}/invite'><i class="sprites-user"></i>User</a></li>
+                        <li id="group"><a href='/{{.vm.CompanyTeamName}}/group'><i class="sprites-group"></i>Group</a></li>
+                        <li id ="crm"><a href='/{{.vm.CompanyTeamName}}/customer'><i class="sprites-crm"></i>CRM</a></li>
+                        <li id="contact"><a href='/{{.vm.CompanyTeamName}}/contact'><i class="sprites-contact"></i>Contact</a></li>
+                        <li id="nfc"><a href="/{{.vm.CompanyTeamName}}/nfc"><i class="sprites-nfc"></i>NFC Tag</a></li>
+                        <li id ="job"><a href='/{{.vm.CompanyTeamName}}/job'><i class="sprites-job"></i>Job</a></li>
+                        <li id="task"><a href='/{{.vm.CompanyTeamName}}/task'><i class="sprites-task"></i>Task</a></li>
+                        <li id="leave"><a href='/{{.vm.CompanyTeamName}}/leave'><i class="sprites-leave"></i>Leave</a></li>
+                        <li><a href="#"><i class="sprites-payroll"></i>Payroll</a></li>
+                        <li id="log"><a href="/{{.vm.CompanyTeamName}}/workLog"><i class="sprites-log"></i>Log</a></li>
+                        <li id="time-sheet"><a href="/{{.vm.CompanyTeamName}}/timeSheet"><i class="sprites-log"></i>Time Sheet</a></li>
+                        <!--<li><a href="#"><i class="sprites-dures"></i>Duress</a></li>-->
+                        <li id="consent"><a href='/{{.vm.CompanyTeamName}}/consent'><i class="sprites-consent"></i>Consent Receipt</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+			<div class="col-md-12 main-content-wrapper padding-50-each">
+        <div class="clearfix dashboard">
+            <h1 class="h4">Dashboard</h1>
+            <div class="piechart-wrapper clearfix">
+                <div class="pie1 col-sm-6">
+                    <p>All jobs</p>
+                    <div class="piechart">
+                        <div id="pie1" class="example" style="width: 100px;"></div>
+                        <div class="range">
+                            <span class="range-completed">Competed</span>
+                            <span class="range-pending">Pending</span>
                         </div>
                     </div>
                 </div>
-                <div class="task-graph-wrapper">
-                    <select class="form-control sprites-arrow-down"  onchange="getTaskDetails();" id="jobName" name="jobName">
-                        <option selected disabled value="SelectAJob">Select a Job</option>
-                        <option  value="All">All</option>
-                        {{range $key, $val := .array.JobNameArray}}
-                        <option id="{{index $.array.Key $key}}" value="{{$val}}" >{{$val}} </option>
-                        {{end}}
-                    </select>
-                    <div class="task-graph">
-                        <div class="col-sm-6 tsk-lst-wrapper">
-                            <h4>Task Listing</h4>
-                            <div class="tsk-lst" id="taskListing" name="taskListing">
-                            
-<!--                            <span><a href="/0">See More Tasks</a></span>-->
-                        </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <h5 style="text-align: center;margin-bottom: -36px;margin-top: -3px;">Task Status and Users</h5>
-                            <div id="chart"></div>
+                <div class="pie2 col-sm-6">
+                    <p>All users</p>
+                    <div class="piechart">
+                        <div id="pie2" class="example" style="width: 100px;"></div>
+                        <div class="range">
+                            <span class="range-invited">Invited</span>
+                            <span class="range-accepted">Accepted</span>
+                            <span class="range-rejected">Rejected</span>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="task-graph-wrapper">
+                <select class="form-control sprites-arrow-down"  onchange="getTaskDetails();" id="jobName" name="jobName">
+                   <option selected disabled value="SelectAJob">Select a Job</option>
+                    <option  value="All">All</option>
+                    {{range $key, $val := .vm.JobNameArray}}
+                    <option id="{{index $.vm.Key $key}}" value="{{$val}}" >{{$val}} </option>
+                    {{end}}
+                </select>
+                <div class="task-graph">
+                    <div class="col-sm-6 tsk-lst-wrapper">
+                        <h4>Task Listing</h4>
+                        <div class="tsk-lst" id="taskListing" name="taskListing">
+                            
+<!--                            <span><a href="/0">See More Tasks</a></span>-->
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <h5 style="text-align: center;margin-bottom: -36px;margin-top: -3px;">Task Status and Users</h5>
+                        <div id="chart"></div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+					
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+	 <div class="modal fade plans-modal" id="family" role="dialog" >
+        <div class="modal-dialog">
+	    
+	      <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <section class="header">
+                        <div class="container-fluid">
+                            <header>
+                                <div class="logo">
+                                    <img src="/static/images/logo.png" alt="" class="img-responsive">
+                                </div>
+                            </header>
+                        </div>
+                    </section>
+                </div>
+                <div class="modal-body">
+                    <div class="padding-15">
+                        <div class="clearfix">
+                            <h1 class="h4">Family</h1>
+                            <div class="plans margin-top-20">
+                                <div class="plan-wrapper col-xs-12 ">
+                                    <div class="plan-inner-wrapper">
+                                        <div class="plan-header bg-red">
+                                            <h3>Family</h3>
+                                            <span class="bg-light-red">Free</span>
+                                        </div>
+                                        <div class="plan-body">
+                                            <span>No. of Users (6)</span>
+                                            <span>Schedule and Task Management</span>
+                                            <span>GPS Tracking</span>
+                                            <span>Log</span>
+                                            <span>Duress Function</span>
+                                            <span>Messaging </span>
+                                            <span>Notifications</span>
+                                        </div>
+                                        <div class="plan-footer bg-light-red">
+                                            <a href="/plan"><h4 >Choose Plan</h4></a> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <section class="footer">
+                        <div class="container-fluid">
+                            <footer>
+                                <div class="footer-logo">
+                                    <img src="/static/images/logo-footer.png" alt="" class="img-responsive">
+                                </div>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </footer>
+                        </div>
+                    </section>
+                </div>
+            </div>
         </div>
-    </section>
-<script>
-    $(document).ready(function() {
-        jQuery("#pie1").radialPieChart("init", {
-            'font-size': 13,
-            'fill': 25,
-            "size": 150,
-            'text-color': "transparent",
-            'data': [
-                {'color': "#29a0ff", 'perc': vm.CompletedTask},
-                {'color': "#6abdff", 'perc': vm.PendingTask}
-            ]
-        });
-        jQuery("#pie2").radialPieChart("init", {
-            'font-size': 13,
-            'fill': 25,
-            "size": 150,
-            'text-color': "transparent",
-            'data': [
-                {'color': "#5b93c2", 'perc': vm.PendingUsers },
-                {'color': "#06599e", 'perc': vm.AcceptedUsers},
-                {'color': "#8fb4d3", 'perc':vm.RejectedUsers}
-            ]
-        });
-    } );
-</script>
-<script>
-    $(document).ready(function(){
-        $('#chart').barChart({
-            height : 379,
-            bars : [
-                {
-                    name : 'Dataset 1',
-                    values : [['user1',40],['user2',30],['user3',10],['user4',100]]
-                }
-            ]
-        });
-    });
-</script>
+    </div>
+    <div class="modal fade plans-modal" id="campus" role="dialog" >
+        <div class="modal-dialog"> 
+	    
+	      <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <section class="header">
+                        <div class="container-fluid">
+                            <header>
+                                <div class="logo">
+                                    <img src="/static/images/logo.png" alt="" class="img-responsive">
+                                </div>
+                            </header>
+                        </div>
+                    </section>
+                </div>
+                <div class="modal-body">
+                    <div class="padding-15">
+                        <div class="clearfix">
+                            <h1 class="h4">Campus</h1>
+                            <div class="plans margin-top-20">
+                                <div class="plan-wrapper col-xs-12 ">
+                                    <div class="plan-inner-wrapper">
+                                        <div class="plan-header bg-green">
+                                            <h3>Campus</h3>
+                                            <span class="bg-light-green">Free</span>
+                                        </div>
+                                        <div class="plan-body">
+                                            <span>No. of Users (Unlimited)</span>
+                                            <span>Schedule and Task Management</span>
+                                            <span>GPS Tracking</span>
+                                            <span>Log</span>
+                                            <span>Duress Function</span>
+                                            <span>Messaging </span>
+                                            <span>Notifications</span>
+                                            <span>P-Tag</span>
+                                        </div>
+                                        <div class="plan-footer bg-light-green">
+                                            <a href="/plan"><h4 >Choose Plan</h4></a> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <section class="footer">
+                        <div class="container-fluid">
+                            <footer>
+                                <div class="footer-logo">
+                                    <img src="/static/images/logo-footer.png" alt="" class="img-responsive">
+                                </div>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </footer>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade plans-modal" id="business" role="dialog" >
+        <div class="modal-dialog">
+	    
+	      <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <section class="header">
+                        <div class="container-fluid">
+                            <header>
+                                <div class="logo">
+                                    <img src="/static/images/logo.png" alt="" class="img-responsive">
+                                </div>
+                            </header>
+                        </div>
+                    </section>
+                </div>
+                <div class="modal-body">
+                    <div class="padding-15">
+                        <div class="clearfix">
+                            <h1 class="h4">Business</h1>
+                            <div class="plans margin-top-20">
+                                <div class="plan-wrapper col-xs-12 ">
+                                    <div class="plan-inner-wrapper">
+                                        <div class="plan-header bg-blue">
+                                            <h3>Business</h3>
+                                            <span class="bg-light-blue">Free for 4 users</span>
+                                        </div>
+                                        <div class="plan-body">
+                                            <span>No. of Users (Unlimited)</span>
+                                            <span>Schedule and Task Management</span>
+                                            <span>GPS Tracking</span>
+                                            <span>Log</span>
+                                            <span>Duress Function</span>
+                                            <span>Messaging </span>
+                                            <span>Notifications and Alerts</span>
+                                            <span>CRM</span>
+                                        </div>
+                                        <div class="plan-footer bg-light-blue">
+                                            <a href="/plan"><h4 >Choose Plan</h4></a> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <section class="footer">
+                        <div class="container-fluid">
+                            <footer>
+                                <div class="footer-logo">
+                                    <img src="/static/images/logo-footer.png" alt="" class="img-responsive">
+                                </div>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </footer>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade plans-modal" id="business-plus" role="dialog" >
+        <div class="modal-dialog">
+	    
+	      <!-- Modal content-->
+            <div class="modal-content">
+	        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		         <section class="header">
+					<div class="container-fluid">
+						<header>
+							<div class="logo">
+								<img src="/static/images/logo.png" alt="" class="img-responsive">
+							</div>
+
+						</header>
+					</div>
+				</section>
+	        </div>
+	        <div class="modal-body">
+	          <div class="padding-15">
+				<div class="clearfix">
+					<h1 class="h4">Business-plus</h1>
+
+					<div class="plans margin-top-20">
+						
+						<div class="plan-wrapper col-xs-12 ">
+							<div class="plan-inner-wrapper">
+								<div class="plan-header bg-yellow">
+									<h3>Business Plus</h3>
+									<span class="bg-light-yellow">Plan only</span>
+								</div>
+
+								<div class="plan-body">
+									<span>No. of Users (Unlimited)</span>
+									<span>Schedule and Task Management</span>
+									<span>GPS Tracking</span>
+									<span>Log</span>
+									<span>Duress Function</span>
+									<span>Messaging </span>
+									<span>Notifications and Alerts</span>
+									<span>P-Tag</span>
+									<span>CRM</span>
+									<span>Time and Payroll Management</span>
+									<span>Pre-start Meetings</span>
+									<span>Expiries</span>
+									<span>Exposure</span>
+									<span>Certifications</span>
+								</div>
+
+								<div class="plan-footer bg-light-yellow">
+									 <a href="/plan"><h4 >Choose Plan</h4></a> 
+								</div>
+							</div>
+						</div>
+                    </div>
+                  </div>
+                </div>
+	        </div>
+	        <div class="modal-footer">
+
+		        <section class="footer">
+					<div class="container-fluid">
+						<footer>
+							<div class="footer-logo">
+								<img src="/static/images/logo-footer.png" alt="" class="img-responsive">
+							</div>
+
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</footer>
+					</div>
+				</section>
+	          
+	        </div>
+	      </div>
+	      
+	    </div>
+	</div>
+
+
+	<section class="footer">
+	    <div class="container-fluid">
+		<footer>
+		    <div class="footer-logo">
+		        <img src="/static/images/logo-footer.png" alt="" class="img-responsive">
+		    </div>
+		    <ul>
+		        <li>Copyright <span>Passporte</span> Limited</li>
+		        <li>All Rights Reserved</li>
+		    </ul>
+		</footer>
+	    </div>
+	</section>
+
+
+
+
+
+	
+
+	<script>
+
+		$(document).ready(function() {
+		      
+		     jQuery("#pie1").radialPieChart("init", {
+				  'font-size': 13,
+				  'fill': 25,
+				  "size": 150,
+				  'text-color': "transparent",
+				  // "background": "#29a0ff",
+				  'data': [
+				    {'color': "#29a0ff", 'perc': 78},
+				    {'color': "#6abdff", 'perc': 30}
+				  ]
+				});
+
+		     jQuery("#pie2").radialPieChart("init", {
+				  'font-size': 13,
+				  'fill': 25,
+				  "size": 150,
+				  'text-color': "transparent",
+				  'data': [
+				    {'color': "#5b93c2", 'perc': 20},
+				    {'color': "#06599e", 'perc': 30},
+				    {'color': "#8fb4d3", 'perc': 50}
+				  ]
+				});
+
+
+
+		  } );
+	</script>
+
+	<script>
+
+			$(document).ready(function(){
+
+				$('#chart').barChart({
+					height : 379,
+					bars : [
+						{ 
+							name : 'Dataset 1',
+							values : [['user1',40],['user2',30],['user3',10],['user4',100]] 
+						}
+					]
+				});
+
+			});
+
+		</script>
+
+	
 </body>
 </html>
