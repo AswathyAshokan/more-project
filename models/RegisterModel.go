@@ -53,8 +53,9 @@ type CompanyInfo struct{
 }
 
 type CompanySettings struct{
-	Status		string
-	DateOfCreation  int64
+	Status		 string
+	DateOfCreation   int64
+	PaymentStatus    string
 }
 
 type CompanyUsers struct{

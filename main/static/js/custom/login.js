@@ -21,19 +21,21 @@ $(function(){
                 success :   function(data){
                    console.log(data);
                     if(data[0]=="true"){
+                        console.log("hhhh",data[3])
                         if(data[3]=="Pending"){
                            console.log("haii iam here");
                            window.location = '/plan'
                            }
-                        if( localStorage.getItem('loginStatus') != null){
+                        /*if( localStorage.getItem('loginStatus') != null){
                             console.log("jjjjj");
                             window.localStorage.clear();
                             window.location = '/plan'
-                        } else{
+                        }*/ else{
                                 window.location = '/'+ data[1] +'/invite';
                             }
                             
                         } else if(data[0] == "SuperAdmin"){
+                            console.log("satisfied");
                             window.location ='/customer-management';
                     } else{
                         $("#login_err").css({"color": "red", "font-size": "15px"});

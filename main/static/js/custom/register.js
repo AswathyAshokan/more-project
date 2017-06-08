@@ -76,7 +76,6 @@ $(function(){
                     },
         
     	            submitHandler: function() {
-                        localStorage.setItem('planType',planType.value);
                         var formData = $("#companyRegisterForm").serialize();
     				    $.ajax({
                                 type    : 'POST',

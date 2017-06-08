@@ -38,7 +38,8 @@ func (c *RegisterController) Register() {
 		company.Info.ZipCode = c.GetString("zipCode")
 		company.Settings.Status = helpers.StatusActive
 		company.Settings.DateOfCreation = currentTime
-		company.Plan = helpers.StatusPending
+		company.Plan = c.GetString("planType")
+		company.Settings.PaymentStatus = helpers.PaymentPendingStatus
 		admin := models.Admins{}
 		admin.Info.FirstName = c.GetString("firstName")
 		admin.Info.LastName = c.GetString("lastName")
@@ -47,6 +48,7 @@ func (c *RegisterController) Register() {
 		admin.Info.Password = []byte(c.GetString("password"))
 		admin.Settings.DateOfCreation = currentTime
 		admin.Settings.Status = helpers.StatusActive
+		//admin.Settings.
 		dbStatus,_:= admin.CreateAdminAndCompany(c.AppEngineCtx, company)
 		switch dbStatus{
 		case false:

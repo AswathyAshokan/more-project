@@ -49,6 +49,9 @@ func (c *CustomerManagementController) CustomerManagement() {
 				case false:
 					log.Println(helpers.ServerConnectionError)
 				}
+				tempTym :=strconv.FormatInt(allCompanyData[k].Settings.DateOfCreation,10)
+				i, _ := strconv.ParseInt(tempTym, 10, 64)
+				log.Println("hhh",i)
 				tempValueSlice = append(tempValueSlice, strconv.FormatInt(allCompanyData[k].Settings.DateOfCreation,10))
 				tempValueSlice = append(tempValueSlice,allCompanyData[k].Plan)
 				customerManagementViewModel.Values = append(customerManagementViewModel.Values,tempValueSlice)

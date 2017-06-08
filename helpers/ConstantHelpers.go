@@ -13,6 +13,9 @@ const (
 	UserResponseAccepted = "Accepted"
 	UserResponseRejected = "Rejected"
 	UserStatusDeleted = "Deleted"
+	PaymentPaidStatus = "Paid"
+	PaymentPendingStatus = "Pending"
+
 )
 
 // Error Messages

@@ -12,10 +12,12 @@ func GetAllRegisteredCompanyDetails(ctx context.Context)(bool,map[string]Company
 	companyDetails := map[string]Company{}
 	dB, err := GetFirebaseClient(ctx, "")
 	if err != nil {
+
 		log.Println("No Db Connection!")
 	}
 	err = dB.Child("Company").Value(&companyDetails)
 	if err != nil{
+		log.Println("hhh")
 		log.Fatal(err)
 		return false,companyDetails
 	}

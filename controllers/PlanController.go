@@ -17,8 +17,9 @@ func (c *PlanController) PlanDetails() {
 	planViewModel := viewmodels.Plan{}
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	_, sessionStatus := SessionForPlan(w,r)
+	sessionValues, sessionStatus := SessionForPlan(w,r)
 	planViewModel.SessionFlag = sessionStatus
+	planViewModel.CompanyPlan = sessionValues.CompanyPlan
 	c.Data["vm"] = planViewModel
 	c.TplName = "template/plan.html"
 }

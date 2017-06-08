@@ -60,10 +60,12 @@ func(m *Login)CheckSuperAdminLogin(ctx context.Context)(bool,map[string]SuperAdm
 	}
 	err = dB.Child("SuperAdmins").OrderBy("Info/Email").EqualTo(m.Email).Value(&superAdmins)
 	if err != nil {
+		log.Println("email error")
 		log.Println(err)
 		return false,superAdmins
 	}
 	if len(superAdmins) == 0{
+		log.Println("e1")
 		return false,superAdmins
 	}
 	dataValue := reflect.ValueOf(superAdmins)
@@ -75,6 +77,7 @@ func(m *Login)CheckSuperAdminLogin(ctx context.Context)(bool,map[string]SuperAdm
 	for i:=0; i< len(tempValueSlice); i++{
 		err = bcrypt.CompareHashAndPassword(tempValueSlice[i], m.Password)
 		if err !=nil{
+			log.Println("password error")
 			log.Println(err)
 			return false,superAdmins
 		}
