@@ -18,7 +18,10 @@ type LogController struct {
 }
 func (c *LogController)LoadLogDetails() {
 	viewModel := viewmodels.WorkLogViewModel{}
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
 	logDetails :=models.WorkLog{}
 	var duration []string
 	dbStatus, logUserDetail := logDetails.GetLogDetailOfUser(c.AppEngineCtx, companyTeamName)
@@ -87,8 +90,15 @@ func (c *LogController)LoadLogDetails() {
 	case false :
 		log.Println(helpers.ServerConnectionError)
 	}
-
-	c.Data["array"] = viewModel
-	c.Layout = "layout/layout.html"
+	viewModel.CompanyTeamName =companyTeamName
+	viewModel.CompanyPlan = storedSession.CompanyPlan
+	viewModel.AdminLastName =storedSession.AdminLastName
+	viewModel.AdminFirstName =storedSession.AdminFirstName
+	viewModel.ProfilePicture =storedSession.ProfilePicture
+	log.Println("company plan",viewModel.CompanyPlan)
+	log.Println("admin last",viewModel.AdminLastName)
+	log.Println("admin first",viewModel.AdminFirstName)
+	log.Println("profile ",viewModel.ProfilePicture)
+	c.Data["vm"] = viewModel
 	c.TplName = "template/log.html"
 }
