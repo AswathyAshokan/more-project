@@ -74,6 +74,8 @@ func init() {
 	beegae.Router("/:companyTeamName/contact", &controllers.ContactUserController{},"*:DisplayContactDetails")
 	beegae.Router("/:companyTeamName/contact/:contactId/edit", &controllers.ContactUserController{},"*:LoadEditContact")
 	beegae.Router("/:companyTeamName/contact/:contactId/delete", &controllers.ContactUserController{},"*:LoadDeleteContact")
+	beegae.Router("/:companyTeamName/contact/:contactId/RemoveTask", &controllers.ContactUserController{}, "*:RemoveContactFromTask")
+	beegae.Router("/:companyTeamName/contact/:contactId/deletionOfContact", &controllers.ContactUserController{}, "*:DeleteContactIfNotInTask")
 
 	beegae.Router("/:companyTeamName/job/add", &controllers.JobController{},"*:AddNewJob")
 	beegae.Router("/:companyTeamName/job", &controllers.JobController{},"*:LoadJobDetail")

@@ -10,9 +10,13 @@ import (
 )
 
 type Customers struct {
-	Info     CustomerData
-	Settings CustomerSettings
+	Info     	CustomerData
+	Settings 	CustomerSettings
+	Tasks		map[string] TasksCustomer
 
+}
+type TasksCustomer struct {
+	TasksCustomerStatus	string
 }
 
 type CustomerData struct {

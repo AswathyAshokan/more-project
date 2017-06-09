@@ -56,6 +56,7 @@ type TaskContact struct {
 	ContactName	string
 	PhoneNumber	string
 	EmailId		string
+	ContactStatus	string
 }
 type TaskLocation struct{
 	Latitude	string
@@ -64,10 +65,12 @@ type TaskLocation struct{
 type TaskCustomer struct{
 	CustomerId	string
 	CustomerName	string
+	CustomerStatus	string
 }
 type TaskJob struct {
 	JobId		string
 	JobName		string
+	JobStatus	string
 }
 type TaskUser struct {
 	FullName	string
@@ -76,10 +79,12 @@ type TaskUser struct {
 }
 type TaskGroup struct{
 	GroupName	string
+	GroupStatus	string
 	Members	 	map[string]GroupMemberName
 }
 type  GroupMemberName struct {
 	MemberName	string
+
 }
 type TaskSetting struct {
 	Status			string
@@ -97,7 +102,7 @@ type UsersAndGroups struct {
 }
 
 /*add task details to DB*/
-func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSlice []string,WorkBreakSlice []string,TaskWorkTimeSlice []string)(bool)  {
+func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSlice []string,WorkBreakSlice []string,TaskWorkTimeSlice []string, ContactId []string,GroupId []string,JobId string,CustomerId string)(bool)  {
 
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
@@ -179,6 +184,48 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 	TaskIdForCompany.Status =m.Settings.Status
 	TaskIdForCompany.TaskStatus =m.Settings.TaskStatus
 	err = dB.Child("/Company/"+companyId+"/Tasks/"+taskUniqueID).Set(TaskIdForCompany)
+	if err!=nil{
+		log.Println("Insertion error:",err)
+		return false
+	}
+
+	//setting task id to contact
+	ContactTask :=TasksContact{}
+	ContactTask.TaskContactStatus =helpers.StatusActive
+	 for i:=0;i<len(ContactId);i++{
+		 err = dB.Child("/Contacts/"+ ContactId[i]+"/Tasks/"+taskUniqueID).Set(ContactTask)
+
+	 }
+	if err!=nil{
+		log.Println("Insertion error:",err)
+		return false
+	}
+	//setting task id to customer
+	CustomerTask :=TasksCustomer{}
+	CustomerTask.TasksCustomerStatus =helpers.StatusActive
+	job := Job{}
+	err = dB.Child("/Jobs/"+ JobId).Value(&job)
+	CustomerIdForTask :=job.Customer.CustomerId
+	err = dB.Child("/Customers/"+ CustomerIdForTask+"/Tasks/"+taskUniqueID).Set(CustomerTask)
+	if err!=nil{
+		log.Println("Insertion error:",err)
+		return false
+	}
+	//setting task id to Job
+	JobTask :=TasksJob{}
+	JobTask.TasksJobStatus =helpers.StatusActive
+	err = dB.Child("/Jobs/"+ JobId+"/Tasks/"+taskUniqueID).Set(JobTask)
+	if err!=nil{
+		log.Println("Insertion error:",err)
+		return false
+	}
+	//setting task id to Group
+	GroupTask :=TasksGroup{}
+	GroupTask.TasksGroupStatus =helpers.StatusActive
+	for i:=0;i<len(GroupId);i++{
+		err = dB.Child("/Group/"+ GroupId[i] +"/Tasks/"+taskUniqueID).Set(GroupTask)
+
+	}
 	if err!=nil{
 		log.Println("Insertion error:",err)
 		return false

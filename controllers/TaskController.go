@@ -32,8 +32,12 @@ func (c *TaskController)AddNewTask() {
 		task.Info.TaskName= c.GetString("taskName")
 		task.Job.JobName= c.GetString("jobName")
 		task.Job.JobId = c.GetString("jobId")
+		task.Job.JobStatus =helpers.StatusActive
+		jobIdForTask  :=task.Job.JobId
 		task.Customer.CustomerName = c.GetString("customerName")
 		task.Customer.CustomerId =c.GetString("jobId")
+		task.Customer.CustomerStatus =helpers.StatusActive
+		customerIdForTask :=task.Customer.CustomerId
 		task.Info.TaskLocation =c.GetString("taskLocation")
 		startDateString := c.GetString("startDateFomJs")
 		endDateString :=c.GetString("endDateFromJs")
@@ -96,6 +100,7 @@ func (c *TaskController)AddNewTask() {
 		group := models.Group{}
 		var keySliceForGroup [] string
 		var MemberNameArray [] string
+		var GroupKeyForTask []string
 		groupMemberNameMap := make(map[string]models.GroupMemberName)
 		//members := models.GroupMemberName{}
 
@@ -113,6 +118,9 @@ func (c *TaskController)AddNewTask() {
 			} else {
 				tempName = tempName[:len(tempName)-8]
 				groupNameAndDetails.GroupName = tempName
+				groupNameAndDetails.GroupStatus =helpers.StatusActive
+				GroupKeyForTask =append(GroupKeyForTask,tempId)
+
 
 				//Getting member name from group
 
@@ -150,6 +158,7 @@ func (c *TaskController)AddNewTask() {
 				taskContactDetail.ContactName = tempContactName[i]
 				taskContactDetail.PhoneNumber = contactDetails.Info.PhoneNumber
 				taskContactDetail.EmailId = contactDetails.Info.Email
+				taskContactDetail.ContactStatus =helpers.StatusActive
 				contactMap[tempContactId[i]] = taskContactDetail
 			case false:
 				log.Println(helpers.ServerConnectionError)
@@ -159,7 +168,7 @@ func (c *TaskController)AddNewTask() {
 
 
 		//Add data to task DB
-		dbStatus :=task.AddTaskToDB(c.AppEngineCtx,companyId,FitToWorkSlice, TaskBreakTimeSlice,TaskWorkTimeSlice)
+		dbStatus :=task.AddTaskToDB(c.AppEngineCtx,companyId,FitToWorkSlice, TaskBreakTimeSlice,TaskWorkTimeSlice,tempContactId,GroupKeyForTask,jobIdForTask,customerIdForTask)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))

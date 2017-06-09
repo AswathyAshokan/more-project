@@ -38,22 +38,7 @@ func (c *ContactUserController)AddNewContact() {
 		dbStatus := user.AddContactToDB(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
-			//client := onesignal.NewClient(nil)
-			////client.UserKey = "YourOneSignalUserKey"
-			//client.AppKey = "c4df0d1f-ac5e-4757-9446-2e3c75dbbebb"
-			//listOpt := &onesignal.PlayerListOptions{
-			//	AppID:  client.AppKey,
-			//	Limit:  10,
-			//	Offset: 0,
-			//}
-			//listRes, res, err := client.Players.List(listOpt)
-			//if err != nil {
-			//	log.Println("Error on APP connection: ",err)
-			//}
-			//log.Println("ListRes: ", listRes)
-			//log.Println("Res: ", res)
-			//slices := []interface{}{"true",listRes, res,err}
-			//sliceToClient, _ := json.Marshal(slices)
+
 			w.Write([]byte("true"))
 		case false:
 			w.Write([]byte("false"))
@@ -129,17 +114,32 @@ func (c *ContactUserController)LoadDeleteContact() {
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	ReadSession(w, r, companyTeamName)
-
-
 	contactId :=c.Ctx.Input.Param(":contactId")
-	user := models.ContactUser{}
-	dbStatus := user.DeleteContactFromDB(c.AppEngineCtx, contactId)
+	user := models.TasksContact{}
+	dbStatus,contactDetail := user.IsContactUsedForTask(c.AppEngineCtx, contactId)
 	switch dbStatus {
 	case true:
-		w.Write([]byte("true"))
+		dataValue := reflect.ValueOf(contactDetail)
+		for _, key := range dataValue.MapKeys() {
+			if contactDetail[key.String()].TaskContactStatus ==helpers.StatusActive{
+				w.Write([]byte("true"))
+				break
+			}else{
+				w.Write([]byte("false"))
+			}
+		}
+
 	case false :
 		w.Write([]byte("false"))
 	}
+
+	//dbStatus := user.DeleteContactFromDB(c.AppEngineCtx, contactId)
+	//switch dbStatus {
+	//case true:
+	//	w.Write([]byte("true"))
+	//case false :
+	//	w.Write([]byte("false"))
+	//}
 
 
 }
@@ -197,5 +197,51 @@ func (c *ContactUserController)LoadEditContact() {
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
+	}
+}
+//deletion function
+func (c *ContactUserController) DeleteContactIfNotInTask() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
+	contactId := c.Ctx.Input.Param(":contactId")
+	user :=models.ContactUser{}
+	dbStatus := user.DeleteContactFromDB(c.AppEngineCtx, contactId)
+	switch dbStatus {
+	case true:
+		w.Write([]byte("true"))
+	case false :
+		w.Write([]byte("false"))
+	}
+	}
+
+
+
+func (c *ContactUserController) RemoveContactFromTask() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
+	contactId := c.Ctx.Input.Param(":contactId")
+	contact :=models.TasksContact{}
+	var TaskSlice []string
+	dbStatus,contactDetails := contact.IsContactUsedForTask(c.AppEngineCtx, contactId)
+	switch dbStatus {
+	case true:
+		dataValue := reflect.ValueOf(contactDetails)
+		for _, key := range dataValue.MapKeys() {
+			TaskSlice=append(TaskSlice,key.String())
+		}
+
+		dbStatus := contact.DeleteContactFromTask(c.AppEngineCtx, contactId, TaskSlice)
+		switch dbStatus {
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
+		}
+	case false:
+		log.Println("false")
 	}
 }

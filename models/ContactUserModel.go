@@ -23,7 +23,12 @@ type ContactSettings struct {
 type ContactUser   struct {
 	Info     	ContactInfo
 	Settings 	ContactSettings
+	Tasks		map[string] TasksContact
 
+}
+type TasksContact struct {
+
+	TaskContactStatus		string
 }
 
 /*Function for add Contact to DB*/
@@ -109,4 +114,60 @@ func (m *ContactUser) UpdateContactToDB( ctx context.Context, contactId string)(
 		return false
 	}
 	return true
+}
+func (m *TasksContact) IsContactUsedForTask( ctx context.Context, contactId string)(bool,map[string]TasksContact)  {
+	contactDetail := map[string]TasksContact{}
+	dB, err := GetFirebaseClient(ctx,"")
+	if err!=nil{
+		log.Println("Connection error:",err)
+	}
+	err = dB.Child("/Contacts/"+ contactId+"/Tasks/").Value(&contactDetail)
+	if err!=nil{
+		log.Println("Insertion error:",err)
+		return false,contactDetail
+	}
+
+	return true,contactDetail
+}
+//func (m *TasksContact) RemoveContactFromTaskForDelete(ctx context.Context, contactId string)(bool, ContactUser) {
+//	contactDetail := ContactUser{}
+//	dB, err := GetFirebaseClient(ctx,"")
+//	err = dB.Child("/Contacts/"+ contactId+"/Tasks/").Value(&contactDetail)
+//	if err != nil {
+//		log.Fatal(err)
+//		return false, contactDetail
+//	}
+//	return true, contactDetail
+//}
+func (m *TasksContact) DeleteContactFromTask(ctx context.Context,contactId string,TaskSlice []string)(bool) {
+
+
+	contactDetailForUpdate :=TasksContact{}
+	dB, err := GetFirebaseClient(ctx,"")
+	if err!=nil{
+		log.Println("Connection error:",err)
+	}
+
+	contactDetailForUpdate.TaskContactStatus =helpers.StatusInActive
+	for i:=0;i<len(TaskSlice);i++{
+		err = dB.Child("/Contacts/"+ contactId+"/Tasks/"+TaskSlice[i]).Set(contactDetailForUpdate)
+
+	}
+	taskContactDetail :=TaskContact{}
+	taskContactForUpdate :=TaskContact{}
+	for i:=0;i<len(TaskSlice);i++ {
+		err = dB.Child("Tasks/" + TaskSlice[i]+"/Contacts/"+contactId).Value(&taskContactDetail)
+		taskContactForUpdate.ContactName =taskContactDetail.ContactName
+		taskContactForUpdate.EmailId =taskContactDetail.EmailId
+		taskContactForUpdate.PhoneNumber =taskContactDetail.PhoneNumber
+		taskContactForUpdate.ContactStatus =helpers.StatusInActive
+		err = dB.Child("Tasks/" + TaskSlice[i]+"/Contacts/"+contactId).Set(taskContactForUpdate)
+
+	}
+	if err!=nil{
+		log.Println("Insertion error:",err)
+		return false
+	}
+	return true
+
 }

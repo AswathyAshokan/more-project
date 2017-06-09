@@ -11,7 +11,15 @@ type Group struct {
 	Info 		GroupInfo
 	Members	 	map[string]GroupMembers
 	Settings 	GroupSettings
+	Tasks		map[string] TasksGroup
+
+
+
 }
+type TasksGroup struct {
+	TasksGroupStatus	string
+}
+
 
 type GroupMembers struct {
 	MemberName	string

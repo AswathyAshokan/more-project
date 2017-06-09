@@ -50,36 +50,103 @@ $(function(){
     });
 
 
+//    $('#contact-details tbody').on( 'click', '#delete', function () {
+//        $("#myModal").modal();
+//        var data = table.row( $(this).parents('tr') ).data();
+//        var key = data[6];
+//        
+//        $("#confirm").click(function(){
+//            $.ajax({
+//                type: "POST",
+//                url: '/' + companyTeamName + '/contact/' + key + '/delete',
+//                data: '',
+//                success: function(data){
+//                    if(data=="true"){
+//                        $('#contact-details').dataTable().fnDestroy();
+//                        var index = "";
+//                        
+//                        for(var i = 0; i < mainArray.length; i++) {
+//                           index = mainArray[i].indexOf(key);
+//                           if(index != -1) {
+//                             break;
+//                           }
+//                        }
+//                        mainArray.splice(i, 1);
+//                        dataTableManipulate();   
+//                    }
+//                    else {
+//                        console.log("Removing Failed!");
+//                    }
+//                }
+//
+//            });
+//        });
+//    });
+    //...................
     $('#contact-details tbody').on( 'click', '#delete', function () {
-        $("#myModal").modal();
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[6];
-        
-        $("#confirm").click(function(){
-            $.ajax({
-                type: "POST",
-                url: '/' + companyTeamName + '/contact/' + key + '/delete',
-                data: '',
-                success: function(data){
-                    if(data=="true"){
-                        $('#contact-details').dataTable().fnDestroy();
-                        var index = "";
-                        
-                        for(var i = 0; i < mainArray.length; i++) {
-                           index = mainArray[i].indexOf(key);
-                           if(index != -1) {
-                             break;
-                           }
-                        }
-                        mainArray.splice(i, 1);
-                        dataTableManipulate();   
-                    }
-                    else {
-                        console.log("Removing Failed!");
-                    }
+       var key = data[6];
+        $.ajax({
+            type: "POST",
+            url: '/' + companyTeamName +'/contact/'+ key + '/delete',
+            data: '',
+            success: function(data){
+                if(data=="true"){
+                    $("#myModalForPendingUsers").modal();
+                    $("#deleteNotTask").click(function(){
+                        $.ajax({
+                            type: "POST",
+                            url: '/' + companyTeamName +'/contact/'+ key + '/deletionOfContact',
+                            data: '',
+                            success: function(feedback){
+                                if(feedback=="true"){
+                                    $('#contact-details').dataTable().fnDestroy(); 
+                                    var index = "";
+                                    for(var i = 0; i < mainArray.length; i++) {
+                                    index = mainArray[i].indexOf(key);
+                                    if(index != -1) {
+                                        console.log("dddd", i);
+                                        break;
+                                    }
+                                }
+                                mainArray.splice(i, 1);
+                                dataTableManipulate()
+                                }
+                                else {
+                                }
+                            }
+                        });
+                    });
+                    
                 }
-
-            });
+                else {
+                    $("#myModal").modal();
+                    $("#confirm").click(function(){
+                        $.ajax({
+                            type: "POST",
+                            url: '/' + companyTeamName +'/contact/'+ key + '/RemoveTask',
+                            data: '',
+                            success: function(response){
+                                if(response=="true"){
+                                    $('#contact-details').dataTable().fnDestroy(); 
+                                    var index = "";
+                                    for(var i = 0; i < mainArray.length; i++) {
+                                    index = mainArray[i].indexOf(key);
+                                    if(index != -1) {
+                                        console.log("dddd", i);
+                                        break;
+                                    }
+                                }
+                                mainArray.splice(i, 1);
+                                dataTableManipulate()
+                                }
+                                else {
+                                }
+                            }
+                        });
+                    });
+                }
+            }
         });
     });
     

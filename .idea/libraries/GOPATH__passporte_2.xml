@@ -5,8 +5,8 @@
       <root url="file://$PROJECT_DIR$/../../github.com" />
       <root url="file://$PROJECT_DIR$/../../google.golang.org" />
       <root url="file://$PROJECT_DIR$/../../golang.org" />
-      <root url="file://$PROJECT_DIR$/../../cloud.google.com" />
       <root url="file://$PROJECT_DIR$/.." />
+      <root url="file://$PROJECT_DIR$/../../cloud.google.com" />
       <root url="file://$PROJECT_DIR$/../../launchpad.net" />
     </CLASSES>
     <JAVADOC />
@@ -15,8 +15,8 @@
       <root url="file://$PROJECT_DIR$/../../github.com" />
       <root url="file://$PROJECT_DIR$/../../google.golang.org" />
       <root url="file://$PROJECT_DIR$/../../golang.org" />
-      <root url="file://$PROJECT_DIR$/../../cloud.google.com" />
       <root url="file://$PROJECT_DIR$/.." />
+      <root url="file://$PROJECT_DIR$/../../cloud.google.com" />
       <root url="file://$PROJECT_DIR$/../../launchpad.net" />
     </SOURCES>
     <excluded>

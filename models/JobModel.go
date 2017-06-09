@@ -25,8 +25,14 @@ type Job   struct {
 	Info 		JobInfo
 	Settings 	JobSettings
 	Customer	JobCustomer
-}
+	Tasks		map[string] TasksJob
 
+
+
+}
+type TasksJob struct {
+	TasksJobStatus	string
+}
 /*Function for add job details to DB*/
 func (m *Job) AddJobToDB( ctx context.Context)(bool)  {
 	dB, err := GetFirebaseClient(ctx,"")

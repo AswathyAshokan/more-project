@@ -125,6 +125,7 @@ func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string)bool
 
 //Fetch all the details of invite user from database
 func GetAllInviteUsersDetails(ctx context.Context,companyId string) (map[string]CompanyInvitations,bool) {
+	log.Println("cp1")
 	value :=map[string]CompanyInvitations{}
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
@@ -133,6 +134,7 @@ func GetAllInviteUsersDetails(ctx context.Context,companyId string) (map[string]
 	}
 	err = db.Child("/Company/"+companyId+"/Invitation").Value(&value)
 	if err != nil {
+		log.Println("ggg1")
 		log.Fatal(err)
 		return value,false
 	}
