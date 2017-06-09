@@ -92,6 +92,7 @@ func (c *InviteUserController) AddInvitation() {
 			log.Println("info",info)
 			switch dbStatus {
 			case true:
+				addViewModel.AllowInvitations = true
 				log.Println("cp2")
 				var count = 0
 				var tempValueSlice []string
@@ -115,9 +116,9 @@ func (c *InviteUserController) AddInvitation() {
 						}
 					}
 					log.Println("ggg1",count)
-					for i := count; i < 4; i++ {
+					for i := count; i <6; i++ {
 						log.Println("cp3")
-						addViewModel.AllowInvitations = true
+
 					}
 				}
 			case false:
