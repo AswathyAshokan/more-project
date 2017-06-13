@@ -731,7 +731,9 @@ func (c *TaskController)LoadEditTask() {
 				case true:
 					dataValue := reflect.ValueOf(contactDetails.Contacts)
 					for _, key := range dataValue.MapKeys() {
-						viewModel.ContactNameToEdit = append(viewModel.ContactNameToEdit, key.String())
+						if task.Contacts[key.String()].ContactStatus =="Active"{
+							viewModel.ContactNameToEdit = append(viewModel.ContactNameToEdit, key.String())
+						}
 					}
 
 					//Selecting group name which is to be edited...
@@ -842,7 +844,10 @@ func (c *TaskController)LoadEditTask() {
 
 						viewModel.Key = keySlice
 						viewModel.PageType = helpers.SelectPageForEdit
-						viewModel.JobName = taskDetail.Job.JobName
+						if taskDetail.Job.JobStatus == "Active"{
+							viewModel.JobName = taskDetail.Job.JobName
+						}
+
 						viewModel.TaskName = taskDetail.Info.TaskName
 						startDate := time.Unix(taskDetail.Info.StartDate, 0).Format("01/02/2006")
 						viewModel.StartDate = startDate
