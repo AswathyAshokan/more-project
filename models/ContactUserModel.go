@@ -6,6 +6,7 @@ import (
 	"golang.org/x/net/context"
 	"log"
 	"app/passporte/helpers"
+	"reflect"
 )
 type ContactInfo struct {
 	Name        		string
@@ -121,6 +122,34 @@ func (m *ContactUser) UpdateContactToDB( ctx context.Context, contactId string)(
 	err = dB.Child("/Contacts/"+ contactId).Value(&contactDetail)
 	m.Settings.DateOfCreation =contactDetail.Settings.DateOfCreation
 	err = dB.Child("/Contacts/"+ contactId).Update(&m)
+
+
+	//.....update in task
+
+
+	contactDetailForUpdation := map[string]Tasks{}
+	taskContactForUpdate :=TaskContact{}
+	taskContactDetail :=TaskContact{}
+
+	err = dB.Child("/Tasks/").Value(&contactDetailForUpdation)
+	dataValue := reflect.ValueOf(contactDetailForUpdation)
+	for _, key := range dataValue.MapKeys() {
+		log.Println("hhhh")
+		dataValueContact := reflect.ValueOf(contactDetailForUpdation[key.String()].Contacts)
+		for _, contactkey := range dataValueContact.MapKeys() {
+			if  contactkey.String()== contactId {
+				log.Println("task id",key.String())
+				err = dB.Child("Tasks/" + key.String() + "/Contacts/").Value(&taskContactDetail)
+				log.Println("contact inside task",taskContactDetail)
+				taskContactForUpdate.ContactName = m.Info.Name
+				taskContactForUpdate.EmailId = m.Info.Email
+				taskContactForUpdate.ContactStatus = taskContactDetail.ContactStatus
+				taskContactForUpdate.PhoneNumber =m.Info.PhoneNumber
+				err = dB.Child("Tasks/" + key.String() + "/Contacts/"+contactId).Update(&taskContactForUpdate)
+
+			}
+		}
+	}
 	if err!=nil{
 		log.Println("Insertion error:",err)
 		return false

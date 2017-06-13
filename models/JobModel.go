@@ -5,6 +5,7 @@ import (
 	"log"
 	"golang.org/x/net/context"
 	"app/passporte/helpers"
+	"reflect"
 )
 type JobInfo struct {
 	JobName		string
@@ -117,6 +118,26 @@ func (m *Job) UpdateJobToDB( ctx context.Context,jobId string)(bool)  {
 	job.Settings.Status =jobDetail.Settings.Status
 	job.Settings.DateOfCreation =jobDetail.Settings.DateOfCreation
 	err = dB.Child("/Jobs/"+ jobId).Update(&job)
+
+	//....updation in task
+	jobDetailForUpdation := map[string]Tasks{}
+	taskJobForUpdate :=TaskJob{}
+	taskJobDetail :=TaskJob{}
+
+	err = dB.Child("/Tasks/").Value(&jobDetailForUpdation)
+	dataValue := reflect.ValueOf(jobDetailForUpdation)
+	for _, key := range dataValue.MapKeys() {
+
+		if jobDetailForUpdation[key.String()].Job.JobId  ==jobId{
+
+			err = dB.Child("Tasks/" + key.String()+"/Job/").Value(&taskJobDetail)
+			taskJobForUpdate.JobId =taskJobDetail.JobId
+			taskJobForUpdate.JobStatus =taskJobDetail.JobStatus
+			taskJobForUpdate .JobName =m.Info.JobName
+			err = dB.Child("Tasks/" + key.String()+"/Job/").Update(&taskJobForUpdate)
+
+		}
+	}
 	if err!=nil{
 		log.Println("Insertion error:",err)
 		return false
