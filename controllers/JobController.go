@@ -141,24 +141,24 @@ func (c *JobController)LoadJobDetail() {
 }
 
 /*Delete job details from DB*/
-func (c *JobController)LoadDeleteJob() {
-	r := c.Ctx.Request
-	w := c.Ctx.ResponseWriter
-	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
-	ReadSession(w, r, companyTeamName)
-	jobId :=c.Ctx.Input.Param(":jobId")
-	job := models.Job{}
-	dbStatus := job.DeleteJobFromDB(c.AppEngineCtx, jobId)
-	switch dbStatus {
-
-		case true:
-			w.Write([]byte("true"))
-		case false :
-			w.Write([]byte("false"))
-	}
-
-
-}
+//func (c *JobController)LoadDeleteJob() {
+//	r := c.Ctx.Request
+//	w := c.Ctx.ResponseWriter
+//	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+//	ReadSession(w, r, companyTeamName)
+//	jobId :=c.Ctx.Input.Param(":jobId")
+//	job := models.Job{}
+//	dbStatus := job.DeleteJobFromDB(c.AppEngineCtx, jobId)
+//	switch dbStatus {
+//
+//		case true:
+//			w.Write([]byte("true"))
+//		case false :
+//			w.Write([]byte("false"))
+//	}
+//
+//
+//}
 
 /*Edit job details*/
 func (c *JobController)LoadEditJob() {
@@ -251,6 +251,103 @@ func (c *JobController)CheckJobNumber(){
 	case true:
 		w.Write([]byte("true"))
 	case false:
+		w.Write([]byte("false"))
+	}
+}
+func (c *JobController)LoadDeleteJob() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	log.Println("inside delete")
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
+	jobId := c.Ctx.Input.Param(":jobId")
+	user := models.TasksJob{}
+	dbStatus, contactDetail := user.IsJobUsedForTask(c.AppEngineCtx, jobId)
+	log.Println("status", dbStatus)
+	log.Println(contactDetail)
+	switch dbStatus {
+	case true:
+		log.Println("true")
+		if len(contactDetail) != 0 {
+			dataValue := reflect.ValueOf(contactDetail)
+			for _, key := range dataValue.MapKeys() {
+				if contactDetail[key.String()].TasksJobStatus == helpers.StatusActive {
+					log.Println("insideeee fgjgfjh")
+					w.Write([]byte("true"))
+					break
+				} else {
+					log.Println("false")
+					w.Write([]byte("false"))
+				}
+			}
+		} else {
+			w.Write([]byte("false"))
+		}
+	case false :
+		w.Write([]byte("false"))
+	}
+}
+func (c *JobController) DeleteJobIfNotInTask() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
+	jobId := c.Ctx.Input.Param(":jobId")
+	user :=models.Job{}
+	log.Println("inside deletion of cotact")
+	contact :=models.TasksJob{}
+	var TaskSlice []string
+	dbStatus,jobDetails := contact.IsJobUsedForTask(c.AppEngineCtx, jobId)
+	switch dbStatus {
+	case true:
+		dataValue := reflect.ValueOf(jobDetails)
+		for _, key := range dataValue.MapKeys() {
+			TaskSlice = append(TaskSlice, key.String())
+		}
+		dbStatus := user.DeleteJobFromDB(c.AppEngineCtx, jobId,TaskSlice)
+		switch dbStatus {
+		case true:
+			w.Write([]byte("true"))
+		case false :
+			w.Write([]byte("false"))
+		}
+	}
+}
+
+
+
+func (c *JobController) RemoveJobFromTask() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
+	jobId := c.Ctx.Input.Param(":jobId")
+	log.Println("hiiii")
+	//contact :=models.TasksContact{}
+	//var TaskSlice []string
+	//dbStatus,contactDetails := contact.IsContactUsedForTask(c.AppEngineCtx, contactId)
+	//switch dbStatus {
+	//case true:
+	//	dataValue := reflect.ValueOf(contactDetails)
+	//	for _, key := range dataValue.MapKeys() {
+	//		TaskSlice=append(TaskSlice,key.String())
+	//	}
+	//
+	//	dbStatus := contact.DeleteContactFromTask(c.AppEngineCtx, contactId, TaskSlice)
+	//	switch dbStatus {
+	//	case true:
+	//		w.Write([]byte("true"))
+	//	case false:
+	//		w.Write([]byte("false"))
+	//	}
+	//case false:
+	//	log.Println("false")
+	user :=models.Job{}
+	dbStatus := user.DeleteJobFromDBForNonTask(c.AppEngineCtx, jobId)
+	switch dbStatus {
+	case true:
+		w.Write([]byte("true"))
+	case false :
 		w.Write([]byte("false"))
 	}
 }

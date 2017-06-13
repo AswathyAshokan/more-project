@@ -66,20 +66,32 @@ func GetAllContact(ctx context.Context,companyTeamName string)(bool,map[string]C
 
 /*Function for delete contact from DB*/
 
-func (m *ContactUser) DeleteContactFromDB(ctx context.Context, contactId string)(bool)  {
+func (m *ContactUser) DeleteContactFromDB(ctx context.Context, contactId string,TaskSlice []string)(bool)  {
 
-	contactUpdate :=ContactSettings{}
-	contactDelete := ContactSettings{}
-
+	contactDetailForUpdate :=TasksContact{}
 	dB, err := GetFirebaseClient(ctx,"")
 
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
-	err = dB.Child("/Contacts/"+ contactId+"/Settings").Value(&contactUpdate)
-	contactDelete.Status = helpers.StatusInActive
-	contactDelete.DateOfCreation = contactUpdate.DateOfCreation
-	err = dB.Child("/Contacts/"+ contactId+"/Settings").Update(&contactDelete)
+	contactDetailForUpdate.TaskContactStatus =helpers.StatusInActive
+	for i:=0;i<len(TaskSlice);i++{
+		log.Println(TaskSlice[i])
+		err = dB.Child("/Contacts/"+ contactId+"/Tasks/"+TaskSlice[i]).Update(&contactDetailForUpdate)
+
+	}
+	taskContactDetail :=TaskContact{}
+	taskContactForUpdate :=TaskContact{}
+	for i:=0;i<len(TaskSlice);i++ {
+		err = dB.Child("Tasks/" + TaskSlice[i]+"/Contacts/"+contactId).Value(&taskContactDetail)
+		taskContactForUpdate.ContactName =taskContactDetail.ContactName
+		taskContactForUpdate.EmailId =taskContactDetail.EmailId
+		taskContactForUpdate.PhoneNumber =taskContactDetail.PhoneNumber
+		taskContactForUpdate.ContactStatus =helpers.StatusInActive
+		log.Println("fhsgjs",taskContactForUpdate)
+		err = dB.Child("Tasks/" + TaskSlice[i]+"/Contacts/"+contactId).Update(&taskContactForUpdate)
+
+	}
 	if err!=nil{
 		log.Println("Deletion error:",err)
 		return false
@@ -129,16 +141,31 @@ func (m *TasksContact) IsContactUsedForTask( ctx context.Context, contactId stri
 
 	return true,contactDetail
 }
-//func (m *TasksContact) RemoveContactFromTaskForDelete(ctx context.Context, contactId string)(bool, ContactUser) {
-//	contactDetail := ContactUser{}
-//	dB, err := GetFirebaseClient(ctx,"")
-//	err = dB.Child("/Contacts/"+ contactId+"/Tasks/").Value(&contactDetail)
-//	if err != nil {
-//		log.Fatal(err)
-//		return false, contactDetail
-//	}
-//	return true, contactDetail
-//}
+func (m *ContactUser) DeleteContactFromDBForNonTask(ctx context.Context, contactId string)(bool) {
+	contactDetail := ContactUser{}
+	updatedContactDetail :=ContactUser{}
+	log.Println("gggg")
+
+	dB, err := GetFirebaseClient(ctx,"")
+	err = dB.Child("/Contacts/"+ contactId).Value(&contactDetail)
+	updatedContactDetail.Settings.DateOfCreation =contactDetail.Settings.DateOfCreation
+	updatedContactDetail.Settings.Status =helpers.StatusInActive
+	updatedContactDetail.Info.Address =contactDetail.Info.Address
+	updatedContactDetail.Info.CompanyTeamName =contactDetail.Info.CompanyTeamName
+	updatedContactDetail.Info.Email =contactDetail.Info.Email
+	updatedContactDetail.Info.Name =contactDetail.Info.Name
+	updatedContactDetail.Info.PhoneNumber =contactDetail.Info.PhoneNumber
+	updatedContactDetail.Info.State =contactDetail.Info.State
+	updatedContactDetail.Info.ZipCode =contactDetail.Info.ZipCode
+	log.Println("dfkfj",)
+
+	err = dB.Child("/Contacts/"+ contactId).Update(&updatedContactDetail)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+	return true
+}
 func (m *TasksContact) DeleteContactFromTask(ctx context.Context,contactId string,TaskSlice []string)(bool) {
 
 
@@ -147,10 +174,10 @@ func (m *TasksContact) DeleteContactFromTask(ctx context.Context,contactId strin
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
-
 	contactDetailForUpdate.TaskContactStatus =helpers.StatusInActive
 	for i:=0;i<len(TaskSlice);i++{
-		err = dB.Child("/Contacts/"+ contactId+"/Tasks/"+TaskSlice[i]).Set(contactDetailForUpdate)
+		log.Println(TaskSlice[i])
+		err = dB.Child("/Contacts/"+ contactId+"/Tasks/"+TaskSlice[i]).Update(&contactDetailForUpdate)
 
 	}
 	taskContactDetail :=TaskContact{}
@@ -161,7 +188,8 @@ func (m *TasksContact) DeleteContactFromTask(ctx context.Context,contactId strin
 		taskContactForUpdate.EmailId =taskContactDetail.EmailId
 		taskContactForUpdate.PhoneNumber =taskContactDetail.PhoneNumber
 		taskContactForUpdate.ContactStatus =helpers.StatusInActive
-		err = dB.Child("Tasks/" + TaskSlice[i]+"/Contacts/"+contactId).Set(taskContactForUpdate)
+		log.Println("fhsgjs",taskContactForUpdate)
+		err = dB.Child("Tasks/" + TaskSlice[i]+"/Contacts/"+contactId).Update(&taskContactForUpdate)
 
 	}
 	if err!=nil{
@@ -169,5 +197,4 @@ func (m *TasksContact) DeleteContactFromTask(ctx context.Context,contactId strin
 		return false
 	}
 	return true
-
 }

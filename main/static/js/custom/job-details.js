@@ -58,6 +58,7 @@ $(function(){
     
     /*Function for assigning data array into data table*/
     function dataTableManipulate(dataArray){
+        console.log("gerrds",dataArray)
         table =  $("#job-details").DataTable({
             data: dataArray,
             "columnDefs": [{
@@ -109,44 +110,120 @@ $(function(){
     });
 
 /*list job details of each job when click on list icon*/
-    $('#job-details tbody').on( 'click', '#view', function () {
+//    $('#job-details tbody').on( 'click', '#view', function () {
+//        var data = table.row( $(this).parents('tr') ).data();
+//        var jobId = data[5];
+//        window.location = '/' + companyTeamName  +'/job/'+ jobId + '/task';
+//        return false;
+//    });
+//    /*Function for deleting particular job*/
+//    $('#job-details tbody').on( 'click', '#delete', function () {
+//        $("#myModal").modal();
+//        var data = table.row( $(this).parents('tr') ).data();
+//        var key = data[5];
+//        
+//        $("#confirm").click(function(){
+//            $.ajax({
+//                type: "POST",
+//                url: '/' + companyTeamName  + '/job/' + key + '/delete',
+//                data: '',
+//                success: function(data){
+//                    if(data=="true"){
+//                        $('#job-details').dataTable().fnDestroy();
+//                        var index = "";
+//                        
+//                        for(var i = 0; i < mainArray.length; i++) {
+//                           index = mainArray[i].indexOf(key);
+//                           if(index != -1) {
+//                               console.log("dddd", i);
+//                             break;
+//                           }
+//                        }
+//                        mainArray.splice(i, 1);
+//                        dataTableManipulate(mainArray);   
+//                    }
+//                    else {
+//                        console.log("Removing Failed!");
+//                    }
+//                }
+//
+//            });
+//        });
+//    });
+    
+    
+        $('#job-details tbody').on( 'click', '#delete', function () {
+      
         var data = table.row( $(this).parents('tr') ).data();
-        var jobId = data[5];
-        window.location = '/' + companyTeamName  +'/job/'+ jobId + '/task';
-        return false;
-    });
-    /*Function for deleting particular job*/
-    $('#job-details tbody').on( 'click', '#delete', function () {
-        $("#myModal").modal();
-        var data = table.row( $(this).parents('tr') ).data();
-        var key = data[5];
-        
-        $("#confirm").click(function(){
-            $.ajax({
-                type: "POST",
-                url: '/' + companyTeamName  + '/job/' + key + '/delete',
-                data: '',
-                success: function(data){
-                    if(data=="true"){
-                        $('#job-details').dataTable().fnDestroy();
-                        var index = "";
-                        
-                        for(var i = 0; i < mainArray.length; i++) {
-                           index = mainArray[i].indexOf(key);
-                           if(index != -1) {
-                               console.log("dddd", i);
-                             break;
-                           }
-                        }
-                        mainArray.splice(i, 1);
-                        dataTableManipulate(mainArray);   
-                    }
-                    else {
-                        console.log("Removing Failed!");
-                    }
+       var key = data[5];
+        $.ajax({
+            type: "POST",
+            url: '/' + companyTeamName +'/job/'+ key + '/delete',
+            data: '',
+            success: function(data){
+                console.log("jjjj",data);
+                if(data=="true"){
+                    console.log("hdhhshhh");
+                    $("#jobInTask").modal();
+                    $("#deleteNotTask").click(function(){
+                        $.ajax({
+                            type: "POST",
+                            url: '/' + companyTeamName +'/job/'+ key + '/deletionOfJob',
+                            data: '',
+                            success: function(feedback){
+                                console.log(feedback);
+                                if(data=="true"){
+                                    $('#job-details').dataTable().fnDestroy();
+                                    var index = "";
+                                    for(var i = 0; i < mainArray.length; i++) {
+                                        index = mainArray[i].indexOf(key);
+                                        if(index != -1) {
+                                            console.log("dddd", i);
+                                            break;
+                                        }
+                                    }
+                                    mainArray.splice(i, 1);
+                                    dataTableManipulate(mainArray);  
+                                }
+                                else {
+                                    console.log("Removing Failed!");
+                                }
+                            }
+                        });
+                    });
+                    
                 }
-
-            });
+                else {
+                   
+                    $("#jobModal").modal();
+                    $("#confirm").click(function(){
+                        $.ajax({
+                            type: "POST",
+                            url: '/' + companyTeamName +'/job/'+ key + '/RemoveTask',
+                            data: '',
+                            success: function(response){
+                                console.log("deletion res",response)
+                                if(response=="true"){
+                                    $('#job-details').dataTable().fnDestroy(); 
+                                    var index = "";
+                                    for(var i = 0; i < mainArray.length; i++) {
+                                    index = mainArray[i].indexOf(key);
+                                    if(index != -1) {
+                                        console.log("dddd", i);
+                                        break;
+                                    }
+                                }
+                                mainArray.splice(i, 1);
+                                console.log("main array",mainArray)
+                                dataTableManipulate(mainArray)
+                                }
+                                else {
+                                }
+                            }
+                        });
+                    });
+                }
+            }
         });
     });
     

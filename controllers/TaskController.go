@@ -337,7 +337,7 @@ func (c *TaskController)LoadTaskDetail() {
 
 				}
 
-				if !helpers.StringInSlice(tasks[k].Job.JobName, viewModel.UniqueJobNames) && tasks[k].Job.JobName != "" {
+				if !helpers.StringInSlice(tasks[k].Job.JobName, viewModel.UniqueJobNames) && tasks[k].Job.JobName != ""&& tasks[k].Job.JobStatus =="Active" {
 					viewModel.UniqueJobNames = append(viewModel.UniqueJobNames, tasks[k].Job.JobName)
 				}
 				//collecting fit to work from task
@@ -400,16 +400,18 @@ func (c *TaskController)LoadTaskDetail() {
 				for _, contactKey := range contactDataValue.MapKeys() {
 
 					var bufferContact bytes.Buffer
-					if len(tempContactDataValue) == 0 {
-						bufferContact.WriteString(tasks[k].Contacts[contactKey.String()].ContactName)
-						tempContactDataValue = bufferContact.String()
-						bufferContact.Reset()
-					} else {
-						bufferContact.WriteString(tempContactDataValue)
-						bufferContact.WriteString(", ")
-						bufferContact.WriteString(tasks[k].Contacts[contactKey.String()].ContactName)
-						tempContactDataValue = bufferContact.String()
-						bufferContact.Reset()
+					if  tasks[k].Contacts[contactKey.String()].ContactStatus =="Active" {
+						if len(tempContactDataValue) == 0 {
+							bufferContact.WriteString(tasks[k].Contacts[contactKey.String()].ContactName)
+							tempContactDataValue = bufferContact.String()
+							bufferContact.Reset()
+						} else {
+							bufferContact.WriteString(tempContactDataValue)
+							bufferContact.WriteString(", ")
+							bufferContact.WriteString(tasks[k].Contacts[contactKey.String()].ContactName)
+							tempContactDataValue = bufferContact.String()
+							bufferContact.Reset()
+						}
 					}
 				}
 

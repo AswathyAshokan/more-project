@@ -84,6 +84,7 @@ $(function(){
 //    });
     //...................
     $('#contact-details tbody').on( 'click', '#delete', function () {
+      
         var data = table.row( $(this).parents('tr') ).data();
        var key = data[6];
         $.ajax({
@@ -91,14 +92,17 @@ $(function(){
             url: '/' + companyTeamName +'/contact/'+ key + '/delete',
             data: '',
             success: function(data){
+                console.log("jjjj",data);
                 if(data=="true"){
-                    $("#myModalForPendingUsers").modal();
+                    console.log("hdhhshhh");
+                    $("#myContactModel").modal();
                     $("#deleteNotTask").click(function(){
                         $.ajax({
                             type: "POST",
                             url: '/' + companyTeamName +'/contact/'+ key + '/deletionOfContact',
                             data: '',
                             success: function(feedback){
+                                console.log(feedback);
                                 if(feedback=="true"){
                                     $('#contact-details').dataTable().fnDestroy(); 
                                     var index = "";
@@ -120,7 +124,8 @@ $(function(){
                     
                 }
                 else {
-                    $("#myModal").modal();
+                   
+                    $("#myContactDelete").modal();
                     $("#confirm").click(function(){
                         $.ajax({
                             type: "POST",

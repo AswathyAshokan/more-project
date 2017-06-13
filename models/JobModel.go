@@ -65,25 +65,25 @@ func (m *Job ) GetAllJobs(ctx context.Context,companyTeamName string)(bool,map[s
 }
 
 /*delete job detail from DB*/
-func (m *Job) DeleteJobFromDB(ctx context.Context, jobId string)(bool)  {
-
-	jobUpdate :=JobSettings{}
-	jobDeletion :=JobSettings{}
-	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("/Jobs/"+ jobId+"/Settings").Value(&jobUpdate)
-	jobDeletion.DateOfCreation =jobUpdate.DateOfCreation
-	jobDeletion.Status =helpers.StatusInActive
-
-	if err!=nil{
-		log.Println("Connection error:",err)
-	}
-	err = dB.Child("/Jobs/"+ jobId+"/Settings").Update(&jobDeletion)
-	if err!=nil{
-		log.Println("Deletion error:",err)
-		return false
-	}
-	return true
-}
+//func (m *Job) DeleteJobFromDB(ctx context.Context, jobId string)(bool)  {
+//
+//	jobUpdate :=JobSettings{}
+//	jobDeletion :=JobSettings{}
+//	dB, err := GetFirebaseClient(ctx,"")
+//	err = dB.Child("/Jobs/"+ jobId+"/Settings").Value(&jobUpdate)
+//	jobDeletion.DateOfCreation =jobUpdate.DateOfCreation
+//	jobDeletion.Status =helpers.StatusInActive
+//
+//	if err!=nil{
+//		log.Println("Connection error:",err)
+//	}
+//	err = dB.Child("/Jobs/"+ jobId+"/Settings").Update(&jobDeletion)
+//	if err!=nil{
+//		log.Println("Deletion error:",err)
+//		return false
+//	}
+//	return true
+//}
 
 /*get job details of specific id*/
 func (m *Job) GetJobDetailById(ctx context.Context, jobId string)(bool, Job) {
@@ -159,3 +159,107 @@ func CheckJobNumberIsUsed(ctx context.Context, jobNumber string)bool{
 		return false
 	}
 }
+func (m *Job) DeleteJobFromDB(ctx context.Context, jobId string,TaskSlice []string)(bool)  {
+
+	jobDetailForUpdate :=TasksJob{}
+	dB, err := GetFirebaseClient(ctx,"")
+
+	if err!=nil{
+		log.Println("Connection error:",err)
+	}
+	jobDetailForUpdate.TasksJobStatus =helpers.StatusInActive
+	for i:=0;i<len(TaskSlice);i++{
+		log.Println(TaskSlice[i])
+		err = dB.Child("/Jobs/"+ jobId+"/Tasks/"+TaskSlice[i]).Update(&jobDetailForUpdate)
+
+	}
+	taskJobDetail :=TaskJob{}
+	taskJobForUpdate :=TaskJob{}
+	for i:=0;i<len(TaskSlice);i++ {
+		err = dB.Child("Tasks/" + TaskSlice[i]+"/Job/").Value(&taskJobDetail)
+		log.Println("details from task job",)
+		taskJobForUpdate.JobId =taskJobDetail.JobId
+		taskJobForUpdate.JobName =taskJobDetail.JobName
+		taskJobForUpdate.JobStatus =helpers.StatusInActive
+
+		log.Println("fhsgjs",taskJobForUpdate)
+		err = dB.Child("Tasks/" + TaskSlice[i]+"/Job/").Update(&taskJobForUpdate)
+
+	}
+	if err!=nil{
+		log.Println("Deletion error:",err)
+		return false
+	}
+	return true
+}
+func (m *TasksJob) IsJobUsedForTask( ctx context.Context, jobId string)(bool,map[string]TasksJob)  {
+	jobDetail := map[string]TasksJob{}
+	dB, err := GetFirebaseClient(ctx,"")
+	if err!=nil{
+		log.Println("Connection error:",err)
+	}
+	err = dB.Child("/Jobs/"+ jobId+"/Tasks/").Value(&jobDetail)
+	if err!=nil{
+		log.Println("Insertion error:",err)
+		return false,jobDetail
+	}
+	log.Println(jobDetail)
+
+	return true,jobDetail
+}
+func (m *Job) DeleteJobFromDBForNonTask(ctx context.Context, jobId string)(bool) {
+	jobDetail := Job{}
+	updatedJobDetail :=Job{}
+	log.Println("gggg")
+
+	dB, err := GetFirebaseClient(ctx,"")
+	err = dB.Child("/Jobs/"+ jobId).Value(&jobDetail)
+	updatedJobDetail.Settings.DateOfCreation =jobDetail.Settings.DateOfCreation
+	updatedJobDetail.Settings.Status =helpers.StatusInActive
+	updatedJobDetail.Info.JobName =jobDetail.Info.JobName
+	updatedJobDetail.Info.CompanyTeamName =jobDetail.Info.CompanyTeamName
+	updatedJobDetail.Info.JobNumber =jobDetail.Info.JobNumber
+	updatedJobDetail.Info.NumberOfTask =jobDetail.Info.NumberOfTask
+	updatedJobDetail.Customer.CustomerId =jobDetail.Customer.CustomerId
+	updatedJobDetail.Customer.CustomerName =jobDetail.Customer.CustomerName
+	log.Println("dfkfj",)
+
+	err = dB.Child("/Jobs/"+ jobId).Update(&updatedJobDetail)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+	return true
+}
+//func (m *TasksContact) DeleteContactFromTask(ctx context.Context,contactId string,TaskSlice []string)(bool) {
+//
+//
+//	contactDetailForUpdate :=TasksContact{}
+//	dB, err := GetFirebaseClient(ctx,"")
+//	if err!=nil{
+//		log.Println("Connection error:",err)
+//	}
+//	contactDetailForUpdate.TaskContactStatus =helpers.StatusInActive
+//	for i:=0;i<len(TaskSlice);i++{
+//		log.Println(TaskSlice[i])
+//		err = dB.Child("/Contacts/"+ contactId+"/Tasks/"+TaskSlice[i]).Update(&contactDetailForUpdate)
+//
+//	}
+//	taskContactDetail :=TaskContact{}
+//	taskContactForUpdate :=TaskContact{}
+//	for i:=0;i<len(TaskSlice);i++ {
+//		err = dB.Child("Tasks/" + TaskSlice[i]+"/Contacts/"+contactId).Value(&taskContactDetail)
+//		taskContactForUpdate.ContactName =taskContactDetail.ContactName
+//		taskContactForUpdate.EmailId =taskContactDetail.EmailId
+//		taskContactForUpdate.PhoneNumber =taskContactDetail.PhoneNumber
+//		taskContactForUpdate.ContactStatus =helpers.StatusInActive
+//		log.Println("fhsgjs",taskContactForUpdate)
+//		err = dB.Child("Tasks/" + TaskSlice[i]+"/Contacts/"+contactId).Update(&taskContactForUpdate)
+//
+//	}
+//	if err!=nil{
+//		log.Println("Insertion error:",err)
+//		return false
+//	}
+//	return true
+//}
