@@ -260,7 +260,7 @@ func (c *CustomerController) DeleteCustomerIfNotInTask() {
 
 
 
-func (c *CustomerController) RemoveJobFromTask() {
+func (c *CustomerController) RemoveCustomerFromTask() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
@@ -287,6 +287,7 @@ func (c *CustomerController) RemoveJobFromTask() {
 	//case false:
 	//	log.Println("false")
 	user :=models.Customers{}
+	log.Println("customer id",customerId)
 	dbStatus := user.DeleteCustomerFromDBForNonTask(c.AppEngineCtx, customerId)
 	switch dbStatus {
 	case true:

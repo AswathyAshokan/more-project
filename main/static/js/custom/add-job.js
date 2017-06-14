@@ -52,8 +52,7 @@ $().ready(function() {
             },
         },
         submitHandler: function() { 
-            var jjjjj = $('#customerId option:selected').text();
-            alert(jjjjj);
+            
              $("#saveButton").attr('disabled', true);
             var formData = $("#jobForm").serialize();
             var customerName = $('#customerId option:selected').text();

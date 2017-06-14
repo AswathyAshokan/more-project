@@ -66,7 +66,7 @@ func GetAllCustomerDetails(ctx context.Context,companyTeamName string) (map[stri
 }
 
 // delete customer from database using customer id
-func(m *Customers) DeleteCustomerById(ctx context.Context,customerKey string) bool{
+func(m *Customers) DeleteCustomerFromDBForNonTask(ctx context.Context,customerKey string) bool{
 	log.Println("id",customerKey)
 	customerSettingsUpdation := CustomerSettings{}
 	customerDeletion := CustomerSettings{}
@@ -216,32 +216,32 @@ func (m *TasksCustomer) IsCustomerUsedForTask( ctx context.Context, customerId s
 
 	return true,customerDetail
 }
-func (m *Customers) DeleteCustomerFromDBForNonTask(ctx context.Context, customerId string)(bool) {
-	customerDetail := Customers{}
-	updatedCustomerDetail :=Customers{}
-	log.Println("gggg")
-
-	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("/Customers/"+ customerId).Value(&customerDetail)
-	updatedCustomerDetail.Settings.DateOfCreation =customerDetail.Settings.DateOfCreation
-	updatedCustomerDetail.Settings.Status =helpers.StatusInActive
-	updatedCustomerDetail.Info.CustomerName=customerDetail.Info.CustomerName
-	updatedCustomerDetail.Info.CompanyTeamName =customerDetail.Info.CompanyTeamName
-	updatedCustomerDetail.Info.Address =customerDetail.Info.Address
-	updatedCustomerDetail.Info.ContactPerson =customerDetail.Info.CustomerName
-	updatedCustomerDetail.Info.Email =customerDetail.Info.Email
-	updatedCustomerDetail.Info.Phone =customerDetail.Info.Phone
-	updatedCustomerDetail.Info.State =customerDetail.Info.State
-	updatedCustomerDetail.Info.ZipCode =customerDetail.Info.ZipCode
-
-	log.Println("dfkfj",)
-
-	err = dB.Child("/Customers/"+ customerId).Update(&updatedCustomerDetail)
-	if err != nil {
-		log.Fatal(err)
-		return false
-	}
-	return true
-}
-
+//func (m *Customers) DeleteCustomerFromDBForNonTask(ctx context.Context, customerId string)(bool) {
+//	customerDetail := Customers{}
+//	updatedCustomerDetail :=Customers{}
+//	log.Println("gggg")
+//
+//	dB, err := GetFirebaseClient(ctx,"")
+//	err = dB.Child("/Customers/"+ customerId).Value(&customerDetail)
+//	updatedCustomerDetail.Settings.DateOfCreation =customerDetail.Settings.DateOfCreation
+//	updatedCustomerDetail.Settings.Status =helpers.StatusInActive
+//	updatedCustomerDetail.Info.CustomerName=customerDetail.Info.CustomerName
+//	updatedCustomerDetail.Info.CompanyTeamName =customerDetail.Info.CompanyTeamName
+//	updatedCustomerDetail.Info.Address =customerDetail.Info.Address
+//	updatedCustomerDetail.Info.ContactPerson =customerDetail.Info.CustomerName
+//	updatedCustomerDetail.Info.Email =customerDetail.Info.Email
+//	updatedCustomerDetail.Info.Phone =customerDetail.Info.Phone
+//	updatedCustomerDetail.Info.State =customerDetail.Info.State
+//	updatedCustomerDetail.Info.ZipCode =customerDetail.Info.ZipCode
+//
+//	log.Println("dfkfj",updatedCustomerDetail)
+//
+//	err = dB.Child("/Customers/"+ customerId).Update(&updatedCustomerDetail)
+//	if err != nil {
+//		log.Fatal(err)
+//		return false
+//	}
+//	return true
+//}
+//
 

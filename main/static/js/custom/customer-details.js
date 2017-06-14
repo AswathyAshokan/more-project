@@ -68,34 +68,107 @@ $(function(){
     });
     
 /*Delete customer details when click on delete icon */
+//    $('#customer-table tbody').on( 'click', '#delete', function () {
+//        $("#myModal").modal();
+//        var data = table.row( $(this).parents('tr') ).data();
+//        var key = data[7];
+//        $("#confirm").click(function(){
+//            $.ajax({
+//                type: "POST",
+//                url: '/' + companyTeamName +'/customer/'+ key + '/delete',
+//                data: '',
+//                success: function(data){
+//                    if(data=="true"){
+//                        $('#customer-table').dataTable().fnDestroy();
+//                        var index = "";
+//                        for(var i = 0; i < mainArray.length; i++) {
+//                            index = mainArray[i].indexOf(key);
+//                            if(index != -1) {
+//                                console.log("dddd", i);
+//                                break;
+//                            }
+//                        }
+//                        mainArray.splice(i, 1);
+//                        dataTableManipulate(); 
+//                    }
+//                    else {
+//                        console.log("Removing Failed!");
+//                    }
+//                }
+//            });
+//        });
+//    });
+    
+      //...................
     $('#customer-table tbody').on( 'click', '#delete', function () {
-        $("#myModal").modal();
+      
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[7];
-        $("#confirm").click(function(){
-            $.ajax({
-                type: "POST",
-                url: '/' + companyTeamName +'/customer/'+ key + '/delete',
-                data: '',
-                success: function(data){
-                    if(data=="true"){
-                        $('#customer-table').dataTable().fnDestroy();
-                        var index = "";
-                        for(var i = 0; i < mainArray.length; i++) {
-                            index = mainArray[i].indexOf(key);
-                            if(index != -1) {
-                                console.log("dddd", i);
-                                break;
+       var key = data[7];
+        $.ajax({
+            type: "POST",
+            url: '/' + companyTeamName +'/customer/'+ key + '/delete',
+            data: '',
+            success: function(data){
+                console.log("jjjj",data);
+                if(data=="true"){
+                    console.log("hdhhshhh");
+                    $("#myCustomerModel").modal();
+                    $("#deleteNotTask").click(function(){
+                        $.ajax({
+                            type: "POST",
+                            url: '/' + companyTeamName +'/customer/'+ key + '/deletionOfCustomer',
+                            data: '',
+                            success: function(feedback){
+                                console.log(feedback);
+                                if(feedback=="true"){
+                                    $('#customer-table').dataTable().fnDestroy(); 
+                                    var index = "";
+                                    for(var i = 0; i < mainArray.length; i++) {
+                                    index = mainArray[i].indexOf(key);
+                                    if(index != -1) {
+                                        console.log("dddd", i);
+                                        break;
+                                    }
+                                }
+                                mainArray.splice(i, 1);
+                                dataTableManipulate()
+                                }
+                                else {
+                                }
                             }
-                        }
-                        mainArray.splice(i, 1);
-                        dataTableManipulate(); 
-                    }
-                    else {
-                        console.log("Removing Failed!");
-                    }
+                        });
+                    });
+                    
                 }
-            });
+                else {
+                   
+                    $("#myModal").modal();
+                    $("#confirm").click(function(){
+                        $.ajax({
+                            type: "POST",
+                            url: '/' + companyTeamName +'/customer/'+ key + '/RemoveTask',
+                            data: '',
+                            success: function(response){
+                                if(response=="true"){
+                                    $('#customer-table').dataTable().fnDestroy(); 
+                                    var index = "";
+                                    for(var i = 0; i < mainArray.length; i++) {
+                                    index = mainArray[i].indexOf(key);
+                                    if(index != -1) {
+                                        console.log("dddd", i);
+                                        break;
+                                    }
+                                }
+                                mainArray.splice(i, 1);
+                                dataTableManipulate()
+                                }
+                                else {
+                                }
+                            }
+                        });
+                    });
+                }
+            }
         });
     });
 });
