@@ -56,6 +56,7 @@ func (c *JobController)AddNewJob() {
 			for _, k := range dataValue.MapKeys() {
 				viewModel.CustomerNameArray  = append(viewModel.CustomerNameArray, customers[k.String()].Info.CustomerName)
 			}
+			log.Println("customer name array",viewModel.CustomerNameArray)
 			viewModel.PageType=helpers.SelectPageForAdd
 			viewModel.CompanyTeamName = storedSession.CompanyTeamName
 			viewModel.CompanyPlan = storedSession.CompanyPlan

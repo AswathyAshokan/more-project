@@ -139,7 +139,7 @@ func (m *ContactUser) UpdateContactToDB( ctx context.Context, contactId string)(
 		for _, contactkey := range dataValueContact.MapKeys() {
 			if  contactkey.String()== contactId {
 				log.Println("task id",key.String())
-				err = dB.Child("Tasks/" + key.String() + "/Contacts/").Value(&taskContactDetail)
+				err = dB.Child("Tasks/" + key.String() + "/Contacts/"+contactId).Value(&taskContactDetail)
 				log.Println("contact inside task",taskContactDetail)
 				taskContactForUpdate.ContactName = m.Info.Name
 				taskContactForUpdate.EmailId = m.Info.Email

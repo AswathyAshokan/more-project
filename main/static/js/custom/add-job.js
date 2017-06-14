@@ -17,6 +17,11 @@ $().ready(function() {
         //$("#customerId option[text=selectArray]").attr("selected","selected");
         document.getElementById("jobHead").innerHTML = "Edit Job";
     }
+    
+    
+    
+    
+
     $("#jobForm").validate({
         rules: {
             numberOfTask:"required",
@@ -46,7 +51,9 @@ $().ready(function() {
                 remote: "Job number already exists!"
             },
         },
-        submitHandler: function() {
+        submitHandler: function() { 
+            var jjjjj = $('#customerId option:selected').text();
+            alert(jjjjj);
              $("#saveButton").attr('disabled', true);
             var formData = $("#jobForm").serialize();
             var customerName = $('#customerId option:selected').text();

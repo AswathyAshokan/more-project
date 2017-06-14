@@ -206,6 +206,12 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 	job := Job{}
 	err = dB.Child("/Jobs/"+ JobId).Value(&job)
 	CustomerIdForTask :=job.Customer.CustomerId
+	customerInTask :=TaskCustomer{}
+	customerInTask.CustomerId =CustomerIdForTask
+	customerInTask.CustomerName =m.Customer.CustomerName
+	customerInTask.CustomerStatus =m.Customer.CustomerStatus
+	err = dB.Child("/Tasks/"+ taskUniqueID+"/Customer/").Set(customerInTask)
+	log.Println(customerInTask)
 	err = dB.Child("/Customers/"+ CustomerIdForTask+"/Tasks/"+taskUniqueID).Set(CustomerTask)
 	if err!=nil{
 		log.Println("Insertion error:",err)

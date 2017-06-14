@@ -106,21 +106,21 @@ func (c *CustomerController) CustomerDetails() {
 }
 
 // delete each customer using customer id
-func (c *CustomerController) DeleteCustomer() {
-	r := c.Ctx.Request
-	w := c.Ctx.ResponseWriter
-	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
-	ReadSession(w, r, companyTeamName)
-	customerKey :=c.Ctx.Input.Param(":customerid")
-	customer := models.Customers{}
-	dbStatus :=customer.DeleteCustomerById(c.AppEngineCtx, customerKey)
-	switch dbStatus {
-	case true:
-		w.Write([]byte("true"))
-	case false:
-		w.Write([]byte("false"))
-	}
-}
+//func (c *CustomerController) DeleteCustomer() {
+//	r := c.Ctx.Request
+//	w := c.Ctx.ResponseWriter
+//	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+//	ReadSession(w, r, companyTeamName)
+//	customerKey :=c.Ctx.Input.Param(":customerid")
+//	customer := models.Customers{}
+//	dbStatus :=customer.DeleteCustomerById(c.AppEngineCtx, customerKey)
+//	switch dbStatus {
+//	case true:
+//		w.Write([]byte("true"))
+//	case false:
+//		w.Write([]byte("false"))
+//	}
+//}
 
 //edit profile of each users using customer id
 func (c *CustomerController) EditCustomer() {
@@ -196,3 +196,102 @@ func (c *CustomerController)  CustomerNameCheck(){
 
 }
 
+//functions for dependency test
+
+func (c *CustomerController)LoadDeleteCustomer() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	log.Println("inside delete")
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
+	customerId := c.Ctx.Input.Param(":customerid")
+	user := models.TasksCustomer{}
+	dbStatus, customerDetail := user.IsCustomerUsedForTask(c.AppEngineCtx, customerId)
+	log.Println("status", dbStatus)
+	log.Println(customerDetail)
+	switch dbStatus {
+	case true:
+		log.Println("true")
+		if len(customerDetail) != 0 {
+			dataValue := reflect.ValueOf(customerDetail)
+			for _, key := range dataValue.MapKeys() {
+				if customerDetail[key.String()].TasksCustomerStatus == helpers.StatusActive {
+					log.Println("insideeee fgjgfjh")
+					w.Write([]byte("true"))
+					break
+				} else {
+					log.Println("false")
+					w.Write([]byte("false"))
+				}
+			}
+		} else {
+			w.Write([]byte("false"))
+		}
+	case false :
+		w.Write([]byte("false"))
+	}
+}
+func (c *CustomerController) DeleteCustomerIfNotInTask() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
+	customerId := c.Ctx.Input.Param(":customerid")
+	user :=models.Customers{}
+	log.Println("inside deletion of cotact")
+	customer :=models.TasksCustomer{}
+	var TaskSlice []string
+	dbStatus,jobDetails := customer.IsCustomerUsedForTask(c.AppEngineCtx, customerId)
+	switch dbStatus {
+	case true:
+		dataValue := reflect.ValueOf(jobDetails)
+		for _, key := range dataValue.MapKeys() {
+			TaskSlice = append(TaskSlice, key.String())
+		}
+		dbStatus := user.DeleteCustomerFromDB(c.AppEngineCtx, customerId,TaskSlice)
+		switch dbStatus {
+		case true:
+			w.Write([]byte("true"))
+		case false :
+			w.Write([]byte("false"))
+		}
+	}
+}
+
+
+
+func (c *CustomerController) RemoveJobFromTask() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
+	customerId := c.Ctx.Input.Param(":customerid")
+	log.Println("hiiii")
+	//contact :=models.TasksContact{}
+	//var TaskSlice []string
+	//dbStatus,contactDetails := contact.IsContactUsedForTask(c.AppEngineCtx, contactId)
+	//switch dbStatus {
+	//case true:
+	//	dataValue := reflect.ValueOf(contactDetails)
+	//	for _, key := range dataValue.MapKeys() {
+	//		TaskSlice=append(TaskSlice,key.String())
+	//	}
+	//
+	//	dbStatus := contact.DeleteContactFromTask(c.AppEngineCtx, contactId, TaskSlice)
+	//	switch dbStatus {
+	//	case true:
+	//		w.Write([]byte("true"))
+	//	case false:
+	//		w.Write([]byte("false"))
+	//	}
+	//case false:
+	//	log.Println("false")
+	user :=models.Customers{}
+	dbStatus := user.DeleteCustomerFromDBForNonTask(c.AppEngineCtx, customerId)
+	switch dbStatus {
+	case true:
+		w.Write([]byte("true"))
+	case false :
+		w.Write([]byte("false"))
+	}
+}
