@@ -137,6 +137,29 @@ func(m *Customers) UpdateCustomerDetailsById(ctx context.Context,customerId stri
 
 		}
 	}
+
+
+	//...update on job
+
+	customerDetailForJobUpdation := map[string]Job{}
+	taskCustomerForJobUpdate :=JobCustomer{}
+	taskJobCustomerDetail :=JobCustomer{}
+
+	err = db.Child("/Jobs/").Value(&customerDetailForJobUpdation)
+	dataJobValue := reflect.ValueOf(customerDetailForJobUpdation)
+	for _, key := range dataJobValue.MapKeys() {
+
+		if customerDetailForJobUpdation[key.String()].Customer.CustomerId ==customerId{
+
+			err = db.Child("Jobs/" + key.String()+"/Customer/").Value(&taskJobCustomerDetail)
+			taskCustomerForJobUpdate.CustomerId =taskJobCustomerDetail.CustomerId
+			taskCustomerForJobUpdate.CustomerName =m.Info.CustomerName
+			err = db.Child("Jobs/" + key.String()+"/Customer/").Update(&taskCustomerForUpdate)
+
+		}
+	}
+
+
 	return true
 }
 
