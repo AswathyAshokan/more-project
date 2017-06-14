@@ -45,8 +45,8 @@ func init() {
 	beegae.Router("/:companyTeamName/group/:groupId/delete", &controllers.GroupController{}, "*:LoadDeleteGroup")
 	beegae.Router("/:companyTeamName/group/:groupId/edit", &controllers.GroupController{}, "*:EditGroup")
 	beegae.Router("/isgroupnameused/:groupName/:type/:oldName", &controllers.GroupController{}, "*:GroupNameCheck")
-	beegae.Router("/:companyTeamName/group/:groupId/RemoveTask", &controllers.GroupController{}, "*:RemoveJobFromTask")
-	beegae.Router("/:companyTeamName/group/:groupId/deletionOfGroup", &controllers.GroupController{}, "*:DeleteJobIfNotInTask")
+	beegae.Router("/:companyTeamName/group/:groupId/RemoveTask", &controllers.GroupController{}, "*:RemoveGroupFromTask")
+	beegae.Router("/:companyTeamName/group/:groupId/deletionOfGroup", &controllers.GroupController{}, "*:DeleteGroupIfNotInTask")
 
 	beegae.Router("/:companyTeamName/invite/add", &controllers.InviteUserController{}, "*:AddInvitation")
 	beegae.Router("/:companyTeamName/invite", &controllers.InviteUserController{}, "*:InvitationDetails")
