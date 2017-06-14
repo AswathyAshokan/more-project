@@ -275,6 +275,106 @@ func (c *GroupController)  GroupNameCheck(){
 
 }
 
+//functions for dependency test
+
+func (c *GroupController)LoadDeleteGroup() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	log.Println("inside delete")
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
+	groupId := c.Ctx.Input.Param(":groupId")
+	user := models.TasksGroup{}
+	dbStatus, groupDetail := user.IsGroupUsedForTask(c.AppEngineCtx, groupId)
+	log.Println("status", dbStatus)
+	log.Println(groupDetail)
+	switch dbStatus {
+	case true:
+		log.Println("true")
+		if len(groupDetail) != 0 {
+			dataValue := reflect.ValueOf(groupDetail)
+			for _, key := range dataValue.MapKeys() {
+				if groupDetail[key.String()].TasksGroupStatus == helpers.StatusActive {
+					log.Println("insideeee fgjgfjh")
+					w.Write([]byte("true"))
+					break
+				} else {
+					log.Println("false")
+					w.Write([]byte("false"))
+				}
+			}
+		} else {
+			w.Write([]byte("false"))
+		}
+	case false :
+		w.Write([]byte("false"))
+	}
+}
+func (c *GroupController) DeleteGroupIfNotInTask() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
+	groupId := c.Ctx.Input.Param(":groupId")
+	//user :=models.Group{}
+	log.Println("inside deletion of cotact")
+	group :=models.TasksGroup{}
+	var TaskSlice []string
+	dbStatus,groupDetails := group.IsGroupUsedForTask(c.AppEngineCtx, groupId)
+	switch dbStatus {
+	case true:
+		dataValue := reflect.ValueOf(groupDetails)
+		for _, key := range dataValue.MapKeys() {
+			TaskSlice = append(TaskSlice, key.String())
+		}
+		//dbStatus := user.DeleteGroupFromDB(c.AppEngineCtx, groupId,TaskSlice)
+		//switch dbStatus {
+		//case true:
+		//	w.Write([]byte("true"))
+		//case false :
+		//	w.Write([]byte("false"))
+		//}
+	}
+}
+
+
+
+func (c *GroupController) RemoveGroupFromTask() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
+	groupId := c.Ctx.Input.Param(":groupId")
+	log.Println("hiiii",groupId)
+	//contact :=models.TasksContact{}
+	//var TaskSlice []string
+	//dbStatus,contactDetails := contact.IsContactUsedForTask(c.AppEngineCtx, contactId)
+	//switch dbStatus {
+	//case true:
+	//	dataValue := reflect.ValueOf(contactDetails)
+	//	for _, key := range dataValue.MapKeys() {
+	//		TaskSlice=append(TaskSlice,key.String())
+	//	}
+	//
+	//	dbStatus := contact.DeleteContactFromTask(c.AppEngineCtx, contactId, TaskSlice)
+	//	switch dbStatus {
+	//	case true:
+	//		w.Write([]byte("true"))
+	//	case false:
+	//		w.Write([]byte("false"))
+	//	}
+	//case false:
+	//	log.Println("false")
+	//user :=models.Customers{}
+	//log.Println("customer id",customerId)
+	//dbStatus := user.DeleteGroupFromDBForNonTask(c.AppEngineCtx, customerId)
+	//switch dbStatus {
+	//case true:
+	//	w.Write([]byte("true"))
+	//case false :
+	//	w.Write([]byte("false"))
+	//}
+}
 
 
 

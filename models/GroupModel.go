@@ -184,7 +184,73 @@ func IsGroupNameUsed(ctx context.Context,groupName string)(bool) {
 	}
 	return true
 }
+//func (m *Customers) DeleteGroupFromDB(ctx context.Context, groupId string,TaskSlice []string)(bool)  {
+//
+//	groupDetailForUpdate :=TasksGroup{}
+//	dB, err := GetFirebaseClient(ctx,"")
+//
+//	if err!=nil{
+//		log.Println("Connection error:",err)
+//	}
+//	groupDetailForUpdate.TasksGroupStatus =helpers.StatusInActive
+//	for i:=0;i<len(TaskSlice);i++{
+//		log.Println(TaskSlice[i])
+//		err = dB.Child("/Group/"+ groupId+"/Tasks/"+TaskSlice[i]).Update(&groupDetailForUpdate)
+//
+//	}
+//	taskGroupDetail :=TaskGroup{}
+//	taskGroupForUpdate :=TaskGroup{}
+//	for i:=0;i<len(TaskSlice);i++ {
+//		err = dB.Child("Tasks/" + TaskSlice[i]+"/UsersAndGroups/Group/"+groupId).Value(&taskGroupDetail)
+//		log.Println("details from task job",)
+//		taskGroupForUpdate.GroupStatus =helpers.StatusInActive
+//		taskGroupForUpdate. =taskCustomerDetail.CustomerId
+//		taskCustomerForUpdate.CustomerName =taskCustomerDetail.CustomerName
+//
+//		log.Println("fhsgjs",taskCustomerForUpdate)
+//		err = dB.Child("Tasks/" + TaskSlice[i]+"/Customer/").Update(&taskCustomerForUpdate)
+//
+//	}
+//	if err!=nil{
+//		log.Println("Deletion error:",err)
+//		return false
+//	}
+//	return true
+//}
+func (m *TasksGroup) IsGroupUsedForTask( ctx context.Context, groupId string)(bool,map[string]TasksGroup)  {
+	groupDetail := map[string]TasksGroup{}
+	dB, err := GetFirebaseClient(ctx,"")
+	if err!=nil{
+		log.Println("Connection error:",err)
+	}
+	err = dB.Child("/Group/"+ groupId+"/Tasks/").Value(&groupDetail)
+	if err!=nil{
+		log.Println("Insertion error:",err)
+		return false,groupDetail
+	}
+	log.Println(groupDetail)
 
+	return true,groupDetail
+}
+//func(m *Customers) DeleteCustomerFromDBForNonTask(ctx context.Context,customerKey string) bool{
+//	log.Println("id",customerKey)
+//	customerSettingsUpdation := CustomerSettings{}
+//	customerDeletion := CustomerSettings{}
+//	db,err :=GetFirebaseClient(ctx,"")
+//	err = db.Child("/Customers/"+ customerKey+"/Settings").Value(&customerSettingsUpdation)
+//	if err != nil {
+//		log.Fatal(err)
+//		return  false
+//	}
+//	customerDeletion.Status = helpers.UserStatusDeleted
+//	customerDeletion.DateOfCreation = customerSettingsUpdation.DateOfCreation
+//	err = db.Child("Customers/"+customerKey+"/Settings").Update(&customerDeletion)
+//	if err != nil {
+//		log.Fatal(err)
+//		return  false
+//	}
+//	return  true
+//}
 
 
 
