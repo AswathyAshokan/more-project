@@ -49,12 +49,16 @@ func (c *JobController)AddNewJob() {
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
 		}
-		viewModel.Keys=keySlice
+
 		switch dbStatus {
 		case true:
 			dataValue := reflect.ValueOf(customers)
 			for _, k := range dataValue.MapKeys() {
-				viewModel.CustomerNameArray  = append(viewModel.CustomerNameArray, customers[k.String()].Info.CustomerName)
+				if customers[k.String()].Settings.Status =="Active"{
+					viewModel.CustomerNameArray  = append(viewModel.CustomerNameArray, customers[k.String()].Info.CustomerName)
+					viewModel.Keys=append(viewModel.Keys, k.String())
+				}
+
 			}
 			log.Println("customer name array",viewModel.CustomerNameArray)
 			viewModel.PageType=helpers.SelectPageForAdd
