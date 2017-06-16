@@ -5,6 +5,19 @@ Date:09/02/2017-->
 <head>
 	<meta charset="UTF-8">
 	<title>Register</title>
+    <script type="text/javascript">
+       var vm = {{.vm}};
+   </script>
+    <script type="text/javascript">
+        function codeAddress() {
+            //var ee ={{.vm.CountryName}}
+            var jj =({{.vm.CountryName}}).sort();
+            return jj
+            
+        }
+    var kk =  window.onload = codeAddress;
+        console.log("ee",kk)
+        </script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="static/css/style.css">
 	<link rel="stylesheet" href="static/css/custom/custom.css">
@@ -38,8 +51,19 @@ Date:09/02/2017-->
                 <div class="clearfix">
                     <h1 class="h4">Company Registration</h1>
                     <form class="clearfix max-form-width form-edit-wrapper" id="companyRegisterForm">
+                        <div class="row">
+                        <div class="col-sm-6" padding-top:15px>
+                            <label for="ex1" class="">Type</label>
+                            <select class="form-control sprites-arrow-down" id="planType" name="planType">
+                                <option selected disabled>Select Type</option>
+                                <option>family</option>
+                                <option>campus</option>
+                                <option>business</option>
+                                <option>businessPlus</option>
+                            </select>
+                            </div>
+                        </div>
                         <div class="personal-details margin-top-20">
-							<h5>Personal Details</h5>
                             <div class="form-edit">
                                 <div class="form-group clearfix">
                                     <div class="col-sm-6">
@@ -51,69 +75,79 @@ Date:09/02/2017-->
                                         <input class="form-control" id="lastName" name="lastName" type="text">
                                     </div>
                                 </div>
-
+                            </div>
+                        </div>
+                        <div class="official-details margin-top-20">
+                            <label for="ex1" class="">Address</label>
+                            <div class="form-edit">
                                 <div class="form-group clearfix">
                                     <div class="col-sm-6">
-											<label for="phoneNo" class="">Phone No.</label>
-											<input class="form-control" id="phoneNo" name="phoneNo" type="number">
-										</div>
+                                        <label for="companyName" class="" id="companyNameLabel">Company Name</label>
+                                        <input class="form-control" id="companyName" name="companyName" type="text">
+                                    </div>
                                     <div class="col-sm-6">
-                                        <label for="emailId" class="">Email-ID</label>
+                                        <label for="Number" class="">Number</label>
+                                        <input class="form-control" id="number" name="number" type="number">
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <div class="col-sm-6">
+                                        <label for="state" class="">Country</label>
+                                        <select class="form-control sprites-arrow-down" id="country" name="country">
+                                            <option selected disabled>Select Country</option>
+                                            {{range $key, $val := .vm.CountryName}}
+                                            
+                                            <option value="{{index $.vm.CountryName $key}}">{{$val}}</option>
+                                            {{end}}
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="state" class="">State</label>
+                                        <select class="form-control sprites-arrow-down" id="state" name="state">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <div class="col-sm-6">
+                                        <label for="city" class="">City</label>
+                                        <input class="form-control" id="city" name="city" type="text">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="street" class="">Street</label>
+                                        <input class="form-control" id="street" name="street" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <div class="col-sm-6">
+                                        <label for="" class="">Phone No.</label>
+                                        <div class="country-code-wrapper">
+                                            <input class="form-control" id="dialCode" type="text">
+                                            <input class="form-control" id="phoneNo" type="number" name="phoneNo">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="emailId" class="">Email-Id</label>
                                         <input class="form-control" id="emailId" name="emailId" type="email">
                                     </div>
                                 </div>
                                 <div class="form-group clearfix">
                                     <div class="col-sm-6">
-											<label for="password" class="">Password</label>
-											<input class="form-control" id="password" name="password" type="Password">
+                                        <label for="zipCode" class="">Zipcode</label>
+                                        <input class="form-control" id="zipCode" name="zipCode" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="official-details margin-top-20">
+                            <div class="form-edit">
+                                <div class="form-group clearfix">
+                                    <div class="col-sm-6">
+                                        <label for="password" class="">Password</label>
+                                        <input class="form-control" id="password" name="password" type="Password">
                                     </div>
                                     <div class="col-sm-6">
                                         <label for="confirmPassword" class="">Confirm Password</label>
                                         <input class="form-control" id="confirmPassword" name="confirmPassword" type="Password">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="official-details margin-top-50">
-                                <h5>Official Details</h5>
-                                <div class="clearfix form-edit">
-                                    <div class="form-group clearfix">
-                                        <div class="col-sm-6">
-                                            <label for="companyName" class="">Company Name</label>
-                                            <input class="form-control" id="companyName" name="companyName" type="text">
-                                        </div>
-                                        <div class="col-sm-6">
-												<label for="address" class="">Address</label>
-												<input class="form-control" id="address" name="address" type="text">
-											</div>
-                                        <!--<div class="col-sm-6">
-												<label for="address" class="">Address</label>
-												<input class="form-control" id="address" name="address" type="text">
-                                        </div>	-->
-                                    </div>
-                                    <div class="form-group clearfix">
-                                            
-                                        <div class="col-sm-6">
-                                            <label for="state" class="">State</label>
-                                            <input class="form-control" id="state" name="state" type="text">
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label for="zipCode" class="">Zipcode</label>
-                                            <input class="form-control" id="zipCode" name="zipCode" type="text">
-                                        </div>
-                                    </div>
-                                     <div class="form-group clearfix">								
-
-											<div class="col-sm-6">
-												<label for="ex1" class="">Plans</label>
-												<select class="form-control sprites-arrow-down" id="planType" name="planType">
-                                                    <option selected disabled>Select PlanType</option>
-											        <option>family</option>
-											        <option>campus</option>
-                                                    <option>business</option>
-                                                    <option>businessPlus</option>
-											    </select>
-                                         </div>
                                     </div>
                                 </div>
                             </div>
@@ -134,9 +168,9 @@ Date:09/02/2017-->
         <div class="container-fluid">
             <footer>
                 <div class="footer-logo">
-					<img src="static/images/logo-footer.png" alt="" class="img-responsive">
+                    <img src="static/images/logo-footer.png" alt="" class="img-responsive">
 				</div>
-				<ul>
+                <ul>
                     <li>Copyright <span>Passporte</span> Limited</li>
 					<li>All Rights Reserved</li>
                 </ul>

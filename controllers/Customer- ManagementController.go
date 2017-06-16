@@ -34,7 +34,7 @@ func (c *CustomerManagementController) CustomerManagement() {
 			var tempValueSlice []string
 			if allCompanyData[k].Settings.Status == helpers.StatusActive{
 				tempValueSlice = append(tempValueSlice, allCompanyData[k].Info.CompanyName)
-				tempValueSlice = append(tempValueSlice, allCompanyData[k].Info.Address)
+				//tempValueSlice = append(tempValueSlice, allCompanyData[k].Info.Address)
 				dataValue := reflect.ValueOf(allCompanyData[k].Admins)
 
 				for _, key := range dataValue.MapKeys() {

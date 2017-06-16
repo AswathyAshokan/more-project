@@ -65,12 +65,8 @@ func(m *EmailInvitation) CheckEmailIdInDb(ctx context.Context,companyID string)b
 	for _, keyIn := range keySlice {
 		err = dB.Child("Company/" + companyID + "/Invitation/" + keyIn).Value(&companyInvitaionCheck)
 		if err != nil {
-			log.Println("cpp1")
 			log.Println("No Db Connection!")
 		}
-		log.Println("companyInvitaionCheck.Email",companyInvitaionCheck.Email)
-		log.Println(" m.Info.Email", m.Info.Email)
-		log.Println("companyInvitaionCheck.UserResponse",companyInvitaionCheck.UserResponse)
 		if companyInvitaionCheck.Email == m.Info.Email &&( companyInvitaionCheck.UserResponse ==helpers.UserResponsePending ||companyInvitaionCheck.UserResponse == helpers.UserResponseAccepted) {
 			log.Println("cpp2")
 			Condition = "true"
@@ -83,11 +79,9 @@ func(m *EmailInvitation) CheckEmailIdInDb(ctx context.Context,companyID string)b
 	}
 	log.Println("condition",Condition)
 	if Condition =="true"{
-		log.Println("cpp4")
-			return false
+		return false
 	} else{
-		log.Println("cpp5")
-			return true
+		return true
 		}
 
 	return true

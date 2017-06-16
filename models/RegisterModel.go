@@ -47,8 +47,11 @@ type CompanyAdmin struct {
 type CompanyInfo struct{
 	CompanyName	string
 	CompanyTeamName	string
-	Address		string
+	Country		string
+	Number 		string
 	State		string
+	City 		string
+	Street 		string
 	ZipCode		string
 }
 
@@ -56,6 +59,7 @@ type CompanySettings struct{
 	Status		 string
 	DateOfCreation   int64
 	PaymentStatus    string
+	UserID		string
 }
 
 type CompanyUsers struct{
@@ -296,3 +300,40 @@ func (m *Admins)AdminDetails(ctx context.Context) (bool,map[string]Admins){
 	}
 	return true,companyAdmins
 }
+
+/*-------------------------------Automatic Filling Of Country Related Details--------------------------*/
+
+func GetAllCountryNameForFillDropDownList(ctx context.Context)(bool,map[string]Country){
+	countryValues := map[string]Country{}
+	dB, err := GetFirebaseClient(ctx, "")
+	if err != nil {
+		log.Println("No Db Connection!")
+	}
+	err = dB.Child("CountryDetails").Value(&countryValues)
+	if err != nil{
+		log.Fatal(err)
+		return false,countryValues
+	}
+	return true,countryValues
+
+}
+
+func GetAllStatesByCountry(ctx context.Context,CountryName string,countryCode string)(bool,CountryData){
+
+	countryValues := CountryData{}
+	dB, err := GetFirebaseClient(ctx, "")
+	if err != nil {
+		log.Println("No Db Connection!")
+	}
+	err = dB.Child("CountryDetails/"+countryCode).Value(&countryValues)
+	if err != nil{
+		log.Fatal(err)
+		return false,countryValues
+	}
+	return true,countryValues
+
+}
+
+
+
+

@@ -3260,6 +3260,9 @@ input.sprites-callender { background-position: right 4px top -20px; cursor: poin
 .form-edit-wrapper { border: none; padding: 0; background: none; }
 .form-edit-wrapper .form-edit { border: 1px solid #cccccc; padding: 15px 0; background-color: #fff; }
 
+.country-code-wrapper { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; }
+.country-code-wrapper input:first-child { max-width: 60px; margin-right: 5px; }
+
 /*==============================================================
 							Task page
 =================================================================*/
@@ -3454,3 +3457,20 @@ td .drp-tbl-wrp:not(:last-child) { margin-bottom: 20px; }
 .task-graph .tsk-lst-wrapper .tsk-lst p { background-color: #f9f9f9; border-bottom: 1px solid #ddd; margin: 0; padding: 10px 10px; font-size: 12px; }
 .task-graph .tsk-lst-wrapper .tsk-lst p:nth-child(even) { background-color: #fff; }
 .task-graph .tsk-lst-wrapper .tsk-lst span { padding: 10px; display: block; text-align: center; color: #29a0ff; }
+
+/*==============================================================
+					    Timer
+=================================================================*/
+.jst-hours { float: left; }
+
+.jst-minutes { float: left; }
+
+.jst-seconds { float: left; }
+
+.jst-clearDiv { clear: both; }
+
+.jst-timeout { color: red; }
+
+.key { background-color: #dddddd; }
+
+.timer { vertical-align: middle; background: none; border: none; display: inline-block; }

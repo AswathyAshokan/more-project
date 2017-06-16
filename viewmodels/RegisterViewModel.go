@@ -14,3 +14,11 @@ type EditProfileViewModel struct {
 type ForgotPassword struct {
 	VerificationKey string
 }
+
+type DisplayCountryDetails struct {
+	CountryName     []string
+	CountryAllData	[][]string
+	DialCode    	[]string
+	Key 		[]string
+
+}

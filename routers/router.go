@@ -20,6 +20,7 @@ func init() {
 	beegae.Router("/forgotPassword", &controllers.RegisterController{}, "*:ForgotPassword")
 	beegae.Router("/forgot-password/email-checking", &controllers.RegisterController{}, "*:CheckingEmailId")
 	beegae.Router("/forgot-password/passwordReset", &controllers.RegisterController{}, "*:ResetPassword")
+	beegae.Router("/register/getstate",&controllers.RegisterController{},"*:GetStates")
 
 	beegae.Router("/isEmailUsed/:emailId",&controllers.RegisterController{},"*:CheckEmail")
 	beegae.Router("/:companyTeamName/nfc", &controllers.NfcController{},"*:NFCDetails")
@@ -72,6 +73,11 @@ func init() {
 	beegae.Router("/:companyTeamName/consent", &controllers.ConsentReceiptController{}, "*:LoadConsentReceipt")
 	//beegae.Router("/:companyTeamName/consent/:consentId/edit", &controllers.ConsentReceiptController{}, "*:EditConsentReceipt")
 	beegae.Router("/:companyTeamName/consent/:consentId/delete", &controllers.ConsentReceiptController{}, "*:DeleteConsentReceipt")
+
+	//root
+
+	beegae.Router("/listCountry",&controllers.CountryController{},"*:ListCountries")
+
 
 	//Aswathy
 	beegae.Router("/:companyTeamName/contact/add", &controllers.ContactUserController{},"*:AddNewContact")

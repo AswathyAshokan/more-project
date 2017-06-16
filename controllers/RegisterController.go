@@ -33,7 +33,10 @@ func (c *RegisterController) Register() {
 		company := models.Company{}
 		company.Info.CompanyName = c.GetString("companyName")
 		company.Info.CompanyTeamName = c.GetString("teamName")
-		company.Info.Address = c.GetString("address")
+		company.Info.Country = c.GetString("country")
+		company.Info.Number = c.GetString("number")
+		company.Info.City = c.GetString("city")
+		company.Info.Street = c.GetString("street")
 		company.Info.State = c.GetString("state")
 		company.Info.ZipCode = c.GetString("zipCode")
 		company.Settings.Status = helpers.StatusActive
@@ -48,32 +51,45 @@ func (c *RegisterController) Register() {
 		admin.Info.Password = []byte(c.GetString("password"))
 		admin.Settings.DateOfCreation = currentTime
 		admin.Settings.Status = helpers.StatusActive
-		//admin.Settings.
+		log.Println("state",company.Info.State)
 		dbStatus,_:= admin.CreateAdminAndCompany(c.AppEngineCtx, company)
+		log.Println("dbStatus",dbStatus)
 		switch dbStatus{
 		case false:
-
 			w.Write([]byte("false"))
 		case true:
-			/*var keySlice string
-			dataValue := reflect.ValueOf(companyDetails)
-			for _, key := range dataValue.MapKeys() {
-				keySlice = key.String()
-			}
-			company.Info.CompanyTeamName = keySlice
-			log.Println("company",companyDetails)*/
-			/*companyStatus :=companyDetails.UpdateCompanyTeamName(c.AppEngineCtx)
-			switch companyStatus  {
-			case true:
-
-				log.Println("true")
-			case false:
-				log.Println("false")
-
-			}*/
 			w.Write([]byte("true"))
 		}
 	} else {
+
+		//var tempDialCode   []string
+		countryViewModel := viewmodels.DisplayCountryDetails{}
+		var keySlice []string
+		dbStatus, allCountryValues := models.GetAllCountryNameForFillDropDownList(c.AppEngineCtx)
+		switch dbStatus {
+		case true:
+			dataValue := reflect.ValueOf(allCountryValues)
+			for _, key := range dataValue.MapKeys() {
+				keySlice = append(keySlice, key.String())
+			}
+			for _, k := range keySlice{
+				var tempAllCountry []string
+				tempAllCountry = append(tempAllCountry, allCountryValues[k].CountryName)
+				//countryViewModel.CountryName = tempAllCountry
+				tempAllCountry= append(tempAllCountry,allCountryValues[k].DialCode)
+				tempAllCountry =append(tempAllCountry, k)
+				countryViewModel.CountryName = append(countryViewModel.CountryName,allCountryValues[k].CountryName)
+				countryViewModel.CountryAllData = append(countryViewModel.CountryAllData,tempAllCountry)
+				//tempAllCountry = tempAllCountry[:0]
+			}
+			countryViewModel.Key = keySlice
+
+		case false:
+			log.Println(helpers.ServerConnectionError)
+
+
+		}
+		c.Data["vm"] = countryViewModel
 		c.TplName = "template/register.html"
 	}
 }
@@ -279,5 +295,34 @@ func (c *RegisterController) ResetPassword() {
 		//w.Write([]byte("true"))
 	case false:
 		log.Println(helpers.ServerConnectionError)
+	}
+}
+
+/*----------------------------GetStates-----------------------------------------*/
+func (c *RegisterController) GetStates() {
+	w := c.Ctx.ResponseWriter
+	CountryName := c.GetString("countryName")
+	countryCode := c.GetString("countryCode")
+	log.Println("countryCode",countryCode)
+	var keySlice []string
+	var tempStateArray  []string
+	dbStatus, allStatesOfSelectedCountry:= models.GetAllStatesByCountry(c.AppEngineCtx,CountryName,countryCode)
+	switch dbStatus {
+	case true:
+		//tempStateArray = allStatesOfSelectedCountry.States
+		countryValues := reflect.ValueOf(allStatesOfSelectedCountry.States)
+		for _, key := range countryValues.MapKeys() {
+			keySlice = append(keySlice,key.String())
+		}
+		for _, k := range keySlice {
+			 tempStateArray = append(tempStateArray,allStatesOfSelectedCountry.States[k])
+		}
+		log.Println("tempStateArray",tempStateArray)
+		slices := []interface{}{"true",tempStateArray}
+		sliceToClient, _ := json.Marshal(slices)
+		w.Write(sliceToClient)
+	case false:
+		w.Write([]byte("false"))
+
 	}
 }

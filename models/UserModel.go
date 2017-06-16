@@ -37,6 +37,7 @@ type NextOfKin struct {
 }
 
 type UserSettings struct {
+	AdminID			string
 	DateOfCreation		int64
 	ProfilePicture		string
 	Status			string
