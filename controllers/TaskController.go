@@ -101,8 +101,11 @@ func (c *TaskController)AddNewTask() {
 		var keySliceForGroup [] string
 		var MemberNameArray [] string
 		var GroupKeyForTask []string
-		groupMemberNameMap := make(map[string]models.GroupMemberName)
+
+		//groupMemberNameMap := make(map[string]models.GroupMemberName)
 		//members := models.GroupMemberName{}
+		groupMemberMap := make(map[string]models.GroupMemberName)
+		groupMemberNameForTask :=models.GroupMemberName{}
 
 		for i := 0; i < len(UserOrGroupIdArray); i++ {
 			tempName := UserOrGroupNameArray[i]
@@ -119,9 +122,6 @@ func (c *TaskController)AddNewTask() {
 				tempName = tempName[:len(tempName)-8]
 				groupNameAndDetails.GroupName = tempName
 				groupNameAndDetails.GroupStatus =helpers.StatusActive
-				GroupKeyForTask =append(GroupKeyForTask,tempId)
-
-
 				//Getting member name from group
 
 
@@ -131,20 +131,35 @@ func (c *TaskController)AddNewTask() {
 
 					memberData := reflect.ValueOf(groupDetails.Members)
 					for _, key := range memberData.MapKeys() {
-						keySliceForGroup = append(keySliceForGroup, key.String())
-					}
-					for i := 0; i < len(keySliceForGroup); i++ {
-						MemberNameArray = append(MemberNameArray,groupDetails.Members[keySliceForGroup[i]].MemberName)
+						keySliceForGroup =append(keySliceForGroup,key.String())
+						MemberNameArray = append(MemberNameArray,groupDetails.Members[key.String()].MemberName)
+
 					}
 
 				case false:
 					log.Println(helpers.ServerConnectionError)
 				}
-				groupNameAndDetails.Members = groupMemberNameMap
+
+
+
+				for i := 0; i < len(keySliceForGroup); i++ {
+					groupMemberNameForTask.MemberName =MemberNameArray[i]
+					groupMemberMap[keySliceForGroup[i]] = groupMemberNameForTask
+
+				}
+				groupNameAndDetails.Members = groupMemberMap
+				log.Println("hgjghrh",groupMemberMap)
 				groupMap[tempId] = groupNameAndDetails
+
 			}
+
+
+
+
 		}
 
+
+		log.Println("group detail",groupMap)
 		task.UsersAndGroups.User = userMap
 		task.UsersAndGroups.Group = groupMap
 		contactMap := make(map[string]models.TaskContact)
@@ -564,6 +579,7 @@ func (c *TaskController)LoadEditTask() {
 		group := models.Group{}
 		var keySliceForGroup [] string
 		var MemberNameArray [] string
+
 		groupMemberNameMap := make(map[string]models.GroupMemberName)
 		//members := models.GroupMemberName{}
 
@@ -599,6 +615,7 @@ func (c *TaskController)LoadEditTask() {
 				case false:
 					log.Println(helpers.ServerConnectionError)
 				}
+
 				groupNameAndDetails.Members = groupMemberNameMap
 				groupMap[tempId] = groupNameAndDetails
 			}
