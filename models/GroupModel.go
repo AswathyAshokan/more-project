@@ -151,6 +151,32 @@ func(m *Group) UpdateGroupDetails(ctx context.Context,groupKey string) (bool) {
 	m.Settings.Status = groupStatusDetails.Status
 	err = db.Child("/Group/"+ groupKey).Update(&m)
 
+
+	//.....update in task
+
+
+	groupDetailForUpdation := map[string]Tasks{}
+	taskGroupForUpdate :=TaskGroup{}
+	taskGroupDetail :=TaskGroup{}
+
+	err = db.Child("/Tasks/").Value(&groupDetailForUpdation)
+	dataValue := reflect.ValueOf(groupDetailForUpdation)
+	for _, key := range dataValue.MapKeys() {
+		log.Println("hhhh")
+		dataValueContact := reflect.ValueOf(groupDetailForUpdation[key.String()].UsersAndGroups.Group)
+		for _, groupkey := range dataValueContact.MapKeys() {
+			if  groupkey.String()== groupKey {
+				log.Println("task id",key.String())
+				err = db.Child("Tasks/" + key.String() + "/UsersAndGroups/Group/"+groupKey).Value(&taskGroupDetail)
+				log.Println("contact inside task",taskGroupDetail)
+				taskGroupForUpdate.Members = m.Members
+				taskGroupForUpdate.GroupName = m.Info.GroupName
+				taskGroupForUpdate.GroupStatus = taskGroupDetail.GroupStatus
+				err = db.Child("Tasks/" + key.String() + "/UsersAndGroups/Group/"+groupKey).Update(&taskGroupForUpdate)
+
+			}
+		}
+	}
 	if err != nil {
 		log.Fatal(err)
 		return  false
@@ -184,39 +210,39 @@ func IsGroupNameUsed(ctx context.Context,groupName string)(bool) {
 	}
 	return true
 }
-//func (m *Customers) DeleteGroupFromDB(ctx context.Context, groupId string,TaskSlice []string)(bool)  {
-//
-//	groupDetailForUpdate :=TasksGroup{}
-//	dB, err := GetFirebaseClient(ctx,"")
-//
-//	if err!=nil{
-//		log.Println("Connection error:",err)
-//	}
-//	groupDetailForUpdate.TasksGroupStatus =helpers.StatusInActive
-//	for i:=0;i<len(TaskSlice);i++{
-//		log.Println(TaskSlice[i])
-//		err = dB.Child("/Group/"+ groupId+"/Tasks/"+TaskSlice[i]).Update(&groupDetailForUpdate)
-//
-//	}
-//	taskGroupDetail :=TaskGroup{}
-//	taskGroupForUpdate :=TaskGroup{}
-//	for i:=0;i<len(TaskSlice);i++ {
-//		err = dB.Child("Tasks/" + TaskSlice[i]+"/UsersAndGroups/Group/"+groupId).Value(&taskGroupDetail)
-//		log.Println("details from task job",)
-//		taskGroupForUpdate.GroupStatus =helpers.StatusInActive
-//		taskGroupForUpdate. =taskCustomerDetail.CustomerId
-//		taskCustomerForUpdate.CustomerName =taskCustomerDetail.CustomerName
-//
-//		log.Println("fhsgjs",taskCustomerForUpdate)
-//		err = dB.Child("Tasks/" + TaskSlice[i]+"/Customer/").Update(&taskCustomerForUpdate)
-//
-//	}
-//	if err!=nil{
-//		log.Println("Deletion error:",err)
-//		return false
-//	}
-//	return true
-//}
+func (m *Group) DeleteGroupFromDB(ctx context.Context, groupId string,TaskSlice []string)(bool)  {
+
+	groupDetailForUpdate :=TasksGroup{}
+	dB, err := GetFirebaseClient(ctx,"")
+
+	if err!=nil{
+		log.Println("Connection error:",err)
+	}
+	groupDetailForUpdate.TasksGroupStatus =helpers.StatusInActive
+	for i:=0;i<len(TaskSlice);i++{
+		log.Println(TaskSlice[i])
+		err = dB.Child("/Group/"+ groupId+"/Tasks/"+TaskSlice[i]).Update(&groupDetailForUpdate)
+
+	}
+	taskGroupDetail :=TaskGroup{}
+	taskGroupForUpdate :=TaskGroup{}
+	for i:=0;i<len(TaskSlice);i++ {
+		err = dB.Child("Tasks/" + TaskSlice[i]+"/UsersAndGroups/Group/"+groupId).Value(&taskGroupDetail)
+		log.Println("details from task job",)
+		taskGroupForUpdate.GroupStatus =helpers.StatusInActive
+		taskGroupForUpdate.GroupName=taskGroupDetail.GroupName
+		taskGroupForUpdate.Members =taskGroupDetail.Members
+
+		log.Println("fhsgjs",taskGroupForUpdate)
+		err = dB.Child("Tasks/" + TaskSlice[i]+"/UsersAndGroups/Group/"+groupId).Update(&taskGroupForUpdate)
+
+	}
+	if err!=nil{
+		log.Println("Deletion error:",err)
+		return false
+	}
+	return true
+}
 func (m *TasksGroup) IsGroupUsedForTask( ctx context.Context, groupId string)(bool,map[string]TasksGroup)  {
 	groupDetail := map[string]TasksGroup{}
 	dB, err := GetFirebaseClient(ctx,"")
@@ -228,29 +254,29 @@ func (m *TasksGroup) IsGroupUsedForTask( ctx context.Context, groupId string)(bo
 		log.Println("Insertion error:",err)
 		return false,groupDetail
 	}
-	log.Println(groupDetail)
+	log.Println("group detail",groupDetail)
 
 	return true,groupDetail
 }
-//func(m *Customers) DeleteCustomerFromDBForNonTask(ctx context.Context,customerKey string) bool{
-//	log.Println("id",customerKey)
-//	customerSettingsUpdation := CustomerSettings{}
-//	customerDeletion := CustomerSettings{}
-//	db,err :=GetFirebaseClient(ctx,"")
-//	err = db.Child("/Customers/"+ customerKey+"/Settings").Value(&customerSettingsUpdation)
-//	if err != nil {
-//		log.Fatal(err)
-//		return  false
-//	}
-//	customerDeletion.Status = helpers.UserStatusDeleted
-//	customerDeletion.DateOfCreation = customerSettingsUpdation.DateOfCreation
-//	err = db.Child("Customers/"+customerKey+"/Settings").Update(&customerDeletion)
-//	if err != nil {
-//		log.Fatal(err)
-//		return  false
-//	}
-//	return  true
-//}
+func(m *Group) DeleteGroupFromDBForNonTask(ctx context.Context,groupId string) bool{
+	log.Println("id",groupId)
+	groupSettingsUpdation := GroupSettings{}
+	groupDeletion := GroupSettings{}
+	db,err :=GetFirebaseClient(ctx,"")
+	err = db.Child("/Group/"+ groupId+"/Settings").Value(&groupSettingsUpdation)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	groupDeletion.Status = helpers.UserStatusDeleted
+	groupDeletion.DateOfCreation = groupSettingsUpdation.DateOfCreation
+	err = db.Child("Group/"+groupId+"/Settings").Update(&groupDeletion)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	return  true
+}
 
 
 

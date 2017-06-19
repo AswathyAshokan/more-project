@@ -316,7 +316,7 @@ func (c *GroupController) DeleteGroupIfNotInTask() {
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	ReadSession(w, r, companyTeamName)
 	groupId := c.Ctx.Input.Param(":groupId")
-	//user :=models.Group{}
+	user :=models.Group{}
 	log.Println("inside deletion of cotact")
 	group :=models.TasksGroup{}
 	var TaskSlice []string
@@ -327,13 +327,13 @@ func (c *GroupController) DeleteGroupIfNotInTask() {
 		for _, key := range dataValue.MapKeys() {
 			TaskSlice = append(TaskSlice, key.String())
 		}
-		//dbStatus := user.DeleteGroupFromDB(c.AppEngineCtx, groupId,TaskSlice)
-		//switch dbStatus {
-		//case true:
-		//	w.Write([]byte("true"))
-		//case false :
-		//	w.Write([]byte("false"))
-		//}
+		dbStatus := user.DeleteGroupFromDB(c.AppEngineCtx, groupId,TaskSlice)
+		switch dbStatus {
+		case true:
+			w.Write([]byte("true"))
+		case false :
+			w.Write([]byte("false"))
+		}
 	}
 }
 
@@ -365,15 +365,15 @@ func (c *GroupController) RemoveGroupFromTask() {
 	//	}
 	//case false:
 	//	log.Println("false")
-	//user :=models.Customers{}
-	//log.Println("customer id",customerId)
-	//dbStatus := user.DeleteGroupFromDBForNonTask(c.AppEngineCtx, customerId)
-	//switch dbStatus {
-	//case true:
-	//	w.Write([]byte("true"))
-	//case false :
-	//	w.Write([]byte("false"))
-	//}
+	user :=models.Group{}
+	log.Println("group id",groupId)
+	dbStatus := user.DeleteGroupFromDBForNonTask(c.AppEngineCtx, groupId)
+	switch dbStatus {
+	case true:
+		w.Write([]byte("true"))
+	case false :
+		w.Write([]byte("false"))
+	}
 }
 
 

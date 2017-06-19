@@ -100,7 +100,8 @@ func (c *TaskController)AddNewTask() {
 		group := models.Group{}
 		var keySliceForGroup [] string
 		var MemberNameArray [] string
-		var GroupKeyForTask []string
+		var groupKeySlice	[]string
+		
 
 		//groupMemberNameMap := make(map[string]models.GroupMemberName)
 		//members := models.GroupMemberName{}
@@ -139,9 +140,6 @@ func (c *TaskController)AddNewTask() {
 				case false:
 					log.Println(helpers.ServerConnectionError)
 				}
-
-
-
 				for i := 0; i < len(keySliceForGroup); i++ {
 					groupMemberNameForTask.MemberName =MemberNameArray[i]
 					groupMemberMap[keySliceForGroup[i]] = groupMemberNameForTask
@@ -150,6 +148,7 @@ func (c *TaskController)AddNewTask() {
 				groupNameAndDetails.Members = groupMemberMap
 				log.Println("hgjghrh",groupMemberMap)
 				groupMap[tempId] = groupNameAndDetails
+				groupKeySlice = append(groupKeySlice,tempId)
 
 			}
 
@@ -183,7 +182,7 @@ func (c *TaskController)AddNewTask() {
 
 
 		//Add data to task DB
-		dbStatus :=task.AddTaskToDB(c.AppEngineCtx,companyId,FitToWorkSlice, TaskBreakTimeSlice,TaskWorkTimeSlice,tempContactId,GroupKeyForTask,jobIdForTask,customerIdForTask)
+		dbStatus :=task.AddTaskToDB(c.AppEngineCtx,companyId,FitToWorkSlice, TaskBreakTimeSlice,TaskWorkTimeSlice,tempContactId,groupKeySlice,jobIdForTask,customerIdForTask)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))

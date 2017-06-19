@@ -228,7 +228,9 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 	//setting task id to Group
 	GroupTask :=TasksGroup{}
 	GroupTask.TasksGroupStatus =helpers.StatusActive
+	log.Println("dsfsjdfh",GroupId)
 	for i:=0;i<len(GroupId);i++{
+		log.Println("inside group add")
 		err = dB.Child("/Group/"+ GroupId[i] +"/Tasks/"+taskUniqueID).Set(GroupTask)
 
 	}

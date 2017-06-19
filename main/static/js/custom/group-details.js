@@ -55,36 +55,110 @@ $(function(){
     });
 
 /*Delete group details when click on delete icon*/
-    $('#group-table tbody').on( 'click', '#delete', function () {
-        $("#myModal").modal();
+//    $('#group-table tbody').on( 'click', '#delete', function () {
+//        $("#myModal").modal();
+//        var data = table.row( $(this).parents('tr') ).data();
+//        var key = data[3];
+//        console.log(data, key);
+//        $("#confirm").click(function(){
+//            $.ajax({
+//                type: "POST",
+//                url: '/' + companyTeamName +'/group/'+ key + '/delete',
+//                data: '',
+//                success: function(data){
+//                    if(data=="true"){
+//                        $('#group-table').dataTable().fnDestroy();
+//                        var index = "";
+//                        for(var i = 0; i < mainArray.length; i++) {
+//                            index = mainArray[i].indexOf(key);
+//                            if(index != -1) {
+//                                console.log("dddd", i);
+//                                break;
+//                            }
+//                        }
+//                        mainArray.splice(i, 1);
+//                        console.log(mainArray);
+//                        dataTableManipulate(); 
+//                    }
+//                    else {
+//                        console.log("Removing Failed!");
+//                    }
+//                }
+//            });
+//        });
+//    });
+    
+    
+    
+       $('#group-table tbody').on( 'click', '#delete', function () {
+      
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[3];
-        console.log(data, key);
-        $("#confirm").click(function(){
-            $.ajax({
-                type: "POST",
-                url: '/' + companyTeamName +'/group/'+ key + '/delete',
-                data: '',
-                success: function(data){
-                    if(data=="true"){
-                        $('#group-table').dataTable().fnDestroy();
-                        var index = "";
-                        for(var i = 0; i < mainArray.length; i++) {
-                            index = mainArray[i].indexOf(key);
-                            if(index != -1) {
-                                console.log("dddd", i);
-                                break;
+       var key = data[3];
+        $.ajax({
+            type: "POST",
+            url: '/' + companyTeamName +'/group/'+ key + '/delete',
+            data: '',
+            success: function(data){
+                console.log("jjjj",data);
+                if(data=="true"){
+                    console.log("hdhhshhh");
+                    $("#groupInTask").modal();
+                    $("#deleteNotTask").click(function(){
+                        $.ajax({
+                            type: "POST",
+                            url: '/' + companyTeamName +'/group/'+ key + '/deletionOfGroup',
+                            data: '',
+                            success: function(feedback){
+                                console.log(feedback);
+                                if(feedback=="true"){
+                                    $('#group-table').dataTable().fnDestroy(); 
+                                    var index = "";
+                                    for(var i = 0; i < mainArray.length; i++) {
+                                    index = mainArray[i].indexOf(key);
+                                    if(index != -1) {
+                                        console.log("dddd", i);
+                                        break;
+                                    }
+                                }
+                                mainArray.splice(i, 1);
+                                dataTableManipulate()
+                                }
+                                else {
+                                }
                             }
-                        }
-                        mainArray.splice(i, 1);
-                        console.log(mainArray);
-                        dataTableManipulate(); 
-                    }
-                    else {
-                        console.log("Removing Failed!");
-                    }
+                        });
+                    });
+                    
                 }
-            });
+                else {
+                   
+                    $("#myGroupModal").modal();
+                    $("#confirm").click(function(){
+                        $.ajax({
+                            type: "POST",
+                            url: '/' + companyTeamName +'/group/'+ key + '/RemoveTask',
+                            data: '',
+                            success: function(response){
+                                if(response=="true"){
+                                    $('#group-table').dataTable().fnDestroy(); 
+                                    var index = "";
+                                    for(var i = 0; i < mainArray.length; i++) {
+                                    index = mainArray[i].indexOf(key);
+                                    if(index != -1) {
+                                        console.log("dddd", i);
+                                        break;
+                                    }
+                                }
+                                mainArray.splice(i, 1);
+                                dataTableManipulate()
+                                }
+                                else {
+                                }
+                            }
+                        });
+                    });
+                }
+            }
         });
     });
 });
