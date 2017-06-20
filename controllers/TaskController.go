@@ -69,6 +69,7 @@ func (c *TaskController)AddNewTask() {
 		tempContactName := c.GetStrings("contactName")
 		tempContactId := c.GetStrings("contactId")
 		task.Info.LoginType=c.GetString("loginType")
+		task.Info.NFCTagID =c.GetString("nfcTagId")
 		task.Location.Latitude = c.GetString("latitude")
 		task.Location.Longitude = c.GetString("longitude")
 		exposureTask := c.GetString("exposureBreakTime")
@@ -550,6 +551,7 @@ func (c *TaskController)LoadEditTask() {
 		tempContactName := c.GetStrings("contactName")
 		tempContactId := c.GetStrings("contactId")
 		task.Info.LoginType = c.GetString("loginType")
+		task.Info.NFCTagID =c.GetString("nfcTagId")
 		task.Location.Latitude = c.GetString("latitude")
 		task.Location.Longitude = c.GetString("longitude")
 		FitToWork := c.GetString("addFitToWork")
@@ -877,6 +879,7 @@ func (c *TaskController)LoadEditTask() {
 						viewModel.EndTime = endTimeOfTask
 						viewModel.TaskDescription = taskDetail.Info.TaskDescription
 						viewModel.UserNumber = taskDetail.Info.UserNumber
+						viewModel.NFCTagId = taskDetail.Info.NFCTagID
 						log.Println("logTime",taskDetail.Info.LogTimeInMinutes)
 						logTimeOfUser := strconv.FormatInt(taskDetail.Info.LogTimeInMinutes,10)
 						viewModel.Log = logTimeOfUser

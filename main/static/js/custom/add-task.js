@@ -91,6 +91,12 @@ $(function () {
             $("#exposureTextBoxAppend").append(DynamicExposureTextBox);
              
         }
+        if (vm.NFCTagId.legth !=0){
+            var div = document.getElementById('nfcTagId');
+            div.style.visibility = 'visible';
+            div.style.display ='inline';
+            document.getElementById("nfcTagId").value =vm.NFCTagId;
+        }
         
     }
     
@@ -144,6 +150,12 @@ $().ready(function() {
     var loginTypeRadio = "";
    $(".radio-inline").change(function () {
        loginTypeRadio = $('.radio-inline:checked').val();
+       if (loginTypeRadio =="NFC"){
+           var div = document.getElementById('nfcTagId');
+           div.style.visibility = 'visible';
+           div.style.display ='inline';
+           
+       }
    });
     
     //Functiion for getting job and customer separate

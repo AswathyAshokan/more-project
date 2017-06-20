@@ -41,6 +41,7 @@ type EditTaskViewModel  struct {
 	JobId				string
 	WorkTime			[]string
 	BreakTime			[]string
+	NFCTagId			string
 
 
 }

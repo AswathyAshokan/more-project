@@ -50,6 +50,7 @@ type TaskInfo struct {
 	TaskLocation     string
 	CompanyTeamName  string
 	CompanyName	string
+	NFCTagID	string
 
 }
 type TaskContact struct {
