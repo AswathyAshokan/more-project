@@ -5,8 +5,8 @@ import(
 	"log"
 	"github.com/kjk/betterguid"
 	"strings"
-	"app/passporte/helpers"
 	"reflect"
+	"app/passporte/helpers"
 )
 type ConsentReceipts struct {
 	Info     	ConsentData
@@ -251,6 +251,7 @@ func(m *ConsentReceipts) UpdateConsentDetails(ctx context.Context,consentId stri
 }
 
 func DeleteConsentReceiptById(ctx context.Context,consentId string,companyTeamName string)(bool)  {
+	allUsers := map[string]Users{}
 	ConsentStatusDetails :=ConsentSettings{}
 	updateConsentStatus := ConsentSettings{}
 	db, err := GetFirebaseClient(ctx, "")
@@ -270,6 +271,8 @@ func DeleteConsentReceiptById(ctx context.Context,consentId string,companyTeamNa
 		log.Fatal(err)
 		return  false
 	}
+	err = db.Child("Users").Value(&allUsers)
+	log.Println("delete depentent",allUsers)
 	return true
 }
 

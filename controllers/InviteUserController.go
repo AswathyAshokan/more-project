@@ -90,7 +90,8 @@ func (c *InviteUserController) AddInvitation() {
 			info, dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx, companyTeamName)
 			switch dbStatus {
 			case true:
-				addViewModel.AllowInvitations =true
+				log.Println("w1")
+				//addViewModel.AllowInvitations =true
 				var count = 0
 				var tempValueSlice []string
 				var keySlice []string
@@ -106,12 +107,13 @@ func (c *InviteUserController) AddInvitation() {
 						uniqueEmailSlice = append(uniqueEmailSlice, info[key].Email)//appent email id into slice
 					}
 					for i := 0; i < len(tempValueSlice); i++ {
+						log.Println("w2")
 						if tempValueSlice[i] == helpers.UserResponsePending || tempValueSlice[i] == helpers.UserResponseAccepted{
 							count = count + 1
 						}
 					}
 					log.Println("ggg1",count)
-					for i := count; i < 7; i++ {
+					for i := count; i < 5; i++ {
 						addViewModel.AllowInvitations = true
 					}
 				}
@@ -119,6 +121,7 @@ func (c *InviteUserController) AddInvitation() {
 				log.Println("failed")
 			}
 		}else {
+			log.Println("hai iam there")
 			addViewModel.AllowInvitations =true
 		}
 		addViewModel.CompanyTeamName = storedSession.CompanyTeamName

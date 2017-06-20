@@ -17,13 +17,23 @@ $(function(){
 /*---------------------for display heading of each webpage----------------------*/
    $('#planType').on('change', function() {
        if( document.getElementById("planType").value =="family"){
-           document.getElementById("companyNameLabel").innerHTML = "FamilyName";
+           
+           document.getElementById("number").style.display='none'; 
+           document.getElementById("companyNumberLabelId").style.disable='none';
+           document.getElementById("companyNameLabel").innerHTML = "Family Name";
+       
        } else if(document.getElementById("planType").value =="campus"){
-           document.getElementById("companyNameLabel").innerHTML = "CampusName";
+           
+           document.getElementById("companyNumberLabelId").innerHTML == "Campus Number";
+           document.getElementById("companyNameLabel").innerHTML = "Campus Name";
+       
        }else if (document.getElementById("planType").value =="business"){
-           document.getElementById("companyNameLabel").innerHTML = "CompanyName"; 
+            document.getElementById("companyNumberLabelId").innerHTML == "Company Number";
+           document.getElementById("companyNameLabel").innerHTML = "Company Name"; 
+      
        } else{
-            document.getElementById("companyNameLabel").innerHTML = "CompanyName"; 
+            document.getElementById("companyNumberLabelId").innerHTML == "Company Number";
+            document.getElementById("companyNameLabel").innerHTML = "Company Name"; 
        }
    });
     
@@ -57,7 +67,7 @@ $(function(){
                      for(i = 0;i< jsonData[1].length;i++){
                          var select = document.getElementById("state"),
                          opt = document.createElement("option");
-                         opt.textContent =jsonData[1][i] ;
+                         opt.textContent =jsonData[1][i];
                          select.appendChild(opt);
                      }
                  }
