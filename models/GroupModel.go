@@ -155,28 +155,28 @@ func(m *Group) UpdateGroupDetails(ctx context.Context,groupKey string) (bool) {
 	//.....update in task
 
 
-	groupDetailForUpdation := map[string]Tasks{}
-	taskGroupForUpdate :=TaskGroup{}
-	taskGroupDetail :=TaskGroup{}
-
-	err = db.Child("/Tasks/").Value(&groupDetailForUpdation)
-	dataValue := reflect.ValueOf(groupDetailForUpdation)
-	for _, key := range dataValue.MapKeys() {
-		log.Println("hhhh")
-		dataValueContact := reflect.ValueOf(groupDetailForUpdation[key.String()].UsersAndGroups.Group)
-		for _, groupkey := range dataValueContact.MapKeys() {
-			if  groupkey.String()== groupKey {
-				log.Println("task id",key.String())
-				err = db.Child("Tasks/" + key.String() + "/UsersAndGroups/Group/"+groupKey).Value(&taskGroupDetail)
-				log.Println("contact inside task",taskGroupDetail)
-				taskGroupForUpdate.Members = m.Members
-				taskGroupForUpdate.GroupName = m.Info.GroupName
-				taskGroupForUpdate.GroupStatus = taskGroupDetail.GroupStatus
-				err = db.Child("Tasks/" + key.String() + "/UsersAndGroups/Group/"+groupKey).Update(&taskGroupForUpdate)
-
-			}
-		}
-	}
+	//groupDetailForUpdation := map[string]Tasks{}
+	//taskGroupForUpdate :=TaskGroup{}
+	//taskGroupDetail :=TaskGroup{}
+	//
+	//err = db.Child("/Tasks/").Value(&groupDetailForUpdation)
+	//dataValue := reflect.ValueOf(groupDetailForUpdation)
+	//for _, key := range dataValue.MapKeys() {
+	//	log.Println("hhhh")
+	//	dataValueContact := reflect.ValueOf(groupDetailForUpdation[key.String()].UsersAndGroups.Group)
+	//	for _, groupkey := range dataValueContact.MapKeys() {
+	//		if  groupkey.String()== groupKey {
+	//			log.Println("task id",key.String())
+	//			err = db.Child("Tasks/" + key.String() + "/UsersAndGroups/Group/"+groupKey).Value(&taskGroupDetail)
+	//			log.Println("contact inside task",taskGroupDetail)
+	//			taskGroupForUpdate.Members = m.Members
+	//			taskGroupForUpdate.GroupName = m.Info.GroupName
+	//			taskGroupForUpdate.GroupStatus = taskGroupDetail.GroupStatus
+	//			err = db.Child("Tasks/" + key.String() + "/UsersAndGroups/Group/"+groupKey).Update(&taskGroupForUpdate)
+	//
+	//		}
+	//	}
+	//}
 	if err != nil {
 		log.Fatal(err)
 		return  false
