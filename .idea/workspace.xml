@@ -3,13 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/ByPassController.go" afterPath="$PROJECT_DIR$/controllers/ByPassController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/TaskController.go" afterPath="$PROJECT_DIR$/controllers/TaskController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-task.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-task.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/add-task.html" afterPath="$PROJECT_DIR$/main/views/template/add-task.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/task-details.html" afterPath="$PROJECT_DIR$/main/views/template/task-details.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/TaskModel.go" afterPath="$PROJECT_DIR$/models/TaskModel.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viewmodels/TaskViewModel.go" afterPath="$PROJECT_DIR$/viewmodels/TaskViewModel.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -44,11 +38,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TaskModel.go" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TaskModel.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="25">
-              <caret line="40" column="22" lean-forward="true" selection-start-line="40" selection-start-column="22" selection-end-line="40" selection-end-column="22" />
+            <state relative-caret-position="309">
+              <caret line="340" column="53" lean-forward="false" selection-start-line="340" selection-start-column="53" selection-end-line="340" selection-end-column="53" />
               <folding />
             </state>
           </provider>
@@ -118,7 +112,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ByPassController.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ByPassController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="291">
@@ -231,10 +225,10 @@
         <option value="$PROJECT_DIR$/controllers/GroupController.go" />
         <option value="$PROJECT_DIR$/controllers/TimeSheetController.go" />
         <option value="$PROJECT_DIR$/models/GroupModel.go" />
-        <option value="$PROJECT_DIR$/models/TaskModel.go" />
         <option value="$PROJECT_DIR$/viewmodels/TaskViewModel.go" />
         <option value="$PROJECT_DIR$/controllers/TaskController.go" />
         <option value="$PROJECT_DIR$/controllers/ByPassController.go" />
+        <option value="$PROJECT_DIR$/models/TaskModel.go" />
       </list>
     </option>
   </component>
@@ -730,13 +724,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00077" summary="29/03/2017  12:12: shared documents">
-      <created>1490856172770</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1490856172771</updated>
-    </task>
     <task id="LOCAL-00078" summary="29/03/2017  12:12: shared documents1">
       <created>1490856395785</created>
       <option name="number" value="00078" />
@@ -1073,7 +1060,14 @@
       <option name="project" value="LOCAL" />
       <updated>1497941135436</updated>
     </task>
-    <option name="localTasksCounter" value="126" />
+    <task id="LOCAL-00126" summary="1/06/2013:28:   check box">
+      <created>1497951590183</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1497951590183</updated>
+    </task>
+    <option name="localTasksCounter" value="127" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1519,14 +1513,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="40" column="22" lean-forward="true" selection-start-line="40" selection-start-column="22" selection-end-line="40" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/viewmodels/TaskViewModel.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -1547,6 +1533,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="291">
           <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="340" column="53" lean-forward="false" selection-start-line="340" selection-start-column="53" selection-end-line="340" selection-end-column="53" />
           <folding />
         </state>
       </provider>

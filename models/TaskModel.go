@@ -331,10 +331,13 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		log.Println("Connection error:",err)
 	}
 	taskValues :=Tasks{}
-	err = dB.Child("/Tasks/"+ taskId).Update(&taskValues)
+	err = dB.Child("/Tasks/"+ taskId).Value(&taskValues)
 	m.Settings.TaskStatus=taskValues.Settings.TaskStatus
 	m.Settings.DateOfCreation =taskValues.Settings.DateOfCreation
 	m.Settings.FitToWorkDisplayStatus =taskValues.Settings.FitToWorkDisplayStatus
+	m.Settings.Status =taskValues.Settings.Status
+	m.Settings.CompletedPercentage =taskValues.Settings.CompletedPercentage
+	m.Settings.PendingPercentage =taskValues.Settings.PendingPercentage
 	m.Settings.Status =taskValues.Settings.Status
 	err = dB.Child("/Tasks/"+ taskId).Update(&m)
 	//for adding fit to work to database
