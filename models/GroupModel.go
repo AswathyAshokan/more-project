@@ -224,19 +224,19 @@ func (m *Group) DeleteGroupFromDB(ctx context.Context, groupId string,TaskSlice 
 		err = dB.Child("/Group/"+ groupId+"/Tasks/"+TaskSlice[i]).Update(&groupDetailForUpdate)
 
 	}
-	taskGroupDetail :=TaskGroup{}
-	taskGroupForUpdate :=TaskGroup{}
-	for i:=0;i<len(TaskSlice);i++ {
-		err = dB.Child("Tasks/" + TaskSlice[i]+"/UsersAndGroups/Group/"+groupId).Value(&taskGroupDetail)
-		log.Println("details from task job",)
-		taskGroupForUpdate.GroupStatus =helpers.StatusInActive
-		taskGroupForUpdate.GroupName=taskGroupDetail.GroupName
-		taskGroupForUpdate.Members =taskGroupDetail.Members
-
-		log.Println("fhsgjs",taskGroupForUpdate)
-		err = dB.Child("Tasks/" + TaskSlice[i]+"/UsersAndGroups/Group/"+groupId).Update(&taskGroupForUpdate)
-
-	}
+	//taskGroupDetail :=TaskGroup{}
+	//taskGroupForUpdate :=TaskGroup{}
+	//for i:=0;i<len(TaskSlice);i++ {
+	//	err = dB.Child("Tasks/" + TaskSlice[i]+"/UsersAndGroups/Group/"+groupId).Value(&taskGroupDetail)
+	//	log.Println("details from task job",)
+	//	taskGroupForUpdate.GroupStatus =helpers.StatusInActive
+	//	taskGroupForUpdate.GroupName=taskGroupDetail.GroupName
+	//	taskGroupForUpdate.Members =taskGroupDetail.Members
+	//
+	//	log.Println("fhsgjs",taskGroupForUpdate)
+	//	err = dB.Child("Tasks/" + TaskSlice[i]+"/UsersAndGroups/Group/"+groupId).Update(&taskGroupForUpdate)
+	//
+	//}
 	if err!=nil{
 		log.Println("Deletion error:",err)
 		return false

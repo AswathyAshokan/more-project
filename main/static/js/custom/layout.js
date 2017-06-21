@@ -4,33 +4,50 @@ $(document).ready(function() {
     //checking plans
     
     if(vm.CompanyPlan == 'family'){
-       
-        $('#group').bind('click', false);
-        $('#contact').bind('click', false);
-        $('#job').bind('click', false);
-        $('#nfc').bind('click', false);
-        $('#crm').bind('click', false);
+        var parent = document.getElementById("menuItems");
+        var group = document.getElementById("group");
+        var contact = document.getElementById("contact");
+        var job = document.getElementById("job");
+        var nfc = document.getElementById("nfc");
+        var crm = document.getElementById("crm");
+        parent.removeChild(group);
+        parent.removeChild(contact);
+        parent.removeChild(job);
+        parent.removeChild(nfc);
+        parent.removeChild(crm);
         
     }
     
      if(vm.CompanyPlan == 'campus'){
          
        /* $('#group').attr('disabled', true);*/
-        $('#group').bind('click', false);
-        $('#contact').bind('click', false);
-        $('#job').bind('click', false);
-        $('#nfc').bind('click', false);
-        $('#crm').bind('click', false);
+        var parent = document.getElementById("menuItems");
+        var group = document.getElementById("group");
+        var contact = document.getElementById("contact");
+        var job = document.getElementById("job");
+        var nfc = document.getElementById("nfc");
+        var crm = document.getElementById("crm");
+        parent.removeChild(group);
+        parent.removeChild(contact);
+        parent.removeChild(job);
+        parent.removeChild(nfc);
+        parent.removeChild(crm);
      }
     
     
     if(vm.CompanyPlan == 'business'){
          
-       /* $('#group').attr('disabled', true);*/
-        $('#group').bind('click', false);
-        $('#contact').bind('click', false);
-        $('#job').bind('click', false);
-        $('#nfc').bind('click', false);
+       var parent = document.getElementById("menuItems");
+        var group = document.getElementById("group");
+        var contact = document.getElementById("contact");
+        var job = document.getElementById("job");
+        var nfc = document.getElementById("nfc");
+        var crm = document.getElementById("crm");
+        parent.removeChild(group);
+        parent.removeChild(contact);
+        parent.removeChild(job);
+        parent.removeChild(nfc);
+        parent.removeChild(crm);
     }
     
     document.getElementById("username").textContent=vm.AdminFirstName;

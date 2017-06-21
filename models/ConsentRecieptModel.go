@@ -7,6 +7,7 @@ import(
 	"strings"
 	"reflect"
 	"app/passporte/helpers"
+
 )
 type ConsentReceipts struct {
 	Info     	ConsentData
@@ -154,35 +155,6 @@ func GetEachUserDetailsById(ctx context.Context,companyTeamName string,consentId
 	return consentUsers
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 func GetMemberStatus(ctx context.Context,consentId string)( map[string]ConsentMembers){
 	members := map[string]ConsentMembers{}
 	db, err := GetFirebaseClient(ctx, "")
@@ -254,6 +226,7 @@ func DeleteConsentReceiptById(ctx context.Context,consentId string,companyTeamNa
 	allUsers := map[string]Users{}
 	ConsentStatusDetails :=ConsentSettings{}
 	updateConsentStatus := ConsentSettings{}
+	consentInUsers :=map[string]ConsentReceipts{}
 	db, err := GetFirebaseClient(ctx, "")
 	if err != nil {
 		log.Println(err)
@@ -273,6 +246,18 @@ func DeleteConsentReceiptById(ctx context.Context,consentId string,companyTeamNa
 	}
 	err = db.Child("Users").Value(&allUsers)
 	log.Println("delete depentent",allUsers)
+	dataValue := reflect.ValueOf(allUsers)
+
+	for _, key := range dataValue.MapKeys() {
+		log.Println("key",key.String())
+		err = db.Child("Users/"+key.String()+"/ConsentReceipts").Value(&consentInUsers)
+
+
+	}
+	log.Println("user consent",consentInUsers)
+	/*for _, key := range keySlice{
+
+	}*/
 	return true
 }
 
