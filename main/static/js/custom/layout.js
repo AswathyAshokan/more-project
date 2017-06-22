@@ -7,12 +7,12 @@ $(document).ready(function() {
         var parent = document.getElementById("menuItems");
         var group = document.getElementById("group");
         var contact = document.getElementById("contact");
-        var job = document.getElementById("job");
+       // var job = document.getElementById("job");
         var nfc = document.getElementById("nfc");
         var crm = document.getElementById("crm");
         parent.removeChild(group);
         parent.removeChild(contact);
-        parent.removeChild(job);
+       // parent.removeChild(job);
         parent.removeChild(nfc);
         parent.removeChild(crm);
         
@@ -24,18 +24,18 @@ $(document).ready(function() {
         var parent = document.getElementById("menuItems");
         var group = document.getElementById("group");
         var contact = document.getElementById("contact");
-        var job = document.getElementById("job");
+        //var job = document.getElementById("job");
         var nfc = document.getElementById("nfc");
         var crm = document.getElementById("crm");
         parent.removeChild(group);
         parent.removeChild(contact);
-        parent.removeChild(job);
+        //parent.removeChild(job);
         parent.removeChild(nfc);
         parent.removeChild(crm);
      }
     
     
-    if(vm.CompanyPlan == 'business'){
+    /*if(vm.CompanyPlan == 'business'){
          
        var parent = document.getElementById("menuItems");
         var group = document.getElementById("group");
@@ -48,7 +48,7 @@ $(document).ready(function() {
         parent.removeChild(job);
         parent.removeChild(nfc);
         parent.removeChild(crm);
-    }
+    }*/
     
     document.getElementById("username").textContent=vm.AdminFirstName;
     document.getElementById("imageId").src=vm.ProfilePicture;

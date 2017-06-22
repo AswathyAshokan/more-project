@@ -8,7 +8,7 @@ const (
 	StatusAccepted = "Accepted"
 	StatusInActive = "Inactive"
 	PlanFamily = "family"
-	PlanBusiness = "businessPlus"
+	PlanBusiness = "business"
 	UserResponsePending = "Pending"
 	UserResponseAccepted = "Accepted"
 	UserResponseRejected = "Rejected"

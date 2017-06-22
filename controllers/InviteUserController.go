@@ -86,13 +86,14 @@ func (c *InviteUserController) AddInvitation() {
 		}
 	} else {
 		companyPlan := storedSession.CompanyPlan
-		if companyPlan == "family" {
+		log.Println("plan",companyPlan)
+		if companyPlan == helpers.PlanBusiness {
 			info, dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx, companyTeamName)
 			switch dbStatus {
 			case true:
 				log.Println("w1")
-				addViewModel.AllowInvitations =true
-				var count = 0
+				//addViewModel.AllowInvitations =true
+
 				var tempValueSlice []string
 				var keySlice []string
 				dataValue := reflect.ValueOf(info)
@@ -106,24 +107,27 @@ func (c *InviteUserController) AddInvitation() {
 						tempValueSlice = append(tempValueSlice, info[key].UserResponse)
 						uniqueEmailSlice = append(uniqueEmailSlice, info[key].Email)//appent email id into slice
 					}
-					for i := 0; i < len(tempValueSlice); i++ {
-						log.Println("w2")
-						if tempValueSlice[i] == helpers.UserResponsePending || tempValueSlice[i] == helpers.UserResponseAccepted{
-							count = count + 1
-						}
+				}
+				var count = 0
+				for i := 0; i < len(tempValueSlice); i++ {
+					if tempValueSlice[i] == helpers.UserResponsePending || tempValueSlice[i] == helpers.UserResponseAccepted{
+						count = count + 1
+						log.Println("inside loop",count)
 					}
-					log.Println("ggg1",count)
-					for i := count; i < 5; i++ {
-						addViewModel.AllowInvitations = true
-					}
+				}
+				if count <4{
+					addViewModel.AllowInvitations = true
+				}else{
+					addViewModel.AllowInvitations = false
 				}
 			case false:
 				log.Println("failed")
 			}
 		}else {
-			log.Println("hai iam there")
+
 			addViewModel.AllowInvitations =true
 		}
+		log.Println("hai iam there",addViewModel.AllowInvitations)
 		addViewModel.CompanyTeamName = storedSession.CompanyTeamName
 		addViewModel.CompanyPlan = storedSession.CompanyPlan
 		addViewModel.AdminFirstName = storedSession.AdminFirstName

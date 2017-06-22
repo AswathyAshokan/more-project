@@ -28,10 +28,10 @@ $(function(){
             document.getElementById("companyNumberLabelId").innerHTML == "Company Number";
            document.getElementById("companyNameLabel").innerHTML = "Company Name"; 
       
-       } else{
+       } /*else{
             document.getElementById("companyNumberLabelId").innerHTML == "Company Number";
             document.getElementById("companyNameLabel").innerHTML = "Company Name"; 
-       }
+       }*/
    });
     
 

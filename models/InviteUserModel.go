@@ -68,12 +68,10 @@ func(m *EmailInvitation) CheckEmailIdInDb(ctx context.Context,companyID string)b
 			log.Println("No Db Connection!")
 		}
 		if companyInvitaionCheck.Email == m.Info.Email &&( companyInvitaionCheck.UserResponse ==helpers.UserResponsePending ||companyInvitaionCheck.UserResponse == helpers.UserResponseAccepted) {
-			log.Println("cpp2")
 			Condition = "true"
 			break
 
 		} else {
-			log.Println("cpp3")
 			Condition = "false"
 		}
 	}
