@@ -67,8 +67,6 @@ func(m *ConsentReceipts) AddConsentToDb(ctx context.Context,instructionSlice []s
 				log.Println(err)
 				return false
 			}
-
-
 		}
 	}
 	var keySlice []string
@@ -76,7 +74,6 @@ func(m *ConsentReceipts) AddConsentToDb(ctx context.Context,instructionSlice []s
 	for _, key := range dataValue.MapKeys() {
 		keySlice = append(keySlice, key.String())
 	}
-
 	for _, k := range keySlice {
 		addConsentToUsers.CompanyId = companyTeamName
 		addConsentToUsers.UserResponse = m.Instructions.Users[k].UserResponse
@@ -226,7 +223,7 @@ func DeleteConsentReceiptById(ctx context.Context,consentId string,companyTeamNa
 	allUsers := map[string]Users{}
 	ConsentStatusDetails :=ConsentSettings{}
 	updateConsentStatus := ConsentSettings{}
-	consentInUsers :=map[string]ConsentReceipts{}
+	consentInUsers := map[string]ConsentReceiptDetails{}
 	db, err := GetFirebaseClient(ctx, "")
 	if err != nil {
 		log.Println(err)
@@ -236,22 +233,31 @@ func DeleteConsentReceiptById(ctx context.Context,consentId string,companyTeamNa
 		log.Fatal(err)
 		return  false
 	}
-	log.Println("hhhh",ConsentStatusDetails)
 	updateConsentStatus.DateOfCreation = ConsentStatusDetails.DateOfCreation
 	updateConsentStatus.Status = helpers.UserStatusDeleted
-	err = db.Child("ConsentReceipts/"+companyTeamName+"/"+consentId+"/Settings").Update(&updateConsentStatus)
+	/*err = db.Child("ConsentReceipts/"+companyTeamName+"/"+consentId+"/Settings").Update(&updateConsentStatus)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}*/
+	err = db.Child("Users").Value(&allUsers)
 	if err != nil {
 		log.Fatal(err)
 		return  false
 	}
-	err = db.Child("Users").Value(&allUsers)
-	log.Println("delete depentent",allUsers)
 	dataValue := reflect.ValueOf(allUsers)
 
 	for _, key := range dataValue.MapKeys() {
 		log.Println("key",key.String())
 		err = db.Child("Users/"+key.String()+"/ConsentReceipts").Value(&consentInUsers)
 
+		//consentDataValue := reflect.ValueOf(consentInUsers)
+		/*for _, k := range consentDataValue.MapKeys() {
+
+			*//*tempUserResponse := consentInUsers[k.String()].UserResponse
+			tempCompanyId :=consentInUsers[k.String()].*//*
+		}
+*/
 
 	}
 	log.Println("user consent",consentInUsers)

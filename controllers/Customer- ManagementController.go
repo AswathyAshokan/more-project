@@ -45,6 +45,7 @@ func (c *CustomerManagementController) CustomerManagement() {
 				case true:
 					tempValueSlice = append(tempValueSlice,adminDetails.Info.FirstName)
 					tempValueSlice = append(tempValueSlice,adminDetails.Info.Email)
+					log.Println("phone number",adminDetails.Info.PhoneNo)
 					tempValueSlice = append(tempValueSlice,adminDetails.Info.PhoneNo)
 				case false:
 					log.Println(helpers.ServerConnectionError)

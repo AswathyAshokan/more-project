@@ -23,6 +23,7 @@ func (m *WorkLog)GetLogDetailOfUser(ctx context.Context,companyTeamName string)(
 	//contactStatus := "Active";
 	log.Println("model",companyTeamName)
 	err = dB.Child("WorkLog/"+companyTeamName).Value(&workDetail)
+	log.Println("workDetail",workDetail)
 	if err != nil {
 		log.Fatal(err)
 		return false, workDetail

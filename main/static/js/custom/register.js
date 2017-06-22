@@ -17,9 +17,6 @@ $(function(){
 /*---------------------for display heading of each webpage----------------------*/
    $('#planType').on('change', function() {
        if( document.getElementById("planType").value =="family"){
-           
-           document.getElementById("number").style.display='none'; 
-           document.getElementById("companyNumberLabelId").style.disable='none';
            document.getElementById("companyNameLabel").innerHTML = "Family Name";
        
        } else if(document.getElementById("planType").value =="campus"){

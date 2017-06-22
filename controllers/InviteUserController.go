@@ -91,7 +91,7 @@ func (c *InviteUserController) AddInvitation() {
 			switch dbStatus {
 			case true:
 				log.Println("w1")
-				//addViewModel.AllowInvitations =true
+				addViewModel.AllowInvitations =true
 				var count = 0
 				var tempValueSlice []string
 				var keySlice []string
