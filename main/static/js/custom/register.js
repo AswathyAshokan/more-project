@@ -17,10 +17,15 @@ $(function(){
 /*---------------------for display heading of each webpage----------------------*/
    $('#planType').on('change', function() {
        if( document.getElementById("planType").value =="family"){
+           
+           document.getElementById("companyNumberLabelId").style.display = "none";
+           document.getElementById("number").style.display = "none";
            document.getElementById("companyNameLabel").innerHTML = "Family Name";
        
        } else if(document.getElementById("planType").value =="campus"){
            
+           document.getElementById("companyNumberLabelId").style.display = "none";
+           document.getElementById("number").style.display = "none";
            document.getElementById("companyNumberLabelId").innerHTML == "Campus Number";
            document.getElementById("companyNameLabel").innerHTML = "Campus Name";
        
@@ -28,10 +33,7 @@ $(function(){
             document.getElementById("companyNumberLabelId").innerHTML == "Company Number";
            document.getElementById("companyNameLabel").innerHTML = "Company Name"; 
       
-       } /*else{
-            document.getElementById("companyNumberLabelId").innerHTML == "Company Number";
-            document.getElementById("companyNameLabel").innerHTML = "Company Name"; 
-       }*/
+       }
    });
     
 

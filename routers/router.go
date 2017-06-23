@@ -132,4 +132,9 @@ func init() {
 	beegae.Router("/:companyTeamName/dashBoard", &controllers.DashBoardController{},"*:LoadDashBoard")
 	beegae.Router("/:companyTeamName/timeSheet", &controllers.TimeSheetController{},"*:LoadTimeSheetDetails")
 	beegae.Router("/push", &controllers.ServerNotificationController{},"*:ServerNotificationDetails")
+
+
+	beegae.Router("/PendingWorks", &controllers.ComingSoonController{},"*:LoadComingSoonController")
+
+
 }

@@ -1,37 +1,36 @@
 console.log(vm);
 $(function () {
     
-    
-    if(vm.CompanyPlan == 'family'){
-       
-        $('#group').bind('click', false);
-        $('#contact').bind('click', false);
-        $('#job').bind('click', false);
-        $('#nfc').bind('click', false);
-        $('#crm').bind('click', false);
+     if(vm.CompanyPlan == 'family' ){
+        var parent = document.getElementById("menuItems");
+        var contact = document.getElementById("contact");
+        var job = document.getElementById("job");
+        var crm = document.getElementById("crm");
+        var leave = document.getElementById("leave");
+        var time  = document.getElementById("time-sheet");
+        var consent = document.getElementById("consent")
+        parent.removeChild(time);
+        parent.removeChild(consent);
+        parent.removeChild(leave);
+        parent.removeChild(contact);
+        parent.removeChild(job);
+        parent.removeChild(crm);
         
-    }
-    
-     if(vm.CompanyPlan == 'campus'){
-         
-       /* $('#group').attr('disabled', true);*/
-        $('#group').bind('click', false);
-        $('#contact').bind('click', false);
-        $('#job').bind('click', false);
-        $('#nfc').bind('click', false);
-        $('#crm').bind('click', false);
+    } else if(vm.CompanyPlan == 'campus'){
+            var campusParent = document.getElementById("menuItems");
+            var contact = document.getElementById("contact");
+            var job = document.getElementById("job");
+            var crm = document.getElementById("crm");
+            var leave = document.getElementById("leave");
+            var time  = document.getElementById("time-sheet");
+            var consent = document.getElementById("consent")
+            campusParent.removeChild(time);
+            campusParent.removeChild(consent);
+            campusParent.removeChild(leave);
+            campusParent.removeChild(contact);
+            campusParent.removeChild(job);
+            campusParent.removeChild(crm);
      }
-    
-    
-    if(vm.CompanyPlan == 'business'){
-         
-       /* $('#group').attr('disabled', true);*/
-        $('#group').bind('click', false);
-        $('#contact').bind('click', false);
-        $('#job').bind('click', false);
-        $('#nfc').bind('click', false);
-    }
-    
     document.getElementById("username").textContent=vm.AdminFirstName;
     document.getElementById("imageId").src=vm.ProfilePicture;
     if (vm.ProfilePicture ==""){
