@@ -31,7 +31,7 @@ $(function(){
                             window.localStorage.clear();
                             window.location = '/plan'
                         }*/ else{
-                                window.location = '/'+ data[1] +'/invite';
+                                window.location = '/'+ data[1] +'/dashBoard';
                             }
                             
                         } else if(data[0] == "SuperAdmin"){
