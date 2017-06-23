@@ -2,7 +2,7 @@ var companyTeamName = vm.CompanyTeamName;
 var sessionFlag = vm.SessionFlag;
 var selectedCompanyPlan = vm.CompanyPlan
 $().ready(function(){
-    console.log(selectedCompanyPlan);
+    console.log(companyTeamName);
     if (selectedCompanyPlan == "family"){
         
         document.getElementById('businessDiv').className += ' disable'
@@ -55,7 +55,8 @@ $().ready(function(){
               success : function(data){
                 var jsonData = JSON.parse(data)
                 if(jsonData[0] == "true"){
-                    window.location = '/'+ jsonData[1] +'/'+ jsonData[2] +'/payment';
+                    window.location ='/' + jsonData[1] +'/invite';
+                   /* window.location = '/'+ jsonData[1] +'/'+ jsonData[2] +'/payment';*/
                 } else {
                       window.location = '/login';
                 }
