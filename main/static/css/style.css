@@ -3362,6 +3362,7 @@ input.sprites-callender { background-position: right 4px top -20px; cursor: poin
 
 .plan-wrapper { border: 1px solid #e4e5e7; background-color: #fff; display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; padding: 0; }
 .plan-wrapper:not(:last-child) { margin-right: 5px; }
+.plan-wrapper.disable { opacity: .3; }
 @media (max-width: 767px) { .plan-wrapper { margin-right: 0 !important; width: 49%; margin-bottom: 10px; } }
 @media (max-width: 479px) { .plan-wrapper { width: 100%; } }
 .plan-wrapper .plan-inner-wrapper { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-orient: vertical; -webkit-box-direction: normal; -webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column; width: 100%; }
@@ -3374,6 +3375,14 @@ input.sprites-callender { background-position: right 4px top -20px; cursor: poin
 .plan-wrapper .plan-footer { text-align: center; padding: 20px; position: relative; }
 .plan-wrapper .plan-footer h4 { margin: 0; color: #fff; }
 .plan-wrapper .plan-footer:after { content: ''; position: absolute; width: 0; height: 0; border-right: 10px solid transparent; border-left: 10px solid transparent; border-top: 10px solid #fff; border-bottom: 10px solid transparent; margin-right: auto; margin-left: auto; left: 0px; right: 0px; top: 0; }
+
+.limit .input-no { padding-top: 10px; }
+.limit .input-no input { width: 44px; height: 30px; text-align: center; }
+.limit .total { padding-top: 10px; }
+.limit .total span + span { font-size: 20px; }
+.limit .modal-body { text-align: center; }
+.limit .modal-footer { border: none; padding-top: 0; text-align: center; }
+.limit .modal-footer button { padding: 4px 12px; }
 
 /*==============================================================
 					Dures
@@ -3440,12 +3449,9 @@ td .drp-tbl-wrp:not(:last-child) { margin-bottom: 20px; }
 .piechart-wrapper .piechart .range span:before { content: ""; display: inline-block; height: 10px; width: 10px; background-color: green; -webkit-box-shadow: 0 0 0 1px #fff, 0 0 0 1.5px #9ea8ab; box-shadow: 0 0 0 1px #fff, 0 0 0 1.5px #9ea8ab; margin-right: 10px; }
 .piechart-wrapper .piechart .range span.range-completed:before { background-color: #29a0ff; }
 .piechart-wrapper .piechart .range span.range-pending:before { background-color: #6abdff; }
-.piechart-wrapper .piechart .range span.range-empty:before { background-color: #363433; }
-
 .piechart-wrapper .piechart .range span.range-invited:before { background-color: #5b93c2; }
 .piechart-wrapper .piechart .range span.range-accepted:before { background-color: #06599e; }
 .piechart-wrapper .piechart .range span.range-rejected:before { background-color: #8fb4d3; }
-
 
 .task-graph-wrapper { margin-top: 25px; }
 .task-graph-wrapper select { width: 160px; padding-left: 10px; font-size: 11px; }
@@ -3457,6 +3463,18 @@ td .drp-tbl-wrp:not(:last-child) { margin-bottom: 20px; }
 .task-graph .tsk-lst-wrapper .tsk-lst p { background-color: #f9f9f9; border-bottom: 1px solid #ddd; margin: 0; padding: 10px 10px; font-size: 12px; }
 .task-graph .tsk-lst-wrapper .tsk-lst p:nth-child(even) { background-color: #fff; }
 .task-graph .tsk-lst-wrapper .tsk-lst span { padding: 10px; display: block; text-align: center; color: #29a0ff; }
+
+/*==============================================================
+					    Timer
+=================================================================*/
+.notification-pg { max-width: 750px; padding: 10px 0 25px 0; }
+.notification-pg h1 { padding-bottom: 15px; }
+.notification-pg .tab-content { padding-top: 10px; }
+.notification-pg .nav-tabs li.active a { background-color: #fafafa; }
+
+.nt-list { padding-bottom: 20px; }
+.nt-list p { margin: 0; }
+.nt-list .date { font-size: 11px; color: #777575; }
 
 /*==============================================================
 					    Timer

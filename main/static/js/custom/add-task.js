@@ -1,7 +1,7 @@
 /* Author :Aswathy Ashok */
 //Below line is for adding active class to layout side menu..
 
-
+console.log(vm.CompanyPlan);
 document.getElementById("task").className += " active";
 var pageType = vm.PageType;
 var customerName = "";
@@ -31,6 +31,29 @@ if(vm.GroupMembers == null) {
 
 
 $(function () {
+    
+    if(vm.CompanyPlan == "family"){
+        console.log("hhhh");
+        /*var parent = document.getElementById("jobDiv");
+        var jobName = document.getElementById("jobName");
+        parent.removeChild(jobName);
+        var jobNamelabel = document.getElementById("jobNamelabel")
+        parent.removeChild(jobNamelabel);
+        
+        var minimumUserParent = document.getElementById("minmumUserDiv")
+        var minNoOfUserLabel = document.getElementById("minUsersLabel");
+        minimumUserParent.removeChild(minNoOfUserLabel);
+        var minUsers = document.getElementById("minUsers");
+        minimumUserParent.removeChild(minUsers);*/
+        document.getElementById("minUsers").disabled = true;
+        document.getElementById("jobName").disabled=true;
+        document.getElementById("workExplosure").disabled=true;
+        document.getElementById("contactId").disabled=true;
+        
+    }
+    
+    
+    
     if (pageType == "edit") {
         var element = document.getElementById('minUsers');
         element.value = vm.UserNumber;

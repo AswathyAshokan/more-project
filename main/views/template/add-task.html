@@ -50,7 +50,7 @@
 
 <title>Add Task</title>
 <div class="col-md-12 main-content-wrapper padding-50-each">
-	<div class="clearfix">
+	<div class="clearfix" >
 		<h4 id="taskHead">Add Task </h4>
         <div class="personal-details margin-top-20 clearfix bg-border task-add">
             <div class="col-md-8 col-sm-12 col-xs-12">
@@ -63,8 +63,8 @@
                                 <input  value="" id="latitudeId" type="hidden">
                                 <input  value="" id="longitudeId" type="hidden">
 							</div>
-							<div class="col-sm-6">
-								<label for="jobName" class="">Job Name</label>
+							<div class="col-sm-6" id="jobDiv">
+								<label for="jobName" class="" id="jobNamelabel">Job Name</label>
 
 								<select class="form-control sprites-arrow-down" id="jobName" name="jobName" onclick="getJobAndCustomer();">
 									<option selected disabled value="">Select a Job</option>
@@ -109,8 +109,8 @@
 							</div>
                         </div>
                         <div class="form-group clearfix">
-                            <div class="col-sm-6">
-								<label for="users" class="">Min. No. of Users to Start Work</label>
+                            <div class="col-sm-6" id="minmumUserDiv">
+								<label for="users" class="" id="minUsersLabel">Min. No. of Users to Start Work</label>
 								<select class="form-control sprites-arrow-down" id="minUsers" name="minUsers">
 									<option id="1" value="1">1</option>
 									<option id="2" value="2">2</option>

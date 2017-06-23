@@ -2,11 +2,13 @@ var companyTeamName = vm.CompanyTeamName;
 var sessionFlag = vm.SessionFlag;
 var selectedCompanyPlan = vm.CompanyPlan
 $().ready(function(){
+    console.log(selectedCompanyPlan);
     if (selectedCompanyPlan == "family"){
-        var businessPlusLink = document.getElementById('businessPlus');
-        businessPlusLink.classList.remove("selectPlanButton");
-        businessPlusLink.style.cursor = null;
         
+        document.getElementById('businessDiv').className += ' disable'
+        document.getElementById('campusDiv').className += ' disable'
+        
+        document.getElementById("selectPlanButton")
         var compusLink = document.getElementById('campus');
         compusLink.classList.remove("selectPlanButton");
         compusLink.style.cursor = null;
@@ -16,42 +18,29 @@ $().ready(function(){
         businessLink.style.cursor = null;
     
     } else if(selectedCompanyPlan == "campus"){
+         document.getElementById('businessDiv').className += ' disable'
+         document.getElementById('familyDiv').className += ' disable'
+        
          var businessLink = document.getElementById('business');
          businessLink.classList.remove("selectPlanButton");
          businessLink.style.cursor = null;
-        
-         var businessPlusLink = document.getElementById('businessPlus');
-         businessPlusLink.classList.remove("selectPlanButton");
-         businessPlusLink.style.cursor = null;
-        
-         var familyLink = document.getElementById('family');
+        var familyLink = document.getElementById('family');
          familyLink.classList.remove("selectPlanButton");
          familyLink.style.cursor = null;
      
-    }else if(selectedCompanyPlan =="business"){
-       var familyLink = document.getElementById('family');
+    }else if (selectedCompanyPlan =="business"){
+        
+        document.getElementById('campusDiv').className += ' disable'
+        document.getElementById('familyDiv').className += ' disable'
+        
+        var familyLink = document.getElementById('family');
          familyLink.classList.remove("selectPlanButton");
          familyLink.style.cursor = null;
          var compusLink = document.getElementById('campus');
          compusLink.classList.remove("selectPlanButton");
          compusLink.style.cursor = null;
-         var businessPlusLink = document.getElementById('businessPlus');
-         businessPlusLink.classList.remove("selectPlanButton");
-         businessPlusLink.style.cursor = null;
-         
-     } else{
-         var familyLink = document.getElementById('family');
-         familyLink.classList.remove("family");
-         familyLink.style.cursor = null;
-         
-         var compusLink = document.getElementById('campus');
-         compusLink.classList.remove("campus");
-         compusLink.style.cursor = null;
-         
-         var businessLink = document.getElementById('business');
-         businessLink.classList.remove("business");
-         businessLink.style.cursor = null;
-     }
+    }
+    
     
     $(".selectPlanButton").click(function(){
         if(sessionFlag == true){
@@ -80,61 +69,6 @@ $().ready(function(){
 });
 
 
-
-
-
-
-
-
-
- /*if (selectedCompanyPlan == "Family"){
-         console.log("haiii");
-         var businessPlusLink = document.getElementById('businessPlus');
-         businessPlusLink.classList.remove("selectPlanButton");
-         //businessPlusLink.style.cursor = null;
-         var compusLink = document.getElementById('campus');
-         compusLink.classList.remove("campus");
-         compusLink.style.cursor = null;
-         var compusLink = document.getElementById('business');
-         businessLink.classList.remove("business");
-         businessLink.style.cursor = null;
-     
-     
-     } else if(selectedCompanyPlan == "Campus"){
-         var compusLink = document.getElementById('business');
-         businessLink.classList.remove("business");
-         businessLink.style.cursor = null;
-         var businessPlusLink = document.getElementById('businessPlus');
-         businessPlusLink.classList.remove("selectPlanButton");
-         businessPlusLink.style.cursor = null;
-         var familyLink = document.getElementById('family');
-         familyLink.classList.remove("family");
-         familyLink.style.cursor = null;
-     
-     } else if(selectedCompanyPlan =="Business"){
-       var familyLink = document.getElementById('family');
-         familyLink.classList.remove("family");
-         familyLink.style.cursor = null;
-         var compusLink = document.getElementById('campus');
-         compusLink.classList.remove("campus");
-         compusLink.style.cursor = null;
-         var businessPlusLink = document.getElementById('businessPlus');
-         businessPlusLink.classList.remove("selectPlanButton");
-         businessPlusLink.style.cursor = null;
-         
-     } else{
-          var familyLink = document.getElementById('family');
-         familyLink.classList.remove("family");
-         familyLink.style.cursor = null;
-         var compusLink = document.getElementById('campus');
-         compusLink.classList.remove("campus");
-         compusLink.style.cursor = null;
-          var compusLink = document.getElementById('business');
-         businessLink.classList.remove("business");
-         businessLink.style.cursor = null;
-         
-     }
-*/
 
 
 
