@@ -109,6 +109,14 @@
 							</div>
                         </div>
                         <div class="form-group clearfix">
+                            <div class="col-sm-6">
+								<label for="log" class="">Log In Minutes</label>
+								<select class="form-control sprites-arrow-down" id="log" name="log">
+									<option id="20" value="20">20 </option>
+									<option id="30" value="30">30 </option>
+									
+								</select>
+							</div>
                             <div class="col-sm-6" id="minmumUserDiv">
 								<label for="users" class="" id="minUsersLabel">Min. No. of Users to Start Work</label>
 								<select class="form-control sprites-arrow-down" id="minUsers" name="minUsers">
@@ -120,14 +128,7 @@
                                     
 								</select>
 							</div>
-							<div class="col-sm-6">
-								<label for="log" class="">Log In Minutes</label>
-								<select class="form-control sprites-arrow-down" id="log" name="log">
-									<option id="20" value="20">20 </option>
-									<option id="30" value="30">30 </option>
-									
-								</select>
-							</div>
+							
 						</div>
                         <div class="form-group clearfix">
                             <div class="col-sm-6">
@@ -141,7 +142,7 @@
 
 							</div>
                             <div class="col-sm-6">
-								<label for="contacts" class="">Contacts</label>
+								<label for="contacts" class="" id="contactIdLabel">Contacts</label>
 
 								<select class="form-control sprites-arrow-down multiple-drop" id="contactId" multiple="multiple" name="contactId" >
                                     {{range $key, $val := .vm.ContactNameArray}}
@@ -164,7 +165,7 @@
 						</div>
                          <div class="col-sm-6" >
                              <label><p><input type="checkbox" id="fitToWorkCheck" name="fitToWorkCheck">&nbsp;&nbsp;&nbsp;Fit To Work Declaration Each Time User Re-enter into Task.</p> </label>
-                             <label for="workExplosure">
+                             <label for="workExplosure" id="workExplosureLabel">
                                  <input type="checkbox" id="workExplosure" name="workExplosure"  >
                                      Exposure.
                              </label>
@@ -193,10 +194,10 @@
 					<span>Login Type</span>
 					<div class>
 						<label class="radio-inline">
-							<input class="radio-inline" type="radio"  name="loginType"  id="loginType1" value="NFC" >NFC
+                            <input class="radio-inline" type="radio"  name="loginType"  id="loginType1" value="NFC" > <p1 id="nfcbutton">NFC</p1>
 						</label>
 						<label >
-							<input  class="radio-inline" type="radio" name="loginType"  id="loginType2"  value="GPS" >GPS
+							<input  class="radio-inline" type="radio" name="loginType"  id="loginType2"  value="GPS" ><p1 id="gpsbutton">GPS</p1>
 						</label>
 					</div>
 				</div>

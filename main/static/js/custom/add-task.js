@@ -33,23 +33,35 @@ if(vm.GroupMembers == null) {
 $(function () {
     
     if(vm.CompanyPlan == "family"){
-        console.log("hhhh");
-        /*var parent = document.getElementById("jobDiv");
-        var jobName = document.getElementById("jobName");
-        parent.removeChild(jobName);
-        var jobNamelabel = document.getElementById("jobNamelabel")
-        parent.removeChild(jobNamelabel);
         
-        var minimumUserParent = document.getElementById("minmumUserDiv")
-        var minNoOfUserLabel = document.getElementById("minUsersLabel");
-        minimumUserParent.removeChild(minNoOfUserLabel);
-        var minUsers = document.getElementById("minUsers");
-        minimumUserParent.removeChild(minUsers);*/
-        document.getElementById("minUsers").disabled = true;
-        document.getElementById("jobName").disabled=true;
-        document.getElementById("workExplosure").disabled=true;
+        document.getElementById("jobNamelabel").style.display = "none";
+        document.getElementById("workExplosureLabel").style.display = "none";
+        document.getElementById("minUsersLabel").style.display = "none";
+         document.getElementById("nfcbutton").style.display = "none";
+        //document.getElementById("contactIdLabel").style.display = "none";
+        
+        document.getElementById("minUsers").style.display = "none";
+        document.getElementById("loginType1").style.display = "none";
+        document.getElementById("jobName").style.display = "none";
+        document.getElementById("workExplosure").style.display = "none";
+        document.getElementById("contactId").disabled=true;
+        //document.getElementById("contactId").style.display = "none";
+    } else if(vm.CompanyPlan == "campus"){
+        
+        document.getElementById("jobNamelabel").style.display = "none";
+        document.getElementById("workExplosureLabel").style.display = "none";
+        document.getElementById("minUsersLabel").style.display = "none";
+        document.getElementById("minUsers").style.display = "none";
+        document.getElementById("jobName").style.display = "none";
+        document.getElementById("workExplosure").style.display = "none";
+        //document.getElementById("contactId").style.display = "none";
         document.getElementById("contactId").disabled=true;
         
+    }else{
+         document.getElementById("minUsers").style.display = "block";
+         document.getElementById("jobName").style.display = "block";
+         document.getElementById("workExplosure").style.display = "block";
+         //document.getElementById("contactId").style.display = "block";
     }
     
     

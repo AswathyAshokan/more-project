@@ -30,6 +30,9 @@ $(function(){
            document.getElementById("companyNameLabel").innerHTML = "Campus Name";
        
        }else if (document.getElementById("planType").value =="business"){
+           console.log("kkkk");
+           document.getElementById("companyNumberLabelId").style.display = "block";
+           document.getElementById("number").style.display = "block";
             document.getElementById("companyNumberLabelId").innerHTML == "Company Number";
            document.getElementById("companyNameLabel").innerHTML = "Company Name"; 
       
