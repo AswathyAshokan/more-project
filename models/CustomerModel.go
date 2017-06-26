@@ -7,6 +7,7 @@ import (
 	"log"
 	"app/passporte/helpers"
 	"reflect"
+
 )
 
 type Customers struct {
@@ -199,6 +200,42 @@ func (m *Customers) DeleteCustomerFromDB(ctx context.Context, customerId string,
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
+	customerDetailForJob := map[string]Job{}
+	err = dB.Child("/Jobs/").Value(&customerDetailForJob)
+	if len(customerDetailForJob) != 0 {
+		dataValue := reflect.ValueOf(customerDetailForJob)
+		for _, key := range dataValue.MapKeys() {
+			if customerDetailForJob[key.String()].Customer.CustomerId == customerId {
+				customerSettingsUpdation := CustomerSettings{}
+				customerDeletion := CustomerSettings{}
+				customerUpdationInJob := JobCustomer{}
+				customerDeletionInJob := JobCustomer{}
+
+				db,err :=GetFirebaseClient(ctx,"")
+				err = db.Child("/Customers/"+ customerId+"/Settings").Value(&customerSettingsUpdation)
+				if err != nil {
+					log.Fatal(err)
+					return  false
+				}
+				customerDeletion.Status = helpers.UserStatusDeleted
+				customerDeletion.DateOfCreation = customerSettingsUpdation.DateOfCreation
+				err = db.Child("Customers/"+customerId+"/Settings").Update(&customerDeletion)
+				if err != nil {
+					log.Fatal(err)
+					return  false
+				}
+				err = db.Child("Jobs/"+key.String()+"/Customer").Value(&customerUpdationInJob)
+				customerDeletionInJob.CustomerId =customerUpdationInJob.CustomerId
+				customerDeletionInJob.CustomerName =customerUpdationInJob.CustomerName
+				customerDeletionInJob.CustomerStatus =helpers.StatusInActive
+				err = db.Child("Jobs/"+key.String()+"/Customer").Update(&customerDeletionInJob)
+			}
+		}
+	}
+
+
+
+
 	customerDetailForUpdate.TasksCustomerStatus =helpers.StatusInActive
 	for i:=0;i<len(TaskSlice);i++{
 		log.Println(TaskSlice[i])
@@ -236,35 +273,40 @@ func (m *TasksCustomer) IsCustomerUsedForTask( ctx context.Context, customerId s
 		return false,customerDetail
 	}
 	log.Println(customerDetail)
+	customerDetailForJob := map[string]Job{}
+	customerUpdationInJob := JobCustomer{}
+	customerDeletionInJob := JobCustomer{}
+	err = dB.Child("/Jobs/").Value(&customerDetailForJob)
+	if len(customerDetailForJob) != 0 {
+		dataValue := reflect.ValueOf(customerDetailForJob)
+		for _, key := range dataValue.MapKeys() {
+			if customerDetailForJob[key.String()].Customer.CustomerId == customerId {
+				err = dB.Child("Jobs/"+key.String()+"/Customer").Value(&customerUpdationInJob)
+				customerDeletionInJob.CustomerId =customerUpdationInJob.CustomerId
+				customerDeletionInJob.CustomerName =customerUpdationInJob.CustomerName
+				customerDeletionInJob.CustomerStatus =helpers.StatusInActive
+				err = dB.Child("Jobs/"+key.String()+"/Customer").Update(&customerDeletionInJob)
+			}
+		}
+	}
+
+
 
 	return true,customerDetail
 }
-//func (m *Customers) DeleteCustomerFromDBForNonTask(ctx context.Context, customerId string)(bool) {
-//	customerDetail := Customers{}
-//	updatedCustomerDetail :=Customers{}
-//	log.Println("gggg")
-//
-//	dB, err := GetFirebaseClient(ctx,"")
-//	err = dB.Child("/Customers/"+ customerId).Value(&customerDetail)
-//	updatedCustomerDetail.Settings.DateOfCreation =customerDetail.Settings.DateOfCreation
-//	updatedCustomerDetail.Settings.Status =helpers.StatusInActive
-//	updatedCustomerDetail.Info.CustomerName=customerDetail.Info.CustomerName
-//	updatedCustomerDetail.Info.CompanyTeamName =customerDetail.Info.CompanyTeamName
-//	updatedCustomerDetail.Info.Address =customerDetail.Info.Address
-//	updatedCustomerDetail.Info.ContactPerson =customerDetail.Info.CustomerName
-//	updatedCustomerDetail.Info.Email =customerDetail.Info.Email
-//	updatedCustomerDetail.Info.Phone =customerDetail.Info.Phone
-//	updatedCustomerDetail.Info.State =customerDetail.Info.State
-//	updatedCustomerDetail.Info.ZipCode =customerDetail.Info.ZipCode
-//
-//	log.Println("dfkfj",updatedCustomerDetail)
-//
-//	err = dB.Child("/Customers/"+ customerId).Update(&updatedCustomerDetail)
-//	if err != nil {
-//		log.Fatal(err)
-//		return false
-//	}
-//	return true
-//}
-//
+func (m *Job) IsCustomerUsedForJob( ctx context.Context, customerId string,companyTeamName string)(bool,map[string]Job)  {
+	jobDetail := map[string]Job {}
+	dB, err := GetFirebaseClient(ctx,"")
+	//jobStatus := "Active"
 
+	err = dB.Child("Jobs").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&jobDetail)
+
+	if err != nil {
+		log.Fatal(err)
+		return false, jobDetail
+	}
+	return true, jobDetail
+	log.Println(jobDetail)
+
+	return true,jobDetail
+}

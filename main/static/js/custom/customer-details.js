@@ -101,23 +101,21 @@ $(function(){
     
       //...................
     $('#customer-table tbody').on( 'click', '#delete', function () {
-      
         var data = table.row( $(this).parents('tr') ).data();
-       var key = data[7];
+        var key = data[7];
         $.ajax({
             type: "POST",
-            url: '/' + companyTeamName +'/customer/'+ key + '/delete',
+            url: '/' + companyTeamName +'/customer/'+ key + '/deletionOfCustomerIfUsedForJob',
             data: '',
-            success: function(data){
-                console.log("jjjj",data);
-                if(data=="true"){
-                    console.log("hdhhshhh");
-                    $("#myCustomerModel").modal();
-                    $("#deleteNotTask").click(function(){
-                        $.ajax({
+            success: function(response){
+                if(response=="true"){
+                    console.log("responseee",response);
+                     $("#myCustomerJobModel").modal();
+                    $("#deleteNotJob").click(function(){
+                         $.ajax({
                             type: "POST",
-                            url: '/' + companyTeamName +'/customer/'+ key + '/deletionOfCustomer',
-                            data: '',
+                            url: '/' + companyTeamName +'/customer/'+ key + '/deletionOfCustomerFromJob',
+                             data: '',
                             success: function(feedback){
                                 console.log(feedback);
                                 if(feedback=="true"){
@@ -136,11 +134,46 @@ $(function(){
                                 else {
                                 }
                             }
-                        });
+                         });
                     });
-                    
-                }
-                else {
+                                             
+//        $.ajax({
+//            type: "POST",
+//            url: '/' + companyTeamName +'/customer/'+ key + '/delete',
+//            data: '',
+//            success: function(data){
+//                console.log("jjjj",data);
+//                if(data=="true"){
+//                    console.log("hdhhshhh");
+//                    $("#myCustomerModel").modal();
+//                    $("#deleteNotTask").click(function(){
+//                        $.ajax({
+//                            type: "POST",
+//                            url: '/' + companyTeamName +'/customer/'+ key + '/deletionOfCustomer',
+//                            data: '',
+//                            success: function(feedback){
+//                                console.log(feedback);
+//                                if(feedback=="true"){
+//                                    $('#customer-table').dataTable().fnDestroy(); 
+//                                    var index = "";
+//                                    for(var i = 0; i < mainArray.length; i++) {
+//                                    index = mainArray[i].indexOf(key);
+//                                    if(index != -1) {
+//                                        console.log("dddd", i);
+//                                        break;
+//                                    }
+//                                }
+//                                mainArray.splice(i, 1);
+//                                dataTableManipulate()
+//                                }
+//                                else {
+//                                }
+//                            }
+//                        });
+//                    });
+//                    
+                
+                } else {
                    
                     $("#myModal").modal();
                     $("#confirm").click(function(){

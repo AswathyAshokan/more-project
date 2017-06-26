@@ -27,6 +27,7 @@ func (c *JobController)AddNewJob() {
 		job:=models.Job{}
 		job.Customer.CustomerId = c.GetString("customerId")
 		job.Customer.CustomerName = c.GetString("customerName")
+		job.Customer.CustomerStatus =helpers.StatusActive
 		job.Info.JobName = c.GetString("jobName")
 		job.Info.JobNumber = c.GetString("jobNumber")
 		job.Info.NumberOfTask = c.GetString("numberOfTask")
@@ -97,15 +98,18 @@ func (c *JobController)LoadJobDetail() {
 			keySlice = append(keySlice, key.String())
 		}
 		for _, k := range keySlice {
-			if jobs[k].Settings.Status == "Active" {
+			if jobs[k].Settings.Status == "Active" && jobs[k].Customer.CustomerStatus =="Active" {
 				var tempValueSlice []string
-				tempValueSlice = append(tempValueSlice, jobs[k].Customer.CustomerName)
-				if !helpers.StringInSlice(jobs[k].Customer.CustomerName, viewModel.UniqueCustomerNames) {
-					viewModel.UniqueCustomerNames = append(viewModel.UniqueCustomerNames, jobs[k].Customer.CustomerName)
+				if jobs[k].Customer.CustomerStatus =="Active"{
+					tempValueSlice = append(tempValueSlice, jobs[k].Customer.CustomerName)
+					if !helpers.StringInSlice(jobs[k].Customer.CustomerName, viewModel.UniqueCustomerNames) {
+						viewModel.UniqueCustomerNames = append(viewModel.UniqueCustomerNames, jobs[k].Customer.CustomerName)
+					}
+					if customerId == jobs[k].Customer.CustomerId {
+						viewModel.SelectedCustomer = jobs[k].Customer.CustomerName
+					}
 				}
-				if customerId == jobs[k].Customer.CustomerId {
-					viewModel.SelectedCustomer = jobs[k].Customer.CustomerName
-				}
+
 				tempValueSlice = append(tempValueSlice, jobs[k].Info.JobName)
 				tempValueSlice = append(tempValueSlice, jobs[k].Info.JobNumber)
 				tempValueSlice = append(tempValueSlice, jobs[k].Info.NumberOfTask)

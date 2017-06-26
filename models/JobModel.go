@@ -18,8 +18,9 @@ type JobSettings struct {
 	DateOfCreation int64
 }
 type JobCustomer struct {
-	CustomerId	string
-	CustomerName	string
+	CustomerId		string
+	CustomerName		string
+	CustomerStatus 		string
 }
 type Job   struct {
 

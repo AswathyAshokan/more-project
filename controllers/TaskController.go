@@ -328,11 +328,27 @@ func (c *TaskController)LoadTaskDetail() {
 				tempJobAndCustomer := ""
 				if tasks[k].Job.JobName != "" {
 					var buffer bytes.Buffer
-					buffer.WriteString(tasks[k].Job.JobName)
+					if tasks[k].Job.JobStatus =="Active"{
+						buffer.WriteString(tasks[k].Job.JobName)
+					} else{
+						buffer.WriteString("")
+					}
+
 					buffer.WriteString(" (")
-					buffer.WriteString(tasks[k].Customer.CustomerName)
+					if tasks[k].Customer.CustomerStatus =="Active"{
+						buffer.WriteString(tasks[k].Customer.CustomerName)
+					}else{
+						buffer.WriteString("")
+					}
+
+
 					buffer.WriteString(")")
 					tempJobAndCustomer = buffer.String()
+					log.Println("ddfffdfdff",tempJobAndCustomer)
+					if tempJobAndCustomer ==" ()"{
+						log.Println("hhhhhh")
+						tempJobAndCustomer=""
+					}
 					buffer.Reset()
 				}
 				tempValueSlice = append(tempValueSlice, "")

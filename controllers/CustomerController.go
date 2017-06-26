@@ -201,7 +201,7 @@ func (c *CustomerController)  CustomerNameCheck(){
 func (c *CustomerController)LoadDeleteCustomer() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	log.Println("inside delete")
+	log.Println("inside delete fsgsgsgsggfs")
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	ReadSession(w, r, companyTeamName)
 	customerId := c.Ctx.Input.Param(":customerid")
@@ -231,6 +231,73 @@ func (c *CustomerController)LoadDeleteCustomer() {
 		w.Write([]byte("false"))
 	}
 }
+func (c *CustomerController)DeleteCustomerIfUsedForJob() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	log.Println("inside deleteion of customer from job")
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
+	customerId := c.Ctx.Input.Param(":customerid")
+	job := models.Job{}
+	dbStatus, customerDetail := job.GetAllJobs(c.AppEngineCtx,companyTeamName)
+	log.Println("status", dbStatus)
+	log.Println(customerDetail)
+	switch dbStatus {
+	case true:
+		log.Println("true")
+		if len(customerDetail) != 0 {
+			dataValue := reflect.ValueOf(customerDetail)
+			for _, key := range dataValue.MapKeys() {
+				if customerDetail[key.String()].Customer.CustomerId == customerId &&customerDetail[key.String()].Customer.CustomerStatus =="Active" {
+					log.Println("insideeee fgjgfjh")
+					w.Write([]byte("true"))
+					break
+				} else {
+					log.Println("false")
+					w.Write([]byte("false"))
+				}
+			}
+		} else {
+			w.Write([]byte("false"))
+		}
+	case false :
+		w.Write([]byte("false"))
+	}
+}
+func (c *CustomerController) DeleteCustomerFromJob() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
+	customerId := c.Ctx.Input.Param(":customerid")
+	user :=models.Customers{}
+	log.Println("inside deletion of cotact")
+	customer :=models.TasksCustomer{}
+	var TaskSlice []string
+	dbStatus,jobDetails := customer.IsCustomerUsedForTask(c.AppEngineCtx, customerId)
+	switch dbStatus {
+	case true:
+		dataValue := reflect.ValueOf(jobDetails)
+		for _, key := range dataValue.MapKeys() {
+			TaskSlice = append(TaskSlice, key.String())
+		}
+		dbStatus := user.DeleteCustomerFromDB(c.AppEngineCtx, customerId,TaskSlice)
+		switch dbStatus {
+		case true:
+			w.Write([]byte("true"))
+		case false :
+			w.Write([]byte("false"))
+		}
+	}
+	}
+
+
+
+
+
+
+
+
 func (c *CustomerController) DeleteCustomerIfNotInTask() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter

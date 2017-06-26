@@ -39,6 +39,10 @@ func init() {
 	beegae.Router("/iscustomernameused/:customername/:type/:oldName", &controllers.CustomerController{}, "*:CustomerNameCheck")
 	beegae.Router("/:companyTeamName/customer/:customerid/RemoveTask", &controllers.CustomerController{}, "*:RemoveCustomerFromTask")
 	beegae.Router("/:companyTeamName/customer/:customerid/deletionOfCustomer", &controllers.CustomerController{}, "*:DeleteCustomerIfNotInTask")
+	beegae.Router("/:companyTeamName/customer/:customerid/deletionOfCustomerIfUsedForJob", &controllers.CustomerController{}, "*:DeleteCustomerIfUsedForJob")
+	beegae.Router("/:companyTeamName/customer/:customerid/deletionOfCustomerFromJob", &controllers.CustomerController{}, "*:DeleteCustomerFromJob")
+
+
 
 
 	beegae.Router("/:companyTeamName/group/add", &controllers.GroupController{}, "*:AddGroup")
