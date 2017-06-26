@@ -356,6 +356,10 @@ func (c *TaskController)LoadTaskDetail() {
 
 				if !helpers.StringInSlice(tasks[k].Customer.CustomerName, viewModel.UniqueCustomerNames) && tasks[k].Customer.CustomerName != "" {
 					viewModel.UniqueCustomerNames = append(viewModel.UniqueCustomerNames, tasks[k].Customer.CustomerName)
+					log.Println("ggggg",viewModel.UniqueCustomerNames)
+					log.Println("fffff",tasks[k].Customer.CustomerName)
+				}else{
+					viewModel.UniqueCustomerNames = append(viewModel.UniqueCustomerNames,"")
 				}
 				if jobId == tasks[k].Job.JobId {
 
@@ -370,6 +374,8 @@ func (c *TaskController)LoadTaskDetail() {
 
 				if !helpers.StringInSlice(tasks[k].Job.JobName, viewModel.UniqueJobNames) && tasks[k].Job.JobName != ""&& tasks[k].Job.JobStatus =="Active" {
 					viewModel.UniqueJobNames = append(viewModel.UniqueJobNames, tasks[k].Job.JobName)
+				}else{
+					viewModel.UniqueJobNames = append(viewModel.UniqueJobNames,"")
 				}
 				//collecting fit to work from task
 				fitToWorkDataValue := reflect.ValueOf(tasks[k].FitToWork)

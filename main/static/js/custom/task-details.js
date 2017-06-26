@@ -10,6 +10,7 @@ $(function(){
     var tempJobArray = [];
     var tempArray = [];
     var tempViewArray = [];
+    var customerArray =[];
     var rowIndex ="";
     /*Function for Customer selection dropdown*/
     customerFilter = function(){
@@ -194,15 +195,31 @@ $(function(){
             return result+minUser;
         }
         //......................................................
-        var customerArray = vm.UniqueCustomerNames;
-        for(i = 0; i < customerArray.length; i++){
-            $("#customerDropdown").append("<option>"+customerArray[i]+"</option>");
+        customerArray = vm.UniqueCustomerNames;
+        var newcustomerArray = new Array();
+        for (var i = 0; i < customerArray.length; i++) {
+            if (customerArray[i]) {
+                newcustomerArray.push(customerArray[i]);
+            }
+        }
+        for(i = 0; i < newcustomerArray.length; i++){
+            $("#customerDropdown").append("<option>"+newcustomerArray[i]+"</option>");
         }
         var jobArray = vm.UniqueJobNames;
         
-        for(i = 0; i < jobArray.length; i++){
-            $("#jobDropdown").append("<option>"+jobArray[i]+"</option>");
+        var newjobArray = new Array();
+        for (var i = 0; i < jobArray.length; i++) {
+            if (jobArray[i]) {
+                newjobArray.push(jobArray[i]);
+            }
         }
+        
+        for(i = 0; i < newjobArray.length; i++){
+            $("#jobDropdown").append("<option>"+newjobArray[i]+"</option>");
+        }
+            
+        
+        
     }
     //..................data table calling.......................
     if(vm.Values != null) {
