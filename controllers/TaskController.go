@@ -186,6 +186,7 @@ func (c *TaskController)AddNewTask() {
 		dbStatus :=task.AddTaskToDB(c.AppEngineCtx,companyId,FitToWorkSlice, TaskBreakTimeSlice,TaskWorkTimeSlice,tempContactId,groupKeySlice,jobIdForTask,customerIdForTask)
 		switch dbStatus {
 		case true:
+
 			w.Write([]byte("true"))
 		case false:
 			w.Write([]byte("false"))

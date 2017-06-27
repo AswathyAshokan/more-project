@@ -97,10 +97,32 @@
 								<label for="taskLocation" class="">Task Location</label>
 								<input class="form-control" id="taskLocation" type="text" name="taskLocation">
 							</div>
-                            <div class="col-sm-6" id ="nfcTagId" style="visibility: hidden; display:none;">
+                            
+                            <div class="col-sm-6">
+                                
+                                <div class="callender-wrapper">
+                                    
+                                    <div class="radio-inline-wrapper">
+                                        
+                                        <label class="radio-inline">
+                                            <input class="radio-inline" type="radio"  name="loginType"  id="loginType1" value="NFC" > <p1 id="nfcbutton">NFC</p1>
+                                        </label>
+                                        <label >
+                                            <input  class="radio-inline" type="radio" name="loginType"  id="loginType2"  value="GPS" ><p1 id="gpsbutton">GPS</p1>
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-6" id ="nfcTagId" style="visibility: hidden; display:none;">
+                                        <label for="nfcTag" class="">Nfc Tag Id</label>
+                                        <input class="form-control" id="nfcTagId" type="text" name="nfcTagId">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            <!--<div class="col-sm-6" id ="nfcTagId" style="visibility: hidden; display:none;">
 								<label for="nfcTag" class="">Nfc Tag Id</label>
 								<input class="form-control" id="nfcTagId" type="text" name="nfcTagId">
-							</div>
+							</div>-->
                         </div>
                         <div class="form-group clearfix">
                             <div class="col-sm-12">
@@ -141,7 +163,7 @@
 								</select>
 
 							</div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6" id="contactDiv">
 								<label for="contacts" class="" id="contactIdLabel">Contacts</label>
 
 								<select class="form-control sprites-arrow-down multiple-drop" id="contactId" multiple="multiple" name="contactId" >
@@ -190,7 +212,7 @@
 				</div>
 			</div>
             <div class="col-md-4 col-sm-12 col-xs-12">
-				<div class="map-header" id="typeOfLogin"><div  style="width: 25%; float:left; margin: 0px;" class="loginTypeValidationError" ></div>
+				<!--<div class="map-header" id="typeOfLogin"><div  style="width: 25%; float:left; margin: 0px;" class="loginTypeValidationError" ></div>
 					<span>Login Type</span>
 					<div class>
 						<label class="radio-inline">
@@ -200,7 +222,7 @@
 							<input  class="radio-inline" type="radio" name="loginType"  id="loginType2"  value="GPS" ><p1 id="gpsbutton">GPS</p1>
 						</label>
 					</div>
-				</div>
+				</div>-->
                 <div class="map-wrapper">
                     <div id="map" style="width:100%;height:100% ; max-height: 900px;"></div>
                 </div>
