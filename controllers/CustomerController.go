@@ -248,7 +248,10 @@ func (c *CustomerController)DeleteCustomerIfUsedForJob() {
 		if len(customerDetail) != 0 {
 			dataValue := reflect.ValueOf(customerDetail)
 			for _, key := range dataValue.MapKeys() {
-				if customerDetail[key.String()].Customer.CustomerId == customerId &&customerDetail[key.String()].Customer.CustomerStatus =="Active" {
+				log.Println("cs1",customerDetail[key.String()].Customer.CustomerId)
+				log.Println("cs2", customerId)
+				log.Println("cs3",customerDetail[key.String()].Customer.CustomerStatus)
+				if customerDetail[key.String()].Customer.CustomerId == customerId && customerDetail[key.String()].Customer.CustomerStatus =="Active" {
 					log.Println("insideeee fgjgfjh")
 					w.Write([]byte("true"))
 					break

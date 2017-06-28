@@ -8,6 +8,7 @@ import (
 	"app/passporte/helpers"
 	"reflect"
 
+
 )
 
 type Customers struct {
@@ -229,6 +230,27 @@ func (m *Customers) DeleteCustomerFromDB(ctx context.Context, customerId string,
 				customerDeletionInJob.CustomerName =customerUpdationInJob.CustomerName
 				customerDeletionInJob.CustomerStatus =helpers.StatusInActive
 				err = db.Child("Jobs/"+key.String()+"/Customer").Update(&customerDeletionInJob)
+			}
+		}
+
+		customerDetailForUpdation := map[string]Tasks{}
+		taskCustomerForUpdate :=TaskCustomer{}
+		taskCustomerDetail :=TaskCustomer{}
+
+		err = dB.Child("/Tasks/").Value(&customerDetailForUpdation)
+		dataValueOfTask := reflect.ValueOf(customerDetailForUpdation)
+		for _, taskkey := range dataValueOfTask.MapKeys() {
+
+			if customerDetailForUpdation[taskkey.String()].Customer.CustomerId ==customerId{
+				log.Println("inside deletion of customer from taskkkkkkkk")
+
+				err = dB.Child("Tasks/" + taskkey.String()+"/Customer/").Value(&taskCustomerDetail)
+				taskCustomerForUpdate.CustomerId =taskCustomerDetail.CustomerId
+				taskCustomerForUpdate.CustomerName =taskCustomerDetail.CustomerName
+				taskCustomerForUpdate .CustomerStatus =helpers.StatusInActive
+
+				err = dB.Child("Tasks/" + taskkey.String()+"/Customer/").Update(&taskCustomerForUpdate)
+
 			}
 		}
 	}

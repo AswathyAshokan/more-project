@@ -67,12 +67,17 @@ $(function () {
     
     
     if (pageType == "edit") {
+        console.log("jobname",vm.NFCTagId);
         var element = document.getElementById('minUsers');
         element.value = vm.UserNumber;
         var logUser =document.getElementById("log");
         logUser.value=vm.Log;
         if(vm.LoginType =="NFC" ){
              document.getElementById("loginType1").checked = true;
+            var div = document.getElementById('nfcTagId');
+            div.style.visibility = 'visible';
+            div.style.display ='inline';
+            document.getElementById("nfcTagId").value =vm.NFCTagId;
         }else{
             document.getElementById("loginType2").checked = true;
         }
@@ -126,13 +131,6 @@ $(function () {
             $("#exposureTextBoxAppend").append(DynamicExposureTextBox);
              
         }
-        if (vm.NFCTagId.legth !=0){
-            var div = document.getElementById('nfcTagId');
-            div.style.visibility = 'visible';
-            div.style.display ='inline';
-            document.getElementById("nfcTagId").value =vm.NFCTagId;
-        }
-        
     }
     
     
@@ -183,15 +181,21 @@ addItem.click(function() {
 
 $().ready(function() {
     var loginTypeRadio = "";
-   $(".radio-inline").change(function () {
-       loginTypeRadio = $('.radio-inline:checked').val();
+ $("input[type='radio']").change(function(){
+     loginTypeRadio = $('.radio-inline:checked').val();
        if (loginTypeRadio =="NFC"){
            var div = document.getElementById('nfcTagId');
            div.style.visibility = 'visible';
            div.style.display ='inline';
            
+       }else{
+           var div = document.getElementById('nfcTagId');
+           div.style.visibility = 'hidden';
+           div.style.display ='none'
        }
    });
+    
+   
     
     //Functiion for getting job and customer separate
     getJobAndCustomer = function(){

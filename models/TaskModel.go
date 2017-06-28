@@ -209,6 +209,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 	CustomerIdForTask :=job.Customer.CustomerId
 	customerInTask :=TaskCustomer{}
 	customerInTask.CustomerId =CustomerIdForTask
+	log.Println("customer id",CustomerIdForTask)
 	customerInTask.CustomerName =m.Customer.CustomerName
 	customerInTask.CustomerStatus =m.Customer.CustomerStatus
 	err = dB.Child("/Tasks/"+ taskUniqueID+"/Customer/").Set(customerInTask)
@@ -339,6 +340,9 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	m.Settings.CompletedPercentage =taskValues.Settings.CompletedPercentage
 	m.Settings.PendingPercentage =taskValues.Settings.PendingPercentage
 	m.Settings.Status =taskValues.Settings.Status
+	m.Customer.CustomerStatus =taskValues.Customer.CustomerStatus
+	m.Job.JobStatus = taskValues.Job.JobStatus
+
 	err = dB.Child("/Tasks/"+ taskId).Update(&m)
 	//for adding fit to work to database
 	fitToWorkMap := make(map[string]TaskFitToWork)
@@ -385,6 +389,18 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userTaskDetail.Status =helpers.StatusPending
 		err = dB.Child("/Users/"+userKey+"/Tasks/"+taskId).Update(&userTaskDetail)
 	}
+	CustomerTask :=TasksCustomer{}
+	CustomerTask.TasksCustomerStatus =helpers.StatusActive
+	job := Job{}
+	JobId := m.Job.JobId
+	err = dB.Child("/Jobs/"+ JobId).Value(&job)
+	CustomerIdForTask :=job.Customer.CustomerId
+	customerInTask :=TaskCustomer{}
+	customerInTask.CustomerId =CustomerIdForTask
+	log.Println("customer id",CustomerIdForTask)
+	customerInTask.CustomerName =m.Customer.CustomerName
+	customerInTask.CustomerStatus =m.Customer.CustomerStatus
+	err = dB.Child("/Tasks/"+ taskId+"/Customer/").Set(customerInTask)
 
 	if err!=nil{
 		log.Println("Insertion error:",err)

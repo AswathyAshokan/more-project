@@ -305,6 +305,7 @@ func (c *TaskController)LoadTaskDetail() {
 	storedSession := ReadSession(w, r, companyTeamName)
 	jobId := ""
 	jobId = c.Ctx.Input.Param(":jobId")
+	var taskKey []string
 
 	task := models.Tasks{}
 	dbStatus, tasks := task.RetrieveTaskFromDB(c.AppEngineCtx,companyTeamName)
@@ -321,36 +322,20 @@ func (c *TaskController)LoadTaskDetail() {
 		}
 		var taskUserSlice [][]viewmodels.TaskUsers
 		for _, k := range keySlice {
-			if tasks[k].Settings.Status == "Active" {
+			if tasks[k].Settings.Status == "Active" && tasks[k].Customer.CustomerStatus == "Active"{
+				taskKey = append(taskKey, k)
 				var tempValueSlice []string
 				var minUserArray []string
 
 				tempJobAndCustomer := ""
-				if tasks[k].Job.JobName != "" {
-					var buffer bytes.Buffer
-					if tasks[k].Job.JobStatus =="Active"{
-						buffer.WriteString(tasks[k].Job.JobName)
-					} else{
-						buffer.WriteString("")
-					}
-
-					buffer.WriteString(" (")
-					if tasks[k].Customer.CustomerStatus =="Active"{
-						buffer.WriteString(tasks[k].Customer.CustomerName)
-					}else{
-						buffer.WriteString("")
-					}
-
-
-					buffer.WriteString(")")
-					tempJobAndCustomer = buffer.String()
-					log.Println("ddfffdfdff",tempJobAndCustomer)
-					if tempJobAndCustomer ==" ()"{
-						log.Println("hhhhhh")
-						tempJobAndCustomer=""
-					}
-					buffer.Reset()
-				}
+				var buffer bytes.Buffer
+				buffer.WriteString(tasks[k].Job.JobName)
+				buffer.WriteString(" (")
+				buffer.WriteString(tasks[k].Customer.CustomerName)
+				buffer.WriteString(")")
+				tempJobAndCustomer = buffer.String()
+				log.Println("ddfffdfdff",tempJobAndCustomer)
+				buffer.Reset()
 				tempValueSlice = append(tempValueSlice, "")
 				tempValueSlice = append(tempValueSlice, tempJobAndCustomer)
 
@@ -487,7 +472,7 @@ func (c *TaskController)LoadTaskDetail() {
 
 
 		//taskKeyCount =taskKeyCount+1
-		viewModel.Keys = keySlice
+		viewModel.Keys = taskKey
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
 		viewModel.CompanyPlan = storedSession.CompanyPlan
 		viewModel.AdminFirstName = storedSession.AdminFirstName
@@ -542,8 +527,10 @@ func (c *TaskController)LoadEditTask() {
 		task.Info.TaskName = c.GetString("taskName")
 		task.Job.JobName = c.GetString("jobName")
 		task.Job.JobId = c.GetString("jobId")
+		log.Println("job",task.Job.JobName,task.Job.JobId)
 		task.Customer.CustomerName = c.GetString("customerName")
 		task.Customer.CustomerId = c.GetString("jobId")
+		log.Println("customer",task.Customer.CustomerName,task.Customer.CustomerId)
 		task.Info.TaskLocation =c.GetString("taskLocation")
 		startDateString := c.GetString("startDateFomJs")
 		endDateString :=c.GetString("endDateFromJs")
