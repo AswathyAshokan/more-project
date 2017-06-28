@@ -196,6 +196,7 @@ func (c *TaskController)AddNewTask() {
 		viewModel  := viewmodels.AddTaskViewModel{}
 		companyUsers :=models.Company{}
 		var keySlice []string
+		var activeJobKey []string
 		var keySliceForGroupAndUser 	[]string
 		var keySliceForContact		[]string
 		//Getting Jobs
@@ -207,8 +208,12 @@ func (c *TaskController)AddNewTask() {
 				keySlice = append(keySlice, key.String())
 			}
 			for _, k := range dataValue.MapKeys() {
-				viewModel.JobNameArray   = append(viewModel.JobNameArray, allJobs[k.String()].Info.JobName)
-				viewModel.JobCustomerNameArray = append(viewModel.JobCustomerNameArray, allJobs[k.String()].Customer.CustomerName)
+				if allJobs[k.String()].Settings.Status =="Active"{
+					activeJobKey = append(activeJobKey, k.String())
+					viewModel.JobNameArray   = append(viewModel.JobNameArray, allJobs[k.String()].Info.JobName)
+					viewModel.JobCustomerNameArray = append(viewModel.JobCustomerNameArray, allJobs[k.String()].Customer.CustomerName)
+				}
+
 			}
 		case false:
 			log.Println(helpers.ServerConnectionError)
@@ -246,17 +251,22 @@ func (c *TaskController)AddNewTask() {
 			case true:
 				dataValue := reflect.ValueOf(allGroups)
 				for _, key := range dataValue.MapKeys() {
-					var memberSlice []string
-					keySliceForGroupAndUser = append(keySliceForGroupAndUser, key.String())
-					viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[key.String()].Info.GroupName+" (Group)")
+					if allGroups[key.String()].Settings.Status =="Active"{
+						var memberSlice []string
 
-					// For selecting members while selecting a group in dropdown
-					memberSlice = append(memberSlice, key.String())
-					groupDataValue := reflect.ValueOf(allGroups[key.String()].Members)
-					for _, memberKey := range groupDataValue.MapKeys()  {
-						memberSlice = append(memberSlice, memberKey.String())
+						keySliceForGroupAndUser = append(keySliceForGroupAndUser, key.String())
+						viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[key.String()].Info.GroupName+" (Group)")
+
+						// For selecting members while selecting a group in dropdown
+						memberSlice = append(memberSlice, key.String())
+						groupDataValue := reflect.ValueOf(allGroups[key.String()].Members)
+						for _, memberKey := range groupDataValue.MapKeys()  {
+							memberSlice = append(memberSlice, memberKey.String())
+						}
+						viewModel.GroupMembers = append(viewModel.GroupMembers, memberSlice)
+
 					}
-					viewModel.GroupMembers = append(viewModel.GroupMembers, memberSlice)
+
 
 				}
 				viewModel.UserAndGroupKey=keySliceForGroupAndUser
@@ -269,6 +279,7 @@ func (c *TaskController)AddNewTask() {
 
 		//for getting all contact
 		dbStatus, contacts := models.GetAllContact(c.AppEngineCtx,companyTeamName)
+		var activeContactKey []string
 		switch dbStatus {
 		case true:
 			dataValue := reflect.ValueOf(contacts)
@@ -276,12 +287,17 @@ func (c *TaskController)AddNewTask() {
 				keySliceForContact = append(keySliceForContact, key.String())
 			}
 			for _, k := range dataValue.MapKeys() {
-				viewModel.ContactNameArray  = append(viewModel.ContactNameArray , contacts[k.String()].Info.Name)
+				if  contacts[k.String()].Settings.Status == "Active"{
+					activeContactKey = append(activeContactKey, k.String())
+					viewModel.ContactNameArray  = append(viewModel.ContactNameArray , contacts[k.String()].Info.Name)
+
+				}
+
 			}
 			viewModel.CompanyTeamName=storedSession.CompanyTeamName
 			viewModel.CompanyPlan = storedSession.CompanyPlan
-			viewModel.Key = keySlice
-			viewModel.ContactKey=keySliceForContact
+			viewModel.Key = activeJobKey
+			viewModel.ContactKey=activeContactKey
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
@@ -676,6 +692,7 @@ func (c *TaskController)LoadEditTask() {
 			var fitToWorkSlice			[]string
 			var WorkTime                            []string
 			var BreakTime				[]string
+			var activeJobKey 			[]string
 			groupMember := models.Group{}
 
 			switch dbStatus {
@@ -685,8 +702,13 @@ func (c *TaskController)LoadEditTask() {
 					keySlice = append(keySlice, key.String())
 				}
 				for _, k := range dataValue.MapKeys() {
-					viewModel.JobNameArray = append(viewModel.JobNameArray, allJobs[k.String()].Info.JobName)
-					viewModel.JobCustomerNameArray = append(viewModel.JobCustomerNameArray, allJobs[k.String()].Customer.CustomerName)
+					if  allJobs[k.String()].Settings.Status == "Active"{
+						activeJobKey = append(activeJobKey, k.String())
+						viewModel.JobNameArray = append(viewModel.JobNameArray, allJobs[k.String()].Info.JobName)
+						viewModel.JobCustomerNameArray = append(viewModel.JobCustomerNameArray, allJobs[k.String()].Customer.CustomerName)
+
+					}
+
 				}
 			case false:
 				log.Println(helpers.ServerConnectionError)
@@ -720,17 +742,21 @@ func (c *TaskController)LoadEditTask() {
 				case true:
 					dataValue := reflect.ValueOf(allGroups)
 					for _, key := range dataValue.MapKeys() {
-						var memberSlice []string
-						keySliceForGroupAndUser = append(keySliceForGroupAndUser, key.String())
-						viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[key.String()].Info.GroupName + "(Group)")
+						if allGroups[key.String()].Settings.Status == "Active"{
+							var memberSlice []string
+							keySliceForGroupAndUser = append(keySliceForGroupAndUser, key.String())
+							viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[key.String()].Info.GroupName + "(Group)")
 
-						// For selecting members while selecting a group in dropdown
-						memberSlice = append(memberSlice, key.String())
-						groupDataValue := reflect.ValueOf(allGroups[key.String()].Members)
-						for _, memberKey := range groupDataValue.MapKeys()  {
-							memberSlice = append(memberSlice, memberKey.String())
+							// For selecting members while selecting a group in dropdown
+							memberSlice = append(memberSlice, key.String())
+							groupDataValue := reflect.ValueOf(allGroups[key.String()].Members)
+							for _, memberKey := range groupDataValue.MapKeys()  {
+								memberSlice = append(memberSlice, memberKey.String())
+							}
+							viewModel.GroupMembers = append(viewModel.GroupMembers, memberSlice)
+
 						}
-						viewModel.GroupMembers = append(viewModel.GroupMembers, memberSlice)
+
 
 					}
 					viewModel.UserAndGroupKey = keySliceForGroupAndUser
@@ -741,6 +767,7 @@ func (c *TaskController)LoadEditTask() {
 				log.Println(helpers.ServerConnectionError)
 			}
 			dbStatus, contacts := models.GetAllContact(c.AppEngineCtx,companyTeamName)
+			var activeContactKey []string
 			switch dbStatus {
 			case true:
 				dataValue := reflect.ValueOf(contacts)
@@ -748,10 +775,15 @@ func (c *TaskController)LoadEditTask() {
 					keySliceForContact = append(keySliceForContact, key.String())
 				}
 				for _, k := range dataValue.MapKeys() {
-					viewModel.ContactNameArray = append(viewModel.ContactNameArray, contacts[k.String()].Info.Name)
+					if  contacts[k.String()].Settings.Status =="Active"{
+						viewModel.ContactNameArray = append(viewModel.ContactNameArray, contacts[k.String()].Info.Name)
+						activeContactKey = append(activeContactKey, k.String())
+
+					}
+
 				}
 
-				viewModel.ContactKey = keySliceForContact
+				viewModel.ContactKey = activeContactKey
 
 				//contact name to edit
 				 dbStatus,contactDetails := task.GetTaskDetailById(c.AppEngineCtx, taskId)
@@ -870,7 +902,7 @@ func (c *TaskController)LoadEditTask() {
 						log.Println(helpers.ServerConnectionError)
 					}
 
-						viewModel.Key = keySlice
+						viewModel.Key = activeJobKey
 						viewModel.PageType = helpers.SelectPageForEdit
 						if taskDetail.Job.JobStatus == "Active"{
 							viewModel.JobName = taskDetail.Job.JobName

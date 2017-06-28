@@ -201,6 +201,7 @@ func (c *JobController)LoadEditJob() {
 	} else {
 		jobId := c.Ctx.Input.Param(":jobId")
 		viewModel := viewmodels.JobViewModel{}
+		var activeJobKey []string
 		job := models.Job{}
 		dbStatus, jobDetail := job.GetJobDetailById(c.AppEngineCtx, jobId)
 		log.Println("job details",jobDetail)
@@ -214,10 +215,16 @@ func (c *JobController)LoadEditJob() {
 				for _, key := range dataValue.MapKeys() {
 					keySlice = append(keySlice, key.String())
 				}
-				viewModel.Keys = keySlice
+
 				for _, k := range dataValue.MapKeys() {
-					viewModel.CustomerNameArray = append(viewModel.CustomerNameArray, customers[k.String()].Info.CustomerName)
+					if customers[k.String()].Settings.Status == "Active"{
+						activeJobKey = append(activeJobKey, k.String())
+						viewModel.CustomerNameArray = append(viewModel.CustomerNameArray, customers[k.String()].Info.CustomerName)
+
+					}
+
 				}
+				viewModel.Keys = activeJobKey
 				viewModel.PageType = helpers.SelectPageForEdit
 				viewModel.CustomerName = jobDetail.Customer.CustomerName
 				viewModel.CustomerId =jobDetail.Customer.CustomerId
@@ -276,6 +283,7 @@ func (c *JobController)LoadDeleteJob() {
 	dbStatus, contactDetail := user.IsJobUsedForTask(c.AppEngineCtx, jobId)
 	log.Println("status", dbStatus)
 	log.Println(contactDetail)
+	var condition string
 	switch dbStatus {
 	case true:
 		log.Println("true")
@@ -284,12 +292,18 @@ func (c *JobController)LoadDeleteJob() {
 			for _, key := range dataValue.MapKeys() {
 				if contactDetail[key.String()].TasksJobStatus == helpers.StatusActive {
 					log.Println("insideeee fgjgfjh")
-					w.Write([]byte("true"))
+					condition = "true"
 					break
 				} else {
 					log.Println("false")
-					w.Write([]byte("false"))
+
 				}
+			}
+			if condition == "true"{
+
+				w.Write([]byte("true"))
+			}else {
+				w.Write([]byte("false"))
 			}
 		} else {
 			w.Write([]byte("false"))
