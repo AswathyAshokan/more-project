@@ -120,6 +120,7 @@ func (c *ContactUserController)LoadDeleteContact() {
 	dbStatus,contactDetail := user.IsContactUsedForTask(c.AppEngineCtx, contactId)
 	log.Println("status",dbStatus)
 	log.Println(contactDetail)
+	var condition string
 	switch dbStatus {
 	case true:
 		log.Println("true")
@@ -128,12 +129,19 @@ func (c *ContactUserController)LoadDeleteContact() {
 			for _, key := range dataValue.MapKeys() {
 				if contactDetail[key.String()].TaskContactStatus ==helpers.StatusActive{
 					log.Println("insideeee fgjgfjh")
-					w.Write([]byte("true"))
+					condition ="true"
+
 					break
 				}else{
 					log.Println("false")
-					w.Write([]byte("false"))
+
 				}
+			}
+			if condition == "true"{
+
+				w.Write([]byte("true"))
+			}else {
+				w.Write([]byte("false"))
 			}
 		}else{
 			w.Write([]byte("false"))
