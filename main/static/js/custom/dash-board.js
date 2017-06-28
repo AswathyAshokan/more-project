@@ -34,7 +34,7 @@ $(function () {
     document.getElementById("username").textContent=vm.AdminFirstName;
     document.getElementById("imageId").src=vm.ProfilePicture;
     if (vm.ProfilePicture ==""){
-        document.getElementById("imageId").src="https://firebasestorage.googleapis.com/v0/b/passporte-b9070.appspot.com/o/profilePicturesOfAdmin%2Fdefault.png?alt=media&token=7444c8f3-2254-4494-9588-a41ecee96b01"
+        document.getElementById("imageId").src="/static/images/default.png"
     }
     if(vm.CompanyPlan == "family")
     {

@@ -38,6 +38,7 @@ func (c *DashBoardController)LoadDashBoard() {
 
 			dataValue := reflect.ValueOf(companyTaskDetails)
 			var keySlice []string
+			var taskKeySlice []string
 			var totalUserStatus string
 
 			for _, key := range dataValue.MapKeys() {
@@ -103,20 +104,23 @@ func (c *DashBoardController)LoadDashBoard() {
 				dbStatus, taskDetail := task.GetTaskDetailById(c.AppEngineCtx, taskKey)
 				switch dbStatus {
 				case true:
+					if taskDetail.Settings.Status =="Active" && taskDetail.Customer.CustomerStatus =="Active" {
+						taskKeySlice = append(taskKeySlice,taskKey)
 
-					if taskDetail.Settings.TaskStatus == "Completed"{
-						totalCompletion++
-					}else{
-						totalPending++
+						if taskDetail.Settings.TaskStatus == "Completed" {
+
+							totalCompletion++
+						} else {
+							totalPending++
+						}
 					}
-
 				case false:
 					log.Println(helpers.ServerConnectionError)
 				}
 
 			}
-			completedTaskPercentageForViewModel := float32(totalCompletion)/float32(len(keySlice))*100
-			pendingTaskPercentageForViewModel  := float32(totalPending)/ float32(len(keySlice))*100
+			completedTaskPercentageForViewModel := float32(totalCompletion)/float32(len(taskKeySlice))*100
+			pendingTaskPercentageForViewModel  := float32(totalPending)/ float32(len(taskKeySlice))*100
 			viewModel.CompletedTask =completedTaskPercentageForViewModel
 			viewModel.PendingTask =pendingTaskPercentageForViewModel
 			log.Println("task completed",viewModel.CompletedTask )
@@ -138,6 +142,7 @@ func (c *DashBoardController)LoadDashBoard() {
 	pendingUser :=0
 	dbStatus,info := companyInvitaion.InviteUserFromCompany(c.AppEngineCtx,companyTeamName)
 	var inviteKey []string
+	var activeInviteUserKey []string
 	if len(info) !=0{
 		switch dbStatus {
 		case true:
@@ -150,21 +155,24 @@ func (c *DashBoardController)LoadDashBoard() {
 			log.Println(helpers.ServerConnectionError)
 		}
 		for _, inviteUserKey := range inviteKey {
-			if info[inviteUserKey].UserResponse == "Accepted"{
-				acceptedUser++
-			} else if info[inviteUserKey].UserResponse == "Pending"{
-				pendingUser++
-			}else {
-				rejectedUser++
+			if info[inviteUserKey].Status =="Active" {
+				activeInviteUserKey = append(activeInviteUserKey,inviteUserKey)
+				if info[inviteUserKey].UserResponse == "Accepted" {
+					acceptedUser++
+				} else if info[inviteUserKey].UserResponse == "Pending" {
+					pendingUser++
+				} else {
+					rejectedUser++
+				}
 			}
 
 
 		}
 
 
-		acceptedUsersPercentageForViewModel := float32(acceptedUser)/float32(len(inviteKey))*100
-		rejectedUsersPercentageForViewModel  := float32(pendingUser)/ float32(len(inviteKey))*100
-		pendingUsersPercentageForViewModel  := float32(rejectedUser)/ float32(len(inviteKey))*100
+		acceptedUsersPercentageForViewModel := float32(acceptedUser)/float32(len(activeInviteUserKey))*100
+		rejectedUsersPercentageForViewModel  := float32(pendingUser)/ float32(len(activeInviteUserKey))*100
+		pendingUsersPercentageForViewModel  := float32(rejectedUser)/ float32(len(activeInviteUserKey))*100
 		viewModel.AcceptedUsers =acceptedUsersPercentageForViewModel
 		viewModel.RejectedUsers =rejectedUsersPercentageForViewModel
 		viewModel.PendingUsers =pendingUsersPercentageForViewModel
@@ -182,6 +190,7 @@ func (c *DashBoardController)LoadDashBoard() {
 
 
 	//get job details
+	var activeJobKey []string
 
 	dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx,companyTeamName)
 	switch dbStatus {
@@ -191,8 +200,11 @@ func (c *DashBoardController)LoadDashBoard() {
 			jobKeySlice = append(jobKeySlice, key.String())
 		}
 		for _, k := range dataValue.MapKeys() {
-			viewModel.JobNameArray   = append(viewModel.JobNameArray, allJobs[k.String()].Info.JobName)
-			viewModel.JobCustomerNameArray = append(viewModel.JobCustomerNameArray, allJobs[k.String()].Customer.CustomerName)
+			if allJobs[k.String()].Customer.CustomerStatus =="Active" {
+				activeJobKey = append(activeJobKey, k.String())
+				viewModel.JobNameArray = append(viewModel.JobNameArray, allJobs[k.String()].Info.JobName)
+				viewModel.JobCustomerNameArray = append(viewModel.JobCustomerNameArray, allJobs[k.String()].Customer.CustomerName)
+			}
 		}
 	case false:
 		log.Println(helpers.ServerConnectionError)
@@ -215,8 +227,8 @@ func (c *DashBoardController)LoadDashBoard() {
 		log.Println(helpers.ServerConnectionError)
 	}
 
-	viewModel.Key = jobKeySlice
-	viewModel.JobArrayLength =len(jobKeySlice)
+	viewModel.Key = activeJobKey
+	viewModel.JobArrayLength =len(activeJobKey)
 	viewModel.CompanyTeamName =companyTeamName
 	viewModel.CompanyPlan = storedSession.CompanyPlan
 	viewModel.AdminLastName =storedSession.AdminLastName
