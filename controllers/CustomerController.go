@@ -245,26 +245,38 @@ func (c *CustomerController)DeleteCustomerIfUsedForJob() {
 	switch dbStatus {
 	case true:
 		log.Println("true")
+		var condition string
+
+
 		if len(customerDetail) != 0 {
 			dataValue := reflect.ValueOf(customerDetail)
+
 			for _, key := range dataValue.MapKeys() {
 				log.Println("cs1",customerDetail[key.String()].Customer.CustomerId)
 				log.Println("cs2", customerId)
 				log.Println("cs3",customerDetail[key.String()].Customer.CustomerStatus)
 				if customerDetail[key.String()].Customer.CustomerId == customerId && customerDetail[key.String()].Customer.CustomerStatus =="Active" {
 					log.Println("insideeee fgjgfjh")
-					w.Write([]byte("true"))
+					condition = "true"
+
 					break
 				} else {
 					log.Println("false")
-					w.Write([]byte("false"))
+
 				}
+
+			}
+			if condition == "true"{
+
+				w.Write([]byte("true"))
+			}else {
+				w.Write([]byte("false"))
 			}
 		} else {
-			w.Write([]byte("false"))
+			//w.Write([]byte("false"))
 		}
 	case false :
-		w.Write([]byte("false"))
+		//w.Write([]byte("false"))
 	}
 }
 func (c *CustomerController) DeleteCustomerFromJob() {

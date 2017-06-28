@@ -108,8 +108,10 @@ $(function(){
             url: '/' + companyTeamName +'/customer/'+ key + '/deletionOfCustomerIfUsedForJob',
             data: '',
             success: function(response){
+                console.log("dhfg",response)
+                
                 if(response=="true"){
-                    console.log("responseee",response);
+                   
                      $("#myCustomerJobModel").modal();
                     $("#deleteNotJob").click(function(){
                          $.ajax({

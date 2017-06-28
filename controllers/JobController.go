@@ -94,11 +94,13 @@ func (c *JobController)LoadJobDetail() {
 	case true:
 		dataValue := reflect.ValueOf(jobs)
 		var keySlice []string
+		var jobKey  []string
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
 		}
 		for _, k := range keySlice {
 			if jobs[k].Settings.Status == "Active" && jobs[k].Customer.CustomerStatus =="Active" {
+				jobKey = append(jobKey, k)
 				var tempValueSlice []string
 				if jobs[k].Customer.CustomerStatus =="Active"{
 					tempValueSlice = append(tempValueSlice, jobs[k].Customer.CustomerName)
@@ -123,7 +125,7 @@ func (c *JobController)LoadJobDetail() {
 			viewModel.CustomerMatch="true"
 
 		}
-		viewModel.Keys = keySlice
+		viewModel.Keys = jobKey
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
 		viewModel.CompanyPlan = storedSession.CompanyPlan
 		if  len(viewModel.SelectedCustomer) ==0 && len(customerId) !=0{
