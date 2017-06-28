@@ -62,7 +62,15 @@ $(function () {
           $("#contactDiv").show();
     }
     
+    // date picker 
     
+    
+    var dateToday = new Date(); 
+     $( "#datepicker" ).datepicker({
+        numberOfMonths: 3,
+        showButtonPanel: true,
+        minDate: dateToday
+    });
     
     if (pageType == "edit") {
         console.log("jobname",vm.NFCTagId);
