@@ -208,7 +208,7 @@ func (c *TaskController)AddNewTask() {
 				keySlice = append(keySlice, key.String())
 			}
 			for _, k := range dataValue.MapKeys() {
-				if allJobs[k.String()].Settings.Status =="Active"{
+				if allJobs[k.String()].Customer.CustomerStatus =="Active"{
 					activeJobKey = append(activeJobKey, k.String())
 					viewModel.JobNameArray   = append(viewModel.JobNameArray, allJobs[k.String()].Info.JobName)
 					viewModel.JobCustomerNameArray = append(viewModel.JobCustomerNameArray, allJobs[k.String()].Customer.CustomerName)

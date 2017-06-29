@@ -188,6 +188,7 @@ func (c *JobController)LoadEditJob() {
 		job.Settings.DateOfCreation = time.Now().UnixNano() / int64(time.Millisecond)
 		job.Settings.Status = helpers.StatusActive
 		job.Info.CompanyTeamName = storedSession.CompanyTeamName
+		log.Println("inside edit",jobId)
 		dbStatus := job.UpdateJobToDB(c.AppEngineCtx,jobId)
 		switch dbStatus {
 

@@ -93,6 +93,22 @@ func (m *ContactUser) DeleteContactFromDB(ctx context.Context, contactId string,
 		err = dB.Child("Tasks/" + TaskSlice[i]+"/Contacts/"+contactId).Update(&taskContactForUpdate)
 
 	}
+	contactDetail := ContactUser{}
+	updatedContactDetail :=ContactUser{}
+	log.Println("gggg")
+	err = dB.Child("/Contacts/"+ contactId).Value(&contactDetail)
+	updatedContactDetail.Settings.DateOfCreation =contactDetail.Settings.DateOfCreation
+	updatedContactDetail.Settings.Status =helpers.StatusInActive
+	updatedContactDetail.Info.Address =contactDetail.Info.Address
+	updatedContactDetail.Info.CompanyTeamName =contactDetail.Info.CompanyTeamName
+	updatedContactDetail.Info.Email =contactDetail.Info.Email
+	updatedContactDetail.Info.Name =contactDetail.Info.Name
+	updatedContactDetail.Info.PhoneNumber =contactDetail.Info.PhoneNumber
+	updatedContactDetail.Info.State =contactDetail.Info.State
+	updatedContactDetail.Info.ZipCode =contactDetail.Info.ZipCode
+	log.Println("dfkfj",)
+
+	err = dB.Child("/Contacts/"+ contactId).Update(&updatedContactDetail)
 	if err!=nil{
 		log.Println("Deletion error:",err)
 		return false
