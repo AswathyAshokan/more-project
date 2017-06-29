@@ -140,5 +140,8 @@ func init() {
 
 	beegae.Router("/PendingWorks", &controllers.ComingSoonController{},"*:LoadComingSoonController")
 
+	beegae.Router("/goroutine", &controllers.PushNotificationController{},"*:CreateNotification")
+
+
 
 }

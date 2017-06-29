@@ -43,20 +43,21 @@ func GetAllInvitationDetail(ctx context.Context,userId string) (CompanyInvitatio
 
 
 
-func GetAllUserDetail(ctx context.Context,tempEmailId string ) (map[string]Users,bool) {
+func GetAllUserDetail(ctx context.Context,tempEmailId string ) (map[string]Users) {
 	usersDetails := map[string]Users{}
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil{
 		log.Fatal(err)
-		return usersDetails, false
+		return usersDetails
 	}
 	err = db.Child("Users").OrderBy("Info/Email").EqualTo(tempEmailId).Value(&usersDetails)
+	log.Println("gggg",usersDetails)
 	if err != nil{
 		log.Println(err)
-		log.Println(usersDetails)
-		return usersDetails, false
+
+		return usersDetails
 	}
-	return usersDetails,true
+	return usersDetails
 }
 
 

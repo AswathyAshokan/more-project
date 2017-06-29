@@ -18,26 +18,28 @@ func (c *SharedDocumentController) LoadSharedDocuments() {
 	w := c.Ctx.ResponseWriter
 	var expiryKeySlice []string
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
-	userId :=c.Ctx.Input.Param(":inviteuserid")
+	userId := c.Ctx.Input.Param(":inviteuserid")
 	storedSession := ReadSession(w, r, companyTeamName)
-	log.Println("session :",storedSession)
+	log.Println("session :", storedSession)
 	documentsViewModels := viewmodels.SharedDocument{}
-	info,dbStatus := models.GetAllInvitationDetail(c.AppEngineCtx,userId)
-	if info.UserResponse ==helpers.StatusAccepted{
+	info, dbStatus := models.GetAllInvitationDetail(c.AppEngineCtx, userId)
 
+	if info.UserResponse == helpers.StatusAccepted {
 		switch dbStatus {
 		case true:
 			tempEmailId := info.Email
-			UserDetails,expiryStatus  := models.GetAllUserDetail(c.AppEngineCtx,tempEmailId)
-			switch expiryStatus {
-			case true:
+			UserDetails:= models.GetAllUserDetail(c.AppEngineCtx, tempEmailId)
+			log.Println("UserDetails",UserDetails)
+			/*switch expiryStatus {
+			case true:*/
 				var keySlice []string
 				dataValue := reflect.ValueOf(UserDetails)
 				for _, key := range dataValue.MapKeys() {
 					keySlice = append(keySlice, key.String())
 				}
 				for _, specifiedUserId := range keySlice {
-					expiry,status := models.GetExpireDetailsOfUser(c.AppEngineCtx,specifiedUserId)
+					expiry, status := models.GetExpireDetailsOfUser(c.AppEngineCtx, specifiedUserId)
+					log.Println("expiry", expiry)
 					switch status {
 					case true:
 						dataValue := reflect.ValueOf(expiry)
@@ -47,11 +49,11 @@ func (c *SharedDocumentController) LoadSharedDocuments() {
 						}
 						for _, k := range expiryKeySlice {
 							var tempValueSlice []string
-							if expiry[k].Info.Mode =="Public"{
+							if expiry[k].Info.Mode == "Public" {
 								tempValueSlice = append(tempValueSlice, expiry[k].Info.Description)
-								tempValueSlice = append(tempValueSlice,time.Unix(expiry[k].Info.ExpirationDate, 0).Format("01/02/2006"))
-								tempValueSlice = append(tempValueSlice,expiry[k].Info.DocumentId)
-								documentsViewModels.Values=append(documentsViewModels.Values,tempValueSlice)
+								tempValueSlice = append(tempValueSlice, time.Unix(expiry[k].Info.ExpirationDate, 0).Format("01/02/2006"))
+								tempValueSlice = append(tempValueSlice, expiry[k].Info.DocumentId)
+								documentsViewModels.Values = append(documentsViewModels.Values, tempValueSlice)
 								tempValueSlice = tempValueSlice[:0]
 							}
 
@@ -64,17 +66,13 @@ func (c *SharedDocumentController) LoadSharedDocuments() {
 			case false:
 				log.Println(helpers.ServerConnectionError)
 			}
-
-		case false:
-			log.Println(helpers.ServerConnectionError)
 		}
+		documentsViewModels.Keys = expiryKeySlice
+		documentsViewModels.CompanyTeamName = storedSession.CompanyTeamName
+		documentsViewModels.CompanyPlan = storedSession.CompanyPlan
+		c.Data["vm"] = documentsViewModels
+		c.TplName = "template/shareddocument.html"
 
-
-	}
-	documentsViewModels.Keys= expiryKeySlice
-	c.Data["vm"] = documentsViewModels
-	c.Layout = "layout/layout.html"
-	c.TplName = "template/shareddocument.html"
 
 }
 

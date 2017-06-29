@@ -34,11 +34,8 @@ func (c *DashBoardController)LoadDashBoard() {
 		switch dbStatus {
 
 		case true:
-			log.Println("lengthhhh",len(companyTaskDetails))
-
 			dataValue := reflect.ValueOf(companyTaskDetails)
 			var keySlice []string
-			var taskKeySlice []string
 			var totalUserStatus string
 
 			for _, key := range dataValue.MapKeys() {
@@ -85,7 +82,6 @@ func (c *DashBoardController)LoadDashBoard() {
 							completed++
 						}
 					}
-					log.Println("length",len(userStatus))
 					completedTaskPercentage := float32(completed)/float32(len(userStatus))*100
 					pendingTaskPercentage  := float32(pending)/ float32(len(userStatus))*100
 					taskSettings :=models.TaskSetting{}
@@ -104,29 +100,22 @@ func (c *DashBoardController)LoadDashBoard() {
 				dbStatus, taskDetail := task.GetTaskDetailById(c.AppEngineCtx, taskKey)
 				switch dbStatus {
 				case true:
-					if taskDetail.Settings.Status =="Active" && taskDetail.Customer.CustomerStatus =="Active" {
-						taskKeySlice = append(taskKeySlice,taskKey)
 
-						if taskDetail.Settings.TaskStatus == "Completed" {
-
-							totalCompletion++
-						} else {
-							totalPending++
-						}
+					if taskDetail.Settings.TaskStatus == "Completed"{
+						totalCompletion++
+					}else{
+						totalPending++
 					}
+
 				case false:
 					log.Println(helpers.ServerConnectionError)
 				}
 
 			}
-			completedTaskPercentageForViewModel := float32(totalCompletion)/float32(len(taskKeySlice))*100
-			pendingTaskPercentageForViewModel  := float32(totalPending)/ float32(len(taskKeySlice))*100
+			completedTaskPercentageForViewModel := float32(totalCompletion)/float32(len(keySlice))*100
+			pendingTaskPercentageForViewModel  := float32(totalPending)/ float32(len(keySlice))*100
 			viewModel.CompletedTask =completedTaskPercentageForViewModel
 			viewModel.PendingTask =pendingTaskPercentageForViewModel
-			log.Println("task completed",viewModel.CompletedTask )
-			log.Println("task pending",viewModel.PendingTask)
-
-
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
@@ -142,7 +131,6 @@ func (c *DashBoardController)LoadDashBoard() {
 	pendingUser :=0
 	dbStatus,info := companyInvitaion.InviteUserFromCompany(c.AppEngineCtx,companyTeamName)
 	var inviteKey []string
-	var activeInviteUserKey []string
 	if len(info) !=0{
 		switch dbStatus {
 		case true:
@@ -155,31 +143,22 @@ func (c *DashBoardController)LoadDashBoard() {
 			log.Println(helpers.ServerConnectionError)
 		}
 		for _, inviteUserKey := range inviteKey {
-			if info[inviteUserKey].Status =="Active" {
-				activeInviteUserKey = append(activeInviteUserKey,inviteUserKey)
-				if info[inviteUserKey].UserResponse == "Accepted" {
-					acceptedUser++
-				} else if info[inviteUserKey].UserResponse == "Pending" {
-					pendingUser++
-				} else {
-					rejectedUser++
-				}
+			if info[inviteUserKey].UserResponse == "Accepted"{
+				acceptedUser++
+			} else if info[inviteUserKey].UserResponse == "Pending"{
+				pendingUser++
+			}else {
+				rejectedUser++
 			}
 
 
 		}
-
-
-		acceptedUsersPercentageForViewModel := float32(acceptedUser)/float32(len(activeInviteUserKey))*100
-		rejectedUsersPercentageForViewModel  := float32(pendingUser)/ float32(len(activeInviteUserKey))*100
-		pendingUsersPercentageForViewModel  := float32(rejectedUser)/ float32(len(activeInviteUserKey))*100
+		acceptedUsersPercentageForViewModel := float32(acceptedUser)/float32(len(inviteKey))*100
+		rejectedUsersPercentageForViewModel  := float32(pendingUser)/ float32(len(inviteKey))*100
+		pendingUsersPercentageForViewModel  := float32(rejectedUser)/ float32(len(inviteKey))*100
 		viewModel.AcceptedUsers =acceptedUsersPercentageForViewModel
 		viewModel.RejectedUsers =rejectedUsersPercentageForViewModel
 		viewModel.PendingUsers =pendingUsersPercentageForViewModel
-		log.Println("accpeted",viewModel.AcceptedUsers)
-		log.Println("rejected",viewModel.RejectedUsers)
-		log.Println("pending",viewModel.PendingUsers)
-
 	}else {
 		viewModel.AcceptedUsers =0
 		viewModel.RejectedUsers =0
@@ -190,7 +169,6 @@ func (c *DashBoardController)LoadDashBoard() {
 
 
 	//get job details
-	var activeJobKey []string
 
 	dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx,companyTeamName)
 	switch dbStatus {
@@ -200,11 +178,8 @@ func (c *DashBoardController)LoadDashBoard() {
 			jobKeySlice = append(jobKeySlice, key.String())
 		}
 		for _, k := range dataValue.MapKeys() {
-			if allJobs[k.String()].Customer.CustomerStatus =="Active" {
-				activeJobKey = append(activeJobKey, k.String())
-				viewModel.JobNameArray = append(viewModel.JobNameArray, allJobs[k.String()].Info.JobName)
-				viewModel.JobCustomerNameArray = append(viewModel.JobCustomerNameArray, allJobs[k.String()].Customer.CustomerName)
-			}
+			viewModel.JobNameArray   = append(viewModel.JobNameArray, allJobs[k.String()].Info.JobName)
+			viewModel.JobCustomerNameArray = append(viewModel.JobCustomerNameArray, allJobs[k.String()].Customer.CustomerName)
 		}
 	case false:
 		log.Println(helpers.ServerConnectionError)
@@ -216,7 +191,6 @@ func (c *DashBoardController)LoadDashBoard() {
 		taskValue := reflect.ValueOf(tasks)
 		for _, taskKey := range taskValue.MapKeys() {
 			var tempValueSlice []string
-			log.Println("task key",taskKey.String())
 			tempValueSlice =append(tempValueSlice,tasks[taskKey.String()].Job.JobName)
 			tempValueSlice =append(tempValueSlice,tasks[taskKey.String()].Info.TaskName)
 			viewModel.TaskDetailArray =append(viewModel.TaskDetailArray,tempValueSlice)
@@ -227,17 +201,13 @@ func (c *DashBoardController)LoadDashBoard() {
 		log.Println(helpers.ServerConnectionError)
 	}
 
-	viewModel.Key = activeJobKey
-	viewModel.JobArrayLength =len(activeJobKey)
+	viewModel.Key = jobKeySlice
+	viewModel.JobArrayLength =len(jobKeySlice)
 	viewModel.CompanyTeamName =companyTeamName
 	viewModel.CompanyPlan = storedSession.CompanyPlan
 	viewModel.AdminLastName =storedSession.AdminLastName
 	viewModel.AdminFirstName =storedSession.AdminFirstName
 	viewModel.ProfilePicture =storedSession.ProfilePicture
-	log.Println("company plan",viewModel.CompanyPlan)
-	log.Println("admin last",viewModel.AdminLastName)
-	log.Println("admin first",viewModel.AdminFirstName)
-	log.Println("profile ",viewModel.ProfilePicture)
 	c.Data["vm"] = viewModel
 	c.TplName = "template/dash-board.html"
 
