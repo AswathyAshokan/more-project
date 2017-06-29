@@ -135,17 +135,19 @@ func GetAllInviteUsersDetails(ctx context.Context,companyId string) (map[string]
 func(m *Invitation) CheckJobIsAssigned(ctx context.Context, InviteUserId string,companyTeamName string) bool {
 	companyData := map[string]Company{}
 	TaskMap := map[string]UserTasks{}
-	value := map[string]Users{}
+	userDetails := map[string]Users{}
 	invitationData := CompanyInvitations{}
 	var keySlice []string
 	var taskKeySlice []string
 	db, err := GetFirebaseClient(ctx, "")
 	if err != nil {
+		log.Println("s4")
 		log.Fatal(err)
 		return false
 	}
 	err = db.Child("Company").Value(&companyData)
 	if err != nil {
+		log.Println("s1")
 		return false
 	}
 	dataValue := reflect.ValueOf(companyData)
@@ -155,21 +157,26 @@ func(m *Invitation) CheckJobIsAssigned(ctx context.Context, InviteUserId string,
 	for _, key := range keySlice {
 		err = db.Child("Company/" + key + "/Invitation/" + InviteUserId).Value(&invitationData)
 		if err != nil {
+			log.Println("s2")
 			return false
 		}
 	}
-	err = db.Child("Users").OrderBy("Info/Email").EqualTo(invitationData.Email).Value(&value)
-	if err != nil {
-		log.Fatal(err)
-		return false
-	}
-	taskValues := reflect.ValueOf(value)
+	err = db.Child("Users").OrderBy("Info/Email").EqualTo(invitationData.Email).Value(&userDetails)
+	log.Println("userDetails",userDetails)
+	/*if err != nil {
+		log.Println("s3")
+		//log.Fatal(err)
+		//return false
+	}*/
+	taskValues := reflect.ValueOf(userDetails)
 	for _, taskKey := range taskValues.MapKeys() {
 		taskKeySlice = append(taskKeySlice, taskKey.String())
 	}
+	log.Println("keyssss",taskKeySlice)
 	for _, taskKey := range taskKeySlice {
 		err = db.Child("Users/" + taskKey + "/Tasks").Value(&TaskMap)
 		if err != nil {
+			log.Println("s5")
 			log.Fatal(err)
 		}
 

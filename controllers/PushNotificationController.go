@@ -6,6 +6,8 @@ import (
 	"log"
 	"fmt"
 	//"google.golang.org/appengine/urlfetch"
+	//"google.golang.org/appengine/urlfetch"
+
 )
 
 type PushNotificationController struct {
@@ -25,8 +27,7 @@ func (c *PushNotificationController) CreateNotification() {
 	}
 	log.Println("resp.Status: ", resp.Status)*/
 
-
-	/*transport := &onesignal..Transport{
+	/*transport := &onesignal.Transport{
 		Config:    tweetlibConfig,
 		Token:     token,
 		Transport: &urlfetch.Transport{Context: ctx},

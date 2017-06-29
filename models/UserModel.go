@@ -17,11 +17,21 @@ type ConsentReceiptDetails struct {
 
 }
 type UserInfo struct {
-	Address			string
+	//Address			string
+	City      		string
+	Country     		string
 	DateOfBirth		int64
+	DialCode		string
 	Email			string
 	FullName		string
+	MedicalHistory		string
+	MedicareNumber		string
+	Medication		string
+	State 			string
+	TaxFileNumber 		string
+	ZipCode 		string
 	Phone			int64
+
 }
 type UsersCompany struct{
 	CompanyName             string
@@ -32,7 +42,7 @@ type UsersCompany struct{
 type NextOfKin struct {
 	KinEmail		string
 	KinName			string
-	KinPhone		int64
+	KinPhone		string
 	Relation		string
 }
 
@@ -56,6 +66,7 @@ type UserTasks struct {
 	CustomerName		string
 	DateOfCreation		int64
 	EndDate			int64
+	Id 			string
 	JobName			string
 	StartDate		int64
 	Status			string
