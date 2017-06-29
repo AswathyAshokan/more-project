@@ -288,6 +288,7 @@ func (c *InviteUserController) DeleteUserIfNotInTask() {
 	ReadSession(w, r, companyTeamName)
 	InviteUserId := c.Ctx.Input.Param(":inviteuserid")
 	companyInvitationStatus := models.CheckStatusInInvitationOfCompany(c.AppEngineCtx, InviteUserId, companyTeamName)
+	log.Println("companyInvitationStatus",companyInvitationStatus)
 	switch companyInvitationStatus {
 	case true:
 		dbStatus := models.DeleteInviteUserById(c.AppEngineCtx, InviteUserId, companyTeamName)

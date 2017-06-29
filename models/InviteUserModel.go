@@ -175,10 +175,10 @@ func(m *Invitation) CheckJobIsAssigned(ctx context.Context, InviteUserId string,
 	log.Println("keyssss",taskKeySlice)
 	for _, taskKey := range taskKeySlice {
 		err = db.Child("Users/" + taskKey + "/Tasks").Value(&TaskMap)
-		if err != nil {
+		/*if err != nil {
 			log.Println("s5")
 			log.Fatal(err)
-		}
+		}*/
 
 	}
 	if len(TaskMap) == 0 {
@@ -302,24 +302,26 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 	}
 	err = db.Child("Company/"+companyTeamName+"/Invitation/"+InviteUserId).Value(&value)
 	if err != nil {
+		log.Println("danger zone",value)
 		log.Fatal(err)
 		return false
 	}
 	err = db.Child("Users").OrderBy("Info/Email").EqualTo(value.Email).Value(&userMap)
-	if err != nil {
+	/*if err != nil {
+		log.Println("danger zone2",userMap)
 		log.Fatal(err)
 		return false
-	}
+	}*/
 	dataValue := reflect.ValueOf(userMap)
 	for _, key := range dataValue.MapKeys() {
 		keySlice = append(keySlice, key.String())
 	}
 	for _, k := range keySlice {
 		err = db.Child("Users/"+k+"/Company/"+companyTeamName).Value(&companyInUsers)
-		if err != nil {
+		/*if err != nil {
 			log.Fatal(err)
 			return false
-		}
+		}*/
 		updateCompanyStatus.CompanyName = companyInUsers.CompanyName
 		updateCompanyStatus.DateOfJoin = companyInUsers.DateOfJoin
 		updateCompanyStatus.Status = helpers.UserStatusDeleted
@@ -411,10 +413,10 @@ func RemoveUsersFromTaskForDelete(ctx context.Context,companyTeamName  string,In
 		return false
 	}
 	err = db.Child("Users").OrderBy("Info/Email").EqualTo(value.Email).Value(&userMap)
-	if err != nil {
+	/*if err != nil {
 		log.Fatal(err)
 		return false
-	}
+	}*/
 	dataValue := reflect.ValueOf(userMap)
 	for _, key := range dataValue.MapKeys() {
 		keySlice = append(keySlice, key.String())
