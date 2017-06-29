@@ -65,12 +65,10 @@ $(function () {
     // date picker 
     
     
-    var dateToday = new Date(); 
-     $( "#datepicker" ).datepicker({
-        numberOfMonths: 3,
-        showButtonPanel: true,
-        minDate: dateToday
-    });
+     $( "#startDate" ).datepicker({ minDate: 0});
+    $( "#endDate" ).datepicker({ minDate: 0});
+    
+    
     
     if (pageType == "edit") {
         console.log("jobname",vm.NFCTagId);
