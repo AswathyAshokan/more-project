@@ -169,6 +169,7 @@ func (c *DashBoardController)LoadDashBoard() {
 
 
 	//get job details
+	var activeJobKey []string
 
 	dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx,companyTeamName)
 	switch dbStatus {
@@ -178,8 +179,13 @@ func (c *DashBoardController)LoadDashBoard() {
 			jobKeySlice = append(jobKeySlice, key.String())
 		}
 		for _, k := range dataValue.MapKeys() {
-			viewModel.JobNameArray   = append(viewModel.JobNameArray, allJobs[k.String()].Info.JobName)
-			viewModel.JobCustomerNameArray = append(viewModel.JobCustomerNameArray, allJobs[k.String()].Customer.CustomerName)
+			if allJobs[k.String()].Customer.CustomerStatus =="Active"{
+				activeJobKey = append(activeJobKey, k.String())
+				viewModel.JobNameArray   = append(viewModel.JobNameArray, allJobs[k.String()].Info.JobName)
+				viewModel.JobCustomerNameArray = append(viewModel.JobCustomerNameArray, allJobs[k.String()].Customer.CustomerName)
+
+			}
+
 		}
 	case false:
 		log.Println(helpers.ServerConnectionError)
@@ -190,10 +196,13 @@ func (c *DashBoardController)LoadDashBoard() {
 	case true:
 		taskValue := reflect.ValueOf(tasks)
 		for _, taskKey := range taskValue.MapKeys() {
-			var tempValueSlice []string
-			tempValueSlice =append(tempValueSlice,tasks[taskKey.String()].Job.JobName)
-			tempValueSlice =append(tempValueSlice,tasks[taskKey.String()].Info.TaskName)
-			viewModel.TaskDetailArray =append(viewModel.TaskDetailArray,tempValueSlice)
+			if tasks[taskKey.String()].Settings.Status =="Active"{
+				var tempValueSlice []string
+				tempValueSlice =append(tempValueSlice,tasks[taskKey.String()].Job.JobName)
+				tempValueSlice =append(tempValueSlice,tasks[taskKey.String()].Info.TaskName)
+				viewModel.TaskDetailArray =append(viewModel.TaskDetailArray,tempValueSlice)
+			}
+
 
 
 		}
@@ -201,8 +210,8 @@ func (c *DashBoardController)LoadDashBoard() {
 		log.Println(helpers.ServerConnectionError)
 	}
 
-	viewModel.Key = jobKeySlice
-	viewModel.JobArrayLength =len(jobKeySlice)
+	viewModel.Key = activeJobKey
+	viewModel.JobArrayLength =len(activeJobKey)
 	viewModel.CompanyTeamName =companyTeamName
 	viewModel.CompanyPlan = storedSession.CompanyPlan
 	viewModel.AdminLastName =storedSession.AdminLastName

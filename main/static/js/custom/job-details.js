@@ -110,12 +110,12 @@ $(function(){
     });
 
 /*list job details of each job when click on list icon*/
-//    $('#job-details tbody').on( 'click', '#view', function () {
-//        var data = table.row( $(this).parents('tr') ).data();
-//        var jobId = data[5];
-//        window.location = '/' + companyTeamName  +'/job/'+ jobId + '/task';
-//        return false;
-//    });
+    $('#job-details tbody').on( 'click', '#view', function () {
+        var data = table.row( $(this).parents('tr') ).data();
+        var jobId = data[5];
+        window.location = '/' + companyTeamName  +'/job/'+ jobId + '/task';
+        return false;
+    });
 //    /*Function for deleting particular job*/
 //    $('#job-details tbody').on( 'click', '#delete', function () {
 //        $("#myModal").modal();

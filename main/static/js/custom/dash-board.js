@@ -124,6 +124,7 @@ $(function () {
     console.log("default job",selectAJob);
     for(i = 0; i < vm.TaskDetailArray.length; i++) {
         if (selectAJob =="SelectAJob") {
+            subArray = [];
             subArray.push(vm.TaskDetailArray[i][1]);
         }
     }
