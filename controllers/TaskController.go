@@ -46,8 +46,6 @@ func (c *TaskController)AddNewTask() {
 		if err != nil {
 			log.Println(err)
 		}
-		log.Println("Timeeeeeeeeeeeeeeeeeeeeeee: ", startDate.UTC().Unix())
-		log.Println("Timeeeeeeeeeeeeeeeeeeeeeee: ", startDate.Unix())
 		task.Info.StartDate = startDate.UTC().Unix()
 		endDate, err := time.Parse(layout, endDateString)
 		if err != nil {
@@ -339,7 +337,8 @@ func (c *TaskController)LoadTaskDetail() {
 		}
 		var taskUserSlice [][]viewmodels.TaskUsers
 		for _, k := range keySlice {
-			if tasks[k].Settings.Status == "Active" && tasks[k].Customer.CustomerStatus == "Active"{
+			log.Println("job status",tasks[k].Job.JobStatus)
+			if tasks[k].Settings.Status == helpers.StatusActive && tasks[k].Customer.CustomerStatus == helpers.StatusActive&&tasks[k].Job.JobStatus ==helpers.StatusActive{
 				taskKey = append(taskKey, k)
 				var tempValueSlice []string
 				var minUserArray []string
