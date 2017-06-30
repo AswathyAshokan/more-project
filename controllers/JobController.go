@@ -30,7 +30,7 @@ func (c *JobController)AddNewJob() {
 		job.Customer.CustomerStatus =helpers.StatusActive
 		job.Info.JobName = c.GetString("jobName")
 		job.Info.JobNumber = c.GetString("jobNumber")
-		job.Info.NumberOfTask = c.GetString("numberOfTask")
+		job.Info.NumberOfTask = 0
 		job.Settings.DateOfCreation = time.Now().UnixNano() / int64(time.Millisecond)
 		job.Settings.Status = helpers.StatusActive
 		job.Info.CompanyTeamName = storedSession.CompanyTeamName
@@ -184,7 +184,7 @@ func (c *JobController)LoadEditJob() {
 		job.Customer.CustomerName = c.GetString("customerName")
 		job.Info.JobName = c.GetString("jobName")
 		job.Info.JobNumber = c.GetString("jobNumber")
-		job.Info.NumberOfTask = c.GetString("numberOfTask")
+		job.Info.NumberOfTask = 0
 		job.Settings.DateOfCreation = time.Now().UnixNano() / int64(time.Millisecond)
 		job.Settings.Status = helpers.StatusActive
 		job.Info.CompanyTeamName = storedSession.CompanyTeamName
@@ -330,7 +330,7 @@ func (c *JobController) DeleteJobIfNotInTask() {
 		for _, key := range dataValue.MapKeys() {
 			TaskSlice = append(TaskSlice, key.String())
 		}
-		dbStatus := user.DeleteJobFromDB(c.AppEngineCtx, jobId,TaskSlice)
+		dbStatus := user.DeleteJobFromDB(c.AppEngineCtx, jobId,TaskSlice,companyTeamName)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))

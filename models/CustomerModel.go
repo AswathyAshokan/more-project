@@ -193,7 +193,7 @@ func IsCustomerNameUsed(ctx context.Context,customerName string)(bool) {
 }
 
 
-func (m *Customers) DeleteCustomerFromDB(ctx context.Context, customerId string,TaskSlice []string)(bool)  {
+func (m *Customers) DeleteCustomerFromDB(ctx context.Context, customerId string,TaskSlice []string,companyTeamName string)(bool)  {
 
 	customerDetailForUpdate :=TasksCustomer{}
 	dB, err := GetFirebaseClient(ctx,"")
@@ -236,20 +236,46 @@ func (m *Customers) DeleteCustomerFromDB(ctx context.Context, customerId string,
 		customerDetailForUpdation := map[string]Tasks{}
 		taskCustomerForUpdate :=TaskCustomer{}
 		taskCustomerDetail :=TaskCustomer{}
+		taskUpdate := TaskSetting{}
+		taskDeletion :=TaskSetting{}
+		taskDetailForUser :=Tasks{}
 
 		err = dB.Child("/Tasks/").Value(&customerDetailForUpdation)
 		dataValueOfTask := reflect.ValueOf(customerDetailForUpdation)
-		for _, taskkey := range dataValueOfTask.MapKeys() {
+		for _, taskKey := range dataValueOfTask.MapKeys() {
 
-			if customerDetailForUpdation[taskkey.String()].Customer.CustomerId ==customerId{
+			if customerDetailForUpdation[taskKey.String()].Customer.CustomerId ==customerId{
 				log.Println("inside deletion of customer from taskkkkkkkk")
 
-				err = dB.Child("Tasks/" + taskkey.String()+"/Customer/").Value(&taskCustomerDetail)
+				err = dB.Child("Tasks/" + taskKey.String()+"/Customer/").Value(&taskCustomerDetail)
 				taskCustomerForUpdate.CustomerId =taskCustomerDetail.CustomerId
 				taskCustomerForUpdate.CustomerName =taskCustomerDetail.CustomerName
 				taskCustomerForUpdate .CustomerStatus =helpers.StatusInActive
 
-				err = dB.Child("Tasks/" + taskkey.String()+"/Customer/").Update(&taskCustomerForUpdate)
+				err = dB.Child("Tasks/" + taskKey.String()+"/Customer/").Update(&taskCustomerForUpdate)
+				taskDeletion.Status =helpers.StatusInActive
+				err = dB.Child("/Tasks/"+ taskKey.String()+"/Settings").Value(&taskUpdate)
+				taskDeletion.DateOfCreation =taskUpdate.DateOfCreation
+				err = dB.Child("/Tasks/"+ taskKey.String()+"/Settings").Update(&taskDeletion)
+				err = dB.Child("/Tasks/"+ taskKey.String()).Value(&taskDetailForUser)
+				userData := reflect.ValueOf(taskDetailForUser.UsersAndGroups.User)
+				for _, key := range userData.MapKeys() {
+					userTaskDetail := UserTasks{}
+					userTaskDetail.DateOfCreation = taskDetailForUser.Settings.DateOfCreation
+					userTaskDetail.TaskName = taskDetailForUser.Info.TaskName
+					userTaskDetail.CustomerName = taskDetailForUser.Customer.CustomerName
+					userTaskDetail.EndDate = taskDetailForUser.Info.EndDate
+					userTaskDetail.StartDate = taskDetailForUser.Info.StartDate
+					userTaskDetail.JobName = taskDetailForUser.Job.JobName
+					userTaskDetail.Status = helpers.StatusInActive
+					userTaskDetail.CompanyId = companyTeamName
+					userKey := key.String()
+					err = dB.Child("/Users/" + userKey + "/Tasks/" + taskKey.String()).Update(&userTaskDetail)
+					if err!=nil{
+						log.Println("Deletion error:",err)
+					}
+				}
+				log.Println("deleted successfully")
 
 			}
 		}

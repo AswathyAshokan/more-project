@@ -196,7 +196,7 @@ func (c *DashBoardController)LoadDashBoard() {
 	case true:
 		taskValue := reflect.ValueOf(tasks)
 		for _, taskKey := range taskValue.MapKeys() {
-			if tasks[taskKey.String()].Settings.Status =="Active"{
+			if tasks[taskKey.String()].Customer.CustomerStatus =="Active"{
 				var tempValueSlice []string
 				tempValueSlice =append(tempValueSlice,tasks[taskKey.String()].Job.JobName)
 				tempValueSlice =append(tempValueSlice,tasks[taskKey.String()].Info.TaskName)

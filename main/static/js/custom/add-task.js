@@ -28,18 +28,13 @@ console.log("log",vm.Log);
 if(vm.GroupMembers == null) {
     vm.GroupMembers = [];
 }
-
-
 $(function () {
-    
     if(vm.CompanyPlan == "family"){
-        
         document.getElementById("jobNamelabel").style.display = "none";
         document.getElementById("workExplosureLabel").style.display = "none";
         document.getElementById("minUsersLabel").style.display = "none";
         document.getElementById("nfcbutton").style.display = "none";
         //document.getElementById("contactIdLabel").style.display = "none";
-        
         document.getElementById("minUsers").style.display = "none";
         document.getElementById("loginType1").style.display = "none";
         document.getElementById("jobName").style.display = "none";
@@ -63,13 +58,8 @@ $(function () {
     }
     
     // date picker 
-    
-    
-     $( "#startDate" ).datepicker({ minDate: 0});
+    $( "#startDate" ).datepicker({ minDate: 0});
     $( "#endDate" ).datepicker({ minDate: 0});
-    
-    
-    
     if (pageType == "edit") {
         console.log("jobname",vm.NFCTagId);
         var element = document.getElementById('minUsers');
@@ -77,7 +67,7 @@ $(function () {
         var logUser =document.getElementById("log");
         logUser.value=vm.Log;
         if(vm.LoginType =="NFC" ){
-             document.getElementById("loginType1").checked = true;
+            document.getElementById("loginType1").checked = true;
             var div = document.getElementById('nfcTagId');
             div.style.visibility = 'visible';
             div.style.display ='inline';
@@ -87,7 +77,7 @@ $(function () {
         }
         loginTypeForEdit = vm.LoginType;
         var selectArray =  vm.ContactNameToEdit;
-       $("#contactId").val(selectArray);
+        $("#contactId").val(selectArray);
         var selectArrayForGroup = vm.GroupMembersAndUserToEdit;
         $("#userOrGroup").val(selectArrayForGroup);
         document.getElementById("jobName").value = vm.JobName;
@@ -102,22 +92,18 @@ $(function () {
         for (var i = 1; i < vm.FitToWork.length; i++) {
             dynamicTextBox+= '<div class="plus"><input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + vm.FitToWork[i] + '" />&nbsp;' +
             '<button    class="delete-decl" >+</button></div>';
-            
         }
         $("#TextBoxContainer").append(dynamicTextBox);
         document.getElementById("startTime").value = vm.StartTime;
         document.getElementById("endTime").value = vm.EndTime;
         document.getElementById("taskHead").innerHTML = "Edit Task";
-         $("body").on("click", ".delete-decl", function () {
-             $(this).closest("div").remove();
-         });
-        
+        $("body").on("click", ".delete-decl", function () {
+            $(this).closest("div").remove();
+        });
         minUserForTaskEdit = vm.UsersToEdit.length;
-        
         if(vm.FitToWorkCheck =="EachTime") {
             document.getElementById("fitToWorkCheck").checked = true;
         }
-        
         if(vm.WorkTime.length !=0){
             console.log("inside work");
             document.getElementById("workExplosure").checked = true;
@@ -128,7 +114,6 @@ $(function () {
             document.getElementById("breakTime").value =vm.BreakTime[0];
             var DynamicExposureTextBox ="";
             for (var i=1; i<vm.WorkTime.length; i++){
-                
                 DynamicExposureTextBox+=        '<div class="exposureId"> <label for="workExplosureText" class="">Break Time</label>'+
                     '<input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5" value="'+ vm.BreakTime[i] +'">'+ 'After'+'<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" value="'+ vm.WorkTime[i] +'" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="20" height="20" style= "float:right; margin-top:0em; margin-right:0em;"  class="delete-exposure" /></div>';
             }
@@ -141,8 +126,6 @@ $(function () {
    
    
     //function for getting textbox dynamically
-    
-    
     $("#btnAdd").bind("click", function () {
         var div = $("<div class='plus'/>");
         div.html(GetDynamicTextBox(""));
@@ -155,18 +138,16 @@ $(function () {
 function GetDynamicTextBox(value) {
     return ' <input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "" />&nbsp;' +
             '<button    class="delete-decl">+</button>'
-    
 }
  
 
 //function for getting exposure dynamically
-
 $("#btnAddForExposure").bind("click", function () {
-        $.getScript( '/static/js/timepicker.js', function( data, textStatus, jqxhr ) {
-            var div = $("<div class='exposureId'/>");
-            div.html(GetDynamicTextBoxForExposure(""));
-            $("#exposureTextBoxAppend").append(div);
-        } );
+    $.getScript( '/static/js/timepicker.js', function( data, textStatus, jqxhr ) {
+        var div = $("<div class='exposureId'/>");
+        div.html(GetDynamicTextBoxForExposure(""));
+        $("#exposureTextBoxAppend").append(div);
+    } );
 });
 //$("#exposureDelete").bind("click", function () {
     $("body").on("click", ".delete-exposure", function () {
@@ -251,13 +232,10 @@ $().ready(function() {
                         console.log("values of temp array",tempArray);
                         $("#userOrGroup").val(tempArray);
                     }
-                    
-                    // Inserting group into group array for validating min. no. of users
                     selectedGroupArray.push(clickedOption);
                 }
             }
             selectedUserArray = tempArray;
-        
         } else if (selectedUserArray.length > tempArray.length) { // for deselection
             for (var i = 0; i < selectedUserArray.length; i++) {
                 if (tempArray.indexOf(selectedUserArray[i]) == -1) {
@@ -358,7 +336,6 @@ $().ready(function() {
             //check the login type during editing
             if(loginTypeRadio.length ==0)
             {
-                
                 loginTypeRadio = loginTypeForEdit;
             } else {
                 loginTypeRadio = loginTypeRadio;
@@ -366,12 +343,8 @@ $().ready(function() {
 //            if (minUserForTask >= minUsers) {
                 if(loginTypeRadio.length != 0)
                     {
-                      if( endDateToCompare >= startDateToCompare) 
-                          {
-                            if( endDateToCompare != startDateToCompare|| (endDateToCompare == startDateToCompare && startTime <endTime))
-                                 {
-                              if( mapLatitude.length  !=0)
-                                  {
+                        if( mapLatitude.length  !=0)
+                        {
                                        $("#saveButton").attr('disabled', true);
                                       var taskId=vm.TaskId;
                                       var jobnew = $("#jobName option:selected").val()
@@ -497,21 +470,12 @@ $().ready(function() {
                                   $("#mapValidationError").css({"color": "red", "font-size": "15px"});
                                   $("#mapValidationError").html("please select location from map.").show();
                               }
-                          }
-                              else{
-                                  $("#timeValidationError").css({"color": "red", "font-size": "15px"});
-                                  $("#timeValidationError").html("please select valid a time.").show();
-                              }
-                          }
-                        else {
-                            $("#dateValidationError").css({"color": "red", "font-size": "15px"});
-                           $("#dateValidationError").html("please enter a valid date.").show();
-                        }
+                          
                     }
-                else {
-                    $("#loginTypeValidationError").css({"color": "red", "font-size": "15px"});
-                    $("#loginTypeValidationError").html("please select a login type.").show();
-                }
+            else {
+                $("#loginTypeValidationError").css({"color": "red", "font-size": "15px"});
+                $("#loginTypeValidationError").html("please select a login type.").show();
+            }
 //                
 //            }
 //            else {

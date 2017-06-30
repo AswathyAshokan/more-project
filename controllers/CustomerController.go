@@ -296,7 +296,7 @@ func (c *CustomerController) DeleteCustomerFromJob() {
 		for _, key := range dataValue.MapKeys() {
 			TaskSlice = append(TaskSlice, key.String())
 		}
-		dbStatus := user.DeleteCustomerFromDB(c.AppEngineCtx, customerId,TaskSlice)
+		dbStatus := user.DeleteCustomerFromDB(c.AppEngineCtx, customerId,TaskSlice,companyTeamName)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -330,7 +330,7 @@ func (c *CustomerController) DeleteCustomerIfNotInTask() {
 		for _, key := range dataValue.MapKeys() {
 			TaskSlice = append(TaskSlice, key.String())
 		}
-		dbStatus := user.DeleteCustomerFromDB(c.AppEngineCtx, customerId,TaskSlice)
+		dbStatus := user.DeleteCustomerFromDB(c.AppEngineCtx, customerId,TaskSlice,companyTeamName)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))

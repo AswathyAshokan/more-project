@@ -236,6 +236,32 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 		err = dB.Child("/Group/"+ GroupId[i] +"/Tasks/"+taskUniqueID).Set(GroupTask)
 
 	}
+
+
+	//setting number of task in job
+	jobDetail := map[string]Job {}
+	updatedJob :=Job{}
+	err = dB.Child("Jobs").OrderBy("Info/CompanyTeamName").EqualTo(companyId).Value(&jobDetail)
+	jobData := reflect.ValueOf(jobDetail)
+	for _, key := range jobData.MapKeys() {
+		if key.String() ==m.Job.JobId  {
+			NumberOfTask :=jobDetail[key.String()].Info.NumberOfTask
+			NumberOfTask =NumberOfTask+1
+			updatedJob.Info.JobName =jobDetail[key.String()].Info.JobName
+			updatedJob.Info.JobNumber = jobDetail[key.String()].Info.JobNumber
+			updatedJob.Info.NumberOfTask = NumberOfTask
+			updatedJob.Info.CompanyTeamName = companyId
+			updatedJob.Customer.CustomerId= jobDetail[key.String()].Customer.CustomerId
+			updatedJob.Customer.CustomerName= jobDetail[key.String()].Customer.CustomerName
+			updatedJob.Customer.CustomerStatus= jobDetail[key.String()].Customer.CustomerStatus
+			updatedJob.Settings.Status = jobDetail[key.String()].Settings.Status
+			updatedJob.Settings.DateOfCreation = jobDetail[key.String()].Settings.DateOfCreation
+			err = dB.Child("/Jobs/"+ key.String()).Update(&updatedJob)
+
+		}
+
+	}
+
 	if err!=nil{
 		log.Println("Insertion error:",err)
 		return false
@@ -260,8 +286,8 @@ func (m *Tasks) RetrieveTaskFromDB(ctx context.Context,companyTeamName string)(b
 /*delete  task details from DB*/
 func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId string)(bool)  {
 
-	 taskUpdate := TaskSetting{}
-	 taskDeletion :=TaskSetting{}
+	taskUpdate := TaskSetting{}
+	taskDeletion :=TaskSetting{}
 	taskDetailForUser :=Tasks{}
 	dB, err := GetFirebaseClient(ctx,"")
 

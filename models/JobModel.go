@@ -10,7 +10,7 @@ import (
 type JobInfo struct {
 	JobName		string
 	JobNumber	string
-	NumberOfTask	string
+	NumberOfTask	int64
 	CompanyTeamName	string
 }
 type JobSettings struct {
@@ -182,7 +182,7 @@ func CheckJobNumberIsUsed(ctx context.Context, jobNumber string)bool{
 		return false
 	}
 }
-func (m *Job) DeleteJobFromDB(ctx context.Context, jobId string,TaskSlice []string)(bool)  {
+func (m *Job) DeleteJobFromDB(ctx context.Context, jobId string,TaskSlice []string,companyTeamName string)(bool)  {
 
 	jobDetailForUpdate :=TasksJob{}
 	dB, err := GetFirebaseClient(ctx,"")
@@ -198,6 +198,7 @@ func (m *Job) DeleteJobFromDB(ctx context.Context, jobId string,TaskSlice []stri
 	}
 	taskJobDetail :=TaskJob{}
 	taskJobForUpdate :=TaskJob{}
+	taskDetailForUser :=Tasks{}
 	for i:=0;i<len(TaskSlice);i++ {
 		err = dB.Child("Tasks/" + TaskSlice[i]+"/Job/").Value(&taskJobDetail)
 		log.Println("details from task job",)
@@ -207,7 +208,24 @@ func (m *Job) DeleteJobFromDB(ctx context.Context, jobId string,TaskSlice []stri
 
 		log.Println("fhsgjs",taskJobForUpdate)
 		err = dB.Child("Tasks/" + TaskSlice[i]+"/Job/").Update(&taskJobForUpdate)
-
+		userData := reflect.ValueOf(taskDetailForUser.UsersAndGroups.User)
+		for _, key := range userData.MapKeys() {
+			userTaskDetail := UserTasks{}
+			userTaskDetail.DateOfCreation = taskDetailForUser.Settings.DateOfCreation
+			userTaskDetail.TaskName = taskDetailForUser.Info.TaskName
+			userTaskDetail.CustomerName = taskDetailForUser.Customer.CustomerName
+			userTaskDetail.EndDate = taskDetailForUser.Info.EndDate
+			userTaskDetail.StartDate = taskDetailForUser.Info.StartDate
+			userTaskDetail.JobName = taskDetailForUser.Job.JobName
+			userTaskDetail.Status = helpers.StatusInActive
+			userTaskDetail.CompanyId = companyTeamName
+			userKey := key.String()
+			err = dB.Child("/Users/" + userKey + "/Tasks/" + TaskSlice[i]).Update(&userTaskDetail)
+			if err!=nil{
+				log.Println("Deletion error:",err)
+			}
+		}
+		log.Println("deleted successfully")
 	}
 	if err!=nil{
 		log.Println("Deletion error:",err)
@@ -245,8 +263,6 @@ func (m *Job) DeleteJobFromDBForNonTask(ctx context.Context, jobId string)(bool)
 	updatedJobDetail.Info.NumberOfTask =jobDetail.Info.NumberOfTask
 	updatedJobDetail.Customer.CustomerId =jobDetail.Customer.CustomerId
 	updatedJobDetail.Customer.CustomerName =jobDetail.Customer.CustomerName
-	log.Println("dfkfj",)
-
 	err = dB.Child("/Jobs/"+ jobId).Update(&updatedJobDetail)
 	if err != nil {
 		log.Fatal(err)
