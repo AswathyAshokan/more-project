@@ -185,7 +185,6 @@ func (c *JobController)LoadEditJob() {
 		job.Customer.CustomerName = c.GetString("customerName")
 		job.Info.JobName = c.GetString("jobName")
 		job.Info.JobNumber = c.GetString("jobNumber")
-		job.Info.NumberOfTask = 0
 		job.Settings.DateOfCreation = time.Now().UnixNano() / int64(time.Millisecond)
 		job.Settings.Status = helpers.StatusActive
 		job.Info.CompanyTeamName = storedSession.CompanyTeamName
