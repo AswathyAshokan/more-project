@@ -336,150 +336,168 @@ func (c *TaskController)LoadTaskDetail() {
 			keySlice = append(keySlice, key.String())
 		}
 		var taskUserSlice [][]viewmodels.TaskUsers
+		var userStatus string
 		for _, k := range keySlice {
 			log.Println("job status",tasks[k].Job.JobStatus)
 			if tasks[k].Settings.Status == helpers.StatusActive && tasks[k].Customer.CustomerStatus == helpers.StatusActive&& tasks[k].Job.JobStatus ==helpers.StatusActive{
-				taskKey = append(taskKey, k)
-				var tempValueSlice []string
-				var minUserArray []string
-
-				tempJobAndCustomer := ""
-				var buffer bytes.Buffer
-				buffer.WriteString(tasks[k].Job.JobName)
-				buffer.WriteString(" (")
-				buffer.WriteString(tasks[k].Customer.CustomerName)
-				buffer.WriteString(")")
-				tempJobAndCustomer = buffer.String()
-				log.Println("ddfffdfdff",tempJobAndCustomer)
-				buffer.Reset()
-				tempValueSlice = append(tempValueSlice, "")
-				tempValueSlice = append(tempValueSlice, tempJobAndCustomer)
-
-				if !helpers.StringInSlice(tasks[k].Customer.CustomerName, viewModel.UniqueCustomerNames) && tasks[k].Customer.CustomerName != "" {
-					viewModel.UniqueCustomerNames = append(viewModel.UniqueCustomerNames, tasks[k].Customer.CustomerName)
-					log.Println("ggggg",viewModel.UniqueCustomerNames)
-					log.Println("fffff",tasks[k].Customer.CustomerName)
-				}else{
-					viewModel.UniqueCustomerNames = append(viewModel.UniqueCustomerNames,"")
-				}
-				if jobId == tasks[k].Job.JobId {
-
-					viewModel.SelectedJob = tasks[k].Job.JobName
-					viewModel.SelectedCustomerForJob = tasks[k].Customer.CustomerName
-				}
-				if len(jobId) == 0 {
-					viewModel.SelectedJob = ""
-					viewModel.JobMatch = "true"
-
-				}
-
-				if !helpers.StringInSlice(tasks[k].Job.JobName, viewModel.UniqueJobNames) && tasks[k].Job.JobName != ""&& tasks[k].Job.JobStatus =="Active" {
-					viewModel.UniqueJobNames = append(viewModel.UniqueJobNames, tasks[k].Job.JobName)
-				}else{
-					viewModel.UniqueJobNames = append(viewModel.UniqueJobNames,"")
-				}
-				//collecting fit to work from task
-				fitToWorkDataValue := reflect.ValueOf(tasks[k].FitToWork)
-				tempFitToWork := ""
-
-				for _, fitToWorkKey := range fitToWorkDataValue.MapKeys() {
-
-					var bufferFitToWork bytes.Buffer
-					if len(tempFitToWork) == 0 {
-						bufferFitToWork.WriteString(tasks[k].FitToWork[fitToWorkKey.String()].Description)
-						tempFitToWork = bufferFitToWork.String()
-						bufferFitToWork.Reset()
-					} else {
-						bufferFitToWork.WriteString(tempFitToWork)
-						bufferFitToWork.WriteString(", ")
-						bufferFitToWork.WriteString(tasks[k].FitToWork[fitToWorkKey.String()].Description)
-						tempFitToWork = bufferFitToWork.String()
-						bufferFitToWork.Reset()
+				userValue := reflect.ValueOf(tasks[k].UsersAndGroups.User)
+				for _, key := range userValue.MapKeys() {
+					if tasks[k].UsersAndGroups.User[key.String()].Status == helpers.StatusActive{
+						userStatus = "true"
+						break
+					}else{
+						userStatus="false"
 					}
+
 				}
+				if userStatus == "true"{
+					taskKey = append(taskKey, k)
+					var tempValueSlice []string
+					var minUserArray []string
 
-				//displaying users
-				usersDataValue := reflect.ValueOf(tasks[k].UsersAndGroups.User)
+					tempJobAndCustomer := ""
+					var buffer bytes.Buffer
+					buffer.WriteString(tasks[k].Job.JobName)
+					buffer.WriteString(" (")
+					buffer.WriteString(tasks[k].Customer.CustomerName)
+					buffer.WriteString(")")
+					tempJobAndCustomer = buffer.String()
+					if tempJobAndCustomer == " ()"{
+						tempJobAndCustomer=""
+					}
+					log.Println("ddfffdfdff",tempJobAndCustomer)
+					buffer.Reset()
+					tempValueSlice = append(tempValueSlice, "")
+					tempValueSlice = append(tempValueSlice, tempJobAndCustomer)
 
-				//tempusersDataValue := ""
-				var userCount =0
-				for _, key := range usersDataValue.MapKeys() {
-					userKeySlice = append(userKeySlice, key.String())
-				}
-				var userStructSlice []viewmodels.TaskUsers
+					if !helpers.StringInSlice(tasks[k].Customer.CustomerName, viewModel.UniqueCustomerNames) && tasks[k].Customer.CustomerName != "" {
+						viewModel.UniqueCustomerNames = append(viewModel.UniqueCustomerNames, tasks[k].Customer.CustomerName)
+						log.Println("ggggg",viewModel.UniqueCustomerNames)
+						log.Println("fffff",tasks[k].Customer.CustomerName)
+					}else{
+						viewModel.UniqueCustomerNames = append(viewModel.UniqueCustomerNames,"")
+					}
+					if jobId == tasks[k].Job.JobId {
 
-				for _, userKey := range usersDataValue.MapKeys() {
+						viewModel.SelectedJob = tasks[k].Job.JobName
+						viewModel.SelectedCustomerForJob = tasks[k].Customer.CustomerName
+					}
+					if len(jobId) == 0 {
+						viewModel.SelectedJob = ""
+						viewModel.JobMatch = "true"
 
-					var userStruct viewmodels.TaskUsers
-					userStruct.Name = tasks[k].UsersAndGroups.User[userKey.String()].FullName
-					userStruct.Status = tasks[k].UsersAndGroups.User[userKey.String()].UserTaskStatus
-					userStruct.TaskId =k
-					userStructSlice = append(userStructSlice, userStruct)
-					//userArray =append(userArray,tasks[k].UsersAndGroups.User[userKey.String()].FullName)
-					//userArray =append(userArray,tasks[k].Settings.Status)
-					//taskKeyCount :=len(keySlice)
-					//userKeyCount :=len(userKeySlice)
-					//var innerSlice []string
+					}
 
-					//userArray =append(userArray,tasks[k].UsersAndGroups.User[userKey.String()].FullName)
-					//userArray =append(userArray,tasks[k].UsersAndGroups.User[userKey.String()].Status)
-					//outerSlice = append(outerSlice, userArray)
-					userCount =userCount+1
-				}
-				taskUserSlice = append(taskUserSlice, userStructSlice)
-				//viewModel.UserArray = outerSlice
-				//log.Println("array",outerSlice)
-				tempUserCount := strconv.Itoa(userCount)
-				//displaying contacts
-				contactDataValue := reflect.ValueOf(tasks[k].Contacts)
+					if !helpers.StringInSlice(tasks[k].Job.JobName, viewModel.UniqueJobNames) && tasks[k].Job.JobName != ""&& tasks[k].Job.JobStatus =="Active" {
+						viewModel.UniqueJobNames = append(viewModel.UniqueJobNames, tasks[k].Job.JobName)
+					}else{
+						viewModel.UniqueJobNames = append(viewModel.UniqueJobNames,"")
+					}
+					//collecting fit to work from task
+					fitToWorkDataValue := reflect.ValueOf(tasks[k].FitToWork)
+					tempFitToWork := ""
 
-				tempContactDataValue := ""
+					for _, fitToWorkKey := range fitToWorkDataValue.MapKeys() {
 
-				for _, contactKey := range contactDataValue.MapKeys() {
-
-					var bufferContact bytes.Buffer
-					if  tasks[k].Contacts[contactKey.String()].ContactStatus =="Active" {
-						if len(tempContactDataValue) == 0 {
-							bufferContact.WriteString(tasks[k].Contacts[contactKey.String()].ContactName)
-							tempContactDataValue = bufferContact.String()
-							bufferContact.Reset()
+						var bufferFitToWork bytes.Buffer
+						if len(tempFitToWork) == 0 {
+							bufferFitToWork.WriteString(tasks[k].FitToWork[fitToWorkKey.String()].Description)
+							tempFitToWork = bufferFitToWork.String()
+							bufferFitToWork.Reset()
 						} else {
-							bufferContact.WriteString(tempContactDataValue)
-							bufferContact.WriteString(", ")
-							bufferContact.WriteString(tasks[k].Contacts[contactKey.String()].ContactName)
-							tempContactDataValue = bufferContact.String()
-							bufferContact.Reset()
+							bufferFitToWork.WriteString(tempFitToWork)
+							bufferFitToWork.WriteString(", ")
+							bufferFitToWork.WriteString(tasks[k].FitToWork[fitToWorkKey.String()].Description)
+							tempFitToWork = bufferFitToWork.String()
+							bufferFitToWork.Reset()
 						}
 					}
+
+					//displaying users
+					usersDataValue := reflect.ValueOf(tasks[k].UsersAndGroups.User)
+
+					//tempusersDataValue := ""
+					var userCount =0
+					for _, key := range usersDataValue.MapKeys() {
+						userKeySlice = append(userKeySlice, key.String())
+					}
+					var userStructSlice []viewmodels.TaskUsers
+
+					for _, userKey := range usersDataValue.MapKeys() {
+
+						var userStruct viewmodels.TaskUsers
+						userStruct.Name = tasks[k].UsersAndGroups.User[userKey.String()].FullName
+						userStruct.Status = tasks[k].UsersAndGroups.User[userKey.String()].UserTaskStatus
+						userStruct.TaskId =k
+						userStructSlice = append(userStructSlice, userStruct)
+						//userArray =append(userArray,tasks[k].UsersAndGroups.User[userKey.String()].FullName)
+						//userArray =append(userArray,tasks[k].Settings.Status)
+						//taskKeyCount :=len(keySlice)
+						//userKeyCount :=len(userKeySlice)
+						//var innerSlice []string
+
+						//userArray =append(userArray,tasks[k].UsersAndGroups.User[userKey.String()].FullName)
+						//userArray =append(userArray,tasks[k].UsersAndGroups.User[userKey.String()].Status)
+						//outerSlice = append(outerSlice, userArray)
+						userCount =userCount+1
+					}
+					taskUserSlice = append(taskUserSlice, userStructSlice)
+					//viewModel.UserArray = outerSlice
+					//log.Println("array",outerSlice)
+					tempUserCount := strconv.Itoa(userCount)
+					//displaying contacts
+					contactDataValue := reflect.ValueOf(tasks[k].Contacts)
+
+					tempContactDataValue := ""
+
+					for _, contactKey := range contactDataValue.MapKeys() {
+
+						var bufferContact bytes.Buffer
+						if  tasks[k].Contacts[contactKey.String()].ContactStatus =="Active" {
+							if len(tempContactDataValue) == 0 {
+								bufferContact.WriteString(tasks[k].Contacts[contactKey.String()].ContactName)
+								tempContactDataValue = bufferContact.String()
+								bufferContact.Reset()
+							} else {
+								bufferContact.WriteString(tempContactDataValue)
+								bufferContact.WriteString(", ")
+								bufferContact.WriteString(tasks[k].Contacts[contactKey.String()].ContactName)
+								tempContactDataValue = bufferContact.String()
+								bufferContact.Reset()
+							}
+						}
+					}
+
+					tempValueSlice = append(tempValueSlice, tasks[k].Info.TaskName)
+					tempValueSlice = append(tempValueSlice, tempUserCount)
+					startTime := time.Unix(tasks[k].Info.StartDate, 0)
+					startTimeOfTask := startTime.String()[11:16]
+					startDate := time.Unix(tasks[k].Info.StartDate, 0).Format("2006/01/02")
+					tempValueSlice = append(tempValueSlice, startDate+" "+"("+startTimeOfTask+")")
+					endTime := time.Unix(tasks[k].Info.EndDate, 0)
+					endTimeOfTask := endTime.String()[11:16]
+					endDate := time.Unix(tasks[k].Info.EndDate, 0).Format("2006/01/02")
+					tempValueSlice = append(tempValueSlice, endDate+" "+"("+endTimeOfTask+")")
+					//tempValueSlice = append(tempValueSlice, tasks[k].Info.LoginType)
+					//tempValueSlice = append(tempValueSlice, tasks[k].Info.UserNumber)
+					//tempValueSlice = append(tempValueSlice, tasks[k].Settings.Status)
+					//tempValueSlice = append(tempValueSlice, "")
+					////tempValueSlice = append(tempValueSlice,  tempFitToWork)
+					//tempValueSlice = append(tempValueSlice, tasks[k].Info.Log)
+					//tempValueSlice = append(tempValueSlice, tempusersDataValue)
+					//tempValueSlice = append(tempValueSlice, tempcontactDataValue)
+
+					viewModel.Values = append(viewModel.Values, tempValueSlice)
+
+					tempValueSlice = tempValueSlice[:0]
+					minUserArray = append(minUserArray,tasks[k].Info.UserNumber)
+					minUserArray = append(minUserArray,tasks[k].Info.LoginType)
+					minUserArray = append(minUserArray,k)
+					viewModel.MinUserAndLoginTypeArray =append(viewModel.MinUserAndLoginTypeArray,minUserArray)
+					minUserArray =minUserArray[:0]
 				}
 
-				tempValueSlice = append(tempValueSlice, tasks[k].Info.TaskName)
-				tempValueSlice = append(tempValueSlice, tempUserCount)
-				startTime := time.Unix(tasks[k].Info.StartDate, 0)
-				startTimeOfTask := startTime.String()[11:16]
-				startDate := time.Unix(tasks[k].Info.StartDate, 0).Format("2006/01/02")
-				tempValueSlice = append(tempValueSlice, startDate+" "+"("+startTimeOfTask+")")
-				endTime := time.Unix(tasks[k].Info.EndDate, 0)
-				endTimeOfTask := endTime.String()[11:16]
-				endDate := time.Unix(tasks[k].Info.EndDate, 0).Format("2006/01/02")
-				tempValueSlice = append(tempValueSlice, endDate+" "+"("+endTimeOfTask+")")
-				//tempValueSlice = append(tempValueSlice, tasks[k].Info.LoginType)
-				//tempValueSlice = append(tempValueSlice, tasks[k].Info.UserNumber)
-				//tempValueSlice = append(tempValueSlice, tasks[k].Settings.Status)
-				//tempValueSlice = append(tempValueSlice, "")
-				////tempValueSlice = append(tempValueSlice,  tempFitToWork)
-				//tempValueSlice = append(tempValueSlice, tasks[k].Info.Log)
-				//tempValueSlice = append(tempValueSlice, tempusersDataValue)
-				//tempValueSlice = append(tempValueSlice, tempcontactDataValue)
 
-				viewModel.Values = append(viewModel.Values, tempValueSlice)
-
-				tempValueSlice = tempValueSlice[:0]
-				minUserArray = append(minUserArray,tasks[k].Info.UserNumber)
-				minUserArray = append(minUserArray,tasks[k].Info.LoginType)
-				minUserArray = append(minUserArray,k)
-				viewModel.MinUserAndLoginTypeArray =append(viewModel.MinUserAndLoginTypeArray,minUserArray)
-				minUserArray =minUserArray[:0]
 
 			}
 		}
