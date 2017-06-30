@@ -11,6 +11,7 @@ import (
 	"reflect"
 	"app/passporte/helpers"
 	"log"
+	"strconv"
 )
 
 type JobController struct {
@@ -114,7 +115,7 @@ func (c *JobController)LoadJobDetail() {
 
 				tempValueSlice = append(tempValueSlice, jobs[k].Info.JobName)
 				tempValueSlice = append(tempValueSlice, jobs[k].Info.JobNumber)
-				tempValueSlice = append(tempValueSlice, jobs[k].Info.NumberOfTask)
+				tempValueSlice = append(tempValueSlice, strconv.FormatInt(jobs[k].Info.NumberOfTask,10))
 				tempValueSlice = append(tempValueSlice, jobs[k].Settings.Status)
 				viewModel.Values = append(viewModel.Values, tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]
@@ -231,7 +232,7 @@ func (c *JobController)LoadEditJob() {
 				viewModel.CustomerId =jobDetail.Customer.CustomerId
 				viewModel.JobName = jobDetail.Info.JobName
 				viewModel.JobNumber = jobDetail.Info.JobNumber
-				viewModel.NumberOfTask = jobDetail.Info.NumberOfTask
+				viewModel.NumberOfTask = strconv.FormatInt(jobDetail.Info.NumberOfTask,10)
 				viewModel.JobId = jobId
 				viewModel.CompanyTeamName = storedSession.CompanyTeamName
 				viewModel.CompanyPlan = storedSession.CompanyPlan
