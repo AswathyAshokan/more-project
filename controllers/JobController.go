@@ -281,17 +281,17 @@ func (c *JobController)LoadDeleteJob() {
 	ReadSession(w, r, companyTeamName)
 	jobId := c.Ctx.Input.Param(":jobId")
 	user := models.TasksJob{}
-	dbStatus, contactDetail := user.IsJobUsedForTask(c.AppEngineCtx, jobId)
-	log.Println("status", dbStatus)
-	log.Println(contactDetail)
+	dbStatus,jobDetail := user.IsJobUsedForTask(c.AppEngineCtx, jobId)
+	log.Println("statusssssss", dbStatus)
+	log.Println(jobDetail)
 	var condition string
 	switch dbStatus {
 	case true:
 		log.Println("true")
-		if len(contactDetail) != 0 {
-			dataValue := reflect.ValueOf(contactDetail)
+		if len(jobDetail) != 0 {
+			dataValue := reflect.ValueOf(jobDetail)
 			for _, key := range dataValue.MapKeys() {
-				if contactDetail[key.String()].TasksJobStatus == helpers.StatusActive {
+				if jobDetail[key.String()].TasksJobStatus == helpers.StatusActive {
 					log.Println("insideeee fgjgfjh")
 					condition = "true"
 					break
@@ -301,6 +301,7 @@ func (c *JobController)LoadDeleteJob() {
 				}
 			}
 			if condition == "true"{
+				log.Println("ffffffffffff")
 
 				w.Write([]byte("true"))
 			}else {

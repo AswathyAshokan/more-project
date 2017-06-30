@@ -179,7 +179,6 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 	}
 	//setting task Id to company
 	TaskIdForCompany :=TaskIdInfo{}
-
 	TaskIdForCompany.DateOfCreation =m.Settings.DateOfCreation
 	TaskIdForCompany.FitToWorkDisplayStatus =m.Settings.FitToWorkDisplayStatus
 	TaskIdForCompany.Status =m.Settings.Status
@@ -209,7 +208,6 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 	CustomerIdForTask :=job.Customer.CustomerId
 	customerInTask :=TaskCustomer{}
 	customerInTask.CustomerId =CustomerIdForTask
-	log.Println("customer id",CustomerIdForTask)
 	customerInTask.CustomerName =m.Customer.CustomerName
 	customerInTask.CustomerStatus =m.Customer.CustomerStatus
 	err = dB.Child("/Tasks/"+ taskUniqueID+"/Customer/").Set(customerInTask)
@@ -219,20 +217,11 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 		log.Println("Insertion error:",err)
 		return false
 	}
-	//setting task id to Job
-	JobTask :=TasksJob{}
-	JobTask.TasksJobStatus =helpers.StatusActive
-	err = dB.Child("/Jobs/"+ JobId+"/Tasks/"+taskUniqueID).Set(JobTask)
-	if err!=nil{
-		log.Println("Insertion error:",err)
-		return false
-	}
+
 	//setting task id to Group
 	GroupTask :=TasksGroup{}
 	GroupTask.TasksGroupStatus =helpers.StatusActive
-	log.Println("dsfsjdfh",GroupId)
 	for i:=0;i<len(GroupId);i++{
-		log.Println("inside group add")
 		err = dB.Child("/Group/"+ GroupId[i] +"/Tasks/"+taskUniqueID).Set(GroupTask)
 
 	}
@@ -260,6 +249,14 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 
 		}
 
+	}
+	//setting task id to Job
+	JobTask :=TasksJob{}
+	JobTask.TasksJobStatus =helpers.StatusActive
+	err = dB.Child("/Jobs/"+ JobId+"/Tasks/"+taskUniqueID).Set(JobTask)
+	if err!=nil{
+		log.Println("Insertion error:",err)
+		return false
 	}
 
 	if err!=nil{

@@ -246,6 +246,7 @@ func (m *TasksJob) IsJobUsedForTask( ctx context.Context, jobId string)(bool,map
 		return false,jobDetail
 	}
 	log.Println(jobDetail)
+	log.Println("job inside task",jobDetail)
 
 	return true,jobDetail
 }
