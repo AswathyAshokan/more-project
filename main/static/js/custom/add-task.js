@@ -60,12 +60,12 @@ $(function () {
     // date picker 
     $( "#startDate" ).datepicker({ minDate: 0});
 //    $( "#endDate" ).datepicker({ minDate: 0});
-  $('#endDate').change(function () {
-      selectedToDate = $('#endDate').val();
+  $('#startDate').change(function () {
+      selectedToDate = $('#startDate').val();
       var year = selectedToDate.substring(6, 10);
       var day = selectedToDate.substring(3, 5);
       var month = selectedToDate.substring(0, 2);
-      $('#startDate').datepicker("option", "maxDate", new Date(year, month-1, day));
+      $('#endDate').datepicker("option", "minDate", new Date(year, month-1, day));
        actualToDate = new Date(selectFromDate);
         actualToDate.setHours(23);
         actualToDate.setMinutes(59);
