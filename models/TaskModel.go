@@ -251,19 +251,19 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 
 	}
 	//setting task id to Job
-	//JobTask :=TasksJob{}
-	//JobTask.TasksJobStatus =helpers.StatusActive
-	//err = dB.Child("/Jobs/"+ JobId+"/Tasks/"+taskUniqueID).Set(JobTask)
-	//if err!=nil{
-	//	log.Println("Insertion error:",err)
-	//	return false
-	//}
-
-	JobTaskMap := make(map[string]TasksJob)
 	JobTask :=TasksJob{}
 	JobTask.TasksJobStatus =helpers.StatusActive
-	JobTaskMap[taskUniqueID] = JobTask
-	err = dB.Child("/Jobs/"+ JobId+"/Tasks/").Set(JobTaskMap)
+	err = dB.Child("/Jobs/"+ JobId+"/Tasks/"+taskUniqueID).Set(JobTask)
+	if err!=nil{
+		log.Println("Insertion error:",err)
+		return false
+	}
+
+	//JobTaskMap := make(map[string]TasksJob)
+	//JobTask :=TasksJob{}
+	//JobTask.TasksJobStatus =helpers.StatusActive
+	//JobTaskMap[taskUniqueID] = JobTask
+	//err = dB.Child("/Jobs/"+ JobId+"/Tasks/").Set(JobTaskMap)
 
 
 	if err!=nil{
