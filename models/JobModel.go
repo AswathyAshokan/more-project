@@ -111,11 +111,11 @@ func (m *Job) UpdateJobToDB( ctx context.Context,jobId string)(bool)  {
 	job.Info.JobName =m.Info.JobName
 	job.Info.CompanyTeamName = m.Info.CompanyTeamName
 	job.Info.JobNumber = m.Info.JobNumber
-	job.Info.NumberOfTask = m.Info.NumberOfTask
+
 	job.Customer.CustomerName = m.Customer.CustomerName
 	job.Customer.CustomerId = m.Customer.CustomerId
 	err = dB.Child("/Jobs/"+ jobId).Value(&jobDetail)
-
+	job.Info.NumberOfTask = jobDetail.Info.NumberOfTask
 	job.Settings.Status =jobDetail.Settings.Status
 	job.Settings.DateOfCreation =jobDetail.Settings.DateOfCreation
 	job.Customer.CustomerStatus =jobDetail.Customer.CustomerStatus

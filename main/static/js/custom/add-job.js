@@ -12,7 +12,6 @@ $().ready(function() {
         console.log("customer",selectArray);
         document.getElementById("jobName").value = vm.JobName;
         document.getElementById("jobNumber").value = vm.JobNumber;
-        document.getElementById("numberOfTask").value = vm.NumberOfTask;
         $("#customerId").val(selectArray);
         //$("#customerId option[text=selectArray]").attr("selected","selected");
         document.getElementById("jobHead").innerHTML = "Edit Job";

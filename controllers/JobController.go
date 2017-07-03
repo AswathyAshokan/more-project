@@ -231,7 +231,6 @@ func (c *JobController)LoadEditJob() {
 				viewModel.CustomerId =jobDetail.Customer.CustomerId
 				viewModel.JobName = jobDetail.Info.JobName
 				viewModel.JobNumber = jobDetail.Info.JobNumber
-				viewModel.NumberOfTask = strconv.FormatInt(jobDetail.Info.NumberOfTask,10)
 				viewModel.JobId = jobId
 				viewModel.CompanyTeamName = storedSession.CompanyTeamName
 				viewModel.CompanyPlan = storedSession.CompanyPlan
