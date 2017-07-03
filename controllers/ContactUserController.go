@@ -31,6 +31,7 @@ func (c *ContactUserController)AddNewContact() {
 		user.Info.Email = c.GetString("emailAddress")
 		user.Info.PhoneNumber= c.GetString("phoneNumber")
 		user.Info.Address = c.GetString("address")
+		user.Info.Country = c.GetString("country")
 		user.Settings.DateOfCreation =time.Now().UnixNano() / int64(time.Millisecond)
 		fmt.Println(reflect.TypeOf(user.Settings.DateOfCreation))
 		user.Settings.Status = helpers.StatusActive
@@ -82,6 +83,7 @@ func (c *ContactUserController)DisplayContactDetails() {
 			if contact[k].Settings.Status == helpers.StatusActive {
 				tempValueSlice = append(tempValueSlice, contact[k].Info.Name)
 				tempValueSlice = append(tempValueSlice, contact[k].Info.Address)
+				tempValueSlice = append(tempValueSlice,contact[k].Info.Country)
 				tempValueSlice = append(tempValueSlice, contact[k].Info.State)
 				tempValueSlice = append(tempValueSlice, contact[k].Info.ZipCode)
 				tempValueSlice = append(tempValueSlice, contact[k].Info.Email)
@@ -112,7 +114,6 @@ func (c *ContactUserController)DisplayContactDetails() {
 func (c *ContactUserController)LoadDeleteContact() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	log.Println("inside delete")
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	ReadSession(w, r, companyTeamName)
 	contactId :=c.Ctx.Input.Param(":contactId")
@@ -152,13 +153,6 @@ func (c *ContactUserController)LoadDeleteContact() {
 		w.Write([]byte("false"))
 	}
 
-	//dbStatus := user.DeleteContactFromDB(c.AppEngineCtx, contactId)
-	//switch dbStatus {
-	//case true:
-	//	w.Write([]byte("true"))
-	//case false :
-	//	w.Write([]byte("false"))
-	//}
 
 
 }
@@ -176,6 +170,7 @@ func (c *ContactUserController)LoadEditContact() {
 		user.Info.ZipCode = c.GetString("zipcode")
 		user.Info.Email = c.GetString("emailAddress")
 		user.Info.PhoneNumber= c.GetString("phoneNumber")
+		user.Info.Country = c.GetString("country")
 		user.Info.Address = c.GetString("address")
 		user.Settings.DateOfCreation =time.Now().UnixNano() / int64(time.Millisecond)
 		fmt.Println(reflect.TypeOf(user.Settings.DateOfCreation))
@@ -204,6 +199,7 @@ func (c *ContactUserController)LoadEditContact() {
 			viewModel.ZipCode =contact.Info.ZipCode
 			viewModel.Email =contact.Info.Email
 			viewModel.PhoneNumber =contact.Info.PhoneNumber
+			viewModel.Country = contact.Info.Country
 			viewModel.ContactId=contactId
 			viewModel.CompanyTeamName = storedSession.CompanyTeamName
 			viewModel.CompanyPlan = storedSession.CompanyPlan
@@ -255,25 +251,6 @@ func (c *ContactUserController) RemoveContactFromTask() {
 	ReadSession(w, r, companyTeamName)
 	contactId := c.Ctx.Input.Param(":contactId")
 	log.Println("hiiii")
-	//contact :=models.TasksContact{}
-	//var TaskSlice []string
-	//dbStatus,contactDetails := contact.IsContactUsedForTask(c.AppEngineCtx, contactId)
-	//switch dbStatus {
-	//case true:
-	//	dataValue := reflect.ValueOf(contactDetails)
-	//	for _, key := range dataValue.MapKeys() {
-	//		TaskSlice=append(TaskSlice,key.String())
-	//	}
-	//
-	//	dbStatus := contact.DeleteContactFromTask(c.AppEngineCtx, contactId, TaskSlice)
-	//	switch dbStatus {
-	//	case true:
-	//		w.Write([]byte("true"))
-	//	case false:
-	//		w.Write([]byte("false"))
-	//	}
-	//case false:
-	//	log.Println("false")
 	user :=models.ContactUser{}
 	dbStatus := user.DeleteContactFromDBForNonTask(c.AppEngineCtx, contactId)
 	switch dbStatus {

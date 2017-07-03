@@ -16,6 +16,7 @@ type ContactInfo struct {
 	Email       		string
 	PhoneNumber 		string
 	CompanyTeamName 	string
+	Country			string
 }
 type ContactSettings struct {
 	DateOfCreation 		int64
@@ -89,13 +90,11 @@ func (m *ContactUser) DeleteContactFromDB(ctx context.Context, contactId string,
 		taskContactForUpdate.EmailId =taskContactDetail.EmailId
 		taskContactForUpdate.PhoneNumber =taskContactDetail.PhoneNumber
 		taskContactForUpdate.ContactStatus =helpers.StatusInActive
-		log.Println("fhsgjs",taskContactForUpdate)
 		err = dB.Child("Tasks/" + TaskSlice[i]+"/Contacts/"+contactId).Update(&taskContactForUpdate)
 
 	}
 	contactDetail := ContactUser{}
 	updatedContactDetail :=ContactUser{}
-	log.Println("gggg")
 	err = dB.Child("/Contacts/"+ contactId).Value(&contactDetail)
 	updatedContactDetail.Settings.DateOfCreation =contactDetail.Settings.DateOfCreation
 	updatedContactDetail.Settings.Status =helpers.StatusInActive
@@ -106,6 +105,7 @@ func (m *ContactUser) DeleteContactFromDB(ctx context.Context, contactId string,
 	updatedContactDetail.Info.PhoneNumber =contactDetail.Info.PhoneNumber
 	updatedContactDetail.Info.State =contactDetail.Info.State
 	updatedContactDetail.Info.ZipCode =contactDetail.Info.ZipCode
+	updatedContactDetail.Info.Country =contactDetail.Info.Country
 	log.Println("dfkfj",)
 
 	err = dB.Child("/Contacts/"+ contactId).Update(&updatedContactDetail)
@@ -202,7 +202,7 @@ func (m *ContactUser) DeleteContactFromDBForNonTask(ctx context.Context, contact
 	updatedContactDetail.Info.PhoneNumber =contactDetail.Info.PhoneNumber
 	updatedContactDetail.Info.State =contactDetail.Info.State
 	updatedContactDetail.Info.ZipCode =contactDetail.Info.ZipCode
-	log.Println("dfkfj",)
+	updatedContactDetail.Info.Country = contactDetail.Info.Country
 
 	err = dB.Child("/Contacts/"+ contactId).Update(&updatedContactDetail)
 	if err != nil {

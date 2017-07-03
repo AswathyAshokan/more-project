@@ -45,48 +45,17 @@ $(function(){
 
     $('#contact-details tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[6];
+        var key = data[7];
         window.location = "/" + companyTeamName + "/contact/" + key + "/edit";
     });
 
 
-//    $('#contact-details tbody').on( 'click', '#delete', function () {
-//        $("#myModal").modal();
-//        var data = table.row( $(this).parents('tr') ).data();
-//        var key = data[6];
-//        
-//        $("#confirm").click(function(){
-//            $.ajax({
-//                type: "POST",
-//                url: '/' + companyTeamName + '/contact/' + key + '/delete',
-//                data: '',
-//                success: function(data){
-//                    if(data=="true"){
-//                        $('#contact-details').dataTable().fnDestroy();
-//                        var index = "";
-//                        
-//                        for(var i = 0; i < mainArray.length; i++) {
-//                           index = mainArray[i].indexOf(key);
-//                           if(index != -1) {
-//                             break;
-//                           }
-//                        }
-//                        mainArray.splice(i, 1);
-//                        dataTableManipulate();   
-//                    }
-//                    else {
-//                        console.log("Removing Failed!");
-//                    }
-//                }
-//
-//            });
-//        });
-//    });
+
     //...................
     $('#contact-details tbody').on( 'click', '#delete', function () {
       
         var data = table.row( $(this).parents('tr') ).data();
-       var key = data[6];
+       var key = data[7];
         $.ajax({
             type: "POST",
             url: '/' + companyTeamName +'/contact/'+ key + '/delete',

@@ -19,5 +19,6 @@ type ContactUserViewModel  struct {
 	AdminFirstName		string
 	AdminLastName		string
 	ProfilePicture		string
+	Country			string
 
 }
