@@ -341,8 +341,8 @@ $().ready(function() {
                 loginTypeRadio = loginTypeRadio;
             }
 //            if (minUserForTask >= minUsers) {
-                if(loginTypeRadio.length != 0)
-                    {
+//                if(loginTypeRadio.length != 0)
+//                    {
                         if( mapLatitude.length  !=0)
                         {
                                        $("#saveButton").attr('disabled', true);
@@ -471,11 +471,11 @@ $().ready(function() {
                                   $("#mapValidationError").html("please select location from map.").show();
                               }
                           
-                    }
-            else {
-                $("#loginTypeValidationError").css({"color": "red", "font-size": "15px"});
-                $("#loginTypeValidationError").html("please select a login type.").show();
-            }
+//                    }
+//            else {
+//                $("#loginTypeValidationError").css({"color": "red", "font-size": "15px"});
+//                $("#loginTypeValidationError").html("please select a login type.").show();
+//            }
 //                
 //            }
 //            else {

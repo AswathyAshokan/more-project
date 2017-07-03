@@ -193,9 +193,20 @@ func (m *Job) DeleteJobFromDB(ctx context.Context, jobId string,TaskSlice []stri
 	}
 	jobDetailForUpdate.TasksJobStatus =helpers.StatusInActive
 	for i:=0;i<len(TaskSlice);i++{
-		log.Println(TaskSlice[i])
 		err = dB.Child("/Jobs/"+ jobId+"/Tasks/"+TaskSlice[i]).Update(&jobDetailForUpdate)
 
+	}
+
+	jobDetail := JobSettings{}
+	updatedJobDetail :=JobSettings{}
+	log.Println("gggg")
+	err = dB.Child("/Jobs/"+ jobId).Value(&jobDetail)
+	updatedJobDetail.DateOfCreation =jobDetail.DateOfCreation
+	updatedJobDetail.Status =helpers.StatusInActive
+	err = dB.Child("/Jobs/"+ jobId+"/Settings").Update(&updatedJobDetail)
+	if err != nil {
+		log.Fatal(err)
+		return false
 	}
 	taskJobDetail :=TaskJob{}
 	taskJobForUpdate :=TaskJob{}
