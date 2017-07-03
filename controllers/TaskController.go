@@ -488,6 +488,7 @@ func (c *TaskController)LoadTaskDetail() {
 					//tempValueSlice = append(tempValueSlice, tempcontactDataValue)
 
 					viewModel.Values = append(viewModel.Values, tempValueSlice)
+					log.Println("dgsfhgdshf",tempValueSlice)
 
 					tempValueSlice = tempValueSlice[:0]
 					minUserArray = append(minUserArray,tasks[k].Info.UserNumber)

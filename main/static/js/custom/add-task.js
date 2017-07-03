@@ -59,7 +59,20 @@ $(function () {
     
     // date picker 
     $( "#startDate" ).datepicker({ minDate: 0});
-    $( "#endDate" ).datepicker({ minDate: 0});
+//    $( "#endDate" ).datepicker({ minDate: 0});
+  $('#endDate').change(function () {
+      selectedToDate = $('#endDate').val();
+      var year = selectedToDate.substring(6, 10);
+      var day = selectedToDate.substring(3, 5);
+      var month = selectedToDate.substring(0, 2);
+      $('#startDate').datepicker("option", "maxDate", new Date(year, month-1, day));
+       actualToDate = new Date(selectFromDate);
+        actualToDate.setHours(23);
+        actualToDate.setMinutes(59);
+        actualToDate.setSeconds(59);
+  });
+    
+    
     if (pageType == "edit") {
         console.log("jobname",vm.NFCTagId);
         var element = document.getElementById('minUsers');

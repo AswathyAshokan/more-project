@@ -345,6 +345,34 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 			log.Println("Deletion error:",err)
 		}
 	}
+
+	//function to decrement the number of task  when deleting job
+	jobForTask :=map[string]Job{}
+	updatedInfo :=JobInfo{}
+	err = dB.Child("/Jobs/").Value(&jobForTask)
+	jobData := reflect.ValueOf(jobForTask)
+	for _, key := range jobData.MapKeys() {
+		jobTaskData := reflect.ValueOf(jobForTask[key.String()].Tasks)
+		for _, taskKey := range jobTaskData.MapKeys() {
+			if taskKey.String() == taskId{
+				NumberOfTask :=jobForTask[key.String()].Info.NumberOfTask
+				NumberOfTask =NumberOfTask-1
+				updatedInfo.JobName =jobForTask[key.String()].Info.JobName
+				updatedInfo.JobNumber = jobForTask[key.String()].Info.JobNumber
+				updatedInfo.NumberOfTask = NumberOfTask
+				updatedInfo.CompanyTeamName = companyId
+				err = dB.Child("/Jobs/"+ key.String()+"/Info").Update(&updatedInfo)
+			}
+
+
+		}
+
+	}
+
+
+
+
+
 	log.Println("deleted successfully")
 	if err!=nil{
 		log.Println("Deletion error:",err)
