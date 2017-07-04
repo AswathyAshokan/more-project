@@ -30,6 +30,7 @@ type CustomerData struct {
 	State			string
 	ZipCode			string
 	CompanyTeamName		string
+	Country			string
 
 }
 

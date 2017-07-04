@@ -28,6 +28,7 @@ func (c *CustomerController) AddCustomer() {
 		customer := models.Customers{}
 		customer.Info.CustomerName = c.GetString("customername")
 		customer.Info.ContactPerson = c.GetString("contactperson")
+		customer.Info.Country = c.GetString("country")
 		customer.Info.Address = c.GetString("address")
 		customer.Info.Phone = c.GetString("phone")
 		customer.Info.Email = c.GetString("email")
@@ -78,6 +79,7 @@ func (c *CustomerController) CustomerDetails() {
 			var tempValueSlice []string
 			if allCustomer[k].Settings.Status != helpers.UserStatusDeleted{
 				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.CustomerName)
+				tempValueSlice =append(tempValueSlice,allCustomer[k].Info.Country)
 				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Address)
 				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.State)
 				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.ZipCode)
@@ -135,6 +137,7 @@ func (c *CustomerController) EditCustomer() {
 		customer.Info.CustomerName = c.GetString("customername")
 		customer.Info.Address = c.GetString("address")
 		customer.Info.ContactPerson = c.GetString("contactperson")
+		customer.Info.Country = c.GetString("country")
 		customer.Info.Email= c.GetString("email")
 		customer.Info.Phone = c.GetString("phone")
 		customer.Info.ZipCode = c.GetString("zipcode")
@@ -162,6 +165,7 @@ func (c *CustomerController) EditCustomer() {
 			customerViewModel.Phone= editResult.Info.Phone
 			customerViewModel.PageType = helpers.SelectPageForEdit
 			customerViewModel.CustomerId = customerId
+			customerViewModel.Country =editResult.Info.Country
 			customerViewModel.CompanyTeamName = storedSession.CompanyTeamName
 			customerViewModel.CompanyPlan = storedSession.CompanyPlan
 			customerViewModel.AdminLastName =storedSession.AdminLastName

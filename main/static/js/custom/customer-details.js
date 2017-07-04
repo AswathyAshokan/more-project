@@ -54,7 +54,7 @@ $(function(){
 /*list job details of each customer when click on list icon*/
     $('#customer-table tbody').on( 'click', '#view', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var cusomerId = data[7];
+        var cusomerId = data[8];
         window.location ='/' + companyTeamName + '/customer/'+ cusomerId + '/job';
         return false;
     });
@@ -62,7 +62,7 @@ $(function(){
 /*Edit customer details when click on edit icon*/
     $('#customer-table tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var cusomerId = data[7];
+        var cusomerId = data[8];
         window.location = '/' + companyTeamName +'/customer/'+ cusomerId + '/edit';
         return false;
     });
@@ -102,7 +102,7 @@ $(function(){
       //...................
     $('#customer-table tbody').on( 'click', '#delete', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[7];
+        var key = data[8];
         $.ajax({
             type: "POST",
             url: '/' + companyTeamName +'/customer/'+ key + '/deletionOfCustomerIfUsedForJob',

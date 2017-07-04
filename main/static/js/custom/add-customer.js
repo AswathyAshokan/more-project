@@ -10,6 +10,7 @@ $().ready(function() {
             
             document.getElementById("customername").value = vm.CustomerName;
             document.getElementById("contactperson").value = vm.ContactPerson;
+            document.getElementById("country").value = vm.Country;
             document.getElementById("email").value = vm.Email;
             document.getElementById("phone").value = vm.Phone;
             document.getElementById("address").value = vm.Address;
