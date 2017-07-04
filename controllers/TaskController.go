@@ -807,14 +807,19 @@ func (c *TaskController)LoadEditTask() {
 
 				//contact name to edit
 				 dbStatus,contactDetails := task.GetTaskDetailById(c.AppEngineCtx, taskId)
+				log.Println("contact details",contactDetails.Contacts)
 				switch dbStatus {
 				case true:
 					dataValue := reflect.ValueOf(contactDetails.Contacts)
 					for _, key := range dataValue.MapKeys() {
+						log.Println("contact key",task.Contacts[key.String()].ContactStatus)
 						if task.Contacts[key.String()].ContactStatus =="Active"{
+							log.Println("insidemmmmdmmdmdmdmdm")
 							viewModel.ContactNameToEdit = append(viewModel.ContactNameToEdit, key.String())
+							log.Println("gggggg",viewModel.ContactNameToEdit)
 						}
 					}
+
 
 					//Selecting group name which is to be edited...
 					dbStatus,groupDetails := task.GetTaskDetailById(c.AppEngineCtx, taskId)
