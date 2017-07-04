@@ -98,11 +98,13 @@ func (c *DashBoardController)LoadDashBoard() {
 			}
 			totalCompletion :=0
 			totalPending :=0
+			var completedOrPendingKey []string
 			for _, taskKey := range keySlice {
 				dbStatus, taskDetail := task.GetTaskDetailById(c.AppEngineCtx, taskKey)
 				switch dbStatus {
 				case true:
 					if taskDetail.Settings.Status ==helpers.StatusActive && taskDetail.Customer.CustomerStatus ==helpers.StatusActive &&taskDetail.Job.JobStatus ==helpers.StatusActive {
+						completedOrPendingKey =append(completedOrPendingKey,taskKey)
 
 						if taskDetail.Settings.TaskStatus == "Completed" {
 							totalCompletion++
@@ -116,9 +118,9 @@ func (c *DashBoardController)LoadDashBoard() {
 				}
 
 			}
-			if len(keySlice) !=0 {
-				completedTaskPercentageForViewModel := float32(totalCompletion)/float32(len(keySlice))*100
-				pendingTaskPercentageForViewModel  := float32(totalPending)/ float32(len(keySlice))*100
+			if len(completedOrPendingKey) !=0 {
+				completedTaskPercentageForViewModel := float32(totalCompletion)/float32(len(completedOrPendingKey))*100
+				pendingTaskPercentageForViewModel  := float32(totalPending)/ float32(len(completedOrPendingKey))*100
 				viewModel.CompletedTask =completedTaskPercentageForViewModel
 				viewModel.PendingTask =pendingTaskPercentageForViewModel
 			}

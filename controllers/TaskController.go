@@ -206,7 +206,7 @@ func (c *TaskController)AddNewTask() {
 				keySlice = append(keySlice, key.String())
 			}
 			for _, k := range dataValue.MapKeys() {
-				if allJobs[k.String()].Customer.CustomerStatus =="Active"{
+				if allJobs[k.String()].Customer.CustomerStatus =="Active"&&allJobs[k.String()].Settings.Status==helpers.StatusActive{
 					activeJobKey = append(activeJobKey, k.String())
 					viewModel.JobNameArray   = append(viewModel.JobNameArray, allJobs[k.String()].Info.JobName)
 					viewModel.JobCustomerNameArray = append(viewModel.JobCustomerNameArray, allJobs[k.String()].Customer.CustomerName)
@@ -720,7 +720,7 @@ func (c *TaskController)LoadEditTask() {
 					keySlice = append(keySlice, key.String())
 				}
 				for _, k := range dataValue.MapKeys() {
-					if  allJobs[k.String()].Settings.Status == "Active"{
+					if allJobs[k.String()].Customer.CustomerStatus =="Active"&&allJobs[k.String()].Settings.Status==helpers.StatusActive{
 						activeJobKey = append(activeJobKey, k.String())
 						viewModel.JobNameArray = append(viewModel.JobNameArray, allJobs[k.String()].Info.JobName)
 						viewModel.JobCustomerNameArray = append(viewModel.JobCustomerNameArray, allJobs[k.String()].Customer.CustomerName)

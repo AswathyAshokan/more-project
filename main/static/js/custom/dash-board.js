@@ -125,7 +125,7 @@ $(function () {
     for(i = 0; i < vm.TaskDetailArray.length; i++) {
         if (selectAJob =="SelectAJob") {
             subArray = [];
-            subArray.push(vm.TaskDetailArray[i][1]);
+//            subArray.push(vm.TaskDetailArray[i][1]);
         }
     }
     var DynamicTaskListing ="";
