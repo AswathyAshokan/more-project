@@ -74,7 +74,12 @@ $(function () {
     
     
     if (pageType == "edit") {
-        $.getScript( '/static/js/timepicker.js', function( data, textStatus, jqxhr ) {
+        var selectArrayForGroup = vm.GroupMembersAndUserToEdit;
+            console.log("selected members to edit",selectArrayForGroup);
+        $("#userOrGroup").val(selectArrayForGroup);
+        var selectArray =  vm.ContactNameToEdit;
+        console.log("contact",selectArray);
+        $("#contactId").val(selectArray);
         console.log("jobname",vm.NFCTagId);
         var element = document.getElementById('minUsers');
         element.value = vm.UserNumber;
@@ -90,10 +95,7 @@ $(function () {
             document.getElementById("loginType2").checked = true;
         }
         loginTypeForEdit = vm.LoginType;
-        var selectArray =  vm.ContactNameToEdit;
-        $("#contactId").val(selectArray);
-        var selectArrayForGroup = vm.GroupMembersAndUserToEdit;
-        $("#userOrGroup").val(selectArrayForGroup);
+        
         document.getElementById("jobName").value = vm.JobName;
         document.getElementById("taskName").value = vm.TaskName;
         document.getElementById("taskLocation").value = vm.TaskLocation;
@@ -134,7 +136,7 @@ $(function () {
             $("#exposureTextBoxAppend").append(DynamicExposureTextBox);
              
         }
-            });
+            
     }
     
     

@@ -772,6 +772,8 @@ func (c *TaskController)LoadEditTask() {
 								memberSlice = append(memberSlice, memberKey.String())
 							}
 							viewModel.GroupMembers = append(viewModel.GroupMembers, memberSlice)
+							log.Println("users",viewModel.GroupMembers)
+							log.Println("group",viewModel.GroupNameArray)
 
 						}
 
