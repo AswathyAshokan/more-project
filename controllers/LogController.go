@@ -99,6 +99,7 @@ func (c *LogController)LoadLogDetails() {
 	log.Println("admin last",viewModel.AdminLastName)
 	log.Println("admin first",viewModel.AdminFirstName)
 	log.Println("profile ",viewModel.ProfilePicture)
+	log.Println("viwemodel",viewModel)
 	c.Data["vm"] = viewModel
 	c.TplName = "template/log.html"
 }

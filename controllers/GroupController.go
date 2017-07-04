@@ -90,6 +90,7 @@ func (c *GroupController) GroupDetails() {
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
 	allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx,companyTeamName)
+	log.Println("allGroups",allGroups)
 	switch dbStatus {
 	case true:
 		dataValue := reflect.ValueOf(allGroups)

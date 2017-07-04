@@ -2,7 +2,7 @@
 /* Author :Aswathy Ashok */
 //Below line is for adding active class to layout side menu..
 //document.getElementById("log").className += " active";
-
+console.log(vm);
 $(function(){ 
     var mainArray = [];   
     var table = "";
@@ -15,6 +15,12 @@ $(function(){
     var selectFromDate;
     var actualFromDate;
     var completeTable =[];
+    
+    $.getJSON('http://ipinfo.io', function(data){
+    console.log("mmm",data);
+    });
+    
+    
     function createDataArray(values, keys){
         console.log("inside create");
         var subArray = [];
@@ -59,8 +65,6 @@ $(function(){
             "searching": false,
             "info": false,
             "lengthChange":false
-            
-            
         });
         $('#tbl_details_length').after($('.datepic-top'));
         

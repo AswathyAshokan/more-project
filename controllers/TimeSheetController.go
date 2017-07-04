@@ -15,11 +15,11 @@ type TimeSheetController struct {
 	BaseController
 }
 func (c *TimeSheetController)LoadTimeSheetDetails() {
-
-
-
-
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/time-sheet.html"
+
+}
+func (c* TimeSheetController)AddTimeSheet(){
+
 
 }
