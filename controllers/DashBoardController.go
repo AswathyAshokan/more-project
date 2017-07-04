@@ -47,6 +47,7 @@ func (c *DashBoardController)LoadDashBoard() {
 				dbStatus, taskDetail := task.GetTaskDetailById(c.AppEngineCtx, k)
 				switch dbStatus {
 				case true:
+					if taskDetail.Settings.Status ==helpers.StatusActive && taskDetail.Customer.CustomerStatus ==helpers.StatusActive &&taskDetail.Job.JobStatus ==helpers.StatusActive{
 					var userStatus	[]string
 					var userKeySlice []string
 					pending :=0
@@ -87,6 +88,7 @@ func (c *DashBoardController)LoadDashBoard() {
 					taskSettings :=models.TaskSetting{}
 					taskSettings.UpdateTaskStatus(c.AppEngineCtx, k,totalUserStatus,completedTaskPercentage,pendingTaskPercentage)
 					log.Println(dbStatus)
+					}
 
 				case false:
 					log.Println(helpers.ServerConnectionError)
@@ -100,11 +102,13 @@ func (c *DashBoardController)LoadDashBoard() {
 				dbStatus, taskDetail := task.GetTaskDetailById(c.AppEngineCtx, taskKey)
 				switch dbStatus {
 				case true:
+					if taskDetail.Settings.Status ==helpers.StatusActive && taskDetail.Customer.CustomerStatus ==helpers.StatusActive &&taskDetail.Job.JobStatus ==helpers.StatusActive {
 
-					if taskDetail.Settings.TaskStatus == "Completed"{
-						totalCompletion++
-					}else{
-						totalPending++
+						if taskDetail.Settings.TaskStatus == "Completed" {
+							totalCompletion++
+						} else {
+							totalPending++
+						}
 					}
 
 				case false:
@@ -112,10 +116,13 @@ func (c *DashBoardController)LoadDashBoard() {
 				}
 
 			}
-			completedTaskPercentageForViewModel := float32(totalCompletion)/float32(len(keySlice))*100
-			pendingTaskPercentageForViewModel  := float32(totalPending)/ float32(len(keySlice))*100
-			viewModel.CompletedTask =completedTaskPercentageForViewModel
-			viewModel.PendingTask =pendingTaskPercentageForViewModel
+			if len(keySlice) !=0 {
+				completedTaskPercentageForViewModel := float32(totalCompletion)/float32(len(keySlice))*100
+				pendingTaskPercentageForViewModel  := float32(totalPending)/ float32(len(keySlice))*100
+				viewModel.CompletedTask =completedTaskPercentageForViewModel
+				viewModel.PendingTask =pendingTaskPercentageForViewModel
+			}
+
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
@@ -179,7 +186,7 @@ func (c *DashBoardController)LoadDashBoard() {
 			jobKeySlice = append(jobKeySlice, key.String())
 		}
 		for _, k := range dataValue.MapKeys() {
-			if allJobs[k.String()].Customer.CustomerStatus =="Active"{
+			if allJobs[k.String()].Customer.CustomerStatus =="Active"&&allJobs[k.String()].Settings.Status == helpers.StatusActive{
 				activeJobKey = append(activeJobKey, k.String())
 				viewModel.JobNameArray   = append(viewModel.JobNameArray, allJobs[k.String()].Info.JobName)
 				viewModel.JobCustomerNameArray = append(viewModel.JobCustomerNameArray, allJobs[k.String()].Customer.CustomerName)
@@ -196,7 +203,7 @@ func (c *DashBoardController)LoadDashBoard() {
 	case true:
 		taskValue := reflect.ValueOf(tasks)
 		for _, taskKey := range taskValue.MapKeys() {
-			if tasks[taskKey.String()].Customer.CustomerStatus =="Active"{
+			if tasks[taskKey.String()].Customer.CustomerStatus =="Active"&&tasks[taskKey.String()].Settings.Status==helpers.StatusActive && tasks[taskKey.String()].Job.JobStatus==helpers.StatusActive{
 				var tempValueSlice []string
 				tempValueSlice =append(tempValueSlice,tasks[taskKey.String()].Job.JobName)
 				tempValueSlice =append(tempValueSlice,tasks[taskKey.String()].Info.TaskName)
