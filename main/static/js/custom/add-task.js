@@ -74,6 +74,7 @@ $(function () {
     
     
     if (pageType == "edit") {
+        $.getScript( '/static/js/timepicker.js', function( data, textStatus, jqxhr ) {
         console.log("jobname",vm.NFCTagId);
         var element = document.getElementById('minUsers');
         element.value = vm.UserNumber;
@@ -133,6 +134,7 @@ $(function () {
             $("#exposureTextBoxAppend").append(DynamicExposureTextBox);
              
         }
+            });
     }
     
     
