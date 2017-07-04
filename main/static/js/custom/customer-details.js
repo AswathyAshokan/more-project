@@ -176,6 +176,7 @@ $(function(){
 //                    
                 
                 } else {
+                    console.log("inside else part");
                    
                     $("#myModal").modal();
                     $("#confirm").click(function(){

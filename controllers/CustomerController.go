@@ -277,10 +277,10 @@ func (c *CustomerController)DeleteCustomerIfUsedForJob() {
 				w.Write([]byte("false"))
 			}
 		} else {
-			//w.Write([]byte("false"))
+			w.Write([]byte("false"))
 		}
 	case false :
-		//w.Write([]byte("false"))
+		w.Write([]byte("false"))
 	}
 }
 func (c *CustomerController) DeleteCustomerFromJob() {

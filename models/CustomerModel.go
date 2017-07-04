@@ -338,6 +338,10 @@ func (m *TasksCustomer) IsCustomerUsedForTask( ctx context.Context, customerId s
 			}
 		}
 	}
+	if err != nil {
+		log.Fatal(err)
+		return false, customerDetail
+	}
 
 
 

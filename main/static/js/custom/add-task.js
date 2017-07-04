@@ -107,7 +107,7 @@ $(function () {
             dynamicTextBox+= '<div class="plus"><input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + vm.FitToWork[i] + '" />&nbsp;' +
             '<button    class="delete-decl" >+</button></div>';
         }
-        $("#TextBoxContainer").append(dynamicTextBox);
+        $("#TextBoxContainer").prepend(dynamicTextBox);
         document.getElementById("startTime").value = vm.StartTime;
         document.getElementById("endTime").value = vm.EndTime;
         document.getElementById("taskHead").innerHTML = "Edit Task";
@@ -144,7 +144,7 @@ $(function () {
     $("#btnAdd").bind("click", function () {
         var div = $("<div class='plus'/>");
         div.html(GetDynamicTextBox(""));
-        $("#TextBoxContainer").append(div);
+        $("#TextBoxContainer").prepend(div);
     });
     $("body").on("click", ".delete-decl", function () {
         $(this).closest("div").remove();
