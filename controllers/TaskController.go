@@ -145,7 +145,6 @@ func (c *TaskController)AddNewTask() {
 
 				}
 				groupNameAndDetails.Members = groupMemberMap
-				log.Println("hgjghrh",groupMemberMap)
 				groupMap[tempId] = groupNameAndDetails
 				groupKeySlice = append(groupKeySlice,tempId)
 
@@ -157,7 +156,6 @@ func (c *TaskController)AddNewTask() {
 		}
 
 
-		log.Println("group detail",groupMap)
 		task.UsersAndGroups.User = userMap
 		task.UsersAndGroups.Group = groupMap
 		contactMap := make(map[string]models.TaskContact)
@@ -338,7 +336,6 @@ func (c *TaskController)LoadTaskDetail() {
 		var taskUserSlice [][]viewmodels.TaskUsers
 		var userStatus string
 		for _, k := range keySlice {
-			log.Println("job status",tasks[k].Job.JobStatus)
 			if tasks[k].Settings.Status == helpers.StatusActive && tasks[k].Customer.CustomerStatus == helpers.StatusActive&& tasks[k].Job.JobStatus ==helpers.StatusActive{
 				userValue := reflect.ValueOf(tasks[k].UsersAndGroups.User)
 				for _, key := range userValue.MapKeys() {
@@ -365,15 +362,12 @@ func (c *TaskController)LoadTaskDetail() {
 					if tempJobAndCustomer == " ()"{
 						tempJobAndCustomer=""
 					}
-					log.Println("ddfffdfdff",tempJobAndCustomer)
 					buffer.Reset()
 					tempValueSlice = append(tempValueSlice, "")
 					tempValueSlice = append(tempValueSlice, tempJobAndCustomer)
 
 					if !helpers.StringInSlice(tasks[k].Customer.CustomerName, viewModel.UniqueCustomerNames) && tasks[k].Customer.CustomerName != "" {
 						viewModel.UniqueCustomerNames = append(viewModel.UniqueCustomerNames, tasks[k].Customer.CustomerName)
-						log.Println("ggggg",viewModel.UniqueCustomerNames)
-						log.Println("fffff",tasks[k].Customer.CustomerName)
 					}else{
 						viewModel.UniqueCustomerNames = append(viewModel.UniqueCustomerNames,"")
 					}
@@ -488,8 +482,6 @@ func (c *TaskController)LoadTaskDetail() {
 					//tempValueSlice = append(tempValueSlice, tempcontactDataValue)
 
 					viewModel.Values = append(viewModel.Values, tempValueSlice)
-					log.Println("dgsfhgdshf",tempValueSlice)
-
 					tempValueSlice = tempValueSlice[:0]
 					minUserArray = append(minUserArray,tasks[k].Info.UserNumber)
 					minUserArray = append(minUserArray,tasks[k].Info.LoginType)
@@ -562,10 +554,8 @@ func (c *TaskController)LoadEditTask() {
 		task.Info.TaskName = c.GetString("taskName")
 		task.Job.JobName = c.GetString("jobName")
 		task.Job.JobId = c.GetString("jobId")
-		log.Println("job",task.Job.JobName,task.Job.JobId)
 		task.Customer.CustomerName = c.GetString("customerName")
 		task.Customer.CustomerId = c.GetString("jobId")
-		log.Println("customer",task.Customer.CustomerName,task.Customer.CustomerId)
 		task.Info.TaskLocation =c.GetString("taskLocation")
 		startDateString := c.GetString("startDateFomJs")
 		endDateString :=c.GetString("endDateFromJs")
@@ -772,8 +762,6 @@ func (c *TaskController)LoadEditTask() {
 								memberSlice = append(memberSlice, memberKey.String())
 							}
 							viewModel.GroupMembers = append(viewModel.GroupMembers, memberSlice)
-							log.Println("users",viewModel.GroupMembers)
-							log.Println("group",viewModel.GroupNameArray)
 
 						}
 
@@ -807,16 +795,15 @@ func (c *TaskController)LoadEditTask() {
 
 				//contact name to edit
 				 dbStatus,contactDetails := task.GetTaskDetailById(c.AppEngineCtx, taskId)
-				log.Println("contact details",contactDetails.Contacts)
 				switch dbStatus {
 				case true:
 					dataValue := reflect.ValueOf(contactDetails.Contacts)
-					for _, key := range dataValue.MapKeys() {
-						log.Println("contact key",task.Contacts[key.String()].ContactStatus)
-						if task.Contacts[key.String()].ContactStatus =="Active"{
-							log.Println("insidemmmmdmmdmdmdmdm")
-							viewModel.ContactNameToEdit = append(viewModel.ContactNameToEdit, key.String())
-							log.Println("gggggg",viewModel.ContactNameToEdit)
+					for _, contactKey := range dataValue.MapKeys() {
+						for i:=0;i<len(activeContactKey);i++{
+							if activeContactKey[i] ==contactKey.String(){
+								viewModel.ContactNameToEdit = append(viewModel.ContactNameToEdit, contactKey.String())
+							}
+
 						}
 					}
 
@@ -889,7 +876,6 @@ func (c *TaskController)LoadEditTask() {
 								prependBreakMinutes = string(breakMinutes)
 							}
 							breakTimeForTask :=prependBreakHours+":"+prependBreakMinutes
-							log.Println("break time ",breakTimeForTask)
 							BreakTime = append(BreakTime,breakTimeForTask)
 
 							workHourInInt, err := strconv.Atoi(taskWorkBreak[key.String()].BreakStartTimeInMinutes)
@@ -918,7 +904,6 @@ func (c *TaskController)LoadEditTask() {
 								prependWorkMinutes = string(workMinutes)
 							}
 							workTimeForTask :=prependWorkHours+":"+prependWorkMinutes
-							log.Println("break time ",workTimeForTask)
 
 							WorkTime = append(WorkTime,workTimeForTask)
 
@@ -947,7 +932,6 @@ func (c *TaskController)LoadEditTask() {
 						viewModel.TaskDescription = taskDetail.Info.TaskDescription
 						viewModel.UserNumber = taskDetail.Info.UserNumber
 						viewModel.NFCTagId = taskDetail.Info.NFCTagID
-						log.Println("logTime",taskDetail.Info.LogTimeInMinutes)
 						logTimeOfUser := strconv.FormatInt(taskDetail.Info.LogTimeInMinutes,10)
 						viewModel.Log = logTimeOfUser
 						dataValue = reflect.ValueOf(taskDetail.FitToWork)

@@ -80,6 +80,8 @@ $(function () {
         var selectArray =  vm.ContactNameToEdit;
         console.log("contact",selectArray);
         $("#contactId").val(selectArray);
+        document.getElementById("startTime").value = vm.StartTime;
+        document.getElementById("endTime").value = vm.EndTime;
         console.log("jobname",vm.NFCTagId);
         var element = document.getElementById('minUsers');
         element.value = vm.UserNumber;
@@ -110,8 +112,7 @@ $(function () {
             '<button    class="delete-decl" >+</button></div>';
         }
         $("#TextBoxContainer").prepend(dynamicTextBox);
-        document.getElementById("startTime").value = vm.StartTime;
-        document.getElementById("endTime").value = vm.EndTime;
+       
         document.getElementById("taskHead").innerHTML = "Edit Task";
         $("body").on("click", ".delete-decl", function () {
             $(this).closest("div").remove();
