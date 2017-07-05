@@ -294,6 +294,7 @@ $().ready(function() {
             endDate :"required",
             taskDescription:"required"
             
+            
         },
         submitHandler: function() {
             
