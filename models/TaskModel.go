@@ -426,8 +426,14 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	m.Settings.Status =taskValues.Settings.Status
 	m.Customer.CustomerStatus =taskValues.Customer.CustomerStatus
 	m.Job.JobStatus = taskValues.Job.JobStatus
+	log.Println("fdgdfgdfg",m)
 
 	err = dB.Child("/Tasks/"+ taskId).Update(&m)
+	if err!=nil{
+		log.Println("updation error:",err)
+		return false
+	}
+
 	//for adding fit to work to database
 	fitToWorkMap := make(map[string]TaskFitToWork)
 	fitToWorkForTask :=TaskFitToWork{}
@@ -493,7 +499,6 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	return true
 
 }
-
 /*get a specific task detail by id*/
 func (m *Tasks) GetTaskDetailById(ctx context.Context, taskId string)(bool, Tasks) {
 	taskDetail := Tasks{}

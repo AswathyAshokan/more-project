@@ -64,6 +64,9 @@ func (c *TaskController)AddNewTask() {
 		task.Info.LogTimeInMinutes = logInMinutesInString
 		UserOrGroupIdArray := c.GetStrings("userOrGroup")
 		UserOrGroupNameArray := c.GetStrings("userAndGroupName")
+		groupKeySliceForTaskString  :=c.GetString("groupArrayElement")
+		groupKeySliceForTask :=strings.Split(groupKeySliceForTaskString, ",")
+		log.Println("grouppppppppp",groupKeySliceForTask)
 		tempContactName := c.GetStrings("contactName")
 		tempContactId := c.GetStrings("contactId")
 		task.Info.LoginType=c.GetString("loginType")
@@ -118,38 +121,42 @@ func (c *TaskController)AddNewTask() {
 				userName.Status =helpers.StatusActive
 				userName.UserTaskStatus =helpers.StatusPending
 				userMap[tempId] = userName
-			} else {
-				tempName = tempName[:len(tempName)-8]
-				groupNameAndDetails.GroupName = tempName
-				groupNameAndDetails.GroupStatus =helpers.StatusActive
-				//Getting member name from group
+			}
+			log.Println("lengthhhhhhhhhhhhhhhhhhhhhh",len(groupKeySliceForTask))
+			log.Println("grouppppppppppp",groupKeySliceForTask)
+			if groupKeySliceForTask[0] !="" {
+				for i := 0; i < len(groupKeySliceForTask); i++ {
+
+					groupNameAndDetails.GroupStatus = helpers.StatusActive
+					//Getting member name from group
 
 
-				groupDetails, dbStatus := group.GetGroupDetailsById(c.AppEngineCtx, tempId)
-				switch dbStatus {
-				case true:
+					groupDetails, dbStatus := group.GetGroupDetailsById(c.AppEngineCtx, string(groupKeySliceForTask[i]))
+					switch dbStatus {
+					case true:
+						groupNameAndDetails.GroupName = groupDetails.Info.GroupName
+						memberData := reflect.ValueOf(groupDetails.Members)
+						for _, key := range memberData.MapKeys() {
+							keySliceForGroup = append(keySliceForGroup, key.String())
+							MemberNameArray = append(MemberNameArray, groupDetails.Members[key.String()].MemberName)
 
-					memberData := reflect.ValueOf(groupDetails.Members)
-					for _, key := range memberData.MapKeys() {
-						keySliceForGroup =append(keySliceForGroup,key.String())
-						MemberNameArray = append(MemberNameArray,groupDetails.Members[key.String()].MemberName)
+						}
+
+					case false:
+						log.Println(helpers.ServerConnectionError)
+					}
+					for i := 0; i < len(keySliceForGroup); i++ {
+						groupMemberNameForTask.MemberName = MemberNameArray[i]
+						groupMemberMap[keySliceForGroup[i]] = groupMemberNameForTask
 
 					}
-
-				case false:
-					log.Println(helpers.ServerConnectionError)
-				}
-				for i := 0; i < len(keySliceForGroup); i++ {
-					groupMemberNameForTask.MemberName =MemberNameArray[i]
-					groupMemberMap[keySliceForGroup[i]] = groupMemberNameForTask
+					groupNameAndDetails.Members = groupMemberMap
+					groupMap[string(groupKeySliceForTask[i])] = groupNameAndDetails
+					groupKeySlice = append(groupKeySlice, string(groupKeySliceForTask[i]))
 
 				}
-				groupNameAndDetails.Members = groupMemberMap
-				groupMap[tempId] = groupNameAndDetails
-				groupKeySlice = append(groupKeySlice,tempId)
 
 			}
-
 
 
 
@@ -157,7 +164,9 @@ func (c *TaskController)AddNewTask() {
 
 
 		task.UsersAndGroups.User = userMap
-		task.UsersAndGroups.Group = groupMap
+		if groupKeySliceForTask[0] !=""{
+			task.UsersAndGroups.Group = groupMap
+		}
 		contactMap := make(map[string]models.TaskContact)
 		contact :=models.ContactUser{}
 		taskContactDetail :=models.TaskContact{}
@@ -549,9 +558,11 @@ func (c *TaskController)LoadEditTask() {
 	taskId := c.Ctx.Input.Param(":taskId")
 
 	if r.Method == "POST" {
+		log.Println("inside edit",taskId)
 		task := models.Tasks{}
 		companyId :=storedSession.CompanyId
 		task.Info.TaskName = c.GetString("taskName")
+		log.Println("task name",task.Info.TaskName )
 		task.Job.JobName = c.GetString("jobName")
 		task.Job.JobId = c.GetString("jobId")
 		task.Customer.CustomerName = c.GetString("customerName")
@@ -582,6 +593,14 @@ func (c *TaskController)LoadEditTask() {
 		task.Info.LogTimeInMinutes = logInMinutesInString
 		UserOrGroupIdArray := c.GetStrings("userOrGroup")
 		UserOrGroupNameArray := c.GetStrings("userAndGroupName")
+		groupKeySliceForTaskString  :=c.GetString("groupArrayElement")
+		log.Println("groupnnnndsfsdf",groupKeySliceForTaskString)
+		groupKeySliceForTask :=strings.Split(groupKeySliceForTaskString, ",")
+		log.Println("grouppppppp",groupKeySliceForTask)
+		log.Println("grouppppppp",len(groupKeySliceForTask))
+		log.Println("inside array",groupKeySliceForTask[0])
+		log.Println("userrrr",UserOrGroupNameArray)
+		log.Println("user id",UserOrGroupIdArray)
 		tempContactName := c.GetStrings("contactName")
 		tempContactId := c.GetStrings("contactId")
 		task.Info.LoginType = c.GetString("loginType")
@@ -615,7 +634,9 @@ func (c *TaskController)LoadEditTask() {
 		var keySliceForGroup [] string
 		var MemberNameArray [] string
 
-		groupMemberNameMap := make(map[string]models.GroupMemberName)
+		groupMemberMap := make(map[string]models.GroupMemberName)
+		groupMemberNameForTask :=models.GroupMemberName{}
+		var groupKeySlice []string
 		//members := models.GroupMemberName{}
 
 		for i := 0; i < len(UserOrGroupIdArray); i++ {
@@ -626,38 +647,52 @@ func (c *TaskController)LoadEditTask() {
 			if ((userOrGroupSelection[1]) == "User") {
 				tempName = tempName[:len(tempName) - 7]
 				userName.FullName = tempName
-				userName.Status =helpers.StatusActive
+				userName.Status = helpers.StatusActive
 
 				userMap[tempId] = userName
-			} else {
-				tempName = tempName[:len(tempName) - 8]
-				groupNameAndDetails.GroupName = tempName
+			}
+			if groupKeySliceForTask[0] != "" {
+				for i := 0; i < len(groupKeySliceForTask); i++ {
 
-				//Getting member name from group
+					groupNameAndDetails.GroupStatus = helpers.StatusActive
+					//Getting member name from group
 
 
-				groupDetails, dbStatus := group.GetGroupDetailsById(c.AppEngineCtx, tempId)
-				switch dbStatus {
-				case true:
+					groupDetails, dbStatus := group.GetGroupDetailsById(c.AppEngineCtx, string(groupKeySliceForTask[i]))
+					switch dbStatus {
+					case true:
+						groupNameAndDetails.GroupName = groupDetails.Info.GroupName
+						memberData := reflect.ValueOf(groupDetails.Members)
+						for _, key := range memberData.MapKeys() {
+							keySliceForGroup = append(keySliceForGroup, key.String())
+							MemberNameArray = append(MemberNameArray, groupDetails.Members[key.String()].MemberName)
 
-					memberData := reflect.ValueOf(groupDetails.Members)
-					for _, key := range memberData.MapKeys() {
-						keySliceForGroup = append(keySliceForGroup, key.String())
+						}
+
+					case false:
+						log.Println(helpers.ServerConnectionError)
 					}
 					for i := 0; i < len(keySliceForGroup); i++ {
-						MemberNameArray = append(MemberNameArray, groupDetails.Members[keySliceForGroup[i]].MemberName)
+						groupMemberNameForTask.MemberName = MemberNameArray[i]
+						groupMemberMap[keySliceForGroup[i]] = groupMemberNameForTask
+
 					}
-				case false:
-					log.Println(helpers.ServerConnectionError)
+					groupNameAndDetails.Members = groupMemberMap
+					groupMap[ string(groupKeySliceForTask[i])] = groupNameAndDetails
+					groupKeySlice = append(groupKeySlice, string(groupKeySliceForTask[i]))
+
 				}
 
-				groupNameAndDetails.Members = groupMemberNameMap
-				groupMap[tempId] = groupNameAndDetails
 			}
 		}
 
 		task.UsersAndGroups.User = userMap
-		task.UsersAndGroups.Group = groupMap
+		if groupKeySliceForTask[0] !=""{
+			task.UsersAndGroups.Group = groupMap
+		}
+
+		log.Println("user map",task.UsersAndGroups.User)
+		log.Println("group map",task.UsersAndGroups.Group)
 		contactMap := make(map[string]models.TaskContact)
 		contact :=models.ContactUser{}
 		taskContactDetail := models.TaskContact{}
@@ -809,13 +844,14 @@ func (c *TaskController)LoadEditTask() {
 
 
 					//Selecting group name which is to be edited...
-					dbStatus,groupDetails := task.GetTaskDetailById(c.AppEngineCtx, taskId)
+					dbStatus,_ := task.GetTaskDetailById(c.AppEngineCtx, taskId)
 					switch dbStatus {
 					case true:
-						dataValue := reflect.ValueOf(groupDetails.UsersAndGroups.Group)
-						for _, key := range dataValue.MapKeys() {
-							viewModel.GroupMembersAndUserToEdit = append(viewModel.GroupMembersAndUserToEdit,  key.String())
-						}
+						//dataValue := reflect.ValueOf(groupDetails.UsersAndGroups.Group)
+						//for _, key := range dataValue.MapKeys() {
+						//	viewModel.GroupMembersAndUserToEdit = append(viewModel.GroupMembersAndUserToEdit,  key.String())
+						//}
+						//log.Println("group name to edit",viewModel.GroupMembersAndUserToEdit)
 
 
 
@@ -830,7 +866,7 @@ func (c *TaskController)LoadEditTask() {
 							}
 							groupValue :=reflect.ValueOf(groupDetails.UsersAndGroups.Group)
 							for _, key := range groupValue.MapKeys() {
-								viewModel.GroupMembersAndUserToEdit = append(viewModel.GroupMembersAndUserToEdit,  key.String())
+								//viewModel.GroupMembersAndUserToEdit = append(viewModel.GroupMembersAndUserToEdit,  key.String())
 								groupMemberDetail,_ := groupMember.GetGroupDetailsById(c.AppEngineCtx, key.String())
 								groupMemberValue :=reflect.ValueOf(groupMemberDetail.Members)
 								for _, key := range groupMemberValue.MapKeys() {

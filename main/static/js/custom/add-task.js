@@ -66,16 +66,15 @@ $(function () {
       var day = selectedToDate.substring(3, 5);
       var month = selectedToDate.substring(0, 2);
       $('#endDate').datepicker("option", "minDate", new Date(year, month-1, day));
-       actualToDate = new Date(selectFromDate);
-        actualToDate.setHours(23);
-        actualToDate.setMinutes(59);
-        actualToDate.setSeconds(59);
+      actualToDate = new Date(selectFromDate);
+      actualToDate.setHours(23);
+      actualToDate.setMinutes(59);
+      actualToDate.setSeconds(59);
   });
     
     
     if (pageType == "edit") {
         var selectArrayForGroup = vm.GroupMembersAndUserToEdit;
-            console.log("selected members to edit",selectArrayForGroup);
         $("#userOrGroup").val(selectArrayForGroup);
         var selectArray =  vm.ContactNameToEdit;
         console.log("contact",selectArray);
@@ -226,12 +225,14 @@ $().ready(function() {
     
     /*Function will ceck if the selected value is a group name, and if so 
     function will auto select all users in that group*/
+    var groupKeyArray = [];
     $("#userOrGroup").on('change', function(evt, params) {
         console.log("inside group1");
         var tempArray = $(this).val();
         var clickedOption = "";
-        console.log("selected array",selectedUserArray);
-        console.log("temp array",tempArray);
+        console.log("array length",tempArray.length)
+       
+        
         if (selectedUserArray.length < tempArray.length) { // for selection
             for (var i = 0; i < tempArray.length; i++) {
                 if (selectedUserArray.indexOf(tempArray[i]) == -1) {
@@ -243,6 +244,8 @@ $().ready(function() {
             for (var i = 0; i < vm.GroupMembers.length; i++) {
                 if (vm.GroupMembers[i][0] == clickedOption) {
                     var memberLength = vm.GroupMembers[i].length;
+                    groupKeyArray.push(clickedOption)
+                    tempArray =[];
                     for (var j = 1; j < memberLength; j++) {
                         if (tempArray.indexOf(vm.GroupMembers[i][j]) == -1) {
                             tempArray.push(vm.GroupMembers[i][j])
@@ -278,6 +281,8 @@ $().ready(function() {
 //            }
             selectedUserArray = tempArray;
         }
+        console.log("group array",groupKeyArray);
+        console.log("user array",selectedUserArray);
     });
      
        
@@ -435,6 +440,9 @@ $().ready(function() {
                                       for(i = 0; i < selectedContactNames.length; i++) {
                                           formData = formData+"&contactName="+selectedContactNames[i];
                                       }
+                            for(i = 0; i < groupKeyArray.length; i++) {
+                                          formData = formData+"&groupArrayElement="+groupKeyArray[i];
+                                      }
 
                //function to get all users and group
                                       var selectedUserAndGroupName = [];
@@ -448,6 +456,8 @@ $().ready(function() {
                                       for(i = 0; i < selectedUserAndGroupName.length; i++) {
                                           formData = formData+"&userAndGroupName="+selectedUserAndGroupName[i];
                                       }
+                                    console.log("seleceeeeeee",selectedUserAndGroupName)
+                            
                                       if(pageType == "edit"){
                                           $.ajax({
                                               url: '/' +  companyTeamName  + '/task/' + taskId + '/edit',
