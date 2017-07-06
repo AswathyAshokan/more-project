@@ -23,8 +23,8 @@ type AddGroupViewModel struct {
 }
 
 type EditGroupViewModel struct {
-	GroupMembers    	[]string
-	GroupKey        	[]string
+	GroupMembers 		[]string
+	GroupKey     		[]string
 	GroupMembersToEdit	[]string
 	PageType        	string
 	GroupNameToEdit 	string

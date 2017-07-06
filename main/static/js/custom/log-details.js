@@ -15,11 +15,9 @@ $(function(){
     var selectFromDate;
     var actualFromDate;
     var completeTable =[];
-    
-    $.getJSON('http://ipinfo.io', function(data){
-    console.log("mmm",data);
-    });
-    
+     var d =  "12:07";
+    var bb = d.convertToDateTime("12:07");
+    console.log(d.toLocaleTimeString());
     
     function createDataArray(values, keys){
         console.log("inside create");

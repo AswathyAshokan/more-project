@@ -118,6 +118,7 @@ func(m *Users) TakeGroupMemberName(ctx context.Context,companyTeamName string) (
 	}
 	err = db.Child("Company/"+companyTeamName+"/Users").Value(&allUserDetails)
 	if err != nil{
+		log.Println("danger3")
 		log.Fatal(err)
 		return allUserDetails,false
 	}

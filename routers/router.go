@@ -75,10 +75,8 @@ func init() {
 
 	beegae.Router("/:companyTeamName/consent/add", &controllers.ConsentReceiptController{}, "*:AddConsentReceipt")
 	beegae.Router("/:companyTeamName/consent", &controllers.ConsentReceiptController{}, "*:LoadConsentReceipt")
-	//beegae.Router("/:companyTeamName/consent/:consentId/edit", &controllers.ConsentReceiptController{}, "*:EditConsentReceipt")
-	//beegae.Router("/:companyTeamName/consent/:consentId/delete", &controllers.ConsentReceiptController{}, "*:DeleteConsentReceipt")
-
-	//root
+	beegae.Router("/:companyTeamName/consent/:consentId/edit", &controllers.ConsentReceiptController{}, "*:EditConsentReceipt")
+	beegae.Router("/:companyTeamName/consent/:consentId/delete", &controllers.ConsentReceiptController{}, "*:DeleteConsentReceipt")
 
 	beegae.Router("/listCountry",&controllers.CountryController{},"*:ListCountries")
 
@@ -138,7 +136,7 @@ func init() {
 	beegae.Router("/push", &controllers.ServerNotificationController{},"*:ServerNotificationDetails")
 
 
-	beegae.Router("/PendingWorks", &controllers.ComingSoonController{},"*:LoadComingSoonController")
+	beegae.Router("/:companyTeamName/PendingWorks", &controllers.ComingSoonController{},"*:LoadComingSoonController")
 
 	beegae.Router("/goroutine", &controllers.PushNotificationController{},"*:CreateNotification")
 

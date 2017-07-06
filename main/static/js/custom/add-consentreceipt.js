@@ -11,7 +11,7 @@ $().ready(function() {
         var dynamicTextBox= "";
         for (var i = 1; i < vm.InstructionArrayToEdit.length; i++) {
             console.log("cp1");
-            dynamicTextBox+= '<div class="plus"><input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + vm.InstructionArrayToEdit[i] + '" />&nbsp;'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="25" height="25" style= "float:right; margin-top:-1em; margin-right:-1em;"  class="delete-exposure" />';
+            dynamicTextBox+= '<div class="plus"><input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + vm.InstructionArrayToEdit[i] + '" />&nbsp;'+'<button  id="exposureDelete"  class="delete-decl">+</button>';
         }
         $("#TextBoxContainer").prepend(dynamicTextBox);
     }
@@ -34,8 +34,8 @@ $().ready(function() {
             selectedUserIds:"required"
         },
         messages: {
-            recieptName:"Please enter Contact Person",
-            selectedUserIds: "Please enter Phone Number"
+            recieptName:"Please enter consent Reciept Name",
+            selectedUserIds: "Please select Users"
         },
         submitHandler: function(){//to pass all data of a form serial
              $("#saveButton").attr('disabled', true);

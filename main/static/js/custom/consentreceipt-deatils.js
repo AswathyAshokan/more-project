@@ -52,18 +52,29 @@ $(function(){
             var userId  = data[2];
             var result  ='<div class="pull-left dropdown-tbl" style="padding-right: 50px;">';
              result += "<table cellpadding='5' cellspacing='0'  style='padding-left:50px; border: 1px solid #dddddd !important;'>";
-            result += '<th>Instructions</th>';
-            result += '<th>Accepted Users</th>';
-            result += '<th>Rejected Users</th>';
-            result +='<th>Pending Users</th>'
+            /*result += '<th>Instructions</th>';*/
+           
             result += "<tr>";
             for (var i=0; i<InnerContent.length;i++){
                 if(InnerContent[i].InstructionKey ==userId){
+                    result += '<th>Instructions</th>'
                     result += "<td>"+InnerContent[i].Description+"</td>";
+                    result += "<tr>";
+                    result += '<th>Accepted Users</th>';
                     result += "<td>"+InnerContent[i].AcceptedUsers+"</td>";
-                    result += "<td>"+InnerContent[i].RejectedUsers+"</td>";
-                    result += "<td>"+InnerContent[i].PendingUsers+"</td>";
                     result += "</tr>";
+                    result += "<tr>";
+                    result += '<th>Rejected Users</th>';
+                    result += "<td>"+InnerContent[i].RejectedUsers+"</td>";
+                    result += "</tr>";
+                    result += "<tr>";
+                    result +='<th>Pending Users</th>'
+                   result += "<td>"+InnerContent[i].PendingUsers+"</td>";
+                    result += "</tr>";
+                    
+                    
+                    
+                   
                 }
             }
             result += "</tr>";

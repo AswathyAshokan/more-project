@@ -30,9 +30,9 @@ Date:01/02/2017-->
 
 		    <div class="right-menu">
 		        <ul>
-		            <li><a href="/PendingWorks">About</a></li>
-		            <li><a href="/PendingWorks">Contact</a></li>
-		            <li><a href="/PendingWorks">Licence</a></li>
+		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">About</a></li>
+		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Contact</a></li>
+		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Licence</a></li>
 		        </ul>
 		        <div class="dropdown">
 		            <button class="dropdown-toggle no-button-style" type="button" data-toggle="dropdown"><i><img src="" id="imageId" style="border-radius:50% 50% 50% 50%; width:30px; height:30px;"></i>
@@ -67,10 +67,11 @@ Date:01/02/2017-->
                         <!--<li><a href="#"><i class="sprites-payroll"></i>Payroll</a></li>-->
                         <li id="log"><a href="/{{.vm.CompanyTeamName}}/workLog"><i class="sprites-log"></i>Log</a></li>
                         <!--<li id="log"><a href="/PendingWorks"><i class="sprites-log"></i>Log</a>-->
-                        <li id="time-sheet"><a href="/{{.vm.CompanyTeamName}}/timeSheet"><i class="sprites-log"></i>Time Sheet</a></li>
-                        <!--<li id="time-sheet"><a href="/PendingWorks"><i class="sprites-log" ></i>Time Sheet</a></li>-->
+                        <!--<li id="time-sheet"><a href="/{{.vm.CompanyTeamName}}/timeSheet"><i class="sprites-log"></i>Time Sheet</a></li>-->
+                        <li id="time-sheet"><a href="/{{.vm.CompanyTeamName}}/PendingWorks"><i class="sprites-log" ></i>Time Sheet</a></li>
+                        <li id="time-sheet"><a href="/{{.vm.CompanyTeamName}}/PendingWorks"><i class="sprites-log" ></i>Consent Receipt</a></li>
                         <!--<li><a href="#"><i class="sprites-dures"></i>Duress</a></li>-->
-                        <li id="consent"><a href='/{{.vm.CompanyTeamName}}/consent'><i class="sprites-consent"></i>Consent Receipt</a></li>
+                        <li id="consent"><a href="/{{.vm.CompanyTeamName}}/PendingWorks"><i class="sprites-consent"></i>Consent Receipt</a></li>
                     </ul>
                 </nav>
             </div>
