@@ -224,6 +224,21 @@ func (m *Group) DeleteGroupFromDB(ctx context.Context, groupId string,TaskSlice 
 		err = dB.Child("/Group/"+ groupId+"/Tasks/"+TaskSlice[i]).Update(&groupDetailForUpdate)
 
 	}
+	groupSettingsUpdation := GroupSettings{}
+	groupDeletion := GroupSettings{}
+	db,err :=GetFirebaseClient(ctx,"")
+	err = db.Child("/Group/"+ groupId+"/Settings").Value(&groupSettingsUpdation)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	groupDeletion.Status = helpers.UserStatusDeleted
+	groupDeletion.DateOfCreation = groupSettingsUpdation.DateOfCreation
+	err = db.Child("Group/"+groupId+"/Settings").Update(&groupDeletion)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
 	//taskGroupDetail :=TaskGroup{}
 	//taskGroupForUpdate :=TaskGroup{}
 	//for i:=0;i<len(TaskSlice);i++ {
@@ -259,7 +274,6 @@ func (m *TasksGroup) IsGroupUsedForTask( ctx context.Context, groupId string)(bo
 	return true,groupDetail
 }
 func(m *Group) DeleteGroupFromDBForNonTask(ctx context.Context,groupId string) bool{
-	log.Println("id",groupId)
 	groupSettingsUpdation := GroupSettings{}
 	groupDeletion := GroupSettings{}
 	db,err :=GetFirebaseClient(ctx,"")

@@ -19,7 +19,4 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 	c.TplName = "template/time-sheet.html"
 
 }
-func (c* TimeSheetController)AddTimeSheet(){
 
-
-}
