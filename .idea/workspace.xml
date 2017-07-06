@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/add-task.html" afterPath="$PROJECT_DIR$/main/views/template/add-task.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -751,13 +750,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00117" summary="1/06/2013:28:   check box">
-      <created>1497423548446</created>
-      <option name="number" value="00117" />
-      <option name="presentableId" value="LOCAL-00117" />
-      <option name="project" value="LOCAL" />
-      <updated>1497423548446</updated>
-    </task>
     <task id="LOCAL-00118" summary="1/06/2013:28:   check box">
       <created>1497424324170</created>
       <option name="number" value="00118" />
@@ -1094,7 +1086,14 @@
       <option name="project" value="LOCAL" />
       <updated>1499328434938</updated>
     </task>
-    <option name="localTasksCounter" value="166" />
+    <task id="LOCAL-00166" summary="1/06/2013:28:   check box">
+      <created>1499328826333</created>
+      <option name="number" value="00166" />
+      <option name="presentableId" value="LOCAL-00166" />
+      <option name="project" value="LOCAL" />
+      <updated>1499328826334</updated>
+    </task>
+    <option name="localTasksCounter" value="167" />
     <servers />
   </component>
   <component name="ToolWindowManager">
