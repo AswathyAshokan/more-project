@@ -97,8 +97,11 @@ func (c *LeaveController) LoadUserLeave() {
 					var tempValueSlice []string
 					inviteUser := reflect.ValueOf(userInvitation)
 					for _, InviteKey := range inviteUser.MapKeys() {
+
 						if userDetail.Email == userInvitation[InviteKey.String()].Email {
+							log.Println("kkkkkkkkk")
 							tempValueSlice = append(tempValueSlice, userDetail.FullName+""+"("+userInvitation[InviteKey.String()].UserType+")")
+							break
 							//tempValueSlice[8]=userInvitation[InviteKey.String()].UserType
 						}
 
@@ -135,7 +138,9 @@ func (c *LeaveController) LoadUserLeave() {
 
 
 				viewModel.Values = append(viewModel.Values, tempValueSlice)
+				log.Println("leave",tempValueSlice)
 					tempValueSlice = tempValueSlice[:0]
+
 
 			}
 
@@ -146,6 +151,7 @@ func (c *LeaveController) LoadUserLeave() {
 
 
 	}
+
 	viewModel.AdminFirstName =storedSession.AdminFirstName
 	viewModel.AdminLastName =storedSession.AdminLastName
 	viewModel.CompanyPlan =storedSession.CompanyPlan
