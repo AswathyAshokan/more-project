@@ -67,7 +67,7 @@
 								<label for="jobName" class="" id="jobNamelabel">Job Name</label>
 
 								<select class="form-control sprites-arrow-down" id="jobName" name="jobName" onclick="getJobAndCustomer();">
-									<option selected disabled value="">Select a Job</option>
+<!--									<option selected disabled value="">Select a Job</option>-->
 									{{range $key, $val := .vm.JobNameArray}}
 									   <option id="{{index $.vm.Key $key}}" value="{{$val}}" >{{$val}} ({{index $.vm.JobCustomerNameArray $key}})</option>
 									{{end}}

@@ -369,11 +369,31 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 		}
 
 	}
+	//delete task from company
+	companyTaskDetail := map[string]TaskIdInfo{}
+	updatedcompanyTaskDetail :=TaskIdInfo{}
+	err = dB.Child("/Company/"+companyId+"/Tasks/").Value(&companyTaskDetail)
+	taskDataInCompany := reflect.ValueOf(companyTaskDetail)
+	for _, key := range taskDataInCompany.MapKeys() {
+		if key.String() == taskId{
+			log.Println("inside deletion from company",taskId,key.String())
+			updatedcompanyTaskDetail.Status =helpers.StatusInActive
+			updatedcompanyTaskDetail.DateOfCreation =companyTaskDetail[key.String()].DateOfCreation
+			updatedcompanyTaskDetail.FitToWorkDisplayStatus =companyTaskDetail[key.String()].FitToWorkDisplayStatus
+			updatedcompanyTaskDetail.TaskStatus =companyTaskDetail[key.String()].TaskStatus
 
+			err = dB.Child("/Company/"+companyId+"/Tasks/"+taskId).Set(updatedcompanyTaskDetail)
+			if err != nil {
+				log.Println(err)
+				return false
+			}
 
-
-
-
+		}
+	}
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
 	log.Println("deleted successfully")
 	if err!=nil{
 		log.Println("Deletion error:",err)
