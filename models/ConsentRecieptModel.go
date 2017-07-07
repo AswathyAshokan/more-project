@@ -93,8 +93,7 @@ func(m *ConsentReceipts) AddConsentToDb(ctx context.Context,instructionSlice []s
 func GetAllConsentReceiptDetails(ctx context.Context) (bool,map[string]ConsentReceipts){
 	consentValue := map[string]ConsentReceipts{}
 	dB, err := GetFirebaseClient(ctx,"")
-	err = dB.Child("ConsentReceipts").Value(&consentValue)
-	log.Println("hehehe",consentValue)
+	err = dB.Child("ConsentReceipts/").Value(&consentValue)
 	if err != nil {
 		log.Fatal(err)
 		return false, consentValue
@@ -114,10 +113,10 @@ func GetDataOfConsentByConsentId(ctx context.Context,companyTeamName string)(map
 
 }
 
-func GetAllInstructionsById(ctx context.Context,consentId string,instructionId string)(map[string]ConsentReceiptInstructions)  {
+func GetAllInstructionsById(ctx context.Context,companyTeamName string,consentId string)(map[string]ConsentReceiptInstructions)  {
 	getInstructions:=map[string]ConsentReceiptInstructions{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("ConsentReceipts/"+consentId+"/"+instructionId+"/Instructions").Value(&getInstructions)
+	err = db.Child("ConsentReceipts/"+companyTeamName+"/"+consentId+"/Instructions").Value(&getInstructions)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -174,11 +173,11 @@ func(m *ConsentReceipts) UpdateConsentDetailsIfInstructionChanged(ctx context.Co
 }
 
 func DeleteConsentReceiptById(ctx context.Context,consentId string,companyTeamName string)(bool)  {
-	allUsers := map[string]Users{}
+	//allUsers := map[string]Users{}
 	ConsentStatusDetails :=ConsentSettings{}
 	updateConsentStatus := ConsentSettings{}
 	consentInUsers := map[string]ConsentReceiptDetails{}
-	updateConsentInUsers :=ConsentReceiptDetails{}
+	//updateConsentInUsers :=ConsentReceiptDetails{}
 	db, err := GetFirebaseClient(ctx, "")
 	if err != nil {
 		log.Println(err)
@@ -195,7 +194,7 @@ func DeleteConsentReceiptById(ctx context.Context,consentId string,companyTeamNa
 		log.Fatal(err)
 		return  false
 	}
-	err = db.Child("Users").Value(&allUsers)
+	/*err = db.Child("Users").Value(&allUsers)
 	if err != nil {
 		log.Println("error1")
 		log.Fatal(err)
@@ -217,7 +216,7 @@ func DeleteConsentReceiptById(ctx context.Context,consentId string,companyTeamNa
 
 		}
 
-	}
+	}*/
 	log.Println("user consent",consentInUsers)
 	return true
 }
@@ -347,6 +346,18 @@ func(m *ConsentReceipts) UpdateConsentDataIfInstructionNotChanged(ctx context.Co
 
 	}
 	return true
+}
+
+
+func GetSelectedUsersName(ctx context.Context,consentId string)(map[string]ConsentReceipts){
+	consent :=map[string]ConsentReceipts{}
+	db,err :=GetFirebaseClient(ctx,"")
+	err = db.Child("ConsentReceipts/"+consentId).Value(&consent)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return consent
+
 }
 
 

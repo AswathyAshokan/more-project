@@ -15,10 +15,10 @@ $(function(){
     var selectFromDate;
     var actualFromDate;
     var completeTable =[];
-     var d =  "12:07";
-    var bb = d.convertToDateTime("12:07");
-    console.log(d.toLocaleTimeString());
-    
+     var utcTime =  "12:07";
+    var utcStringToDateObject = utcTime.convertToDateTime();
+    var localTime = (utcStringToDateObject.toLocaleTimeString());
+    console.log(localTime);
     function createDataArray(values, keys){
         console.log("inside create");
         var subArray = [];

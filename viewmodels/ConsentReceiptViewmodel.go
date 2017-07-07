@@ -13,7 +13,11 @@ type LoadConsent struct {
 	Values                  [][]string
 	Keys			[]string
 	InnerContent            []ConsentStruct
-	CompanyTeamName          string
+	CompanyTeamName         string
+	CompanyPlan		string
+	AdminFirstName		string
+	AdminLastName		string
+	ProfilePicture		string
 
 }
 type ConsentStruct struct {

@@ -91,25 +91,27 @@ func (c* ConsentReceiptController)LoadConsentReceipt(){
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
 		}
-		for _, k :=range keySlice{
-			if k ==companyTeamName{
-				consentById :=models.GetDataOfConsentByConsentId(c.AppEngineCtx,k)
-				consentDataValues :=reflect.ValueOf(consentById)
+		for _, k :=range keySlice {
+			if k == companyTeamName {
+
+				consentById := models.GetSelectedUsersName(c.AppEngineCtx, k)
+				consentDataValues := reflect.ValueOf(consentById)
 				for _, consentKey := range consentDataValues.MapKeys() {
 					tempKeySlice = append(tempKeySlice, consentKey.String())
 				}
-				for _, eachKey :=range tempKeySlice{
+				for _, eachKey := range tempKeySlice {
+					log.Println("key", eachKey)
 					var tempValueSlice []string
 
-					if consentById[eachKey].Settings.Status!= helpers.UserStatusDeleted {
+					if consentById[eachKey].Settings.Status != helpers.UserStatusDeleted {
 						tempValueSlice = append(tempValueSlice, "")
 						tempValueSlice = append(tempValueSlice, consentById[eachKey].Info.ReceiptName)
-						tempValueSlice = append(tempValueSlice,eachKey)
+						tempValueSlice = append(tempValueSlice, eachKey)
 						consentViewModel.Values = append(consentViewModel.Values, tempValueSlice)
 						tempValueSlice = tempValueSlice[:0]
 
-						getInstructions := models.GetAllInstructionsById(c.AppEngineCtx,k,eachKey)
-
+						getInstructions := models.GetAllInstructionsById(c.AppEngineCtx, k, eachKey)
+						log.Println("getInstructions", getInstructions)
 						for _, instructionKey := range reflect.ValueOf(getInstructions).MapKeys() {
 							var consentStructVM viewmodels.ConsentStruct
 							var instructionKeySlice []string
@@ -124,7 +126,8 @@ func (c* ConsentReceiptController)LoadConsentReceipt(){
 									consentStructVM.AcceptedUsers = append(consentStructVM.AcceptedUsers, users[userKeyString].FullName)
 								} else if users[userKeyString].UserResponse == helpers.UserResponseRejected {
 									consentStructVM.RejectedUsers = append(consentStructVM.RejectedUsers, users[userKeyString].FullName)
-								} else { // Pending
+								} else {
+									// Pending
 									consentStructVM.PendingUsers = append(consentStructVM.PendingUsers, users[userKeyString].FullName)
 								}
 							}
@@ -133,11 +136,14 @@ func (c* ConsentReceiptController)LoadConsentReceipt(){
 					}
 
 				}
-
 			}
-
 		}
 		consentViewModel.Keys = keySlice
+		consentViewModel.CompanyTeamName = storedSession.CompanyTeamName
+		consentViewModel.CompanyPlan = storedSession.CompanyPlan
+		consentViewModel.AdminFirstName = storedSession.AdminFirstName
+		consentViewModel.AdminLastName = storedSession.AdminLastName
+		consentViewModel.ProfilePicture =storedSession.ProfilePicture
 		consentViewModel.CompanyTeamName = storedSession.CompanyTeamName
 		c.Data["vm"] = consentViewModel
 		c.Layout = "layout/layout.html"
@@ -146,6 +152,7 @@ func (c* ConsentReceiptController)LoadConsentReceipt(){
 		log.Println(helpers.ServerConnectionError)
 	}
 }
+
 
 func (c *ConsentReceiptController) DeleteConsentReceipt() {
 	log.Println("hhhooooooo")
