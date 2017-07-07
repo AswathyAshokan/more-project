@@ -64,7 +64,7 @@ $(function(){
                     result += "<td><div class ='over-length'>"+InnerContent[i].Description+"</div></td>";
                     result += "<tr>";
                     result += '<th>Accepted Users</th>';
-                    result += "<td><div class ='over-length'><span>"+InnerContent[i].AcceptedUsers+"</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span></div></td>";
+                    result += "<td><div class ='over-length'><span>"+InnerContent[i].AcceptedUsers+"</div></span></td>";
                     result += "</tr>";
                     result += "<tr>";
                     result += '<th>Rejected Users</th>';
