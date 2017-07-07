@@ -44,4 +44,5 @@ type EditConsentReceipt struct {
 	InstructionArrayToEdit  	[]string
 	ConsentId   			string
 	UsersForEdit 			[]string
+	SelectedUsersKey 		[]string
 }

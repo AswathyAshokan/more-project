@@ -51,25 +51,28 @@ $(function(){
         function format ( InnerContent,data) {
             var userId  = data[2];
             var result  ='<div class="pull-left dropdown-tbl" style="padding-right: 50px;">';
-             result += "<table cellpadding='5' cellspacing='0'  style='padding-left:50px; border: 1px solid #dddddd !important;'>";
+             result +=  "<table cellpadding='5' cellspacing='0' border='0' style='padding-left:50px;' class='drp-tbl-wrp'>";
+            
+           
+            
             /*result += '<th>Instructions</th>';*/
            
             result += "<tr>";
             for (var i=0; i<InnerContent.length;i++){
                 if(InnerContent[i].InstructionKey ==userId){
                     result += '<th>Instructions</th>'
-                    result += "<td>"+InnerContent[i].Description+"</td>";
+                    result += "<td><div class ='over-length'>"+InnerContent[i].Description+"</div></td>";
                     result += "<tr>";
                     result += '<th>Accepted Users</th>';
-                    result += "<td>"+InnerContent[i].AcceptedUsers+"</td>";
+                    result += "<td><div class ='over-length'><span>"+InnerContent[i].AcceptedUsers+"</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span><span>user2</span></div></td>";
                     result += "</tr>";
                     result += "<tr>";
                     result += '<th>Rejected Users</th>';
-                    result += "<td>"+InnerContent[i].RejectedUsers+"</td>";
+                    result += "<td><div class ='over-length'><span>"+InnerContent[i].RejectedUsers+"</div></span></td>";
                     result += "</tr>";
                     result += "<tr>";
                     result +='<th>Pending Users</th>'
-                   result += "<td>"+InnerContent[i].PendingUsers+"</td>";
+                   result += "<td><div class ='over-length'><span>"+InnerContent[i].PendingUsers+"</div></span></td>";
                     result += "</tr>";
                     
                     

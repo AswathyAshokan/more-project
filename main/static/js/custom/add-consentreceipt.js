@@ -1,13 +1,14 @@
+
 document.getElementById("consent").className += "active";
 var companyTeamName = vm.CompanyTeamName;
 $().ready(function() {
     if(vm.PageType == "edit"){ 
         console.log("instructions",vm.InstructionArrayToEdit[0]);
-        var selectArray = vm.UserNameToEdit;
-        $("#selectedUserIds").val(selectArray);
+        var selectArray = vm.SelectedUsersKey;
         document.getElementById("recieptName").value = vm.ReceiptName;
         document.getElementById("addConsentValue").value = vm.InstructionArrayToEdit[0];
         document.getElementById("consentHead").innerHTML = "Edit Consent Receipt";//for display heading of each webpage
+        $("#selectedUserIds").val(selectArray);
         var dynamicTextBox= "";
         for (var i = 1; i < vm.InstructionArrayToEdit.length; i++) {
             console.log("cp1");
@@ -60,12 +61,16 @@ $().ready(function() {
             var ConsentValue = document.getElementById("addConsentValue").value;
             if(ConsentValue.length !=0){
                 instructionFromDynamicTextBox.push(ConsentValue);
+                //instructionFromDynamicTextBox.push("&&");
             }
             $("input[name=DynamicTextBox]").each(function () {
                  if($(this).val().length !=0){
                      instructionFromDynamicTextBox.push($(this).val())
+                      //instructionFromDynamicTextBox.push("&");
+                     
                  }
             });
+            console.log("instructionFromDynamicTextBox",instructionFromDynamicTextBox)
             formData = formData+"&instructionsForUser="+instructionFromDynamicTextBox;
             var ConsentId = vm.ConsentId;
             if (vm.PageType == "edit"){

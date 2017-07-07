@@ -3147,6 +3147,8 @@ option[default] { display: none; }
 .task-add1 .plus button.add-decl { border: none; padding: 0; padding-left: 1px; padding-bottom: 4px; line-height: 0; }
 .task-add1 .plus:last-child span.add-decl, .task-add1 .plus:last-child button.add-decl { background-color: #666666; -webkit-transform: none; -ms-transform: none; transform: none; }
 
+.over-length { max-width: 100%; display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-flex-flow: row wrap; -ms-flex-flow: row wrap; flex-flow: row wrap; white-space: normal; text-align: justify; }
+
 body { font-family: mont_light; background-color: #fafafa; }
 
 h1.h4 { font-family: mont_regular; }
@@ -3380,7 +3382,9 @@ input.sprites-callender { background-position: right 4px top -20px; cursor: poin
 .limit .input-no input { width: 44px; height: 30px; text-align: center; }
 .limit .total { padding-top: 10px; }
 .limit .total span + span { font-size: 20px; }
+.limit .modal-header { padding-bottom: 0; border: none; }
 .limit .modal-body { text-align: center; }
+.limit .modal-body p a { text-decoration: underline; color: #337ab7; font-weight: bold; }
 .limit .modal-footer { border: none; padding-top: 0; text-align: center; }
 .limit .modal-footer button { padding: 4px 12px; }
 

@@ -1,10 +1,8 @@
 /*Created By Farsana*/
 
 //Below line is for adding active class to layout side menu..
+console.log("nnnn",vm.GroupMembersToEdit)
 document.getElementById("group").className += " active";
-
-console.log(vm);
-
 var companyTeamName = vm.CompanyTeamName;
 $().ready(function() {
     if(vm.PageType == "edit"){ 

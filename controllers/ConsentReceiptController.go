@@ -25,6 +25,7 @@ func (c *ConsentReceiptController) AddConsentReceipt() {
 		tempUserId := c.GetStrings("selectedUserIds")
 		tempMembers := c.GetStrings("selectedUserNames")
 		instructions := c.GetString("instructionsForUser")
+		log.Println("instructions",instructions)
 		instructionSlice := strings.Split(instructions, ",")
 		consentData.Settings.DateOfCreation = (time.Now().UnixNano() / 1000000)
 		consentData.Settings.Status = helpers.StatusActive
@@ -185,6 +186,7 @@ func (c *ConsentReceiptController) EditConsentReceipt() {
 		tempGroupId := c.GetStrings("selectedUserIds")
 		tempGroupMembers := c.GetStrings("selectedUserNames")
 		instructions := c.GetString("instructionsForUser")
+		log.Println("instructions",instructions)
 		instructionSlice := strings.Split(instructions, ",")
 		consentData.Settings.DateOfCreation = (time.Now().UnixNano() / 1000000)
 		consentData.Settings.Status = helpers.StatusActive
@@ -225,7 +227,7 @@ func (c *ConsentReceiptController) EditConsentReceipt() {
 		switch dbStatus {
 		case true:
 			var Instructions []string
-			var UserName []string
+
 			var keySlice []string
 			dataValue := reflect.ValueOf(allUserDetails)
 
@@ -246,14 +248,18 @@ func (c *ConsentReceiptController) EditConsentReceipt() {
 			allInstructions := models.GetAllInstructionsFromConsent(c.AppEngineCtx,consentId,companyTeamName)
 			dataValueOfInstruction := reflect.ValueOf(allInstructions)
 			for _, instructionKey:=range dataValueOfInstruction.MapKeys(){
+				var UserName []string
+				var selectedUserKey []string
 				Instructions = append(Instructions,allInstructions[instructionKey.String()].Description)
 				userDataValue := reflect.ValueOf(allInstructions[instructionKey.String()].Users)
 				for _, userKey := range userDataValue.MapKeys() {
 					UserName = append(UserName, allInstructions[instructionKey.String()].Users[userKey.String()].FullName)
+					selectedUserKey = append(selectedUserKey,userKey.String())
 				}
+				consentView.SelectedUsersKey = selectedUserKey
+				consentView.UserNameToEdit = UserName
 			}
 			consentView.InstructionArrayToEdit = Instructions
-			consentView.UserNameToEdit = UserName
 			consentView.ReceiptName = consentDetails.Info.ReceiptName
 			consentView.ConsentId  = consentId
 			consentView.CompanyTeamName = storedSession.CompanyTeamName
