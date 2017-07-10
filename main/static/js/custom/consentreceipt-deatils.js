@@ -64,20 +64,32 @@ $(function(){
                     result += "<td><div class ='over-length'>"+InnerContent[i].Description+"</div></td>";
                     result += "<tr>";
                     result += '<th>Accepted Users</th>';
-                    result += "<td><div class ='over-length'><span>"+InnerContent[i].AcceptedUsers+"</div></span></td>";
+                    if (InnerContent[i].AcceptedUsers != null){
+                        result += "<td><div class ='over-length'><span>"+InnerContent[i].AcceptedUsers+"</div></span></td>";
+                    } else{
+                        result += "<td><div class ='over-length'><span>"+"Nill"+"</div></span></td>";
+                        
+                    }
+                    
                     result += "</tr>";
                     result += "<tr>";
                     result += '<th>Rejected Users</th>';
-                    result += "<td><div class ='over-length'><span>"+InnerContent[i].RejectedUsers+"</div></span></td>";
+                    if (InnerContent[i].RejectedUsers !=null){
+                        result += "<td><div class ='over-length'><span>"+InnerContent[i].RejectedUsers+"</div></span></td>";
+                   } else{
+                        result += "<td><div class ='over-length'><span>"+"Nill"+"</div></span></td>";
+                        
+                    }
                     result += "</tr>";
                     result += "<tr>";
                     result +='<th>Pending Users</th>'
-                   result += "<td><div class ='over-length'><span>"+InnerContent[i].PendingUsers+"</div></span></td>";
+                    if (InnerContent[i].PendingUsers !=null){
+                        result += "<td><div class ='over-length'><span>"+InnerContent[i].PendingUsers+"</div</span</td>";
+                    }else{
+                        result += "<td><div class ='over-length'><span>"+"Nill"+"</div></span></td>";
+                        
+                    }
                     result += "</tr>";
-                    
-                    
-                    
-                   
                 }
             }
             result += "</tr>";

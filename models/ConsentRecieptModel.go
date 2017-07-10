@@ -126,6 +126,7 @@ func GetAllInstructionsById(ctx context.Context,companyTeamName string,consentId
 }
 
 func(m *ConsentReceipts) UpdateConsentDetailsIfInstructionChanged(ctx context.Context,consentId string,instructionSlice []string,tempGroupId []string,tempGroupMembers []string,companyTeamName string ) (bool) {
+	log.Println("cp7")
 	ConsentStatusDetails :=ConsentSettings{}
 	addConsentToUsers := ConsentReceiptDetails{}
 	db, err := GetFirebaseClient(ctx, "")
@@ -224,6 +225,7 @@ func DeleteConsentReceiptById(ctx context.Context,consentId string,companyTeamNa
 
 
 func IsInstructionEdited(ctx context.Context,instructionSlice []string,consentId string,companyTeamName string)(bool)  {
+	log.Println("cp5")
 	count :=0
 	instructions :=map[string]ConsentReceiptInstructions{}
 	var AllInstructions []string
@@ -233,13 +235,17 @@ func IsInstructionEdited(ctx context.Context,instructionSlice []string,consentId
 	}
 	err = db.Child("/ConsentReceipts/"+companyTeamName+"/"+consentId+"/Instructions").Value(&instructions)
 	if err != nil {
+		log.Println("cpp1")
 		log.Fatal(err)
 	}
+	log.Println("instructions",instructions)
 	dataValue := reflect.ValueOf(instructions)
 
 	for _, key := range dataValue.MapKeys() {
 		AllInstructions = append(AllInstructions,instructions[key.String()].Description)
+		log.Println("instructions[key.String()].Description",instructions[key.String()].Description)
 	}
+
 	for i:=0;i<len(AllInstructions);i++{
 		for _, v := range AllInstructions {
 			if v == instructionSlice[i] {
@@ -248,7 +254,10 @@ func IsInstructionEdited(ctx context.Context,instructionSlice []string,consentId
 		}
 		if count == len(AllInstructions){
 			return true
+		} else {
+			return false
 		}
+		log.Println("time",count)
 	}
 
 	return false
@@ -256,6 +265,7 @@ func IsInstructionEdited(ctx context.Context,instructionSlice []string,consentId
 
 
 func GetEachConsentByCompanyId(ctx context.Context,consentId string,companyTeamName string)(ConsentReceipts){
+	log.Println("cp2")
 	consent :=ConsentReceipts{}
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("ConsentReceipts/"+companyTeamName+"/"+consentId).Value(&consent)
@@ -267,6 +277,7 @@ func GetEachConsentByCompanyId(ctx context.Context,consentId string,companyTeamN
 }
 
 func GetAllInstructionsFromConsent(ctx context.Context,consentId string,companyTeamName string)(map[string]ConsentReceiptInstructions){
+	log.Println("cp3")
 	instructionOfConsent :=map[string]ConsentReceiptInstructions{}
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("ConsentReceipts/"+companyTeamName+"/"+consentId+"/Instructions").Value(&instructionOfConsent)
@@ -294,6 +305,7 @@ func GetAllUsersFromInstructions(ctx context.Context,consentId string,companyTea
 
 
 func(m *ConsentReceipts) UpdateConsentDataIfInstructionNotChanged(ctx context.Context,consentId string,instructionSlice []string,tempGroupId []string,tempGroupMembers []string,companyTeamName string ) (bool) {
+	log.Println("cp6")
 	ConsentStatusDetails :=ConsentSettings{}
 	addConsentToUsers := ConsentReceiptDetails{}
 	db, err := GetFirebaseClient(ctx, "")

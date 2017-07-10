@@ -11,7 +11,6 @@ $().ready(function() {
         $("#selectedUserIds").val(selectArray);
         var dynamicTextBox= "";
         for (var i = 1; i < vm.InstructionArrayToEdit.length; i++) {
-            console.log("cp1");
             dynamicTextBox+= '<div class="plus"><input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + vm.InstructionArrayToEdit[i] + '" />&nbsp;'+'<button  id="exposureDelete"  class="delete-decl">+</button>';
         }
         $("#TextBoxContainer").prepend(dynamicTextBox);
@@ -19,7 +18,7 @@ $().ready(function() {
     $("#btnAdd").on("click", function () {
         var div = $("<div class='plus'/>");
         div.html(GetDynamicTextBox(""));
-        $("#TextBoxContainer").prepend(div);
+        $("#TextBoxContainer").append(div);
     });
     $("body").on("click", ".delete-decl", function () {
         $(this).closest("div").remove();
@@ -60,13 +59,13 @@ $().ready(function() {
             
             var ConsentValue = document.getElementById("addConsentValue").value;
             if(ConsentValue.length !=0){
-                instructionFromDynamicTextBox.push(ConsentValue);
+                instructionFromDynamicTextBox.push(ConsentValue+"/@@");
                 //instructionFromDynamicTextBox.push("&&");
             }
             $("input[name=DynamicTextBox]").each(function () {
                  if($(this).val().length !=0){
-                     instructionFromDynamicTextBox.push($(this).val())
-                      //instructionFromDynamicTextBox.push("&");
+                     instructionFromDynamicTextBox.push($(this).val()+"/@@")
+                     // instructionFromDynamicTextBox.push("&&");
                      
                  }
             });

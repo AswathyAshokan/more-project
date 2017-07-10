@@ -109,6 +109,7 @@ func GetUsersForDropdown(ctx context.Context,companyId string) (UsersCompany,boo
 
 // for fill the dropdown list using name(users) in add group
 func(m *Users) TakeGroupMemberName(ctx context.Context,companyTeamName string) ( map[string]CompanyUsers,bool) {
+	log.Println("cp1")
 	allUserDetails :=map[string]CompanyUsers{}
 
 	db,err :=GetFirebaseClient(ctx,"")

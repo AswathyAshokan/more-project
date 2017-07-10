@@ -25,8 +25,12 @@ func (c *ConsentReceiptController) AddConsentReceipt() {
 		tempUserId := c.GetStrings("selectedUserIds")
 		tempMembers := c.GetStrings("selectedUserNames")
 		instructions := c.GetString("instructionsForUser")
-		log.Println("instructions",instructions)
-		instructionSlice := strings.Split(instructions, ",")
+		instructionsFromUser := strings.Split(instructions, "/@@,")
+		sliceLastValue := instructionsFromUser[len(instructionsFromUser)-1]
+		SliceLastValuesWithOutAnySymbol := strings.Split(sliceLastValue, "/@@")
+		instructionsFromUser = instructionsFromUser[:len(instructionsFromUser)-1]
+		instructionsFromUser = append(instructionsFromUser, SliceLastValuesWithOutAnySymbol[0])
+		instructionSlice := instructionsFromUser
 		consentData.Settings.DateOfCreation = (time.Now().UnixNano() / 1000000)
 		consentData.Settings.Status = helpers.StatusActive
 		tempMembersMap := make(map[string]models.ConsentMembers)
@@ -186,8 +190,12 @@ func (c *ConsentReceiptController) EditConsentReceipt() {
 		tempGroupId := c.GetStrings("selectedUserIds")
 		tempGroupMembers := c.GetStrings("selectedUserNames")
 		instructions := c.GetString("instructionsForUser")
-		log.Println("instructions",instructions)
-		instructionSlice := strings.Split(instructions, ",")
+		instructionsFromUser := strings.Split(instructions, "/@@,")
+		sliceLastValue := instructionsFromUser[len(instructionsFromUser)-1]
+		SliceLastValuesWithOutAnySymbol := strings.Split(sliceLastValue, "/@@")
+		instructionsFromUser = instructionsFromUser[:len(instructionsFromUser)-1]
+		instructionsFromUser = append(instructionsFromUser, SliceLastValuesWithOutAnySymbol[0])
+		instructionSlice := instructionsFromUser
 		consentData.Settings.DateOfCreation = (time.Now().UnixNano() / 1000000)
 		consentData.Settings.Status = helpers.StatusActive
 		tempMembersMap := make(map[string]models.ConsentMembers)
