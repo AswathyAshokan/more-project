@@ -16,9 +16,7 @@ $().ready(function() {
         //$("#customerId option[text=selectArray]").attr("selected","selected");
         document.getElementById("jobHead").innerHTML = "Edit Job";
     }
-    
-    
-    
+    //adding alphanumeric validation 
     
 
     $("#jobForm").validate({
@@ -36,8 +34,7 @@ $().ready(function() {
                 remote:{
                     url: "/isJobNumberUsed/" + jobNumber,
                     type: "post"
-                },
-                number: true
+                }
             }
         },
         messages: {
@@ -47,7 +44,7 @@ $().ready(function() {
             },
             jobNumber:{
                 required:"please provide a job number",
-                remote: "Job number already exists!"
+                remote: "Job number already exists!",
             },
         },
         submitHandler: function() { 

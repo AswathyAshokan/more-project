@@ -15,6 +15,7 @@ const (
 	UserStatusDeleted = "Deleted"
 	PaymentPaidStatus = "Paid"
 	PaymentPendingStatus = "Pending"
+	StatusCompleted ="Completed"
 
 )
 

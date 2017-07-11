@@ -71,8 +71,6 @@ $(function () {
       actualToDate.setMinutes(59);
       actualToDate.setSeconds(59);
   });
-    
-    
     if (pageType == "edit") {
         var selectArrayForGroup = vm.GroupMembersAndUserToEdit;
         $("#userOrGroup").val(selectArrayForGroup);
