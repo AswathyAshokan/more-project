@@ -9,13 +9,13 @@ import(
 	"app/passporte/helpers"
 )
 type ConsentReceipts struct {
-	Info     	ConsentData
-	Settings 	ConsentSettings
-	Instructions	ConsentReceiptInstructions
+	Info         ConsentData
+	Settings     ConsentSettings
+	Instructions ConsentInstructions
 
 
 }
-type ConsentReceiptInstructions struct {
+type ConsentInstructions struct {
 	Description    string
 	Users	 	map[string]ConsentMembers
 
@@ -50,8 +50,8 @@ func(m *ConsentReceipts) AddConsentToDb(ctx context.Context,instructionSlice []s
 		log.Println(err)
 		return false
 	}
-	instructionMap := make(map[string]ConsentReceiptInstructions)
-	InstructionForConsent :=ConsentReceiptInstructions{}
+	instructionMap := make(map[string]ConsentInstructions)
+	InstructionForConsent := ConsentInstructions{}
 	consentValueString := strings.Split(consentValue.String(),"/")
 	consentUniqueID := consentValueString[len(consentValueString)-2]
 	if instructionSlice[0] !=""{
@@ -113,8 +113,8 @@ func GetDataOfConsentByConsentId(ctx context.Context,companyTeamName string)(map
 
 }
 
-func GetAllInstructionsById(ctx context.Context,companyTeamName string,consentId string)(map[string]ConsentReceiptInstructions)  {
-	getInstructions:=map[string]ConsentReceiptInstructions{}
+func GetAllInstructionsById(ctx context.Context,companyTeamName string,consentId string)(map[string]ConsentInstructions)  {
+	getInstructions:=map[string]ConsentInstructions{}
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("ConsentReceipts/"+companyTeamName+"/"+consentId+"/Instructions").Value(&getInstructions)
 	if err != nil {
@@ -147,8 +147,8 @@ func(m *ConsentReceipts) UpdateConsentDetailsIfInstructionChanged(ctx context.Co
 		log.Fatal(err)
 		return  false
 	}
-	instructionMap := make(map[string]ConsentReceiptInstructions)
-	InstructionForConsent :=ConsentReceiptInstructions{}
+	instructionMap := make(map[string]ConsentInstructions)
+	InstructionForConsent := ConsentInstructions{}
 	for i := 0; i < len(instructionSlice); i++ {
 			InstructionForConsent.Description =instructionSlice[i]
 			InstructionForConsent.Users= m.Instructions.Users
@@ -227,7 +227,7 @@ func DeleteConsentReceiptById(ctx context.Context,consentId string,companyTeamNa
 func IsInstructionEdited(ctx context.Context,instructionSlice []string,consentId string,companyTeamName string)(bool)  {
 	log.Println("cp5")
 	count :=0
-	instructions :=map[string]ConsentReceiptInstructions{}
+	instructions :=map[string]ConsentInstructions{}
 	var AllInstructions []string
 	db, err := GetFirebaseClient(ctx, "")
 	if err != nil {
@@ -276,9 +276,9 @@ func GetEachConsentByCompanyId(ctx context.Context,consentId string,companyTeamN
 
 }
 
-func GetAllInstructionsFromConsent(ctx context.Context,consentId string,companyTeamName string)(map[string]ConsentReceiptInstructions){
+func GetAllInstructionsFromConsent(ctx context.Context,consentId string,companyTeamName string)(map[string]ConsentInstructions){
 	log.Println("cp3")
-	instructionOfConsent :=map[string]ConsentReceiptInstructions{}
+	instructionOfConsent :=map[string]ConsentInstructions{}
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("ConsentReceipts/"+companyTeamName+"/"+consentId+"/Instructions").Value(&instructionOfConsent)
 	if err != nil {
@@ -326,8 +326,8 @@ func(m *ConsentReceipts) UpdateConsentDataIfInstructionNotChanged(ctx context.Co
 		log.Fatal(err)
 		return  false
 	}
-	instructionMap := make(map[string]ConsentReceiptInstructions)
-	InstructionForConsent :=ConsentReceiptInstructions{}
+	instructionMap := make(map[string]ConsentInstructions)
+	InstructionForConsent := ConsentInstructions{}
 	for i := 0; i < len(instructionSlice); i++ {
 		InstructionForConsent.Description =instructionSlice[i]
 		InstructionForConsent.Users= m.Instructions.Users

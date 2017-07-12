@@ -106,7 +106,10 @@ func init() {
 	beegae.Router("/:companyTeamName/leave", &controllers.LeaveController{},"*:LoadUserLeave")
 	beegae.Router("/:companyTeamName/leave/:leaveKey/:userKey/accept", &controllers.LeaveController{},"*:LoadAcceptUserLeave")
 	beegae.Router("/:companyTeamName/leave/:leaveKey/:userKey/reject", &controllers.LeaveController{},"*:LoadRejectUserLeave")
-	beegae.Router("/:companyTeamName/fitToWork", &controllers.FitToWorkController{},"*:AddNewFitToWork")
+	beegae.Router("/:companyTeamName/fitToWork/add", &controllers.FitToWorkController{},"*:AddNewFitToWork")
+	beegae.Router("/:companyTeamName/fitToWork", &controllers.FitToWorkController{}, "*:LoadFitToWork")
+	beegae.Router("/:companyTeamName/fitToWork/:fitToWorkId/edit", &controllers.FitToWorkController{}, "*:EditFitToWork")
+	//beegae.Router("/:companyTeamName/consent/:consentId/delete", &controllers.ConsentReceiptController{}, "*:DeleteConsentReceipt")
 
 
 
