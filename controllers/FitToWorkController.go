@@ -5,9 +5,10 @@ import (
 	"app/passporte/models"
 	"app/passporte/viewmodels"
 	"strings"
-	"app/go_appengine/goroot/src/log"
+	//"app/go_appengine/goroot/src/log"
 	"app/passporte/helpers"
 	"reflect"
+	"log"
 )
 
 type FitToWorkController struct {
