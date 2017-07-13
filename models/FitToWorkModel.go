@@ -12,13 +12,16 @@ import(
 type FitToWork struct {
 	FitToWorkName string
 	FitToWork	map[string]TaskFitToWorks
-	Status		string
+	Settings	FitToWorkSettings
 }
 type TaskFitToWorks struct {
 	Description    string
 	Status         string
 	DateOfCreation int64
 
+}
+type FitToWorkSettings struct{
+	Status	string
 }
 func(m *FitToWork) AddFitToWorkToDb(ctx context.Context,instructionSlice []string ,companyTeamName string) (bool){
 	log.Println("adddddddddddddd")
@@ -96,7 +99,7 @@ func(m *FitToWork) UpdateFitToWorkToDb(ctx context.Context,instructionSlice []st
 		log.Fatal(err)
 		return  false
 	}
-	m.Status = fitToWorkDetails.Status
+	m.Settings.Status = fitToWorkDetails.Settings.Status
 	err = db.Child("/ConsentReceipts/"+companyTeamName+"/"+fitToWorkId).Update(&m)
 
 	if err != nil {
@@ -122,13 +125,40 @@ func(m *FitToWork) UpdateFitToWorkToDb(ctx context.Context,instructionSlice []st
 	return true
 }
 func GetEachFitToWorkByCompanyId(ctx context.Context, fitToWorkId string,companyTeamName string)(FitToWork){
-	log.Println("cp2")
+	log.Println("cp2",fitToWorkId)
 	fitWork :=FitToWork{}
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("FitToWork/"+companyTeamName+"/"+ fitToWorkId).Value(&fitWork)
+	log.Println("fit workssssssssssss",fitWork)
 	if err != nil {
 		log.Fatal(err)
 	}
 	return fitWork
 
+}
+func GetAllInstructionsFromFitToWork(ctx context.Context,fitToWorkId string,companyTeamName string)(map[string]TaskFitToWorks){
+	log.Println("cp3")
+	instructionOfFitWork :=map[string]TaskFitToWorks{}
+	db,err :=GetFirebaseClient(ctx,"")
+	err = db.Child("FitToWork/"+companyTeamName+"/"+fitToWorkId+"/Instructions").Value(&instructionOfFitWork)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return instructionOfFitWork
+
+}
+func DeleteFitToWorkById(ctx context.Context,fitToWorkId string,companyTeamName string)(bool)  {
+	updatefitToWorkStatus := FitToWorkSettings{}
+	db, err := GetFirebaseClient(ctx, "")
+	if err != nil {
+		log.Println(err)
+	}
+
+	updatefitToWorkStatus.Status = helpers.UserStatusDeleted
+	err = db.Child("FitToWork/"+companyTeamName+"/"+fitToWorkId+"/Settings").Update(&updatefitToWorkStatus)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	return true
 }

@@ -1,6 +1,17 @@
 /*created by Aswathy Ashok*/
 var companyTeamName = vm.CompanyTeamName;
 $().ready(function() {
+    if(vm.PageType == "edit"){ 
+        console.log("instructions",vm.InstructionArrayToEdit[0]);
+        console.log("fit name",vm.FitToWorkName);
+        document.getElementById("fitWorkName").value = vm.FitToWorkName;
+        document.getElementById("addFitToWorkValue").value = vm.InstructionArrayToEdit[0];
+        var dynamicTextBox= "";
+        for (var i = 1; i < vm.InstructionArrayToEdit.length; i++) {
+            dynamicTextBox+= '<div class="plus"><input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + vm.InstructionArrayToEdit[i] + '" />&nbsp;' + "<span class='add-decl'>+</span>" + "</div>" ;
+        }
+        $( ".wrp-plus" ).append( dynamicTextBox);
+    }
     function  addleveldata(){
         var repeat =  "<div class='plus'>" + "<input class='form-control' name='DynamicTextBox' id='DynamicTextBox' type='text'>" + "<span class='add-decl'>+</span>" + "</div>" ;
         $( ".wrp-plus" ).append( repeat );

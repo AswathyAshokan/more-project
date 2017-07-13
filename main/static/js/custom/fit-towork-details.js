@@ -76,7 +76,7 @@ $(function(){
         var item = $('<span>+</span>');
         item.click(function() {
             console.log("teamname",companyTeamName)
-            window.location ="/" + companyTeamName + "/consent/add";
+            window.location ="/" + companyTeamName + "/fitToWork/add";
         });
         $('.table-wrapper .dataTables_filter').append(item);
     }
@@ -89,28 +89,27 @@ $(function(){
     
     $('#fit-to-work-details tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var consentId = data[2];
-        window.location = "/" + companyTeamName + "/consent/"+consentId+"/edit";
+        var fitToWorkId = data[2];
+        window.location = "/" + companyTeamName + "/fitToWork/"+fitToWorkId+"/edit";
         return false;
     });
     
      $('#fit-to-work-details tbody').on( 'click', '#delete', function () {
         $("#myModal").modal();
         var data = table.row( $(this).parents('tr') ).data();
-        var  consentId = data[2];
-        console.log(data, consentId);
+        var  fitToWorkId = data[2];
         $("#confirm").click(function(){
             console.log("cp1");
             $.ajax({
                 type: "POST",
-                url: '/' + companyTeamName +'/consent/'+ consentId + '/delete',
+                url: '/' + companyTeamName +'/fitToWork/'+ fitToWorkId + '/delete',
                 data: '',
                 success: function(data){
                     if(data=="true"){
                         $('#fit-to-work-details').dataTable().fnDestroy();
                         var index = "";
                         for(var i = 0; i < mainArray.length; i++) {
-                            index = mainArray[i].indexOf(consentId);
+                            index = mainArray[i].indexOf(fitToWorkId);
                             if(index != -1) {
                                 console.log("dddd", i);
                                 break;

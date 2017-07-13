@@ -28,7 +28,7 @@ func (c *FitToWorkController)AddNewFitToWork() {
 	fitToWorkData := models.FitToWork{}
 	if r.Method == "POST" {
 		fitToWorkData.FitToWorkName = c.GetString("fitWorkName")
-		fitToWorkData.Status =helpers.StatusActive
+		fitToWorkData.Settings.Status =helpers.StatusActive
 		instructions := c.GetString("instructionsForUser")
 		instructionsFromUser := strings.Split(instructions, "/@@,")
 		sliceLastValue := instructionsFromUser[len(instructionsFromUser)-1]
@@ -80,7 +80,7 @@ func (c* FitToWorkController)LoadFitToWork(){
 					log.Println("key", eachKey)
 					var tempValueSlice []string
 
-					if fitToWorkById[eachKey].Status == helpers.StatusActive {
+					if fitToWorkById[eachKey].Settings.Status == helpers.StatusActive {
 						tempValueSlice = append(tempValueSlice, "")
 						tempValueSlice = append(tempValueSlice, fitToWorkById[eachKey].FitToWorkName)
 						tempValueSlice = append(tempValueSlice, eachKey)
@@ -129,7 +129,7 @@ func (c *FitToWorkController) EditFitToWork() {
 	if r.Method == "POST" {
 
 		fitToWorkData.FitToWorkName = c.GetString("fitWorkName")
-		fitToWorkData.Status =helpers.StatusActive
+		fitToWorkData.Settings.Status =helpers.StatusActive
 		instructions := c.GetString("instructionsForUser")
 		instructionsFromUser := strings.Split(instructions, "/@@,")
 		sliceLastValue := instructionsFromUser[len(instructionsFromUser)-1]
@@ -149,9 +149,10 @@ func (c *FitToWorkController) EditFitToWork() {
 	}else {
 		var Instructions []string
 		fitToWorkDetails :=models.GetEachFitToWorkByCompanyId(c.AppEngineCtx, fitToWorkId,companyTeamName)
-		dataValueOfInstruction := reflect.ValueOf(fitToWorkDetails.FitToWork)
+		allInstructions := models.GetAllInstructionsFromFitToWork(c.AppEngineCtx,fitToWorkId,companyTeamName)
+		dataValueOfInstruction := reflect.ValueOf(allInstructions)
 		for _, instructionKey:=range dataValueOfInstruction.MapKeys(){
-			Instructions = append(Instructions,fitToWorkDetails.FitToWork[instructionKey.String()].Description)
+			Instructions = append(Instructions,allInstructions[instructionKey.String()].Description)
 		}
 		fitToWorkView.InstructionArrayToEdit = Instructions
 		fitToWorkView.FitToWorkName = fitToWorkDetails.FitToWorkName
@@ -167,6 +168,22 @@ func (c *FitToWorkController) EditFitToWork() {
 	}
 	c.Data["vm"] = fitToWorkView
 	c.Layout = "layout/layout.html"
-	c.TplName = "template/add-consentreceipt.html"
+	c.TplName = "template/add-fit-work.html"
 
+}
+
+func (c *FitToWorkController) DeleteFitToWork() {
+	log.Println("hhhooooooo")
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
+	fitToWorkId :=c.Ctx.Input.Param(":fitToWorkId")
+	dbStatus :=models.DeleteFitToWorkById(c.AppEngineCtx, fitToWorkId,companyTeamName)
+	switch dbStatus {
+	case true:
+		w.Write([]byte("true"))
+	case false:
+		w.Write([]byte("false"))
+	}
 }

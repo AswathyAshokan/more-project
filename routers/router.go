@@ -109,7 +109,7 @@ func init() {
 	beegae.Router("/:companyTeamName/fitToWork/add", &controllers.FitToWorkController{},"*:AddNewFitToWork")
 	beegae.Router("/:companyTeamName/fitToWork", &controllers.FitToWorkController{}, "*:LoadFitToWork")
 	beegae.Router("/:companyTeamName/fitToWork/:fitToWorkId/edit", &controllers.FitToWorkController{}, "*:EditFitToWork")
-	//beegae.Router("/:companyTeamName/consent/:consentId/delete", &controllers.ConsentReceiptController{}, "*:DeleteConsentReceipt")
+	beegae.Router("/:companyTeamName/fitToWork/:fitToWorkId/delete", &controllers.FitToWorkController{}, "*:DeleteFitToWork")
 
 
 
