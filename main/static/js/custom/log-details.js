@@ -2,8 +2,7 @@
 /* Author :Aswathy Ashok */
 //Below line is for adding active class to layout side menu..
 //document.getElementById("log").className += " active";
-console.log(vm.Values[0][3]);
-$(function(){ 
+$(function(){
     var mainArray = [];   
     var table = "";
     var unixFromDate = 0;
@@ -15,11 +14,8 @@ $(function(){
     var selectFromDate;
     var actualFromDate;
     var completeTable =[];
-    /*var dat = new Date(vm.Values[0][3]);
-    var localTime = (dat.toLocaleTimeString())
-     console.log("values",localTime);
     function createDataArray(values, keys){
-        console.log("inside create");*/
+        console.log("inside create");
         var subArray = [];
         for(i = 0; i < values.length; i++) {
             for(var propertyName in values[i]) {
@@ -67,8 +63,34 @@ $(function(){
         
     }
     if(vm.Values != null) {
-        console.log("inside if");
-        createDataArray(vm.Values, vm.Keys);
+        for( i=0;i<vm.Values.length;i++){
+            var utcTime = vm.Values[i][3]
+            var utcInDateForm = new Date(utcTime);
+            var localTime = (utcInDateForm.toLocaleTimeString());
+            var timeSplitArray = localTime.split(":");
+            var hours = timeSplitArray[0];
+            var minutes = timeSplitArray[1];
+            var duration = vm.Values[i][2];
+            var durationSplitArray = duration.split(":");
+            var duartionHours = durationSplitArray[0];
+            var durationMinutes = durationSplitArray[1];
+            console.log("hours",hours,"minutes",minutes)
+            var localTimeInMinutes = parseFloat(hours)*60 + parseFloat(minutes);
+            console.log("localTimeInMinutes",localTimeInMinutes)
+             console.log("durationMinutes",durationMinutes)
+            if (localTimeInMinutes>durationMinutes){
+                console.log("aiii");
+                var loggedTime = localTimeInMinutes - durationMinutes
+                var loggedHours = window.parseInt(loggedTime/60);
+                var loggedMins = loggedTime%60;
+            }
+            console.log("loggedHours",loggedHours,"loggedMins",loggedMins)
+            var actualloggedTime =loggedHours +":"+loggedMins
+            var between = actualloggedTime + "to" +hours + ":" +minutes;
+            vm.Values[i][3] = between;
+            
+        }
+         createDataArray(vm.Values, vm.Keys);
     }
     dataTableManipulate(mainArray);   
     

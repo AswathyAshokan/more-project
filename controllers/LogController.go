@@ -7,8 +7,8 @@ import (
 	"app/passporte/helpers"
 	"log"
 	"strconv"
-	"strings"
-	"fmt"
+	//"strings"
+	//"fmt"
 )
 
 
@@ -22,7 +22,7 @@ func (c *LogController)LoadLogDetails() {
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
 	logDetails :=models.WorkLog{}
-	var duration []string
+	//var duration []string
 	dbStatus, logUserDetail := logDetails.GetLogDetailOfUser(c.AppEngineCtx, companyTeamName)
 
 	switch dbStatus {
@@ -39,7 +39,7 @@ func (c *LogController)LoadLogDetails() {
 			tempValueSlice = append(tempValueSlice, logUserDetail[key.String()].Type)
 			tempValueSlice = append(tempValueSlice, logUserDetail[key.String()].Duration)
 			logTimeNew := time.Unix(logUserDetail[key.String()].LogTime, 0)
-			logTimeUser := logTimeNew.String()[11:16]
+			/*logTimeUser := logTimeNew.String()[11:16]
 			logTimeInString := strconv.FormatInt(logUserDetail[key.String()].LogTime, 10)
 			logTime, err := strconv.ParseInt(logTimeInString, 10, 64)
 			if err != nil {
@@ -75,8 +75,8 @@ func (c *LogController)LoadLogDetails() {
 			} else {
 				prependLogMinutes = string(logMinutes)
 			}
-			logTimeForUser := prependLogHours +":"+ prependLogMinutes
-			tempValueSlice = append(tempValueSlice, logTimeForUser + "  to " + logTimeUser)
+			logTimeForUser := prependLogHours +":"+ prependLogMinutes*/
+			tempValueSlice = append(tempValueSlice, logTimeNew.String())
 			latitudeInString :=strconv.FormatFloat(logUserDetail[key.String()].Latitude, 'f', 6, 64)
 			longitudeInString :=strconv.FormatFloat(logUserDetail[key.String()].Longitude, 'f', 6, 64)
 			tempValueSlice = append(tempValueSlice, latitudeInString + "," + longitudeInString)
