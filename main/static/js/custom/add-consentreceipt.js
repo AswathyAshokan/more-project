@@ -2,6 +2,19 @@
 document.getElementById("consent").className += "active";
 var companyTeamName = vm.CompanyTeamName;
 $().ready(function() {
+    
+    function  addleveldata(){
+       var repeat =  "<div class='plus'>" + "<input class='form-control' name='DynamicTextBox' id='DynamicTextBox' type='text'>" + "<span class='add-decl'>+</span>" + "</div>" ;
+       $( ".wrp-plus" ).append( repeat );
+   }
+   $(document).on('click', '.add-decl', function () {
+       if ($(this).closest('.plus').is(':last-child')) {
+           addleveldata();
+       }
+       else {
+           $(this).closest('.plus').remove();
+       }
+   });
     if(vm.PageType == "edit"){ 
         console.log("instructions",vm.InstructionArrayToEdit[0]);
         var selectArray = vm.SelectedUsersKey;
@@ -11,23 +24,11 @@ $().ready(function() {
         $("#selectedUserIds").val(selectArray);
         var dynamicTextBox= "";
         for (var i = 1; i < vm.InstructionArrayToEdit.length; i++) {
-            dynamicTextBox+= '<div class="plus"><input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + vm.InstructionArrayToEdit[i] + '" />&nbsp;'+'<button  id="exposureDelete"  class="delete-decl">+</button>';
+            console.log("cp1");
+            dynamicTextBox+= '<div class="plus"><input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + vm.InstructionArrayToEdit[i] + '" />&nbsp';
         }
-        $("#TextBoxContainer").prepend(dynamicTextBox);
+        $( "#TextBoxContainer" ).append( dynamicTextBox );
     }
-    $("#btnAdd").on("click", function () {
-        var div = $("<div class='plus'/>");
-        div.html(GetDynamicTextBox(""));
-        $("#TextBoxContainer").append(div);
-    });
-    $("body").on("click", ".delete-decl", function () {
-        $(this).closest("div").remove();
-    });
-    
-    function GetDynamicTextBox(value) {
-    return ' <input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "" />&nbsp;' +'<button id="btnAdd"class="delete-decl">+</button>'
-    }
-    
     $("#addConsentForm").validate({
         rules: {
             recieptName:"required",

@@ -122,8 +122,6 @@ func (c *TaskController)AddNewTask() {
 				userName.UserTaskStatus =helpers.StatusPending
 				userMap[tempId] = userName
 			}
-			log.Println("lengthhhhhhhhhhhhhhhhhhhhhh",len(groupKeySliceForTask))
-			log.Println("grouppppppppppp",groupKeySliceForTask)
 			if groupKeySliceForTask[0] !="" {
 				for i := 0; i < len(groupKeySliceForTask); i++ {
 

@@ -5,6 +5,54 @@
 <script src="/static/js/jquery.validate.js"></script>
 <script src="/static/js/select2.min.js"></script>
 <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
+
+
+
+<div class="col-md-12 main-content-wrapper padding-50-each">
+    <div class="clearfix">
+        <h1 class="h4" id="consentHead">Add Consent Receipt</h1>
+        <div class="personal-details margin-top-20 task-add1">
+            <form class="clearfix max-form-width" id="addConsentForm" method="post">
+                <div class="form-group clearfix">	
+                    <div class="col-sm-6">
+                        <label for="recieptName" class="">Receipt Name</label>
+                        <input class="form-control" id="recieptName" type="text" name="recieptName">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="addUser" class="">Users</label>
+                        <select class="form-control sprites-arrow-down multiple-drop" id="selectedUserIds" name="selectedUserIds" multiple="multiple">
+                            {{range $key, $val := .vm.GroupMembers}}
+                            <option value="{{index $.vm.GroupKey $key}}">{{$val}}</option>
+                            {{end}}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <div class="col-sm-6" id="TextBoxContainer">
+                        <label for="ex1" class="">Instructions</label>
+                        <div class="wrp-plus">
+                            <div class="plus">
+                                <input class="form-control" id="addConsentValue" type="text">
+                                <span class="add-decl">+</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="align-left col-sm-12">
+                    <button class="btn btn-primary" id="saveButton">Save</button>
+                    <button class="btn btn-success" id="cancel">Cancel</button>
+                </div>
+            </form>
+        </div>	
+    </div>
+</div>		
+		
+
+
+
+
+
+<!--
 <div class="col-md-12 main-content-wrapper padding-50-each">
             <div class="clearfix">
                 <h1 class="h4" id="consentHead">Add Consent Receipt</h1>
@@ -30,15 +78,15 @@
                          
                         <div class="form-group clearfix">
 							<div class="col-sm-6" id="TextBoxContainer">
-                                
-                                <div class="plus" id="consentAdd" >
-                                   <label for="addConsentValue" class="form-group clearfix" >Instructions</label>
-                                    <input class="form-control" id="addConsentValue" type="text"  name="addConsentValue"> 
-                                    <img  id="btnAdd" src="/static/images/fitToWork.png" width="20" height="24" style= "float:right; margin-top:-3em; margin-right:-3em;"/>
+                                <label for="addConsentValue" class="form-group clearfix" >Instructions</label>
+                                <div class="wrp-plus">
+                                    <div class="plus" id="consentAdd" >
+                                        <input class="form-control" id="addConsentValue" type="text"  name="addConsentValue"> 
+                                        <img  id="btnAdd" src="/static/images/fitToWork.png" width="20" height="24" style= "float:right; margin-top:-3em; margin-right:-3em;"/>
+                                    </div>
                                 </div>
                             </div>
 						</div>
-
                         <div class="align-left col-sm-12">
                             <button class="btn btn-primary" id="saveButton">Save</button>
                             <button class="btn btn-success" id="cancel">Cancel</button>
@@ -47,3 +95,4 @@
                 </div>
             </div>
 </div>
+-->

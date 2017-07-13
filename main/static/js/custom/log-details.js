@@ -2,7 +2,7 @@
 /* Author :Aswathy Ashok */
 //Below line is for adding active class to layout side menu..
 //document.getElementById("log").className += " active";
-console.log(vm);
+console.log(vm.Values[0][3]);
 $(function(){ 
     var mainArray = [];   
     var table = "";
@@ -15,12 +15,11 @@ $(function(){
     var selectFromDate;
     var actualFromDate;
     var completeTable =[];
-     var utcTime =  "12:07";
-    var utcStringToDateObject = utcTime.convertToDateTime();
-    var localTime = (utcStringToDateObject.toLocaleTimeString());
-    console.log(localTime);
+    /*var dat = new Date(vm.Values[0][3]);
+    var localTime = (dat.toLocaleTimeString())
+     console.log("values",localTime);
     function createDataArray(values, keys){
-        console.log("inside create");
+        console.log("inside create");*/
         var subArray = [];
         for(i = 0; i < values.length; i++) {
             for(var propertyName in values[i]) {

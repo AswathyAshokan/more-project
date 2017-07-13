@@ -14,8 +14,7 @@ import (
 	"reflect"
 	"encoding/json"
 
-
-
+	"sort"
 )
 
 type RegisterController struct {
@@ -78,7 +77,9 @@ func (c *RegisterController) Register() {
 				//countryViewModel.CountryName = tempAllCountry
 				tempAllCountry= append(tempAllCountry,allCountryValues[k].DialCode)
 				tempAllCountry =append(tempAllCountry, k)
-				countryViewModel.CountryName = append(countryViewModel.CountryName,allCountryValues[k].CountryName)
+				tempCountryNameArray :=  append(countryViewModel.CountryName,allCountryValues[k].CountryName)
+				sort.Strings(tempCountryNameArray)
+				countryViewModel.CountryName = tempCountryNameArray
 				countryViewModel.CountryAllData = append(countryViewModel.CountryAllData,tempAllCountry)
 				//tempAllCountry = tempAllCountry[:0]
 			}
@@ -86,8 +87,6 @@ func (c *RegisterController) Register() {
 
 		case false:
 			log.Println(helpers.ServerConnectionError)
-
-
 		}
 		c.Data["vm"] = countryViewModel
 		c.TplName = "template/register.html"

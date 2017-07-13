@@ -1,17 +1,17 @@
 /*Author: Sarath
 Date:01/02/2017*/
-console.log(vm.CountryAllData);
+console.log("lll",vm.CountryName);
 $(function(){
     //Enabling Register button when if I Agree check box is chechked
     $("#agree").click(function() {
       $("#register").attr("disabled", !this.checked);
     });
+ vm.CountryName.sort();
+    
     window.onload = function() {
      function test(){
-        vm.CountryName.sort();
-        console.log( vm.CountryName);
-        
-    }
+         vm.CountryName.sort();
+     }
     }
    
 /*---------------------for display heading of each webpage----------------------*/
@@ -30,10 +30,9 @@ $(function(){
            document.getElementById("companyNameLabel").innerHTML = "Campus Name";
        
        }else if (document.getElementById("planType").value =="business"){
-           console.log("kkkk");
            document.getElementById("companyNumberLabelId").style.display = "block";
            document.getElementById("number").style.display = "block";
-            document.getElementById("companyNumberLabelId").innerHTML == "Company Number";
+           document.getElementById("companyNumberLabelId").innerHTML == "Company Number";
            document.getElementById("companyNameLabel").innerHTML = "Company Name"; 
       
        }
@@ -44,12 +43,12 @@ $(function(){
         document.getElementById('state').options.length = 0;
         
          var countryName = $(this).val();
-         
-         /*-----------for fill dialcode------------------*/
+        
+        /*-----------for fill dialcode------------------*/
          for(var i=0; i <vm.CountryAllData.length; i++){
              if (vm.CountryAllData[i][0] == countryName ) {
                  $("#dialCode").val(vm.CountryAllData[i][1]);
-                  $("#dialCode").attr('disabled', true);
+                 $("#dialCode").attr('disabled', true);
                  var countryCode = vm.CountryAllData[i][2]
                  
             }
