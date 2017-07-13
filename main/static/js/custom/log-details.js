@@ -74,19 +74,14 @@ $(function(){
             var durationSplitArray = duration.split(":");
             var duartionHours = durationSplitArray[0];
             var durationMinutes = durationSplitArray[1];
-            console.log("hours",hours,"minutes",minutes)
             var localTimeInMinutes = parseFloat(hours)*60 + parseFloat(minutes);
-            console.log("localTimeInMinutes",localTimeInMinutes)
-             console.log("durationMinutes",durationMinutes)
             if (localTimeInMinutes>durationMinutes){
-                console.log("aiii");
                 var loggedTime = localTimeInMinutes - durationMinutes
                 var loggedHours = window.parseInt(loggedTime/60);
                 var loggedMins = loggedTime%60;
             }
-            console.log("loggedHours",loggedHours,"loggedMins",loggedMins)
-            var actualloggedTime =loggedHours +":"+loggedMins
-            var between = actualloggedTime + "to" +hours + ":" +minutes;
+            var actualloggedTime =loggedHours +   ":" +loggedMins
+            var between = actualloggedTime + " &nbspto&nbsp" +hours +    ":"    +minutes;
             vm.Values[i][3] = between;
             
         }

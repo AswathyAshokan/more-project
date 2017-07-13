@@ -1,4 +1,4 @@
-console.log(vm);
+console.log(vm.Values);
 /* Author :Aswathy Ashok */
 //Below line is for adding active class to layout side menu..
 document.getElementById("leave").className += " active";

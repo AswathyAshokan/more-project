@@ -76,6 +76,7 @@ func (c *LogController)LoadLogDetails() {
 				prependLogMinutes = string(logMinutes)
 			}
 			logTimeForUser := prependLogHours +":"+ prependLogMinutes*/
+			log.Println("utc tiome",logTimeNew)
 			tempValueSlice = append(tempValueSlice, logTimeNew.String())
 			latitudeInString :=strconv.FormatFloat(logUserDetail[key.String()].Latitude, 'f', 6, 64)
 			longitudeInString :=strconv.FormatFloat(logUserDetail[key.String()].Longitude, 'f', 6, 64)

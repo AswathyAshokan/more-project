@@ -99,7 +99,6 @@ func (c *LeaveController) LoadUserLeave() {
 					for _, InviteKey := range inviteUser.MapKeys() {
 
 						if userDetail.Email == userInvitation[InviteKey.String()].Email {
-							log.Println("kkkkkkkkk")
 							tempValueSlice = append(tempValueSlice, userDetail.FullName+""+"("+userInvitation[InviteKey.String()].UserType+")")
 							break
 							//tempValueSlice[8]=userInvitation[InviteKey.String()].UserType
@@ -109,7 +108,7 @@ func (c *LeaveController) LoadUserLeave() {
 					}
 					t := time.Now()
 					_, offset := t.Zone()
-
+				 	log.Println("start date",leaveDetailOfUser[key.String()].Info.StartDate,"end date",leaveDetailOfUser[key.String()].Info.EndDate)
 					startDate := time.Unix(leaveDetailOfUser[key.String()].Info.StartDate+int64(offset), 0).Format("01/02/2006")
 					tempValueSlice = append(tempValueSlice, startDate)
 					endDate := time.Unix(leaveDetailOfUser[key.String()].Info.EndDate+int64(offset), 0).Format("01/02/2006")

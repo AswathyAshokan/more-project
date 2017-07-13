@@ -4,9 +4,11 @@
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/ByPassController.go" afterPath="$PROJECT_DIR$/controllers/ByPassController.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/LeaveController.go" afterPath="$PROJECT_DIR$/controllers/LeaveController.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/LogController.go" afterPath="$PROJECT_DIR$/controllers/LogController.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/leave-details.js" afterPath="$PROJECT_DIR$/main/static/js/custom/leave-details.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/log-details.js" afterPath="$PROJECT_DIR$/main/static/js/custom/log-details.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/log.html" afterPath="$PROJECT_DIR$/main/views/template/log.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/add-task.html" afterPath="$PROJECT_DIR$/main/views/template/add-task.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,11 +23,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="LogController.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="LogController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/LogController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1386">
-              <caret line="77" column="38" lean-forward="false" selection-start-line="77" selection-start-column="24" selection-end-line="77" selection-end-column="38" />
+            <state relative-caret-position="270">
+              <caret line="78" column="58" lean-forward="false" selection-start-line="78" selection-start-column="58" selection-end-line="78" selection-end-column="58" />
               <folding>
                 <element signature="e#20#166#0" expanded="true" />
               </folding>
@@ -33,11 +35,21 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="LeaveController.go" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/controllers/LeaveController.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="432">
+              <caret line="110" column="167" lean-forward="false" selection-start-line="110" selection-start-column="167" selection-end-line="110" selection-end-column="167" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="ByPassController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="34" column="59" lean-forward="false" selection-start-line="34" selection-start-column="59" selection-end-line="34" selection-end-column="59" />
+            <state relative-caret-position="540">
+              <caret line="34" column="57" lean-forward="false" selection-start-line="34" selection-start-column="57" selection-end-line="34" selection-end-column="57" />
               <folding />
             </state>
           </provider>
@@ -55,7 +67,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>taskNam</find>
       <find>TaskUsers</find>
       <find>FitToWorkCh</find>
       <find>FitToWork</find>
@@ -85,6 +96,7 @@
       <find>get  instr</find>
       <find>GetMemberStatus</find>
       <find>logTimeForUser</find>
+      <find>offset</find>
     </findStrings>
     <replaceStrings>
       <replace>instructionKeyString</replace>
@@ -111,7 +123,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/viewmodels/TaskViewModel.go" />
         <option value="$PROJECT_DIR$/controllers/CustomerController.go" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
         <option value="$PROJECT_DIR$/models/LoginModel.go" />
@@ -162,6 +173,7 @@
         <option value="$PROJECT_DIR$/controllers/FitToWorkController.go" />
         <option value="$PROJECT_DIR$/controllers/ByPassController.go" />
         <option value="$PROJECT_DIR$/controllers/LogController.go" />
+        <option value="$PROJECT_DIR$/controllers/LeaveController.go" />
       </list>
     </option>
   </component>
@@ -610,13 +622,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00085" summary="20/04/2017  9:57: invitation">
-      <created>1492664150231</created>
-      <option name="number" value="00085" />
-      <option name="presentableId" value="LOCAL-00085" />
-      <option name="project" value="LOCAL" />
-      <updated>1492664150232</updated>
-    </task>
     <task id="LOCAL-00086" summary="20/04/2017  9:57: invitation">
       <created>1492670095958</created>
       <option name="number" value="00086" />
@@ -953,7 +958,14 @@
       <option name="project" value="LOCAL" />
       <updated>1499924442002</updated>
     </task>
-    <option name="localTasksCounter" value="134" />
+    <task id="LOCAL-00134" summary="07/07/2013:28: log">
+      <created>1499942631495</created>
+      <option name="number" value="00134" />
+      <option name="presentableId" value="LOCAL-00134" />
+      <option name="project" value="LOCAL" />
+      <updated>1499942631495</updated>
+    </task>
+    <option name="localTasksCounter" value="135" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1033,7 +1045,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="24/04/2017  9:57: invite" />
     <MESSAGE value="26/04/2017  9:57: invitation" />
     <MESSAGE value="3/04/2017  9:57:  user invitation" />
     <MESSAGE value="3/04/2017  1:38:  user invitation new" />
@@ -1058,7 +1069,8 @@
     <MESSAGE value="16/06/2013:28:  invite user" />
     <MESSAGE value="16/06/2013:28:  dependency issues" />
     <MESSAGE value="07/07/2013:28:  consent Receipts" />
-    <option name="LAST_COMMIT_MESSAGE" value="07/07/2013:28:  consent Receipts" />
+    <MESSAGE value="07/07/2013:28: log" />
+    <option name="LAST_COMMIT_MESSAGE" value="07/07/2013:28: log" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1072,13 +1084,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/helpers/ReadTextFile.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="972">
-          <caret line="71" column="57" lean-forward="false" selection-start-line="71" selection-start-column="57" selection-end-line="71" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/controllers/LoginController.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="954">
@@ -1435,21 +1440,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/LogController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="78" column="58" lean-forward="false" selection-start-line="78" selection-start-column="58" selection-end-line="78" selection-end-column="58" />
+          <folding>
+            <element signature="e#20#166#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="34" column="59" lean-forward="false" selection-start-line="34" selection-start-column="59" selection-end-line="34" selection-end-column="59" />
+        <state relative-caret-position="540">
+          <caret line="34" column="57" lean-forward="false" selection-start-line="34" selection-start-column="57" selection-end-line="34" selection-end-column="57" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/LogController.go">
+    <entry file="file://$PROJECT_DIR$/controllers/LeaveController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1386">
-          <caret line="77" column="38" lean-forward="false" selection-start-line="77" selection-start-column="24" selection-end-line="77" selection-end-column="38" />
-          <folding>
-            <element signature="e#20#166#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="432">
+          <caret line="110" column="167" lean-forward="false" selection-start-line="110" selection-start-column="167" selection-end-line="110" selection-end-column="167" />
+          <folding />
         </state>
       </provider>
     </entry>
