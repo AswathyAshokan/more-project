@@ -54,17 +54,19 @@ $().ready(function(){
               //call back or get response here
               success : function(data){
                 var jsonData = JSON.parse(data)
-                if(jsonData[0] == "true"){
+                if(jsonData[0] == "true"){;
                     window.location ='/' + jsonData[1] +'/invite';
                    /* window.location = '/'+ jsonData[1] +'/'+ jsonData[2] +'/payment';*/
                 } else {
+                    console.log("haiiii");
                       window.location = '/login';
                 }
               }
             });
         } else {
+            $("#plan-confirm").modal();
             status = localStorage.setItem('loginStatus','false');
-            window.location = '/login';
+            //window.location = '/login';
         }
     });
 });

@@ -21,7 +21,6 @@ $(function(){
                 success :   function(data){
                    console.log(data);
                     if(data[0]=="true"){
-                        console.log("hhhh",data[3])
                         if(data[3]=="Pending"){
                            console.log("haii iam here");
                            window.location = '/plan'

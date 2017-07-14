@@ -66,7 +66,9 @@ $(function(){
         for( i=0;i<vm.Values.length;i++){
             var utcTime = vm.Values[i][3]
             var utcInDateForm = new Date(utcTime);
+            console.log("utcInDateForm",utcInDateForm);
             var localTime = (utcInDateForm.toLocaleTimeString());
+            console.log("localTime",localTime);
             var timeSplitArray = localTime.split(":");
             var hours = timeSplitArray[0];
             var minutes = timeSplitArray[1];

@@ -6,6 +6,7 @@ import (
 
 	"app/passporte/models"
 	"encoding/json"
+	"log"
 )
 
 type PlanController struct {
@@ -26,6 +27,7 @@ func (c *PlanController) PlanDetails() {
 
 //For update company plan with newly selected company plan
 func (c *PlanController) PlanUpdate() {
+	log.Println("haiiiii")
 	w := c.Ctx.ResponseWriter
 	r := c.Ctx.Request
 	storedSession,_ := SessionForPlan(w,r)

@@ -1,9 +1,15 @@
-console.log(vm.Values);
+//console.log(vm.Values);
 /* Author :Aswathy Ashok */
 //Below line is for adding active class to layout side menu..
 document.getElementById("leave").className += " active";
  var companyTeamName = vm.CompanyTeamName;
 $(function(){ 
+    
+    var utcTime = vm.Values[0][1];
+    var utcInDateForm = new Date(utcTime);
+    console.log("utcInDateForm",utcInDateForm)
+    var localTime = (utcInDateForm.toISOString());
+    console.log("localTime",localTime);
     
     var mainArray = [];   
     var table = "";
