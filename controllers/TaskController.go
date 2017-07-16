@@ -41,6 +41,7 @@ func (c *TaskController)AddNewTask() {
 		task.Info.TaskLocation =c.GetString("taskLocation")
 		startDateString := c.GetString("startDateFomJs")
 		endDateString :=c.GetString("endDateFromJs")
+		fitToWorkName :=c.GetString("fitToWorkName")
 		layout := "01/02/2006 15:04"
 		startDate, err := time.Parse(layout, startDateString)
 		if err != nil {
@@ -76,8 +77,6 @@ func (c *TaskController)AddNewTask() {
 		exposureTask := c.GetString("exposureBreakTime")
 		exposureWorkTime := c.GetString("exposureWorkTime")
 		log.Println("breakkkkk time",exposureTask)
-		FitToWork := c.GetString("addFitToWork")
-		FitToWorkSlice := strings.Split(FitToWork, ",")
 		task.Settings.DateOfCreation =time.Now().Unix()
 		task.Settings.Status = helpers.StatusActive
 		task.Settings.TaskStatus =helpers.StatusPending
@@ -186,7 +185,7 @@ func (c *TaskController)AddNewTask() {
 
 
 		//Add data to task DB
-		dbStatus :=task.AddTaskToDB(c.AppEngineCtx,companyId,FitToWorkSlice, TaskBreakTimeSlice,TaskWorkTimeSlice,tempContactId,groupKeySlice,jobIdForTask,customerIdForTask)
+		dbStatus :=task.AddTaskToDB(c.AppEngineCtx,companyId, TaskBreakTimeSlice,TaskWorkTimeSlice,tempContactId,groupKeySlice,jobIdForTask,customerIdForTask,fitToWorkName)
 		switch dbStatus {
 		case true:
 
@@ -202,6 +201,7 @@ func (c *TaskController)AddNewTask() {
 		var activeJobKey []string
 		var keySliceForGroupAndUser 	[]string
 		var keySliceForContact		[]string
+		var keySliceForFitToWork 	[]string
 		//Getting Jobs
 		dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx,companyTeamName)
 		switch dbStatus {
@@ -222,6 +222,48 @@ func (c *TaskController)AddNewTask() {
 			log.Println(helpers.ServerConnectionError)
 		}
 
+		//getting fit to work
+		var tempKeySliceFitToWork []string
+		var tempInstructionKeySlice []string
+		var instructionDescription []string
+		var fitToWorkStructSlice []viewmodels.TaskFitToWork
+		var tempfitToWorkStructSlice [][]viewmodels.TaskFitToWork
+		var fitToWorkStruct viewmodels.TaskFitToWork
+		fitToWorkById := models.GetSelectedCompanyName(c.AppEngineCtx, companyTeamName)
+		switch dbStatus {
+		case true:
+			fitToWorkDataValues := reflect.ValueOf(fitToWorkById)
+			for _, fitToWorkKey := range fitToWorkDataValues.MapKeys() {
+				tempKeySliceFitToWork = append(tempKeySliceFitToWork, fitToWorkKey.String())
+			}
+			for _, eachKey := range tempKeySliceFitToWork {
+				if fitToWorkById[eachKey].Settings.Status== helpers.StatusActive{
+					keySliceForFitToWork =append(keySliceForFitToWork,eachKey)
+					viewModel.FitToWorkArray =append(viewModel.FitToWorkArray,fitToWorkById[eachKey].FitToWorkName)
+					getInstructions := models.GetAllInstructionsOfFitToWorkById(c.AppEngineCtx, companyTeamName, eachKey)
+					fitToWorkInstructionValues := reflect.ValueOf(getInstructions)
+					for _, fitToWorkInstructionKey := range fitToWorkInstructionValues.MapKeys() {
+						tempInstructionKeySlice = append(tempInstructionKeySlice, fitToWorkInstructionKey.String())
+					}
+					log.Println("dsdfsdfsf",tempInstructionKeySlice)
+					for _, eachInstructionKey := range tempInstructionKeySlice {
+						instructionDescription =append(instructionDescription,getInstructions[eachInstructionKey].Description)
+						log.Println("instttt",instructionDescription)
+					}
+					fitToWorkStruct.FitToWorkName =fitToWorkById[eachKey].FitToWorkName
+					fitToWorkStruct.Instruction =instructionDescription
+					fitToWorkStruct.InstructionKey=tempInstructionKeySlice
+					fitToWorkStructSlice=append(fitToWorkStructSlice,fitToWorkStruct)
+				}
+			}
+			viewModel.FitToWorkKey =keySliceForFitToWork
+			tempfitToWorkStructSlice =append(tempfitToWorkStructSlice,fitToWorkStructSlice)
+			viewModel.FitToWorkForTask=tempfitToWorkStructSlice
+			log.Println("instruction struct",viewModel.FitToWorkForTask)
+		case false:
+			log.Println(helpers.ServerConnectionError)
+			}
+
 		//Getting users and groups
 
 		usersDetail :=models.Users{}
@@ -235,10 +277,10 @@ func (c *TaskController)AddNewTask() {
 				dataValue := reflect.ValueOf(testUser[key.String()].Users)
 				for _, userKeys := range dataValue.MapKeys() {
 					//viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,testUser[key.String()].Users[userKey.String()].FullName+" (User)")
-					dbStatus := usersDetail.GetActiveUsersEmailForDropDown(c.AppEngineCtx, userKeys.String(),testUser[key.String()].Users[userKeys.String()].Email,companyTeamName)
+					dbStatus := usersDetail.GetActiveUsersEmailForDropDown(c.AppEngineCtx, userKeys.String(), testUser[key.String()].Users[userKeys.String()].Email, companyTeamName)
 					switch dbStatus {
 					case true:
-						viewModel.GroupNameArray   = append(viewModel.GroupNameArray ,testUser[key.String()].Users[userKeys.String()].FullName+" (User)")
+						viewModel.GroupNameArray = append(viewModel.GroupNameArray, testUser[key.String()].Users[userKeys.String()].FullName + " (User)")
 						keySliceForGroupAndUser = append(keySliceForGroupAndUser, userKeys.String())
 					case false:
 						log.Println(helpers.ServerConnectionError)
@@ -248,6 +290,7 @@ func (c *TaskController)AddNewTask() {
 
 				}
 			}
+
 
 			allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx,companyTeamName)
 			switch dbStatus {
@@ -395,24 +438,24 @@ func (c *TaskController)LoadTaskDetail() {
 						viewModel.UniqueJobNames = append(viewModel.UniqueJobNames,"")
 					}
 					//collecting fit to work from task
-					fitToWorkDataValue := reflect.ValueOf(tasks[k].FitToWork)
-					tempFitToWork := ""
-
-					for _, fitToWorkKey := range fitToWorkDataValue.MapKeys() {
-
-						var bufferFitToWork bytes.Buffer
-						if len(tempFitToWork) == 0 {
-							bufferFitToWork.WriteString(tasks[k].FitToWork[fitToWorkKey.String()].Description)
-							tempFitToWork = bufferFitToWork.String()
-							bufferFitToWork.Reset()
-						} else {
-							bufferFitToWork.WriteString(tempFitToWork)
-							bufferFitToWork.WriteString(", ")
-							bufferFitToWork.WriteString(tasks[k].FitToWork[fitToWorkKey.String()].Description)
-							tempFitToWork = bufferFitToWork.String()
-							bufferFitToWork.Reset()
-						}
-					}
+					//fitToWorkDataValue := reflect.ValueOf(tasks[k].FitToWork)
+					//tempFitToWork := ""
+					//
+					//for _, fitToWorkKey := range fitToWorkDataValue.MapKeys() {
+					//
+					//	var bufferFitToWork bytes.Buffer
+					//	if len(tempFitToWork) == 0 {
+					//		bufferFitToWork.WriteString(tasks[k].FitToWork[fitToWorkKey.String()].Description)
+					//		tempFitToWork = bufferFitToWork.String()
+					//		bufferFitToWork.Reset()
+					//	} else {
+					//		bufferFitToWork.WriteString(tempFitToWork)
+					//		bufferFitToWork.WriteString(", ")
+					//		bufferFitToWork.WriteString(tasks[k].FitToWork[fitToWorkKey.String()].Description)
+					//		tempFitToWork = bufferFitToWork.String()
+					//		bufferFitToWork.Reset()
+					//	}
+					//}
 
 					//displaying users
 					usersDataValue := reflect.ValueOf(tasks[k].UsersAndGroups.User)
@@ -566,6 +609,7 @@ func (c *TaskController)LoadEditTask() {
 		task.Customer.CustomerName = c.GetString("customerName")
 		task.Customer.CustomerId = c.GetString("jobId")
 		task.Info.TaskLocation =c.GetString("taskLocation")
+		fitToWorkName :=c.GetString("fitToWorkName")
 		startDateString := c.GetString("startDateFomJs")
 		endDateString :=c.GetString("endDateFromJs")
 		layout := "01/02/2006 15:04"
@@ -709,7 +753,7 @@ func (c *TaskController)LoadEditTask() {
 		task.Contacts = contactMap
 
 		//Add data to task DB
-		dbStatus := task.UpdateTaskToDB(c.AppEngineCtx, taskId,companyId,FitToWorkSlice,TaskBreakTimeSlice,TaskWorkTimeSlice)
+		dbStatus := task.UpdateTaskToDB(c.AppEngineCtx, taskId,companyId,TaskBreakTimeSlice,TaskWorkTimeSlice,fitToWorkName)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -841,6 +885,52 @@ func (c *TaskController)LoadEditTask() {
 					}
 
 
+
+
+					//getting fit to work
+					var tempKeySliceFitToWork []string
+					var tempInstructionKeySlice []string
+					var instructionDescription []string
+					var keySliceForFitToWork 	[]string
+					var fitToWorkStructSlice []viewmodels.TaskFitToWork
+					var tempfitToWorkStructSlice [][]viewmodels.TaskFitToWork
+					var fitToWorkStruct viewmodels.TaskFitToWork
+					fitToWorkById := models.GetSelectedCompanyName(c.AppEngineCtx, companyTeamName)
+					switch dbStatus {
+					case true:
+						fitToWorkDataValues := reflect.ValueOf(fitToWorkById)
+						for _, fitToWorkKey := range fitToWorkDataValues.MapKeys() {
+							tempKeySliceFitToWork = append(tempKeySliceFitToWork, fitToWorkKey.String())
+						}
+						for _, eachKey := range tempKeySliceFitToWork {
+							if fitToWorkById[eachKey].Settings.Status== helpers.StatusActive{
+								keySliceForFitToWork =append(keySliceForFitToWork,eachKey)
+								viewModel.FitToWorkArray =append(viewModel.FitToWorkArray,fitToWorkById[eachKey].FitToWorkName)
+								getInstructions := models.GetAllInstructionsOfFitToWorkById(c.AppEngineCtx, companyTeamName, eachKey)
+								fitToWorkInstructionValues := reflect.ValueOf(getInstructions)
+								for _, fitToWorkInstructionKey := range fitToWorkInstructionValues.MapKeys() {
+									tempInstructionKeySlice = append(tempInstructionKeySlice, fitToWorkInstructionKey.String())
+								}
+								log.Println("dsdfsdfsf",tempInstructionKeySlice)
+								for _, eachInstructionKey := range tempInstructionKeySlice {
+									instructionDescription =append(instructionDescription,getInstructions[eachInstructionKey].Description)
+									log.Println("instttt",instructionDescription)
+								}
+								fitToWorkStruct.FitToWorkName =fitToWorkById[eachKey].FitToWorkName
+								fitToWorkStruct.Instruction =instructionDescription
+								fitToWorkStruct.InstructionKey=tempInstructionKeySlice
+								fitToWorkStructSlice=append(fitToWorkStructSlice,fitToWorkStruct)
+							}
+						}
+						viewModel.FitToWorkKey =keySliceForFitToWork
+						tempfitToWorkStructSlice =append(tempfitToWorkStructSlice,fitToWorkStructSlice)
+						viewModel.FitToWorkForTask=tempfitToWorkStructSlice
+						log.Println("instruction struct",viewModel.FitToWorkForTask)
+					case false:
+						log.Println(helpers.ServerConnectionError)
+					}
+
+
 					//Selecting group name which is to be edited...
 					dbStatus,_ := task.GetTaskDetailById(c.AppEngineCtx, taskId)
 					switch dbStatus {
@@ -969,12 +1059,14 @@ func (c *TaskController)LoadEditTask() {
 						logTimeOfUser := strconv.FormatInt(taskDetail.Info.LogTimeInMinutes,10)
 						viewModel.Log = logTimeOfUser
 						dataValue = reflect.ValueOf(taskDetail.FitToWork)
-						for _, key := range dataValue.MapKeys() {
-							fitToWorkSlice = append(fitToWorkSlice,taskDetail.FitToWork[key.String()].Description)
-						}
+						//for _, key := range dataValue.MapKeys() {
+						//	fitToWorkSlice = append(fitToWorkSlice,taskDetail.FitToWork[key.String()].Description)
+						//}
 
 						viewModel.FitToWorkCheck=taskDetail.Settings.FitToWorkDisplayStatus
 						viewModel.FitToWork = fitToWorkSlice
+						viewModel.FitToWorkName =taskDetail.FitToWork.Info.TaskFitToWorkName
+						log.Println("fittowork name",viewModel.FitToWorkName )
 						viewModel.WorkTime = WorkTime
 						viewModel.BreakTime =BreakTime
 						viewModel.JobId = taskDetail.Job.JobId

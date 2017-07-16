@@ -10,6 +10,7 @@ import (
 	"time"
 	"github.com/kjk/betterguid"
 
+
 )
 
 type Tasks   struct {
@@ -21,15 +22,32 @@ type Tasks   struct {
 	Job           	 	TaskJob
 	UsersAndGroups 		UsersAndGroups
 	Settings       		TaskSetting
-	FitToWork		map[string]TaskFitToWork
+	FitToWork		 FitToWorkForTask
 	Exposure		map[string]TaskExposure
 
 }
+type FitToWorkForTask struct {
+	FitToWorkInstruction  map[string]TaskFitToWork
+	Settings	TaskFitToWorkSettings
+	Info		TaskFitToWorkInfo
+
+}
+
+
 type TaskFitToWork struct {
 	Description    string
 	Status         string
 	DateOfCreation int64
 
+
+}
+type  TaskFitToWorkSettings struct {
+
+	Status			string
+
+}
+type TaskFitToWorkInfo struct {
+	TaskFitToWorkName  	string
 }
 type TaskExposure struct {
 	BreakDurationInMinutes  string
@@ -103,7 +121,7 @@ type UsersAndGroups struct {
 }
 
 /*add task details to DB*/
-func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSlice []string,WorkBreakSlice []string,TaskWorkTimeSlice []string, ContactId []string,GroupId []string,JobId string,CustomerId string)(bool)  {
+func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSlice []string,TaskWorkTimeSlice []string, ContactId []string,GroupId []string,JobId string,CustomerId string,fitToWorksName string)(bool)  {
 
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
@@ -123,21 +141,37 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,FitToWorkSli
 	taskDataString := strings.Split(taskData.String(),"/")
 	taskUniqueID := taskDataString[len(taskDataString)-2]
 	//for adding fit to work to database
-	fitToWorkMap := make(map[string]TaskFitToWork)
-	fitToWorkForTask :=TaskFitToWork{}
-	if FitToWorkSlice[0] !=""{
-
-		for i := 0; i < len(FitToWorkSlice); i++ {
-
-			fitToWorkForTask.Description =FitToWorkSlice[i]
-			fitToWorkForTask.DateOfCreation =time.Now().Unix()
-			fitToWorkForTask.Status = helpers.StatusActive
-			id := betterguid.New()
-			fitToWorkMap[id] = fitToWorkForTask
-			err = dB.Child("/Tasks/"+taskUniqueID+"/FitToWork/").Set(fitToWorkMap)
+	FitToWorkForSetting :=TaskFitToWorkSettings{}
+	FitToWorkForInfo  :=TaskFitToWorkInfo{}
+	var tempKeySlice []string
+	instructionOfFitWork :=map[string]TaskFitToWorks{}
+	fitToWork :=map[string]FitToWork{}
+	db,err :=GetFirebaseClient(ctx,"")
+	err = db.Child("FitToWork/"+ companyId).Value(&fitToWork)
+	fitToWorkDataValues := reflect.ValueOf(fitToWork)
+	for _, fitToWorkKey := range fitToWorkDataValues.MapKeys() {
+		tempKeySlice = append(tempKeySlice, fitToWorkKey.String())
+	}
+	log.Println("value in tempslice",tempKeySlice)
+	for _, eachKey := range tempKeySlice {
+		log.Println(reflect.TypeOf(fitToWork[eachKey].FitToWorkName))
+		log.Println(reflect.TypeOf(fitToWorksName))
+		string1 :=fitToWork[eachKey].FitToWorkName
+		string2 :=fitToWorksName
+		if Compare(string1,string2) ==0 {
+			log.Println("insideeee")
+			err = db.Child("FitToWork/"+companyId+"/"+eachKey+"/Instructions").Value(&instructionOfFitWork)
+			log.Println("instructions .....",instructionOfFitWork)
+			err = dB.Child("/Tasks/"+taskUniqueID+"/FitToWork/FitToWorkInstruction").Set(instructionOfFitWork)
 
 		}
+
 	}
+	FitToWorkForSetting.Status =helpers.StatusActive
+	err = dB.Child("/Tasks/"+taskUniqueID+"/FitToWork/Settings").Set(FitToWorkForSetting)
+	FitToWorkForInfo.TaskFitToWorkName =fitToWorksName
+	err = dB.Child("/Tasks/"+taskUniqueID+"/FitToWork/Info").Set(FitToWorkForInfo)
+
 	// for adding work break to database
 
 	ExposureMap := make(map[string]TaskExposure)
@@ -429,7 +463,7 @@ func (m *Tasks) GetAllContact(ctx context.Context)(bool,map[string]Tasks) {
 }
 
 /* Function for update task on DB*/
-func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId string,FitToWorkSlice []string,WorkBreakSlice []string,TaskWorkTimeSlice []string)(bool)  {
+func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId string,WorkBreakSlice []string,TaskWorkTimeSlice []string,fitToWorkName string)(bool)  {
 
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
@@ -455,18 +489,36 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	}
 
 	//for adding fit to work to database
-	fitToWorkMap := make(map[string]TaskFitToWork)
-	fitToWorkForTask :=TaskFitToWork{}
-	for i := 0; i < len(FitToWorkSlice); i++ {
+	FitToWorkForSetting :=TaskFitToWorkSettings{}
+	FitToWorkForInfo  :=TaskFitToWorkInfo{}
+	var tempKeySlice []string
+	instructionOfFitWork :=map[string]TaskFitToWorks{}
+	fitToWork :=map[string]FitToWork{}
+	db,err :=GetFirebaseClient(ctx,"")
+	err = db.Child("FitToWork/"+ companyId).Value(&fitToWork)
+	fitToWorkDataValues := reflect.ValueOf(fitToWork)
+	for _, fitToWorkKey := range fitToWorkDataValues.MapKeys() {
+		tempKeySlice = append(tempKeySlice, fitToWorkKey.String())
+	}
+	log.Println("value in tempslice",tempKeySlice)
+	for _, eachKey := range tempKeySlice {
+		log.Println(reflect.TypeOf(fitToWork[eachKey].FitToWorkName))
+		log.Println(reflect.TypeOf(fitToWorkName))
+		string1 :=fitToWork[eachKey].FitToWorkName
+		string2 :=fitToWorkName
+		if Compare(string1,string2) ==0 {
+			log.Println("insideeee")
+			err = db.Child("FitToWork/"+companyId+"/"+eachKey+"/Instructions").Value(&instructionOfFitWork)
+			log.Println("instructions .....",instructionOfFitWork)
+			err = dB.Child("/Tasks/"+taskId+"/FitToWork/FitToWorkInstruction").Set(instructionOfFitWork)
 
-		fitToWorkForTask.Description =FitToWorkSlice[i]
-		fitToWorkForTask.DateOfCreation =time.Now().Unix()
-		fitToWorkForTask.Status = helpers.StatusActive
-		id := betterguid.New()
-		fitToWorkMap[id] = fitToWorkForTask
-		err = dB.Child("/Tasks/"+taskId+"/FitToWork/").Set(fitToWorkMap)
+		}
 
 	}
+	FitToWorkForSetting.Status =helpers.StatusActive
+	err = dB.Child("/Tasks/"+taskId+"/FitToWork/Settings").Set(FitToWorkForSetting)
+	FitToWorkForInfo.TaskFitToWorkName =fitToWorkName
+	err = dB.Child("/Tasks/"+taskId+"/FitToWork/Info").Set(FitToWorkForInfo)
 	ExposureMap := make(map[string]TaskExposure)
 	ExposureTask :=TaskExposure{}
 	if WorkBreakSlice[0] !=""{
@@ -605,4 +657,15 @@ func (m *TaskExposure) GetTaskWorkBreakDetailById(ctx context.Context, taskId st
 	}
 	return true, taskBreakDetail
 
+}
+
+
+func Compare(a, b string) int {
+	if a == b {
+		return 0
+	}
+	if a < b {
+		return -1
+	}
+	return +1
 }

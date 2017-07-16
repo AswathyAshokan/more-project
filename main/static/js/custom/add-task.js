@@ -1,7 +1,7 @@
 /* Author :Aswathy Ashok */
 //Below line is for adding active class to layout side menu..
 
-console.log(vm.CompanyPlan);
+console.log(vm.FitToWorkArray);
 document.getElementById("task").className += " active";
 var pageType = vm.PageType;
 var customerName = "";
@@ -23,6 +23,8 @@ var exposureSlice =[];
 var exposureTimeArray =[];
 var exposureWorkSlice =[];
 var exposureWorkTimeArray =[];
+ var repeat= "";
+var fitWork= "";
 console.log("log",vm.Log);
 //if group members is null ,group member array is initialised
 if(vm.GroupMembers == null) {
@@ -72,6 +74,9 @@ $(function () {
       actualToDate.setSeconds(59);
   });
     if (pageType == "edit") {
+        var fitToWorkName = vm.FitToWorkName
+        console.log("fit to work",fitToWorkName);
+        $('#TaskFitToWork option:contains(' + fitToWorkName + ')').prop({selected: true});
         var selectArrayForGroup = vm.GroupMembersAndUserToEdit;
         $("#userOrGroup").val(selectArrayForGroup);
         var selectArray =  vm.ContactNameToEdit;
@@ -96,19 +101,13 @@ $(function () {
         loginTypeForEdit = vm.LoginType;
         
         document.getElementById("jobName").value = vm.JobName;
+        console.log("jobbbbb",vm.JobName);
         document.getElementById("taskName").value = vm.TaskName;
         document.getElementById("taskLocation").value = vm.TaskLocation;
         document.getElementById("startDate").value = vm.StartDate;
         document.getElementById("endDate").value = vm.EndDate;
         document.getElementById("taskDescription").value = vm.TaskDescription;
         document.getElementById("taskLocation").value =vm.TaskLocation
-        document.getElementById("addFitToWorkValue").value = vm.FitToWork[0];
-        var dynamicTextBox= "";
-        for (var i = 1; i < vm.FitToWork.length; i++) {
-            dynamicTextBox+= '<div class="plus"><input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + vm.FitToWork[i] + '" />&nbsp;' +
-            '<button    class="delete-decl" >+</button></div>';
-        }
-        $("#TextBoxContainer").prepend(dynamicTextBox);
        
         document.getElementById("taskHead").innerHTML = "Edit Task";
         $("body").on("click", ".delete-decl", function () {
@@ -140,20 +139,20 @@ $(function () {
     
    
    
-    //function for getting textbox dynamically
-    $("#btnAdd").bind("click", function () {
-        var div = $("<div class='plus'/>");
-        div.html(GetDynamicTextBox(""));
-        $("#TextBoxContainer").prepend(div);
-    });
-    $("body").on("click", ".delete-decl", function () {
-        $(this).closest("div").remove();
-    });
+//    //function for getting textbox dynamically
+//    $("#btnAdd").bind("click", function () {
+//        var div = $("<div class='plus'/>");
+//        div.html(GetDynamicTextBox(""));
+//        $("#TextBoxContainer").prepend(div);
+//    });
+//    $("body").on("click", ".delete-decl", function () {
+//        $(this).closest("div").remove();
+//    });
 });
-function GetDynamicTextBox(value) {
-    return ' <input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "" />&nbsp;' +
-            '<button    class="delete-decl">+</button>'
-}
+//function GetDynamicTextBox(value) {
+//    return ' <input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "" />&nbsp;' +
+//            '<button    class="delete-decl">+</button>'
+//}
  
 
 //function for getting exposure dynamically
@@ -206,6 +205,16 @@ $().ready(function() {
         var jobDropdownId = document.getElementById("jobName");
         jobId = jobDropdownId.options[jobDropdownId.selectedIndex].id;
     }
+    
+    //getting instructions of fit to work
+    getInstructions =function(){
+        var doc = document.getElementById("TaskFitToWork");
+        alert("You selected " + doc.options[doc.selectedIndex].value);
+        fitWork =doc.options[doc.selectedIndex].value;
+    }
+    
+    
+    
     
     //function to show break time when checkbox is clicked
   $('#workExplosure').click(function () {
@@ -376,19 +385,12 @@ $().ready(function() {
                                       //get all values of fit to work
                                       
                                       var values = "";
-                                      var fitToWorkValue = document.getElementById("addFitToWorkValue").value;
-                                    
-                                      if(fitToWorkValue.length !=0)
-                                          {
-                                              
-                                              fitToWorkFromDynamicTextBox.push(fitToWorkValue);
-                                          }
-                                      $("input[name=DynamicTextBox]").each(function () {
-                                          
-                                          if($(this).val().length !=0){
-                                              fitToWorkFromDynamicTextBox.push($(this).val())
-                                          }
-                                      });
+//                                      $("input[name=DynamicTextBox]").each(function () {
+//                                          
+//                                          if($(this).val().length !=0){
+//                                              fitToWorkFromDynamicTextBox.push($(this).val())
+//                                          }
+//                                      });
                                       if (document.getElementById('jobName').length !=0)
                                           {
                                               getJobAndCustomer(); 
@@ -425,7 +427,7 @@ $().ready(function() {
                                       }else {
                                           fitToWorkCheck ="OnceADay";
                                       }
-                                      var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&addFitToWork=" + fitToWorkFromDynamicTextBox +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask +"&endDateFromJs="+ endDateOfTask+"&fitToWorkCheck="+ fitToWorkCheck+"&exposureBreakTime="+ exposureSlice+"&exposureWorkTime="+ exposureWorkSlice;
+                                      var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask +"&endDateFromJs="+ endDateOfTask+"&fitToWorkCheck="+ fitToWorkCheck+"&exposureBreakTime="+ exposureSlice+"&exposureWorkTime="+ exposureWorkSlice+"&fitToWorkName="+ fitWork;
                                       var selectedContactNames = [];
 
                //get the user's name corresponding to  keys selected from dropdownlist

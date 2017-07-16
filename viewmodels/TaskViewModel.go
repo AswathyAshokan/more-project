@@ -42,6 +42,10 @@ type EditTaskViewModel  struct {
 	WorkTime			[]string
 	BreakTime			[]string
 	NFCTagId			string
+	FitToWorkName			string
+	FitToWorkArray			[]string
+	FitToWorkKey			[]string
+	FitToWorkForTask		[][]TaskFitToWork
 
 
 }
@@ -60,6 +64,9 @@ type AddTaskViewModel  struct {
 	AdminFirstName			string
 	AdminLastName			string
 	ProfilePicture			string
+	FitToWorkArray			[]string
+	FitToWorkKey			[]string
+	FitToWorkForTask		[][]TaskFitToWork
 
 
 }
@@ -92,4 +99,11 @@ type TaskDetailViewModel  struct {
 	JobMatch				string
 	UserArray				[][]TaskUsers
 	MinUserAndLoginTypeArray		[][]string
+}
+
+type TaskFitToWork struct {
+	FitToWorkName 	string
+	Instruction	[]string
+	InstructionKey	[]string
+
 }

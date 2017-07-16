@@ -175,7 +175,18 @@
 
 							</div>
                         </div>
-                        <label for="fitToWork" class="form-group clearfix" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   Fit To Work Declaration</label>
+                        <div class="form-group clearfix">
+                            <div class="col-sm-6" id="fitToWorkDiv">
+                                <label for="fitToWork" class="" >Fit To Work Declaration</label>
+                                <select class="form-control sprites-arrow-down" id="TaskFitToWork" name="TaskFitToWork" onchange="getInstructions();" >
+                                    <option selected disabled value="">Select Fit To Work</option>
+                                    {{range $key, $val := .vm.FitToWorkArray}}
+                                    <option  id="{{index $.vm.FitToWorkKey $key}}" value="{{$val}}" >{{$val}} </option>
+                                    {{end}}
+                                </select>
+                                
+
+<!--
                         <div class="form-group clearfix">
 							<div class="col-sm-6" id="TextBoxContainer">
                                 <div class="plus" id="fitToWorkAdd" >
@@ -183,9 +194,13 @@
                                     <img  id="btnAdd" src="/static/images/fitToWork.png" width="20" height="20" style= "float:right; margin-top:-2em; margin-right:-2em;"  />
                                     
                                 </div>
-<!--                                onclick="initialize();"-->
+                                onclick="initialize();"
                             </div>
 						</div>
+-->
+                            </div>
+                            <div class="wrp-plus"></div>
+                        </div>
                          <div class="col-sm-6" >
                              <label><p><input type="checkbox" id="fitToWorkCheck" name="fitToWorkCheck">&nbsp;&nbsp;&nbsp;Fit To Work Declaration Each Time User Re-enter into Task.</p> </label>
                              <label for="workExplosure" id="workExplosureLabel">
