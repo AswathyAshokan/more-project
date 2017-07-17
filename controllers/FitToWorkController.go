@@ -209,7 +209,9 @@ func (c *FitToWorkController)DeleteFitToWorkInTask() {
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	ReadSession(w, r, companyTeamName)
 	fitToWorkId := c.Ctx.Input.Param(":fitToWorkId")
+	log.Println("fit id",fitToWorkId)
 	fitToWorkData := models.FitToWork{}
+	taskFitToWork := models.Tasks{}
 	dbStatus,fitDetail := fitToWorkData.IsfitToWorkUsedForTask(c.AppEngineCtx, fitToWorkId,companyTeamName)
 	log.Println("statusssssss", dbStatus)
 	log.Println(fitDetail)
@@ -220,13 +222,27 @@ func (c *FitToWorkController)DeleteFitToWorkInTask() {
 		if len(fitDetail) != 0 {
 			dataValue := reflect.ValueOf(fitDetail)
 			for _, key := range dataValue.MapKeys() {
-				if fitDetail[key.String()].Settings.Status== helpers.StatusActive {
+				log.Println("k1",key.String())
+				log.Println("k2",fitToWorkId)
+				if key.String() == fitToWorkId {
 					log.Println("insideeee fgjgfjh")
-					condition = "true"
-					break
-				} else {
-					log.Println("false")
+					if fitDetail[key.String()].Settings.Status == helpers.StatusActive {
+						fitToWorkName := fitDetail[key.String()].FitToWorkName
+						dbStatus := taskFitToWork.IsfitToWorkContainForTask(c.AppEngineCtx, fitToWorkName, companyTeamName)
+						switch dbStatus {
+						case true:
+							log.Println("jjjjjjjjjj")
+							condition = "true"
+							break
 
+						case false :
+							condition = "false"
+						}
+
+					} else {
+						log.Println("false")
+
+					}
 				}
 			}
 			if condition == "true"{

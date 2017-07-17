@@ -100,6 +100,7 @@ $(function(){
           $.ajax({
             type: "POST",
             url: '/' + companyTeamName +'/fitToWork/'+ fitToWorkId + '/deletionOfFitToWorkIfUsedForTask',
+              
             data: '',
             success: function(response){
                 console.log("dhfg",response)

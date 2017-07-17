@@ -202,19 +202,32 @@ func CheckFitWorkNameIsUsed(ctx context.Context, fitWorkName string,companyTeamN
 	}
 	return false
 }
-func (m *FitToWork) IsfitToWorkUsedForTask( ctx context.Context, fitToWorkId string,companyTeamName string)(bool,map[string]FitToWork)  {
-	fitDetail := map[string]FitToWork{}
+func (m *FitToWork) IsfitToWorkUsedForTask( ctx context.Context, fitToWorkId string,companyTeamName string)(bool, map[string]FitToWork)  {
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
-	err = dB.Child("FitToWork/"+companyTeamName+"/"+fitToWorkId).Value(&fitDetail)
-	if err!=nil{
-		log.Println("Insertion error:",err)
-		return false,fitDetail
-	}
-	log.Println(fitDetail)
-	log.Println("job inside task",fitDetail)
+	fitToWorkValue := map[string]FitToWork{}
+	err = dB.Child("FitToWork/"+ companyTeamName).Value(&fitToWorkValue)
+	log.Println("job inside task",fitToWorkValue)
 
-	return true,fitDetail
+	return true,fitToWorkValue
+}
+func (m *Tasks) IsfitToWorkContainForTask( ctx context.Context, fitToWorkName string,companyTeamName string)(bool)  {
+	dB, err := GetFirebaseClient(ctx,"")
+	if err!=nil{
+		log.Println("Connection error:",err)
+	}
+	taskValue := map[string]Tasks{}
+	err = dB.Child("Tasks").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&taskValue)
+	dataValueOfFitToWorkForTask := reflect.ValueOf(taskValue)
+	for _, taskKeys:=range dataValueOfFitToWorkForTask.MapKeys(){
+		if taskValue[taskKeys.String()].FitToWork.Info.TaskFitToWorkName == fitToWorkName{
+			return  true
+			break
+		}
+
+	}
+
+	return false
 }
