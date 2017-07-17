@@ -123,6 +123,19 @@ func(m *FitToWork) UpdateFitToWorkToDb(ctx context.Context,instructionSlice []st
 			}
 		}
 	}
+	fitToWorkUpdate :=FitToWorkForTask{}
+	taskValue := map[string]Tasks{}
+	fitToWorkUpdate.Settings.Status =m.Settings.Status
+	fitToWorkUpdate.Info.TaskFitToWorkName =m.FitToWorkName
+	fitToWorkUpdate.FitToWorkInstruction =instructionMap
+	err = db.Child("Tasks").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&taskValue)
+	dataValueOfFitToWorkForTask := reflect.ValueOf(taskValue)
+	for _, taskKeys:=range dataValueOfFitToWorkForTask.MapKeys(){
+		if taskValue[taskKeys.String()].Settings.Status ==helpers.StatusActive&& taskValue[taskKeys.String()].FitToWork.Info.FitToWorkId ==fitToWorkId{
+			err = db.Child("/Tasks/"+taskKeys.String()+"/FitToWork").Set(fitToWorkUpdate)
+		}
+	}
+
 	return true
 }
 func GetEachFitToWorkByCompanyId(ctx context.Context, fitToWorkId string,companyTeamName string)(FitToWork){

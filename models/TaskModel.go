@@ -48,6 +48,7 @@ type  TaskFitToWorkSettings struct {
 }
 type TaskFitToWorkInfo struct {
 	TaskFitToWorkName  	string
+	FitToWorkId 		string
 }
 type TaskExposure struct {
 	BreakDurationInMinutes  string
@@ -144,6 +145,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 	FitToWorkForSetting :=TaskFitToWorkSettings{}
 	FitToWorkForInfo  :=TaskFitToWorkInfo{}
 	var tempKeySlice []string
+	var fitToWOrkKey =""
 	instructionOfFitWork :=map[string]TaskFitToWorks{}
 	fitToWork :=map[string]FitToWork{}
 	db,err :=GetFirebaseClient(ctx,"")
@@ -160,6 +162,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 		string2 :=fitToWorksName
 		if Compare(string1,string2) ==0 {
 			log.Println("insideeee")
+			fitToWOrkKey =eachKey
 			err = db.Child("FitToWork/"+companyId+"/"+eachKey+"/Instructions").Value(&instructionOfFitWork)
 			log.Println("instructions .....",instructionOfFitWork)
 			err = dB.Child("/Tasks/"+taskUniqueID+"/FitToWork/FitToWorkInstruction").Set(instructionOfFitWork)
@@ -170,6 +173,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 	FitToWorkForSetting.Status =helpers.StatusActive
 	err = dB.Child("/Tasks/"+taskUniqueID+"/FitToWork/Settings").Set(FitToWorkForSetting)
 	FitToWorkForInfo.TaskFitToWorkName =fitToWorksName
+	FitToWorkForInfo.FitToWorkId =fitToWOrkKey
 	err = dB.Child("/Tasks/"+taskUniqueID+"/FitToWork/Info").Set(FitToWorkForInfo)
 
 	// for adding work break to database
