@@ -194,7 +194,6 @@ func (c *FitToWorkController) CheckFitToWork(){
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	log.Println("inside check")
 	isFitWorkNameUsed := models.CheckFitWorkNameIsUsed(c.AppEngineCtx, fitWorkName,companyTeamName)
-	log.Println("fffff",isFitWorkNameUsed)
 	switch isFitWorkNameUsed{
 	case true:
 		w.Write([]byte("false"))
@@ -205,33 +204,24 @@ func (c *FitToWorkController) CheckFitToWork(){
 func (c *FitToWorkController)DeleteFitToWorkInTask() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	log.Println("inside delete")
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	ReadSession(w, r, companyTeamName)
 	fitToWorkId := c.Ctx.Input.Param(":fitToWorkId")
-	log.Println("fit id",fitToWorkId)
 	fitToWorkData := models.FitToWork{}
 	taskFitToWork := models.Tasks{}
 	dbStatus,fitDetail := fitToWorkData.IsfitToWorkUsedForTask(c.AppEngineCtx, fitToWorkId,companyTeamName)
-	log.Println("statusssssss", dbStatus)
-	log.Println(fitDetail)
 	var condition string
 	switch dbStatus {
 	case true:
-		log.Println("true")
 		if len(fitDetail) != 0 {
 			dataValue := reflect.ValueOf(fitDetail)
 			for _, key := range dataValue.MapKeys() {
-				log.Println("k1",key.String())
-				log.Println("k2",fitToWorkId)
 				if key.String() == fitToWorkId {
-					log.Println("insideeee fgjgfjh")
 					if fitDetail[key.String()].Settings.Status == helpers.StatusActive {
 						fitToWorkName := fitDetail[key.String()].FitToWorkName
 						dbStatus := taskFitToWork.IsfitToWorkContainForTask(c.AppEngineCtx, fitToWorkName, companyTeamName)
 						switch dbStatus {
 						case true:
-							log.Println("jjjjjjjjjj")
 							condition = "true"
 							break
 
@@ -246,7 +236,6 @@ func (c *FitToWorkController)DeleteFitToWorkInTask() {
 				}
 			}
 			if condition == "true"{
-				log.Println("ffffffffffff")
 
 				w.Write([]byte("true"))
 			}else {

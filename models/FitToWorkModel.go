@@ -222,7 +222,7 @@ func (m *Tasks) IsfitToWorkContainForTask( ctx context.Context, fitToWorkName st
 	err = dB.Child("Tasks").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&taskValue)
 	dataValueOfFitToWorkForTask := reflect.ValueOf(taskValue)
 	for _, taskKeys:=range dataValueOfFitToWorkForTask.MapKeys(){
-		if taskValue[taskKeys.String()].FitToWork.Info.TaskFitToWorkName == fitToWorkName{
+		if taskValue[taskKeys.String()].FitToWork.Info.TaskFitToWorkName == fitToWorkName&& taskValue[taskKeys.String()].Settings.Status == helpers.StatusActive{
 			return  true
 			break
 		}
