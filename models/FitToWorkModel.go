@@ -6,6 +6,7 @@ import(
 	"strings"
 	"time"
 	"app/passporte/helpers"
+	"reflect"
 )
 
 
@@ -100,7 +101,7 @@ func(m *FitToWork) UpdateFitToWorkToDb(ctx context.Context,instructionSlice []st
 		return  false
 	}
 	m.Settings.Status = fitToWorkDetails.Settings.Status
-	err = db.Child("/ConsentReceipts/"+companyTeamName+"/"+fitToWorkId).Update(&m)
+	err = db.Child("/FitToWork/"+companyTeamName+"/"+fitToWorkId).Update(&m)
 
 	if err != nil {
 		log.Fatal(err)
@@ -161,4 +162,59 @@ func DeleteFitToWorkById(ctx context.Context,fitToWorkId string,companyTeamName 
 		return  false
 	}
 	return true
+}
+func CheckFitWorkNameIsUsed(ctx context.Context, fitWorkName string,companyTeamName string)bool{
+	fitToWork :=map[string]FitToWork{}
+	fitWork :=map[string]FitToWork{}
+	fullFitToWork :=map[string]FitToWork{}
+	dB, err := GetFirebaseClient(ctx, "")
+	if err != nil {
+		log.Println("No Db Connection!")
+	}
+	err = dB.Child("FitToWork/").Value(&fitToWork)
+	if err!=nil{
+		log.Println("Error:",err)
+	}
+	log.Println("inside checking value",fitToWork)
+	FitToWorkDetails := reflect.ValueOf(fitToWork)
+	for _, fitKey:=range FitToWorkDetails.MapKeys() {
+		log.Println("vddfgsf",companyTeamName)
+		log.Println("hhhhh",fitKey.String())
+		if fitKey.String() ==companyTeamName {
+			log.Println("inside if")
+			err = dB.Child("FitToWork/"+ companyTeamName).Value(&fullFitToWork)
+			log.Println("inside fgfdgdg",fullFitToWork)
+
+		}
+
+	}
+	dataValueOfFitToWork := reflect.ValueOf(fullFitToWork)
+	for _, fitKeys:=range dataValueOfFitToWork.MapKeys(){
+		log.Println("idddd",fitKeys.String())
+		log.Println("gggg",fitWorkName)
+		log.Println("mmmm",fullFitToWork[fitKeys.String()].FitToWorkName)
+		if fullFitToWork[fitKeys.String()].FitToWorkName == fitWorkName{
+			log.Println("gggggg")
+			return true
+			break
+		}
+		log.Println("dfsgdfgdggfsgfdgdgd",fitWork)
+	}
+	return false
+}
+func (m *FitToWork) IsfitToWorkUsedForTask( ctx context.Context, fitToWorkId string,companyTeamName string)(bool,map[string]FitToWork)  {
+	fitDetail := map[string]FitToWork{}
+	dB, err := GetFirebaseClient(ctx,"")
+	if err!=nil{
+		log.Println("Connection error:",err)
+	}
+	err = dB.Child("FitToWork/"+companyTeamName+"/"+fitToWorkId).Value(&fitDetail)
+	if err!=nil{
+		log.Println("Insertion error:",err)
+		return false,fitDetail
+	}
+	log.Println(fitDetail)
+	log.Println("job inside task",fitDetail)
+
+	return true,fitDetail
 }

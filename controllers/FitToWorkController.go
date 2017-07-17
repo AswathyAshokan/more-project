@@ -187,3 +187,59 @@ func (c *FitToWorkController) DeleteFitToWork() {
 		w.Write([]byte("false"))
 	}
 }
+//Function to check job number exists in DB
+func (c *FitToWorkController) CheckFitToWork(){
+	w := c.Ctx.ResponseWriter
+	fitWorkName := c.GetString("fitWorkName")
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	log.Println("inside check")
+	isFitWorkNameUsed := models.CheckFitWorkNameIsUsed(c.AppEngineCtx, fitWorkName,companyTeamName)
+	log.Println("fffff",isFitWorkNameUsed)
+	switch isFitWorkNameUsed{
+	case true:
+		w.Write([]byte("false"))
+	case false:
+		w.Write([]byte("true"))
+	}
+}
+func (c *FitToWorkController)DeleteFitToWorkInTask() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	log.Println("inside delete")
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
+	fitToWorkId := c.Ctx.Input.Param(":fitToWorkId")
+	fitToWorkData := models.FitToWork{}
+	dbStatus,fitDetail := fitToWorkData.IsfitToWorkUsedForTask(c.AppEngineCtx, fitToWorkId,companyTeamName)
+	log.Println("statusssssss", dbStatus)
+	log.Println(fitDetail)
+	var condition string
+	switch dbStatus {
+	case true:
+		log.Println("true")
+		if len(fitDetail) != 0 {
+			dataValue := reflect.ValueOf(fitDetail)
+			for _, key := range dataValue.MapKeys() {
+				if fitDetail[key.String()].Settings.Status== helpers.StatusActive {
+					log.Println("insideeee fgjgfjh")
+					condition = "true"
+					break
+				} else {
+					log.Println("false")
+
+				}
+			}
+			if condition == "true"{
+				log.Println("ffffffffffff")
+
+				w.Write([]byte("true"))
+			}else {
+				w.Write([]byte("false"))
+			}
+		} else {
+			w.Write([]byte("false"))
+		}
+	case false :
+		w.Write([]byte("false"))
+	}
+}

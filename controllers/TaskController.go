@@ -649,8 +649,6 @@ func (c *TaskController)LoadEditTask() {
 		task.Info.NFCTagID =c.GetString("nfcTagId")
 		task.Location.Latitude = c.GetString("latitude")
 		task.Location.Longitude = c.GetString("longitude")
-		FitToWork := c.GetString("addFitToWork")
-		FitToWorkSlice := strings.Split(FitToWork, ",")
 		task.Settings.DateOfCreation = time.Now().Unix()
 		tempFitToWorkCheck :=c.GetString("fitToWorkCheck")
 

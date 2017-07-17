@@ -26,11 +26,20 @@ $().ready(function() {
     });
      $("#addFitToWorkForm").validate({
         rules: {
-            fitWorkName:"required",
+             fitWorkName: {
+                required: true,
+                remote:{
+                    url: '/' + companyTeamName+"/isFitToWorkNameUsed/" + fitWorkName,
+                    type: "post"
+                }
+            },
             addFitToWorkValue:"required"
         },
         messages: {
-            fitWorkName:"Please enter fit to work Name",
+            fitWorkName: {
+                required: "Please enter fit to work Name",
+                remote: "fit to work already exists!"
+            },
             addFitToWorkValue: "Please add instruction"
         },
         submitHandler: function(){//to pass all data of a form serial

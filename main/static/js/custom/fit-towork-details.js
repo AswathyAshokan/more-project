@@ -95,36 +95,49 @@ $(function(){
     });
     
      $('#fit-to-work-details tbody').on( 'click', '#delete', function () {
-        $("#myModal").modal();
-        var data = table.row( $(this).parents('tr') ).data();
-        var  fitToWorkId = data[2];
-        $("#confirm").click(function(){
-            console.log("cp1");
-            $.ajax({
-                type: "POST",
-                url: '/' + companyTeamName +'/fitToWork/'+ fitToWorkId + '/delete',
-                data: '',
-                success: function(data){
-                    if(data=="true"){
-                        $('#fit-to-work-details').dataTable().fnDestroy();
-                        var index = "";
-                        for(var i = 0; i < mainArray.length; i++) {
-                            index = mainArray[i].indexOf(fitToWorkId);
-                            if(index != -1) {
-                                console.log("dddd", i);
-                                break;
+          $.ajax({
+            type: "POST",
+            url: '/' + companyTeamName +'/fitToWork/'+ fitToWorkId + '/deletionOfFitToWorkIfUsedForTask',
+            data: '',
+            success: function(response){
+                console.log("dhfg",response)
+                
+                if(response=="true"){
+                   
+                     $("#myFitWorkModel").modal();
+                }else{
+                    $("#myModal").modal();
+                    var data = table.row( $(this).parents('tr') ).data();
+                    var  fitToWorkId = data[2];
+                    $("#confirm").click(function(){
+                        console.log("cp1");
+                        $.ajax({
+                            type: "POST",
+                            url: '/' + companyTeamName +'/fitToWork/'+ fitToWorkId + '/delete',
+                            data: '',
+                            success: function(data){
+                                if(data=="true"){
+                                    $('#fit-to-work-details').dataTable().fnDestroy();
+                                    var index = "";
+                                    for(var i = 0; i < mainArray.length; i++) {
+                                        index = mainArray[i].indexOf(fitToWorkId);
+                                        if(index != -1) {
+                                            console.log("dddd", i);
+                                            break;
+                                        }
+                                    }
+                                    mainArray.splice(i, 1);
+                                    console.log(mainArray);
+                                    dataTableManipulate();
+                                }
+                                else {
+                                    console.log("Removing Failed!");
+                                }
                             }
-                        }
-                        mainArray.splice(i, 1);
-                        console.log(mainArray);
-                        dataTableManipulate(); 
-                    }
-                    else {
-                        console.log("Removing Failed!");
-                    }
+                        });
+                    });
                 }
+            }
             });
-        });
-    });
-    
-});
+     });
+     });
