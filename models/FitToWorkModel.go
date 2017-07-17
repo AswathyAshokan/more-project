@@ -109,13 +109,19 @@ func(m *FitToWork) UpdateFitToWorkToDb(ctx context.Context,instructionSlice []st
 	}
 	instructionMap := make(map[string]TaskFitToWorks)
 	InstructionForFitToWork := TaskFitToWorks{}
+	instructionMapForTask :=make(map[string]TaskFitToWork)
+	InstructionForFitToWorkOnTask :=TaskFitToWork{}
 	if instructionSlice[0] !="" {
 		for i := 0; i < len(instructionSlice); i++ {
 			InstructionForFitToWork.Description = instructionSlice[i]
 			InstructionForFitToWork.DateOfCreation = (time.Now().UnixNano() / 1000000)
 			InstructionForFitToWork.Status = helpers.StatusActive
 			id := betterguid.New()
+			InstructionForFitToWorkOnTask.Status = helpers.StatusActive
+			InstructionForFitToWorkOnTask.DateOfCreation = (time.Now().UnixNano() / 1000000)
+			InstructionForFitToWorkOnTask.Description = instructionSlice[i]
 			instructionMap[id] = InstructionForFitToWork
+			instructionMapForTask[id] =InstructionForFitToWorkOnTask
 			err = db.Child("/FitToWork/" + companyTeamName + "/" + fitToWorkId + "/Instructions/").Set(instructionMap)
 			if err != nil {
 				log.Println(err)
@@ -127,7 +133,8 @@ func(m *FitToWork) UpdateFitToWorkToDb(ctx context.Context,instructionSlice []st
 	taskValue := map[string]Tasks{}
 	fitToWorkUpdate.Settings.Status =m.Settings.Status
 	fitToWorkUpdate.Info.TaskFitToWorkName =m.FitToWorkName
-	fitToWorkUpdate.FitToWorkInstruction =instructionMap
+	fitToWorkUpdate.Info.FitToWorkId =fitToWorkId
+	fitToWorkUpdate.FitToWorkInstruction =instructionMapForTask
 	err = db.Child("Tasks").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&taskValue)
 	dataValueOfFitToWorkForTask := reflect.ValueOf(taskValue)
 	for _, taskKeys:=range dataValueOfFitToWorkForTask.MapKeys(){
