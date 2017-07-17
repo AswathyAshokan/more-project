@@ -95,6 +95,7 @@ $(function(){
     });
     
      $('#fit-to-work-details tbody').on( 'click', '#delete', function () {
+         var  fitToWorkId = data[2];
           $.ajax({
             type: "POST",
             url: '/' + companyTeamName +'/fitToWork/'+ fitToWorkId + '/deletionOfFitToWorkIfUsedForTask',
@@ -108,7 +109,7 @@ $(function(){
                 }else{
                     $("#myModal").modal();
                     var data = table.row( $(this).parents('tr') ).data();
-                    var  fitToWorkId = data[2];
+                    
                     $("#confirm").click(function(){
                         console.log("cp1");
                         $.ajax({
