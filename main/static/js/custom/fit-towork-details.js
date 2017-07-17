@@ -95,6 +95,7 @@ $(function(){
     });
     
      $('#fit-to-work-details tbody').on( 'click', '#delete', function () {
+         var data = table.row( $(this).parents('tr') ).data();
          var  fitToWorkId = data[2];
           $.ajax({
             type: "POST",
