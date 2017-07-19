@@ -6,24 +6,22 @@ $(function(){
     $("#agree").click(function() {
       $("#register").attr("disabled", !this.checked);
     });
- vm.CountryName.sort();
+ /*vm.CountryName.sort();
     
     window.onload = function() {
      function test(){
          vm.CountryName.sort();
      }
-    }
+    }*/
    
 /*---------------------for display heading of each webpage----------------------*/
    $('#planType').on('change', function() {
        if( document.getElementById("planType").value =="family"){
-           
            document.getElementById("companyNumberLabelId").style.display = "none";
            document.getElementById("number").style.display = "none";
            document.getElementById("companyNameLabel").innerHTML = "Family Name";
        
        } else if(document.getElementById("planType").value =="campus"){
-           
            document.getElementById("companyNumberLabelId").style.display = "none";
            document.getElementById("number").style.display = "none";
            document.getElementById("companyNumberLabelId").innerHTML == "Campus Number";

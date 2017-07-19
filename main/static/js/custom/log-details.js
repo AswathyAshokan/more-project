@@ -1,7 +1,7 @@
 
-/* Author :Aswathy Ashok */
 //Below line is for adding active class to layout side menu..
-//document.getElementById("log").className += " active";
+document.getElementById("log").className += " active";
+console.log(vm);
 $(function(){
     var mainArray = [];   
     var table = "";
@@ -14,6 +14,8 @@ $(function(){
     var selectFromDate;
     var actualFromDate;
     var completeTable =[];
+    var lattitude;
+    var longitude;
     function createDataArray(values, keys){
         console.log("inside create");
         var subArray = [];
@@ -45,30 +47,52 @@ $(function(){
                
                 tempArray.push(mainArray[i]);
            }
-            
             $('#log-details').dataTable().fnDestroy();
             dataTableManipulate(tempArray);
         }
     } 
-    
-    
     function dataTableManipulate(mainArray){
         table =  $("#log-details").DataTable({
             data: mainArray,
             "searching": false,
             "info": false,
-            "lengthChange":false
+            "lengthChange":false,
+           "columnDefs": [{
+               "targets": [4],
+                render : function (data, type, row) {
+                       return '<button class="btn btn-primary btn-xs " id = "btnShow">Show Map</button>';
+                }
+           }]
         });
         $('#tbl_details_length').after($('.datepic-top'));
         
     }
+    
+   $('#log-details').on( 'click', '#btnShow', function () {
+       $("#myModal").modal()
+       googleLocation = new google.maps.LatLng(lattitude, longitude);
+       var mapOptions = {
+           center: googleLocation,
+           title: "Google Map",
+           width: 50,
+           hright: 50,
+           zoom: 18,
+           mapTypeId: google.maps.MapTypeId.ROADMAP
+       }
+       var map = new google.maps.Map($("#dvMap")[0], mapOptions);
+       var marker = new google.maps.Marker({
+    position: googleLocation,
+   });
+       marker.setMap(map);
+   });
+    
     if(vm.Values != null) {
         for( i=0;i<vm.Values.length;i++){
-            var utcTime = vm.Values[i][3]
+            var utcTime = vm.Values[i][3];
             var utcInDateForm = new Date(utcTime);
             console.log("utcInDateForm",utcInDateForm);
             var localTime = (utcInDateForm.toLocaleTimeString());
-            console.log("localTime",localTime);
+            var localDate = (utcInDateForm.toLocaleDateString());
             var timeSplitArray = localTime.split(":");
             var hours = timeSplitArray[0];
             var minutes = timeSplitArray[1];
@@ -84,7 +108,10 @@ $(function(){
             }
             var actualloggedTime =loggedHours +   ":" +loggedMins
             var between = actualloggedTime + " &nbspto&nbsp" +hours +    ":"    +minutes;
-            vm.Values[i][3] = between;
+            vm.Values[i][2]= localDate;
+            vm.Values[i][3] = hours +    ":"    +minutes;
+            lattitude = vm.Values[i][4];
+            longitude= vm.Values[i][5];
             
         }
          createDataArray(vm.Values, vm.Keys);

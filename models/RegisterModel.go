@@ -169,7 +169,6 @@ func CheckEmailIsUsed(ctx context.Context, emailId string) bool{
 
 		return true
 	}else{
-
 		return false
 	}
 }
@@ -180,7 +179,6 @@ func (m *Admins)GetCompanyDetails(ctx context.Context, adminId string) (bool,Adm
 		log.Println("No Db Connection!")
 	}
 	err = dB.Child("Admins/"+adminId).Value(&companyAdmins)
-	log.Println("companydetails",companyAdmins)
 	if err != nil{
 		log.Fatal(err)
 		return false,companyAdmins
@@ -199,8 +197,6 @@ func(m *Admins) EditAdminDetails(ctx context.Context ,adminId string) (bool){
 		log.Fatal(err)
 		return false
 	}
-
-
 
 	m.Settings.DateOfCreation = admin.Settings.DateOfCreation
 	m.Settings.Status = admin.Settings.Status

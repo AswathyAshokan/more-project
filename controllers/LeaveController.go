@@ -17,7 +17,6 @@ func (c *LeaveController) LoadUserLeave() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
-	log.Println("company team name",companyTeamName)
 	var keySliceForUser []string
 	var keySlice []string
 	var commonKey []string
@@ -36,7 +35,6 @@ func (c *LeaveController) LoadUserLeave() {
 			for _, userKey := range dataValue.MapKeys() {
 				keySliceForUser = append(keySliceForUser, userKey.String())
 			}
-
 		}
 	case false :
 		log.Println(helpers.ServerConnectionError)
@@ -92,31 +90,25 @@ func (c *LeaveController) LoadUserLeave() {
 
 			dataValue := reflect.ValueOf(leaveDetailOfUser)
 			for _, key := range dataValue.MapKeys() {
-
-					keyForLeave = append(keyForLeave, key.String())
-					var tempValueSlice []string
-					inviteUser := reflect.ValueOf(userInvitation)
-					for _, InviteKey := range inviteUser.MapKeys() {
-
-						if userDetail.Email == userInvitation[InviteKey.String()].Email {
-							tempValueSlice = append(tempValueSlice, userDetail.FullName+""+"("+userInvitation[InviteKey.String()].UserType+")")
-							break
-							//tempValueSlice[8]=userInvitation[InviteKey.String()].UserType
-						}
-
-
+				keyForLeave = append(keyForLeave, key.String())
+				var tempValueSlice []string
+				inviteUser := reflect.ValueOf(userInvitation)
+				for _, InviteKey := range inviteUser.MapKeys() {
+					if userDetail.Email == userInvitation[InviteKey.String()].Email {
+						tempValueSlice = append(tempValueSlice, userDetail.FullName+""+"("+userInvitation[InviteKey.String()].UserType+")")
+						break
 					}
-					t := time.Now()
-					_, offset := t.Zone()
-				 	log.Println("start date",leaveDetailOfUser[key.String()].Info.StartDate,"end date",leaveDetailOfUser[key.String()].Info.EndDate)
-					startDate := time.Unix(leaveDetailOfUser[key.String()].Info.StartDate+int64(offset), 0).Format("01/02/2006")
-					tempValueSlice = append(tempValueSlice, startDate)
-					endDate := time.Unix(leaveDetailOfUser[key.String()].Info.EndDate+int64(offset), 0).Format("01/02/2006")
-					tempValueSlice = append(tempValueSlice, endDate)
-					numberOfDays := strconv.FormatInt(leaveDetailOfUser[key.String()].Info.NumberOfDays, 10)
-					tempValueSlice = append(tempValueSlice, numberOfDays)
-					tempValueSlice = append(tempValueSlice, leaveDetailOfUser[key.String()].Info.Reason)
-					///tempValueSlice = append(tempValueSlice, leaveDetailOfUser[key.String()].Settings.Status)
+				}
+				t := time.Now()
+				_, offset := t.Zone()
+				log.Println("start date",leaveDetailOfUser[key.String()].Info.StartDate,"end date",leaveDetailOfUser[key.String()].Info.EndDate)
+				startDate := time.Unix(leaveDetailOfUser[key.String()].Info.StartDate+int64(offset), 0).Format("01/02/2006")
+				tempValueSlice = append(tempValueSlice, startDate)
+				endDate := time.Unix(leaveDetailOfUser[key.String()].Info.EndDate+int64(offset), 0).Format("01/02/2006")
+				tempValueSlice = append(tempValueSlice, endDate)
+				numberOfDays := strconv.FormatInt(leaveDetailOfUser[key.String()].Info.NumberOfDays, 10)
+				tempValueSlice = append(tempValueSlice, numberOfDays)
+				tempValueSlice = append(tempValueSlice, leaveDetailOfUser[key.String()].Info.Reason)
 				for _, InviteKeys := range inviteUser.MapKeys() {
 					if userDetail.Email == userInvitation[InviteKeys.String()].Email {
 						if userInvitation[InviteKeys.String()].UserType == "Subcontractor"{
@@ -124,31 +116,17 @@ func (c *LeaveController) LoadUserLeave() {
 						} else {
 							tempValueSlice = append(tempValueSlice, leaveDetailOfUser[key.String()].Settings.Status)
 						}
-						//tempValueSlice = append(tempValueSlice,userInvitation[InviteKeys.String()].UserType)
-						//tempValueSlice[8]=userInvitation[InviteKey.String()].UserType
 					}
-
-
 				}
-
-					tempValueSlice = append(tempValueSlice, key.String())
-					tempValueSlice = append(tempValueSlice, specifiedUserId)
-
-
-
+				tempValueSlice = append(tempValueSlice, key.String())
+				tempValueSlice = append(tempValueSlice, specifiedUserId)
 				viewModel.Values = append(viewModel.Values, tempValueSlice)
-				log.Println("leave",tempValueSlice)
-					tempValueSlice = tempValueSlice[:0]
-
-
+				tempValueSlice = tempValueSlice[:0]
 			}
 
 		case false :
 			log.Println(helpers.ServerConnectionError)
 		}
-
-
-
 	}
 
 	viewModel.AdminFirstName =storedSession.AdminFirstName
