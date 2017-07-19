@@ -70,7 +70,7 @@ $(function(){
     
    $('#log-details').on( 'click', '#btnShow', function () {
        $("#myModal").modal()
-      var googleLocationkk = new google.maps.LatLng(lattitude, longitude);
+     // var googleLocationkk = new google.maps.LatLng(lattitude, longitude);
        var mapOptions = {
            center: new google.maps.LatLng(lattitude, longitude),
            title: "Google Map",
@@ -80,10 +80,10 @@ $(function(){
            mapTypeId: google.maps.MapTypeId.ROADMAP
        }
        var map = new google.maps.Map($("#dvMap")[0], mapOptions);
-       var marker = new google.maps.Marker({
+       /*var marker = new google.maps.Marker({
     position: googleLocationkk,
    });
-       marker.setMap(map);
+       marker.setMap(map);*/
    });
     
     if(vm.Values != null) {
