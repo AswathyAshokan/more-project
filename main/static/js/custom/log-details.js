@@ -72,7 +72,7 @@ $(function(){
        $("#myModal").modal()
      var googleLocation = new google.maps.LatLng(lattitude, longitude);
        var mapOptions = {
-           center: new google.maps.LatLng(lattitude, longitude),
+           center: googleLocation,
            title: "Google Map",
            width: 50,
            hright: 50,
