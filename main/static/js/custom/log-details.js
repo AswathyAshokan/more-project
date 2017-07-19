@@ -70,9 +70,9 @@ $(function(){
     
    $('#log-details').on( 'click', '#btnShow', function () {
        $("#myModal").modal()
-       googleLocation = new google.maps.LatLng(lattitude, longitude);
+      googleLocation = new google.maps.LatLng(lattitude, longitude);
        var mapOptions = {
-           center: googleLocation,
+           center: new google.maps.LatLng(lattitude, longitude),
            title: "Google Map",
            width: 50,
            hright: 50,
