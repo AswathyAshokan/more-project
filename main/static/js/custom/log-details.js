@@ -1,6 +1,6 @@
 
 //Below line is for adding active class to layout side menu..
-document.getElementById("log").className += " active";
+//document.getElementById("log").className += " active";
 console.log(vm);
 $(function(){
     var mainArray = [];   
