@@ -343,7 +343,6 @@ func (m *Tasks) RetrieveTaskFromDB(ctx context.Context,companyTeamName string)(b
 	dB, err := GetFirebaseClient(ctx,"")
 	//taskStatus := "Active"
 	err = dB.Child("Tasks").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&taskValue)
-	log.Println("kkkk",taskValue)
 	if err != nil {
 		log.Fatal(err)
 		return false, taskValue

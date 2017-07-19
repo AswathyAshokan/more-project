@@ -1,0 +1,44 @@
+<script type="text/javascript">
+        var vm = {{.vm}};
+</script>
+<script src="/static/js/custom/add-fit-work.js"></script>
+<script src="/static/js/jquery.validate.js"></script>
+<script src="/static/js/select2.min.js"></script>
+<script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
+<div class="col-md-12 main-content-wrapper padding-50-each">
+				<div class="clearfix">
+					<h1 class="h4">Add Fit To Work</h1>
+                    <div class="personal-details margin-top-20 task-add1">
+                        <form class="clearfix max-form-width" id="addFitToWorkForm" method="POST">
+
+						    <div class="form-group clearfix">						    	
+								<div class="col-sm-6">
+									<label for="ex1" class="">Fit To Work Name</label>
+									<input class="form-control"  type="text" name="fitWorkName" id="fitWorkName" value="">
+								</div>
+                            </div>
+							
+							<div class="form-group clearfix">	
+
+								<div class="col-sm-6">
+									<label for="ex1" class="">Instructions</label>
+
+									<div class="wrp-plus">
+										<div class="plus">										
+										    <input class="form-control" id="addFitToWorkValue"  name="addFitToWorkValue" type="text" value="">
+										    <span class="add-decl">+</span>
+									  	</div>
+
+									</div>
+									
+								</div>
+						    </div>
+
+						    <div class="align-left col-sm-12">
+                                <button class="btn btn-primary" id="saveButton" type="submit">Save</button>
+                                <button class="btn btn-success" id="cancel">Cancel</button>
+						    </div>
+						</form>
+                </div>
+            </div>
+</div>
