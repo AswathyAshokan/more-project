@@ -70,7 +70,7 @@ $(function(){
     
    $('#log-details').on( 'click', '#btnShow', function () {
        $("#myModal").modal()
-      googleLocation = new google.maps.LatLng(lattitude, longitude);
+      var googleLocationkk = new google.maps.LatLng(lattitude, longitude);
        var mapOptions = {
            center: new google.maps.LatLng(lattitude, longitude),
            title: "Google Map",
@@ -81,7 +81,7 @@ $(function(){
        }
        var map = new google.maps.Map($("#dvMap")[0], mapOptions);
        var marker = new google.maps.Marker({
-    position: googleLocation,
+    position: googleLocationkk,
    });
        marker.setMap(map);
    });
