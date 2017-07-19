@@ -54,7 +54,7 @@ $(function(){
     function dataTableManipulate(mainArray){
         table =  $("#log-details").DataTable({
             data: mainArray,
-            "searching": false,
+            "searching": true,
             "info": false,
             "lengthChange":false,
            "columnDefs": [{
