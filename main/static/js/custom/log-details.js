@@ -69,14 +69,33 @@ $(function(){
     }
     
    $('#log-details').on( 'click', '#btnShow', function () {
-       $("#myModal").modal()
+       $("#myModal").modal();
+       /*
+       var myLatlng = new google.maps.LatLng(lattitude, longitude);
+               var mapOptions = {
+                   title: "Google Map",
+                   width: 50,
+                   hright: 50,
+                   zoom: 15,
+                   mapTypeControl: false
+               }
+
+               // standard map
+                var map = new google.maps.Map($("#dvMap")[0], mapOptions);
+
+               var marker = new google.maps.Marker({
+                   position: myLatlng
+               });
+
+               // To add the marker to the map, call setMap();
+               marker.setMap(map);*/
      var googleLocation = new google.maps.LatLng(lattitude, longitude);
        var mapOptions = {
            center: googleLocation,
            title: "Google Map",
            width: 50,
-           hright: 50,
-           zoom: 18,
+           height: 50,
+           zoom: 15,
            mapTypeId: google.maps.MapTypeId.ROADMAP
        }
        var map = new google.maps.Map($("#dvMap")[0], mapOptions);
