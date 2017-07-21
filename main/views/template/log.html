@@ -16,9 +16,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
     <script src="/static/js/custom/log-details.js" type="text/javascript" charset="utf-8"></script>
     <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
-    
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFl3U2s0vqjaN-6rvAaOA8Ts1cfDss_KM&libraries=geometry,placessensor=false"></script>
-    <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>-->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFl3U2s0vqjaN-6rvAaOA8Ts1cfDss_KM&libraries=geometry,places&callback=initialize"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>
     <link href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css"rel="stylesheet" type="text/css" />
     </head>
@@ -57,7 +55,7 @@
             <div class="col-md-2 main-menu-wrapper">
 
                 <nav class="main-menu admin-layout">
-                   <ul id="menuItems">
+                    <ul id="menuItems">
                         <li id="dashBoard"><a href='/{{.vm.CompanyTeamName}}/dashBoard'><i class="sprites-dashboard"></i>Dashboard</a></li> 
                         <li id="user"><a href='/{{.vm.CompanyTeamName}}/invite'><i class="sprites-user"></i>User</a></li>
                         <li id="group"><a href='/{{.vm.CompanyTeamName}}/group' ><i class="sprites-group"></i>Group</a></li>

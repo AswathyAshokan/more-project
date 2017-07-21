@@ -1,6 +1,7 @@
 
 //Below line is for adding active class to layout side menu..
 //document.getElementById("log").className += " active";
+console.log(vm.Values[1][5]);
 console.log(vm);
 $(function(){
     var mainArray = [];   
@@ -41,7 +42,7 @@ $(function(){
         var startDate =0;
         var unixStartDate = 0;
         for (i =0;i<vm.Values.length;i++){
-            startDate = new Date(vm.Values[i][5]);
+            startDate = new Date(vm.Values[i][6]);
             unixStartDate = Date.parse(startDate)/1000;
            if( (unixFromDate <= unixStartDate && unixStartDate <= unixToDate) || (unixFromDate <= unixStartDate && unixStartDate <= unixToDate) || (unixFromDate >= startDate && unixStartDate >= unixToDate)) {
                
@@ -68,42 +69,25 @@ $(function(){
         
     }
     
-   $('#log-details').on( 'click', '#btnShow', function () {
-       $("#myModal").modal();
-       /*
-       var myLatlng = new google.maps.LatLng(lattitude, longitude);
-               var mapOptions = {
-                   title: "Google Map",
-                   width: 50,
-                   hright: 50,
-                   zoom: 15,
-                   mapTypeControl: false
-               }
-
-               // standard map
-                var map = new google.maps.Map($("#dvMap")[0], mapOptions);
-
-               var marker = new google.maps.Marker({
-                   position: myLatlng
-               });
-
-               // To add the marker to the map, call setMap();
-               marker.setMap(map);*/
-     var googleLocation = new google.maps.LatLng(lattitude, longitude);
-       var mapOptions = {
-           center: googleLocation,
-           title: "Google Map",
-           width: 50,
-           height: 50,
-           zoom: 15,
-           mapTypeId: google.maps.MapTypeId.ROADMAP
-       }
-       var map = new google.maps.Map($("#dvMap")[0], mapOptions);
-       var marker = new google.maps.Marker({
-           position: googleLocation,
+  $('#log-details').on( 'click', '#btnShow', function () {
+      $("#myModal").modal();
+      $('#myModal').on('shown.bs.modal', function(){
+          var googleLocation = new google.maps.LatLng(lattitude, longitude);
+          var mapOptions = {
+          center: googleLocation,
+          title: "Google Map",
+          width: 50,
+          height: 50,
+          zoom: 15,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+          }
+          var map = new google.maps.Map($("#dvMap")[0], mapOptions);
+          var marker = new google.maps.Marker({
+          position: googleLocation,
+          });
+          marker.setMap(map);
        });
-       marker.setMap(map);
-   });
+  });
     
     if(vm.Values != null) {
         for( i=0;i<vm.Values.length;i++){
@@ -167,8 +151,6 @@ $(function(){
         listLogDetails(unixFromDate,unixToDate);
     });
     
-    
-    
     //checking plans
     
     if(vm.CompanyPlan == 'family' ){
@@ -216,10 +198,6 @@ $(function(){
     }else if (vm.CompanyPlan == "businessPlus") {
         $('#planChange').attr('data-target','#business-plus');
     }
-    
-
-
-    
 });
 
 
