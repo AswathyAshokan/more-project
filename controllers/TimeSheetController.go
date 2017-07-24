@@ -24,17 +24,22 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 	var keySliceForActiveTaskCompletedUsers []string
 	var keyForLog []string
 	var tempSlice	[]string
+	//var logDetailOfUsers []string
 	//var tempValueSlice []string
+	//viewModel := viewmodels.TimeSheetViewModel{}
+	//var userStructSlice []viewmodels.LogDetails
 	logDetails := models.WorkLog{}
 	task := models.Tasks{}
 
 		dbStatus, tasks := task.RetrieveTaskFromDB(c.AppEngineCtx, companyTeamName)
 		switch dbStatus {
 		case true:
+			log.Println("inside time sheet")
 			dataValue := reflect.ValueOf(tasks)
 			for _, key := range dataValue.MapKeys() {
 				keySlice = append(keySlice, key.String())
 			}
+			log.Println("tasks",keySlice)
 			for _, k := range keySlice {
 				keySliceForActiveTask = append(keySliceForActiveTask, k)
 				userValue := reflect.ValueOf(tasks[k].UsersAndGroups.User)
@@ -62,8 +67,10 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 					}
 					for i := 0; i < len(keySliceForActiveTaskCompletedUsers); i++ {
 						for _, k := range keyForLog {
-
 							if logUserDetail[k].UserID == keySliceForActiveTaskCompletedUsers[i] {
+								//logDetailOfUsers=append(logDetailOfUsers,logUserDetail[k])
+								//var userStruct viewmodels.LogDetails
+								//userStruct.LogTime=logUserDetail[k]
 
 								log.Println("log details",logUserDetail[k])
 							}

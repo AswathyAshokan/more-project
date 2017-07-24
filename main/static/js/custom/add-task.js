@@ -76,7 +76,9 @@ $(function () {
     if (pageType == "edit") {
         var fitToWorkName = vm.FitToWorkName
         console.log("fit to work",fitToWorkName);
-        $('#TaskFitToWork option:contains(' + fitToWorkName + ')').prop({selected: true});
+        if (fitToWorkName.length !=0){
+             $('#TaskFitToWork option:contains(' + fitToWorkName + ')').prop({selected: true});
+        }
         var selectArrayForGroup = vm.GroupMembersAndUserToEdit;
         $("#userOrGroup").val(selectArrayForGroup);
         var selectArray =  vm.ContactNameToEdit;
@@ -128,7 +130,7 @@ $(function () {
             var DynamicExposureTextBox ="";
             for (var i=1; i<vm.WorkTime.length; i++){
                 DynamicExposureTextBox+=        '<div class="exposureId"> <label for="workExplosureText" class="">Break Time</label>'+
-                    '<input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5" value="'+ vm.BreakTime[i] +'">'+ 'After'+'<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" value="'+ vm.WorkTime[i] +'" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="20" height="20" style= "float:right; margin-top:0em; margin-right:0em;"  class="delete-exposure" /></div>';
+                    '<input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5" value="'+ vm.BreakTime[i] +'">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" value="'+ vm.WorkTime[i] +'" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="20" height="20" style= "float:right; margin-top:0em; margin-right:0em;"  class="delete-exposure" /></div>';
             }
             $("#exposureTextBoxAppend").append(DynamicExposureTextBox);
              
@@ -169,7 +171,7 @@ $("#btnAddForExposure").bind("click", function () {
     });
 function GetDynamicTextBoxForExposure(value) {
     return ' <label for="workExplosureText" class="">Break Time</label>'+
-        '<input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5">'+ 'After'+'<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg"  class="delete-exposure" />'
+        '<input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg"  class="delete-exposure" />'
 }
 
 //function to load add task
@@ -209,8 +211,12 @@ $().ready(function() {
     //getting instructions of fit to work
     getInstructions =function(){
         var doc = document.getElementById("TaskFitToWork");
-        alert("You selected " + doc.options[doc.selectedIndex].value);
-        fitWork =doc.options[doc.selectedIndex].value;
+        
+        if(doc.length !=0){
+            fitWork =doc.options[doc.selectedIndex].value;
+        }
+        
+        
     }
     
     
@@ -295,14 +301,46 @@ $().ready(function() {
        
     $("#taskDoneForm").validate({
         rules: {
-            taskName: "required",
-            loginType: "required",
-            startDate :"required",
-            endDate :"required",
-            taskDescription:"required"
+            taskName : "required",
+            loginType : "required",
+            startDate : "required",
+            endDate : "required",
+            taskDescription : "required",
+            taskLocation : "required",
+            startTime : "required",
+            endTime : "required"
             
             
         },
+         messages: {
+             startTime:{
+                 required: "time required"
+             },
+             endTime:{
+                 required: "time required"
+             },
+             taskName:{
+                 required: "task name required"
+             },
+             loginType:{
+                 required: "login type name required"
+             },
+             startDate:{
+                 required: "date required"
+             },
+             endDate:{
+                 required: "date required"
+             },
+             taskLocation:{
+                 required: "task location required"
+             },
+              taskDescription:{
+                 required: "task description required"
+             },
+              userOrGroup:{
+                 required: "select user/group"
+             },
+         },
         submitHandler: function() {
             
             //code for date and time conversion

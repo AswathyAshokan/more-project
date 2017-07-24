@@ -15,6 +15,7 @@ type WorkLog struct {
 	Type		string
 	UserID		string
 	UserName 	string
+	TaskID		string
 
 }
 func (m *WorkLog)GetLogDetailOfUser(ctx context.Context,companyTeamName string)(bool,map[string]WorkLog) {

@@ -133,6 +133,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 
 
 	}*/
+	log.Println("information",m)
 	taskData, err := dB.Child("Tasks").Push(m)
 	if err!=nil{
 		log.Println("Insertion error:",err)
@@ -155,26 +156,30 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 		tempKeySlice = append(tempKeySlice, fitToWorkKey.String())
 	}
 	log.Println("value in tempslice",tempKeySlice)
-	for _, eachKey := range tempKeySlice {
-		log.Println(reflect.TypeOf(fitToWork[eachKey].FitToWorkName))
-		log.Println(reflect.TypeOf(fitToWorksName))
-		string1 :=fitToWork[eachKey].FitToWorkName
-		string2 :=fitToWorksName
-		if Compare(string1,string2) ==0 {
-			log.Println("insideeee")
-			fitToWOrkKey =eachKey
-			err = db.Child("FitToWork/"+companyId+"/"+eachKey+"/Instructions").Value(&instructionOfFitWork)
-			log.Println("instructions .....",instructionOfFitWork)
-			err = dB.Child("/Tasks/"+taskUniqueID+"/FitToWork/FitToWorkInstruction").Set(instructionOfFitWork)
+	if len(fitToWorksName) !=0{
+		log.Println("insideeeedfgdgd")
+		for _, eachKey := range tempKeySlice {
+			log.Println(reflect.TypeOf(fitToWork[eachKey].FitToWorkName))
+			log.Println(reflect.TypeOf(fitToWorksName))
+			string1 :=fitToWork[eachKey].FitToWorkName
+			string2 :=fitToWorksName
+			if Compare(string1,string2) ==0 {
+				log.Println("insideeee")
+				fitToWOrkKey =eachKey
+				err = db.Child("FitToWork/"+companyId+"/"+eachKey+"/Instructions").Value(&instructionOfFitWork)
+				log.Println("instructions .....",instructionOfFitWork)
+				err = dB.Child("/Tasks/"+taskUniqueID+"/FitToWork/FitToWorkInstruction").Set(instructionOfFitWork)
+
+			}
 
 		}
-
+		FitToWorkForSetting.Status =helpers.StatusActive
+		err = dB.Child("/Tasks/"+taskUniqueID+"/FitToWork/Settings").Set(FitToWorkForSetting)
+		FitToWorkForInfo.TaskFitToWorkName =fitToWorksName
+		FitToWorkForInfo.FitToWorkId =fitToWOrkKey
+		err = dB.Child("/Tasks/"+taskUniqueID+"/FitToWork/Info").Set(FitToWorkForInfo)
 	}
-	FitToWorkForSetting.Status =helpers.StatusActive
-	err = dB.Child("/Tasks/"+taskUniqueID+"/FitToWork/Settings").Set(FitToWorkForSetting)
-	FitToWorkForInfo.TaskFitToWorkName =fitToWorksName
-	FitToWorkForInfo.FitToWorkId =fitToWOrkKey
-	err = dB.Child("/Tasks/"+taskUniqueID+"/FitToWork/Info").Set(FitToWorkForInfo)
+
 
 	// for adding work break to database
 
@@ -492,6 +497,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	}
 
 	//for adding fit to work to database
+	var fitToWorkKey string
 	FitToWorkForSetting :=TaskFitToWorkSettings{}
 	FitToWorkForInfo  :=TaskFitToWorkInfo{}
 	var tempKeySlice []string
@@ -503,25 +509,30 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	for _, fitToWorkKey := range fitToWorkDataValues.MapKeys() {
 		tempKeySlice = append(tempKeySlice, fitToWorkKey.String())
 	}
-	log.Println("value in tempslice",tempKeySlice)
-	for _, eachKey := range tempKeySlice {
-		log.Println(reflect.TypeOf(fitToWork[eachKey].FitToWorkName))
-		log.Println(reflect.TypeOf(fitToWorkName))
-		string1 :=fitToWork[eachKey].FitToWorkName
-		string2 :=fitToWorkName
-		if Compare(string1,string2) ==0 {
-			log.Println("insideeee")
-			err = db.Child("FitToWork/"+companyId+"/"+eachKey+"/Instructions").Value(&instructionOfFitWork)
-			log.Println("instructions .....",instructionOfFitWork)
-			err = dB.Child("/Tasks/"+taskId+"/FitToWork/FitToWorkInstruction").Set(instructionOfFitWork)
+	if len(fitToWorkName) !=0{
+		log.Println("value in tempslice",tempKeySlice)
+		for _, eachKey := range tempKeySlice {
+			log.Println(reflect.TypeOf(fitToWork[eachKey].FitToWorkName))
+			log.Println(reflect.TypeOf(fitToWorkName))
+			fitToWorkKey =eachKey
+			string1 :=fitToWork[eachKey].FitToWorkName
+			string2 :=fitToWorkName
+			if Compare(string1,string2) ==0 {
+				log.Println("insideeee")
+				err = db.Child("FitToWork/"+companyId+"/"+eachKey+"/Instructions").Value(&instructionOfFitWork)
+				log.Println("instructions .....",instructionOfFitWork)
+				err = dB.Child("/Tasks/"+taskId+"/FitToWork/FitToWorkInstruction").Set(instructionOfFitWork)
+
+			}
 
 		}
-
+		FitToWorkForSetting.Status =helpers.StatusActive
+		err = dB.Child("/Tasks/"+taskId+"/FitToWork/Settings").Set(FitToWorkForSetting)
+		FitToWorkForInfo.TaskFitToWorkName =fitToWorkName
+		FitToWorkForInfo.FitToWorkId = fitToWorkKey
+		err = dB.Child("/Tasks/"+taskId+"/FitToWork/Info").Set(FitToWorkForInfo)
 	}
-	FitToWorkForSetting.Status =helpers.StatusActive
-	err = dB.Child("/Tasks/"+taskId+"/FitToWork/Settings").Set(FitToWorkForSetting)
-	FitToWorkForInfo.TaskFitToWorkName =fitToWorkName
-	err = dB.Child("/Tasks/"+taskId+"/FitToWork/Info").Set(FitToWorkForInfo)
+
 	ExposureMap := make(map[string]TaskExposure)
 	ExposureTask :=TaskExposure{}
 	if WorkBreakSlice[0] !=""{

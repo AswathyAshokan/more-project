@@ -9,5 +9,6 @@ type WorkLogViewModel  struct {
 	AdminLastName		string
 	ProfilePicture		string
 
+
 }
 

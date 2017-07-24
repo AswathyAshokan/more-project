@@ -3456,6 +3456,7 @@ td .drp-tbl-wrp:not(:last-child) { margin-bottom: 20px; }
 .piechart-wrapper .piechart .range span.range-invited:before { background-color: #5b93c2; }
 .piechart-wrapper .piechart .range span.range-accepted:before { background-color: #06599e; }
 .piechart-wrapper .piechart .range span.range-rejected:before { background-color: #8fb4d3; }
+.piechart-wrapper .piechart .range span.range-empty:before { background-color: #000000; }
 
 .task-graph-wrapper { margin-top: 25px; }
 .task-graph-wrapper select { width: 160px; padding-left: 10px; font-size: 11px; }

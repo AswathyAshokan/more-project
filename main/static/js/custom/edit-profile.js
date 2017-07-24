@@ -10,6 +10,7 @@ var tempThumbPicture ="";
  
 //function for displaying image
 function displayImage() {
+
     file    = document.querySelector('input[type=file]').files[0];
     var reader  = new FileReader();
     reader.onloadend = function () {
@@ -20,7 +21,15 @@ function displayImage() {
         reader.readAsDataURL(file);
     } else {
         document.getElementById("imageUpload").src = "";
-    }   
+    }
+        var btntxt = $("#edit-txt").text();
+    if (btntxt == 'Edit') {
+        $(".edit-account input").prop( "disabled", false );
+        $(".edit-account input").toggleClass("dis-txt");
+        $('#edit-txt').text("Save");
+        $('#edit-txt').attr('type', 'submit');
+        return false;
+    }
 }
 //uploading image
 var config = {
