@@ -92,6 +92,7 @@ func (c *GroupController) GroupDetails() {
 	storedSession := ReadSession(w, r, companyTeamName)
 	allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx,companyTeamName)
 	log.Println("allGroups",allGroups)
+	count := 0
 	switch dbStatus {
 	case true:
 		dataValue := reflect.ValueOf(allGroups)
@@ -106,15 +107,13 @@ func (c *GroupController) GroupDetails() {
 		//collecting group details
 		for _, groupKey := range keySlice {
 			var tempValueSlice []string
-			membersNumber := len(allGroups[groupKey].Members)
-
 			groupUsers := allGroups[groupKey].Members
 			userDataValue := reflect.ValueOf(groupUsers)
 
 			// collecting group member keys
 			var userKeySlice []string
-			for _, userKey := range userDataValue.MapKeys() {
-				userKeySlice = append(userKeySlice, userKey.String())
+			for _, allUserKey := range userDataValue.MapKeys() {
+				userKeySlice = append(userKeySlice, allUserKey.String())
 			}
 
 			//collecting group member details
@@ -123,6 +122,7 @@ func (c *GroupController) GroupDetails() {
 			for _, userKey := range userKeySlice {
 				if len(tempUserNames) == 0{
 					if groupUsers[userKey].Status !=helpers.UserStatusDeleted{
+						count = count+1
 						buffer.WriteString(groupUsers[userKey].MemberName)
 						tempUserNames = buffer.String()
 						buffer.Reset()
@@ -131,6 +131,7 @@ func (c *GroupController) GroupDetails() {
 
 				} else {
 					if groupUsers[userKey].Status !=helpers.UserStatusDeleted {
+						count = count+1
 						buffer.WriteString(tempUserNames)
 						buffer.WriteString(", ")
 						buffer.WriteString(groupUsers[userKey].MemberName)
@@ -138,18 +139,21 @@ func (c *GroupController) GroupDetails() {
 						buffer.Reset()
 					}
 				}
-				if allGroups[groupKey].Settings.Status != helpers.UserStatusDeleted && groupUsers[userKey].Status !=helpers.UserStatusDeleted{
-					tempValueSlice = append(tempValueSlice, allGroups[groupKey].Info.GroupName)
-					tempValueSlice = append(tempValueSlice, strconv.Itoa(membersNumber))
-					tempValueSlice = append(tempValueSlice, tempUserNames)
-					tempValueSlice = append(tempValueSlice,groupKey)
-					groupViewModel.Values = append(groupViewModel.Values, tempValueSlice)
-					tempValueSlice = tempValueSlice[:0]
-				}
+
+			}
+			if allGroups[groupKey].Settings.Status != helpers.UserStatusDeleted{
+				tempValueSlice = append(tempValueSlice, allGroups[groupKey].Info.GroupName)
+				tempValueSlice = append(tempValueSlice, strconv.Itoa(count))
+				tempValueSlice = append(tempValueSlice, tempUserNames)
+				tempValueSlice = append(tempValueSlice,groupKey)
+				groupViewModel.Values = append(groupViewModel.Values, tempValueSlice)
+				tempValueSlice = tempValueSlice[:0]
 			}
 
 
+
 		}
+
 		groupViewModel.Keys = keySlice
 		groupViewModel.CompanyTeamName = storedSession.CompanyTeamName
 		groupViewModel.CompanyPlan = storedSession.CompanyPlan
