@@ -294,6 +294,13 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 	companyInUsers :=UsersCompany{}
 	editInvitation :=EmailInvitation{}
 	updateInvitationFromInvitation :=EmailInvitation{}
+	var groupKeySlice  []string
+	var groupMembersDetails = GroupMembers{}
+	fullGroup := map[string]Group{}
+	groupDetails := map[string]GroupMembers{}
+	updateMemberDetails := GroupMembers{}
+	//userForGroupDeletion :=map[string]Users{}
+
 	var keySlice []string
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
@@ -308,7 +315,6 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 	}
 	err = db.Child("Users").OrderBy("Info/Email").EqualTo(value.Email).Value(&userMap)
 	/*if err != nil {
-		log.Println("danger zone2",userMap)
 		log.Fatal(err)
 		return false
 	}*/
@@ -317,11 +323,50 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 		keySlice = append(keySlice, key.String())
 	}
 	for _, k := range keySlice {
+
+
+		err = db.Child("Group").Value(&fullGroup)
+		if err != nil {
+			log.Fatal(err)
+			return  false
+		}
+		groupDataValue := reflect.ValueOf(fullGroup)
+			for _, groupKey := range groupDataValue.MapKeys() {
+				groupKeySlice = append(groupKeySlice, groupKey.String())
+			}
+			for _, eachGroupKey := range groupKeySlice {
+				err = db.Child("/Group/"+ eachGroupKey+"/Members/").Value(&groupDetails)
+				if err != nil {
+					log.Fatal(err)
+					return  false
+				}
+
+				groupMembersDataValue := reflect.ValueOf(groupDetails)
+				for _, groupMembersKey := range groupMembersDataValue.MapKeys() {
+					err = db.Child("/Group/"+ eachGroupKey+"/Members/"+groupMembersKey.String()).Value(&groupMembersDetails)
+					if err != nil {
+						log.Fatal(err)
+						return  false
+					}
+					if k == groupMembersKey.String(){
+						updateMemberDetails.Status = helpers.UserStatusDeleted
+						updateMemberDetails.MemberName = groupMembersDetails.MemberName
+						err = db.Child("/Group/"+ eachGroupKey+"/Members/"+groupMembersKey.String()).Update(&updateMemberDetails)
+						if err != nil {
+							log.Fatal(err)
+							return  false
+						}
+
+					}
+
+
+				}
+			}
 		err = db.Child("Users/"+k+"/Company/"+companyTeamName).Value(&companyInUsers)
-		/*if err != nil {
+		if err != nil {
 			log.Fatal(err)
 			return false
-		}*/
+		}
 		updateCompanyStatus.CompanyName = companyInUsers.CompanyName
 		updateCompanyStatus.DateOfJoin = companyInUsers.DateOfJoin
 		updateCompanyStatus.Status = helpers.UserStatusDeleted

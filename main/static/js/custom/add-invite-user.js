@@ -41,6 +41,7 @@ $().ready(function() {
         $("#adduserForm").validate({
           rules: {
               firstname: "required",
+              lastname:"required",
               usertype :"required",
               emailid:{
                   required:true,
@@ -48,9 +49,10 @@ $().ready(function() {
               },
           },
             messages: {
-                firstname:"please enter First name ",
-                usertype :"Plese select UserType",
-                emailid:"please enter a valid Email address!"
+                firstname:"Enter first name ",
+                lastname:"Enter last name",
+                usertype :"Select UserType",
+                emailid:"Enter a valid Email address"
             },
             submitHandler: function(){//to pass all data of a form serial
                 $("#saveButton").attr('disabled', true);
@@ -87,11 +89,19 @@ $().ready(function() {
         $("#adduserForm").validate({
              rules: {
                  firstname: "required",
-                 usertype :"required"
+                 lastname:"required",
+                 usertype :"required",
+                 emailid:{
+                     required:true,
+                     email:true,
+                 },
              },
              messages: {
-                 firstname:"please enter First name ",
-                 usertype :"Plese select UserType"
+                 firstname:"Enter first name ",
+                 lastname:"Enter last name",
+                 usertype :"Select UserType",
+                 emailid:"Enter a valid Email address"
+                 
              },
              submitHandler: function(){
                  $("#updateButton").attr('disabled', true);

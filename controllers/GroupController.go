@@ -37,6 +37,7 @@ func (c *GroupController) AddGroup() {
 		tempMembersMap := make(map[string]models.GroupMembers)
 		for i := 0; i < len(tempGroupId); i++ {
 			members.MemberName = tempGroupMembers[i]
+			members.Status = helpers.StatusActive
 			tempMembersMap[tempGroupId[i]] = members
 		}
 		group.Members = tempMembersMap
@@ -121,25 +122,32 @@ func (c *GroupController) GroupDetails() {
 			var buffer bytes.Buffer
 			for _, userKey := range userKeySlice {
 				if len(tempUserNames) == 0{
-					buffer.WriteString(groupUsers[userKey].MemberName)
-					tempUserNames = buffer.String()
-					buffer.Reset()
+					if groupUsers[userKey].Status !=helpers.UserStatusDeleted{
+						buffer.WriteString(groupUsers[userKey].MemberName)
+						tempUserNames = buffer.String()
+						buffer.Reset()
+
+					}
+
 				} else {
-					buffer.WriteString(tempUserNames)
-					buffer.WriteString(", ")
-					buffer.WriteString(groupUsers[userKey].MemberName)
-					tempUserNames = buffer.String()
-					buffer.Reset()
+					if groupUsers[userKey].Status !=helpers.UserStatusDeleted {
+						buffer.WriteString(tempUserNames)
+						buffer.WriteString(", ")
+						buffer.WriteString(groupUsers[userKey].MemberName)
+						tempUserNames = buffer.String()
+						buffer.Reset()
+					}
+				}
+				if allGroups[groupKey].Settings.Status != helpers.UserStatusDeleted && groupUsers[userKey].Status !=helpers.UserStatusDeleted{
+					tempValueSlice = append(tempValueSlice, allGroups[groupKey].Info.GroupName)
+					tempValueSlice = append(tempValueSlice, strconv.Itoa(membersNumber))
+					tempValueSlice = append(tempValueSlice, tempUserNames)
+					tempValueSlice = append(tempValueSlice,groupKey)
+					groupViewModel.Values = append(groupViewModel.Values, tempValueSlice)
+					tempValueSlice = tempValueSlice[:0]
 				}
 			}
-			if allGroups[groupKey].Settings.Status != helpers.UserStatusDeleted{
-				tempValueSlice = append(tempValueSlice, allGroups[groupKey].Info.GroupName)
-				tempValueSlice = append(tempValueSlice, strconv.Itoa(membersNumber))
-				tempValueSlice = append(tempValueSlice, tempUserNames)
-				tempValueSlice = append(tempValueSlice,groupKey)
-				groupViewModel.Values = append(groupViewModel.Values, tempValueSlice)
-				tempValueSlice = tempValueSlice[:0]
-			}
+
 
 		}
 		groupViewModel.Keys = keySlice

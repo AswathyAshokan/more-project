@@ -35,22 +35,24 @@ $().ready(function() {
           },
             phone:"required",
             address:"required",
+            country:"required",
             state: "required",
             zipcode: "required"
       },
         messages: {
             customername:{
-                required: "Please enter Customer Name ",
-                remote: "The Customer Name is already in use !"
+                required: "Enter Customer Name ",
+                remote: "Customer Name is already in use !"
                 },
-            contactperson:"Please enter Contact Person",
+            contactperson:"Enter Contact Person",
             phone: {
-                required:"Please enter Phone Number"
+                required:"Enter Phone Number"
             },
-            address:"Please enter your Address",
-            state: "Please enter your State",
-            zipcode:"Please enter Zipcode  ",
-            email:"Please enter your Email id"
+            address:"Enter your Address",
+            state: "Enter your State",
+            zipcode:"Enter zipcode  ",
+            country:"Enter country name ",
+            email:"Enter valid Email id"
     },
         submitHandler: function(){//to pass all data of a form serial
             $("#saveButton").attr('disabled', true);

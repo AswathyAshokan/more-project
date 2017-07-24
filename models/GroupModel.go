@@ -23,6 +23,7 @@ type TasksGroup struct {
 
 type GroupMembers struct {
 	MemberName	string
+	Status 		string
 }
 
 type GroupInfo struct {

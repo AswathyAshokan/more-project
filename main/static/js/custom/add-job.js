@@ -21,7 +21,7 @@ $().ready(function() {
 
     $("#jobForm").validate({
         rules: {
-            numberOfTask:"required",
+            customerId:"required",
             jobName: {
                 required: true,
                 remote:{
@@ -38,12 +38,13 @@ $().ready(function() {
             }
         },
         messages: {
+            customerId:"Select customer name",
             jobName: {
-                required: "Please provide a job name",
+                required: "Enter job name",
                 remote: "Job name already exists!"
             },
             jobNumber:{
-                required:"please provide a job number",
+                required:"Enter job number",
                 remote: "Job number already exists!",
             },
         },

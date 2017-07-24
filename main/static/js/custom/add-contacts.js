@@ -25,6 +25,10 @@ $(function () {
       $("#contactForm").validate({
           rules: {
               name: "required",
+              country:"required",
+              state:"required ",
+              address:"required",
+              zipcode:"required",
               emailAddress: {
                   required: true,
                   email: true
@@ -35,13 +39,16 @@ $(function () {
               }
           },
           messages: {
-              firstName: "Please enter your firstName",
-              lastName: "Please enter your lastName",
+              name: "Enter name",
+              country:"Enter country",
+              state:"Enter State ",
+              address:"Enter address",
+              zipcode:"Enter zipcode",
               phoneNumber:{
-                  required:"please provide a phone number"
+                  required:"Enter phone number"
                   
               },
-              emailAddress: "Please enter a valid email address"
+              emailAddress: "Enter a valid email address"
           },
           submitHandler: function() {
                $("#saveButton").attr('disabled', true);
