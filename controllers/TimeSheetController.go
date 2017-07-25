@@ -2,7 +2,7 @@ package controllers
 import (
 
 	"app/passporte/models"
-	//"app/passporte/viewmodels"
+	"app/passporte/viewmodels"
 
 	"reflect"
 	"app/passporte/helpers"
@@ -24,10 +24,10 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 	var keySliceForActiveTaskCompletedUsers []string
 	var keyForLog []string
 	var tempSlice	[]string
-	//var logDetailOfUsers []string
-	//var tempValueSlice []string
-	//viewModel := viewmodels.TimeSheetViewModel{}
-	//var userStructSlice []viewmodels.LogDetails
+	var sliceForLeaveDetails []string
+	viewModel := viewmodels.TimeSheetViewModel{}
+	var userStructSlice []viewmodels.LogDetails
+	var logUserSlice [][]viewmodels.LogDetails
 	logDetails := models.WorkLog{}
 	task := models.Tasks{}
 
@@ -52,9 +52,11 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 						tempSlice = append(tempSlice,startDate)
 						tempSlice = append(tempSlice,endDate)
 						tempSlice = append(tempSlice,tasks[k].Info.TaskName)
+						tempSlice = append(tempSlice,k)
 						log.Println("task deatils",tempSlice)
 					}
 				}
+				viewModel.TaskDetails =append(viewModel.TaskDetails ,tempSlice)
 
 				dbStatus, logUserDetail := logDetails.GetLogDetailOfUser(c.AppEngineCtx, companyTeamName)
 
@@ -68,25 +70,31 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 					for i := 0; i < len(keySliceForActiveTaskCompletedUsers); i++ {
 						for _, k := range keyForLog {
 							if logUserDetail[k].UserID == keySliceForActiveTaskCompletedUsers[i] {
-								//logDetailOfUsers=append(logDetailOfUsers,logUserDetail[k])
-								//var userStruct viewmodels.LogDetails
-								//userStruct.LogTime=logUserDetail[k]
+								if  logUserDetail[k].LogDescription == "Work Started" || logUserDetail[k].LogDescription == "End of work day"{
+									var userStruct viewmodels.LogDetails
+									userStruct.LogTime=logUserDetail[k].LogTime
+									userStruct.TaskID = logUserDetail[k].TaskID
+									userStruct.Type = logUserDetail[k].Type
+									userStruct.UserID = logUserDetail[k].UserID
+									userStruct.UserName = logUserDetail[k].UserName
+									userStruct.LogDescription = logUserDetail[k].LogDescription
+									userStructSlice = append(userStructSlice, userStruct)
+								}
 
-								log.Println("log details",logUserDetail[k])
 							}
 						}
 					}
-				//tempValueSlice = append(tempValueSlice, logUserDetail[key.String()].UserName)
+					logUserSlice = append(logUserSlice, userStructSlice)
+					log.Println("log details fromhdjjhjhsdjjh",logUserSlice)
+					viewModel.LogArray =logUserSlice
 				}
+				//leaveDetail
+
 
 				var keySliceForUser []string
 				var keySlice []string
 				var tempSliceForLeave []string
-				//var commonKey []string
-				//storedSession := ReadSession(w, r, companyTeamName)
-				//companyId := storedSession.CompanyId
 				companyUsersForLeave := models.Company{}
-				//companyUserDetail := models.Company{}
 				leave := models.LeaveRequests{}
 				dbStatus, companyUserDetail := companyUsersForLeave.GetUsersForDropdownFromCompany(c.AppEngineCtx, companyTeamName)
 
@@ -99,7 +107,6 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 							keySliceForUser = append(keySliceForUser, userKey.String())
 
 						}
-
 					}
 				case false :
 					log.Println(helpers.ServerConnectionError)
@@ -111,14 +118,45 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 					for _, key := range dataValue.MapKeys() {
 						keySlice = append(keySlice, key.String())
 						tempSliceForLeave = append(tempSliceForLeave,key.String())
-						log.Println("leave",tempSliceForLeave)
 
+
+
+					}
+					log.Println("leave key",tempSliceForLeave)
+					for _, leaveKey := range tempSliceForLeave {
+						for i:=0;i<len(keySliceForActiveTaskCompletedUsers);i++{
+							if leaveKey == keySliceForActiveTaskCompletedUsers[i] {
+								status, leaveDetailOfUser,_,_ := leave.GetAllLeaveRequestById(c.AppEngineCtx, leaveKey,companyTeamName)
+								switch status {
+								case true:
+									dataValue := reflect.ValueOf(leaveDetailOfUser)
+									for _, key := range dataValue.MapKeys() {
+										if leaveDetailOfUser[key.String()].Settings.Status == "Accepted"{
+											numberOfDays := strconv.FormatInt(leaveDetailOfUser[key.String()].Info.NumberOfDays, 10)
+											startDateOfLeave := strconv.FormatInt(leaveDetailOfUser[key.String()].Info.StartDate, 10)
+											endDateOfLeave := strconv.FormatInt(leaveDetailOfUser[key.String()].Info.EndDate, 10)
+											sliceForLeaveDetails=append(sliceForLeaveDetails,numberOfDays)
+											sliceForLeaveDetails=append(sliceForLeaveDetails,startDateOfLeave)
+											sliceForLeaveDetails=append(sliceForLeaveDetails,endDateOfLeave)
+											sliceForLeaveDetails=append(sliceForLeaveDetails,leaveKey)
+										}
+
+									}
+								case false:
+									log.Println(helpers.ServerConnectionError)
+								}
+							}
+						}
 					}
 				case false :
 					log.Println(helpers.ServerConnectionError)
 				}
 			}
 		}
+	log.Println("leave details of user",sliceForLeaveDetails)
+	viewModel.LeaveDetails=append(viewModel.LeaveDetails,sliceForLeaveDetails)
+	viewModel.CompanyTeamName =companyTeamName
+	c.Data["vm"] = viewModel
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/time-sheet.html"
 
