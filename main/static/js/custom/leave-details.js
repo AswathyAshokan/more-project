@@ -1,16 +1,9 @@
-//console.log(vm.Values);
+console.log(vm.Values);
 /* Author :Aswathy Ashok */
 //Below line is for adding active class to layout side menu..
 document.getElementById("leave").className += " active";
  var companyTeamName = vm.CompanyTeamName;
 $(function(){ 
-    
-    var utcTime = vm.Values[0][1];
-    var utcInDateForm = new Date(utcTime);
-    console.log("utcInDateForm",utcInDateForm)
-    var localTime = (utcInDateForm.toISOString());
-    console.log("localTime",localTime);
-    
     var mainArray = [];   
     var table = "";
     var unixFromDate = 0;
@@ -61,10 +54,6 @@ $(function(){
         }
     } 
     
-    
-    
-    
-    
     function dataTableManipulate(mainArray){
         table =  $("#leave_details").DataTable({
             data: mainArray,
@@ -92,6 +81,22 @@ $(function(){
         
     }
     if(vm.Values != null) {
+        for(i = 0;i<vm.Values.length;i++){
+            var startUtcDate = vm.Values[i][1]; 
+            var startUtcInDateForm = new Date(startUtcDate);
+            var startLocalDate = (startUtcInDateForm.toLocaleDateString());
+            var startDate = startLocalDate.slice(0, 10).split('/');
+            var formatedStartDate = startDate[1] +'/'+ startDate[0] +'/'+startDate[2];
+            
+            var endUtcDate = vm.Values[i][2];
+            var endUtcInDateForm = new Date(endUtcDate);
+            var endLocalDate = (endUtcInDateForm.toLocaleDateString());
+            var d = endLocalDate.slice(0, 10).split('/');
+            var formatedEndDate = d[1] +'/'+ d[0] +'/'+ d[2];
+            
+            vm.Values[i][1] = formatedStartDate;
+            vm.Values[i][2] = formatedEndDate;
+        }
         createDataArray(vm.Values, vm.Keys);
     }
     dataTableManipulate(mainArray);

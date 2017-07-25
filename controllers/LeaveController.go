@@ -87,7 +87,6 @@ func (c *LeaveController) LoadUserLeave() {
 		status, leaveDetailOfUser,userDetail,userInvitation := leave.GetAllLeaveRequestById(c.AppEngineCtx, specifiedUserId,companyId)
 		switch status {
 		case true:
-
 			dataValue := reflect.ValueOf(leaveDetailOfUser)
 			for _, key := range dataValue.MapKeys() {
 				keyForLeave = append(keyForLeave, key.String())
@@ -99,13 +98,13 @@ func (c *LeaveController) LoadUserLeave() {
 						break
 					}
 				}
-				t := time.Now()
-				_, offset := t.Zone()
-				log.Println("start date",leaveDetailOfUser[key.String()].Info.StartDate,"end date",leaveDetailOfUser[key.String()].Info.EndDate)
-				startDate := time.Unix(leaveDetailOfUser[key.String()].Info.StartDate+int64(offset), 0).Format("01/02/2006")
-				tempValueSlice = append(tempValueSlice, startDate)
-				endDate := time.Unix(leaveDetailOfUser[key.String()].Info.EndDate+int64(offset), 0).Format("01/02/2006")
-				tempValueSlice = append(tempValueSlice, endDate)
+				//t := time.Now()
+				//_, offset := t.Zone()
+				log.Println("start date",leaveDetailOfUser[key.String()].Settings.DateOfCreation,"end date",leaveDetailOfUser[key.String()].Info.EndDate)
+				startDate := time.Unix(leaveDetailOfUser[key.String()].Info.StartDate, 0)
+				tempValueSlice = append(tempValueSlice, startDate.String())
+				endDate := time.Unix(leaveDetailOfUser[key.String()].Info.EndDate, 0)
+				tempValueSlice = append(tempValueSlice, endDate.String())
 				numberOfDays := strconv.FormatInt(leaveDetailOfUser[key.String()].Info.NumberOfDays, 10)
 				tempValueSlice = append(tempValueSlice, numberOfDays)
 				tempValueSlice = append(tempValueSlice, leaveDetailOfUser[key.String()].Info.Reason)
@@ -123,12 +122,10 @@ func (c *LeaveController) LoadUserLeave() {
 				viewModel.Values = append(viewModel.Values, tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]
 			}
-
 		case false :
 			log.Println(helpers.ServerConnectionError)
 		}
 	}
-
 	viewModel.AdminFirstName =storedSession.AdminFirstName
 	viewModel.AdminLastName =storedSession.AdminLastName
 	viewModel.CompanyPlan =storedSession.CompanyPlan
