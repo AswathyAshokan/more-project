@@ -74,7 +74,8 @@ $(function () {
       actualToDate.setSeconds(59);
   });
     if (pageType == "edit") {
-        var fitToWorkName = vm.FitToWorkName
+        var fitToWorkName = vm.FitToWorkName;
+        fitWork =vm.FitToWorkName;
         console.log("fit to work",fitToWorkName);
         if (fitToWorkName.length !=0){
              $('#TaskFitToWork option:contains(' + fitToWorkName + ')').prop({selected: true});

@@ -501,6 +501,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	}
 
 	//for adding fit to work to database
+	log.Println("adsfdfdgdfgdfgdfgdfgdfgdfgfdgdfgdgdfgfdgfdgdf",fitToWorkName)
 	var fitToWorkKey string
 	FitToWorkForSetting :=TaskFitToWorkSettings{}
 	FitToWorkForInfo  :=TaskFitToWorkInfo{}

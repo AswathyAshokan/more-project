@@ -610,6 +610,7 @@ func (c *TaskController)LoadEditTask() {
 		task.Customer.CustomerId = c.GetString("jobId")
 		task.Info.TaskLocation =c.GetString("taskLocation")
 		fitToWorkName :=c.GetString("fitToWorkName")
+		log.Println("hgfdfhgd",fitToWorkName)
 		startDateString := c.GetString("startDateFomJs")
 		endDateString :=c.GetString("endDateFromJs")
 		layout := "01/02/2006 15:04"
