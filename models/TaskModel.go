@@ -143,20 +143,24 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 	taskDataString := strings.Split(taskData.String(),"/")
 	taskUniqueID := taskDataString[len(taskDataString)-2]
 	//for adding fit to work to database
-	FitToWorkForSetting :=TaskFitToWorkSettings{}
-	FitToWorkForInfo  :=TaskFitToWorkInfo{}
-	var tempKeySlice []string
-	var fitToWOrkKey =""
-	instructionOfFitWork :=map[string]TaskFitToWorks{}
-	fitToWork :=map[string]FitToWork{}
-	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("FitToWork/"+ companyId).Value(&fitToWork)
-	fitToWorkDataValues := reflect.ValueOf(fitToWork)
-	for _, fitToWorkKey := range fitToWorkDataValues.MapKeys() {
-		tempKeySlice = append(tempKeySlice, fitToWorkKey.String())
-	}
-	log.Println("value in tempslice",tempKeySlice)
+
 	if len(fitToWorksName) !=0{
+		FitToWorkForSetting :=TaskFitToWorkSettings{}
+		FitToWorkForInfo  :=TaskFitToWorkInfo{}
+		var tempKeySlice []string
+		var fitToWOrkKey =""
+		instructionOfFitWork :=map[string]TaskFitToWorks{}
+		fitToWork :=map[string]FitToWork{}
+		db,err :=GetFirebaseClient(ctx,"")
+		if err!=nil{
+			log.Println("Connection error:",err)
+		}
+		err = db.Child("FitToWork/"+ companyId).Value(&fitToWork)
+		fitToWorkDataValues := reflect.ValueOf(fitToWork)
+		for _, fitToWorkKey := range fitToWorkDataValues.MapKeys() {
+			tempKeySlice = append(tempKeySlice, fitToWorkKey.String())
+		}
+		log.Println("value in tempslice",tempKeySlice)
 		log.Println("insideeeedfgdgd")
 		for _, eachKey := range tempKeySlice {
 			log.Println(reflect.TypeOf(fitToWork[eachKey].FitToWorkName))

@@ -40,19 +40,19 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 				keySlice = append(keySlice, key.String())
 			}
 			log.Println("tasks",keySlice)
-			for _, k := range keySlice {
-				keySliceForActiveTask = append(keySliceForActiveTask, k)
-				userValue := reflect.ValueOf(tasks[k].UsersAndGroups.User)
+			for _, taskKey := range keySlice {
+				keySliceForActiveTask = append(keySliceForActiveTask, taskKey)
+				userValue := reflect.ValueOf(tasks[taskKey].UsersAndGroups.User)
 				for _, key := range userValue.MapKeys() {
-					if tasks[k].UsersAndGroups.User[key.String()].UserTaskStatus == helpers.StatusCompleted {
-						log.Println("task key",k)
+					if tasks[taskKey].UsersAndGroups.User[key.String()].UserTaskStatus == helpers.StatusCompleted {
+						log.Println("task key",taskKey)
 						keySliceForActiveTaskCompletedUsers = append(keySliceForActiveTaskCompletedUsers, key.String())
-						startDate := strconv.FormatInt(tasks[k].Info.StartDate, 10)
-						endDate := strconv.FormatInt(tasks[k].Info.EndDate, 10)
+						startDate := strconv.FormatInt(tasks[taskKey].Info.StartDate, 10)
+						endDate := strconv.FormatInt(tasks[taskKey].Info.EndDate, 10)
 						tempSlice = append(tempSlice,startDate)
 						tempSlice = append(tempSlice,endDate)
-						tempSlice = append(tempSlice,tasks[k].Info.TaskName)
-						tempSlice = append(tempSlice,k)
+						tempSlice = append(tempSlice,tasks[taskKey].Info.TaskName)
+						tempSlice = append(tempSlice,taskKey)
 						log.Println("task deatils",tempSlice)
 					}
 				}
@@ -70,7 +70,7 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 					for i := 0; i < len(keySliceForActiveTaskCompletedUsers); i++ {
 						for _, k := range keyForLog {
 							if logUserDetail[k].UserID == keySliceForActiveTaskCompletedUsers[i] {
-								if  logUserDetail[k].LogDescription == "Work Started" || logUserDetail[k].LogDescription == "End of work day"{
+								if  logUserDetail[k].LogDescription == "Work Started" || logUserDetail[k].LogDescription == "End of work day"&&logUserDetail[k].TaskID == taskKey{
 									var userStruct viewmodels.LogDetails
 									userStruct.LogTime=logUserDetail[k].LogTime
 									userStruct.TaskID = logUserDetail[k].TaskID
