@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+    <head>
 	<meta charset="UTF-8">
 	<title>Dashboard</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -19,8 +19,8 @@
     <script src="/static/js/radial-progress-bar.js"></script>
     <script src="/static/js/barChart.jquery.js"></script>
     <link rel="stylesheet" href="/static/css/style.css">
-
-</head>
+    <script src="/static/js/jquery.canvasjs.min.js"></script>
+    </head>
 <body>
 	<section class="header">
 	    <div class="container-fluid">
@@ -125,10 +125,18 @@
 <!--                            <span><a href="/0">See More Tasks</a></span>-->
                         </div>
                     </div>
+<!--
                     <div class="col-sm-6">
                         <h5 style="text-align: center;margin-bottom: -36px;margin-top: -3px;">Task Status and Users</h5>
                         <div id="chart"></div>
                     </div>
+-->
+                    <div class="col-sm-6 graph-ed">
+                                <h5 style="">Task Status and Users</h5>
+                                <!-- <img src="images/grapg.png" alt=""> -->
+                                <!-- <div id="chart"></div> -->
+                                    <div id="chartContainer" style="height: 379px; width: 100%;" class="clearfix"></div>
+                            </div>
                 </div>
             </div>
         </div>

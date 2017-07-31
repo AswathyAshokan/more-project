@@ -96,6 +96,56 @@ $(function () {
             ]
         });
     }
+    
+			window.onload = function () {
+
+				CanvasJS.addColorSet("colors",
+                [
+                "#857198"
+                ]);
+
+				var chart = new CanvasJS.Chart("chartContainer", {
+					// chart.options.data[0].color = “red”;
+					// theme: "theme2",
+					height: 435,
+					// height: 417,
+
+					backgroundColor: "transparent",
+
+					// dataPointWidth: 35,
+
+					colorSet: "colors",
+
+					axisY:{
+						title: "Status",
+						titleFontSize: 14,
+						lineThickness: 1,
+						gridThickness: 0,
+						labelFontSize: 14,
+						},
+					axisX:{
+						title: "Users",
+						titleFontSize: 14,
+						lineThickness: 1,
+						labelFontSize: 14,
+						},
+					// title: {
+					// 	text: "Basic Column Chart"
+					// },
+					data: [{
+						type: "column",
+						dataPoints: [
+							{ y: 22, label: "User 1" },
+							{ y: 31, label: "User 2" },
+							{ y: 52, label: "User 3" },
+							{ y: 60, label: "User 4" },
+						]
+					}]
+				});
+				chart.render();
+
+				$(".canvasjs-chart-credit").hide();
+			}
         
     
     var subArray = [];
