@@ -148,7 +148,7 @@ $().ready(function() {
                     //call back or get response here
                                           success : function(response){
                                               if(response == "true"){
-                                                   window.location = '/'+ companyTeamName + '/dashBoard';
+                                                   window.location =  '/'+companyTeamName+'/dashBoard';
 //                                                  $('#edit-txt').text("Edit");
 //                                                  $(".edit-account input").prop( "disabled", true );
 //                                                  $('#edit-txt').attr('type', 'button');

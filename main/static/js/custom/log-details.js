@@ -96,6 +96,9 @@ $(function(){
             console.log("utcInDateForm",utcInDateForm);
             var localTime = (utcInDateForm.toLocaleTimeString());
             var localDate = (utcInDateForm.toLocaleDateString());
+            var d = localDate.slice(0, 10).split('/');
+            var formatedDate = d[1] +'/'+ d[0] +'/'+ d[2];
+            
             var timeSplitArray = localTime.split(":");
             var hours = timeSplitArray[0];
             var minutes = timeSplitArray[1];
@@ -111,7 +114,7 @@ $(function(){
             }
             var actualloggedTime =loggedHours +   ":" +loggedMins
             var between = actualloggedTime + " &nbspto&nbsp" +hours +    ":"    +minutes;
-            vm.Values[i][2]= localDate;
+            vm.Values[i][2]= formatedDate;
             vm.Values[i][3] = hours +    ":"    +minutes;
             lattitude = vm.Values[i][4];
             longitude= vm.Values[i][5];

@@ -3,12 +3,12 @@ console.log(vm.Values);
 //Below line is for adding active class to layout side menu..
 document.getElementById("leave").className += " active";
  var companyTeamName = vm.CompanyTeamName;
-$(function(){ 
-    var mainArray = [];   
+$(function(){
+    var mainArray = [];
     var table = "";
     var unixFromDate = 0;
     var unixToDate = 0;
-    var mainArray = [];   
+    var mainArray = [];
     var table = "";
     var selectedToDate;
     var actualToDate;
@@ -24,7 +24,7 @@ $(function(){
             subArray.push(keys[i])
             mainArray.push(subArray);
             subArray = [];
-            
+
         }
     }
    completeTable = mainArray;
@@ -45,19 +45,19 @@ $(function(){
             unixStartDate = Date.parse(startDate)/1000;
             unixEndDate = Date.parse(endDate)/1000;
            if( (unixFromDate <= unixStartDate && unixStartDate <= unixToDate) || (unixFromDate <= unixEndDate && unixEndDate <= unixToDate) || (unixFromDate >= startDate && unixEndDate >= unixToDate)) {
-               
+
                 tempArray.push(mainArray[i]);
            }
-            
+
             $('#leave_details').dataTable().fnDestroy();
             dataTableManipulate(tempArray);
         }
-    } 
-    
+    }
+
     function dataTableManipulate(mainArray){
         table =  $("#leave_details").DataTable({
             data: mainArray,
-            "paging": true, 
+            "paging": true,
             "info": false,
             "lengthChange":false,
             "columnDefs": [{
@@ -68,39 +68,36 @@ $(function(){
                          case 'Rejected' : return '<button class="btn btn-danger btn-xs " >Rejected</button>'; break;
                          case 'Pending' : return '<button class="btn btn-primary btn-xs " id ="accept">Accept</button>'+"  "+'<button class="btn btn-danger btn-xs " id="reject">Reject</button>'; break;
                          case 'Subcontractor':return '<button class="btn btn-primary btn-xs " >Leave Applied</button>'; break;
-                             
+
                          default  : return 'N/A';
                      }
                  }
-//                "width": "5%",
-//                "data": null,
-//                "defaultContent": '<button class="btn btn-primary btn-xs " id ="accept">Accept</button>'+"  "+'<button class="btn btn-danger btn-xs " id="reject">Reject</button>'
             }]
         });
         $('#tbl_details_length').after($('.datepic-top'));
-        
+
     }
     if(vm.Values != null) {
         for(i = 0;i<vm.Values.length;i++){
-            var startUtcDate = vm.Values[i][1]; 
+            var startUtcDate = vm.Values[i][1];
             var startUtcInDateForm = new Date(startUtcDate);
             var startLocalDate = (startUtcInDateForm.toLocaleDateString());
             var startDate = startLocalDate.slice(0, 10).split('/');
             var formatedStartDate = startDate[1] +'/'+ startDate[0] +'/'+startDate[2];
-            
+
             var endUtcDate = vm.Values[i][2];
             var endUtcInDateForm = new Date(endUtcDate);
             var endLocalDate = (endUtcInDateForm.toLocaleDateString());
             var d = endLocalDate.slice(0, 10).split('/');
             var formatedEndDate = d[1] +'/'+ d[0] +'/'+ d[2];
-            
+
             vm.Values[i][1] = formatedStartDate;
             vm.Values[i][2] = formatedEndDate;
         }
         createDataArray(vm.Values, vm.Keys);
     }
     dataTableManipulate(mainArray);
-    
+
     //function when click on accept button
     $('#leave_details').on( 'click', '#accept', function () {
         var data = table.row( $(this).parents('tr') ).data();
@@ -116,16 +113,16 @@ $(function(){
                     if(data=="true"){
                         $('#leave_details').dataTable().fnDestroy();
                         var index = "";
-                        
+
                         for(var i = 0; i < mainArray.length; i++) {
                            index = mainArray[i].indexOf(leaveKey);
                            if(index != -1) {
-                              
+
                              break;
                            }
                         }
                         mainArray.splice(i, 1);
-                        dataTableManipulate(mainArray); 
+                        dataTableManipulate(mainArray);
                         window.location =  '/'+ companyTeamName +'/leave';
                     }
                     else {
@@ -135,14 +132,12 @@ $(function(){
 
             });
     });
-    
+
     //function when click on reject button
     $('#leave_details').on( 'click', '#reject', function () {
         var data = table.row( $(this).parents('tr') ).data();
         var leaveKey = data[6];
         var userKey =data[7];
-        //alert(data[4]);
-       // window.location = '/'+ companyTeamName +'/leave/' + leaveKey +'/'+userKey+ '/edit';
         $.ajax({
                 type: "GET",
                 url: '/'+ companyTeamName +'/leave/' + leaveKey +'/'+userKey+ '/reject',
@@ -151,18 +146,17 @@ $(function(){
                     if(data=="true"){
                         $('#leave_details').dataTable().fnDestroy();
                         var index = "";
-                        
+
                         for(var i = 0; i < mainArray.length; i++) {
                            index = mainArray[i].indexOf(leaveKey);
                            if(index != -1) {
-                               
+
                              break;
                            }
                         }
                         mainArray.splice(i, 1);
-                        dataTableManipulate(mainArray); 
-                         window.location =  '/'+ companyTeamName +'/leave';
-                        
+                        dataTableManipulate(mainArray);
+                        window.location =  '/'+ companyTeamName +'/leave';
                     }
                     else {
                         console.log("Updation Failed!");
@@ -173,7 +167,6 @@ $(function(){
     });
 
 
-    
     $('#fromDate').change(function () {
         selectFromDate = $('#fromDate').val();
         var fromYear = selectFromDate.substring(6, 10);
@@ -185,9 +178,11 @@ $(function(){
         actualFromDate.setMinutes(0);
         actualFromDate.setSeconds(0);
         unixFromDate = Date.parse(actualFromDate)/1000;
+        console.log("unixFromDate",unixFromDate);
+         console.log("unixToDate",unixToDate);
         listSharedDocumentByDate(unixFromDate,unixToDate);
     });
-    
+
     $('#toDate').change(function () {
         selectedToDate = $('#toDate').val();
         var year = selectedToDate.substring(6, 10);
@@ -201,39 +196,5 @@ $(function(){
         unixToDate = Date.parse(actualToDate)/1000;
         listSharedDocumentByDate(unixFromDate,unixToDate);
     });
-//    $('#leave_details tbody').on( 'click', '#delete', function () {
-//        $("#myModal").modal();
-//        var data = table.row( $(this).parents('tr') ).data();
-//        var key = data[6];
-//        
-//        $("#confirm").click(function(){
-//            $.ajax({
-//                type: "POST",
-//                url: '/' + companyTeamName + '/contact/' + key + '/delete',
-//                data: '',
-//                success: function(data){
-//                    if(data=="true"){
-//                        $('#leave_details').dataTable().fnDestroy();
-//                        var index = "";
-//                        
-//                        for(var i = 0; i < mainArray.length; i++) {
-//                           index = mainArray[i].indexOf(key);
-//                           if(index != -1) {
-//                             break;
-//                           }
-//                        }
-//                        mainArray.splice(i, 1);
-//                        dataTableManipulate();   
-//                    }
-//                    else {
-//                        console.log("Removing Failed!");
-//                    }
-//                }
-//
-//            });
-//        });
-//    });
-    
 });
-
 

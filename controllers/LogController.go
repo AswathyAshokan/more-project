@@ -30,8 +30,10 @@ func (c *LogController)LoadLogDetails() {
 		var keySlice []string
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
+			log.Println("key from user log",keySlice)
 		}
 		for _, key := range dataValue.MapKeys() {
+
 			var tempValueSlice []string
 			tempValueSlice = append(tempValueSlice, logUserDetail[key.String()].UserName)
 			tempValueSlice = append(tempValueSlice, logUserDetail[key.String()].Type)

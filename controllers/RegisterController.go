@@ -140,7 +140,18 @@ func (c *RegisterController) EditProfile() {
 		thumbPicture := strings.Join(thumParts, "/")
 		admin.Settings.ThumbProfilePicture=thumbPicture
 		dbStatus := admin.EditAdminDetails(c.AppEngineCtx, adminId)
-
+		sessionValues := SessionValues{}
+		sessionValues.AdminId = adminId
+		sessionValues.AdminFirstName = admin.Info.FirstName
+		sessionValues.AdminLastName = admin.Info.LastName
+		sessionValues.AdminEmail = admin.Info.Email
+		sessionValues.CompanyId = admin.Company.CompanyId
+		sessionValues.CompanyName = storedSession.CompanyName
+		sessionValues.CompanyTeamName = storedSession.CompanyTeamName
+		sessionValues.CompanyPlan = storedSession.CompanyPlan
+		sessionValues.ProfilePicture =thumbPicture
+		sessionValues.PaymentStatus = storedSession.PaymentStatus
+		SetSession(w, sessionValues)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))

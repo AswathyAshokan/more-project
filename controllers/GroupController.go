@@ -92,7 +92,7 @@ func (c *GroupController) GroupDetails() {
 	storedSession := ReadSession(w, r, companyTeamName)
 	allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx,companyTeamName)
 	log.Println("allGroups",allGroups)
-	count := 0
+
 	switch dbStatus {
 	case true:
 		dataValue := reflect.ValueOf(allGroups)
@@ -119,6 +119,7 @@ func (c *GroupController) GroupDetails() {
 			//collecting group member details
 			tempUserNames := ""
 			var buffer bytes.Buffer
+			count := 0
 			for _, userKey := range userKeySlice {
 				if len(tempUserNames) == 0{
 					if groupUsers[userKey].Status !=helpers.UserStatusDeleted{
@@ -256,6 +257,8 @@ func (c *GroupController) EditGroup() {
 			viewModel.AdminFirstName = storedSession.AdminFirstName
 			viewModel.AdminLastName = storedSession.AdminLastName
 			viewModel.ProfilePicture = storedSession.ProfilePicture
+			log.Println("viewModel.GroupNameToEdit",viewModel.GroupNameToEdit)
+			log.Println("viewModel.GroupMembersToEdit",viewModel.GroupMembersToEdit)
 			c.Data["vm"] = viewModel
 			c.Layout = "layout/layout.html"
 			c.TplName = "template/add-group.html"

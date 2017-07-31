@@ -23,7 +23,6 @@ func (c *LeaveController) LoadUserLeave() {
 	storedSession := ReadSession(w, r, companyTeamName)
 	companyId := storedSession.CompanyId
 	companyUsersForLeave := models.Company{}
-	//companyUserDetail := models.Company{}
 	leave := models.LeaveRequests{}
 	dbStatus, companyUserDetail := companyUsersForLeave.GetUsersForDropdownFromCompany(c.AppEngineCtx, companyTeamName)
 	viewModel := viewmodels.LeaveViewModel{}
@@ -98,9 +97,6 @@ func (c *LeaveController) LoadUserLeave() {
 						break
 					}
 				}
-				//t := time.Now()
-				//_, offset := t.Zone()
-				log.Println("start date",leaveDetailOfUser[key.String()].Settings.DateOfCreation,"end date",leaveDetailOfUser[key.String()].Info.EndDate)
 				startDate := time.Unix(leaveDetailOfUser[key.String()].Info.StartDate, 0)
 				tempValueSlice = append(tempValueSlice, startDate.String())
 				endDate := time.Unix(leaveDetailOfUser[key.String()].Info.EndDate, 0)
@@ -165,7 +161,6 @@ func (c *LeaveController) LoadRejectUserLeave() {
 	switch status {
 	case true:
 		w.Write([]byte("true"))
-
 	case false:
 		w.Write([]byte("false"))
 

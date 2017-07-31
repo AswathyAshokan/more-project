@@ -18,23 +18,18 @@ func (c *PushNotificationController) CreateNotification() {
 	var NP fcm.NotificationPayload
 	NP.Title="hello"
 	NP.Body="world"
-
 	data := map[string]string{
 		"msg": "Hello World1",
 		"sum": "Happy Day",
 	}
-
 	ids := []string{
 		"token1",
 	}
-
-
 	xds := []string{
 		"token5",
 		"token6",
 		"token7",
 	}
-
 	d := fcm.NewFcmClient(serverKey)
 	d.NewFcmRegIdsMsg(ids, data)
 	d.AppendDevices(xds)
