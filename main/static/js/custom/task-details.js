@@ -4,6 +4,8 @@ document.getElementById("task").className += " active";
 var companyTeamName = vm.CompanyTeamName
 $(function(){
     console.log(vm.UserArray);
+    console.log("array",vm.ExposureArray);
+    var ExposureArray =vm.ExposureArray;
     var mainArray = []; 
     var table = "";
     var selectedCustomer = "";
@@ -164,8 +166,6 @@ $(function(){
             result += '<th>Status</th>';
             result += "<tr>";
             for (var i = 0; i < userDetailsArray.length; i++) {
-                console.log("userDetailsArray[i][0].TaskId",userDetailsArray[i][0].TaskId);
-                console.log("taskID",taskID);
                 if(userDetailsArray[i] != null && userDetailsArray[i][0].TaskId == taskID) {
                     for (var j=0; j<userDetailsArray[i].length ;j++){
                         result += "<td>"+userDetailsArray[i][j].Name+"</td>";
@@ -180,7 +180,8 @@ $(function(){
             minUser +="<table cellpadding='5' cellspacing='0' border='0' style='padding-left:100px;'>";
             minUser +='<tr>';
             for (var i=0; i<minUserArray.length; i++){
-                if(minUserArray[i] != null && minUserArray[i][2] == taskID) {
+              
+                if(minUserArray[i] != null && minUserArray[i][4] == taskID) {
                     minUser +='<td>Minimum no of users </td>';
                     minUser +='<td>'+minUserArray[i][0]+'</td>';
                     minUser +='</tr>';
@@ -188,11 +189,47 @@ $(function(){
                     minUser +='<td>Login type </td>';
                     minUser +='<td>'+minUserArray[i][1]+'</td>';
                     minUser +='</tr>';
+                    minUser +='<tr>';
+                    minUser +='<td>Log Time In Minutes </td>';
+                    minUser +='<td>'+minUserArray[i][2]+'</td>';
+                    minUser +='</tr>';
+                    minUser +='<tr>';
+                    minUser +='<td>Fit To WorkName </td>';
+                    minUser +='<td>'+minUserArray[i][3]+'</td>';
+                    minUser +='</tr>';
+                    
                 }
             }
             minUser +="</table>";
             minUser +="</div>";
-            return result+minUser;
+            minUser +="</table>";
+            minUser +="</div>";
+            
+            //exposure
+            var exposure   ='<div class="pull-left dropdown-tbl" style="padding-left: 400px;">';
+            exposure += "<table cellpadding='5' cellspacing='0'  style='padding-left:50px; border: 1px solid #dddddd !important;'>";
+            exposure += '<th>Exposure Details</th>';
+            exposure += "<tr>";
+            for (var i = 0; i < ExposureArray.length; i++) {
+                 
+                if(ExposureArray[i] != null && ExposureArray[i][0].TaskId == taskID ) {
+                    console.log("task id exposure",ExposureArray[i][0].TaskId );
+                    console.log ("ggg",taskID);
+                     
+                    for (var j=0; j<ExposureArray[i].length ;j++){
+                        var Breakhours = Math.trunc(ExposureArray[i][j].BreakMinute/60);
+                        var Breakminutes = ExposureArray[i][j].BreakMinute % 60;
+                        var Workhours = Math.trunc(ExposureArray[i][j].WorkingHour/60);
+                        var Workminutes = ExposureArray[i][j].WorkingHour % 60;
+                        exposure += "<td>"+Breakhours +":"+ Breakminutes+" Minutes Break After"+Workhours +":"+ Workminutes+"Hours"+"</td>";
+                        exposure += "</tr>";
+                    }
+                }
+            }
+            exposure += "</table  >";
+            exposure +="</div>";
+            
+            return result+minUser+exposure;
         }
         //......................................................
         customerArray = vm.UniqueCustomerNames;

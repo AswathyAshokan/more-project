@@ -25,30 +25,26 @@ $(function () {
       $("#contactForm").validate({
           rules: {
               name: "required",
-              country:"required",
-              state:"required ",
               address:"required",
               zipcode:"required",
+              phoneNumber:"required",
+              country:"required",
+              state:"required",
               emailAddress: {
                   required: true,
                   email: true
               },
-              phoneNumber: {
-                  required: true
-                 
-              }
+              
           },
           messages: {
               name: "Enter name",
-              country:"Enter country",
-              state:"Enter State ",
               address:"Enter address",
               zipcode:"Enter zipcode",
               phoneNumber:{
-                  required:"Enter phone number"
+                  required:"Enter phone number",
                   
               },
-              emailAddress: "Enter a valid email address"
+              emailAddress: "Enter a valid email address",
           },
           submitHandler: function() {
                $("#saveButton").attr('disabled', true);
@@ -85,6 +81,7 @@ $(function () {
                       datatype: 'json',
                       data: form_data,
                       success : function(response) {
+                          console.log("dgggd",response);
                           if (response =="true") {
                               window.location = '/' + companyTeamName +'/contact';
                           } else {

@@ -369,6 +369,9 @@ func (c *TaskController)LoadTaskDetail() {
 	jobId := ""
 	jobId = c.Ctx.Input.Param(":jobId")
 	var taskKey []string
+	taskExposure :=models.TaskExposure{}
+
+	var taskExposureSlice [][]viewmodels.TaskExposure
 
 	task := models.Tasks{}
 	dbStatus, tasks := task.RetrieveTaskFromDB(c.AppEngineCtx,companyTeamName)
@@ -386,6 +389,7 @@ func (c *TaskController)LoadTaskDetail() {
 		var taskUserSlice [][]viewmodels.TaskUsers
 		var userStatus string
 		for _, k := range keySlice {
+
 			if tasks[k].Settings.Status == helpers.StatusActive && tasks[k].Customer.CustomerStatus == helpers.StatusActive&& tasks[k].Job.JobStatus ==helpers.StatusActive{
 				userValue := reflect.ValueOf(tasks[k].UsersAndGroups.User)
 				for _, key := range userValue.MapKeys() {
@@ -401,6 +405,7 @@ func (c *TaskController)LoadTaskDetail() {
 					taskKey = append(taskKey, k)
 					var tempValueSlice []string
 					var minUserArray []string
+
 
 					tempJobAndCustomer := ""
 					var buffer bytes.Buffer
@@ -535,10 +540,39 @@ func (c *TaskController)LoadTaskDetail() {
 					tempValueSlice = tempValueSlice[:0]
 					minUserArray = append(minUserArray,tasks[k].Info.UserNumber)
 					minUserArray = append(minUserArray,tasks[k].Info.LoginType)
+					LogTimeInMinutes := strconv.FormatInt(tasks[k].Info.LogTimeInMinutes, 10)
+					minUserArray = append(minUserArray,LogTimeInMinutes)
+					minUserArray =append(minUserArray,tasks[k].FitToWork.Info.TaskFitToWorkName)
 					minUserArray = append(minUserArray,k)
 					viewModel.MinUserAndLoginTypeArray =append(viewModel.MinUserAndLoginTypeArray,minUserArray)
+
 					minUserArray =minUserArray[:0]
+
+					dbStatus, taskExposureDetails := taskExposure.GetTaskWorkBreakDetailById(c.AppEngineCtx,k)
+					switch dbStatus {
+					case true:
+						exposureValue := reflect.ValueOf(taskExposureDetails)
+						var exposureStructSlice []viewmodels.TaskExposure
+						for _, key := range exposureValue.MapKeys() {
+
+							log.Println("inside exposure")
+							var exposureStruct viewmodels.TaskExposure
+							exposureStruct.BreakMinute =taskExposureDetails[key.String()].BreakDurationInMinutes
+							exposureStruct.WorkingHour =taskExposureDetails[key.String()].BreakStartTimeInMinutes
+							exposureStruct.TaskId =k
+							exposureStructSlice =append(exposureStructSlice,exposureStruct)
+
+						}
+						taskExposureSlice = append(taskExposureSlice, exposureStructSlice)
+					case false:
+					}
+
+					log.Println("gggg",taskExposureSlice)
 				}
+
+				viewModel.ExposureArray =taskExposureSlice
+				log.Println("exposure",taskExposureSlice)
+
 
 
 

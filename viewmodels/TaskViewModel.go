@@ -99,6 +99,7 @@ type TaskDetailViewModel  struct {
 	JobMatch				string
 	UserArray				[][]TaskUsers
 	MinUserAndLoginTypeArray		[][]string
+	ExposureArray				[][]TaskExposure
 }
 
 type TaskFitToWork struct {
@@ -106,4 +107,9 @@ type TaskFitToWork struct {
 	Instruction	[]string
 	InstructionKey	[]string
 
+}
+type TaskExposure struct {
+	BreakMinute  	string
+	WorkingHour	string
+	TaskId 		string
 }
