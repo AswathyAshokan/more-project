@@ -183,11 +183,37 @@ $().ready(function() {
    
     
     //Functiion for getting job and customer separate
+    var contactName =[];
+    var contactId =[];
     getJobAndCustomer = function(){
         var job = $("#jobName option:selected").val() + " (";
         var jobAndCustomer = $("#jobName option:selected").text();
         var tempName = jobAndCustomer.replace(job, '');
         customerName = tempName.replace(')', '');
+       for (var i = 0; i < vm.ContactUser.length; i++) {
+           for (var j=0; j<vm.ContactUser[i].length ;j++){
+               for ( var k=0;k<vm.ContactUser[i][j].CustomerName.length;k++){
+                   if (vm.ContactUser[i][j].CustomerName[k] ==customerName){
+                       console.log("jjjj",vm.ContactUser[i][j].ContactName);
+                       contactName.push(vm.ContactUser[i][j].ContactName);
+                       contactId.push(vm.ContactUser[i][j].ContactId);
+                   }
+               }
+               
+           }
+       }
+        var sel = document.getElementById('contactId');
+        for(var i = 0; i < contactName.length; i++) {
+            var opt = document.createElement('option');
+            opt.innerHTML = contactName[i];
+            opt.value = contactId[i];
+            sel.appendChild(opt);
+        }
+        
+        
+        alert(customerName);
+        alert(contactName);
+        alert(contactId);
         var jobDropdownId = document.getElementById("jobName");
         jobId = jobDropdownId.options[jobDropdownId.selectedIndex].id;
     }

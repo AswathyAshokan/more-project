@@ -37,22 +37,7 @@ $().ready(function() {
             address:"required",
             country:"required",
             state: "required",
-            zipcode: "required",
-             phone: {
-                required: true,
-                remote:{
-                    url: "/isPhoneNumberUsedInCustomer/" + phoneNumber,
-                    type: "post"
-                }
-               },
-              email: {
-                  required: true,
-                  email: true,
-                  remote:{
-                      url: "/isemailAddressUsedInCustomer/" + emailAddress,
-                      type: "post"
-                  }
-              },
+            zipcode: "required"
       },
         messages: {
             customername:{

@@ -67,8 +67,15 @@ type AddTaskViewModel  struct {
 	FitToWorkArray			[]string
 	FitToWorkKey			[]string
 	FitToWorkForTask		[][]TaskFitToWork
+	ContactUser			[][]TaskContact
 
 
+}
+type TaskContact struct {
+	ContactName 	 string
+	ContactId	string
+	CustomerName	[]string
+	CustomerId	[]string
 }
 
 type TaskUsers struct {

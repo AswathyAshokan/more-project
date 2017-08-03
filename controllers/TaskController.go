@@ -200,7 +200,7 @@ func (c *TaskController)AddNewTask() {
 		var keySlice []string
 		var activeJobKey []string
 		var keySliceForGroupAndUser 	[]string
-		var keySliceForContact		[]string
+		//var keySliceForContact		[]string
 		var keySliceForFitToWork 	[]string
 		//Getting Jobs
 		dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx,companyTeamName)
@@ -324,29 +324,59 @@ func (c *TaskController)AddNewTask() {
 		}
 
 		//for getting all contact
+		//dbStatus, contacts := models.GetAllContact(c.AppEngineCtx,companyTeamName)
+		//var activeContactKey []string
+		//switch dbStatus {
+		//case true:
+		//	dataValue := reflect.ValueOf(contacts)
+		//	for _, key := range dataValue.MapKeys() {
+		//		keySliceForContact = append(keySliceForContact, key.String())
+		//	}
+		//	for _, k := range dataValue.MapKeys() {
+		//		if  contacts[k.String()].Settings.Status == "Active"{
+		//			activeContactKey = append(activeContactKey, k.String())
+		//			viewModel.ContactNameArray  = append(viewModel.ContactNameArray , contacts[k.String()].Info.Name)
+		//
+		//		}
+		//
+		//	}
+		//	viewModel.CompanyTeamName=storedSession.CompanyTeamName
+		//	viewModel.CompanyPlan = storedSession.CompanyPlan
+		//	viewModel.Key = activeJobKey
+		//	viewModel.ContactKey=activeContactKey
+		//case false:
+		//	log.Println(helpers.ServerConnectionError)
+		//}
+		var contactStructSlice []viewmodels.TaskContact
+		var taskcontactSlice [][]viewmodels.TaskContact
+
 		dbStatus, contacts := models.GetAllContact(c.AppEngineCtx,companyTeamName)
-		var activeContactKey []string
 		switch dbStatus {
 		case true:
-			dataValue := reflect.ValueOf(contacts)
-			for _, key := range dataValue.MapKeys() {
-				keySliceForContact = append(keySliceForContact, key.String())
-			}
-			for _, k := range dataValue.MapKeys() {
-				if  contacts[k.String()].Settings.Status == "Active"{
-					activeContactKey = append(activeContactKey, k.String())
-					viewModel.ContactNameArray  = append(viewModel.ContactNameArray , contacts[k.String()].Info.Name)
-
+			contactDataValue := reflect.ValueOf(contacts)
+			for _, contactKey := range contactDataValue.MapKeys() {
+				var contactStruct viewmodels.TaskContact
+				contactStruct.ContactId =contactKey.String()
+				contactStruct.ContactName =contacts[contactKey.String()].Info.Name
+				customerDataValue := reflect.ValueOf(contacts[contactKey.String()].Customer)
+				for _, customerKey := range customerDataValue.MapKeys() {
+					contactStruct.CustomerId =append(contactStruct.CustomerId ,customerKey.String())
+					contactStruct.CustomerName =append(contactStruct.CustomerName,contacts[contactKey.String()].Customer[customerKey.String()].CustomerName)
 				}
+				contactStructSlice = append(contactStructSlice, contactStruct)
 
 			}
-			viewModel.CompanyTeamName=storedSession.CompanyTeamName
-			viewModel.CompanyPlan = storedSession.CompanyPlan
-			viewModel.Key = activeJobKey
-			viewModel.ContactKey=activeContactKey
 		case false:
 			log.Println(helpers.ServerConnectionError)
+
 		}
+
+		taskcontactSlice = append(taskcontactSlice, contactStructSlice)
+
+		viewModel.CompanyTeamName=storedSession.CompanyTeamName
+		viewModel.CompanyPlan = storedSession.CompanyPlan
+		viewModel.Key = activeJobKey
+		viewModel.ContactUser =taskcontactSlice
 		viewModel.AdminFirstName = storedSession.AdminFirstName
 		viewModel.AdminLastName = storedSession.AdminLastName
 		viewModel.ProfilePicture =storedSession.ProfilePicture
@@ -479,15 +509,6 @@ func (c *TaskController)LoadTaskDetail() {
 						userStruct.Status = tasks[k].UsersAndGroups.User[userKey.String()].UserTaskStatus
 						userStruct.TaskId =k
 						userStructSlice = append(userStructSlice, userStruct)
-						//userArray =append(userArray,tasks[k].UsersAndGroups.User[userKey.String()].FullName)
-						//userArray =append(userArray,tasks[k].Settings.Status)
-						//taskKeyCount :=len(keySlice)
-						//userKeyCount :=len(userKeySlice)
-						//var innerSlice []string
-
-						//userArray =append(userArray,tasks[k].UsersAndGroups.User[userKey.String()].FullName)
-						//userArray =append(userArray,tasks[k].UsersAndGroups.User[userKey.String()].Status)
-						//outerSlice = append(outerSlice, userArray)
 						userCount =userCount+1
 					}
 					taskUserSlice = append(taskUserSlice, userStructSlice)
