@@ -663,6 +663,7 @@ func CheckUserAssignedToGroup(ctx context.Context,InviteUserId string,companyTea
 
 
 
+/*
 func RemoveUsersGroup(ctx context.Context,InviteUserId string,companyTeamName string)bool  {
 	value :=CompanyUsers{}
 	userMap := map[string]Users{}
@@ -684,10 +685,12 @@ func RemoveUsersGroup(ctx context.Context,InviteUserId string,companyTeamName st
 
 	err = db.Child("Users").OrderBy("Info/Email").EqualTo(value.Email).Value(&userMap)
 
+*/
 /*if err != nil {
 		log.Fatal(err)
 		return false
-	}*/
+	}*//*
+
 
 	dataValue := reflect.ValueOf(userMap)
 	for _, key := range dataValue.MapKeys() {
@@ -736,3 +739,4 @@ func RemoveUsersGroup(ctx context.Context,InviteUserId string,companyTeamName st
 
 
 }
+*/

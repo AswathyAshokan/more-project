@@ -83,8 +83,12 @@ func (c *LogController)LoadLogDetails() {
 			tempValueSlice = append(tempValueSlice, latitudeInString)
 			tempValueSlice = append(tempValueSlice,longitudeInString)
 			logDate := time.Unix(logUserDetail[key.String()].LogTime, 0).Format("01/02/2006")
-			log.Println("longitudeInString",logDate)
 			tempValueSlice = append(tempValueSlice,logDate)
+			taskId := logUserDetail[key.String()].TaskID
+			taskName,JobName := models.GetTaskDataById(c.AppEngineCtx, taskId)
+			taskData := taskName+(JobName)
+			log.Println("taskData")
+			tempValueSlice = append(tempValueSlice,taskData)
 			viewModel.Values = append(viewModel.Values, tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
 		}
