@@ -14,6 +14,7 @@ type LogController struct {
 	BaseController
 }
 func (c *LogController)LoadLogDetails() {
+	log.Println("again here...............")
 	viewModel := viewmodels.WorkLogViewModel{}
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -25,7 +26,6 @@ func (c *LogController)LoadLogDetails() {
 
 	switch dbStatus {
 	case true:
-
 		dataValue := reflect.ValueOf(logUserDetail)
 		var keySlice []string
 		for _, key := range dataValue.MapKeys() {
@@ -88,7 +88,7 @@ func (c *LogController)LoadLogDetails() {
 			viewModel.Values = append(viewModel.Values, tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
 		}
-		viewModel.Keys =keySlice
+		viewModel.Keys = keySlice
 	case false :
 		log.Println(helpers.ServerConnectionError)
 	}
@@ -104,4 +104,13 @@ func (c *LogController)LoadLogDetails() {
 	log.Println("viwemodel",viewModel)
 	c.Data["vm"] = viewModel
 	c.TplName = "template/log.html"
+}
+
+
+
+func (c *LogController)LoadActivityLogDetails() {
+	log.Println("haiiiiiiii    iammmm hereee................................")
+	//c.TplName = "template/log.html"
+
+
 }

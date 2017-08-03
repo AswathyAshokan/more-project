@@ -40,7 +40,7 @@ $(function () {
         document.getElementById("minUsers").style.display = "none";
         document.getElementById("loginType1").style.display = "none";
         document.getElementById("jobName").style.display = "none";
-        document.getElementById("workExplosure").style.display = "none";
+        document.getElementById("ExplosureDiv").style.display = "none";
         $("#contactDiv").hide();
     } else if(vm.CompanyPlan == "campus"){
         
@@ -49,13 +49,13 @@ $(function () {
         document.getElementById("minUsersLabel").style.display = "none";
         document.getElementById("minUsers").style.display = "none";
         document.getElementById("jobName").style.display = "none";
-        document.getElementById("workExplosure").style.display = "none";
+        document.getElementById("ExplosureDiv").style.display = "none";
         document.getElementById("contactIdLabel").style.display = "none";
          $("#contactDiv").hide();
     }else{
          document.getElementById("minUsers").style.display = "block";
          document.getElementById("jobName").style.display = "block";
-         document.getElementById("workExplosure").style.display = "block";
+         document.getElementById("ExplosureDiv").style.display = "block";
           $("#contactDiv").show();
     }
     
@@ -122,7 +122,7 @@ $(function () {
         }
         if(vm.WorkTime.length !=0){
             console.log("inside work");
-            document.getElementById("workExplosure").checked = true;
+            document.getElementById("workExplosure11").checked = true;
             var div = document.getElementById('work');
             div.style.visibility = 'visible';
             div.style.display ='inline';
@@ -138,25 +138,8 @@ $(function () {
         }
             
     }
-    
-    
-   
-   
-//    //function for getting textbox dynamically
-//    $("#btnAdd").bind("click", function () {
-//        var div = $("<div class='plus'/>");
-//        div.html(GetDynamicTextBox(""));
-//        $("#TextBoxContainer").prepend(div);
-//    });
-//    $("body").on("click", ".delete-decl", function () {
-//        $(this).closest("div").remove();
-//    });
+
 });
-//function GetDynamicTextBox(value) {
-//    return ' <input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "" />&nbsp;' +
-//            '<button    class="delete-decl">+</button>'
-//}
- 
 
 //function for getting exposure dynamically
 $("#btnAddForExposure").bind("click", function () {
@@ -224,7 +207,7 @@ $().ready(function() {
     
     
     //function to show break time when checkbox is clicked
-  $('#workExplosure').click(function () {
+  $('#workExplosure11').click(function () {
       if ($(this).is(":checked")) {
           var div = document.getElementById('work');
           div.style.visibility = 'visible';

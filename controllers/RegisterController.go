@@ -119,7 +119,6 @@ func (c *RegisterController) EditProfile() {
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
-
 	ReadSession(w, r, companyTeamName)
 	adminId :=storedSession.AdminId
 	plan :=storedSession.CompanyPlan
@@ -132,7 +131,6 @@ func (c *RegisterController) EditProfile() {
 		parts := strings.Split(tempProfile, "/")
 		parts = append(parts[:len(parts)-3], strings.Join(parts[len(parts)-3:], "%2F"))
 		profilePicture := strings.Join(parts, "/")
-		log.Println("orginal",profilePicture)
 		admin.Settings.ProfilePicture = profilePicture
 		tempThumbProfile :=c.GetString("thumbPicture")
 		thumParts := strings.Split(tempThumbProfile, "/")
@@ -160,9 +158,7 @@ func (c *RegisterController) EditProfile() {
 		}
 
 	}else {
-
 		viewModel := viewmodels.EditProfileViewModel{}
-
 		dbStatus,adminDetail:= admin.GetCompanyDetails(c.AppEngineCtx, adminId)
 		switch dbStatus {
 		case true:

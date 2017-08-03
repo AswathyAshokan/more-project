@@ -198,9 +198,9 @@ func (c *InviteUserController) DeleteInvitation() {
 	result := InviteUser.CheckJobIsAssigned(c.AppEngineCtx, InviteUserId,companyTeamName)
 	switch result {
 	case true:
-		w.Write([]byte("true"))
+		    w.Write([]byte("true"))
 	case false:
-		w.Write([]byte("false"))
+		    w.Write([]byte("false"))
 	}
 
 }
@@ -267,14 +267,25 @@ func (c *InviteUserController) RemoveUserFromTask() {
 	ReadSession(w, r, companyTeamName)
 	InviteUserId := c.Ctx.Input.Param(":inviteuserid")
 	dbStatus := models.RemoveUsersFromTaskForDelete(c.AppEngineCtx,companyTeamName, InviteUserId)
+	log.Println("get escaped  1",dbStatus)
 	switch dbStatus {
 	case true:
-		dbStatus := models.DeleteInviteUserById(c.AppEngineCtx, InviteUserId, companyTeamName)
-		switch dbStatus {
+		result := models.DeleteInviteUserById(c.AppEngineCtx, InviteUserId, companyTeamName)
+		log.Println("getttt2",result)
+		switch result {
 		case true:
+			/*groupData := models.RemoveUsersGroup(c.AppEngineCtx, InviteUserId,companyTeamName)
+			log.Println("true in group details case")
+			switch groupData{
+			case true:
+				w.Write([]byte("true"))
+			case false:
+				w.Write([]byte("false"))
+			}*/
 			w.Write([]byte("true"))
+
 		case false:
-			w.Write([]byte("false"))
+			log.Println("true for my false life")
 		}
 	case false:
 		log.Println("false")
@@ -288,14 +299,25 @@ func (c *InviteUserController) DeleteUserIfNotInTask() {
 	ReadSession(w, r, companyTeamName)
 	InviteUserId := c.Ctx.Input.Param(":inviteuserid")
 	companyInvitationStatus := models.CheckStatusInInvitationOfCompany(c.AppEngineCtx, InviteUserId, companyTeamName)
-	log.Println("companyInvitationStatus",companyInvitationStatus)
+
 	switch companyInvitationStatus {
 	case true:
-		dbStatus := models.DeleteInviteUserById(c.AppEngineCtx, InviteUserId, companyTeamName)
-		switch dbStatus {
+		result := models.DeleteInviteUserById(c.AppEngineCtx, InviteUserId, companyTeamName)
+		log.Println("getttt2",result)
+		switch result {
 		case true:
+			/*groupData := models.RemoveUsersGroup(c.AppEngineCtx, InviteUserId,companyTeamName)
+			log.Println("groupData",groupData)
+			switch groupData{
+			case true:
+				w.Write([]byte("true"))
+			case false:
+				log.Println("false case")
+				//w.Write([]byte("false"))
+			}*/
 			w.Write([]byte("true"))
 		case false:
+			log.Println("true for my false life")
 			w.Write([]byte("false"))
 		}
 	case false:
@@ -310,6 +332,43 @@ func (c *InviteUserController) DeleteUserIfNotInTask() {
 
 
 }
+
+/*func (c *InviteUserController) checkUserInGroup() {
+	log.Println("kkkkkkkkkkk")
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
+	InviteUserId := c.Ctx.Input.Param(":inviteuserid")
+	groupData := models.CheckUserAssignedToGroup(c.AppEngineCtx, InviteUserId,companyTeamName)
+	if groupData == true{
+		log.Println("hai   ppppppppppppppppppppppppppppppppppppppppppppp")
+		w.Write([]byte("true"))
+	} else {
+		w.Write([]byte("false"))
+	}
+}
+
+
+func (c *InviteUserController) RemoveUserFromGroup() {
+	log.Println("oooooooooo")
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	ReadSession(w, r, companyTeamName)
+	InviteUserId := c.Ctx.Input.Param(":inviteuserid")
+	groupData := models.RemoveUsersGroup(c.AppEngineCtx, InviteUserId,companyTeamName)
+	if groupData == true{
+		w.Write([]byte("true"))
+	} else {
+		w.Write([]byte("false"))
+	}
+}*/
+
+
+
+
+
 
 
 

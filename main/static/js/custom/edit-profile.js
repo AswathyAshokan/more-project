@@ -20,7 +20,8 @@ function displayImage() {
     if (file) {
         reader.readAsDataURL(file);
     } else {
-        document.getElementById("imageUpload").src = "";
+        console.log("ooooo",vm.ProfilePicture);
+        document.getElementById("imageUpload").src = vm.ProfilePicture;
     }
         var btntxt = $("#edit-txt").text();
     if (btntxt == 'Edit') {

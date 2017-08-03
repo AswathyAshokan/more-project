@@ -58,6 +58,11 @@ func init() {
 	beegae.Router("/:companyTeamName/invite/:inviteuserid/delete", &controllers.InviteUserController{}, "*:DeleteInvitation")
 	beegae.Router("/:companyTeamName/invite/:inviteuserid/edit", &controllers.InviteUserController{}, "*:EditInvitation")
 	beegae.Router("/:companyTeamName/invite/:inviteuserid/RemoveTask", &controllers.InviteUserController{}, "*:RemoveUserFromTask")
+	//beegae.Router("/:companyTeamName/invite/:inviteuserid/RemoveGroup", &controllers.InviteUserController{}, "*:RemoveUserFromGroup")
+	//beegae.Router("/:companyTeamName/invite/:inviteuserid/CheckGroupAssigned", &controllers.InviteUserController{}, "*:checkUserInGroup")
+
+
+
 	beegae.Router("/:companyTeamName/invite/:inviteuserid/deletionOfUser", &controllers.InviteUserController{}, "*:DeleteUserIfNotInTask")
 	/*beegae.Router("/:companyTeamName/invite/:inviteuserid/ChangeInactiveToactive", &controllers.InviteUserController{}, "*:UpdateStatusWhenResponsePending")*/
 	beegae.Router("/plan", &controllers.PlanController{}, "*:PlanDetails")
@@ -134,6 +139,7 @@ func init() {
 
 
 	beegae.Router("/:companyTeamName/workLog",&controllers.LogController{},"*:LoadLogDetails")
+	beegae.Router("/:companyTeamName/activityworkLog",&controllers.LogController{},"*:LoadActivityLogDetails")
 
 	//dash board section
 	beegae.Router("/:companyTeamName/dashBoard", &controllers.DashBoardController{},"*:LoadDashBoard")
