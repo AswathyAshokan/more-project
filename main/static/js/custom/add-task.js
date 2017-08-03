@@ -209,11 +209,6 @@ $().ready(function() {
             opt.value = contactId[i];
             sel.appendChild(opt);
         }
-        
-        
-        alert(customerName);
-        alert(contactName);
-        alert(contactId);
         var jobDropdownId = document.getElementById("jobName");
         jobId = jobDropdownId.options[jobDropdownId.selectedIndex].id;
     }

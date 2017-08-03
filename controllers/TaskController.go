@@ -355,15 +355,18 @@ func (c *TaskController)AddNewTask() {
 		case true:
 			contactDataValue := reflect.ValueOf(contacts)
 			for _, contactKey := range contactDataValue.MapKeys() {
-				var contactStruct viewmodels.TaskContact
-				contactStruct.ContactId =contactKey.String()
-				contactStruct.ContactName =contacts[contactKey.String()].Info.Name
-				customerDataValue := reflect.ValueOf(contacts[contactKey.String()].Customer)
-				for _, customerKey := range customerDataValue.MapKeys() {
-					contactStruct.CustomerId =append(contactStruct.CustomerId ,customerKey.String())
-					contactStruct.CustomerName =append(contactStruct.CustomerName,contacts[contactKey.String()].Customer[customerKey.String()].CustomerName)
+				if contacts[contactKey.String()].Settings.Status == helpers.StatusActive{
+					var contactStruct viewmodels.TaskContact
+					contactStruct.ContactId =contactKey.String()
+					contactStruct.ContactName =contacts[contactKey.String()].Info.Name
+					customerDataValue := reflect.ValueOf(contacts[contactKey.String()].Customer)
+					for _, customerKey := range customerDataValue.MapKeys() {
+						contactStruct.CustomerId =append(contactStruct.CustomerId ,customerKey.String())
+						contactStruct.CustomerName =append(contactStruct.CustomerName,contacts[contactKey.String()].Customer[customerKey.String()].CustomerName)
+					}
+					contactStructSlice = append(contactStructSlice, contactStruct)
 				}
-				contactStructSlice = append(contactStructSlice, contactStruct)
+
 
 			}
 		case false:
