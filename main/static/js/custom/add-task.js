@@ -123,7 +123,17 @@ $(function () {
             opt.value = contactId[i];
             sel.appendChild(opt);
         }
-        
+        var eid = document.getElementById('contactId');
+        for (var i = 0; i < eid.options.length; ++i) {
+            for (var j=0;j<vm.ContactNameToEdit.length;j++){
+                console.log("ffffffffff",vm.ContactNameKeyToEdit[j]);
+                if (eid.options[i].text === vm.ContactNameKeyToEdit[j]){
+                     console.log("oooooooo");
+                     eid.options[i].selected = true;
+                 }
+                     
+            }
+        }
         document.getElementById("jobName").value = vm.JobName;
         console.log("jobbbbb",vm.JobName);
         document.getElementById("taskName").value = vm.TaskName;

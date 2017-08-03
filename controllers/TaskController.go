@@ -966,6 +966,7 @@ func (c *TaskController)LoadEditTask() {
 						for i:=0;i<len(activeContactKey);i++{
 							if activeContactKey[i] ==contactKey.String(){
 								viewModel.ContactNameToEdit = append(viewModel.ContactNameToEdit, contactKey.String())
+								viewModel.ContactNameKeyToEdit =append(viewModel.ContactNameKeyToEdit,contactDetails.Contacts[contactKey.String()].ContactName)
 							}
 
 						}
