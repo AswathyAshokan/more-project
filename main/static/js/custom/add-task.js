@@ -25,6 +25,8 @@ var exposureWorkSlice =[];
 var exposureWorkTimeArray =[];
  var repeat= "";
 var fitWork= "";
+var contactName =[];
+var contactId =[];
 console.log("log",vm.Log);
 //if group members is null ,group member array is initialised
 if(vm.GroupMembers == null) {
@@ -82,9 +84,9 @@ $(function () {
         }
         var selectArrayForGroup = vm.GroupMembersAndUserToEdit;
         $("#userOrGroup").val(selectArrayForGroup);
-        var selectArray =  vm.ContactNameToEdit;
-        console.log("contact",selectArray);
-        $("#contactId").val(selectArray);
+//        var selectArray =  vm.ContactNameToEdit;
+//        console.log("contact",selectArray);
+//        $("#contactId").val(selectArray);
         document.getElementById("startTime").value = vm.StartTime;
         document.getElementById("endTime").value = vm.EndTime;
         console.log("jobname",vm.NFCTagId);
@@ -102,6 +104,25 @@ $(function () {
             document.getElementById("loginType2").checked = true;
         }
         loginTypeForEdit = vm.LoginType;
+        for (var i = 0; i < vm.ContactUser.length; i++) {
+           for (var j=0; j<vm.ContactUser[i].length ;j++){
+               for ( var k=0;k<vm.ContactUser[i][j].CustomerName.length;k++){
+                   if (vm.ContactUser[i][j].CustomerName[k] ==vm.CustomerNameToEdit){
+                       console.log("jjjj",vm.ContactUser[i][j].ContactName);
+                       contactName.push(vm.ContactUser[i][j].ContactName);
+                       contactId.push(vm.ContactUser[i][j].ContactId);
+                   }
+               }
+               
+           }
+       }
+        var sel = document.getElementById('contactId');
+        for(var i = 0; i < contactName.length; i++) {
+            var opt = document.createElement('option');
+            opt.innerHTML = contactName[i];
+            opt.value = contactId[i];
+            sel.appendChild(opt);
+        }
         
         document.getElementById("jobName").value = vm.JobName;
         console.log("jobbbbb",vm.JobName);
@@ -183,8 +204,7 @@ $().ready(function() {
    
     
     //Functiion for getting job and customer separate
-    var contactName =[];
-    var contactId =[];
+   
     getJobAndCustomer = function(){
         var job = $("#jobName option:selected").val() + " (";
         var jobAndCustomer = $("#jobName option:selected").text();

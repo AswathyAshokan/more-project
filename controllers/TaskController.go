@@ -820,7 +820,37 @@ func (c *TaskController)LoadEditTask() {
 
 	} else {
 
+
+
 		viewModel := viewmodels.EditTaskViewModel{}
+		var contactStructSlice []viewmodels.TaskContact
+		var taskcontactSlice [][]viewmodels.TaskContact
+
+		dbStatus, contacts := models.GetAllContact(c.AppEngineCtx,companyTeamName)
+		switch dbStatus {
+		case true:
+			contactDataValue := reflect.ValueOf(contacts)
+			for _, contactKey := range contactDataValue.MapKeys() {
+				if contacts[contactKey.String()].Settings.Status == helpers.StatusActive{
+					var contactStruct viewmodels.TaskContact
+					contactStruct.ContactId =contactKey.String()
+					contactStruct.ContactName =contacts[contactKey.String()].Info.Name
+					customerDataValue := reflect.ValueOf(contacts[contactKey.String()].Customer)
+					for _, customerKey := range customerDataValue.MapKeys() {
+						contactStruct.CustomerId =append(contactStruct.CustomerId ,customerKey.String())
+						contactStruct.CustomerName =append(contactStruct.CustomerName,contacts[contactKey.String()].Customer[customerKey.String()].CustomerName)
+					}
+					contactStructSlice = append(contactStructSlice, contactStruct)
+				}
+
+
+			}
+		case false:
+			log.Println(helpers.ServerConnectionError)
+
+		}
+
+		taskcontactSlice = append(taskcontactSlice, contactStructSlice)
 		task := models.Tasks{}
 		companyUsers :=models.Company{}
 		taskId := c.Ctx.Input.Param(":taskId")
@@ -1098,7 +1128,8 @@ func (c *TaskController)LoadEditTask() {
 						if taskDetail.Job.JobStatus == "Active"{
 							viewModel.JobName = taskDetail.Job.JobName
 						}
-
+						viewModel.CustomerNameToEdit =taskDetail.Customer.CustomerName
+						viewModel.ContactUser =taskcontactSlice
 						viewModel.TaskName = taskDetail.Info.TaskName
 						startDate := time.Unix(taskDetail.Info.StartDate, 0).Format("01/02/2006")
 						viewModel.StartDate = startDate

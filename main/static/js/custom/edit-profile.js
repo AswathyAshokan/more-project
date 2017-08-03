@@ -7,7 +7,10 @@ var thumbUrl = "";
 var profileUrl = "";
 var tempProfilePicture ="";
 var tempThumbPicture ="";
- 
+ console.log("profile picture",vm.ProfilePicture);
+ var image = document.getElementsByClassName("imageUpload");
+image.src = vm.ProfilePicture;
+
 //function for displaying image
 function displayImage() {
 

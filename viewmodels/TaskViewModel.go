@@ -46,6 +46,8 @@ type EditTaskViewModel  struct {
 	FitToWorkArray			[]string
 	FitToWorkKey			[]string
 	FitToWorkForTask		[][]TaskFitToWork
+	ContactUser			[][]TaskContact
+	CustomerNameToEdit		string
 
 
 }
