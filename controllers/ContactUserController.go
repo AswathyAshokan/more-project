@@ -341,25 +341,26 @@ func (c *ContactUserController) RemoveContactFromTask() {
 func (c *ContactUserController)CheckPhoneNumber(){
 	w := c.Ctx.ResponseWriter
 	phoneNumber := c.GetString("phoneNumber")
-	log.Println("phone number")
+	log.Println("phone number",phoneNumber)
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	isPhoneNumberUsed := models.CheckPhoneNumberIsUsed(c.AppEngineCtx, phoneNumber,companyTeamName)
 	switch isPhoneNumberUsed{
 	case true:
-		w.Write([]byte("true"))
-	case false:
 		w.Write([]byte("false"))
+	case false:
+		w.Write([]byte("true"))
 	}
 }
 func (c *ContactUserController)CheckEmailAddress(){
 	w := c.Ctx.ResponseWriter
 	emailAddress := c.GetString("emailAddress")
+	log.Println("email",emailAddress)
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	isEmailAddressUsed := models.CheckEmailAddressIsUsed(c.AppEngineCtx, emailAddress,companyTeamName)
 	switch isEmailAddressUsed{
 	case true:
-		w.Write([]byte("true"))
-	case false:
 		w.Write([]byte("false"))
+	case false:
+		w.Write([]byte("true"))
 	}
 }

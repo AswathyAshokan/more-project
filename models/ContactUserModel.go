@@ -261,13 +261,12 @@ func CheckPhoneNumberIsUsed(ctx context.Context, phoneNumber string,companyTeamN
 	contactDetails := reflect.ValueOf(contact)
 	for _, contactKey:=range contactDetails.MapKeys() {
 		if contact[contactKey.String()].Info.PhoneNumber == phoneNumber{
+			log.Println("ggg1")
 			return true
-		}else{
-			return false
+			break
 		}
-
 	}
-	return true
+	return false
 
 }
 func CheckEmailAddressIsUsed(ctx context.Context, emailAddress string,companyTeamName string)bool{
@@ -281,10 +280,9 @@ func CheckEmailAddressIsUsed(ctx context.Context, emailAddress string,companyTea
 	for _, contactKey:=range contactDetails.MapKeys() {
 		if contact[contactKey.String()].Info.Email == emailAddress{
 			return true
-		}else{
-			return false
+			break
 		}
 
 	}
-	return true
+	return false
 }
