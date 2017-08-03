@@ -105,14 +105,14 @@ $(function(){
     /*Fuction for edit particular job*/
     $('#job-details tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[5];
+        var key = data[7];
         window.location ='/' +  companyTeamName + '/job/' + key + '/edit'
     });
 
 /*list job details of each job when click on list icon*/
     $('#job-details tbody').on( 'click', '#view', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var jobId = data[5];
+        var jobId = data[7];
         window.location = '/' + companyTeamName  +'/job/'+ jobId + '/task';
         return false;
     });
@@ -155,7 +155,7 @@ $(function(){
         $('#job-details tbody').on( 'click', '#delete', function () {
       
         var data = table.row( $(this).parents('tr') ).data();
-       var key = data[5];
+       var key = data[7];
         $.ajax({
             type: "POST",
             url: '/' + companyTeamName +'/job/'+ key + '/delete',

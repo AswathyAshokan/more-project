@@ -11,6 +11,8 @@ $().ready(function() {
        var selectArray =vm.CustomerId;
         console.log("customer",selectArray);
         document.getElementById("jobName").value = vm.JobName;
+        document.getElementById("orderNumber").value = vm.OrderNumber;
+         document.getElementById("orderDate").value = vm.OrderDate;
         document.getElementById("jobNumber").value = vm.JobNumber;
         $("#customerId").val(selectArray);
         //$("#customerId option[text=selectArray]").attr("selected","selected");
@@ -22,6 +24,8 @@ $().ready(function() {
     $("#jobForm").validate({
         rules: {
             customerId:"required",
+            orderNumber:"required",
+            orderDate :"required",
             jobName: {
                 required: true,
                 remote:{
@@ -39,6 +43,8 @@ $().ready(function() {
         },
         messages: {
             customerId:"Select customer name",
+            orderNumber:"Enter Order Number",
+            orderDate :"Enter Order Date",
             jobName: {
                 required: "Enter job name",
                 remote: "Job name already exists!"

@@ -12,6 +12,8 @@ type JobInfo struct {
 	JobNumber	string
 	NumberOfTask	int64
 	CompanyTeamName	string
+	OrderNumber	string
+	OrderDate	int64
 }
 type JobSettings struct {
 	Status         string
@@ -23,14 +25,10 @@ type JobCustomer struct {
 	CustomerStatus 		string
 }
 type Job   struct {
-
 	Info 		JobInfo
 	Settings 	JobSettings
 	Customer	JobCustomer
 	Tasks		map[string] TasksJob
-
-
-
 }
 type TasksJob struct {
 	TasksJobStatus	string

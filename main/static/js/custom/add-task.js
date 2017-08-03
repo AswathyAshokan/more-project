@@ -470,19 +470,19 @@ $().ready(function() {
                                       var selectedContactNames = [];
 
                //get the user's name corresponding to  keys selected from dropdownlist
-                                      $("#contactId option:selected").each(function () {
-                                          var $this = $(this);
-                                          if ($this.length) {
-                                              var selectedContactName = $this.text();
-                                              selectedContactNames.push( selectedContactName);
-                                          }
-                                      });
-                                      for(i = 0; i < selectedContactNames.length; i++) {
+                            $("#contactId option:selected").each(function () {
+                                var $this = $(this);
+                                if ($this.length) {
+                                    var selectedContactName = $this.text();
+                                    selectedContactNames.push( selectedContactName);
+                                }
+                            });
+                            for(i = 0; i < selectedContactNames.length; i++) {
                                           formData = formData+"&contactName="+selectedContactNames[i];
                                       }
                             for(i = 0; i < groupKeyArray.length; i++) {
                                           formData = formData+"&groupArrayElement="+groupKeyArray[i];
-                                      }
+                            }
 
                //function to get all users and group
                                       var selectedUserAndGroupName = [];

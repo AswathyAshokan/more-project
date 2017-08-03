@@ -5,6 +5,10 @@
    </script>
 	<script src="/static/js/jquery.validate.js"></script>
 	<script src="/static/js/custom/add-job.js"></script>
+    <script src="/static/js/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/js/timepicker.js"></script>
+    <script src="/static/js/select2.min.js"></script>
+    <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="/static/css/custom/custom.css">
 </head>
 <title>Add Job</title>
@@ -28,10 +32,23 @@
                         <input class="form-control" id="jobName" type="text" name="jobName">
 					</div>
                 </div>
+                
                 <div class="form-group clearfix">
                     <div class="col-sm-6" id='jobNumberCheck'>
                         <label for="jobNumber" class="">Job Number</label>
-                        <input class="form-control" id="jobNumber" type="number" name="jobNumber" >
+                        <input class="form-control" id="jobNumber"  name="jobNumber" >
+                    </div>
+                    <div class="col-sm-6" id='orderNumberCheck'>
+                        <label for="orderNumber" class="">Order Number</label>
+                        <input class="form-control" id="orderNumber"  name="orderNumber" >
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <div class="col-sm-6">
+                        <label for="Date" class="">Order Date</label>
+                        <div class="callender-wrapper">
+                            <input type="text" id="orderDate" class="datepicker form-control sprites-callender" name="orderDate">
+                        </div>
                     </div>
                 </div>
                 <div class="align-left col-sm-12">

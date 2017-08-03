@@ -20,5 +20,8 @@ type ContactUserViewModel  struct {
 	AdminLastName		string
 	ProfilePicture		string
 	Country			string
+	CustomerNameArray 	[]string
+	CustomerKeys             []string
+	EditCustomerKey		[]string
 
 }

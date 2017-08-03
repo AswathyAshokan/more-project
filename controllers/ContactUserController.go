@@ -23,6 +23,7 @@ func (c *ContactUserController)AddNewContact() {
 	w :=c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
+	viewModel := viewmodels.ContactUserViewModel{}
 	if r.Method == "POST" {
 		user:=models.ContactUser{}
 		user.Info.Name= c.GetString("name")
@@ -32,10 +33,20 @@ func (c *ContactUserController)AddNewContact() {
 		user.Info.PhoneNumber= c.GetString("phoneNumber")
 		user.Info.Address = c.GetString("address")
 		user.Info.Country = c.GetString("country")
+		tempCustomerName := c.GetStrings("customerName")
+		tempCustomerId := c.GetStrings("customerId")
 		user.Settings.DateOfCreation =time.Now().UnixNano() / int64(time.Millisecond)
 		fmt.Println(reflect.TypeOf(user.Settings.DateOfCreation))
 		user.Settings.Status = helpers.StatusActive
 		user.Info.CompanyTeamName = storedSession.CompanyTeamName
+		customerMap := make(map[string]models.CustomerDetails)
+		customerDetail :=models.CustomerDetails{}
+		for i := 0; i < len(tempCustomerId); i++ {
+			customerDetail.CustomerName = tempCustomerName[i]
+			customerDetail.Status =helpers.StatusActive
+			customerMap[tempCustomerId[i]] = customerDetail
+		}
+		user.Customer = customerMap
 		dbStatus := user.AddContactToDB(c.AppEngineCtx)
 		switch dbStatus {
 		case true:
@@ -45,7 +56,29 @@ func (c *ContactUserController)AddNewContact() {
 			w.Write([]byte("false"))
 		}
 	}else {
-		viewModel := viewmodels.ContactUserViewModel{}
+
+		customers ,dbStatus:=models.GetAllCustomerDetails(c.AppEngineCtx,companyTeamName)
+		var keySlice []string
+		dataValue := reflect.ValueOf(customers)
+		for _, key := range dataValue.MapKeys() {
+			keySlice = append(keySlice, key.String())
+		}
+
+		switch dbStatus {
+		case true:
+			dataValue := reflect.ValueOf(customers)
+			for _, k := range dataValue.MapKeys() {
+				if customers[k.String()].Settings.Status =="Active"{
+					viewModel.CustomerNameArray  = append(viewModel.CustomerNameArray, customers[k.String()].Info.CustomerName)
+					viewModel.CustomerKeys=append(viewModel.CustomerKeys, k.String())
+				}
+
+			}
+			log.Println("customer name array",viewModel.CustomerNameArray)
+		case false:
+			log.Println(helpers.ServerConnectionError)
+		}
+
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
 		viewModel.CompanyPlan = storedSession.CompanyPlan
 		viewModel.AdminLastName =storedSession.AdminLastName
@@ -172,6 +205,16 @@ func (c *ContactUserController)LoadEditContact() {
 		user.Info.PhoneNumber= c.GetString("phoneNumber")
 		user.Info.Country = c.GetString("country")
 		user.Info.Address = c.GetString("address")
+		tempCustomerName := c.GetStrings("customerName")
+		tempCustomerId := c.GetStrings("customerId")
+		customerMap := make(map[string]models.CustomerDetails)
+		customerDetail :=models.CustomerDetails{}
+		for i := 0; i < len(tempCustomerId); i++ {
+			customerDetail.CustomerName = tempCustomerName[i]
+			customerDetail.Status =helpers.StatusActive
+			customerMap[tempCustomerId[i]] = customerDetail
+		}
+		user.Customer = customerMap
 		user.Settings.DateOfCreation =time.Now().UnixNano() / int64(time.Millisecond)
 		fmt.Println(reflect.TypeOf(user.Settings.DateOfCreation))
 		user.Settings.Status = helpers.StatusActive
@@ -185,13 +228,48 @@ func (c *ContactUserController)LoadEditContact() {
 		}
 
 	} else {
+		contact :=models.ContactUser{}
+
 		contactId := c.Ctx.Input.Param(":contactId")
 		viewModel := viewmodels.ContactUserViewModel{}
-		contact :=models.ContactUser{}
+		customers ,dbStatusCustomer:=models.GetAllCustomerDetails(c.AppEngineCtx,companyTeamName)
+		var keySlice []string
+		var activeCustomer []string
+		dataValue := reflect.ValueOf(customers)
+		for _, key := range dataValue.MapKeys() {
+			keySlice = append(keySlice, key.String())
+		}
+
+		switch dbStatusCustomer {
+		case true:
+			dataValue := reflect.ValueOf(customers)
+			for _, k := range dataValue.MapKeys() {
+				if customers[k.String()].Settings.Status =="Active"{
+					viewModel.CustomerNameArray  = append(viewModel.CustomerNameArray, customers[k.String()].Info.CustomerName)
+					viewModel.CustomerKeys=append(viewModel.CustomerKeys, k.String())
+					activeCustomer =append(activeCustomer, k.String())
+				}
+
+			}
+			log.Println("customer name array",viewModel.CustomerNameArray)
+		case false:
+			log.Println(helpers.ServerConnectionError)
+		}
+
 		dbStatus,contact := contact.RetrieveContactIdFromDB(c.AppEngineCtx, contactId)
 		switch dbStatus {
 		case true:
 			viewModel.PageType = helpers.SelectPageForEdit
+			dataValue := reflect.ValueOf(contact.Customer)
+			for _, customerKey := range dataValue.MapKeys() {
+				for i:=0;i<len(activeCustomer);i++{
+					if activeCustomer[i] ==customerKey.String(){
+						viewModel.EditCustomerKey = append(viewModel.EditCustomerKey, customerKey.String())
+
+					}
+				}
+
+			}
 			log.Println("page type",viewModel.PageType);
 			viewModel.Name=contact.Info.Name
 			viewModel.Address =contact.Info.Address
@@ -260,3 +338,28 @@ func (c *ContactUserController) RemoveContactFromTask() {
 		w.Write([]byte("false"))
 	}
 	}
+func (c *ContactUserController)CheckPhoneNumber(){
+	w := c.Ctx.ResponseWriter
+	phoneNumber := c.GetString("phoneNumber")
+	log.Println("phone number")
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	isPhoneNumberUsed := models.CheckPhoneNumberIsUsed(c.AppEngineCtx, phoneNumber,companyTeamName)
+	switch isPhoneNumberUsed{
+	case true:
+		w.Write([]byte("true"))
+	case false:
+		w.Write([]byte("false"))
+	}
+}
+func (c *ContactUserController)CheckEmailAddress(){
+	w := c.Ctx.ResponseWriter
+	emailAddress := c.GetString("emailAddress")
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	isEmailAddressUsed := models.CheckEmailAddressIsUsed(c.AppEngineCtx, emailAddress,companyTeamName)
+	switch isEmailAddressUsed{
+	case true:
+		w.Write([]byte("true"))
+	case false:
+		w.Write([]byte("false"))
+	}
+}

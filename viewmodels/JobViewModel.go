@@ -22,4 +22,6 @@ type JobViewModel  struct {
 	ProfilePicture		string
 	CustomerId		string
 	CustomerMatch		string
+	OrderNumber		string
+	OrderDate		string
 }

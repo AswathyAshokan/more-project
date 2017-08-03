@@ -17,6 +17,12 @@ type ContactInfo struct {
 	PhoneNumber 		string
 	CompanyTeamName 	string
 	Country			string
+
+}
+
+type CustomerDetails struct {
+	CustomerName	string
+	Status		string
 }
 type ContactSettings struct {
 	DateOfCreation 		int64
@@ -26,6 +32,7 @@ type ContactUser   struct {
 	Info     	ContactInfo
 	Settings 	ContactSettings
 	Tasks		map[string] TasksContact
+	Customer      	 	map[string]CustomerDetails
 
 }
 type TasksContact struct {
@@ -240,6 +247,44 @@ func (m *TasksContact) DeleteContactFromTask(ctx context.Context,contactId strin
 	if err!=nil{
 		log.Println("Insertion error:",err)
 		return false
+	}
+	return true
+}
+
+func CheckPhoneNumberIsUsed(ctx context.Context, phoneNumber string,companyTeamName string)bool{
+	contact := map[string]ContactUser{}
+	dB, err := GetFirebaseClient(ctx, "")
+	if err != nil {
+		log.Println("No Db Connection!")
+	}
+	err = dB.Child("Contacts").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&contact)
+	contactDetails := reflect.ValueOf(contact)
+	for _, contactKey:=range contactDetails.MapKeys() {
+		if contact[contactKey.String()].Info.PhoneNumber == phoneNumber{
+			return true
+		}else{
+			return false
+		}
+
+	}
+	return true
+
+}
+func CheckEmailAddressIsUsed(ctx context.Context, emailAddress string,companyTeamName string)bool{
+	contact := map[string]ContactUser{}
+	dB, err := GetFirebaseClient(ctx, "")
+	if err != nil {
+		log.Println("No Db Connection!")
+	}
+	err = dB.Child("Contacts").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&contact)
+	contactDetails := reflect.ValueOf(contact)
+	for _, contactKey:=range contactDetails.MapKeys() {
+		if contact[contactKey.String()].Info.Email == emailAddress{
+			return true
+		}else{
+			return false
+		}
+
 	}
 	return true
 }

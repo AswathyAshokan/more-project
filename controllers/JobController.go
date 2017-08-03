@@ -28,6 +28,14 @@ func (c *JobController)AddNewJob() {
 		job:=models.Job{}
 		job.Customer.CustomerId = c.GetString("customerId")
 		job.Customer.CustomerName = c.GetString("customerName")
+		job.Info.OrderNumber =c.GetString("orderNumber")
+		orderDate :=c.GetString("orderDate")
+		layout := "01/02/2006"
+		orderDateInUnix, err := time.Parse(layout, orderDate)
+		if err != nil {
+			log.Println(err)
+		}
+		job.Info.OrderDate = orderDateInUnix.UTC().Unix()
 		job.Customer.CustomerStatus =helpers.StatusActive
 		job.Info.JobName = c.GetString("jobName")
 		job.Info.JobNumber = c.GetString("jobNumber")
@@ -116,6 +124,10 @@ func (c *JobController)LoadJobDetail() {
 				tempValueSlice = append(tempValueSlice, jobs[k].Info.JobName)
 				tempValueSlice = append(tempValueSlice, jobs[k].Info.JobNumber)
 				tempValueSlice = append(tempValueSlice, strconv.FormatInt(jobs[k].Info.NumberOfTask,10))
+				tempValueSlice =append(tempValueSlice,jobs[k].Info.OrderNumber)
+				orderDate := time.Unix(jobs[k].Info.OrderDate, 0).Format("01/02/2006")
+				log.Println("dateeee",orderDate)
+				tempValueSlice = append(tempValueSlice, orderDate)
 				tempValueSlice = append(tempValueSlice, jobs[k].Settings.Status)
 				viewModel.Values = append(viewModel.Values, tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]
@@ -183,6 +195,14 @@ func (c *JobController)LoadEditJob() {
 		job := models.Job{}
 		job.Customer.CustomerId = c.GetString("customerId")
 		job.Customer.CustomerName = c.GetString("customerName")
+		job.Info.OrderNumber =c.GetString("orderNumber")
+		orderDate :=c.GetString("orderDate")
+		layout := "01/02/2006"
+		orderDateInUnix, err := time.Parse(layout, orderDate)
+		if err != nil {
+			log.Println(err)
+		}
+		job.Info.OrderDate = orderDateInUnix.UTC().Unix()
 		job.Info.JobName = c.GetString("jobName")
 		job.Info.JobNumber = c.GetString("jobNumber")
 		job.Settings.DateOfCreation = time.Now().UnixNano() / int64(time.Millisecond)
@@ -225,6 +245,7 @@ func (c *JobController)LoadEditJob() {
 					}
 
 				}
+
 				viewModel.Keys = activeJobKey
 				viewModel.PageType = helpers.SelectPageForEdit
 				viewModel.CustomerName = jobDetail.Customer.CustomerName
@@ -237,6 +258,11 @@ func (c *JobController)LoadEditJob() {
 				viewModel.AdminFirstName = storedSession.AdminFirstName
 				viewModel.AdminLastName = storedSession.AdminLastName
 				viewModel.ProfilePicture =storedSession.ProfilePicture
+				viewModel.OrderNumber =jobDetail.Info.OrderNumber
+				orderDate := time.Unix(jobDetail.Info.OrderDate, 0).Format("01/02/2006")
+				log.Println("dateeee",orderDate)
+				viewModel.OrderDate =orderDate
+				log.Println("ffgfggd",viewModel)
 				c.Data["vm"] = viewModel
 				c.Layout = "layout/layout.html"
 				c.TplName = "template/add-job.html"

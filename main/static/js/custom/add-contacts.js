@@ -5,21 +5,23 @@
 
 document.getElementById("contact").className += " active";
 var pageType = vm.PageType;
+ var selectedCustomerNames = [];
 console.log( "page type",pageType);
 var companyTeamName = vm.CompanyTeamName
 $(function () {
     if( pageType  ==  "edit") {
-            
-                document.getElementById("name").value =vm.Name;
-                document.getElementById("address").value =vm.Address;
-                document.getElementById("state").value =vm.State;
-                document.getElementById("zipcode").value =vm.ZipCode;
-                document.getElementById("emailAddress").value =vm.Email;
-                document.getElementById("phoneNumber").value =vm.PhoneNumber;
-                document.getElementById("country").value =vm.Country;
-                document.getElementById("contactHead").innerHTML = "Edit Contact";
-                
-                }
+        var selectArray =  vm.EditCustomerKey;
+        console.log("contact",selectArray);
+        $("#customerId").val(selectArray);
+        document.getElementById("name").value =vm.Name;
+        document.getElementById("address").value =vm.Address;
+        document.getElementById("state").value =vm.State;
+        document.getElementById("zipcode").value =vm.ZipCode;
+        document.getElementById("emailAddress").value =vm.Email;
+        document.getElementById("phoneNumber").value =vm.PhoneNumber;
+        document.getElementById("country").value =vm.Country;
+        document.getElementById("contactHead").innerHTML = "Edit Contact";
+    }
 });
   $().ready(function() {
       $("#contactForm").validate({
@@ -27,29 +29,53 @@ $(function () {
               name: "required",
               address:"required",
               zipcode:"required",
-              phoneNumber:"required",
               country:"required",
               state:"required",
+               phoneNumber: {
+                required: true,
+                remote:{
+                    url: "/isPhoneNumberUsed/" + phoneNumber,
+                    type: "post"
+                }
+               },
               emailAddress: {
                   required: true,
-                  email: true
+                  email: true,
+                  remote:{
+                      url: "/isemailAddressUsed/" + emailAddress,
+                      type: "post"
+                  }
               },
-              
           },
           messages: {
               name: "Enter name",
               address:"Enter address",
               zipcode:"Enter zipcode",
-              phoneNumber:{
-                  required:"Enter phone number",
-                  
+              phoneNumber: {
+                  required: "Enter phone number",
+                  remote: "Phone number already exists!"
               },
-              emailAddress: "Enter a valid email address",
+              emailAddress: {
+                  required: "Enter email Address",
+                  remote: "Email Address already exists!"
+              },
+             
           },
           submitHandler: function() {
                $("#saveButton").attr('disabled', true);
               var form_data = $("#contactForm").serialize();
               var contactId =vm.ContactId
+              $("#customerId option:selected").each(function () {
+                  var $this = $(this);
+                  if ($this.length) {
+                      var selectedCustomerName = $this.text();
+                      selectedCustomerNames.push( selectedCustomerName);
+                  }
+              });
+              console.log("customer name",selectedCustomerNames);
+              for(i = 0; i < selectedCustomerNames.length; i++) {
+                  form_data = form_data+"&customerName="+selectedCustomerNames[i];
+              }
               if(pageType ==  "edit"){
                   $.ajax({
                       url:'/'+ companyTeamName + '/contact/'+contactId+'/edit',
