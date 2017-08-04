@@ -196,6 +196,7 @@ func (c *JobController)LoadEditJob() {
 		job.Customer.CustomerId = c.GetString("customerId")
 		job.Customer.CustomerName = c.GetString("customerName")
 		job.Info.OrderNumber =c.GetString("orderNumber")
+		log.Println("orderNumber",job.Info.OrderNumber)
 		orderDate :=c.GetString("orderDate")
 		layout := "01/02/2006"
 		orderDateInUnix, err := time.Parse(layout, orderDate)
@@ -208,7 +209,6 @@ func (c *JobController)LoadEditJob() {
 		job.Settings.DateOfCreation = time.Now().UnixNano() / int64(time.Millisecond)
 		job.Settings.Status = helpers.StatusActive
 		job.Info.CompanyTeamName = storedSession.CompanyTeamName
-		log.Println("inside edit",jobId)
 		dbStatus := job.UpdateJobToDB(c.AppEngineCtx,jobId)
 		switch dbStatus {
 

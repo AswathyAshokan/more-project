@@ -118,6 +118,7 @@ func (m *Job) UpdateJobToDB( ctx context.Context,jobId string)(bool)  {
 	job.Settings.DateOfCreation =jobDetail.Settings.DateOfCreation
 	job.Customer.CustomerStatus =jobDetail.Customer.CustomerStatus
 	job.Info.NumberOfTask =jobDetail.Info.NumberOfTask
+	job.Info.OrderNumber = m.Info.OrderNumber
 	err = dB.Child("/Jobs/"+ jobId).Update(&job)
 
 	//....updation in task
