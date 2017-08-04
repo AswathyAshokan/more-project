@@ -79,7 +79,6 @@ $(function () {
         console.log("log",vm.Log);
         var element = document.getElementById('logInMinutes');
         element.value = vm.Log;
-        
         document.getElementById("jobName").value = vm.JobName;
         document.getElementById("taskName").value = vm.TaskName;
         document.getElementById("taskLocation").value = vm.TaskLocation;

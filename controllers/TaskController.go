@@ -354,22 +354,31 @@ func (c *TaskController)AddNewTask() {
 		var contactStructSlice []viewmodels.TaskContact
 		var taskcontactSlice [][]viewmodels.TaskContact
 
+
 		dbStatus, contacts := models.GetAllContact(c.AppEngineCtx,companyTeamName)
 		switch dbStatus {
 		case true:
 			contactDataValue := reflect.ValueOf(contacts)
 			for _, contactKey := range contactDataValue.MapKeys() {
-				if contacts[contactKey.String()].Settings.Status == helpers.StatusActive{
-					var contactStruct viewmodels.TaskContact
-					contactStruct.ContactId =contactKey.String()
-					contactStruct.ContactName =contacts[contactKey.String()].Info.Name
-					customerDataValue := reflect.ValueOf(contacts[contactKey.String()].Customer)
-					for _, customerKey := range customerDataValue.MapKeys() {
-						contactStruct.CustomerId =append(contactStruct.CustomerId ,customerKey.String())
-						contactStruct.CustomerName =append(contactStruct.CustomerName,contacts[contactKey.String()].Customer[customerKey.String()].CustomerName)
-					}
-					contactStructSlice = append(contactStructSlice, contactStruct)
+				var customerIdKey []string
+				dataCustomerValue := reflect.ValueOf(contacts[contactKey.String()].Customer)
+				for _, contactKey := range dataCustomerValue.MapKeys() {
+					customerIdKey=append(customerIdKey,contactKey.String())
 				}
+				if len(customerIdKey) !=0{
+					if contacts[contactKey.String()].Settings.Status == helpers.StatusActive{
+						var contactStruct viewmodels.TaskContact
+						contactStruct.ContactId =contactKey.String()
+						contactStruct.ContactName =contacts[contactKey.String()].Info.Name
+						customerDataValue := reflect.ValueOf(contacts[contactKey.String()].Customer)
+						for _, customerKey := range customerDataValue.MapKeys() {
+							contactStruct.CustomerId =append(contactStruct.CustomerId ,customerKey.String())
+							contactStruct.CustomerName =append(contactStruct.CustomerName,contacts[contactKey.String()].Customer[customerKey.String()].CustomerName)
+						}
+						contactStructSlice = append(contactStructSlice, contactStruct)
+					}
+				}
+
 
 
 			}
@@ -833,22 +842,31 @@ func (c *TaskController)LoadEditTask() {
 		var contactStructSlice []viewmodels.TaskContact
 		var taskcontactSlice [][]viewmodels.TaskContact
 
+
 		dbStatus, contacts := models.GetAllContact(c.AppEngineCtx,companyTeamName)
 		switch dbStatus {
 		case true:
 			contactDataValue := reflect.ValueOf(contacts)
 			for _, contactKey := range contactDataValue.MapKeys() {
-				if contacts[contactKey.String()].Settings.Status == helpers.StatusActive{
-					var contactStruct viewmodels.TaskContact
-					contactStruct.ContactId =contactKey.String()
-					contactStruct.ContactName =contacts[contactKey.String()].Info.Name
-					customerDataValue := reflect.ValueOf(contacts[contactKey.String()].Customer)
-					for _, customerKey := range customerDataValue.MapKeys() {
-						contactStruct.CustomerId =append(contactStruct.CustomerId ,customerKey.String())
-						contactStruct.CustomerName =append(contactStruct.CustomerName,contacts[contactKey.String()].Customer[customerKey.String()].CustomerName)
-					}
-					contactStructSlice = append(contactStructSlice, contactStruct)
+				var customerIdKey []string
+				dataCustomerValue := reflect.ValueOf(contacts[contactKey.String()].Customer)
+				for _, contactKey := range dataCustomerValue.MapKeys() {
+					customerIdKey=append(customerIdKey,contactKey.String())
 				}
+				if len(customerIdKey) !=0{
+					if contacts[contactKey.String()].Settings.Status == helpers.StatusActive{
+						var contactStruct viewmodels.TaskContact
+						contactStruct.ContactId =contactKey.String()
+						contactStruct.ContactName =contacts[contactKey.String()].Info.Name
+						customerDataValue := reflect.ValueOf(contacts[contactKey.String()].Customer)
+						for _, customerKey := range customerDataValue.MapKeys() {
+							contactStruct.CustomerId =append(contactStruct.CustomerId ,customerKey.String())
+							contactStruct.CustomerName =append(contactStruct.CustomerName,contacts[contactKey.String()].Customer[customerKey.String()].CustomerName)
+						}
+						contactStructSlice = append(contactStructSlice, contactStruct)
+					}
+				}
+
 
 
 			}
@@ -935,8 +953,6 @@ func (c *TaskController)LoadEditTask() {
 							viewModel.GroupMembers = append(viewModel.GroupMembers, memberSlice)
 
 						}
-
-
 					}
 					viewModel.UserAndGroupKey = keySliceForGroupAndUser
 				case false:
