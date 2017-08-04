@@ -343,18 +343,28 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 					log.Fatal(err)
 					return  false
 				}
+				var tempGroupKeys []string
 				//log.Println("groupDetails",groupDetails)
 				groupMembersDataValue := reflect.ValueOf(groupDetails)
 				for _, groupMembersKey := range groupMembersDataValue.MapKeys() {
+					tempGroupKeys = append(tempGroupKeys,groupMembersKey.String())
 					err = db.Child("/Group/"+ eachGroupKey+"/Members/"+groupMembersKey.String()).Value(&groupMembersDetails)
 					if err != nil {
 						log.Fatal(err)
 						return  false
 					}
-					if k == groupMembersKey.String(){
+					log.Println("k",tempGroupKeys)
+
+
+
+				}
+				log.Println("hqqqqqq",tempGroupKeys)
+				log.Println("keyuhhjcsjc",k)
+				for i:=0;i<len(tempGroupKeys);i++{
+					if k == tempGroupKeys[i]{
 						updateMemberDetails.Status = helpers.UserStatusDeleted
 						updateMemberDetails.MemberName = groupMembersDetails.MemberName
-						err = db.Child("/Group/"+ eachGroupKey+"/Members/"+groupMembersKey.String()).Update(&updateMemberDetails)
+						err = db.Child("/Group/"+ eachGroupKey+"/Members/"+tempGroupKeys[i]).Update(&updateMemberDetails)
 						if err != nil {
 							log.Fatal(err)
 							return  false
@@ -362,8 +372,8 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 
 					}
 
-
 				}
+
 			}
 		err = db.Child("Users/"+k+"/Company/"+companyTeamName).Value(&companyInUsers)
 		if err != nil {
@@ -373,11 +383,11 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 		updateCompanyStatus.CompanyName = companyInUsers.CompanyName
 		updateCompanyStatus.DateOfJoin = companyInUsers.DateOfJoin
 		updateCompanyStatus.Status = helpers.UserStatusDeleted
-		err = db.Child("Users/"+k+"/Company/"+companyTeamName).Update(&updateCompanyStatus)
+		/*err = db.Child("Users/"+k+"/Company/"+companyTeamName).Update(&updateCompanyStatus)
 		if err != nil {
 			log.Fatal(err)
 			return false
-		}
+		}*/
 		err = db.Child("Company/"+companyTeamName+"/Users/"+k).Value(&usersInCompany)
 		if err != nil {
 			log.Fatal(err)
@@ -387,11 +397,11 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 		updateUsersInCompany.DateOfJoin = usersInCompany.DateOfJoin
 		updateUsersInCompany.Email=usersInCompany.Email
 		updateUsersInCompany.FullName = usersInCompany.FullName
-		err = db.Child("Company/"+companyTeamName+"/Users/"+k).Update(&updateCompanyStatus)
+		/*err = db.Child("Company/"+companyTeamName+"/Users/"+k).Update(&updateCompanyStatus)
 		if err != nil {
 			log.Fatal(err)
 			return false
-		}
+		}*/
 		err = db.Child("Company/"+companyTeamName+"/Invitation/"+InviteUserId).Value(&invitationData)
 		if err != nil {
 			log.Fatal(err)
@@ -404,11 +414,11 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 		updateInvitation.UserResponse = helpers.UserStatusDeleted
 		updateInvitation.UserType = invitationData.UserType
 		log.Println("delete",updateInvitation)
-		err = db.Child("Company/"+companyTeamName+"/Invitation/"+InviteUserId).Update(&updateInvitation)
+		/*err = db.Child("Company/"+companyTeamName+"/Invitation/"+InviteUserId).Update(&updateInvitation)
 		if err != nil {
 			log.Fatal(err)
 			return false
-		}
+		}*/
 		formattedEmail := strings.Replace(invitationData.Email, ".", "_", -1)
 		err = db.Child("Invitation/"+formattedEmail+"/"+InviteUserId).Value(&editInvitation)
 		if err != nil {
@@ -426,12 +436,12 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 		updateInvitationFromInvitation.Settings.DateOfCreation = editInvitation.Settings.DateOfCreation
 		updateInvitationFromInvitation.Settings.UserResponse = helpers.UserStatusDeleted
 		updateInvitationFromInvitation.Settings.Status = helpers.UserStatusDeleted
-		err = db.Child("Invitation/"+formattedEmail+"/"+InviteUserId).Update(&updateInvitationFromInvitation)
+		/*err = db.Child("Invitation/"+formattedEmail+"/"+InviteUserId).Update(&updateInvitationFromInvitation)
 		if err != nil {
 			log.Fatal(err)
 			return  false
 		}
-
+*/
 	}
 	return true
 }

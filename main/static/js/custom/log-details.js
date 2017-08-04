@@ -2,7 +2,7 @@
 //Below line is for adding active class to layout side menu..
 //document.getElementById("log").className += " active";
 //console.log(vm.Values[1][5]);
-console.log(vm);
+console.log(vm.CompanyTeamName);
 $(function(){
     var mainArray = [];   
     var table = "";
@@ -68,6 +68,15 @@ $(function(){
         $('#tbl_details_length').after($('.datepic-top'));
         
     }
+   $("#activitylog").click(function(){
+      // alert("The paragraph was clicked.");
+       completeTable = mainArray;
+        $('#log-details').dataTable().fnDestroy();
+       dataTableManipulate(completeTable);
+   });
+     $("#userlog").click(function(){
+       alert("The paragraph was clicked in userlog.");
+   });
     
   $('#log-details').on( 'click', '#btnShow', function () {
       $("#myModal").modal();

@@ -88,6 +88,12 @@ func (c *LogController)LoadLogDetails() {
 			taskName,JobName := models.GetTaskDataById(c.AppEngineCtx, taskId)
 			taskData := taskName+(JobName)
 			log.Println("taskData")
+			userId := logUserDetail[key.String()].UserID
+			log.Println("userId",userId)
+			activityLog := models.GeneralLog{}
+			activityLog.GetGeneralLogDataByUserId(c.AppEngineCtx,userId)
+			//log.Println("GeneralLogData",GeneralLogData)
+
 			tempValueSlice = append(tempValueSlice,taskData)
 			viewModel.Values = append(viewModel.Values, tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
@@ -105,7 +111,6 @@ func (c *LogController)LoadLogDetails() {
 	log.Println("admin last",viewModel.AdminLastName)
 	log.Println("admin first",viewModel.AdminFirstName)
 	log.Println("profile ",viewModel.ProfilePicture)
-	log.Println("viwemodel",viewModel)
 	c.Data["vm"] = viewModel
 	c.TplName = "template/log.html"
 }

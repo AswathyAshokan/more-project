@@ -19,20 +19,43 @@ type WorkLog struct {
 	TaskID		string
 
 }
+type GeneralLog struct {
+	LogDescription 		string
+	Longitude		string
+	LogTime 		string
+	LongitudeVal		string
+	Type 			string
+	UsedId			string
+	UserName  		string
+}
 func (m *WorkLog)GetLogDetailOfUser(ctx context.Context,companyTeamName string)(bool,map[string]WorkLog) {
 	workDetail := map[string]WorkLog{}
 	dB, err := GetFirebaseClient(ctx,"")
-	//contactStatus := "Active";
-	log.Println("model",companyTeamName)
 	err = dB.Child("WorkLog/"+companyTeamName).Value(&workDetail)
 	if err != nil {
 		log.Fatal(err)
 		return false, workDetail
 	}
-	log.Println("work",workDetail)
 	return true, workDetail
 
 }
+
+
+func (m *GeneralLog)GetGeneralLogDataByUserId(ctx context.Context,userId string) {
+	log.Println("id......",userId)
+	generalLogData :=GeneralLog{}
+	dB, err := GetFirebaseClient(ctx,"")
+	//contactStatus := "Active";
+	log.Println("model",userId)
+	err = dB.Child("GeneralLog/"+userId).Value(&generalLogData)
+	log.Println("GeneralLog",generalLogData)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+}
+
+
 
 
 
@@ -49,10 +72,13 @@ func GetTaskDataById(ctx context.Context,taskId string)(string,string) {
 		log.Fatal(err)
 		//return false
 	}
-	log.Println("AllTask",AllTask)
+	//log.Println("AllTask",AllTask)
 	dataValue := reflect.ValueOf(AllTask)
 	for _, key := range dataValue.MapKeys() {
+		//log.Println("key.String()",key.String())
+		log.Println("taskId",taskId)
 		if key.String() == taskId{
+			log.Println("iam here")
 			taskName = AllTask[key.String()].Info.TaskName
 			jobName = AllTask[key.String()].Job.JobName
 			return taskName,jobName
