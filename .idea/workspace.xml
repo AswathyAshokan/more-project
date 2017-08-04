@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/TaskController.go" afterPath="$PROJECT_DIR$/controllers/TaskController.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-task.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-task.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viewmodels/TaskViewModel.go" afterPath="$PROJECT_DIR$/viewmodels/TaskViewModel.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,7 +21,7 @@
       <file leaf-file-name="ByPassController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="573">
+            <state relative-caret-position="522">
               <caret line="33" column="56" lean-forward="false" selection-start-line="33" selection-start-column="56" selection-end-line="33" selection-end-column="56" />
               <folding>
                 <element signature="e#21#74#0" expanded="true" />
@@ -35,7 +33,7 @@
       <file leaf-file-name="FitToWorkController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/FitToWorkController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="173">
+            <state relative-caret-position="3348">
               <caret line="195" column="45" lean-forward="false" selection-start-line="195" selection-start-column="45" selection-end-line="195" selection-end-column="45" />
               <folding />
             </state>
@@ -45,8 +43,8 @@
       <file leaf-file-name="FitToWorkModel.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/FitToWorkModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="98">
-              <caret line="207" column="17" lean-forward="true" selection-start-line="207" selection-start-column="17" selection-end-line="207" selection-end-column="17" />
+            <state relative-caret-position="3582">
+              <caret line="207" column="17" lean-forward="false" selection-start-line="207" selection-start-column="17" selection-end-line="207" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -55,8 +53,8 @@
       <file leaf-file-name="ContactUserModel.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/ContactUserModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="569">
-              <caret line="284" column="0" lean-forward="true" selection-start-line="284" selection-start-column="0" selection-end-line="284" selection-end-column="0" />
+            <state relative-caret-position="5022">
+              <caret line="284" column="0" lean-forward="false" selection-start-line="284" selection-start-column="0" selection-end-line="284" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -65,8 +63,8 @@
       <file leaf-file-name="ContactUserController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/ContactUserController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="191">
-              <caret line="349" column="19" lean-forward="true" selection-start-line="349" selection-start-column="19" selection-end-line="349" selection-end-column="19" />
+            <state relative-caret-position="6138">
+              <caret line="349" column="19" lean-forward="false" selection-start-line="349" selection-start-column="19" selection-end-line="349" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -75,7 +73,7 @@
       <file leaf-file-name="JobController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/JobController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="227">
+            <state relative-caret-position="4464">
               <caret line="257" column="87" lean-forward="false" selection-start-line="257" selection-start-column="87" selection-end-line="257" selection-end-column="87" />
               <folding />
             </state>
@@ -105,7 +103,7 @@
       <file leaf-file-name="TaskController.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
+            <state relative-caret-position="18">
               <caret line="968" column="94" lean-forward="false" selection-start-line="968" selection-start-column="74" selection-end-line="968" selection-end-column="94" />
               <folding />
             </state>
@@ -115,8 +113,8 @@
       <file leaf-file-name="TaskViewModel.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/viewmodels/TaskViewModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="40" column="46" lean-forward="true" selection-start-line="40" selection-start-column="46" selection-end-line="40" selection-end-column="46" />
+            <state relative-caret-position="720">
+              <caret line="40" column="46" lean-forward="false" selection-start-line="40" selection-start-column="46" selection-end-line="40" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -271,9 +269,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -524,6 +520,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -540,122 +538,6 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/main/static/images" />
     </key>
-  </component>
-  <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
-    <UpdatedFiles>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Updated from server" />
-        <option name="myStatusName" value="Changed on server" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="CHANGED_ON_SERVER" />
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Updated" />
-          <option name="myStatusName" value="Changed" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/workspace.xml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/controllers/ByPassController.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/controllers/LogController.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/main/static/js/custom/log-details.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/main/views/template/add-task.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/models/InviteUserModel.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/models/LogModel.go</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Created" />
-          <option name="myStatusName" value="Created" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CREATED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Deleted" />
-          <option name="myStatusName" value="Deleted" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="true" />
-          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Restored" />
-          <option name="myStatusName" value="Will be restored" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="RESTORED" />
-        </FILE-GROUP>
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Modified" />
-        <option name="myStatusName" value="Modified" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MODIFIED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Skipped" />
-        <option name="myStatusName" value="Skipped" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="SKIPPED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with conflicts" />
-        <option name="myStatusName" value="Will be merged with conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_CONFLICTS" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with tree conflicts" />
-        <option name="myStatusName" value="Merged with tree conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with property conflicts" />
-        <option name="myStatusName" value="Will be merged with property conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged" />
-        <option name="myStatusName" value="Will be merged" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Not in repository" />
-        <option name="myStatusName" value="Not in repository" />
-        <option name="mySupportsDeletion" value="true" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="UNKNOWN" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Locally added" />
-        <option name="myStatusName" value="Locally added" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="LOCALLY_ADDED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Locally removed" />
-        <option name="myStatusName" value="Locally removed" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="LOCALLY_REMOVED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Switched" />
-        <option name="myStatusName" value="Switched" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="SWITCHED" />
-      </FILE-GROUP>
-    </UpdatedFiles>
   </component>
   <component name="RunManager">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -896,13 +778,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
-    </task>
-    <task id="LOCAL-00146" summary="1/06/2013:28:   check box">
-      <created>1499060201201</created>
-      <option name="number" value="00146" />
-      <option name="presentableId" value="LOCAL-00146" />
-      <option name="project" value="LOCAL" />
-      <updated>1499060201202</updated>
     </task>
     <task id="LOCAL-00147" summary="1/06/2013:28:   check box">
       <created>1499062190224</created>
@@ -1240,12 +1115,19 @@
       <option name="project" value="LOCAL" />
       <updated>1501753155694</updated>
     </task>
-    <option name="localTasksCounter" value="195" />
+    <task id="LOCAL-00195" summary="1/06/2013:28:   check box">
+      <created>1501757413373</created>
+      <option name="number" value="00195" />
+      <option name="presentableId" value="LOCAL-00195" />
+      <option name="project" value="LOCAL" />
+      <updated>1501757413381</updated>
+    </task>
+    <option name="localTasksCounter" value="196" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1301" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1630,7 +1512,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1530">
           <caret line="92" column="31" lean-forward="false" selection-start-line="92" selection-start-column="19" selection-end-line="92" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1638,7 +1519,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
           <caret line="24" column="23" lean-forward="false" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1646,7 +1526,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
           <caret line="25" column="38" lean-forward="false" selection-start-line="25" selection-start-column="38" selection-end-line="25" selection-end-column="38" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1668,15 +1547,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/FitToWorkModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="98">
-          <caret line="207" column="17" lean-forward="true" selection-start-line="207" selection-start-column="17" selection-end-line="207" selection-end-column="17" />
+        <state relative-caret-position="3582">
+          <caret line="207" column="17" lean-forward="false" selection-start-line="207" selection-start-column="17" selection-end-line="207" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/FitToWorkController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
+        <state relative-caret-position="3348">
           <caret line="195" column="45" lean-forward="false" selection-start-line="195" selection-start-column="45" selection-end-line="195" selection-end-column="45" />
           <folding />
         </state>
@@ -1684,23 +1563,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/ContactUserModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="569">
-          <caret line="284" column="0" lean-forward="true" selection-start-line="284" selection-start-column="0" selection-end-line="284" selection-end-column="0" />
+        <state relative-caret-position="5022">
+          <caret line="284" column="0" lean-forward="false" selection-start-line="284" selection-start-column="0" selection-end-line="284" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/ContactUserController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="349" column="19" lean-forward="true" selection-start-line="349" selection-start-column="19" selection-end-line="349" selection-end-column="19" />
+        <state relative-caret-position="6138">
+          <caret line="349" column="19" lean-forward="false" selection-start-line="349" selection-start-column="19" selection-end-line="349" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/JobController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
+        <state relative-caret-position="4464">
           <caret line="257" column="87" lean-forward="false" selection-start-line="257" selection-start-column="87" selection-end-line="257" selection-end-column="87" />
           <folding />
         </state>
@@ -1708,7 +1587,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="573">
+        <state relative-caret-position="522">
           <caret line="33" column="56" lean-forward="false" selection-start-line="33" selection-start-column="56" selection-end-line="33" selection-end-column="56" />
           <folding>
             <element signature="e#21#74#0" expanded="true" />
@@ -1718,15 +1597,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/viewmodels/TaskViewModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="40" column="46" lean-forward="true" selection-start-line="40" selection-start-column="46" selection-end-line="40" selection-end-column="46" />
+        <state relative-caret-position="720">
+          <caret line="40" column="46" lean-forward="false" selection-start-line="40" selection-start-column="46" selection-end-line="40" selection-end-column="46" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
+        <state relative-caret-position="18">
           <caret line="968" column="94" lean-forward="false" selection-start-line="968" selection-start-column="74" selection-end-line="968" selection-end-column="94" />
           <folding />
         </state>

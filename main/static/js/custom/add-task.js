@@ -76,24 +76,32 @@ $(function () {
       actualToDate.setSeconds(59);
   });
     if (pageType == "edit") {
+        document.title = 'Edit Task'
+        document.getElementById("jobName").value = vm.JobName;
+        console.log("jobbbbb",vm.JobName);
+        document.getElementById("taskName").value = vm.TaskName;
+        document.getElementById("taskLocation").value = vm.TaskLocation;
+        document.getElementById("startDate").value = vm.StartDate;
+        document.getElementById("endDate").value = vm.EndDate;
+        document.getElementById("taskDescription").value = vm.TaskDescription;
+        document.getElementById("taskLocation").value =vm.TaskLocation
         var fitToWorkName = vm.FitToWorkName;
         fitWork =vm.FitToWorkName;
         console.log("fit to work",fitToWorkName);
+        var logUser =document.getElementById("log");
+        logUser.value=vm.Log;
+        console.log("log minutes",vm.Log);
         if (fitToWorkName.length !=0){
              $('#TaskFitToWork option:contains(' + fitToWorkName + ')').prop({selected: true});
         }
         var selectArrayForGroup = vm.GroupMembersAndUserToEdit;
         $("#userOrGroup").val(selectArrayForGroup);
-//        var selectArray =  vm.ContactNameToEdit;
-//        console.log("contact",selectArray);
-//        $("#contactId").val(selectArray);
         document.getElementById("startTime").value = vm.StartTime;
         document.getElementById("endTime").value = vm.EndTime;
         console.log("jobname",vm.NFCTagId);
         var element = document.getElementById('minUsers');
         element.value = vm.UserNumber;
-        var logUser =document.getElementById("log");
-        logUser.value=vm.Log;
+        
         if(vm.LoginType =="NFC" ){
             document.getElementById("loginType1").checked = true;
             var div = document.getElementById('nfcTagId');
@@ -134,14 +142,8 @@ $(function () {
                      
             }
         }
-        document.getElementById("jobName").value = vm.JobName;
-        console.log("jobbbbb",vm.JobName);
-        document.getElementById("taskName").value = vm.TaskName;
-        document.getElementById("taskLocation").value = vm.TaskLocation;
-        document.getElementById("startDate").value = vm.StartDate;
-        document.getElementById("endDate").value = vm.EndDate;
-        document.getElementById("taskDescription").value = vm.TaskDescription;
-        document.getElementById("taskLocation").value =vm.TaskLocation
+       
+       
        
         document.getElementById("taskHead").innerHTML = "Edit Task";
         $("body").on("click", ".delete-decl", function () {
