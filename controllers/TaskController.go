@@ -1201,6 +1201,7 @@ func (c *TaskController)LoadTaskStatus() {
 	taskId :=c.Ctx.Input.Param(":taskId")
 	task := models.Tasks{}
 	dbStatus := task.TaskStatusChck(c.AppEngineCtx, taskId,companyId)
+	log.Println("gggggggggggggggg",dbStatus)
 	switch dbStatus {
 	case true:
 		w.Write([]byte("true"))

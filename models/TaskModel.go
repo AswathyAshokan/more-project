@@ -697,6 +697,7 @@ func (m *Tasks) TaskStatusChck(ctx context.Context, taskId string,companyId stri
 		log.Fatal(err)
 		return false
 	}
+	log.Println("status",taskDetail.Settings.TaskStatus)
 	if taskDetail.Settings.TaskStatus == helpers.StatusCompleted {
 		return true
 
