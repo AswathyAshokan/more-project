@@ -79,20 +79,7 @@ $(function () {
         console.log("log",vm.Log);
         var element = document.getElementById('logInMinutes');
         element.value = vm.Log;
-        if(vm.WorkTime.length !=0){
-            document.getElementById("workExplosure11").checked = true;
-            var div = document.getElementById('work');
-            div.style.visibility = 'visible';
-            div.style.display ='inline';
-            document.getElementById("workTime").value =vm.WorkTime[0];
-            document.getElementById("breakTime").value =vm.BreakTime[0];
-            var DynamicExposureTextBox ="";
-            for (var i=1; i<vm.WorkTime.length; i++){
-                DynamicExposureTextBox+=        '<div class="exposureId"> <label for="workExplosureText" class="">Break Time</label>'+
-                    '<input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5" value="'+ vm.BreakTime[i] +'">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" value="'+ vm.WorkTime[i] +'" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="20" height="20" style= "float:right; margin-top:0em; margin-right:0em;"  class="delete-exposure" /></div>';
-            }
-            $("#exposureTextBoxAppend").append(DynamicExposureTextBox);
-        }
+        
         document.getElementById("jobName").value = vm.JobName;
         document.getElementById("taskName").value = vm.TaskName;
         document.getElementById("taskLocation").value = vm.TaskLocation;
@@ -142,7 +129,6 @@ $(function () {
         for (var i = 0; i < eid.options.length; ++i) {
             for (var j=0;j<vm.ContactNameToEdit.length;j++){
                 if (eid.options[i].text === vm.ContactNameKeyToEdit[j]){
-                     console.log("oooooooo");
                      eid.options[i].selected = true;
                  }
             }
@@ -154,6 +140,20 @@ $(function () {
         minUserForTaskEdit = vm.UsersToEdit.length;
         if(vm.FitToWorkCheck =="EachTime") {
             document.getElementById("fitToWorkCheck").checked = true;
+        }
+        if(vm.WorkTime.length !=0){
+            document.getElementById("workExplosure11").checked = true;
+            var div = document.getElementById('work');
+            div.style.visibility = 'visible';
+            div.style.display ='inline';
+            document.getElementById("workTime").value =vm.WorkTime[0];
+            document.getElementById("breakTime").value =vm.BreakTime[0];
+            var DynamicExposureTextBox ="";
+            for (var i=1; i<vm.WorkTime.length; i++){
+                DynamicExposureTextBox+=        '<div class="exposureId"> <label for="workExplosureText" class="">Break Time</label>'+
+                    '<input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5" value="'+ vm.BreakTime[i] +'">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" value="'+ vm.WorkTime[i] +'" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="20" height="20" style= "float:right; margin-top:0em; margin-right:0em;"  class="delete-exposure" /></div>';
+            }
+            $("#exposureTextBoxAppend").append(DynamicExposureTextBox);
         }
     }
 });
