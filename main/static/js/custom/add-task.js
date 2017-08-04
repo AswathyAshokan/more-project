@@ -27,7 +27,6 @@ var exposureWorkTimeArray =[];
 var fitWork= "";
 var contactName =[];
 var contactId =[];
-console.log("log",vm.Log);
 //if group members is null ,group member array is initialised
 if(vm.GroupMembers == null) {
     vm.GroupMembers = [];
@@ -77,8 +76,10 @@ $(function () {
   });
     if (pageType == "edit") {
         document.title = 'Edit Task'
+        console.log("log",vm.Log);
+        var element = document.getElementById('logInMinutes');
+        element.value = vm.Log;
         document.getElementById("jobName").value = vm.JobName;
-        console.log("jobbbbb",vm.JobName);
         document.getElementById("taskName").value = vm.TaskName;
         document.getElementById("taskLocation").value = vm.TaskLocation;
         document.getElementById("startDate").value = vm.StartDate;
@@ -87,10 +88,6 @@ $(function () {
         document.getElementById("taskLocation").value =vm.TaskLocation
         var fitToWorkName = vm.FitToWorkName;
         fitWork =vm.FitToWorkName;
-        console.log("fit to work",fitToWorkName);
-        var logUser =document.getElementById("log");
-        logUser.value=vm.Log;
-        console.log("log minutes",vm.Log);
         if (fitToWorkName.length !=0){
              $('#TaskFitToWork option:contains(' + fitToWorkName + ')').prop({selected: true});
         }
@@ -98,10 +95,8 @@ $(function () {
         $("#userOrGroup").val(selectArrayForGroup);
         document.getElementById("startTime").value = vm.StartTime;
         document.getElementById("endTime").value = vm.EndTime;
-        console.log("jobname",vm.NFCTagId);
         var element = document.getElementById('minUsers');
         element.value = vm.UserNumber;
-        
         if(vm.LoginType =="NFC" ){
             document.getElementById("loginType1").checked = true;
             var div = document.getElementById('nfcTagId');
@@ -116,7 +111,6 @@ $(function () {
            for (var j=0; j<vm.ContactUser[i].length ;j++){
                for ( var k=0;k<vm.ContactUser[i][j].CustomerName.length;k++){
                    if (vm.ContactUser[i][j].CustomerName[k] ==vm.CustomerNameToEdit){
-                       console.log("jjjj",vm.ContactUser[i][j].ContactName);
                        contactName.push(vm.ContactUser[i][j].ContactName);
                        contactId.push(vm.ContactUser[i][j].ContactId);
                    }
@@ -134,7 +128,6 @@ $(function () {
         var eid = document.getElementById('contactId');
         for (var i = 0; i < eid.options.length; ++i) {
             for (var j=0;j<vm.ContactNameToEdit.length;j++){
-                console.log("ffffffffff",vm.ContactNameKeyToEdit[j]);
                 if (eid.options[i].text === vm.ContactNameKeyToEdit[j]){
                      console.log("oooooooo");
                      eid.options[i].selected = true;
@@ -154,7 +147,6 @@ $(function () {
             document.getElementById("fitToWorkCheck").checked = true;
         }
         if(vm.WorkTime.length !=0){
-            console.log("inside work");
             document.getElementById("workExplosure11").checked = true;
             var div = document.getElementById('work');
             div.style.visibility = 'visible';

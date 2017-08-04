@@ -275,7 +275,24 @@ $(function(){
         console.log("edit");
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[6];
-        window.location = '/' + companyTeamName + '/task/' + key + '/edit'
+        $.ajax({
+                type: "POST",
+                url: '/'  +   companyTeamName + '/task/' + key + '/taskStatus',
+                data: '',
+                success: function(data){
+                    if(data=="true"){
+                           $("#myTaskStatus").modal();
+                    }
+                    else {
+                        window.location = '/' + companyTeamName + '/task/' + key + '/edit'
+                    }
+                }
+            });
+        
+        
+        
+        
+//        window.location = '/' + companyTeamName + '/task/' + key + '/edit'
     });
 //................deleting.........................
     $('#task-details tbody').on( 'click', '#delete', function () {

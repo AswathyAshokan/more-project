@@ -688,3 +688,19 @@ func Compare(a, b string) int {
 	}
 	return +1
 }
+
+func (m *Tasks) TaskStatusChck(ctx context.Context, taskId string,companyId string)(bool) {
+	taskDetail := Tasks{}
+	dB, err := GetFirebaseClient(ctx,"")
+	err = dB.Child("Tasks/"+ taskId).Value(&taskDetail)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+	if taskDetail.Settings.TaskStatus == helpers.StatusCompleted {
+		return true
+
+	}
+
+	return false
+}

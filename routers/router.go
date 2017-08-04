@@ -109,6 +109,9 @@ func init() {
 	beegae.Router("/:companyTeamName/task", &controllers.TaskController{},"*:LoadTaskDetail")
 	beegae.Router("/:companyTeamName/task/:taskId/edit", &controllers.TaskController{},"*:LoadEditTask")
 	beegae.Router("/:companyTeamName/task/:taskId/delete", &controllers.TaskController{},"*:LoadDeleteTask")
+	beegae.Router("/:companyTeamName/task/:taskId/taskStatus", &controllers.TaskController{},"*:LoadTaskStatus")
+
+
 	beegae.Router("/:companyTeamName/leave", &controllers.LeaveController{},"*:LoadUserLeave")
 	beegae.Router("/:companyTeamName/leave/:leaveKey/:userKey/accept", &controllers.LeaveController{},"*:LoadAcceptUserLeave")
 	beegae.Router("/:companyTeamName/leave/:leaveKey/:userKey/reject", &controllers.LeaveController{},"*:LoadRejectUserLeave")

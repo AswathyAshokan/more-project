@@ -31,10 +31,14 @@ func (c *TaskController)AddNewTask() {
 		task:=models.Tasks{}
 		task.Info.TaskName= c.GetString("taskName")
 		task.Job.JobName= c.GetString("jobName")
+
 		task.Job.JobId = c.GetString("jobId")
 		task.Job.JobStatus =helpers.StatusActive
 		jobIdForTask  :=task.Job.JobId
 		task.Customer.CustomerName = c.GetString("customerName")
+		if task.Customer.CustomerName =="Select a Job"{
+			task.Customer.CustomerName=""
+		}
 		task.Customer.CustomerId =c.GetString("jobId")
 		task.Customer.CustomerStatus =helpers.StatusActive
 		customerIdForTask :=task.Customer.CustomerId
@@ -55,7 +59,7 @@ func (c *TaskController)AddNewTask() {
 		task.Info.EndDate = endDate.Unix()
 		task.Info.TaskDescription = c.GetString("taskDescription")
 		task.Info.UserNumber = c.GetString("minUsers")
-		logInMinutes :=c.GetString("log")
+		logInMinutes :=c.GetString("logInMinutes")
 		logInMinutesInString, err := strconv.ParseInt(logInMinutes, 10, 64)
 		if err != nil {
 			// handle error
@@ -644,7 +648,7 @@ func (c *TaskController)LoadDeleteTask() {
 	case true:
 		w.Write([]byte("true"))
 	case false :
-		w.Write([]byte("true"))
+		w.Write([]byte("false"))
 	}
 }
 
@@ -665,6 +669,9 @@ func (c *TaskController)LoadEditTask() {
 		task.Job.JobName = c.GetString("jobName")
 		task.Job.JobId = c.GetString("jobId")
 		task.Customer.CustomerName = c.GetString("customerName")
+		if task.Customer.CustomerName =="Select a Job"{
+			task.Customer.CustomerName=""
+		}
 		task.Customer.CustomerId = c.GetString("jobId")
 		task.Info.TaskLocation =c.GetString("taskLocation")
 		fitToWorkName :=c.GetString("fitToWorkName")
@@ -684,7 +691,7 @@ func (c *TaskController)LoadEditTask() {
 		task.Info.EndDate = endDate.Unix()
 		task.Info.TaskDescription = c.GetString("taskDescription")
 		task.Info.UserNumber = c.GetString("minUsers")
-		logInMinutes :=c.GetString("log")
+		logInMinutes :=c.GetString("logInMinutes")
 		logInMinutesInString, err := strconv.ParseInt(logInMinutes, 10, 64)
 		if err != nil {
 			// handle error
@@ -1182,4 +1189,22 @@ func (c *TaskController)LoadEditTask() {
 
 	}
 
+}
+
+func (c *TaskController)LoadTaskStatus() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
+	ReadSession(w, r, companyTeamName)
+	companyId :=storedSession.CompanyId
+	taskId :=c.Ctx.Input.Param(":taskId")
+	task := models.Tasks{}
+	dbStatus := task.TaskStatusChck(c.AppEngineCtx, taskId,companyId)
+	switch dbStatus {
+	case true:
+		w.Write([]byte("true"))
+	case false :
+		w.Write([]byte("false"))
+	}
 }
