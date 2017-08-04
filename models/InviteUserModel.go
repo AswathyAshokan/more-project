@@ -383,11 +383,11 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 		updateCompanyStatus.CompanyName = companyInUsers.CompanyName
 		updateCompanyStatus.DateOfJoin = companyInUsers.DateOfJoin
 		updateCompanyStatus.Status = helpers.UserStatusDeleted
-		/*err = db.Child("Users/"+k+"/Company/"+companyTeamName).Update(&updateCompanyStatus)
+		err = db.Child("Users/"+k+"/Company/"+companyTeamName).Update(&updateCompanyStatus)
 		if err != nil {
 			log.Fatal(err)
 			return false
-		}*/
+		}
 		err = db.Child("Company/"+companyTeamName+"/Users/"+k).Value(&usersInCompany)
 		if err != nil {
 			log.Fatal(err)
@@ -397,11 +397,11 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 		updateUsersInCompany.DateOfJoin = usersInCompany.DateOfJoin
 		updateUsersInCompany.Email=usersInCompany.Email
 		updateUsersInCompany.FullName = usersInCompany.FullName
-		/*err = db.Child("Company/"+companyTeamName+"/Users/"+k).Update(&updateCompanyStatus)
+		err = db.Child("Company/"+companyTeamName+"/Users/"+k).Update(&updateCompanyStatus)
 		if err != nil {
 			log.Fatal(err)
 			return false
-		}*/
+		}
 		err = db.Child("Company/"+companyTeamName+"/Invitation/"+InviteUserId).Value(&invitationData)
 		if err != nil {
 			log.Fatal(err)
@@ -414,11 +414,11 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 		updateInvitation.UserResponse = helpers.UserStatusDeleted
 		updateInvitation.UserType = invitationData.UserType
 		log.Println("delete",updateInvitation)
-		/*err = db.Child("Company/"+companyTeamName+"/Invitation/"+InviteUserId).Update(&updateInvitation)
+		err = db.Child("Company/"+companyTeamName+"/Invitation/"+InviteUserId).Update(&updateInvitation)
 		if err != nil {
 			log.Fatal(err)
 			return false
-		}*/
+		}
 		formattedEmail := strings.Replace(invitationData.Email, ".", "_", -1)
 		err = db.Child("Invitation/"+formattedEmail+"/"+InviteUserId).Value(&editInvitation)
 		if err != nil {
@@ -436,12 +436,11 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 		updateInvitationFromInvitation.Settings.DateOfCreation = editInvitation.Settings.DateOfCreation
 		updateInvitationFromInvitation.Settings.UserResponse = helpers.UserStatusDeleted
 		updateInvitationFromInvitation.Settings.Status = helpers.UserStatusDeleted
-		/*err = db.Child("Invitation/"+formattedEmail+"/"+InviteUserId).Update(&updateInvitationFromInvitation)
+		err = db.Child("Invitation/"+formattedEmail+"/"+InviteUserId).Update(&updateInvitationFromInvitation)
 		if err != nil {
 			log.Fatal(err)
 			return  false
 		}
-*/
 	}
 	return true
 }

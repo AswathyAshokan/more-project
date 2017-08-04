@@ -21,9 +21,9 @@ type WorkLog struct {
 }
 type GeneralLog struct {
 	LogDescription 		string
-	Longitude		string
-	LogTime 		string
-	LongitudeVal		string
+	Latitude		float64
+	LogTime 		int64
+	Longitude		float64
 	Type 			string
 	UsedId			string
 	UserName  		string
@@ -42,19 +42,18 @@ func (m *WorkLog)GetLogDetailOfUser(ctx context.Context,companyTeamName string)(
 }
 
 
-func (m *GeneralLog)GetGeneralLogDataByUserId(ctx context.Context,userId string) {
+func GetGeneralLogDataByUserId(ctx context.Context,userId string)(bool,map[string]GeneralLog) {
 	log.Println("id......",userId)
 	generalLogData :=map[string]GeneralLog{}
 	dB, err := GetFirebaseClient(ctx,"")
 	//contactStatus := "Active";
 	log.Println("model",userId)
-	err = dB.Child("GeneralLog/"+userId).Value(&generalLogData)
-	log.Println("GeneralLog",generalLogData)
-	log.Println("err",err)
-	/*log.Println("GeneralLog",generalLogData)
+	err = dB.Child("/GeneralLog/"+userId).Value(&generalLogData)
 	if err != nil {
 		log.Fatal(err)
-	}*/
+		return false,generalLogData
+	}
+	return true,generalLogData
 
 }
 
@@ -72,7 +71,6 @@ func GetTaskDataById(ctx context.Context,taskId string)(string,string) {
 		log.Fatal(err)
 		//return false
 	}
-	//log.Println("AllTask",AllTask)
 	dataValue := reflect.ValueOf(AllTask)
 	for _, key := range dataValue.MapKeys() {
 		//log.Println("key.String()",key.String())

@@ -22,7 +22,6 @@ func (c *LogController)LoadLogDetails() {
 	logDetails :=models.WorkLog{}
 	//var duration []string
 	dbStatus, logUserDetail := logDetails.GetLogDetailOfUser(c.AppEngineCtx, companyTeamName)
-	log.Println("key from user log",logUserDetail)
 	var userId string
 	switch dbStatus {
 	case true:
@@ -39,44 +38,6 @@ func (c *LogController)LoadLogDetails() {
 			tempValueSlice = append(tempValueSlice, logUserDetail[key.String()].Type)
 			tempValueSlice = append(tempValueSlice, logUserDetail[key.String()].Duration)
 			logTimeNew := time.Unix(logUserDetail[key.String()].LogTime, 0)
-			/*logTimeUser := logTimeNew.String()[11:16]
-			logTimeInString := strconv.FormatInt(logUserDetail[key.String()].LogTime, 10)
-			logTime, err := strconv.ParseInt(logTimeInString, 10, 64)
-			if err != nil {
-				log.Println(err)
-
-			}
-			timeStamp := time.Unix(logTime, 0)
-			hr, min, _ := timeStamp.Clock()
-			logTimeInMinutes :=hr*60+min
-			duration = strings.Split(logUserDetail[key.String()].Duration, ":")
-			log.Println(duration[0])
-			log.Println(duration[1])
-			durationInMinutesFirst, _ := strconv.Atoi(duration[0])
-			durationInMinutesSecond, _ := strconv.Atoi(duration[1])
-			durationInMinutes := durationInMinutesFirst*60+durationInMinutesSecond
-			logBetween := logTimeInMinutes - durationInMinutes
-			log.Println(logBetween)
-			logHour := logBetween /60
-			logMinutes :=logBetween % 60
-			var logHourInString =string(logHour)
-			var logMinutesInString =string(logMinutes)
-			var prependLogHours =""
-			var prependLogMinutes =""
-			if len(logHourInString) ==1 {
-
-				prependLogHours = fmt.Sprintf("%02d", logHour)
-			} else {
-				prependLogHours = string(logHour)
-			}
-			if len(logMinutesInString) ==1 {
-
-				prependLogMinutes = fmt.Sprintf("%02d", logMinutes)
-			} else {
-				prependLogMinutes = string(logMinutes)
-			}
-			logTimeForUser := prependLogHours +":"+ prependLogMinutes*/
-			log.Println("utc tiome",logTimeNew)
 			tempValueSlice = append(tempValueSlice, logTimeNew.String())
 			latitudeInString :=strconv.FormatFloat(logUserDetail[key.String()].Latitude, 'f', 6, 64)
 			longitudeInString :=strconv.FormatFloat(logUserDetail[key.String()].Longitude, 'f', 6, 64)
@@ -88,10 +49,6 @@ func (c *LogController)LoadLogDetails() {
 			taskName,JobName := models.GetTaskDataById(c.AppEngineCtx, taskId)
 			taskData := taskName+(JobName)
 			userId = logUserDetail[key.String()].UserID
-			log.Println("userId",userId)
-
-			//log.Println("GeneralLogData",GeneralLogData)
-
 			tempValueSlice = append(tempValueSlice,taskData)
 			viewModel.Values = append(viewModel.Values, tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
@@ -100,9 +57,15 @@ func (c *LogController)LoadLogDetails() {
 	case false :
 		log.Println(helpers.ServerConnectionError)
 	}
-	activityLog := models.GeneralLog{}
-	log.Println("userId",userId)
-	activityLog.GetGeneralLogDataByUserId(c.AppEngineCtx,userId)
+	userId = "LmPgZSOM6OXtkbU9VNLdaPnLd042"
+	logStatus,generalLogData := models.GetGeneralLogDataByUserId(c.AppEngineCtx,userId)
+	switch logStatus {
+	case true:
+
+	case false:
+
+	}
+
 
 	viewModel.CompanyTeamName =companyTeamName
 	viewModel.CompanyPlan = storedSession.CompanyPlan
