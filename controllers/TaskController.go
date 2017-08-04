@@ -204,7 +204,7 @@ func (c *TaskController)AddNewTask() {
 		var keySlice []string
 		var activeJobKey []string
 		var keySliceForGroupAndUser 	[]string
-		//var keySliceForContact		[]string
+		var keySliceForContact		[]string
 		var keySliceForFitToWork 	[]string
 		//Getting Jobs
 		dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx,companyTeamName)
@@ -328,29 +328,29 @@ func (c *TaskController)AddNewTask() {
 		}
 
 		//for getting all contact
-		//dbStatus, contacts := models.GetAllContact(c.AppEngineCtx,companyTeamName)
-		//var activeContactKey []string
-		//switch dbStatus {
-		//case true:
-		//	dataValue := reflect.ValueOf(contacts)
-		//	for _, key := range dataValue.MapKeys() {
-		//		keySliceForContact = append(keySliceForContact, key.String())
-		//	}
-		//	for _, k := range dataValue.MapKeys() {
-		//		if  contacts[k.String()].Settings.Status == "Active"{
-		//			activeContactKey = append(activeContactKey, k.String())
-		//			viewModel.ContactNameArray  = append(viewModel.ContactNameArray , contacts[k.String()].Info.Name)
-		//
-		//		}
-		//
-		//	}
-		//	viewModel.CompanyTeamName=storedSession.CompanyTeamName
-		//	viewModel.CompanyPlan = storedSession.CompanyPlan
-		//	viewModel.Key = activeJobKey
-		//	viewModel.ContactKey=activeContactKey
-		//case false:
-		//	log.Println(helpers.ServerConnectionError)
-		//}
+		dbStatus, contactsDetails := models.GetAllContact(c.AppEngineCtx,companyTeamName)
+		var activeContactKey []string
+		switch dbStatus {
+		case true:
+			dataValue := reflect.ValueOf(contactsDetails)
+			for _, key := range dataValue.MapKeys() {
+				keySliceForContact = append(keySliceForContact, key.String())
+			}
+			for _, k := range dataValue.MapKeys() {
+				if  contactsDetails[k.String()].Settings.Status == "Active"{
+					activeContactKey = append(activeContactKey, k.String())
+					viewModel.ContactNameArray  = append(viewModel.ContactNameArray , contactsDetails[k.String()].Info.Name)
+
+				}
+
+			}
+			viewModel.CompanyTeamName=storedSession.CompanyTeamName
+			viewModel.CompanyPlan = storedSession.CompanyPlan
+			viewModel.Key = activeJobKey
+			viewModel.ContactKey=activeContactKey
+		case false:
+			log.Println(helpers.ServerConnectionError)
+		}
 		var contactStructSlice []viewmodels.TaskContact
 		var taskcontactSlice [][]viewmodels.TaskContact
 
@@ -1201,7 +1201,6 @@ func (c *TaskController)LoadTaskStatus() {
 	taskId :=c.Ctx.Input.Param(":taskId")
 	task := models.Tasks{}
 	dbStatus := task.TaskStatusChck(c.AppEngineCtx, taskId,companyId)
-	log.Println("gggggggggggggggg",dbStatus)
 	switch dbStatus {
 	case true:
 		w.Write([]byte("true"))

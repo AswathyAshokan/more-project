@@ -79,6 +79,20 @@ $(function () {
         console.log("log",vm.Log);
         var element = document.getElementById('logInMinutes');
         element.value = vm.Log;
+        if(vm.WorkTime.length !=0){
+            document.getElementById("workExplosure11").checked = true;
+            var div = document.getElementById('work');
+            div.style.visibility = 'visible';
+            div.style.display ='inline';
+            document.getElementById("workTime").value =vm.WorkTime[0];
+            document.getElementById("breakTime").value =vm.BreakTime[0];
+            var DynamicExposureTextBox ="";
+            for (var i=1; i<vm.WorkTime.length; i++){
+                DynamicExposureTextBox+=        '<div class="exposureId"> <label for="workExplosureText" class="">Break Time</label>'+
+                    '<input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5" value="'+ vm.BreakTime[i] +'">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" value="'+ vm.WorkTime[i] +'" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="20" height="20" style= "float:right; margin-top:0em; margin-right:0em;"  class="delete-exposure" /></div>';
+            }
+            $("#exposureTextBoxAppend").append(DynamicExposureTextBox);
+        }
         document.getElementById("jobName").value = vm.JobName;
         document.getElementById("taskName").value = vm.TaskName;
         document.getElementById("taskLocation").value = vm.TaskLocation;
@@ -89,7 +103,7 @@ $(function () {
         var fitToWorkName = vm.FitToWorkName;
         fitWork =vm.FitToWorkName;
         if (fitToWorkName.length !=0){
-             $('#TaskFitToWork option:contains(' + fitToWorkName + ')').prop({selected: true});
+            $('#TaskFitToWork option:contains(' + fitToWorkName + ')').prop({selected: true});
         }
         var selectArrayForGroup = vm.GroupMembersAndUserToEdit;
         $("#userOrGroup").val(selectArrayForGroup);
@@ -108,16 +122,15 @@ $(function () {
         }
         loginTypeForEdit = vm.LoginType;
         for (var i = 0; i < vm.ContactUser.length; i++) {
-           for (var j=0; j<vm.ContactUser[i].length ;j++){
-               for ( var k=0;k<vm.ContactUser[i][j].CustomerName.length;k++){
-                   if (vm.ContactUser[i][j].CustomerName[k] ==vm.CustomerNameToEdit){
-                       contactName.push(vm.ContactUser[i][j].ContactName);
-                       contactId.push(vm.ContactUser[i][j].ContactId);
-                   }
-               }
-               
-           }
-       }
+            for (var j=0; j<vm.ContactUser[i].length ;j++){
+                for ( var k=0;k<vm.ContactUser[i][j].CustomerName.length;k++){
+                    if (vm.ContactUser[i][j].CustomerName[k] ==vm.CustomerNameToEdit){
+                        contactName.push(vm.ContactUser[i][j].ContactName);
+                        contactId.push(vm.ContactUser[i][j].ContactId);
+                    }
+                }
+            }
+        }
         var sel = document.getElementById('contactId');
         for(var i = 0; i < contactName.length; i++) {
             var opt = document.createElement('option');
@@ -132,12 +145,8 @@ $(function () {
                      console.log("oooooooo");
                      eid.options[i].selected = true;
                  }
-                     
             }
         }
-       
-       
-       
         document.getElementById("taskHead").innerHTML = "Edit Task";
         $("body").on("click", ".delete-decl", function () {
             $(this).closest("div").remove();
@@ -146,24 +155,7 @@ $(function () {
         if(vm.FitToWorkCheck =="EachTime") {
             document.getElementById("fitToWorkCheck").checked = true;
         }
-        if(vm.WorkTime.length !=0){
-            document.getElementById("workExplosure11").checked = true;
-            var div = document.getElementById('work');
-            div.style.visibility = 'visible';
-            div.style.display ='inline';
-            document.getElementById("workTime").value =vm.WorkTime[0];
-            document.getElementById("breakTime").value =vm.BreakTime[0];
-            var DynamicExposureTextBox ="";
-            for (var i=1; i<vm.WorkTime.length; i++){
-                DynamicExposureTextBox+=        '<div class="exposureId"> <label for="workExplosureText" class="">Break Time</label>'+
-                    '<input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5" value="'+ vm.BreakTime[i] +'">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" value="'+ vm.WorkTime[i] +'" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="20" height="20" style= "float:right; margin-top:0em; margin-right:0em;"  class="delete-exposure" /></div>';
-            }
-            $("#exposureTextBoxAppend").append(DynamicExposureTextBox);
-             
-        }
-            
     }
-
 });
 
 //function for getting exposure dynamically
@@ -188,28 +180,28 @@ var addItem = $('<span>+</span>');
 addItem.click(function() {
     window.location = "/"  +  companyTeamName +  "/task/add";
 });
-
 $().ready(function() {
     var loginTypeRadio = "";
- $("input[type='radio']").change(function(){
-     loginTypeRadio = $('.radio-inline:checked').val();
-       if (loginTypeRadio =="NFC"){
-           var div = document.getElementById('nfcTagId');
-           div.style.visibility = 'visible';
-           div.style.display ='inline';
-           
-       }else{
-           var div = document.getElementById('nfcTagId');
-           div.style.visibility = 'hidden';
-           div.style.display ='none'
-       }
-   });
+    $("input[type='radio']").change(function(){
+        loginTypeRadio = $('.radio-inline:checked').val();
+        if (loginTypeRadio =="NFC"){
+            var div = document.getElementById('nfcTagId');
+            div.style.visibility = 'visible';
+            div.style.display ='inline';
+        }else{
+            var div = document.getElementById('nfcTagId');
+            div.style.visibility = 'hidden';
+            div.style.display ='none'
+        }
+    });
     
    
     
     //Functiion for getting job and customer separate
    
     getJobAndCustomer = function(){
+        contactName = [];
+        contactId = [];
         var job = $("#jobName option:selected").val() + " (";
         var jobAndCustomer = $("#jobName option:selected").text();
         var tempName = jobAndCustomer.replace(job, '');
@@ -223,9 +215,9 @@ $().ready(function() {
                        contactId.push(vm.ContactUser[i][j].ContactId);
                    }
                }
-               
            }
        }
+        removeOptions(document.getElementById("contactId"));
         var sel = document.getElementById('contactId');
         for(var i = 0; i < contactName.length; i++) {
             var opt = document.createElement('option');
@@ -233,10 +225,28 @@ $().ready(function() {
             opt.value = contactId[i];
             sel.appendChild(opt);
         }
+        if ($("#jobName option:selected").val()== ""){
+            var sel = document.getElementById('contactId');
+            for(var i = 0; i < vm.ContactNameArray.length; i++) {
+                var opt = document.createElement('option');
+                opt.innerHTML = vm.ContactNameArray[i];
+                opt.value = vm.ContactKey[i];
+                sel.appendChild(opt);
+            }
+        }
         var jobDropdownId = document.getElementById("jobName");
         jobId = jobDropdownId.options[jobDropdownId.selectedIndex].id;
     }
-    
+    function removeOptions(selectbox)
+    {
+        var i;
+        for(i = selectbox.options.length - 1 ; i >= 0 ; i--)
+        {
+            selectbox.remove(i);
+        }
+    }
+//using the function:
+
     //getting instructions of fit to work
     getInstructions =function(){
         var doc = document.getElementById("TaskFitToWork");
