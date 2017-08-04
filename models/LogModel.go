@@ -32,6 +32,7 @@ func (m *WorkLog)GetLogDetailOfUser(ctx context.Context,companyTeamName string)(
 	workDetail := map[string]WorkLog{}
 	dB, err := GetFirebaseClient(ctx,"")
 	err = dB.Child("WorkLog/"+companyTeamName).Value(&workDetail)
+	log.Println("worklog",workDetail)
 	if err != nil {
 		log.Fatal(err)
 		return false, workDetail
@@ -43,20 +44,19 @@ func (m *WorkLog)GetLogDetailOfUser(ctx context.Context,companyTeamName string)(
 
 func (m *GeneralLog)GetGeneralLogDataByUserId(ctx context.Context,userId string) {
 	log.Println("id......",userId)
-	generalLogData :=GeneralLog{}
+	generalLogData :=map[string]GeneralLog{}
 	dB, err := GetFirebaseClient(ctx,"")
 	//contactStatus := "Active";
 	log.Println("model",userId)
 	err = dB.Child("GeneralLog/"+userId).Value(&generalLogData)
 	log.Println("GeneralLog",generalLogData)
+	log.Println("err",err)
+	/*log.Println("GeneralLog",generalLogData)
 	if err != nil {
 		log.Fatal(err)
-	}
+	}*/
 
 }
-
-
-
 
 
 func GetTaskDataById(ctx context.Context,taskId string)(string,string) {

@@ -16,7 +16,7 @@
             <form class="clearfix max-form-width" method="POST" id="contactForm">
                 <div class="form-group clearfix">
                      <div class="col-sm-6" id="customerDiv">
-                         <label for="customer" class="" id="customerIdLabel">Customer Name</label>
+                         <label for="customer" class="" id="customerIdLabel">Select Customer</label>
                          <select class="form-control sprites-arrow-down multiple-drop" id="customerId" multiple="multiple" name="customerId">
                              {{range $key, $val := .vm.CustomerNameArray}}
                              <option value="{{index $.vm.CustomerKeys $key}}">{{$val}}</option>
@@ -24,7 +24,7 @@
                          </select>
                     </div>
                     <div class="col-sm-6">
-                        <label for="name" class=""> Contact Name</label>
+                        <label for="name" class=""> suppliers/Contact Person</label>
                         <input class="form-control"  type="text" name="name" id="name" value="">
                     </div>
                 </div>

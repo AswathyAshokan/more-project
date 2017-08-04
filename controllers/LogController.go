@@ -14,7 +14,6 @@ type LogController struct {
 	BaseController
 }
 func (c *LogController)LoadLogDetails() {
-	log.Println("again here...............")
 	viewModel := viewmodels.WorkLogViewModel{}
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -23,14 +22,15 @@ func (c *LogController)LoadLogDetails() {
 	logDetails :=models.WorkLog{}
 	//var duration []string
 	dbStatus, logUserDetail := logDetails.GetLogDetailOfUser(c.AppEngineCtx, companyTeamName)
-
+	log.Println("key from user log",logUserDetail)
+	var userId string
 	switch dbStatus {
 	case true:
 		dataValue := reflect.ValueOf(logUserDetail)
 		var keySlice []string
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
-			log.Println("key from user log",keySlice)
+
 		}
 		for _, key := range dataValue.MapKeys() {
 
@@ -87,11 +87,9 @@ func (c *LogController)LoadLogDetails() {
 			taskId := logUserDetail[key.String()].TaskID
 			taskName,JobName := models.GetTaskDataById(c.AppEngineCtx, taskId)
 			taskData := taskName+(JobName)
-			log.Println("taskData")
-			userId := logUserDetail[key.String()].UserID
+			userId = logUserDetail[key.String()].UserID
 			log.Println("userId",userId)
-			activityLog := models.GeneralLog{}
-			activityLog.GetGeneralLogDataByUserId(c.AppEngineCtx,userId)
+
 			//log.Println("GeneralLogData",GeneralLogData)
 
 			tempValueSlice = append(tempValueSlice,taskData)
@@ -102,6 +100,10 @@ func (c *LogController)LoadLogDetails() {
 	case false :
 		log.Println(helpers.ServerConnectionError)
 	}
+	activityLog := models.GeneralLog{}
+	log.Println("userId",userId)
+	activityLog.GetGeneralLogDataByUserId(c.AppEngineCtx,userId)
+
 	viewModel.CompanyTeamName =companyTeamName
 	viewModel.CompanyPlan = storedSession.CompanyPlan
 	viewModel.AdminLastName =storedSession.AdminLastName
