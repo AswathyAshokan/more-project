@@ -60,8 +60,9 @@ func (c *LogController)LoadLogDetails() {
 	userId = "LmPgZSOM6OXtkbU9VNLdaPnLd042"
 	logStatus,generalLogData := models.GetGeneralLogDataByUserId(c.AppEngineCtx,userId)
 	switch logStatus {
-	case true:
 
+	case true:
+		log.Println("generalLogData",generalLogData)
 	case false:
 
 	}
