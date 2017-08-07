@@ -99,26 +99,29 @@
 							</div>
                             
                             <div class="col-sm-6">
-                                
+                                <label for="ex1" class="">Login Type</label>
                                 <div class="callender-wrapper">
-                                   
                                     <div class="radio-inline-wrapper">
-                                         <label>Login Type</label>
+                                        
                                         <label class="radio-inline">
                                             <input class="radio-inline" type="radio"  name="loginType"  id="loginType1" value="NFC" > <p1 id="nfcbutton">NFC</p1>
                                         </label>
                                         <label >
                                             <input  class="radio-inline" type="radio" name="loginType"  id="loginType2"  value="GPS" ><p1 id="gpsbutton">GPS</p1>
                                         </label>
-                                        
+                                    </div>
+                                    <div  id ="nfcTagId" style="visibility: hidden; display:none;">
+                                    <input  type="text" class="form-control time" name="name" value="" placeholder="Nfc tag id" name="nfcTagDetail"  id="nfcTagDetail">
                                     </div>
                                 </div>
-                            </div>
+                            </div>  
+<!--
                             <div class="col-sm-6" id ="nfcTagId" style="visibility: hidden; display:none;">
                                 <label for="nfcTag" class="">Nfc Tag Id</label>
                                 <input class="form-control" id="nfcTagDetail" type="text" name="nfcTagDetail">
                             </div>
                             
+-->
                             <!--<div class="col-sm-6" id ="nfcTagId" style="visibility: hidden; display:none;">
 								<label for="nfcTag" class="">Nfc Tag Id</label>
 								<input class="form-control" id="nfcTagId" type="text" name="nfcTagId">
