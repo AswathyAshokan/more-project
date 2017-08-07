@@ -224,6 +224,25 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 		}
 
 	}
+	//setting notification  task in user
+	userDataDetails := reflect.ValueOf(m.UsersAndGroups.User)
+	for _, key := range userDataDetails.MapKeys() {
+		userNotificationDetail :=UserNotification{}
+		userNotificationDetail.Date =m.Settings.DateOfCreation
+		userNotificationDetail.IsRead ="false"
+		userNotificationDetail.IsViewed ="false"
+		userNotificationDetail.TaskId =taskUniqueID
+		userNotificationDetail.TaskName =m.Info.TaskName
+		err = dB.Child("/Users/"+key.String()+"/Notifications/Tasks/"+taskUniqueID).Set(userNotificationDetail)
+		if err!=nil{
+			log.Println("Insertion error:",err)
+			return false
+		}
+
+
+	}
+
+
 	//setting task Id to company
 	TaskIdForCompany :=TaskIdInfo{}
 	TaskIdForCompany.DateOfCreation =m.Settings.DateOfCreation

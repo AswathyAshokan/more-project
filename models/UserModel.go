@@ -9,7 +9,8 @@ type Users struct {
 	SocialNetworks		UserSocialNetworks
 	Tasks			map[string]UserTasks
 	Company          	map[string]UsersCompany
-	ConsentReceipts          map[string]ConsentReceiptDetails
+	ConsentReceipts         map[string]ConsentReceiptDetails
+	Task			map[string]UserNotification
 }
 type ConsentReceiptDetails struct {
 	UserResponse		string
@@ -71,4 +72,11 @@ type UserTasks struct {
 	StartDate		int64
 	Status			string
 	TaskName		string
+}
+type UserNotification struct {
+	TaskId		string
+	TaskName	string
+	Date		int64
+	IsRead		string
+	IsViewed	string
 }

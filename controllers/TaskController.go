@@ -994,10 +994,6 @@ func (c *TaskController)LoadEditTask() {
 
 						}
 					}
-
-
-
-
 					//getting fit to work
 					var tempKeySliceFitToWork []string
 					var tempInstructionKeySlice []string
