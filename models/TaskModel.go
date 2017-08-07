@@ -233,7 +233,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 		userNotificationDetail.IsViewed ="false"
 		userNotificationDetail.TaskId =taskUniqueID
 		userNotificationDetail.TaskName =m.Info.TaskName
-		err = dB.Child("/Users/"+key.String()+"/Notifications/Tasks/"+taskUniqueID).Set(userNotificationDetail)
+		err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+taskUniqueID).Set(userNotificationDetail)
 		if err!=nil{
 			log.Println("Insertion error:",err)
 			return false
