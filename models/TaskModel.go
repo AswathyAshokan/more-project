@@ -229,8 +229,8 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 	for _, key := range userDataDetails.MapKeys() {
 		userNotificationDetail :=UserNotification{}
 		userNotificationDetail.Date =m.Settings.DateOfCreation
-		userNotificationDetail.IsRead ="false"
-		userNotificationDetail.IsViewed ="false"
+		userNotificationDetail.IsRead =false
+		userNotificationDetail.IsViewed =false
 		userNotificationDetail.TaskId =taskUniqueID
 		userNotificationDetail.TaskName =m.Info.TaskName
 		err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+taskUniqueID).Set(userNotificationDetail)

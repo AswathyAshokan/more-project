@@ -199,7 +199,6 @@ $().ready(function() {
     //Functiion for getting job and customer separate
    
     getJobAndCustomer = function(){
-        alert("selected");
         contactName = [];
         contactId = [];
         var job = $("#jobName option:selected").val() + " (";
@@ -468,10 +467,10 @@ $().ready(function() {
 //                                              fitToWorkFromDynamicTextBox.push($(this).val())
 //                                          }
 //                                      });
-                                      if (document.getElementById('jobName').length !=0)
-                                          {
-                                              getJobAndCustomer(); 
-                                          }
+//                                      if (document.getElementById('jobName').length !=0)
+//                                          {
+//                                              getJobAndCustomer(); 
+//                                          }
                                        
                                       // function to get values of exposure dynamic text box
                                       $("input[name=breakTime]").each(function () {

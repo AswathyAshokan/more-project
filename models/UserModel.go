@@ -77,6 +77,6 @@ type UserNotification struct {
 	TaskId		string
 	TaskName	string
 	Date		int64
-	IsRead		string
-	IsViewed	string
+	IsRead		bool
+	IsViewed	bool
 }
