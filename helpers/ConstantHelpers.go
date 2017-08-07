@@ -16,6 +16,8 @@ const (
 	PaymentPaidStatus = "Paid"
 	PaymentPendingStatus = "Pending"
 	StatusCompleted ="Completed"
+	LoginStatus = "Login"
+	LogOutStatus = "Logout"
 
 )
 

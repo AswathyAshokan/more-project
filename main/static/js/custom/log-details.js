@@ -2,7 +2,7 @@
 //Below line is for adding active class to layout side menu..
 //document.getElementById("log").className += " active";
 //console.log(vm.Values[1][5]);
-console.log(vm.CompanyTeamName);
+console.log(vm);
 $(function(){
     var mainArray = [];   
     var table = "";
@@ -68,6 +68,23 @@ $(function(){
         $('#tbl_details_length').after($('.datepic-top'));
         
     }
+    
+    
+    
+   /* var logDates =[];
+    for (i=0;i<vm.GeneralLogin.length;i++){
+        logDates.push(new Date(vm.GeneralLogin[i]));
+    }
+    var maxDate=new Date(Math.max.apply(null,logDates));
+    var minDate=new Date(Math.min.apply(null,logDates));
+    var MaxlocalTime = (maxDate.toLocaleTimeString());
+    var MaxlocalDate = (maxDate.toLocaleDateString());
+    console.log("MaxlocalTime",MaxlocalTime);
+    console.log("MaxlocalDate",MaxlocalDate);*/
+    
+    
+    
+    
    $("#activitylog").click(function(){
       // alert("The paragraph was clicked.");
        completeTable = mainArray;

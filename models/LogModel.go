@@ -25,7 +25,7 @@ type GeneralLog struct {
 	LogTime 		int64
 	Longitude		float64
 	Type 			string
-	UsedId			string
+	UserID			string
 	UserName  		string
 }
 func (m *WorkLog)GetLogDetailOfUser(ctx context.Context,companyTeamName string)(bool,map[string]WorkLog) {
@@ -42,13 +42,10 @@ func (m *WorkLog)GetLogDetailOfUser(ctx context.Context,companyTeamName string)(
 }
 
 
-func GetGeneralLogDataByUserId(ctx context.Context,userId string)(bool,map[string]GeneralLog) {
-	log.Println("id......",userId)
+func GetGeneralLogDataByUserId(ctx context.Context)(bool,map[string]GeneralLog) {
 	generalLogData :=map[string]GeneralLog{}
 	dB, err := GetFirebaseClient(ctx,"")
-	//contactStatus := "Active";
-	log.Println("model",userId)
-	err = dB.Child("/GeneralLog/"+userId).Value(&generalLogData)
+	err = dB.Child("GeneralLog").Value(&generalLogData)
 	if err != nil {
 		log.Fatal(err)
 		return false,generalLogData
@@ -86,4 +83,21 @@ func GetTaskDataById(ctx context.Context,taskId string)(string,string) {
 
 	}
 	return taskName,jobName
+}
+
+
+
+func GetSpecificLogValues(ctx context.Context,userId string)(map[string]GeneralLog) {
+	log.Println("id......",userId)
+	generalLogData :=map[string]GeneralLog{}
+	dB, err := GetFirebaseClient(ctx,"")
+	//contactStatus := "Active";
+	log.Println("model",userId)
+	err = dB.Child("/GeneralLog/"+userId).Value(&generalLogData)
+	if err != nil {
+		log.Fatal(err)
+		return generalLogData
+	}
+	return generalLogData
+
 }

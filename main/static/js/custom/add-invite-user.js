@@ -8,6 +8,12 @@ var companyTeamName = vm.CompanyTeamName;
 
 $().ready(function() {
     
+    $( "#noOfUsers" ).keyup(function() {
+        var noOfUserFromUser = document.getElementById("noOfUsers").value;
+        var total = 5*noOfUserFromUser;
+        document.getElementById("result").innerHTML="$"+total;
+    });
+    
     if(vm.PageType == "edit"){
         document.getElementById("firstname").value = vm.FirstName;
         document.getElementById("lastname").value = vm.LastName;
@@ -31,6 +37,8 @@ $().ready(function() {
         
     }
     if(vm.AllowInvitations == false){
+        
+        $("#limitModel").modal();
         $("#InviteUserValidationError").css({"color": "red", "font-size": "15px"});
         $("#InviteUserValidationError").html("Your user invitation limit is exceeded.Please upgrade your plan").show();
         $("#saveButton").attr('disabled', true);

@@ -91,9 +91,6 @@ func (c *InviteUserController) AddInvitation() {
 			info, dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx, companyTeamName)
 			switch dbStatus {
 			case true:
-				log.Println("w1")
-				//addViewModel.AllowInvitations =true
-
 				var tempValueSlice []string
 				var keySlice []string
 				dataValue := reflect.ValueOf(info)
@@ -271,7 +268,6 @@ func (c *InviteUserController) RemoveUserFromTask() {
 	switch dbStatus {
 	case true:
 		result := models.DeleteInviteUserById(c.AppEngineCtx, InviteUserId, companyTeamName)
-		log.Println("getttt2",result)
 		switch result {
 		case true:
 			/*groupData := models.RemoveUsersGroup(c.AppEngineCtx, InviteUserId,companyTeamName)
