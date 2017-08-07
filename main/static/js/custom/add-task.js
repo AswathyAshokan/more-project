@@ -391,6 +391,8 @@ $().ready(function() {
          },
         submitHandler: function() {
             
+             var nfcTagId =  document.getElementById("nfcTagDetail").value;
+            alert("ggg",nfcTagId);
             //code for date and time conversion
             var startDate = new Date($("#startDate").val());
             

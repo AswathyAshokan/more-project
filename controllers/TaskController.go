@@ -76,6 +76,7 @@ func (c *TaskController)AddNewTask() {
 		tempContactId := c.GetStrings("contactId")
 		task.Info.LoginType=c.GetString("loginType")
 		task.Info.NFCTagID =c.GetString("nfcTagDetail")
+		log.Println("nfc details",task.Info.NFCTagID)
 		task.Location.Latitude = c.GetString("latitude")
 		task.Location.Longitude = c.GetString("longitude")
 		exposureTask := c.GetString("exposureBreakTime")
