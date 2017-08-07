@@ -102,7 +102,8 @@ $(function () {
             var div = document.getElementById('nfcTagId');
             div.style.visibility = 'visible';
             div.style.display ='inline';
-            document.getElementById("nfcTagId").value =vm.NFCTagId;
+            console.log("nfc",vm.NFCTagId);
+            document.getElementById("nfcTagDetail").value =vm.NFCTagId;
         }else{
             document.getElementById("loginType2").checked = true;
         }
@@ -124,11 +125,20 @@ $(function () {
             opt.value = contactId[i];
             sel.appendChild(opt);
         }
+        var optionValues =[];
+        $('#contactId option').each(function(){
+            if($.inArray(this.value, optionValues) >-1){
+                $(this).remove()
+            }else{
+                optionValues.push(this.value);
+            }
+        });
         var eid = document.getElementById('contactId');
         for (var i = 0; i < eid.options.length; ++i) {
             for (var j=0;j<vm.ContactNameToEdit.length;j++){
                 if (eid.options[i].text === vm.ContactNameKeyToEdit[j]){
-                     eid.options[i].selected = true;
+                    console.log("log1");
+                    eid.options[i].selected = true;
                  }
             }
         }
@@ -467,10 +477,15 @@ $().ready(function() {
 //                                              fitToWorkFromDynamicTextBox.push($(this).val())
 //                                          }
 //                                      });
-//                                      if (document.getElementById('jobName').length !=0)
-//                                          {
-//                                              getJobAndCustomer(); 
-//                                          }
+                                      if (document.getElementById('jobName').length !=0)
+                                          {
+                                              var job = $("#jobName option:selected").val() + " (";
+                                              var jobAndCustomer = $("#jobName option:selected").text();
+                                              var tempName = jobAndCustomer.replace(job, '');
+                                              customerName = tempName.replace(')', ''); 
+                                              var jobDropdownId = document.getElementById("jobName");
+                                              jobId = jobDropdownId.options[jobDropdownId.selectedIndex].id;
+                                          }
                                        
                                       // function to get values of exposure dynamic text box
                                       $("input[name=breakTime]").each(function () {
