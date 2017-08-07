@@ -199,6 +199,7 @@ $().ready(function() {
     //Functiion for getting job and customer separate
    
     getJobAndCustomer = function(){
+        alert("selected");
         contactName = [];
         contactId = [];
         var job = $("#jobName option:selected").val() + " (";
