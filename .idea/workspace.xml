@@ -85,8 +85,8 @@
       <file leaf-file-name="TaskController.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="8982">
-              <caret line="560" column="68" lean-forward="false" selection-start-line="560" selection-start-column="59" selection-end-line="560" selection-end-column="68" />
+            <state relative-caret-position="288">
+              <caret line="77" column="16" lean-forward="false" selection-start-line="77" selection-start-column="16" selection-end-line="77" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -781,13 +781,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00166" summary="1/06/2013:28:   check box">
-      <created>1499328826333</created>
-      <option name="number" value="00166" />
-      <option name="presentableId" value="LOCAL-00166" />
-      <option name="project" value="LOCAL" />
-      <updated>1499328826334</updated>
-    </task>
     <task id="LOCAL-00167" summary="1/06/2013:28:   check box">
       <created>1499328904227</created>
       <option name="number" value="00167" />
@@ -1124,7 +1117,14 @@
       <option name="project" value="LOCAL" />
       <updated>1502186990541</updated>
     </task>
-    <option name="localTasksCounter" value="215" />
+    <task id="LOCAL-00215" summary="1/06/2013:28:   check box">
+      <created>1502187088532</created>
+      <option name="number" value="00215" />
+      <option name="presentableId" value="LOCAL-00215" />
+      <option name="project" value="LOCAL" />
+      <updated>1502187088532</updated>
+    </task>
+    <option name="localTasksCounter" value="216" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1611,8 +1611,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8982">
-          <caret line="560" column="68" lean-forward="false" selection-start-line="560" selection-start-column="59" selection-end-line="560" selection-end-column="68" />
+        <state relative-caret-position="288">
+          <caret line="77" column="16" lean-forward="false" selection-start-line="77" selection-start-column="16" selection-end-line="77" selection-end-column="16" />
           <folding />
         </state>
       </provider>

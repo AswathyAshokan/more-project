@@ -272,7 +272,7 @@ $().ready(function() {
     
     
     //function to show break time when checkbox is clicked
-  $('#workExplosure11').click(function () {
+  $('#workExplosure').click(function () {
       if ($(this).is(":checked")) {
           var div = document.getElementById('work');
           div.style.visibility = 'visible';
