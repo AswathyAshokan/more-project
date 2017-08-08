@@ -103,7 +103,8 @@ $(function () {
             div.style.visibility = 'visible';
             div.style.display ='inline';
             console.log("nfc",vm.NFCTagId);
-            document.getElementById("nfcTagDetail").value =vm.NFCTagId;
+            document.getElementById("nfcTagForTask").value =vm.NFCTagId;
+            nfcTagForTask
         }else{
             document.getElementById("loginType2").checked = true;
         }
@@ -385,7 +386,7 @@ $().ready(function() {
               taskDescription:{
                  required: "task description required"
              },
-              userOrGroup:{
+              userOrGroup:{nfcTagDetail
                  required: "select user/group"
              },
          },

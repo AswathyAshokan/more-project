@@ -79,4 +79,5 @@ type UserNotification struct {
 	Date		int64
 	IsRead		bool
 	IsViewed	bool
+	Category	string
 }
