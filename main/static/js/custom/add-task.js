@@ -93,8 +93,8 @@ $(function () {
         }
         var selectArrayForGroup = vm.GroupMembersAndUserToEdit;
         $("#userOrGroup").val(selectArrayForGroup);
-        document.getElementById("startTime").value = vm.StartTime;
-        document.getElementById("endTime").value = vm.EndTime;
+        document.getElementById("time-field1-startTime").value = vm.StartTime;
+        document.getElementById("time-field1-endTime").value = vm.EndTime;
         var element = document.getElementById('minUsers');
         element.value = vm.UserNumber;
         if(vm.LoginType =="NFC" ){
@@ -156,12 +156,12 @@ $(function () {
             var div = document.getElementById('work');
             div.style.visibility = 'visible';
             div.style.display ='inline';
-            document.getElementById("workTime").value =vm.WorkTime[0];
-            document.getElementById("breakTime").value =vm.BreakTime[0];
+            document.getElementById("time-field1-workTime").value =vm.WorkTime[0];
+            document.getElementById("time-field1-breakTime").value =vm.BreakTime[0];
             var DynamicExposureTextBox ="";
             for (var i=1; i<vm.WorkTime.length; i++){
                 DynamicExposureTextBox+=        '<div class="exposureId"> <label for="workExplosureText" class="">Break Time</label>'+
-                    '<input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5" value="'+ vm.BreakTime[i] +'">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" value="'+ vm.WorkTime[i] +'" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="20" height="20" style= "float:right; margin-top:0em; margin-right:0em;"  class="delete-exposure" /></div>';
+                    '<input type="text"    placeholder="12:00" data-timepicker id="time-field1-breakTime" name="time-field1-breakTime" size="5" value="'+ vm.BreakTime[i] +'">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00" data-timepicker id="time-field1-workTime" name="time-field1-workTime" size="5" value="'+ vm.WorkTime[i] +'" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="20" height="20" style= "float:right; margin-top:0em; margin-right:0em;"  class="delete-exposure" /></div>';
             }
             $("#exposureTextBoxAppend").append(DynamicExposureTextBox);
         }
@@ -182,7 +182,7 @@ $("#btnAddForExposure").bind("click", function () {
     });
 function GetDynamicTextBoxForExposure(value) {
     return ' <label for="workExplosureText" class="">Break Time</label>'+
-        '<input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg"  class="delete-exposure" />'
+        '<input type="text"    placeholder="12:00" data-timepicker id="time-field1-breakTime" name="time-field1-breakTime" size="5">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00" data-timepicker id="time-field1-workTime" name="time-field1-workTime" size="5" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg"  class="delete-exposure" />'
 }
 
 //function to load add task
@@ -356,16 +356,16 @@ $().ready(function() {
             endDate : "required",
             taskDescription : "required",
             taskLocation : "required",
-            startTime : "required",
-            endTime : "required"
+            time-field1-startTime : "required",
+            time-field1-endTime : "required"
             
             
         },
          messages: {
-             startTime:{
+             time-field1-startTime:{
                  required: "time required"
              },
-             endTime:{
+             time-field1-endTime:{
                  required: "time required"
              },
              taskName:{
@@ -397,9 +397,9 @@ $().ready(function() {
             //code for date and time conversion
             var startDate = new Date($("#startDate").val());
             
-            var startTime =  document.getElementById("startTime").value;
+            var time-field1-startTime =  document.getElementById("time-field1-startTime").value;
             var endDate = new Date($("#endDate").val());
-            var endTime =  document.getElementById("endTime").value;
+            var time-field1-endTime =  document.getElementById("time-field1-endTime").value;
             
             var exposureHour ="";
             var exposureMinute ="";
@@ -410,14 +410,14 @@ $().ready(function() {
             
 
             //setting the time in start date and end date
-            startTimeArray = startTime.split(':');
-            startHour = parseInt(startTimeArray[0]);
-            startMin = parseInt(startTimeArray[1]);
+            startTimeArray = time-field1-startTime.split(':');
+            startHour = parseInt(time-field1-startTimeArray[0]);
+            startMin = parseInt(time-field1-startTimeArray[1]);
             startDate.setHours(startHour);
             startDate.setMinutes(startMin);
-            endTimeArray = endTime.split(':');
-            endHour = parseInt(endTimeArray[0]);
-            endMin = parseInt(endTimeArray[1]);
+            endTimeArray = time-field1-endTime.split(':');
+            endHour = parseInt(time-field1-endTimeArray[0]);
+            endMin = parseInt(time-field1-endTimeArray[1]);
             endDate.setHours(endHour);
             endDate.setMinutes(endMin);
             //function to convert  date to mm/dd/yyyy format
@@ -491,7 +491,7 @@ $().ready(function() {
                                           }
                                        
                                       // function to get values of exposure dynamic text box
-                                      $("input[name=breakTime]").each(function () {
+                                      $("input[name=time-field1-breakTime]").each(function () {
                                           
                                           if($(this).val().length !=0){
                                               exposureTimeArray = $(this).val().split(':');
@@ -502,7 +502,7 @@ $().ready(function() {
                                           }
                                       });
                                       
-                                      $("input[name=workTime]").each(function () {
+                                      $("input[name=time-field1-workTime]").each(function () {
                                           
                                           if($(this).val().length !=0){
                                               exposureWorkTimeArray = $(this).val().split(':');

@@ -79,19 +79,31 @@
                         <div class="form-group clearfix">
                             <div class="col-sm-6">
 								<label for="startDate" class="">Start Date and Time</label>
-								<div class="callender-wrapper">
-									<input type="text" id="startDate" class="datepicker form-control sprites-callender" name="startDate">
-									<input type="text" class="form-control time"  placeholder="12:00" data-timepicker id="startTime" name="startTime" >
+                                <div class="callender-wrapper">
+                                    <span class="err-wrp">
+                                        <input type="text" id="startDate" class="datepicker form-control sprites-callender" name="startDate">
+                                        <span class="err err-cl"></span>
+                                    </span>
+                                    <span class="err-wrp">
+                                        <input type="text" class="form-control time"  placeholder="12:00"  name="time-field1-startTime" id="time-field1-startTime" >
+                                        <span class="err"></span>
+                                    </span>
 								</div>
 							</div>
                             <div class="col-sm-6">
 								<label for="endDate" class="">End Date and Time</label>
 								<div class="callender-wrapper">
-									<input type="text" id="endDate" class="datepicker form-control sprites-callender" name="endDate">
-									<input type="text" class="form-control time"   placeholder="12:00" data-timepicker id="endTime" name="endTime" >
+                                    <span class="err-wrp">
+                                        <input type="text" id="endDate" class="datepicker form-control sprites-callender" name="endDate">
+                                        <span class="err err-cl"></span>
+                                    </span>
+                                    <span class="err-wrp">
+                                        <input type="text" class="form-control time"   placeholder="12:00"  name="time-field1-endTime" id="time-field1-endTime" >
+                                        <span class="err"></span>
+                                    </span>
 								</div>
 							</div>
-						</div>
+                        </div>
                         <div class="form-group clearfix">
 							<div class="col-sm-6">
 								<label for="taskLocation" class="">Task Location</label>
@@ -216,8 +228,9 @@
                                  <div id="exposureTextBoxAppend"  >
                                      <div class='exposureId'>
                                      <label for="workExplosureText" class="">Break Time</label>
-                                         <input type="text"    placeholder="12:00" data-timepicker id="breakTime" name="breakTime" size="5" ><label>After</label> <input type="text"    placeholder="12:00" data-timepicker id="workTime" name="workTime" size="5">
+                                         <input type="text" class="form-control"   placeholder="12:00"   name="time-field1-breakTime" size="5" id="time-field1-breakTime" ><label>After</label> <input type="text"   class="form-control"  placeholder="12:00"   name="time-field1-workTime" size="5" id="time-field1-workTime">
                                          <img  id="btnAddForExposure" src="/static/images/fitToWork.png"    /><br><br>
+                                        
                                      </div>
                                         
                                 </div>
@@ -257,9 +270,12 @@
 <script src="/static/js/jquery.validate.js"></script>
 <script src="/static/js/custom/add-task.js"></script>
 <script src="/static/js/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="/static/js/timepicker.js"></script>
+<script src="/static/js/jquery.timeentry.js"></script>
+<script src="/static/js/jquery.plugin.js"></script>
 <script src="/static/js/select2.min.js"></script>
 <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,600,700" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/static/css/jquery.timeentry.css">
 <script> 
     var defaultLatitude = "54.9682059";
     var defaultLongitude = "-1.6121358";
@@ -418,3 +434,8 @@
     }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFl3U2s0vqjaN-6rvAaOA8Ts1cfDss_KM&libraries=geometry,places&callback=initialize"></script>
+<script>
+    $(function () {
+        $("input[id^='time-field']").timeEntry();
+    });
+	</script>

@@ -131,9 +131,7 @@ func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string,admi
 			return false
 		}
 	}
-
-
- return true
+	return true
 }
 
 //Fetch all the details of invite user from database

@@ -176,8 +176,8 @@ $(function(){
             }
             result += "</table  >";
             result +="</div>";
-            var minUser ="<div>"
-            minUser +="<table cellpadding='5' cellspacing='0' border='0' style='padding-left:100px;'>";
+            var minUser ='<div class="pull-left dropdown-tbl"  style="padding-right: 50px;">';
+            minUser +="<table cellpadding='5' cellspacing='0' border='0' style=''>";
             minUser +='<tr>';
             for (var i=0; i<minUserArray.length; i++){
               
@@ -206,8 +206,8 @@ $(function(){
             minUser +="</div>";
             
             //exposure
-            var exposure   ='<div class="pull-left dropdown-tbl" style="padding-left: 400px;">';
-            exposure += "<table cellpadding='5' cellspacing='0'  style='padding-left:50px; border: 1px solid #dddddd !important;'>";
+            var exposure   ='<div class="pull-left dropdown-tbl" style="">';
+            exposure += "<table cellpadding='5' cellspacing='0' style='border: 1px solid #dddddd !important;'>";
             exposure += '<th>Exposure Details</th>';
             exposure += "<tr>";
             for (var i = 0; i < ExposureArray.length; i++) {
