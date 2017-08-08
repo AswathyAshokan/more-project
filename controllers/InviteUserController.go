@@ -46,10 +46,11 @@ func (c *InviteUserController) AddInvitation() {
 		inviteUser.Info.CompanyName = storedSession.CompanyName
 		userFullName := storedSession.AdminFirstName+" "+storedSession.AdminLastName
 		companyID := storedSession.CompanyTeamName
+
 		dbStatus := inviteUser.CheckEmailIdInDb(c.AppEngineCtx,companyID)
 		switch dbStatus {
 		case true:
-			Status := inviteUser.AddInviteToDb(c.AppEngineCtx,companyID)
+			Status := inviteUser.AddInviteToDb(c.AppEngineCtx,companyID,userFullName)
 			switch Status {
 			case true:
 				log.Println("true add")

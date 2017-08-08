@@ -86,8 +86,9 @@ func(m *EmailInvitation) CheckEmailIdInDb(ctx context.Context,companyID string)b
 }
 
 
-func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string)bool {
+func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string,adminName string)bool {
 	db,err :=GetFirebaseClient(ctx,"")
+	userDetails := map[string]Users{}
 	if err != nil {
 		log.Println(err)
 	}
@@ -112,8 +113,25 @@ func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string)bool
 		log.Println(err)
 		return  false
 	}
-	//err = db.Child("Users").OrderBy("Info/Email").EqualTo(invitationData.Email).Value(&userDetails)
-	//taskValues := reflect.ValueOf(userDetails)
+	//add invite detail to user for notification
+
+	err = db.Child("Users").OrderBy("Info/Email").EqualTo(invitation.Email).Value(&userDetails)
+	InviteNotification := reflect.ValueOf(userDetails)
+	for _, userKey := range InviteNotification.MapKeys() {
+		userInvitationDetail :=UserInvitations{}
+		userInvitationDetail.Category ="InviteUser"
+		userInvitationDetail.IsViewed =false
+		userInvitationDetail.IsRead =false
+		userInvitationDetail.CompanyAdmin =adminName
+		userInvitationDetail.CompanyName =m.Info.CompanyName
+		userInvitationDetail.Date =m.Settings.DateOfCreation
+		err = db.Child("/Users/"+userKey.String()+"/Settings/Notifications/Invitations/"+invitationUniqueID).Set(userInvitationDetail)
+		if err!=nil{
+			log.Println("Insertion error:",err)
+			return false
+		}
+	}
+
 
  return true
 }
