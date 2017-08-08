@@ -51,6 +51,9 @@ func (c *RegisterController) Register() {
 		admin.Settings.DateOfCreation = currentTime
 		admin.Settings.Status = helpers.StatusActive
 		log.Println("state",company.Info.State)
+		if company.Plan == helpers.PlanBusiness{
+			company.Settings.LimitedUsers ="4"
+		}
 		dbStatus,_:= admin.CreateAdminAndCompany(c.AppEngineCtx, company)
 		log.Println("dbStatus",dbStatus)
 		switch dbStatus{
@@ -81,7 +84,6 @@ func (c *RegisterController) Register() {
 				sort.Strings(tempCountryNameArray)
 				countryViewModel.CountryName = tempCountryNameArray
 				countryViewModel.CountryAllData = append(countryViewModel.CountryAllData,tempAllCountry)
-				//tempAllCountry = tempAllCountry[:0]
 			}
 			countryViewModel.Key = keySlice
 

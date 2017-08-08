@@ -12,6 +12,7 @@ import (
 	"bytes"
 
 	"reflect"
+	"strconv"
 )
 
 type InviteUserController struct {
@@ -86,10 +87,11 @@ func (c *InviteUserController) AddInvitation() {
 			w.Write([]byte("false"))
 		}
 	} else {
+		//limitValues := 4
 		companyPlan := storedSession.CompanyPlan
 		log.Println("plan",companyPlan)
 		if companyPlan == helpers.PlanBusiness {
-			info, dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx, companyTeamName)
+			info, limitedUsers ,dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx, companyTeamName)
 			switch dbStatus {
 			case true:
 				var tempValueSlice []string
@@ -105,6 +107,7 @@ func (c *InviteUserController) AddInvitation() {
 						tempValueSlice = append(tempValueSlice, info[key].UserResponse)
 						uniqueEmailSlice = append(uniqueEmailSlice, info[key].Email)//appent email id into slice
 					}
+
 				}
 				var count = 0
 				for i := 0; i < len(tempValueSlice); i++ {
@@ -113,7 +116,8 @@ func (c *InviteUserController) AddInvitation() {
 						log.Println("inside loop",count)
 					}
 				}
-				if count <4{
+				newNumberOfUsers,_ := strconv.Atoi(limitedUsers)
+				if count <newNumberOfUsers{
 					addViewModel.AllowInvitations = true
 				}else{
 					addViewModel.AllowInvitations = false
@@ -145,10 +149,11 @@ func (c *InviteUserController) InvitationDetails() {
 	storedSession := ReadSession(w, r, companyTeamName)
 	companyId := storedSession.CompanyId
 	inviteUserViewModel := viewmodels.InviteUserViewModel{}
-	info,dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx,companyId)
+	info,limitedUser,dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx,companyId)
 	var keySlice []string
 	switch dbStatus {
 	case true:
+		log.Println("limitedUser",limitedUser)
 		dataValue := reflect.ValueOf(info)
 		//to store the keys of slice
 		for _, key := range dataValue.MapKeys() {
@@ -321,6 +326,125 @@ func (c *InviteUserController) DeleteUserIfNotInTask() {
 
 }
 
+
+func (c *InviteUserController) AddInvitationByUpgradationOfPlan() {
+
+	log.Println("haiiiosnjskhsdhf")
+	numberOfUsers := c.Ctx.Input.Param(":numberOfUsers")
+	log.Println("numberOfUsers",numberOfUsers)
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
+	inviteUser := models.EmailInvitation{}
+	addViewModel := viewmodels.AddInviteUserViewModel{}
+	if r.Method == "POST" {
+		log.Println("vshdhafdahsfjhjhhjsf")
+		inviteUser.Info.CompanyAdmin = storedSession.AdminFirstName+" "+storedSession.AdminLastName
+		inviteUser.Info.FirstName = c.GetString("firstname")
+		inviteUser.Info.LastName = c.GetString("lastname")
+		inviteUser.Info.Email = c.GetString("emailid")
+		inviteUser.Info.UserType = c.GetString("usertype")
+		inviteUser.Settings.DateOfCreation =(time.Now().UnixNano() / 1000000)
+		inviteUser.Settings.Status = helpers.StatusInActive
+		inviteUser.Settings.UserResponse = helpers.UserResponsePending
+		inviteUser.Info.CompanyTeamName = storedSession.CompanyTeamName
+		inviteUser.Info.CompanyId = storedSession.CompanyId
+		inviteUser.Info.CompanyName = storedSession.CompanyName
+		userFullName := storedSession.AdminFirstName+" "+storedSession.AdminLastName
+		companyID := storedSession.CompanyTeamName
+		dbStatus := inviteUser.CheckEmailIdInDb(c.AppEngineCtx,companyID)
+		switch dbStatus {
+		case true:
+			Status := inviteUser.AddInviteToDb(c.AppEngineCtx,companyID,userFullName)
+			switch Status {
+			case true:
+				log.Println("true add")
+				templateData := TemplateData{}
+				templateData.AdminEmail = storedSession.AdminEmail
+				templateData.AdminName = userFullName
+				templateData.CompanyName = inviteUser.Info.CompanyName
+				templateData.InvitedUser =  inviteUser.Info.FirstName
+				t,err := template.ParseFiles("views/email/invite-email.html")
+				if err != nil {
+					log.Println(err)
+				}
+				buf := new(bytes.Buffer)
+				if err = t.Execute(buf, templateData); err != nil {
+					log.Println(err)
+				}
+				body := buf.String()
+				from := "aswathy.a@cynere.com"
+				to := inviteUser.Info.Email
+				subject := "Subject: Passporte - Invitation\n"
+				mime := "MIME-version: 1.0;\r\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+				message := []byte(subject + mime + "\n" + body)
+				if err := smtp.SendMail("smtp.gmail.com:465", smtp.PlainAuth("", "aswathy.a@cynere.com", "aswathyashok", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
+					log.Println(err)
+				}
+
+				w.Write([]byte("true"))
+			case false:
+				w.Write([]byte("false in Add"))
+			}
+		case false:
+			log.Println("condition failed and return false")
+			w.Write([]byte("false"))
+		}
+	} else {
+		newLimitValues,_:= strconv.Atoi(numberOfUsers)
+		companyPlan := storedSession.CompanyPlan
+		if companyPlan == helpers.PlanBusiness {
+			updatedNoOfUsers := models.UpdateNoOfLimitedUser(c.AppEngineCtx, companyTeamName,newLimitValues)
+			info, _,dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx, companyTeamName)
+			switch dbStatus {
+			case true:
+				var tempValueSlice []string
+				var keySlice []string
+				dataValue := reflect.ValueOf(info)
+				var uniqueEmailSlice []string
+				for _, key := range dataValue.MapKeys() {
+					keySlice = append(keySlice, key.String())
+				}
+				for _, key := range keySlice{
+					//check is email id is present in the slice
+					if helpers.StringInSlice(info[key].Email, uniqueEmailSlice) == false {
+						tempValueSlice = append(tempValueSlice, info[key].UserResponse)
+						uniqueEmailSlice = append(uniqueEmailSlice, info[key].Email)//appent email id into slice
+					}
+				}
+				var count = 0
+				for i := 0; i < len(tempValueSlice); i++ {
+					if tempValueSlice[i] == helpers.UserResponsePending || tempValueSlice[i] == helpers.UserResponseAccepted{
+						count = count + 1
+						log.Println("inside loop",count)
+					}
+				}
+				if count <updatedNoOfUsers{
+					log.Println("true")
+					addViewModel.AllowInvitations = true
+				}else{
+					log.Println("fa;se")
+					addViewModel.AllowInvitations = false
+				}
+			case false:
+				log.Println("failed")
+			}
+		}else {
+
+			addViewModel.AllowInvitations =true
+		}
+		addViewModel.CompanyTeamName = storedSession.CompanyTeamName
+		addViewModel.CompanyPlan = storedSession.CompanyPlan
+		addViewModel.AdminFirstName = storedSession.AdminFirstName
+		addViewModel.AdminLastName = storedSession.AdminLastName
+		addViewModel.ProfilePicture =storedSession.ProfilePicture
+		c.Data["vm"] = addViewModel
+		c.Layout = "layout/layout.html"
+		c.TplName = "template/add-invite-user.html"
+	}
+
+}
 
 
 

@@ -59,6 +59,7 @@ type CompanySettings struct{
 	Status		 string
 	DateOfCreation   int64
 	PaymentStatus    string
+	LimitedUsers     string
 	UserID		string
 }
 

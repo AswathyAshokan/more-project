@@ -58,6 +58,7 @@ func init() {
 	beegae.Router("/:companyTeamName/invite/:inviteuserid/delete", &controllers.InviteUserController{}, "*:DeleteInvitation")
 	beegae.Router("/:companyTeamName/invite/:inviteuserid/edit", &controllers.InviteUserController{}, "*:EditInvitation")
 	beegae.Router("/:companyTeamName/invite/:inviteuserid/RemoveTask", &controllers.InviteUserController{}, "*:RemoveUserFromTask")
+	beegae.Router("/:companyTeamName/invite/:numberOfUsers/AddExtraUserByUpgradePlan", &controllers.InviteUserController{}, "*:AddInvitationByUpgradationOfPlan")
 	//beegae.Router("/:companyTeamName/invite/:inviteuserid/RemoveGroup", &controllers.InviteUserController{}, "*:RemoveUserFromGroup")
 	//beegae.Router("/:companyTeamName/invite/:inviteuserid/CheckGroupAssigned", &controllers.InviteUserController{}, "*:checkUserInGroup")
 

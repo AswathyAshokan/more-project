@@ -12,7 +12,12 @@ type Users struct {
 	ConsentReceipts         map[string]ConsentReceiptDetails
 	Task			map[string]UserNotification
 	Invitations		map[string]UserInvitations
+	//Invitations        map[string]UserInvitations
+
 }
+
+
+
 type ConsentReceiptDetails struct {
 	UserResponse		string
 	CompanyId		string

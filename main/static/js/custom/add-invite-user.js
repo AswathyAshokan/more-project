@@ -42,6 +42,12 @@ $().ready(function() {
         $("#InviteUserValidationError").css({"color": "red", "font-size": "15px"});
         $("#InviteUserValidationError").html("Your user invitation limit is exceeded.Please upgrade your plan").show();
         $("#saveButton").attr('disabled', true);
+         $("#payNowBtn").click(function(){
+              //$('#closemodal').modal('hide');
+             $('#limitModel').modal('hide');
+             var numberOfUsers  = document.getElementById("noOfUsers").value
+             window.location ='/' + companyTeamName +'/invite/'+numberOfUsers+'/AddExtraUserByUpgradePlan';
+         });
     }
     
     

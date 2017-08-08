@@ -8,6 +8,7 @@ import (
 	"reflect"
 
 	"app/passporte/helpers"
+	"strconv"
 )
 type Invitation struct {
  	Email map[string]EmailInvitation
@@ -87,8 +88,9 @@ func(m *EmailInvitation) CheckEmailIdInDb(ctx context.Context,companyID string)b
 
 
 func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string,adminName string)bool {
-	db,err :=GetFirebaseClient(ctx,"")
+	log.Println("iam in modelmof invite user.......")
 	userDetails := map[string]Users{}
+	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println(err)
 	}
@@ -113,6 +115,7 @@ func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string,admi
 		log.Println(err)
 		return  false
 	}
+
 	//add invite detail to user for notification
 
 	err = db.Child("Users").OrderBy("Info/Email").EqualTo(invitation.Email).Value(&userDetails)
@@ -131,24 +134,62 @@ func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string,admi
 			return false
 		}
 	}
-	return true
+ return true
 }
 
 //Fetch all the details of invite user from database
-func GetAllInviteUsersDetails(ctx context.Context,companyId string) (map[string]CompanyInvitations,bool) {
+func GetAllInviteUsersDetails(ctx context.Context,companyId string) (map[string]CompanyInvitations, string,bool) {
 	value :=map[string]CompanyInvitations{}
+	limitValue := CompanySettings{}
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println(err)
-		return  value,false
+		return  value,limitValue.LimitedUsers,false
+	}
+	err =db.Child("/Company/"+companyId+"/Settings").Value(&limitValue)
+	if err != nil {
+		log.Fatal(err)
+		return value,limitValue.LimitedUsers,false
 	}
 	err = db.Child("/Company/"+companyId+"/Invitation").Value(&value)
 	if err != nil {
 		log.Fatal(err)
-		return value,false
+		return value,limitValue.LimitedUsers,false
 	}
-	return value,true
+	return value,limitValue.LimitedUsers,true
 }
+
+func UpdateNoOfLimitedUser(ctx context.Context,companyId string,newLimitValues int)int{
+	limitValue := CompanySettings{}
+	updateLimitValue := CompanySettings{}
+	db,err :=GetFirebaseClient(ctx,"")
+	if err != nil {
+		log.Println(err)
+	}
+	err =db.Child("/Company/"+companyId+"/Settings/").Value(&limitValue)
+	log.Println("hhhhh",limitValue.LimitedUsers)
+	if err != nil {
+		log.Fatal(err)
+		//return limitValue.LimitedUsers
+	}
+	sumOfOldANdNewNoOfUsers,_:= strconv.Atoi(limitValue.LimitedUsers)
+	newValues := sumOfOldANdNewNoOfUsers +newLimitValues
+	newValuesOfString := strconv.Itoa(newValues)
+	updateLimitValue.LimitedUsers =newValuesOfString
+
+	updateLimitValue.DateOfCreation = limitValue.DateOfCreation
+	updateLimitValue.PaymentStatus  = limitValue.PaymentStatus
+	updateLimitValue.UserID = limitValue.UserID
+	updateLimitValue.Status = limitValue.Status
+	err =db.Child("/Company/"+companyId+"/Settings/").Update(&updateLimitValue)
+	return newValues
+
+
+}
+
+
+
+
 
 //delete each invite user from database using invite UserId
 func(m *Invitation) CheckJobIsAssigned(ctx context.Context, InviteUserId string,companyTeamName string) bool {
