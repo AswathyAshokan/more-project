@@ -161,7 +161,7 @@ $(function () {
             var DynamicExposureTextBox ="";
             for (var i=1; i<vm.WorkTime.length; i++){
                 DynamicExposureTextBox+=        '<div class="exposureId"> <label for="workExplosureText" class="">Break Time</label>'+
-                    '<input type="text"    placeholder="12:00" data-timepicker id="time-field1-breakTime" name="time-field1-breakTime" size="5" value="'+ vm.BreakTime[i] +'">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00" data-timepicker id="time-field1-workTime" name="time-field1-workTime" size="5" value="'+ vm.WorkTime[i] +'" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="20" height="20" style= "float:right; margin-top:0em; margin-right:0em;"  class="delete-exposure" /></div>';
+                    '<input type="text"    placeholder="12:00"  id="time-field1-breakTime" name="time-field1-breakTime" size="5" value="'+ vm.BreakTime[i] +'">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00"  id="time-field1-workTime" name="time-field1-workTime" size="5" value="'+ vm.WorkTime[i] +'" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="20" height="20" style= "float:right; margin-top:0em; margin-right:0em;"  class="delete-exposure" /></div>';
             }
             $("#exposureTextBoxAppend").append(DynamicExposureTextBox);
         }
@@ -182,7 +182,7 @@ $("#btnAddForExposure").bind("click", function () {
     });
 function GetDynamicTextBoxForExposure(value) {
     return ' <label for="workExplosureText" class="">Break Time</label>'+
-        '<input type="text"    placeholder="12:00" data-timepicker id="time-field1-breakTime" name="time-field1-breakTime" size="5">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00" data-timepicker id="time-field1-workTime" name="time-field1-workTime" size="5" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg"  class="delete-exposure" />'
+        '<input type="text"    placeholder="12:00" id="time-field1-breakTime" name="time-field1-breakTime" size="5">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00"  id="time-field1-workTime" name="time-field1-workTime" size="5" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg"  class="delete-exposure" />'
 }
 
 //function to load add task
