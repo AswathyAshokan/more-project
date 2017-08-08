@@ -11,6 +11,7 @@ type Users struct {
 	Company          	map[string]UsersCompany
 	ConsentReceipts         map[string]ConsentReceiptDetails
 	Task			map[string]UserNotification
+	Invitations		map[string]UserInvitations
 }
 type ConsentReceiptDetails struct {
 	UserResponse		string
@@ -79,5 +80,13 @@ type UserNotification struct {
 	Date		int64
 	IsRead		bool
 	IsViewed	bool
+	Category	string
+}
+type UserInvitations struct {
+	Date		int64
+	IsRead		bool
+	IsViewed	bool
+	CompanyAdmin	string
+	CompanyName	string
 	Category	string
 }

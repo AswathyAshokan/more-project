@@ -104,7 +104,7 @@ $(function () {
             div.style.display ='inline';
             console.log("nfc",vm.NFCTagId);
             document.getElementById("nfcTagForTask").value =vm.NFCTagId;
-            nfcTagForTask
+            
         }else{
             document.getElementById("loginType2").checked = true;
         }
@@ -386,13 +386,13 @@ $().ready(function() {
               taskDescription:{
                  required: "task description required"
              },
-              userOrGroup:{nfcTagDetail
+              userOrGroup:{
                  required: "select user/group"
              },
          },
         submitHandler: function() {
             
-             var nfcTagId =  document.getElementById("nfcTagDetail").value;
+             var nfcTagId =  document.getElementById("nfcTagForTask").value;
             alert("ggg",nfcTagId);
             //code for date and time conversion
             var startDate = new Date($("#startDate").val());

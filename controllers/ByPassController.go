@@ -31,10 +31,11 @@ func (c *ByPassController)ByPass() {
 		sessionValues.CompanyTeamName = companyDetails.Info.CompanyTeamName
 		sessionValues.CompanyPlan = companyDetails.Plan
 		SetSession(w, sessionValues)
-		initialLink :="-KqaQkWNVXh-JPavlVBt/task"
+		initialLink :="-KqaQkWNVXh-JPavlVBt/task/add"
 		http.Redirect(w, r, initialLink, 302)
 	case false:
 		log.Println("Bypass Failed")
+
 
 
 	}

@@ -112,6 +112,9 @@ func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string)bool
 		log.Println(err)
 		return  false
 	}
+	//err = db.Child("Users").OrderBy("Info/Email").EqualTo(invitationData.Email).Value(&userDetails)
+	//taskValues := reflect.ValueOf(userDetails)
+
  return true
 }
 
