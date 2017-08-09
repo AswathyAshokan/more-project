@@ -519,13 +519,16 @@ func (c *TaskController)LoadTaskDetail() {
 					var userStructSlice []viewmodels.TaskUsers
 
 					for _, userKey := range usersDataValue.MapKeys() {
+						if tasks[k].UsersAndGroups.User[userKey.String()].Status == helpers.StatusActive{
+							var userStruct viewmodels.TaskUsers
+							userStruct.Name = tasks[k].UsersAndGroups.User[userKey.String()].FullName
+							userStruct.Status = tasks[k].UsersAndGroups.User[userKey.String()].UserTaskStatus
+							userStruct.TaskId =k
+							userStructSlice = append(userStructSlice, userStruct)
+							userCount =userCount+1
+						}
 
-						var userStruct viewmodels.TaskUsers
-						userStruct.Name = tasks[k].UsersAndGroups.User[userKey.String()].FullName
-						userStruct.Status = tasks[k].UsersAndGroups.User[userKey.String()].UserTaskStatus
-						userStruct.TaskId =k
-						userStructSlice = append(userStructSlice, userStruct)
-						userCount =userCount+1
+
 					}
 					taskUserSlice = append(taskUserSlice, userStructSlice)
 					//viewModel.UserArray = outerSlice

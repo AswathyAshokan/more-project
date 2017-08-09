@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/TaskModel.go" afterPath="$PROJECT_DIR$/models/TaskModel.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/TaskController.go" afterPath="$PROJECT_DIR$/controllers/TaskController.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/task-details.js" afterPath="$PROJECT_DIR$/main/static/js/custom/task-details.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -35,48 +36,9 @@
       <file leaf-file-name="InviteUserModel.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/InviteUserModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2088">
-              <caret line="123" column="43" lean-forward="false" selection-start-line="123" selection-start-column="43" selection-end-line="123" selection-end-column="43" />
-              <folding>
-                <marker date="1502263799129" expanded="true" signature="12802:13118" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="12802:13125" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="12802:13131" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="12802:16057" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="12802:16072" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="13058:13110" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="13228:13267" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="13551:13590" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="13687:13726" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="14057:14096" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="14209:14248" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="14730:14769" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="14945:14985" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="16014:16054" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="16219:18685" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="16540:16579" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="16681:16717" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="16938:16986" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="17015:18669" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="17098:17137" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="17236:17297" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="17345:18665" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="17414:18180" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="17563:17608" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="18130:18175" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="18288:18330" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="18619:18661" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="18796:19252" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="18911:18934" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="19036:19057" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="19206:19225" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="19232:19250" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="19363:21424" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="19572:19608" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="19710:19746" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="20117:20154" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="20318:20355" ph="{...}" />
-                <marker date="1502263799129" expanded="true" signature="21371:21408" ph="{...}" />
-              </folding>
+            <state relative-caret-position="-676">
+              <caret line="511" column="8" lean-forward="false" selection-start-line="511" selection-start-column="8" selection-end-line="511" selection-end-column="8" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -176,7 +138,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TaskModel.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TaskModel.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="318">
@@ -188,11 +150,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TaskController.go" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TaskController.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="188">
-              <caret line="812" column="57" lean-forward="false" selection-start-line="812" selection-start-column="16" selection-end-line="812" selection-end-column="57" />
+            <state relative-caret-position="368">
+              <caret line="521" column="104" lean-forward="false" selection-start-line="521" selection-start-column="104" selection-end-line="521" selection-end-column="104" />
               <folding />
             </state>
           </provider>
@@ -332,11 +294,11 @@
         <option value="$PROJECT_DIR$/routers/router.go" />
         <option value="$PROJECT_DIR$/controllers/InviteUserController.go" />
         <option value="$PROJECT_DIR$/models/InviteUserModel.go" />
-        <option value="$PROJECT_DIR$/controllers/TaskController.go" />
         <option value="$PROJECT_DIR$/models/UserModel.go" />
         <option value="$PROJECT_DIR$/controllers/ByPassController.go" />
         <option value="$PROJECT_DIR$/models/CustomerModel.go" />
         <option value="$PROJECT_DIR$/models/TaskModel.go" />
+        <option value="$PROJECT_DIR$/controllers/TaskController.go" />
       </list>
     </option>
   </component>
@@ -994,13 +956,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00172" summary="1/06/2013:28:   check box">
-      <created>1499862285772</created>
-      <option name="number" value="00172" />
-      <option name="presentableId" value="LOCAL-00172" />
-      <option name="project" value="LOCAL" />
-      <updated>1499862285773</updated>
-    </task>
     <task id="LOCAL-00173" summary="1/06/2013:28:   check box">
       <created>1499927594332</created>
       <option name="number" value="00173" />
@@ -1337,7 +1292,14 @@
       <option name="project" value="LOCAL" />
       <updated>1502263815569</updated>
     </task>
-    <option name="localTasksCounter" value="221" />
+    <task id="LOCAL-00221" summary="1/06/2013:28:   check box">
+      <created>1502270190094</created>
+      <option name="number" value="00221" />
+      <option name="presentableId" value="LOCAL-00221" />
+      <option name="project" value="LOCAL" />
+      <updated>1502270190094</updated>
+    </task>
+    <option name="localTasksCounter" value="222" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1802,53 +1764,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/InviteUserModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2088">
-          <caret line="123" column="43" lean-forward="false" selection-start-line="123" selection-start-column="43" selection-end-line="123" selection-end-column="43" />
-          <folding>
-            <marker date="1502263799129" expanded="true" signature="12802:13118" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="12802:13125" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="12802:13131" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="12802:16057" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="12802:16072" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="13058:13110" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="13228:13267" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="13551:13590" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="13687:13726" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="14057:14096" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="14209:14248" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="14730:14769" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="14945:14985" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="16014:16054" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="16219:18685" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="16540:16579" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="16681:16717" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="16938:16986" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="17015:18669" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="17098:17137" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="17236:17297" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="17345:18665" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="17414:18180" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="17563:17608" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="18130:18175" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="18288:18330" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="18619:18661" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="18796:19252" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="18911:18934" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="19036:19057" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="19206:19225" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="19232:19250" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="19363:21424" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="19572:19608" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="19710:19746" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="20117:20154" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="20318:20355" ph="{...}" />
-            <marker date="1502263799129" expanded="true" signature="21371:21408" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/UserModel.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
@@ -1911,14 +1826,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="812" column="57" lean-forward="false" selection-start-line="812" selection-start-column="16" selection-end-line="812" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="318">
@@ -1926,6 +1833,22 @@
           <folding>
             <element signature="e#44#174#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/InviteUserModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-676">
+          <caret line="511" column="8" lean-forward="false" selection-start-line="511" selection-start-column="8" selection-end-line="511" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="521" column="104" lean-forward="false" selection-start-line="521" selection-start-column="104" selection-end-line="521" selection-end-column="104" />
+          <folding />
         </state>
       </provider>
     </entry>

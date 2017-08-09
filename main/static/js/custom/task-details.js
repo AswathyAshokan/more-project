@@ -307,6 +307,7 @@ $(function(){
                 url: '/'  +   companyTeamName + '/task/' + key + '/delete',
                 data: '',
                 success: function(data){
+                    console.log("dddd",data);
                     if(data=="true"){
                         $('#task-details').dataTable().fnDestroy();
                         var index = "";
@@ -314,6 +315,7 @@ $(function(){
                         for(var i = 0; i < mainArray.length; i++) {
                            index = mainArray[i].indexOf(key);
                            if(index != -1) {
+                               console.log("inside delete");
                                break;
                            }
                         }
