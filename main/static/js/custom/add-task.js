@@ -2,6 +2,7 @@
 //Below line is for adding active class to layout side menu..
 
 console.log(vm.FitToWorkArray);
+console.log("gsgsgsgs");
 document.getElementById("task").className += " active";
 var pageType = vm.PageType;
 var customerName = "";
@@ -93,8 +94,8 @@ $(function () {
         }
         var selectArrayForGroup = vm.GroupMembersAndUserToEdit;
         $("#userOrGroup").val(selectArrayForGroup);
-        document.getElementById("time-field1-startTime").value = vm.StartTime;
-        document.getElementById("time-field1-endTime").value = vm.EndTime;
+        document.getElementById("startTime").value = vm.StartTime;
+        document.getElementById("endTime").value = vm.EndTime;
         var element = document.getElementById('minUsers');
         element.value = vm.UserNumber;
         if(vm.LoginType =="NFC" ){
@@ -151,17 +152,19 @@ $(function () {
         if(vm.FitToWorkCheck =="EachTime") {
             document.getElementById("fitToWorkCheck").checked = true;
         }
+        console.log("ffff",vm.BreakTime[0]);
+        console.log("ggg",vm.WorkTime[0]);
         if(vm.WorkTime.length !=0){
-            document.getElementById("workExplosure11").checked = true;
+            document.getElementById("workExplosure").checked = true;
             var div = document.getElementById('work');
             div.style.visibility = 'visible';
             div.style.display ='inline';
-            document.getElementById("time-field1-workTime").value =vm.WorkTime[0];
-            document.getElementById("time-field1-breakTime").value =vm.BreakTime[0];
+            document.getElementById("workTime").value =vm.WorkTime[0];
+            document.getElementById("breakTime").value =vm.BreakTime[0];
             var DynamicExposureTextBox ="";
             for (var i=1; i<vm.WorkTime.length; i++){
                 DynamicExposureTextBox+=        '<div class="exposureId"> <label for="workExplosureText" class="">Break Time</label>'+
-                    '<input type="text"    placeholder="12:00"  id="time-field1-breakTime" name="time-field1-breakTime" size="5" value="'+ vm.BreakTime[i] +'">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00"  id="time-field1-workTime" name="time-field1-workTime" size="5" value="'+ vm.WorkTime[i] +'" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="20" height="20" style= "float:right; margin-top:0em; margin-right:0em;"  class="delete-exposure" /></div>';
+                    '<input type="text"    placeholder="12:00"  id="breakTime" name="breakTime" size="5" value="'+ vm.BreakTime[i] +'">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00"  id="workTime" name="workTime" size="5" value="'+ vm.WorkTime[i] +'" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="20" height="20" style= "float:right; margin-top:0em; margin-right:0em;"  class="delete-exposure" /></div>';
             }
             $("#exposureTextBoxAppend").append(DynamicExposureTextBox);
         }
@@ -182,7 +185,7 @@ $("#btnAddForExposure").bind("click", function () {
     });
 function GetDynamicTextBoxForExposure(value) {
     return ' <label for="workExplosureText" class="">Break Time</label>'+
-        '<input type="text"    placeholder="12:00" id="time-field1-breakTime" name="time-field1-breakTime" size="5">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00"  id="time-field1-workTime" name="time-field1-workTime" size="5" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg"  class="delete-exposure" />'
+        '<input type="text"    placeholder="12:00" id="breakTime" name="breakTime" size="5">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00"  id="workTime" name="workTime" size="5" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg"  class="delete-exposure" />'
 }
 
 //function to load add task
@@ -356,16 +359,16 @@ $().ready(function() {
             endDate : "required",
             taskDescription : "required",
             taskLocation : "required",
-            time-field1-startTime : "required",
-            time-field1-endTime : "required"
+            startTime : "required",
+            endTime : "required"
             
             
         },
          messages: {
-             time-field1-startTime:{
+             startTime:{
                  required: "time required"
              },
-             time-field1-endTime:{
+             endTime:{
                  required: "time required"
              },
              taskName:{
@@ -393,13 +396,12 @@ $().ready(function() {
         submitHandler: function() {
             
              var nfcTagId =  document.getElementById("nfcTagForTask").value;
-            alert("ggg",nfcTagId);
             //code for date and time conversion
             var startDate = new Date($("#startDate").val());
             
-            var time-field1-startTime =  document.getElementById("time-field1-startTime").value;
+            var startTime =  document.getElementById("startTime").value;
             var endDate = new Date($("#endDate").val());
-            var time-field1-endTime =  document.getElementById("time-field1-endTime").value;
+            var endTime =  document.getElementById("endTime").value;
             
             var exposureHour ="";
             var exposureMinute ="";
@@ -410,14 +412,14 @@ $().ready(function() {
             
 
             //setting the time in start date and end date
-            startTimeArray = time-field1-startTime.split(':');
-            startHour = parseInt(time-field1-startTimeArray[0]);
-            startMin = parseInt(time-field1-startTimeArray[1]);
+            startTimeArray = startTime.split(':');
+            startHour = parseInt(startTimeArray[0]);
+            startMin = parseInt(startTimeArray[1]);
             startDate.setHours(startHour);
             startDate.setMinutes(startMin);
-            endTimeArray = time-field1-endTime.split(':');
-            endHour = parseInt(time-field1-endTimeArray[0]);
-            endMin = parseInt(time-field1-endTimeArray[1]);
+            endTimeArray = endTime.split(':');
+            endHour = parseInt(endTimeArray[0]);
+            endMin = parseInt(endTimeArray[1]);
             endDate.setHours(endHour);
             endDate.setMinutes(endMin);
             //function to convert  date to mm/dd/yyyy format
@@ -491,7 +493,7 @@ $().ready(function() {
                                           }
                                        
                                       // function to get values of exposure dynamic text box
-                                      $("input[name=time-field1-breakTime]").each(function () {
+                                      $("input[name=breakTime]").each(function () {
                                           
                                           if($(this).val().length !=0){
                                               exposureTimeArray = $(this).val().split(':');
@@ -502,7 +504,7 @@ $().ready(function() {
                                           }
                                       });
                                       
-                                      $("input[name=time-field1-workTime]").each(function () {
+                                      $("input[name=workTime]").each(function () {
                                           
                                           if($(this).val().length !=0){
                                               exposureWorkTimeArray = $(this).val().split(':');

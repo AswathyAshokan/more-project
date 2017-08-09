@@ -85,7 +85,7 @@
                                         <span class="err err-cl"></span>
                                     </span>
                                     <span class="err-wrp">
-                                        <input type="text" class="form-control time"  placeholder="12:00"  name="time-field1-startTime" id="time-field1-startTime" >
+                                        <input type="text" class="form-control time"  placeholder="12:00" data-timepicker name="startTime" id="startTime" >
                                         <span class="err"></span>
                                     </span>
 								</div>
@@ -98,7 +98,7 @@
                                         <span class="err err-cl"></span>
                                     </span>
                                     <span class="err-wrp">
-                                        <input type="text" class="form-control time"   placeholder="12:00"  name="time-field1-endTime" id="time-field1-endTime" >
+                                        <input type="text" class="form-control time"   placeholder="12:00"  name="endTime" id="endTime"  data-timepicker>
                                         <span class="err"></span>
                                     </span>
 								</div>
@@ -228,7 +228,7 @@
                                  <div id="exposureTextBoxAppend"  >
                                      <div class='exposureId'>
                                      <label for="workExplosureText" class="">Break Time</label>
-                                         <input type="text" class="form-control"   placeholder="12:00"   name="time-field1-breakTime" size="5" id="time-field1-breakTime" ><label>After</label> <input type="text"   class="form-control"  placeholder="12:00"   name="time-field1-workTime" size="5" id="time-field1-workTime">
+                                         <input type="text" class="form-control"  data-timepicker placeholder="12:00"   name="breakTime" size="5" id="breakTime" ><label>After</label> <input type="text"   class="form-control"  placeholder="12:00"   name="workTime" size="5" id="workTime" data-timepicker>
                                          <img  id="btnAddForExposure" src="/static/images/fitToWork.png"    /><br><br>
                                         
                                      </div>
@@ -270,12 +270,17 @@
 <script src="/static/js/jquery.validate.js"></script>
 <script src="/static/js/custom/add-task.js"></script>
 <script src="/static/js/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!--
 <script src="/static/js/jquery.plugin.js"></script>
 <script src="/static/js/jquery.timeentry.js"></script>
+-->
+<script src="/static/js/timepicker.js"></script>
 <script src="/static/js/select2.min.js"></script>
 <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
-<link href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,600,700" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="/static/css/jquery.timeentry.css">
+<!--<link rel="stylesheet" type="text/css" href="/static/css/jquery.timeentry.css">-->
+
+
 <script> 
     var defaultLatitude = "54.9682059";
     var defaultLongitude = "-1.6121358";
@@ -434,8 +439,9 @@
     }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFl3U2s0vqjaN-6rvAaOA8Ts1cfDss_KM&libraries=geometry,places&callback=initialize"></script>
+<!--
 <script>
     $(function () {
         $("input[id^='time-field']").timeEntry();
     });
-	</script>
+	</script>-->
