@@ -10,7 +10,6 @@ import (
 	"time"
 	"github.com/kjk/betterguid"
 
-
 )
 
 type Tasks   struct {
@@ -502,7 +501,27 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		log.Println("Connection error:",err)
 	}
 	taskValues :=Tasks{}
+	var tempUserKeySlice []string
+	userName := TaskUser{}
 	err = dB.Child("/Tasks/"+ taskId).Value(&taskValues)
+	userStatusInTask := reflect.ValueOf(taskValues.UsersAndGroups.User)
+	userStatusForTaskFromForm :=reflect.ValueOf(m.UsersAndGroups.User)
+	for _, userKeyForTask := range userStatusForTaskFromForm.MapKeys() {
+		tempUserKeySlice = append(tempUserKeySlice, userKeyForTask.String())
+	}
+
+	for _, key := range userStatusInTask.MapKeys() {
+		for i:=0;i<len(tempUserKeySlice);i++{
+			if tempUserKeySlice[i]==key.String() {
+				userName.UserTaskStatus =taskValues.UsersAndGroups.User[key.String()].UserTaskStatus
+				userName.FullName = taskValues.UsersAndGroups.User[key.String()].FullName
+				userName.Status =taskValues.UsersAndGroups.User[key.String()].Status
+				m.UsersAndGroups.User[key.String()] =userName
+			}
+		}
+	}
+
+
 	m.Settings.TaskStatus=taskValues.Settings.TaskStatus
 	m.Settings.DateOfCreation =taskValues.Settings.DateOfCreation
 	m.Settings.FitToWorkDisplayStatus =taskValues.Settings.FitToWorkDisplayStatus
@@ -519,6 +538,12 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		log.Println("updation error:",err)
 		return false
 	}
+	//setting user task status in db
+	//userStatusInTask := reflect.ValueOf(m.UsersAndGroups.User)
+	//for _, key := range userStatusInTask.MapKeys() {
+	//
+	//}
+
 
 	//for adding fit to work to database
 	log.Println("adsfdfdgdfgdfgdfgdfgdfgdfgfdgdfgdgdfgfdgfdgdf",fitToWorkName)

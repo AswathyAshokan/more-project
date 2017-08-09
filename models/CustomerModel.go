@@ -8,7 +8,6 @@ import (
 	"app/passporte/helpers"
 	"reflect"
 
-
 )
 
 type Customers struct {
@@ -274,6 +273,29 @@ func (m *Customers) DeleteCustomerFromDB(ctx context.Context, customerId string,
 					err = dB.Child("/Users/" + userKey + "/Tasks/" + taskKey.String()).Update(&userTaskDetail)
 					if err!=nil{
 						log.Println("Deletion error:",err)
+					}
+				}
+
+				//delete from contact task
+				contactDetail := map[string]ContactUser{}
+				contactDetailForUpdate :=TasksContact{}
+				contactDetailForUpdate.TaskContactStatus =helpers.StatusInActive
+				err = dB.Child("Contacts").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&contactDetail)
+				var keySlice []string
+				dataValue := reflect.ValueOf(contactDetail)
+				for _, key := range dataValue.MapKeys() {
+					keySlice = append(keySlice, key.String())
+				}
+				for _, k := range keySlice {
+					if contactDetail[k].Settings.Status == helpers.StatusActive {
+						dataValueForTask := reflect.ValueOf(contactDetail[k].Tasks)
+						for _, key := range dataValueForTask.MapKeys() {
+							if  key.String() ==taskKey.String() {
+								err = dB.Child("/Contacts/"+ k+"/Tasks/"+taskKey.String()).Update(&contactDetailForUpdate)
+							}
+
+						}
+
 					}
 				}
 				log.Println("deleted successfully")
