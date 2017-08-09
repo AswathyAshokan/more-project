@@ -248,7 +248,11 @@ func (c *GroupController) EditGroup() {
 			memberData := reflect.ValueOf(groupDetails.Members)
 
 			for _, selectedMemberKey := range memberData.MapKeys(){
-				viewModel.GroupMembersToEdit = append(viewModel.GroupMembersToEdit, selectedMemberKey.String())
+				if groupDetails.Members[selectedMemberKey.String()].Status !=helpers.UserStatusDeleted{
+					viewModel.GroupMembersToEdit = append(viewModel.GroupMembersToEdit, selectedMemberKey.String())
+
+				}
+
 			}
 			viewModel.PageType = helpers.SelectPageForEdit
 			viewModel.CompanyTeamName = storedSession.CompanyTeamName

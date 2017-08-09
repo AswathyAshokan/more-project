@@ -167,7 +167,6 @@ func UpdateNoOfLimitedUser(ctx context.Context,companyId string,newLimitValues i
 		log.Println(err)
 	}
 	err =db.Child("/Company/"+companyId+"/Settings/").Value(&limitValue)
-	log.Println("hhhhh",limitValue.LimitedUsers)
 	if err != nil {
 		log.Fatal(err)
 		//return limitValue.LimitedUsers
@@ -188,12 +187,8 @@ func UpdateNoOfLimitedUser(ctx context.Context,companyId string,newLimitValues i
 }
 
 
-
-
-
 //delete each invite user from database using invite UserId
 func(m *Invitation) CheckJobIsAssigned(ctx context.Context, InviteUserId string,companyTeamName string) bool {
-	log.Println("invitation id",InviteUserId)
 	companyData := map[string]Company{}
 	TaskMap := map[string]UserTasks{}
 	userDetails := map[string]Users{}
@@ -408,20 +403,19 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 				groupMembersDataValue := reflect.ValueOf(groupDetails)
 				for _, groupMembersKey := range groupMembersDataValue.MapKeys() {
 					tempGroupKeys = append(tempGroupKeys,groupMembersKey.String())
-					err = db.Child("/Group/"+ eachGroupKey+"/Members/"+groupMembersKey.String()).Value(&groupMembersDetails)
-					if err != nil {
-						log.Fatal(err)
-						return  false
+					log.Println("eachkey",eachGroupKey)
+					log.Println("groupMembersKey.String()",groupMembersKey.String())
+					if k == groupMembersKey.String(){
+						err = db.Child("/Group/"+ eachGroupKey+"/Members/"+groupMembersKey.String()).Value(&groupMembersDetails)
+						if err != nil {
+							log.Fatal(err)
+							return  false
+						}
 					}
-					log.Println("k",tempGroupKeys)
-
-
-
 				}
-				log.Println("hqqqqqq",tempGroupKeys)
-				log.Println("keyuhhjcsjc",k)
 				for i:=0;i<len(tempGroupKeys);i++{
 					if k == tempGroupKeys[i]{
+						log.Println("iam here again and again",tempGroupKeys[i])
 						updateMemberDetails.Status = helpers.UserStatusDeleted
 						updateMemberDetails.MemberName = groupMembersDetails.MemberName
 						err = db.Child("/Group/"+ eachGroupKey+"/Members/"+tempGroupKeys[i]).Update(&updateMemberDetails)

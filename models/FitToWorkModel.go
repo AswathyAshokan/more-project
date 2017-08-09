@@ -195,24 +195,16 @@ func CheckFitWorkNameIsUsed(ctx context.Context, fitWorkName string,companyTeamN
 	if err!=nil{
 		log.Println("Error:",err)
 	}
-	log.Println("inside checking value",fitToWork)
 	FitToWorkDetails := reflect.ValueOf(fitToWork)
 	for _, fitKey:=range FitToWorkDetails.MapKeys() {
-		log.Println("vddfgsf",companyTeamName)
-		log.Println("hhhhh",fitKey.String())
 		if fitKey.String() ==companyTeamName {
 			log.Println("inside if")
 			err = dB.Child("FitToWork/"+ companyTeamName).Value(&fullFitToWork)
-			log.Println("inside fgfdgdg",fullFitToWork)
-
 		}
 
 	}
 	dataValueOfFitToWork := reflect.ValueOf(fullFitToWork)
 	for _, fitKeys:=range dataValueOfFitToWork.MapKeys(){
-		log.Println("idddd",fitKeys.String())
-		log.Println("gggg",fitWorkName)
-		log.Println("mmmm",fullFitToWork[fitKeys.String()].FitToWorkName)
 		if fullFitToWork[fitKeys.String()].FitToWorkName == fitWorkName{
 			log.Println("gggggg")
 			return true

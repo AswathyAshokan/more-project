@@ -276,14 +276,6 @@ func (c *InviteUserController) RemoveUserFromTask() {
 		result := models.DeleteInviteUserById(c.AppEngineCtx, InviteUserId, companyTeamName)
 		switch result {
 		case true:
-			/*groupData := models.RemoveUsersGroup(c.AppEngineCtx, InviteUserId,companyTeamName)
-			log.Println("true in group details case")
-			switch groupData{
-			case true:
-				w.Write([]byte("true"))
-			case false:
-				w.Write([]byte("false"))
-			}*/
 			w.Write([]byte("true"))
 
 		case false:

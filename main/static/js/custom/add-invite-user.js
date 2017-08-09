@@ -42,6 +42,9 @@ $().ready(function() {
         $("#InviteUserValidationError").css({"color": "red", "font-size": "15px"});
         $("#InviteUserValidationError").html("Your user invitation limit is exceeded.Please upgrade your plan").show();
         $("#saveButton").attr('disabled', true);
+        $("limitModalCancel").click(function(){
+            window.location = '/' + companyTeamName +'/invite';
+        })
          $("#payNowBtn").click(function(){
               //$('#closemodal').modal('hide');
              $('#limitModel').modal('hide');
