@@ -71,7 +71,6 @@ func (c *TaskController)AddNewTask() {
 		UserOrGroupNameArray := c.GetStrings("userAndGroupName")
 		groupKeySliceForTaskString  :=c.GetString("groupArrayElement")
 		groupKeySliceForTask :=strings.Split(groupKeySliceForTaskString, ",")
-		log.Println("grouppppppppp",groupKeySliceForTask)
 		tempContactName := c.GetStrings("contactName")
 		tempContactId := c.GetStrings("contactId")
 		task.Info.LoginType=c.GetString("loginType")
