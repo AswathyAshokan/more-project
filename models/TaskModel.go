@@ -143,6 +143,26 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 	taskUniqueID := taskDataString[len(taskDataString)-2]
 	//for adding fit to work to database
 
+	//setting notification  task in user
+	userDataDetails := reflect.ValueOf(m.UsersAndGroups.User)
+	for _, key := range userDataDetails.MapKeys() {
+		log.Println("inside  notificationnnnn")
+		userNotificationDetail :=UserNotification{}
+		userNotificationDetail.Date =m.Settings.DateOfCreation
+		userNotificationDetail.IsRead =false
+		userNotificationDetail.IsViewed =false
+		userNotificationDetail.TaskId =taskUniqueID
+		userNotificationDetail.TaskName =m.Info.TaskName
+		userNotificationDetail.Category ="Tasks"
+		err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+taskUniqueID).Set(userNotificationDetail)
+		if err!=nil{
+			log.Println("Insertion error:",err)
+			return false
+		}
+
+
+	}
+
 	if len(fitToWorksName) !=0{
 		FitToWorkForSetting :=TaskFitToWorkSettings{}
 		FitToWorkForInfo  :=TaskFitToWorkInfo{}
@@ -223,24 +243,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 		}
 
 	}
-	//setting notification  task in user
-	userDataDetails := reflect.ValueOf(m.UsersAndGroups.User)
-	for _, key := range userDataDetails.MapKeys() {
-		userNotificationDetail :=UserNotification{}
-		userNotificationDetail.Date =m.Settings.DateOfCreation
-		userNotificationDetail.IsRead =false
-		userNotificationDetail.IsViewed =false
-		userNotificationDetail.TaskId =taskUniqueID
-		userNotificationDetail.TaskName =m.Info.TaskName
-		userNotificationDetail.Category ="Tasks"
-		err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+taskUniqueID).Set(userNotificationDetail)
-		if err!=nil{
-			log.Println("Insertion error:",err)
-			return false
-		}
 
-
-	}
 
 
 	//setting task Id to company
@@ -502,6 +505,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	}
 	taskValues :=Tasks{}
 	var tempUserKeySlice []string
+	var tempContactKeySlice []string
 	userName := TaskUser{}
 	err = dB.Child("/Tasks/"+ taskId).Value(&taskValues)
 	userStatusInTask := reflect.ValueOf(taskValues.UsersAndGroups.User)
@@ -520,7 +524,25 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 			}
 		}
 	}
+	//update contactstatus in task while updating
+	taskContactDetail := TaskContact{}
+	contactStatusInTask := reflect.ValueOf(taskValues.Contacts)
+	contactStatusForTaskFromForm :=reflect.ValueOf(m.Contacts)
+	for _, contactKeyForTask := range contactStatusForTaskFromForm.MapKeys() {
+		tempContactKeySlice = append(tempContactKeySlice, contactKeyForTask.String())
+	}
+	for _, key := range contactStatusInTask.MapKeys() {
+		for i := 0; i < len(tempContactKeySlice); i++ {
+			if tempContactKeySlice[i] == key.String() {
+				taskContactDetail.ContactName =taskValues.Contacts[key.String()].ContactName
+				taskContactDetail.EmailId =taskValues.Contacts[key.String()].EmailId
+				taskContactDetail.PhoneNumber =taskValues.Contacts[key.String()].PhoneNumber
+				taskContactDetail.ContactStatus =taskValues.Contacts[key.String()].ContactStatus
+				m.Contacts[key.String()] =taskContactDetail
 
+			}
+		}
+	}
 
 	m.Settings.TaskStatus=taskValues.Settings.TaskStatus
 	m.Settings.DateOfCreation =taskValues.Settings.DateOfCreation
@@ -538,11 +560,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		log.Println("updation error:",err)
 		return false
 	}
-	//setting user task status in db
-	//userStatusInTask := reflect.ValueOf(m.UsersAndGroups.User)
-	//for _, key := range userStatusInTask.MapKeys() {
-	//
-	//}
+
 
 
 	//for adding fit to work to database
