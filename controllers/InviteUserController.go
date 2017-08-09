@@ -39,7 +39,7 @@ func (c *InviteUserController) AddInvitation() {
 		inviteUser.Info.LastName = c.GetString("lastname")
 		inviteUser.Info.Email = c.GetString("emailid")
 		inviteUser.Info.UserType = c.GetString("usertype")
-		inviteUser.Settings.DateOfCreation =(time.Now().UnixNano() / 1000000)
+		inviteUser.Settings.DateOfCreation =time.Now().Unix()
 		inviteUser.Settings.Status = helpers.StatusInActive
 		inviteUser.Settings.UserResponse = helpers.UserResponsePending
 		inviteUser.Info.CompanyTeamName = storedSession.CompanyTeamName
