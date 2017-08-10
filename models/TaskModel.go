@@ -317,6 +317,8 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 			updatedInfo.JobNumber = jobDetail[key.String()].Info.JobNumber
 			updatedInfo.NumberOfTask = NumberOfTask
 			updatedInfo.CompanyTeamName = companyId
+			updatedInfo.OrderDate =jobDetail[key.String()].Info.OrderDate
+			updatedInfo.OrderNumber =jobDetail[key.String()].Info.OrderNumber
 			err = dB.Child("/Jobs/"+ key.String()+"/Info").Update(&updatedInfo)
 			updatedcustomer.CustomerId= jobDetail[key.String()].Customer.CustomerId
 			updatedcustomer.CustomerName= jobDetail[key.String()].Customer.CustomerName
