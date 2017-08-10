@@ -323,6 +323,7 @@ func (c *ContactUserController) DeleteContactIfNotInTask() {
 
 
 func (c *ContactUserController) RemoveContactFromTask() {
+	log.Println("iam im dangetsr situation in phone number validation")
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
@@ -337,7 +338,8 @@ func (c *ContactUserController) RemoveContactFromTask() {
 	case false :
 		w.Write([]byte("false"))
 	}
-	}
+}
+
 func (c *ContactUserController)CheckPhoneNumber(){
 	w := c.Ctx.ResponseWriter
 	phoneNumber := c.GetString("phoneNumber")
@@ -364,3 +366,60 @@ func (c *ContactUserController)CheckEmailAddress(){
 		w.Write([]byte("true"))
 	}
 }
+
+
+/*
+func (c *ContactUserController)CheckEmailAddress(){
+	log.Println("iam im dangetsr situation in email validation")
+	w := c.Ctx.ResponseWriter
+	emailAddress := c.GetString("emailAddress")
+	log.Println("email",emailAddress)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	pageType := c.Ctx.Input.Param(":type")
+	oldEmail := c.Ctx.Input.Param(":oldEmail")
+	if pageType == "edit" && strings.Compare(oldEmail, emailAddress) == 0 {
+		log.Println("iam in true condion")
+		w.Write([]byte("true"))
+	} else {
+		isEmailAddressUsed := models.CheckEmailAddressIsUsed(c.AppEngineCtx, emailAddress,companyTeamName)
+		switch isEmailAddressUsed{
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
+		}
+
+	}
+
+}
+
+
+func (c *ContactUserController)CheckPhoneNumber(){
+	log.Println("iam in check phnoe number conditon")
+	w := c.Ctx.ResponseWriter
+	phoneNumber := c.GetString("phoneNumber")
+	log.Println("phone number",phoneNumber)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	pageType := c.Ctx.Input.Param(":type")
+	oldNumber := c.Ctx.Input.Param(":oldNumber")
+	log.Println("phoneNumber",phoneNumber,pageType,oldNumber)
+	if pageType == "edit" && strings.Compare(oldNumber, phoneNumber) == 0 {
+		log.Println("iam in true condion")
+		w.Write([]byte("true"))
+	} else {
+		log.Println("iam in false condion")
+		isPhoneNumberUsed := models.CheckPhoneNumberIsUsed(c.AppEngineCtx, phoneNumber,companyTeamName)
+		switch isPhoneNumberUsed{
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
+		}
+
+	}
+
+}
+
+*/
+
+

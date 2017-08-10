@@ -251,6 +251,33 @@ func (m *TasksContact) DeleteContactFromTask(ctx context.Context,contactId strin
 	return true
 }
 
+/*func CheckPhoneNumberIsUsed(ctx context.Context, phoneNumber string,companyTeamName string)bool{
+	contact := map[string]ContactUser{}
+	dB, err := GetFirebaseClient(ctx, "")
+	if err != nil {
+		log.Println("No Db Connection!")
+	}
+	err = dB.Child("Contacts").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&contact)
+	*//*if len(contact)==0{
+		return true
+	} else {*//*
+		contactDetails := reflect.ValueOf(contact)
+	for _, contactKey:=range contactDetails.MapKeys() {
+		if contact[contactKey.String()].Info.PhoneNumber == phoneNumber{
+			log.Println("log Equal condition")
+			return false
+			break
+		}
+
+	}
+
+	*//*}*//*
+
+	return true
+}*/
+
+
+
 func CheckPhoneNumberIsUsed(ctx context.Context, phoneNumber string,companyTeamName string)bool{
 	contact := map[string]ContactUser{}
 	dB, err := GetFirebaseClient(ctx, "")
@@ -269,6 +296,8 @@ func CheckPhoneNumberIsUsed(ctx context.Context, phoneNumber string,companyTeamN
 	return false
 
 }
+
+
 func CheckEmailAddressIsUsed(ctx context.Context, emailAddress string,companyTeamName string)bool{
 	contact := map[string]ContactUser{}
 	dB, err := GetFirebaseClient(ctx, "")
@@ -286,3 +315,34 @@ func CheckEmailAddressIsUsed(ctx context.Context, emailAddress string,companyTea
 	}
 	return false
 }
+
+
+/*
+func CheckEmailAddressIsUsed(ctx context.Context, emailAddress string,companyTeamName string)bool{
+	contact := map[string]ContactUser{}
+	dB, err := GetFirebaseClient(ctx, "")
+	if err != nil {
+		log.Println("No Db Connection!")
+	}
+	err = dB.Child("Contacts").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&contact)
+
+	*/
+/*if len(contact)==0{
+		return true
+	} else {*//*
+
+		contactDetails := reflect.ValueOf(contact)
+		for _, contactKey:=range contactDetails.MapKeys() {
+			if contact[contactKey.String()].Info.Email == emailAddress{
+				return false
+				//break
+			}
+
+		}
+
+	*/
+/*}*//*
+
+
+	return true
+}*/

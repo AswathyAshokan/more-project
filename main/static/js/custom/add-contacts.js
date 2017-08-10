@@ -6,7 +6,7 @@
 document.getElementById("contact").className += " active";
 var pageType = vm.PageType;
  var selectedCustomerNames = [];
-console.log( "page type",pageType);
+//console.log( "page type",document.getElementById("phoneNumber").value);
 var companyTeamName = vm.CompanyTeamName
 $(function () {
     if( pageType  ==  "edit") {
@@ -26,32 +26,32 @@ $(function () {
   $().ready(function() {
       $("#contactForm").validate({
           rules: {
-              name: "required",
-              address:"required",
-              zipcode:"required",
-              country:"required",
-              state:"required",
-               phoneNumber: {
-                required: true,
-                remote:{
-                    url: "/isPhoneNumberUsed/" + phoneNumber,
-                    type: "post"
-                }
-               },
+              phoneNumber: {
+                  required: true,
+                  remote:{
+                      url: "/isPhoneNumberUsed/" + phoneNumber,
+                      /*url: "/isPhoneNumberUsed/" + phoneNumber+ "/" +vm.PageType+ "/" + vm.PhoneNumber,*/
+                      type: "post"
+                  }
+              },
               emailAddress: {
                   required: true,
                   email: true,
                   remote:{
                       url: "/isemailAddressUsed/" + emailAddress,
+                     /* url: "/isemailAddressUsed/" + emailAddress+ "/" + vm.PageType + "/" + vm.Email,*/
                       type: "post"
                   }
               },
+              name: "required",
+              address:"required",
+              zipcode:"required",
+              country:"required",
+              state:"required"
+              
           },
           messages: {
-              name: "Enter name",
-              address:"Enter address",
-              zipcode:"Enter zipcode",
-              phoneNumber: {
+               phoneNumber: {
                   required: "Enter phone number",
                   remote: "Phone number already exists!"
               },
@@ -59,7 +59,9 @@ $(function () {
                   required: "Enter email Address",
                   remote: "Email Address already exists!"
               },
-             
+              name: "Enter name",
+              address:"Enter address",
+              zipcode:"Enter zipcode"
           },
           submitHandler: function() {
                $("#saveButton").attr('disabled', true);

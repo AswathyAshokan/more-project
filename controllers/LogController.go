@@ -7,6 +7,7 @@ import (
 	"app/passporte/helpers"
 	"log"
 	"strconv"
+	"bytes"
 )
 
 
@@ -32,27 +33,36 @@ func (c *LogController)LoadLogDetails() {
 
 		}
 		for _, key := range dataValue.MapKeys() {
-
+			var buffer bytes.Buffer
 			var tempValueSlice []string
 			tempValueSlice = append(tempValueSlice, logUserDetail[key.String()].UserName)
 			tempValueSlice = append(tempValueSlice, logUserDetail[key.String()].Type)
 			tempValueSlice = append(tempValueSlice, logUserDetail[key.String()].Duration)
 			logTimeNew := time.Unix(logUserDetail[key.String()].LogTime, 0)
 			tempValueSlice = append(tempValueSlice, logTimeNew.String())
+			taskId := logUserDetail[key.String()].TaskID
+			taskName,JobName := models.GetTaskDataById(c.AppEngineCtx, taskId)
+			tempTaskNames := ""
+			if len(JobName) != 0 {
+				buffer.WriteString(taskName)
+				buffer.WriteString("(")
+				buffer.WriteString(JobName)
+				buffer.WriteString(")")
+				tempTaskNames = buffer.String()
+				buffer.Reset()
+			} else {
+				buffer.WriteString(taskName)
+				tempTaskNames = buffer.String()
+				buffer.Reset()
+			}
+			//taskData := taskName+"("+JobName+")"
+			tempValueSlice = append(tempValueSlice,tempTaskNames)
 			latitudeInString :=strconv.FormatFloat(logUserDetail[key.String()].Latitude, 'f', 6, 64)
 			longitudeInString :=strconv.FormatFloat(logUserDetail[key.String()].Longitude, 'f', 6, 64)
 			tempValueSlice = append(tempValueSlice, latitudeInString)
 			tempValueSlice = append(tempValueSlice,longitudeInString)
 			logDate := time.Unix(logUserDetail[key.String()].LogTime, 0).Format("01/02/2006")
 			tempValueSlice = append(tempValueSlice,logDate)
-			taskId := logUserDetail[key.String()].TaskID
-			taskName,JobName := models.GetTaskDataById(c.AppEngineCtx, taskId)
-			log.Println("taskName",taskName)
-			log.Println("JobName",JobName)
-			taskData := taskName+"("+JobName+")"
-			log.Println("taskData",taskData)
-			//userId = logUserDetail[key.String()].UserID
-			tempValueSlice = append(tempValueSlice,taskData)
 			viewModel.Values = append(viewModel.Values, tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
 

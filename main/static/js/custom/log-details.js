@@ -42,7 +42,7 @@ $(function(){
         var startDate =0;
         var unixStartDate = 0;
         for (i =0;i<vm.Values.length;i++){
-            startDate = new Date(vm.Values[i][6]);
+            startDate = new Date(vm.Values[i][7]);
             unixStartDate = Date.parse(startDate)/1000;
            if( (unixFromDate <= unixStartDate && unixStartDate <= unixToDate) || (unixFromDate <= unixStartDate && unixStartDate <= unixToDate) || (unixFromDate >= startDate && unixStartDate >= unixToDate)) {
                
@@ -59,7 +59,7 @@ $(function(){
             "info": false,
             "lengthChange":false,
            "columnDefs": [{
-               "targets": [4],
+               "targets": [5],
                 render : function (data, type, row) {
                        return '<button class="btn btn-primary btn-xs " id = "btnShow">Show Map</button>';
                 }
@@ -142,8 +142,8 @@ $(function(){
             var between = actualloggedTime + " &nbspto&nbsp" +hours +    ":"    +minutes;
             vm.Values[i][2]= formatedDate;
             vm.Values[i][3] = hours +    ":"    +minutes;
-            lattitude = vm.Values[i][4];
-            longitude= vm.Values[i][5];
+            lattitude = vm.Values[i][5];
+            longitude= vm.Values[i][6];
             
         }
          createDataArray(vm.Values, vm.Keys);

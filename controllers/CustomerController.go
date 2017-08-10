@@ -180,10 +180,12 @@ func (c *CustomerController) EditCustomer() {
 	}
 }
 func (c *CustomerController)  CustomerNameCheck(){
+	log.Println("kkkkkk")
 	w := c.Ctx.ResponseWriter
 	customerName := c.GetString("customername")
 	pageType := c.Ctx.Input.Param(":type")
 	oldName := c.Ctx.Input.Param(":oldName")
+	log.Println("oldName",oldName)
 	if pageType == "edit" && strings.Compare(oldName, customerName) == 0 {
 		w.Write([]byte("true"))
 	} else {
