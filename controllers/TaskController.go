@@ -433,21 +433,21 @@ func (c *TaskController)LoadTaskDetail() {
 			keySlice = append(keySlice, key.String())
 		}
 		var taskUserSlice [][]viewmodels.TaskUsers
-		var userStatus string
+		//var userStatus string
 		for _, k := range keySlice {
 
 			if tasks[k].Settings.Status == helpers.StatusActive && tasks[k].Customer.CustomerStatus == helpers.StatusActive&& tasks[k].Job.JobStatus ==helpers.StatusActive{
-				userValue := reflect.ValueOf(tasks[k].UsersAndGroups.User)
-				for _, key := range userValue.MapKeys() {
-					if tasks[k].UsersAndGroups.User[key.String()].Status == helpers.StatusActive{
-						userStatus = "true"
-						break
-					}else{
-						userStatus="false"
-					}
-
-				}
-				if userStatus == "true"{
+				//userValue := reflect.ValueOf(tasks[k].UsersAndGroups.User)
+				//for _, key := range userValue.MapKeys() {
+				//	if tasks[k].UsersAndGroups.User[key.String()].Status == helpers.StatusActive{
+				//		userStatus = "true"
+				//		break
+				//	}else{
+				//		userStatus="false"
+				//	}
+				//
+				//}
+				//if userStatus == "true"{
 					taskKey = append(taskKey, k)
 					var tempValueSlice []string
 					var minUserArray []string
@@ -608,7 +608,7 @@ func (c *TaskController)LoadTaskDetail() {
 					}
 
 					log.Println("gggg",taskExposureSlice)
-				}
+				//}
 
 				viewModel.ExposureArray =taskExposureSlice
 				log.Println("exposure",taskExposureSlice)
