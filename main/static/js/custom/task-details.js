@@ -115,6 +115,7 @@ $(function(){
     
     //function for place  data to datatable
     function dataTableManipulate(dataArray){
+        console.log("inside data manipulatae");
         table =  $("#task-details").DataTable({
             data: dataArray,
             "paging": true,
@@ -141,7 +142,38 @@ $(function(){
 
         //function to show expanded row
         $('.table-wrapper .dataTables_filter').prepend(jobDropdown).prepend(customerDropdown).append(addItem);
-        $('#task-details tbody').on('click', 'td.details-control', function () {
+       
+        //......................................................
+        customerArray = vm.UniqueCustomerNames;
+        var newcustomerArray = new Array();
+        for (var i = 0; i < customerArray.length; i++) {
+            if (customerArray[i]) {
+                newcustomerArray.push(customerArray[i]);
+            }
+        }
+        for(i = 0; i < newcustomerArray.length; i++){
+            $("#customerDropdown").append("<option>"+newcustomerArray[i]+"</option>");
+        }
+        var jobArray = vm.UniqueJobNames;
+        
+        var newjobArray = new Array();
+        for (var i = 0; i < jobArray.length; i++) {
+            if (jobArray[i]) {
+                newjobArray.push(jobArray[i]);
+            }
+        }
+        
+        for(i = 0; i < newjobArray.length; i++){
+            $("#jobDropdown").append("<option>"+newjobArray[i]+"</option>");
+        }
+            
+        
+        
+    }
+    
+    
+     $('#task-details tbody').on('click', 'td.details-control', function () {
+         console.log("row expansion");
             var tr = $(this).closest('tr');
             var row = table.row( tr );
             if ( row.child.isShown() ) {
@@ -231,33 +263,6 @@ $(function(){
             
             return result+minUser+exposure;
         }
-        //......................................................
-        customerArray = vm.UniqueCustomerNames;
-        var newcustomerArray = new Array();
-        for (var i = 0; i < customerArray.length; i++) {
-            if (customerArray[i]) {
-                newcustomerArray.push(customerArray[i]);
-            }
-        }
-        for(i = 0; i < newcustomerArray.length; i++){
-            $("#customerDropdown").append("<option>"+newcustomerArray[i]+"</option>");
-        }
-        var jobArray = vm.UniqueJobNames;
-        
-        var newjobArray = new Array();
-        for (var i = 0; i < jobArray.length; i++) {
-            if (jobArray[i]) {
-                newjobArray.push(jobArray[i]);
-            }
-        }
-        
-        for(i = 0; i < newjobArray.length; i++){
-            $("#jobDropdown").append("<option>"+newjobArray[i]+"</option>");
-        }
-            
-        
-        
-    }
     //..................data table calling.......................
     if(vm.Values != null) {
         createDataArray(vm.Values, vm.Keys);

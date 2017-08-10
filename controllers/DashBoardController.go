@@ -56,6 +56,7 @@ func (c *DashBoardController)LoadDashBoard() {
 					var userKeySlice []string
 					pending :=0
 					completed :=0
+						log.Println("hhhhhh",taskDetail.Info.TaskName)
 					dataValue := reflect.ValueOf(taskDetail.UsersAndGroups.User)
 					for _, key := range dataValue.MapKeys() {
 						userKeySlice = append(userKeySlice, key.String())
@@ -65,18 +66,18 @@ func (c *DashBoardController)LoadDashBoard() {
 						userStatus = append(userStatus,taskDetail.UsersAndGroups.User[k].UserTaskStatus)
 					}
 					log.Println(userStatus)
-					for i:=0;i<len(userStatus);i++{
+					for i:=0;i<len(userStatus);i++ {
 
+						if userStatus[i] == "Pending"|| userStatus[i] =="Open"{
 
-						if userStatus[i] == "Pending" {
-
-							totalUserStatus ="Pending"
+							totalUserStatus = "Pending"
 							break
-						}else{
-							totalUserStatus ="Completed"
+						} else {
+							totalUserStatus = "Completed"
 						}
 
 					}
+						log.Println("total status",totalUserStatus)
 					for i:=0;i<len(userStatus);i++{
 
 

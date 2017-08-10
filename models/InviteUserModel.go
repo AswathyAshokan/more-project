@@ -557,7 +557,7 @@ func RemoveUsersFromTaskForDelete(ctx context.Context,companyTeamName  string,In
 				updateTask.EndDate = eachTaskInUser.EndDate
 				updateTask.JobName = eachTaskInUser.JobName
 				updateTask.StartDate = eachTaskInUser.StartDate
-				updateTask.Status = helpers.UserStatusDeleted
+				updateTask.Status = helpers.StatusInActive
 				updateTask.TaskName = eachTaskInUser.TaskName
 				err = db.Child("Users/" + k + "/Tasks/" + specificTaskKey).Update(&updateTask)
 				if err != nil {
