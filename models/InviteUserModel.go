@@ -76,7 +76,6 @@ func(m *EmailInvitation) CheckEmailIdInDb(ctx context.Context,companyID string)b
 			Condition = "false"
 		}
 	}
-	log.Println("condition",Condition)
 	if Condition =="true"{
 		return false
 	} else{
@@ -88,7 +87,6 @@ func(m *EmailInvitation) CheckEmailIdInDb(ctx context.Context,companyID string)b
 
 
 func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string,adminName string)bool {
-	log.Println("iam in modelmof invite user.......")
 	userDetails := map[string]Users{}
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
@@ -198,13 +196,11 @@ func(m *Invitation) CheckJobIsAssigned(ctx context.Context, InviteUserId string,
 	var taskKeySlice []string
 	db, err := GetFirebaseClient(ctx, "")
 	if err != nil {
-		log.Println("s4")
 		log.Fatal(err)
 		//return false
 	}
 	err = db.Child("Company").Value(&companyData)
 	if err != nil {
-		log.Println("s1")
 		//return false
 	}
 	dataValue := reflect.ValueOf(companyData)
@@ -214,7 +210,6 @@ func(m *Invitation) CheckJobIsAssigned(ctx context.Context, InviteUserId string,
 	for _, key := range keySlice {
 		err = db.Child("Company/" + key + "/Invitation/" + InviteUserId).Value(&invitationData)
 		if err != nil {
-			log.Println("s2")
 			//return false
 		}
 	}
@@ -227,7 +222,6 @@ func(m *Invitation) CheckJobIsAssigned(ctx context.Context, InviteUserId string,
 		err = db.Child("Users/" + taskKey + "/Tasks").Value(&TaskMap)
 	}
 	if len(TaskMap) == 0 {
-		log.Println("cppp22")
 		//return true
 
 	}
@@ -329,7 +323,6 @@ func (m *Invitation)IsEmailIdUnique(ctx context.Context,emailIdCheck string)(boo
 		log.Println("No Db Connection!")
 	}
 	if err :=  dB.Child("Invitation").OrderBy("Info/Email").EqualTo(emailIdCheck).Value(&invitationDetails); err != nil {
-		log.Println("cp1")
 		log.Fatal(err)
 	}
 	if len(invitationDetails)==0{
@@ -365,13 +358,10 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 	}
 	err = db.Child("Company/"+companyTeamName+"/Invitation/"+InviteUserId).Value(&value)
 	if err != nil {
-		log.Println("danger zone",value)
 		log.Fatal(err)
 		return false
 	}
-	log.Println("value",value)
 	err = db.Child("Users").OrderBy("Info/Email").EqualTo(value.Email).Value(&userMap)
-	log.Println("userMap",userMap)
 	/*if err != nil {
 		log.Fatal(err)
 		return false
@@ -403,8 +393,6 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 				groupMembersDataValue := reflect.ValueOf(groupDetails)
 				for _, groupMembersKey := range groupMembersDataValue.MapKeys() {
 					tempGroupKeys = append(tempGroupKeys,groupMembersKey.String())
-					log.Println("eachkey",eachGroupKey)
-					log.Println("groupMembersKey.String()",groupMembersKey.String())
 					if k == groupMembersKey.String(){
 						err = db.Child("/Group/"+ eachGroupKey+"/Members/"+groupMembersKey.String()).Value(&groupMembersDetails)
 						if err != nil {
@@ -415,7 +403,6 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 				}
 				for i:=0;i<len(tempGroupKeys);i++{
 					if k == tempGroupKeys[i]{
-						log.Println("iam here again and again",tempGroupKeys[i])
 						updateMemberDetails.Status = helpers.UserStatusDeleted
 						updateMemberDetails.MemberName = groupMembersDetails.MemberName
 						err = db.Child("/Group/"+ eachGroupKey+"/Members/"+tempGroupKeys[i]).Update(&updateMemberDetails)
@@ -467,7 +454,6 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 		updateInvitation.Status= helpers.UserStatusDeleted
 		updateInvitation.UserResponse = helpers.UserStatusDeleted
 		updateInvitation.UserType = invitationData.UserType
-		log.Println("delete",updateInvitation)
 		err = db.Child("Company/"+companyTeamName+"/Invitation/"+InviteUserId).Update(&updateInvitation)
 		if err != nil {
 			log.Fatal(err)
@@ -546,7 +532,6 @@ func RemoveUsersFromTaskForDelete(ctx context.Context,companyTeamName  string,In
 			if taskInUsersMap[specificTaskKey].CompanyId == companyTeamName {
 
 				err = db.Child("Users/" + k + "/Tasks/" + specificTaskKey).Value(&eachTaskInUser)
-				log.Println("tasks ", eachTaskInUser)
 				if err != nil {
 					log.Fatal(err)
 					return false
@@ -586,7 +571,6 @@ func RemoveUsersFromTaskForDelete(ctx context.Context,companyTeamName  string,In
 }
 
 func CheckStatusInInvitationOfCompany(ctx context.Context,InviteUserId string, companyTeamName string)(bool) {
-	log.Println("id",InviteUserId)
 	value :=CompanyInvitations{}
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
@@ -596,7 +580,6 @@ func CheckStatusInInvitationOfCompany(ctx context.Context,InviteUserId string, c
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("value",value.UserResponse)
 	if value.UserResponse == helpers.UserResponsePending || value.UserResponse == helpers.UserResponseRejected{
 		return false
 	} else  {
