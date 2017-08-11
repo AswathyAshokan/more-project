@@ -8,6 +8,7 @@ import (
 	"app/passporte/helpers"
 	"reflect"
 
+	//"github.com/kjk/betterguid"
 	"github.com/kjk/betterguid"
 )
 
@@ -276,14 +277,8 @@ func (m *Customers) DeleteCustomerFromDB(ctx context.Context, customerId string,
 					if err!=nil{
 						log.Println("Deletion error:",err)
 					}
-				}
-
-
-
-				userDataDetails := reflect.ValueOf(taskDetailForUser.UsersAndGroups.User)
-				notifyDeleteId := betterguid.New()
-				for _, key := range userDataDetails.MapKeys() {
 					log.Println("inside  notificationnnnn")
+					notifyDeleteId := betterguid.New()
 					userNotificationDetail :=UserNotification{}
 					userNotificationDetail.Date =taskDetailForUser.Settings.DateOfCreation
 					userNotificationDetail.IsRead =false
@@ -298,8 +293,32 @@ func (m *Customers) DeleteCustomerFromDB(ctx context.Context, customerId string,
 						return false
 					}
 
-
 				}
+				//userDataDetails := reflect.ValueOf(taskDetailForUser.UsersAndGroups.User)
+				//notifyDeleteId := betterguid.New()
+				//for _, key := range userDataDetails.MapKeys() {
+				//
+				//
+				//	log.Println("inside  notificationnnnn")
+				//	userNotificationDetail :=UserNotification{}
+				//	userNotificationDetail.Date =taskDetailForUser.Settings.DateOfCreation
+				//	userNotificationDetail.IsRead =false
+				//	userNotificationDetail.IsViewed =false
+				//	userNotificationDetail.TaskId =taskKey.String()
+				//	userNotificationDetail.TaskName =taskDetailForUser.Info.TaskName
+				//	userNotificationDetail.Category ="Tasks"
+				//	userNotificationDetail.Status ="Deleted"
+				//	err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+notifyDeleteId).Set(userNotificationDetail)
+				//	if err!=nil{
+				//		log.Println("Insertion error:",err)
+				//		return false
+				//	}
+				//
+				//
+				//}
+
+
+
 
 				//delete from contact task
 				contactDetail := map[string]ContactUser{}
