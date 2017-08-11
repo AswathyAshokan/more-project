@@ -297,6 +297,7 @@ func (c *TaskController)AddNewTask() {
 
 
 			allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx,companyTeamName)
+			log.Println("get all groups",allGroups)
 			switch dbStatus {
 			case true:
 				dataValue := reflect.ValueOf(allGroups)
@@ -306,6 +307,7 @@ func (c *TaskController)AddNewTask() {
 
 						keySliceForGroupAndUser = append(keySliceForGroupAndUser, key.String())
 						viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[key.String()].Info.GroupName+" (Group)")
+						log.Println("activeeeeeeeeee",viewModel.GroupNameArray)
 
 						// For selecting members while selecting a group in dropdown
 						memberSlice = append(memberSlice, key.String())
@@ -766,6 +768,7 @@ func (c *TaskController)LoadEditTask() {
 				tempName = tempName[:len(tempName) - 7]
 				userName.FullName = tempName
 				userName.Status = helpers.StatusActive
+				userName.UserTaskStatus =helpers.StatusPending
 
 				userMap[tempId] = userName
 			}
@@ -1059,17 +1062,23 @@ func (c *TaskController)LoadEditTask() {
 						case true:
 							dataValue := reflect.ValueOf(groupDetails.UsersAndGroups.User)
 							for _, key := range dataValue.MapKeys() {
-								viewModel.GroupMembersAndUserToEdit = append(viewModel.GroupMembersAndUserToEdit,  key.String())
-								viewModel.UsersToEdit= append(viewModel.UsersToEdit,key.String())
+								if groupDetails.UsersAndGroups.User[key.String()].Status ==helpers.StatusActive{
+									viewModel.GroupMembersAndUserToEdit = append(viewModel.GroupMembersAndUserToEdit,  key.String())
+									viewModel.UsersToEdit= append(viewModel.UsersToEdit,key.String())
+								}
+
 							}
 							groupValue :=reflect.ValueOf(groupDetails.UsersAndGroups.Group)
 							for _, key := range groupValue.MapKeys() {
 								//viewModel.GroupMembersAndUserToEdit = append(viewModel.GroupMembersAndUserToEdit,  key.String())
-								groupMemberDetail,_ := groupMember.GetGroupDetailsById(c.AppEngineCtx, key.String())
-								groupMemberValue :=reflect.ValueOf(groupMemberDetail.Members)
-								for _, key := range groupMemberValue.MapKeys() {
-									viewModel.GroupsToEdit = append(viewModel.GroupsToEdit, key.String())
+								if groupDetails.UsersAndGroups.Group[key.String()].GroupStatus == helpers.StatusActive{
+									groupMemberDetail,_ := groupMember.GetGroupDetailsById(c.AppEngineCtx, key.String())
+									groupMemberValue :=reflect.ValueOf(groupMemberDetail.Members)
+									for _, key := range groupMemberValue.MapKeys() {
+										viewModel.GroupsToEdit = append(viewModel.GroupsToEdit, key.String())
+									}
 								}
+
 							}
 						case false:
 							log.Println(helpers.ServerConnectionError)

@@ -10,6 +10,7 @@ import (
 
 	//"github.com/kjk/betterguid"
 	"github.com/kjk/betterguid"
+	"time"
 )
 
 type Customers struct {
@@ -280,7 +281,7 @@ func (m *Customers) DeleteCustomerFromDB(ctx context.Context, customerId string,
 					log.Println("inside  notificationnnnn")
 					notifyDeleteId := betterguid.New()
 					userNotificationDetail :=UserNotification{}
-					userNotificationDetail.Date =taskDetailForUser.Settings.DateOfCreation
+					userNotificationDetail.Date =time.Now().Unix()
 					userNotificationDetail.IsRead =false
 					userNotificationDetail.IsViewed =false
 					userNotificationDetail.TaskId =taskKey.String()

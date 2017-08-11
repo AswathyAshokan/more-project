@@ -442,7 +442,7 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 	for _, key := range userDataDetails.MapKeys() {
 		log.Println("inside  notificationnnnn")
 		userNotificationDetail :=UserNotification{}
-		userNotificationDetail.Date =taskDetailForUser.Settings.DateOfCreation
+		userNotificationDetail.Date =time.Now().Unix()
 		userNotificationDetail.IsRead =false
 		userNotificationDetail.IsViewed =false
 		userNotificationDetail.TaskId =taskId
@@ -564,7 +564,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 			if tempUserKeySlice[i]==key.String() {
 				userName.UserTaskStatus =taskValues.UsersAndGroups.User[key.String()].UserTaskStatus
 				userName.FullName = taskValues.UsersAndGroups.User[key.String()].FullName
-				userName.Status =taskValues.UsersAndGroups.User[key.String()].Status
+				userName.Status =helpers.StatusActive
 				m.UsersAndGroups.User[key.String()] =userName
 			}
 		}
@@ -629,7 +629,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	for _, key := range userDataDetails.MapKeys() {
 		log.Println("inside  notificationnnnn")
 		userNotificationDetail :=UserNotification{}
-		userNotificationDetail.Date =taskValues.Settings.DateOfCreation
+		userNotificationDetail.Date =time.Now().Unix()
 		userNotificationDetail.IsRead =false
 		userNotificationDetail.IsViewed =false
 		userNotificationDetail.TaskId =taskId
