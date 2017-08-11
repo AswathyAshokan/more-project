@@ -102,8 +102,9 @@ $(function(){
     if(vm.Values != null) {
         for( i=0;i<vm.Values.length;i++){
             var utcTime = vm.Values[i][3];
-            var xxx = parseInt(utcTime)
-            var d = new Date(xxx * 1000);
+            //var datum = Date.parse(dateTime);
+            var dateFromDb = parseInt(utcTime)
+            var d = new Date(dateFromDb * 1000);
             var dd = d.getDate();
             var mm = d.getMonth() + 1; //January is 0!
             var yyyy = d.getFullYear();
@@ -125,18 +126,14 @@ $(function(){
             if (sec < 10) {
                 sec = '0' + sec;
             }
-            console.log (mm + '/' + dd + '/' + yyyy + ' ' + HH + ':' + min + ':' + sec);
-            var utcInDateForm = new Date(xxx);
-             console.log("utcInDateForm",utcInDateForm);
-            var datum = Date.parse(utcInDateForm);
-            console.log("datum",datum);
+            /*var utcInDateForm = new Date(dateFromDb);
+            var datum = Date.parse(utcInDateForm);*/
             var localTime = (HH + ':' + min);
             var localDate = (mm + '/' + dd + '/' + yyyy);
-            console.log("localDate",localDate)
             //var d = localDate.slice(0, 10).split('/');
             //var formatedDate = d[1] +'/'+ d[0] +'/'+ d[2];
            // console.log("formatedDate",formatedDate);
-            var timeSplitArray = localTime.split(":");
+            /*var timeSplitArray = localTime.split(":");
             var hours = timeSplitArray[0];
             var minutes = timeSplitArray[1];
             var duration = vm.Values[i][2];
@@ -150,7 +147,7 @@ $(function(){
                 var loggedMins = loggedTime%60;
             }
             var actualloggedTime =loggedHours +   ":" +loggedMins
-            var between = actualloggedTime + " &nbspto&nbsp" +hours +    ":"    +minutes;
+            var between = actualloggedTime + " &nbspto&nbsp" +hours +    ":"    +minutes;*/
             vm.Values[i][2]= localDate;
             vm.Values[i][3] = localTime;
             lattitude = vm.Values[i][5];

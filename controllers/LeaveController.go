@@ -2,7 +2,6 @@ package controllers
 import (
 	"app/passporte/models"
 	"reflect"
-	"time"
 	"strconv"
 	"app/passporte/helpers"
 	"app/passporte/viewmodels"
@@ -97,10 +96,12 @@ func (c *LeaveController) LoadUserLeave() {
 						break
 					}
 				}
-				startDate := time.Unix(leaveDetailOfUser[key.String()].Info.StartDate, 0)
-				tempValueSlice = append(tempValueSlice, startDate.String())
-				endDate := time.Unix(leaveDetailOfUser[key.String()].Info.EndDate, 0)
-				tempValueSlice = append(tempValueSlice, endDate.String())
+				startDate :=strconv.FormatInt(int64(leaveDetailOfUser[key.String()].Info.StartDate), 10)
+				//startDate := time.Unix(leaveDetailOfUser[key.String()].Info.StartDate, 0)
+				tempValueSlice = append(tempValueSlice, startDate)
+				endDate :=strconv.FormatInt(int64(leaveDetailOfUser[key.String()].Info.EndDate), 10)
+				//endDate := time.Unix(leaveDetailOfUser[key.String()].Info.EndDate, 0)
+				tempValueSlice = append(tempValueSlice, endDate)
 				numberOfDays := strconv.FormatInt(leaveDetailOfUser[key.String()].Info.NumberOfDays, 10)
 				tempValueSlice = append(tempValueSlice, numberOfDays)
 				tempValueSlice = append(tempValueSlice, leaveDetailOfUser[key.String()].Info.Reason)

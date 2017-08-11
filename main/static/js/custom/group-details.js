@@ -1,4 +1,4 @@
-/*Created By Farsana*/
+
 
 //Below line is for adding active class to layout side menu..
 document.getElementById("group").className += " active";

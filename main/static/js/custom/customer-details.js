@@ -1,4 +1,4 @@
-/*Created By Farsana*/
+
 //Below line is for adding active class to layout side menu..
 console.log("js",vm.CompanyTeamName);
 document.getElementById("crm").className += " active";

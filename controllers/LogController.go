@@ -2,7 +2,6 @@ package controllers
 import (
 	"app/passporte/models"
 	"app/passporte/viewmodels"
-	"time"
 	"reflect"
 	"app/passporte/helpers"
 	"log"
@@ -40,7 +39,6 @@ func (c *LogController)LoadLogDetails() {
 			tempValueSlice = append(tempValueSlice, logUserDetail[key.String()].Duration)
 			logTimeNew :=strconv.FormatInt(int64(logUserDetail[key.String()].LogTime), 10)
 			tempValueSlice = append(tempValueSlice, logTimeNew)
-			log.Println("tempValueSlice",tempValueSlice)
 			taskId := logUserDetail[key.String()].TaskID
 			taskName,JobName := models.GetTaskDataById(c.AppEngineCtx, taskId)
 			tempTaskNames := ""
@@ -62,8 +60,8 @@ func (c *LogController)LoadLogDetails() {
 			longitudeInString :=strconv.FormatFloat(logUserDetail[key.String()].Longitude, 'f', 6, 64)
 			tempValueSlice = append(tempValueSlice, latitudeInString)
 			tempValueSlice = append(tempValueSlice,longitudeInString)
-			logDate := time.Unix(logUserDetail[key.String()].LogTime, 0).Format("01/02/2006")
-			tempValueSlice = append(tempValueSlice,logDate)
+			/*logDate := time.Unix(logUserDetail[key.String()].LogTime, 0).Format("01/02/2006")
+			tempValueSlice = append(tempValueSlice,logDate)*/
 			viewModel.Values = append(viewModel.Values, tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
 

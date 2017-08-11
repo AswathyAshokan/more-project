@@ -80,19 +80,56 @@ $(function(){
     if(vm.Values != null) {
         for(i = 0;i<vm.Values.length;i++){
             var startUtcDate = vm.Values[i][1];
-            var startUtcInDateForm = new Date(startUtcDate);
+            var dateFromDb = parseInt(startUtcDate)
+            var d = new Date(dateFromDb * 1000);
+            var dd = d.getDate();
+            var mm = d.getMonth() + 1; //January is 0!
+            var yyyy = d.getFullYear();
+            /*var HH = d.getHours();
+            var min = d.getMinutes();
+            var sec = d.getSeconds();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            if (HH < 10) {
+                HH = '0' + HH;
+            }
+            if (min < 10) {
+                min = '0' + min;
+            }
+            if (sec < 10) {
+                sec = '0' + sec;
+            }*/
+            /*var utcInDateForm = new Date(dateFromDb);
+            var datum = Date.parse(utcInDateForm);
+            var localTime = (HH + ':' + min);*/
+            var localStartDate = (mm + '/' + dd + '/' + yyyy);
+            
+            /* var startUtcInDateForm = new Date(startUtcDate);
             var startLocalDate = (startUtcInDateForm.toLocaleDateString());
             var startDate = startLocalDate.slice(0, 10).split('/');
-            var formatedStartDate = startDate[1] +'/'+ startDate[0] +'/'+startDate[2];
+            var formatedStartDate = startDate[1] +'/'+ startDate[0] +'/'+startDate[2];*/
 
             var endUtcDate = vm.Values[i][2];
-            var endUtcInDateForm = new Date(endUtcDate);
+            console.log("enddate",vm.Values[i][2])
+            var endDateFromDb = parseInt(endUtcDate)
+            var endD = new Date(endDateFromDb * 1000);
+            var endDD = endD.getDate();
+            var endMM = endD.getMonth() + 1; //January is 0!
+            var endyyyy = endD.getFullYear();
+             var localEndDate = (endMM + '/' + endDD + '/' + endyyyy);
+            console.log("localEndDate",localEndDate)
+            
+            /*var endUtcInDateForm = new Date(endUtcDate);
             var endLocalDate = (endUtcInDateForm.toLocaleDateString());
             var d = endLocalDate.slice(0, 10).split('/');
-            var formatedEndDate = d[1] +'/'+ d[0] +'/'+ d[2];
+            var formatedEndDate = d[1] +'/'+ d[0] +'/'+ d[2];*/
 
-            vm.Values[i][1] = formatedStartDate;
-            vm.Values[i][2] = formatedEndDate;
+            vm.Values[i][1] = localStartDate;
+            vm.Values[i][2] = localEndDate;
         }
         createDataArray(vm.Values, vm.Keys);
     }
@@ -165,8 +202,7 @@ $(function(){
 
             });
     });
-
-
+    
     $('#fromDate').change(function () {
         selectFromDate = $('#fromDate').val();
         var fromYear = selectFromDate.substring(6, 10);
