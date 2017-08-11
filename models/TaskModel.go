@@ -432,6 +432,8 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 				updatedInfo.JobNumber = jobForTask[key.String()].Info.JobNumber
 				updatedInfo.NumberOfTask = NumberOfTask
 				updatedInfo.CompanyTeamName = companyId
+				updatedInfo.OrderDate =jobForTask[key.String()].Info.OrderDate
+				updatedInfo.OrderNumber =jobForTask[key.String()].Info.OrderNumber
 				err = dB.Child("/Jobs/"+ key.String()+"/Info").Update(&updatedInfo)
 			}
 
