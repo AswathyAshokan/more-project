@@ -86,6 +86,7 @@ type UserNotification struct {
 	IsRead		bool
 	IsViewed	bool
 	Category	string
+	Status		string
 }
 type UserInvitations struct {
 	Date		int64

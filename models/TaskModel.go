@@ -9,6 +9,8 @@ import (
 	"app/passporte/helpers"
 	"time"
 	"github.com/kjk/betterguid"
+	"math/rand"
+
 
 )
 
@@ -145,6 +147,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 
 	//setting notification  task in user
 	userDataDetails := reflect.ValueOf(m.UsersAndGroups.User)
+	notifyId := betterguid.New()
 	for _, key := range userDataDetails.MapKeys() {
 		log.Println("inside  notificationnnnn")
 		userNotificationDetail :=UserNotification{}
@@ -154,7 +157,8 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 		userNotificationDetail.TaskId =taskUniqueID
 		userNotificationDetail.TaskName =m.Info.TaskName
 		userNotificationDetail.Category ="Tasks"
-		err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+taskUniqueID).Set(userNotificationDetail)
+		userNotificationDetail.Status ="New"
+		err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+notifyId).Set(userNotificationDetail)
 		if err!=nil{
 			log.Println("Insertion error:",err)
 			return false
@@ -417,6 +421,43 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 		}
 	}
 
+
+	//updated on user task notification
+	notifyDeleteId := betterguid.New()
+	var r *rand.Rand
+	r = rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	const chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+	result := make([]byte, 1)
+	for i := range result {
+		result[i] = chars[r.Intn(len(chars))]
+	}
+	generatedString :=string(result)
+	log.Println("genertedstring",generatedString)
+	newGeneratedKey:=notifyDeleteId[0:len(notifyDeleteId)-1]+generatedString
+	log.Println("newly gener",newGeneratedKey)
+	userDataDetails := reflect.ValueOf(taskDetailForUser.UsersAndGroups.User)
+
+	log.Println("iddddddddddd",notifyDeleteId)
+	for _, key := range userDataDetails.MapKeys() {
+		log.Println("inside  notificationnnnn")
+		userNotificationDetail :=UserNotification{}
+		userNotificationDetail.Date =taskDetailForUser.Settings.DateOfCreation
+		userNotificationDetail.IsRead =false
+		userNotificationDetail.IsViewed =false
+		userNotificationDetail.TaskId =taskId
+		userNotificationDetail.TaskName =taskDetailForUser.Info.TaskName
+		userNotificationDetail.Category ="Tasks"
+		userNotificationDetail.Status ="Deleted"
+		err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+		if err!=nil{
+			log.Println("Insertion error:",err)
+			return false
+		}
+
+
+	}
+
 	//function to decrement the number of task  when deleting job
 	jobForTask :=map[string]Job{}
 	updatedInfo :=JobInfo{}
@@ -563,6 +604,45 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	if err!=nil{
 		log.Println("updation error:",err)
 		return false
+	}
+
+	//updated task notification
+	//updated on user task notification
+
+
+	userDataDetails := reflect.ValueOf(m.UsersAndGroups.User)
+	notifyUpdatedId := betterguid.New()
+	log.Println("idddddddddddd",notifyUpdatedId)
+	var r *rand.Rand
+	r = rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	const chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+	result := make([]byte, 2)
+	for i := range result {
+		result[i] = chars[r.Intn(len(chars))]
+	}
+	generatedString :=string(result)
+	log.Println("genertedstring",generatedString)
+	newGeneratedKey:=notifyUpdatedId[0:len(notifyUpdatedId)-2]+generatedString
+	log.Println("newly gener",newGeneratedKey)
+
+	for _, key := range userDataDetails.MapKeys() {
+		log.Println("inside  notificationnnnn")
+		userNotificationDetail :=UserNotification{}
+		userNotificationDetail.Date =taskValues.Settings.DateOfCreation
+		userNotificationDetail.IsRead =false
+		userNotificationDetail.IsViewed =false
+		userNotificationDetail.TaskId =taskId
+		userNotificationDetail.TaskName =m.Info.TaskName
+		userNotificationDetail.Category ="Tasks"
+		userNotificationDetail.Status ="Updated"
+		err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+		if err!=nil{
+			log.Println("Insertion error:",err)
+			return false
+		}
+
+
 	}
 
 

@@ -9,6 +9,7 @@ import (
 
 	"app/passporte/helpers"
 	"strconv"
+	"github.com/kjk/betterguid"
 )
 type Invitation struct {
  	Email map[string]EmailInvitation
@@ -154,6 +155,8 @@ func GetAllInviteUsersDetails(ctx context.Context,companyId string) (map[string]
 		log.Fatal(err)
 		return value,limitValue.LimitedUsers,false
 	}
+	//err =db.Child("/WorkLog/").Remove()
+
 	return value,limitValue.LimitedUsers,true
 }
 
@@ -550,6 +553,31 @@ func RemoveUsersFromTaskForDelete(ctx context.Context,companyTeamName  string,In
 					return false
 				}
 			}
+			//delete task notification
+				log.Println("inside  notificationnnnn")
+				notifyDeleteId := betterguid.New()
+				log.Println("id",notifyDeleteId)
+				userNotificationDetail :=UserNotification{}
+				userNotificationDetail.Date =eachTaskInUser.DateOfCreation
+				userNotificationDetail.IsRead =false
+				userNotificationDetail.IsViewed =false
+				userNotificationDetail.TaskId =specificTaskKey
+				userNotificationDetail.TaskName =eachTaskInUser.TaskName
+				userNotificationDetail.Category ="Tasks"
+				userNotificationDetail.Status ="Deleted"
+				err = db.Child("/Users/"+k+"/Settings/Notifications/Tasks/"+notifyDeleteId).Set(userNotificationDetail)
+				if err!=nil{
+					log.Println("Insertion error:",err)
+					return false
+				}
+
+
+
+
+
+
+
+
 			err = db.Child("Tasks/"+specificTaskKey+"/UsersAndGroups/User/"+k).Value(&usersInTask)
 			if err != nil {
 				log.Fatal(err)
