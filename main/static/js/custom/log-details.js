@@ -69,23 +69,7 @@ $(function(){
         
     }
     
-    
-    
-   /* var logDates =[];
-    for (i=0;i<vm.GeneralLogin.length;i++){
-        logDates.push(new Date(vm.GeneralLogin[i]));
-    }
-    var maxDate=new Date(Math.max.apply(null,logDates));
-    var minDate=new Date(Math.min.apply(null,logDates));
-    var MaxlocalTime = (maxDate.toLocaleTimeString());
-    var MaxlocalDate = (maxDate.toLocaleDateString());
-    console.log("MaxlocalTime",MaxlocalTime);
-    console.log("MaxlocalDate",MaxlocalDate);*/
-    
-    
-    
-    
-   $("#activitylog").click(function(){
+    $("#activitylog").click(function(){
       // alert("The paragraph was clicked.");
        completeTable = mainArray;
         $('#log-details').dataTable().fnDestroy();
@@ -118,13 +102,40 @@ $(function(){
     if(vm.Values != null) {
         for( i=0;i<vm.Values.length;i++){
             var utcTime = vm.Values[i][3];
-            var utcInDateForm = new Date(utcTime);
-            console.log("utcInDateForm",utcInDateForm);
-            var localTime = (utcInDateForm.toLocaleTimeString());
-            var localDate = (utcInDateForm.toLocaleDateString());
-            var d = localDate.slice(0, 10).split('/');
-            var formatedDate = d[1] +'/'+ d[0] +'/'+ d[2];
-            
+            var xxx = parseInt(utcTime)
+            var d = new Date(xxx * 1000);
+            var dd = d.getDate();
+            var mm = d.getMonth() + 1; //January is 0!
+            var yyyy = d.getFullYear();
+            var HH = d.getHours();
+            var min = d.getMinutes();
+            var sec = d.getSeconds();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            if (HH < 10) {
+                HH = '0' + HH;
+            }
+            if (min < 10) {
+                min = '0' + min;
+            }
+            if (sec < 10) {
+                sec = '0' + sec;
+            }
+            console.log (mm + '/' + dd + '/' + yyyy + ' ' + HH + ':' + min + ':' + sec);
+            var utcInDateForm = new Date(xxx);
+             console.log("utcInDateForm",utcInDateForm);
+            var datum = Date.parse(utcInDateForm);
+            console.log("datum",datum);
+            var localTime = (HH + ':' + min);
+            var localDate = (mm + '/' + dd + '/' + yyyy);
+            console.log("localDate",localDate)
+            //var d = localDate.slice(0, 10).split('/');
+            //var formatedDate = d[1] +'/'+ d[0] +'/'+ d[2];
+           // console.log("formatedDate",formatedDate);
             var timeSplitArray = localTime.split(":");
             var hours = timeSplitArray[0];
             var minutes = timeSplitArray[1];
@@ -140,8 +151,8 @@ $(function(){
             }
             var actualloggedTime =loggedHours +   ":" +loggedMins
             var between = actualloggedTime + " &nbspto&nbsp" +hours +    ":"    +minutes;
-            vm.Values[i][2]= formatedDate;
-            vm.Values[i][3] = hours +    ":"    +minutes;
+            vm.Values[i][2]= localDate;
+            vm.Values[i][3] = localTime;
             lattitude = vm.Values[i][5];
             longitude= vm.Values[i][6];
             

@@ -8,6 +8,7 @@ import (
 )
 
 type WorkLog struct {
+
 	Duration 	string
 	Latitude	float64
 	LogDescription	string
@@ -20,6 +21,13 @@ type WorkLog struct {
 
 }
 type GeneralLog struct {
+	LastLogin               LastLoginInfo
+	LastLogout 		LastLogoutInfo
+	LoginLogs               PreviousLoginInfo
+	LogoutLogs		PreviousLogOutInfo
+
+}
+type LastLoginInfo struct {
 	LogDescription 		string
 	Latitude		float64
 	LogTime 		int64
@@ -27,7 +35,39 @@ type GeneralLog struct {
 	Type 			string
 	UserID			string
 	UserName  		string
+
 }
+type LastLogoutInfo struct {
+	LogDescription 		string
+	Latitude		float64
+	LogTime 		int64
+	Longitude		float64
+	Type 			string
+	UserID			string
+	UserName  		string
+
+}
+type PreviousLoginInfo struct {
+	LogDescription 		string
+	Latitude		float64
+	LogTime 		int64
+	Longitude		float64
+	Type 			string
+	UserID			string
+	UserName  		string
+
+}
+type PreviousLogOutInfo struct {
+	LogDescription 		string
+	Latitude		float64
+	LogTime 		int64
+	Longitude		float64
+	Type 			string
+	UserID			string
+	UserName  		string
+
+}
+
 func (m *WorkLog)GetLogDetailOfUser(ctx context.Context,companyTeamName string)(bool,map[string]WorkLog) {
 	workDetail := map[string]WorkLog{}
 	dB, err := GetFirebaseClient(ctx,"")
@@ -87,13 +127,13 @@ func GetTaskDataById(ctx context.Context,taskId string)(string,string) {
 
 
 
-func GetSpecificLogValues(ctx context.Context,userId string)(map[string]GeneralLog) {
+func GetSpecificLogValues(ctx context.Context,userId string)(GeneralLog) {
 	log.Println("id......",userId)
-	generalLogData :=map[string]GeneralLog{}
+	generalLogData :=GeneralLog{}
 	dB, err := GetFirebaseClient(ctx,"")
 	//contactStatus := "Active";
 	log.Println("model",userId)
-	err = dB.Child("/GeneralLog/"+userId).Value(&generalLogData)
+	err = dB.Child("/GeneralLog/"+userId+"/").Value(&generalLogData)
 	if err != nil {
 		log.Fatal(err)
 		return generalLogData

@@ -38,8 +38,9 @@ func (c *LogController)LoadLogDetails() {
 			tempValueSlice = append(tempValueSlice, logUserDetail[key.String()].UserName)
 			tempValueSlice = append(tempValueSlice, logUserDetail[key.String()].Type)
 			tempValueSlice = append(tempValueSlice, logUserDetail[key.String()].Duration)
-			logTimeNew := time.Unix(logUserDetail[key.String()].LogTime, 0)
-			tempValueSlice = append(tempValueSlice, logTimeNew.String())
+			logTimeNew :=strconv.FormatInt(int64(logUserDetail[key.String()].LogTime), 10)
+			tempValueSlice = append(tempValueSlice, logTimeNew)
+			log.Println("tempValueSlice",tempValueSlice)
 			taskId := logUserDetail[key.String()].TaskID
 			taskName,JobName := models.GetTaskDataById(c.AppEngineCtx, taskId)
 			tempTaskNames := ""
@@ -69,8 +70,9 @@ func (c *LogController)LoadLogDetails() {
 
 
 		}
-		/*var unixLoginTimeArray []string
-		var uniLogOutTimeArray []string
+		/*var tempGeneralLogSlice [][]string
+		var lastLoginArray []string
+		var lastLogoutArray []string
 		logStatus,generalLogData := models.GetGeneralLogDataByUserId(c.AppEngineCtx)
 		switch logStatus {
 		case true:
@@ -78,7 +80,10 @@ func (c *LogController)LoadLogDetails() {
 			dataValue := reflect.ValueOf(generalLogData)
 			for _, key := range dataValue.MapKeys() {
 				LogData := models.GetSpecificLogValues(c.AppEngineCtx,key.String())
-				logDataValue := reflect.ValueOf(LogData)
+				if LogData.LastLogin.
+				lastLattitude := strconv.FormatFloat(LogData..Latitude, 'f', 6, 64)
+
+				*//*logDataValue := reflect.ValueOf(LogData)
 				for _, logKey := range logDataValue.MapKeys() {
 					log.Println("logKey",logKey.String())
 					var generalTempSlice   []string
@@ -120,7 +125,7 @@ func (c *LogController)LoadLogDetails() {
 					generalTempSlice = generalTempSlice[:0]
 
 
-				}
+				}*//*
 			}
 
 
@@ -192,10 +197,6 @@ func (c *LogController)LoadLogDetails() {
 	viewModel.AdminLastName =storedSession.AdminLastName
 	viewModel.AdminFirstName =storedSession.AdminFirstName
 	viewModel.ProfilePicture =storedSession.ProfilePicture
-	log.Println("company plan",viewModel.CompanyPlan)
-	log.Println("admin last",viewModel.AdminLastName)
-	log.Println("admin first",viewModel.AdminFirstName)
-	log.Println("profile ",viewModel.ProfilePicture)
 	c.Data["vm"] = viewModel
 	c.TplName = "template/log.html"
 }

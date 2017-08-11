@@ -2,7 +2,10 @@ $(document).ready(function() {
 
 
 	$( function() {
-	    $( ".datepicker" ).datepicker();
+        $('.datepicker').datepicker({
+            changeYear: true,
+            yearRange: '1900:' + new Date().getFullYear(),
+        });
 	 } );
 
 
