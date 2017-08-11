@@ -24,13 +24,17 @@ $(function () {
     }
 });
   $().ready(function() {
-      $("#contactForm").validate({
+     if( pageType  ==  "edit") {
+         
+            $("#contactForm").validate({
+          
           rules: {
               phoneNumber: {
                   required: true,
                   remote:{
-                      url: "/isPhoneNumberUsed/" + phoneNumber,
-                      /*url: "/isPhoneNumberUsed/" + phoneNumber+ "/" +vm.PageType+ "/" + vm.PhoneNumber,*/
+                      
+//                      url: "/isPhoneNumberUsed/" + phoneNumber,
+                      url: "/isPhoneNumberUsed/" + phoneNumber+ "/" +vm.PageType+ "/" + vm.PhoneNumber,
                       type: "post"
                   }
               },
@@ -38,8 +42,8 @@ $(function () {
                   required: true,
                   email: true,
                   remote:{
-                      url: "/isemailAddressUsed/" + emailAddress,
-                     /* url: "/isemailAddressUsed/" + emailAddress+ "/" + vm.PageType + "/" + vm.Email,*/
+//                      url: "/isemailAddressUsed/" + emailAddress,
+               url: "/isemailAddressUsed/" + emailAddress+ "/" + vm.PageType + "/" + vm.Email,
                       type: "post"
                   }
               },
@@ -78,21 +82,17 @@ $(function () {
               for(i = 0; i < selectedCustomerNames.length; i++) {
                   form_data = form_data+"&customerName="+selectedCustomerNames[i];
               }
-              if(pageType ==  "edit"){
                   $.ajax({
                       url:'/'+ companyTeamName + '/contact/'+contactId+'/edit',
                       type: 'post',
                       datatype: 'json',
                       data: form_data,
                       success : function(response) {
-//                          var jsonData = JSON.parse(data)
                           if (response =="true") {
                               
                               window.location = '/' + companyTeamName +'/contact';
                               
-                              console.log("listRes",jsonData[1]);
-                              console.log("res",jsonData[2]);
-                              console.log("error",jsonData[3]);
+                              
                           } else {
                               $("#saveButton").attr('disabled', false);
                           }
@@ -102,8 +102,69 @@ $(function () {
                           console.log(error);
                       }
                   });
-              } else {
-                  $.ajax({
+              
+          }
+      });
+     }
+      if( pageType  ==  "add") {
+         
+            $("#contactForm").validate({
+          
+          rules: {
+              phoneNumber: {
+                  required: true,
+                  remote:{
+                      
+                      url: "/isPhoneNumberUsed/" + phoneNumber,
+//                      url: "/isPhoneNumberUsed/" + phoneNumber+ "/" +vm.PageType+ "/" + vm.PhoneNumber,
+                      type: "post"
+                  }
+              },
+              emailAddress: {
+                  required: true,
+                  email: true,
+                  remote:{
+                      url: "/isemailAddressUsed/" + emailAddress,
+//               url: "/isemailAddressUsed/" + emailAddress+ "/" + vm.PageType + "/" + vm.Email,
+                      type: "post"
+                  }
+              },
+              name: "required",
+              address:"required",
+              zipcode:"required",
+              country:"required",
+              state:"required"
+              
+          },
+          messages: {
+               phoneNumber: {
+                  required: "Enter phone number",
+                  remote: "Phone number already exists!"
+              },
+              emailAddress: {
+                  required: "Enter email Address",
+                  remote: "Email Address already exists!"
+              },
+              name: "Enter name",
+              address:"Enter address",
+              zipcode:"Enter zipcode"
+          },
+          submitHandler: function() {
+               $("#saveButton").attr('disabled', true);
+              var form_data = $("#contactForm").serialize();
+              var contactId =vm.ContactId
+              $("#customerId option:selected").each(function () {
+                  var $this = $(this);
+                  if ($this.length) {
+                      var selectedCustomerName = $this.text();
+                      selectedCustomerNames.push( selectedCustomerName);
+                  }
+              });
+              console.log("customer name",selectedCustomerNames);
+              for(i = 0; i < selectedCustomerNames.length; i++) {
+                  form_data = form_data+"&customerName="+selectedCustomerNames[i];
+              }
+              $.ajax({
                       url: '/'+ companyTeamName +'/contact/add',
                       type: 'post',
                       datatype: 'json',
@@ -120,9 +181,11 @@ $(function () {
                           console.log(error);
                       }
                   });
-              }
+              
           }
       });
+     }
+   
       $("#cancel").click(function() {
           window.location = '/'+ companyTeamName +'/contact';
       });

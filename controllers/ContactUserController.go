@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"reflect"
 	"app/passporte/helpers"
+	"strings"
 )
 
 type ContactUserController struct {
@@ -108,12 +109,14 @@ func (c *ContactUserController)DisplayContactDetails() {
 	case true:
 		dataValue := reflect.ValueOf(contact)
 		var keySlice []string
+		var activeContactKey []string
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
 		}
 		for _, k := range keySlice {
 			var tempValueSlice []string
 			if contact[k].Settings.Status == helpers.StatusActive {
+				activeContactKey = append(activeContactKey, k)
 				tempValueSlice = append(tempValueSlice, contact[k].Info.Name)
 				tempValueSlice = append(tempValueSlice, contact[k].Info.Address)
 				tempValueSlice = append(tempValueSlice,contact[k].Info.Country)
@@ -131,7 +134,7 @@ func (c *ContactUserController)DisplayContactDetails() {
 		viewModel.CompanyPlan = storedSession.CompanyPlan
 		viewModel.ProfilePicture =storedSession.ProfilePicture
 		log.Println("dhdghgdfh",viewModel.ProfilePicture)
-		viewModel.Keys = keySlice
+		viewModel.Keys = activeContactKey
 		viewModel.PageType=helpers.SelectPageForAdd
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
@@ -340,8 +343,9 @@ func (c *ContactUserController) RemoveContactFromTask() {
 	}
 }
 
-func (c *ContactUserController)CheckPhoneNumber(){
+func (c *ContactUserController)CheckPhoneNumberAdd(){
 	w := c.Ctx.ResponseWriter
+	log.Println("inside phone number check")
 	phoneNumber := c.GetString("phoneNumber")
 	log.Println("phone number",phoneNumber)
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
@@ -353,7 +357,7 @@ func (c *ContactUserController)CheckPhoneNumber(){
 		w.Write([]byte("true"))
 	}
 }
-func (c *ContactUserController)CheckEmailAddress(){
+func (c *ContactUserController)CheckEmailAddressAdd(){
 	w := c.Ctx.ResponseWriter
 	emailAddress := c.GetString("emailAddress")
 	log.Println("email",emailAddress)
@@ -368,7 +372,7 @@ func (c *ContactUserController)CheckEmailAddress(){
 }
 
 
-/*
+
 func (c *ContactUserController)CheckEmailAddress(){
 	log.Println("iam im dangetsr situation in email validation")
 	w := c.Ctx.ResponseWriter
@@ -384,9 +388,9 @@ func (c *ContactUserController)CheckEmailAddress(){
 		isEmailAddressUsed := models.CheckEmailAddressIsUsed(c.AppEngineCtx, emailAddress,companyTeamName)
 		switch isEmailAddressUsed{
 		case true:
-			w.Write([]byte("true"))
-		case false:
 			w.Write([]byte("false"))
+		case false:
+			w.Write([]byte("true"))
 		}
 
 	}
@@ -401,6 +405,7 @@ func (c *ContactUserController)CheckPhoneNumber(){
 	log.Println("phone number",phoneNumber)
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	pageType := c.Ctx.Input.Param(":type")
+	log.Println("typeeee",pageType)
 	oldNumber := c.Ctx.Input.Param(":oldNumber")
 	log.Println("phoneNumber",phoneNumber,pageType,oldNumber)
 	if pageType == "edit" && strings.Compare(oldNumber, phoneNumber) == 0 {
@@ -411,15 +416,15 @@ func (c *ContactUserController)CheckPhoneNumber(){
 		isPhoneNumberUsed := models.CheckPhoneNumberIsUsed(c.AppEngineCtx, phoneNumber,companyTeamName)
 		switch isPhoneNumberUsed{
 		case true:
-			w.Write([]byte("true"))
-		case false:
 			w.Write([]byte("false"))
+		case false:
+			w.Write([]byte("true"))
 		}
 
 	}
 
 }
 
-*/
+
 
 

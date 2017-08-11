@@ -95,10 +95,10 @@ func init() {
 	beegae.Router("/:companyTeamName/contact/:contactId/RemoveTask", &controllers.ContactUserController{}, "*:RemoveContactFromTask")
 	beegae.Router("/:companyTeamName/contact/:contactId/deletionOfContact", &controllers.ContactUserController{}, "*:DeleteContactIfNotInTask")
 
-	beegae.Router("/isPhoneNumberUsed/:phoneNumber", &controllers.ContactUserController{},"*:CheckPhoneNumber")
-	beegae.Router("/isemailAddressUsed/:emailAddress", &controllers.ContactUserController{},"*:CheckEmailAddress")
-	/*beegae.Router("/isPhoneNumberUsed/:phoneNumber/:type/:oldNumber", &controllers.ContactUserController{},"*:CheckPhoneNumber")
-	beegae.Router("/isemailAddressUsed/:emailAddress/:type/:oldEmail", &controllers.ContactUserController{},"*:CheckEmailAddress")*/
+	beegae.Router("/isPhoneNumberUsed/:phoneNumber", &controllers.ContactUserController{},"*:CheckPhoneNumberAdd")
+	beegae.Router("/isemailAddressUsed/:emailAddress", &controllers.ContactUserController{},"*:CheckEmailAddressAdd")
+	beegae.Router("/isPhoneNumberUsed/:phoneNumber/:type/:oldNumber", &controllers.ContactUserController{},"*:CheckPhoneNumber")
+	beegae.Router("/isemailAddressUsed/:emailAddress/:type/:oldEmail", &controllers.ContactUserController{},"*:CheckEmailAddress")
 
 
 
