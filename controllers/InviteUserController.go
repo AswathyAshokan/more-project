@@ -39,7 +39,9 @@ func (c *InviteUserController) AddInvitation() {
 		inviteUser.Info.LastName = c.GetString("lastname")
 		inviteUser.Info.Email = c.GetString("emailid")
 		inviteUser.Info.UserType = c.GetString("usertype")
-		inviteUser.Settings.DateOfCreation =time.Now().Unix()
+		dateOfCreationString :=c.GetString("dateOfCreation")
+		inviteUser.Settings.DateOfCreation,_= strconv.ParseInt(dateOfCreationString, 10, 64)
+		log.Println("inviteUser.Settings.DateOfCreation",inviteUser.Settings.DateOfCreation)
 		inviteUser.Settings.Status = helpers.StatusInActive
 		inviteUser.Settings.UserResponse = helpers.UserResponsePending
 		inviteUser.Info.CompanyTeamName = storedSession.CompanyTeamName
@@ -143,6 +145,7 @@ func (c *InviteUserController) AddInvitation() {
 
 // fetch all the details of invite user from database
 func (c *InviteUserController) InvitationDetails() {
+	log.Println("time now",time.Now())
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")

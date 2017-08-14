@@ -54,6 +54,9 @@ $().ready(function() {
     }
     
     
+    var date = new Date();
+    var datum = (Date.parse(date))/1000;
+    
     $('#saveButton').on('click', function() {
         $("#adduserForm").validate({
           rules: {
@@ -75,6 +78,7 @@ $().ready(function() {
                 $("#saveButton").attr('disabled', true);
                 $("#updateButton").attr('disabled', true);
                 var formData = $("#adduserForm").serialize();
+                formData = formData+"&dateOfCreation="+datum;
                     $.ajax({
                         url:'/' + companyTeamName +'/invite/add',
                         type:'post',

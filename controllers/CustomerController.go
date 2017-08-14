@@ -35,7 +35,7 @@ func (c *CustomerController) AddCustomer() {
 		customer.Info.State = c.GetString("state")
 		customer.Info.ZipCode = c.GetString("zipcode")
 		customer.Info.CompanyTeamName = storedSession.CompanyTeamName
-		customer.Settings.DateOfCreation =(time.Now().UnixNano() / 1000000)
+		customer.Settings.DateOfCreation =time.Now().Unix()
 		customer.Settings.Status = helpers.StatusActive
 		dbStatus := customer.AddCustomersToDb(c.AppEngineCtx)
 		switch dbStatus {

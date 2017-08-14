@@ -6,11 +6,13 @@ document.getElementById("group").className += " active";
 var companyTeamName = vm.CompanyTeamName;
 $().ready(function() {
     if(vm.PageType == "edit"){ 
-        var selectArray = vm.GroupMembersToEdit;
+        var selectArray =[];
+        selectArray = vm.GroupMembersToEdit;
+        $("#selectedUserIds").val(selectArray);
         console.log("array",selectArray);
         document.getElementById("groupName").value = vm.GroupNameToEdit;
         document.getElementById("groupHead").innerHTML = "Edit Group";//for display heading of each webpage
-        $("#selectedUserIds").val(selectArray);
+       
     }
 
     $("#addgroupForm").validate({

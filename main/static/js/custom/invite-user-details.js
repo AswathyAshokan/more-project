@@ -8,6 +8,7 @@ var companyTeamName = vm.CompanyTeamName;
 
 /*Function for creating Data Array for data table*/
 $(function(){ 
+    
     var userResponse;
     var mainArray = [];   
     var table = "";

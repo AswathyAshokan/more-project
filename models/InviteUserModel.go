@@ -149,6 +149,9 @@ func GetAllInviteUsersDetails(ctx context.Context,companyId string) (map[string]
 		log.Fatal(err)
 		return value,limitValue.LimitedUsers,false
 	}
+
+
+
 	err = db.Child("/Company/"+companyId+"/Invitation").Value(&value)
 	if err != nil {
 		log.Fatal(err)

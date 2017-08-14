@@ -7,6 +7,8 @@ import (
 	"log"
 	"strconv"
 	"bytes"
+	//"time"
+	//"time"
 )
 
 
@@ -68,9 +70,10 @@ func (c *LogController)LoadLogDetails() {
 
 
 		}
-		/*var tempGeneralLogSlice [][]string
-		var lastLoginArray []string
-		var lastLogoutArray []string
+		var tempGeneralLogSlice []string
+		var tempGenerealLogoutSlice []string
+		/*var lastLoginArray []string
+		var lastLogoutArray []string*/
 		logStatus,generalLogData := models.GetGeneralLogDataByUserId(c.AppEngineCtx)
 		switch logStatus {
 		case true:
@@ -78,116 +81,49 @@ func (c *LogController)LoadLogDetails() {
 			dataValue := reflect.ValueOf(generalLogData)
 			for _, key := range dataValue.MapKeys() {
 				LogData := models.GetSpecificLogValues(c.AppEngineCtx,key.String())
-				if LogData.LastLogin.
-				lastLattitude := strconv.FormatFloat(LogData..Latitude, 'f', 6, 64)
+				log.Println("LogData",LogData)
+				lastLoginLattitude := strconv.FormatFloat(LogData.Latitude, 'f', 6, 64)
+				lastLoginLongitude := strconv.FormatFloat(LogData.Longitude, 'f', 6, 64)
+				tempGeneralLogSlice = append(tempGeneralLogSlice,lastLoginLattitude)
+				tempGeneralLogSlice = append(tempGeneralLogSlice,lastLoginLongitude)
+				tempGeneralLogSlice = append(tempGeneralLogSlice,strconv.FormatInt(int64(LogData.LogTime), 10))
+				tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.Type)
+				tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.UserID)
+				tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.UserName)
+				tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.LogDescription)
+				viewModel.GeneralLogValues = append(viewModel.GeneralLogValues,tempGeneralLogSlice)
+				tempGeneralLogSlice = tempGeneralLogSlice[:0]
 
-				*//*logDataValue := reflect.ValueOf(LogData)
-				for _, logKey := range logDataValue.MapKeys() {
-					log.Println("logKey",logKey.String())
-					var generalTempSlice   []string
-					loginType := generalLogData[logKey.String()].Type
-					logTime := generalLogData[logKey.String()].LogTime
-					if loginType == helpers.LoginStatus{
-
-						log.Println("logKeygggggg",logKey.String())
-						unixLoginTimeArray = append(unixLoginTimeArray,logKey.String())
-						UnixLoginDate := time.Unix(logTime, 0)
-						unixLoginTimeArray =append(unixLoginTimeArray,UnixLoginDate.String())
-
-
-
-					} else {
-
-						log.Println("logKey",logKey)
-						uniLogOutTimeArray = append(uniLogOutTimeArray,logKey.String())
-						UnixLogOutTime := time.Unix(logTime, 0)
-						uniLogOutTimeArray = append(uniLogOutTimeArray,UnixLogOutTime.String())
-
-
-					}
-					viewModel.GeneralLogin = append(viewModel.GeneralLogin,unixLoginTimeArray)
-					viewModel.GeneralLogin = append(viewModel.GeneralLogin,uniLogOutTimeArray)
-					unixLoginTimeArray =unixLoginTimeArray[:0]
-					uniLogOutTimeArray =uniLogOutTimeArray[:0]
-
-
-					latitudeInString :=strconv.FormatFloat(LogData[logKey.String()].Latitude, 'f', 6, 64)
-					longitudeInString :=strconv.FormatFloat(LogData[logKey.String()].Longitude, 'f', 6, 64)
-					generalTempSlice = append(generalTempSlice, latitudeInString)
-					generalTempSlice = append(generalTempSlice,longitudeInString)
-					generalTempSlice = append(generalTempSlice,LogData[logKey.String()].UserID)
-					generalTempSlice = append(generalTempSlice,LogData[logKey.String()].LogDescription)
-					generalTempSlice = append(generalTempSlice,LogData[logKey.String()].Type)
-					generalTempSlice = append(generalTempSlice,LogData[logKey.String()].UserName)
-					viewModel.GeneralLogValues = append(viewModel.GeneralLogValues,generalTempSlice)
-					generalTempSlice = generalTempSlice[:0]
-
-
-				}*//*
 			}
 
+			for _, key := range dataValue.MapKeys() {
+				LogoutData := models.GetSpecificLogoutValues(c.AppEngineCtx,key.String())
+				log.Println("LogData",LogoutData)
+				lastLogoutLattitude := strconv.FormatFloat(LogoutData.Latitude, 'f', 6, 64)
+				lastLogoutLongitude := strconv.FormatFloat(LogoutData.Longitude, 'f', 6, 64)
+				tempGeneralLogSlice = append(tempGenerealLogoutSlice,lastLogoutLattitude)
+				tempGeneralLogSlice = append(tempGenerealLogoutSlice,lastLogoutLongitude)
+				tempGeneralLogSlice = append(tempGenerealLogoutSlice,strconv.FormatInt(int64(LogoutData.LogTime), 10))
+				tempGeneralLogSlice = append(tempGenerealLogoutSlice,LogoutData.Type)
+				tempGeneralLogSlice = append(tempGenerealLogoutSlice,LogoutData.UserID)
+				tempGeneralLogSlice = append(tempGenerealLogoutSlice,LogoutData.UserName)
+				tempGeneralLogSlice = append(tempGenerealLogoutSlice,LogoutData.LogDescription)
+				viewModel.GeneralLogoutValues = append(viewModel.GeneralLogoutValues,tempGenerealLogoutSlice)
+				tempGenerealLogoutSlice = tempGenerealLogoutSlice[:0]
 
-			log.Println("unixLoginTimeArray",unixLoginTimeArray)
+			}
 
-			unixLoginTimeArray = unixLoginTimeArray[:0]
-			uniLogOutTimeArray = uniLogOutTimeArray[:0]
-
-
-			log.Println("loginTime", unixLoginTimeArray)
+		log.Println("viewModel.GeneralLogoutValues",viewModel.GeneralLogoutValues)
+			log.Println("viewModel.GeneralLogValues ",viewModel.GeneralLogValues )
 		case false:
 
-		}*/
+		}
 		viewModel.Keys = keySlice
 	case false :
 		log.Println(helpers.ServerConnectionError)
 	}
 
 
-
-
-
-
-
-
-
-	/*switch logStatus {
-	case true:
-		log.Println("generalLogData",generalLogData)
-		dataValue := reflect.ValueOf(generalLogData)
-		for _, key := range dataValue.MapKeys() {
-			loginType := generalLogData[key.String()].Type
-			logTime := generalLogData[key.String()].LogTime
-			if loginType == helpers.LoginStatus{
-				unixLoginTimeArray = append(unixLoginTimeArray,generalLogData[key.String()].UserID)
-				UnixLoginDate := time.Unix(logTime, 0)
-				unixLoginTimeArray =append(unixLoginTimeArray,UnixLoginDate.String())
-
-			} else {
-				uniLogOutTimeArray = append(uniLogOutTimeArray,generalLogData[key.String()].UserID)
-				UnixLogOutTime := time.Unix(logTime, 0)
-				uniLogOutTimeArray = append(uniLogOutTimeArray,UnixLogOutTime.String())
-			}
-
-			var generalTempSlice   []string
-			latitudeInString :=strconv.FormatFloat(generalLogData[key.String()].Latitude, 'f', 6, 64)
-			longitudeInString :=strconv.FormatFloat(generalLogData[key.String()].Longitude, 'f', 6, 64)
-			generalTempSlice = append(generalTempSlice, latitudeInString)
-			generalTempSlice = append(generalTempSlice,longitudeInString)
-			generalTempSlice = append(generalTempSlice,generalLogData[key.String()].UserName)
-			generalTempSlice = append(generalTempSlice,generalLogData[key.String()].Type)
-			viewModel.GeneralLogValues = append(viewModel.GeneralLogValues,generalTempSlice)
-			log.Println("uuuuuuuuuuuu",generalTempSlice)
-			generalTempSlice = generalTempSlice[:0]
-		}
-		viewModel.GeneralLogin = append(viewModel.GeneralLogin,unixLoginTimeArray)
-		viewModel.GeneralLogin = append(viewModel.GeneralLogin,uniLogOutTimeArray)
-		log.Println("viewModel",viewModel)
-
-
-		log.Println("loginTime", unixLoginTimeArray)
-	case false:
-
-	}*/
 
 
 	viewModel.CompanyTeamName =companyTeamName

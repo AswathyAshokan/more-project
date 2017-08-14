@@ -30,7 +30,7 @@ func (c *GroupController) AddGroup() {
 		members := models.GroupMembers{}
 		group.Info.GroupName = c.GetString("groupName")
 		tempGroupId := c.GetStrings("selectedUserIds")
-		group.Settings.DateOfCreation =(time.Now().UnixNano() / 1000000)
+		group.Settings.DateOfCreation =time.Now().Unix()
 		group.Settings.Status = helpers.StatusActive
 		tempGroupMembers := c.GetStrings("selectedUserNames")
 		group.Info.CompanyTeamName = storedSession.CompanyTeamName
@@ -242,13 +242,14 @@ func (c *GroupController) EditGroup() {
 		}
 		//Selecting Data which is to be edited...
 		groupDetails, dbStatus := group.GetGroupDetailsById(c.AppEngineCtx, groupId)
+		log.Println("groupDetails",groupDetails)
 		switch dbStatus {
 		case true:
 			viewModel.GroupNameToEdit = groupDetails.Info.GroupName
 			memberData := reflect.ValueOf(groupDetails.Members)
-
+			log.Println("memberData",memberData)
 			for _, selectedMemberKey := range memberData.MapKeys(){
-				if groupDetails.Members[selectedMemberKey.String()].Status !=helpers.UserStatusDeleted{
+				if groupDetails.Members[selectedMemberKey.String()].Status !=helpers.UserStatusDeleted {
 					viewModel.GroupMembersToEdit = append(viewModel.GroupMembersToEdit, selectedMemberKey.String())
 
 				}

@@ -127,17 +127,35 @@ func GetTaskDataById(ctx context.Context,taskId string)(string,string) {
 
 
 
-func GetSpecificLogValues(ctx context.Context,userId string)(GeneralLog) {
+func GetSpecificLogValues(ctx context.Context,userId string)(LastLoginInfo) {
 	log.Println("id......",userId)
-	generalLogData :=GeneralLog{}
+	lastLoginData :=LastLoginInfo{}
 	dB, err := GetFirebaseClient(ctx,"")
 	//contactStatus := "Active";
 	log.Println("model",userId)
-	err = dB.Child("/GeneralLog/"+userId+"/").Value(&generalLogData)
+	err = dB.Child("/GeneralLog/"+userId+"/LastLogin").Value(&lastLoginData)
 	if err != nil {
 		log.Fatal(err)
-		return generalLogData
+		return lastLoginData
 	}
-	return generalLogData
+	return lastLoginData
+
+}
+
+
+
+
+func GetSpecificLogoutValues(ctx context.Context,userId string)(LastLogoutInfo) {
+	log.Println("id......",userId)
+	lastLogoutData :=LastLogoutInfo{}
+	dB, err := GetFirebaseClient(ctx,"")
+	//contactStatus := "Active";
+	log.Println("model",userId)
+	err = dB.Child("/GeneralLog/"+userId+"/LastLogout").Value(&lastLogoutData)
+	if err != nil {
+		log.Fatal(err)
+		return lastLogoutData
+	}
+	return lastLogoutData
 
 }
