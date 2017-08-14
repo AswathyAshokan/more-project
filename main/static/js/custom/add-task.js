@@ -852,6 +852,12 @@ $().ready(function() {
                                       for(i = 0; i < selectedUserAndGroupName.length; i++) {
                                           formData = formData+"&userAndGroupName="+selectedUserAndGroupName[i];
                                       }
+                                        if (jobNameWithUrl.length ==0){
+                                            jobNameWithUrl="unDefined"
+                                        }
+                                        if (customerNameWithUrl.length ==0){
+                                            customerNameWithUrl ="unDefined"
+                                        }
                                     console.log("seleceeeeeee",selectedUserAndGroupName)
                             
                                       if(pageType == "edit"){
