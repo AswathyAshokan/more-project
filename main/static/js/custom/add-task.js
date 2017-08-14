@@ -3,6 +3,8 @@
 
 console.log(vm.FitToWorkArray);
 console.log("gsgsgsgs");
+console.log("job name",vm.JobName);
+console.log("job name from url",vm.JobNameFormUrl);
 document.getElementById("task").className += " active";
 var pageType = vm.PageType;
 var customerName = "";
@@ -26,6 +28,8 @@ var exposureWorkSlice =[];
 var exposureWorkTimeArray =[];
  var repeat= "";
 var fitWork= "";
+var jobNameWithUrl ="";
+var customerNameWithUrl ="";
 var contactName =[];
 var contactId =[];
 //if group members is null ,group member array is initialised
@@ -75,6 +79,39 @@ $(function () {
       actualToDate.setMinutes(59);
       actualToDate.setSeconds(59);
   });
+    if (vm.JobNameFormUrl.length !=0){
+         console.log("inside outtt");
+         document.getElementById("jobName").value = vm.JobNameFormUrl;
+        console.log("kkkddd",vm.CustomerNameFormUrl);
+        for (var i = 0; i < vm.ContactUser.length; i++) {
+            for (var j=0; j<vm.ContactUser[i].length ;j++){
+                for ( var k=0;k<vm.ContactUser[i][j].CustomerName.length;k++){
+                    if (vm.ContactUser[i][j].CustomerName[k] ==vm.CustomerNameFormUrl){
+                        contactName.push(vm.ContactUser[i][j].ContactName);
+                        contactId.push(vm.ContactUser[i][j].ContactId);
+                    }
+                }
+            }
+        }
+        function removeOptions(selectbox)
+        {
+            var i;
+            for(i = selectbox.options.length - 1 ; i >= 0 ; i--)
+            {
+                selectbox.remove(i);
+            }
+        }
+        console.log("contact name",contactName)
+        removeOptions(document.getElementById("contactId"));
+        var sel = document.getElementById('contactId');
+        for(var i = 0; i < contactName.length; i++) {
+            var opt = document.createElement('option');
+            opt.innerHTML = contactName[i];
+            opt.value = contactId[i];
+            sel.appendChild(opt);
+        }
+        
+    }
     if (pageType == "edit") {
         document.title = 'Edit Task'
         console.log("log",vm.Log);
@@ -86,7 +123,7 @@ $(function () {
         document.getElementById("startDate").value = vm.StartDate;
         document.getElementById("endDate").value = vm.EndDate;
         document.getElementById("taskDescription").value = vm.TaskDescription;
-        document.getElementById("taskLocation").value =vm.TaskLocation
+        document.getElementById("taskLocation").value =vm.TaskLocation;
         var fitToWorkName = vm.FitToWorkName;
         fitWork =vm.FitToWorkName;
         if (fitToWorkName.length !=0){
@@ -193,6 +230,11 @@ var addItem = $('<span>+</span>');
 addItem.click(function() {
     window.location = "/"  +  companyTeamName +  "/task/add";
 });
+
+
+
+
+
 $().ready(function() {
     var loginTypeRadio = "";
     $("input[type='radio']").change(function(){
@@ -216,9 +258,12 @@ $().ready(function() {
         contactName = [];
         contactId = [];
         var job = $("#jobName option:selected").val() + " (";
+        jobNameWithUrl =$("#jobName option:selected").val();
+       
         var jobAndCustomer = $("#jobName option:selected").text();
         var tempName = jobAndCustomer.replace(job, '');
         customerName = tempName.replace(')', '');
+        customerNameWithUrl =tempName.replace(')', '');
        for (var i = 0; i < vm.ContactUser.length; i++) {
            for (var j=0; j<vm.ContactUser[i].length ;j++){
                for ( var k=0;k<vm.ContactUser[i][j].CustomerName.length;k++){
@@ -350,102 +395,91 @@ $().ready(function() {
         console.log("user array",selectedUserArray);
     });
      
-       
-    $("#taskDoneForm").validate({
-        rules: {
-            taskName : "required",
-            loginType : "required",
-            startDate : "required",
-            endDate : "required",
-            taskDescription : "required",
-            taskLocation : "required",
-            startTime : "required",
-            endTime : "required"
-            
-            
-        },
-         messages: {
-             startTime:{
-                 required: "time required"
-             },
-             endTime:{
-                 required: "time required"
-             },
-             taskName:{
-                 required: "task name required"
-             },
-             loginType:{
-                 required: "login type name required"
-             },
-             startDate:{
-                 required: "date required"
-             },
-             endDate:{
-                 required: "date required"
-             },
-             taskLocation:{
-                 required: "task location required"
-             },
-              taskDescription:{
-                 required: "task description required"
-             },
-              userOrGroup:{
-                 required: "select user/group"
-             },
-         },
-        submitHandler: function() {
-            
-             var nfcTagId =  document.getElementById("nfcTagForTask").value;
+        $("#saveButton").click(function() {
+            $("#taskDoneForm").validate({
+                rules: {
+                    taskName : "required",
+                    loginType : "required",
+                    startDate : "required",
+                    endDate : "required",
+                    taskDescription : "required",
+                    taskLocation : "required",
+                    startTime : "required",
+                    endTime : "required"
+                },
+                messages: {
+                    startTime:{
+                        required: "time required"
+                    },
+                    endTime:{
+                        required: "time required"
+                    },
+                    taskName:{
+                        required: "task name required"
+                    },
+                    loginType:{
+                        required: "login type name required"
+                    },
+                    startDate:{
+                        required: "date required"
+                    },
+                    endDate:{
+                        required: "date required"
+                    },
+                    taskLocation:{
+                        required: "task location required"
+                    },
+                    taskDescription:{
+                        required: "task description required"
+                    },
+                    userOrGroup:{
+                        required: "select user/group"
+                    },
+                },
+                submitHandler: function() {
+                    var nfcTagId =  document.getElementById("nfcTagForTask").value;
             //code for date and time conversion
-            var startDate = new Date($("#startDate").val());
-            
-            var startTime =  document.getElementById("startTime").value;
-            var endDate = new Date($("#endDate").val());
-            var endTime =  document.getElementById("endTime").value;
-            
-            var exposureHour ="";
-            var exposureMinute ="";
-            var TotalBreakTime ="";
-            var exposureWorkHour ="";
-            var exposureWorkMinute ="";
-            var TotalWorkTime ="";
-            
-
-            //setting the time in start date and end date
-            startTimeArray = startTime.split(':');
-            startHour = parseInt(startTimeArray[0]);
-            startMin = parseInt(startTimeArray[1]);
-            startDate.setHours(startHour);
-            startDate.setMinutes(startMin);
-            endTimeArray = endTime.split(':');
-            endHour = parseInt(endTimeArray[0]);
-            endMin = parseInt(endTimeArray[1]);
-            endDate.setHours(endHour);
-            endDate.setMinutes(endMin);
+                    var startDate = new Date($("#startDate").val());
+                    var startTime =  document.getElementById("startTime").value;
+                    var endDate = new Date($("#endDate").val());
+                    var endTime =  document.getElementById("endTime").value;
+                    var exposureHour ="";
+                    var exposureMinute ="";
+                    var TotalBreakTime ="";
+                    var exposureWorkHour ="";
+                    var exposureWorkMinute ="";
+                    var TotalWorkTime ="";
+                    //setting the time in start date and end date
+                    startTimeArray = startTime.split(':');
+                    startHour = parseInt(startTimeArray[0]);
+                    startMin = parseInt(startTimeArray[1]);
+                    startDate.setHours(startHour);
+                    startDate.setMinutes(startMin);
+                    endTimeArray = endTime.split(':');
+                    endHour = parseInt(endTimeArray[0]);
+                    endMin = parseInt(endTimeArray[1]);
+                    endDate.setHours(endHour);
+                    endDate.setMinutes(endMin);
             //function to convert  date to mm/dd/yyyy format
-            
-            function formatDate(d){
-                function addZero(n){
-                    return n < 10 ? '0' + n : '' + n;
-                }
-                return addZero(d.getMonth()+1)+"/"+ addZero(d.getDate()) + "/" + d.getFullYear() + " " + 
+                    function formatDate(d){
+                        function addZero(n){
+                            return n < 10 ? '0' + n : '' + n;
+                        }
+                        return addZero(d.getMonth()+1)+"/"+ addZero(d.getDate()) + "/" + d.getFullYear() + " " + 
                     addZero(d.getHours()) + ":" + addZero(d.getMinutes());
-            }
-            var startDateString = startDate;
-            var date = new Date(Date.parse(startDateString));
-            var startDateOfTask = formatDate(date);
-            var endDateString = endDate;
-            var endDateData = new Date(Date.parse(endDateString));
-            var endDateOfTask = formatDate(endDateData);
-            
-            
-           
-            var minUsers = $("#minUsers option:selected").val();
+                    }
+                    var startDateString = startDate;
+                    var date = new Date(Date.parse(startDateString));
+                    var startDateOfTask = formatDate(date);
+                    var endDateString = endDate;
+                    var endDateData = new Date(Date.parse(endDateString));
+                    var endDateOfTask = formatDate(endDateData);
+                    var minUsers = $("#minUsers option:selected").val();
             //getting map longitude and latitude
-            mapLatitude = document.getElementById("latitudeId").value;// variable to store map latitude
-            mapLongitude = document.getElementById("longitudeId").value;// variable to store map longitude
-            startDateToCompare = document.getElementById("startDate").value;
-            endDateToCompare = document.getElementById("endDate").value
+                    mapLatitude = document.getElementById("latitudeId").value;// variable to store map latitude
+                    mapLongitude = document.getElementById("longitudeId").value;// variable to store map longitude
+                    startDateToCompare = document.getElementById("startDate").value;
+                    endDateToCompare = document.getElementById("endDate").value
             //check minimum number of users during editing
 //             minUserForTask =selectedUserArray.length - selectedGroupArray.length;
 //            if(minUserForTask == 0)
@@ -456,12 +490,12 @@ $().ready(function() {
 //                minUserForTask = minUserForTask;
 //            }
             //check the login type during editing
-            if(loginTypeRadio.length ==0)
-            {
-                loginTypeRadio = loginTypeForEdit;
-            } else {
-                loginTypeRadio = loginTypeRadio;
-            }
+                    if(loginTypeRadio.length ==0)
+                    {
+                        loginTypeRadio = loginTypeForEdit;
+                    } else {
+                        loginTypeRadio = loginTypeRadio;
+                    }
 //            if (minUserForTask >= minUsers) {
 //                if(loginTypeRadio.length != 0)
 //                    {
@@ -485,6 +519,7 @@ $().ready(function() {
                                       if (document.getElementById('jobName').length !=0)
                                           {
                                               var job = $("#jobName option:selected").val() + " (";
+                                              
                                               var jobAndCustomer = $("#jobName option:selected").text();
                                               var tempName = jobAndCustomer.replace(job, '');
                                               customerName = tempName.replace(')', ''); 
@@ -609,7 +644,271 @@ $().ready(function() {
 //                }
         }
     });
+        });
     $("#cancel").click(function() {
         window.location = '/' + companyTeamName + '/task';
+    });
+    $("#saveAndContinue").click(function() {
+         $('#saveAndContinue').attr('type', 'submit');
+        $('#saveButton').attr('type', 'button');
+
+         $("#taskDoneForm").validate({
+        rules: {
+            taskName : "required",
+            loginType : "required",
+            startDate : "required",
+            endDate : "required",
+            taskDescription : "required",
+            taskLocation : "required",
+            startTime : "required",
+            endTime : "required"
+        },
+         messages: {
+             startTime:{
+                 required: "time required"
+             },
+             endTime:{
+                 required: "time required"
+             },
+             taskName:{
+                 required: "task name required"
+             },
+             loginType:{
+                 required: "login type name required"
+             },
+             startDate:{
+                 required: "date required"
+             },
+             endDate:{
+                 required: "date required"
+             },
+             taskLocation:{
+                 required: "task location required"
+             },
+              taskDescription:{
+                 required: "task description required"
+             },
+              userOrGroup:{
+                 required: "select user/group"
+             },
+         },
+        submitHandler: function() {
+            
+             var nfcTagId =  document.getElementById("nfcTagForTask").value;
+            //code for date and time conversion
+            var startDate = new Date($("#startDate").val());
+            
+            var startTime =  document.getElementById("startTime").value;
+            var endDate = new Date($("#endDate").val());
+            var endTime =  document.getElementById("endTime").value;
+            
+            var exposureHour ="";
+            var exposureMinute ="";
+            var TotalBreakTime ="";
+            var exposureWorkHour ="";
+            var exposureWorkMinute ="";
+            var TotalWorkTime ="";
+            
+
+            //setting the time in start date and end date
+            startTimeArray = startTime.split(':');
+            startHour = parseInt(startTimeArray[0]);
+            startMin = parseInt(startTimeArray[1]);
+            startDate.setHours(startHour);
+            startDate.setMinutes(startMin);
+            endTimeArray = endTime.split(':');
+            endHour = parseInt(endTimeArray[0]);
+            endMin = parseInt(endTimeArray[1]);
+            endDate.setHours(endHour);
+            endDate.setMinutes(endMin);
+            //function to convert  date to mm/dd/yyyy format
+            
+            function formatDate(d){
+                function addZero(n){
+                    return n < 10 ? '0' + n : '' + n;
+                }
+                return addZero(d.getMonth()+1)+"/"+ addZero(d.getDate()) + "/" + d.getFullYear() + " " + 
+                    addZero(d.getHours()) + ":" + addZero(d.getMinutes());
+            }
+            var startDateString = startDate;
+            var date = new Date(Date.parse(startDateString));
+            var startDateOfTask = formatDate(date);
+            var endDateString = endDate;
+            var endDateData = new Date(Date.parse(endDateString));
+            var endDateOfTask = formatDate(endDateData);
+            
+            
+           
+            var minUsers = $("#minUsers option:selected").val();
+            //getting map longitude and latitude
+            mapLatitude = document.getElementById("latitudeId").value;// variable to store map latitude
+            mapLongitude = document.getElementById("longitudeId").value;// variable to store map longitude
+            startDateToCompare = document.getElementById("startDate").value;
+            endDateToCompare = document.getElementById("endDate").value
+            //check minimum number of users during editing
+//             minUserForTask =selectedUserArray.length - selectedGroupArray.length;
+//            if(minUserForTask == 0)
+//            {
+//                minUserForTask = minUserForTaskEdit;
+//            }
+//            else {
+//                minUserForTask = minUserForTask;
+//            }
+            //check the login type during editing
+            if(loginTypeRadio.length ==0)
+            {
+                loginTypeRadio = loginTypeForEdit;
+            } else {
+                loginTypeRadio = loginTypeRadio;
+            }
+//            if (minUserForTask >= minUsers) {
+//                if(loginTypeRadio.length != 0)
+//                    {
+                        if( mapLatitude.length  !=0)
+                        {
+                                       $("#saveAndContinue").attr('disabled', true);
+                                      var taskId=vm.TaskId;
+                                      var jobnew = $("#jobName option:selected").val()
+                                      if ($("#jobName ")[0].selectedIndex <= 0) {
+                                          document.getElementById('jobName').innerHTML = "";
+                                      }
+                                      //get all values of fit to work
+                                      
+                                      var values = "";
+//                                      $("input[name=DynamicTextBox]").each(function () {
+//                                          
+//                                          if($(this).val().length !=0){
+//                                              fitToWorkFromDynamicTextBox.push($(this).val())
+//                                          }
+//                                      });
+                                      if (document.getElementById('jobName').length !=0)
+                                          {
+                                              var job = $("#jobName option:selected").val() + " (";
+                                              var jobAndCustomer = $("#jobName option:selected").text();
+                                              var tempName = jobAndCustomer.replace(job, '');
+                                              customerName = tempName.replace(')', ''); 
+                                              var jobDropdownId = document.getElementById("jobName");
+                                              jobId = jobDropdownId.options[jobDropdownId.selectedIndex].id;
+                                          }
+                                       
+                                      // function to get values of exposure dynamic text box
+                                      $("input[name=breakTime]").each(function () {
+                                          
+                                          if($(this).val().length !=0){
+                                              exposureTimeArray = $(this).val().split(':');
+                                              exposureHour = parseInt(exposureTimeArray[0]);
+                                              exposureMinute = parseInt(exposureTimeArray[1]);
+                                              TotalBreakTime =exposureMinute+(exposureHour*60);
+                                              exposureSlice.push(TotalBreakTime);
+                                          }
+                                      });
+                                      
+                                      $("input[name=workTime]").each(function () {
+                                          
+                                          if($(this).val().length !=0){
+                                              exposureWorkTimeArray = $(this).val().split(':');
+                                              exposureWorkHour = parseInt(exposureWorkTimeArray[0]);
+                                              exposureWorkMinute = parseInt(exposureWorkTimeArray[1]);
+                                              TotalWorkTime =exposureWorkMinute+(exposureWorkHour*60);
+                                              exposureWorkSlice.push(TotalWorkTime);
+                                          }
+                                      });
+                                      
+                                      
+                                      //function to get fit to work 
+                                      var chkPassport = document.getElementById("fitToWorkCheck");
+                                      if (chkPassport.checked) {
+                                          fitToWorkCheck ="EachTime";
+                                      }else {
+                                          fitToWorkCheck ="OnceADay";
+                                      }
+                                      var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask +"&endDateFromJs="+ endDateOfTask+"&fitToWorkCheck="+ fitToWorkCheck+"&exposureBreakTime="+ exposureSlice+"&exposureWorkTime="+ exposureWorkSlice+"&fitToWorkName="+ fitWork;
+                                      var selectedContactNames = [];
+
+               //get the user's name corresponding to  keys selected from dropdownlist
+                            $("#contactId option:selected").each(function () {
+                                var $this = $(this);
+                                if ($this.length) {
+                                    var selectedContactName = $this.text();
+                                    selectedContactNames.push( selectedContactName);
+                                }
+                            });
+                            for(i = 0; i < selectedContactNames.length; i++) {
+                                          formData = formData+"&contactName="+selectedContactNames[i];
+                                      }
+                            for(i = 0; i < groupKeyArray.length; i++) {
+                                          formData = formData+"&groupArrayElement="+groupKeyArray[i];
+                            }
+
+               //function to get all users and group
+                                      var selectedUserAndGroupName = [];
+                                      $("#userOrGroup option:selected").each(function () {
+                                          var $this = $(this);
+                                          if ($this.length) {
+                                              var selectedUserName = $this.text();
+                                              selectedUserAndGroupName.push( selectedUserName);
+                                          }
+                                      });
+                                      for(i = 0; i < selectedUserAndGroupName.length; i++) {
+                                          formData = formData+"&userAndGroupName="+selectedUserAndGroupName[i];
+                                      }
+                                    console.log("seleceeeeeee",selectedUserAndGroupName)
+                            
+                                      if(pageType == "edit"){
+                                          $.ajax({
+                                              url: '/' +  companyTeamName  + '/task/' + taskId + '/edit',
+                                              type: 'post',
+                                              datatype: 'json',
+                                              data: formData,
+                                              success : function(response) {
+                                                  if (response == "true" ) {
+                                                      window.location ='/'  +  companyTeamName  + '/task';
+                                                  } else {
+                                                      $("#saveAndContinue").attr('disabled', false);
+                                                  }
+                                              },
+                                              error: function (request,status, error) {
+                                                  console.log(error);
+                                              }
+                                          });
+                                      } else {
+                                          $.ajax({
+                                              url:'/'+ companyTeamName + '/task/add/'+jobNameWithUrl+'/'+customerNameWithUrl,
+                                              type: 'post',
+                                              datatype: 'json',
+                                              data: formData,
+                                              success : function(response) {
+                                                  if (response == "true" ) {
+                                                      window.location = '/' + companyTeamName + '/task/add/'+jobNameWithUrl+'/'+customerNameWithUrl;
+                                                  } else {
+                                                      $("#saveAndContinue").attr('disabled', false);
+                                                  }
+                                              },
+                                              error: function (request,status, error) {
+                                                  console.log(error);
+                                              }
+                                          });
+                                      }
+                                  }
+                              else{
+                                  $("#mapValidationError").css({"color": "red", "font-size": "15px"});
+                                  $("#mapValidationError").html("please select location from map.").show();
+                              }
+                          
+//                    }
+//            else {
+//                $("#loginTypeValidationError").css({"color": "red", "font-size": "15px"});
+//                $("#loginTypeValidationError").html("please select a login type.").show();
+//            }
+//                
+//            }
+//            else {
+//                $("#minUserValidationError").css({"color": "red", "font-size": "15px"});
+//                $("#minUserValidationError").html("More users need to start this Task.").show();
+//                }
+        }
+    });
+
+         
     });
 });

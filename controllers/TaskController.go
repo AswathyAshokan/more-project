@@ -27,11 +27,17 @@ func (c *TaskController)AddNewTask() {
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
+	//jobNameFormUrl := c.Ctx.Input.Param(":jobName")
+	log.Println("job nammmmmmm",c.Ctx.Input.Param(":jobName"))
+	jobNameInTask :=c.Ctx.Input.Param(":jobName")
+	log.Println("hhhhhhhh",jobNameInTask)
+	customerNameInTask :=c.Ctx.Input.Param(":customerName")
+	log.Println("customer",customerNameInTask)
+
 	if r.Method == "POST" {
 		task:=models.Tasks{}
 		task.Info.TaskName= c.GetString("taskName")
 		task.Job.JobName= c.GetString("jobName")
-
 		task.Job.JobId = c.GetString("jobId")
 		task.Job.JobStatus =helpers.StatusActive
 		jobIdForTask  :=task.Job.JobId
@@ -206,6 +212,12 @@ func (c *TaskController)AddNewTask() {
 		var keySliceForGroupAndUser 	[]string
 		var keySliceForContact		[]string
 		var keySliceForFitToWork 	[]string
+		log.Println("kkkkkk",jobNameInTask)
+		log.Println("fffffff",c.Ctx.Input.Param(":jobName"))
+		log.Println("gggg",reflect.TypeOf(c.Ctx.Input.Param(":jobName")))
+		viewModel.JobNameFormUrl =c.Ctx.Input.Param(":jobName")
+		viewModel.CustomerNameFormUrl =c.Ctx.Input.Param(":customerName")
+		log.Println("job name22222",viewModel.JobNameFormUrl)
 		//Getting Jobs
 		dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx,companyTeamName)
 		switch dbStatus {
@@ -847,6 +859,8 @@ func (c *TaskController)LoadEditTask() {
 		viewModel := viewmodels.EditTaskViewModel{}
 		var contactStructSlice []viewmodels.TaskContact
 		var taskcontactSlice [][]viewmodels.TaskContact
+		viewModel.CustomerNameFormUrl=""
+		viewModel.JobNameFormUrl=""
 
 
 		dbStatus, contacts := models.GetAllContact(c.AppEngineCtx,companyTeamName)

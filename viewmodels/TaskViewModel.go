@@ -49,6 +49,8 @@ type EditTaskViewModel  struct {
 	ContactUser			[][]TaskContact
 	CustomerNameToEdit		string
 	ContactNameKeyToEdit		[]string
+	JobNameFormUrl			string
+	CustomerNameFormUrl		string
 
 
 }
@@ -71,6 +73,8 @@ type AddTaskViewModel  struct {
 	FitToWorkKey			[]string
 	FitToWorkForTask		[][]TaskFitToWork
 	ContactUser			[][]TaskContact
+	JobNameFormUrl			string
+	CustomerNameFormUrl		string
 
 
 }
