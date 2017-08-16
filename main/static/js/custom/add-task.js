@@ -6,6 +6,8 @@ console.log("gsgsgsgs");
 console.log("job name",vm.JobName);
 console.log("job name from url",vm.JobNameFormUrl);
 document.getElementById("task").className += " active";
+var date = new Date();
+var datum = (Date.parse(date))/1000;
 var pageType = vm.PageType;
 var customerName = "";
 var jobId = "";
@@ -79,10 +81,10 @@ $(function () {
       actualToDate.setMinutes(59);
       actualToDate.setSeconds(59);
   });
+    
+    //function to setting jobna me when loaded add and continue button
     if (vm.JobNameFormUrl.length !=0){
-         console.log("inside outtt");
-         document.getElementById("jobName").value = vm.JobNameFormUrl;
-        console.log("kkkddd",vm.CustomerNameFormUrl);
+        document.getElementById("jobName").value = vm.JobNameFormUrl;
         for (var i = 0; i < vm.ContactUser.length; i++) {
             for (var j=0; j<vm.ContactUser[i].length ;j++){
                 for ( var k=0;k<vm.ContactUser[i][j].CustomerName.length;k++){
@@ -558,7 +560,7 @@ $().ready(function() {
                                       }else {
                                           fitToWorkCheck ="OnceADay";
                                       }
-                                      var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask +"&endDateFromJs="+ endDateOfTask+"&fitToWorkCheck="+ fitToWorkCheck+"&exposureBreakTime="+ exposureSlice+"&exposureWorkTime="+ exposureWorkSlice+"&fitToWorkName="+ fitWork;
+                                      var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask +"&endDateFromJs="+ endDateOfTask+"&fitToWorkCheck="+ fitToWorkCheck+"&exposureBreakTime="+ exposureSlice+"&exposureWorkTime="+ exposureWorkSlice+"&fitToWorkName="+ fitWork+"&dateOfCreation="+datum;
                                       var selectedContactNames = [];
 
                //get the user's name corresponding to  keys selected from dropdownlist
@@ -822,7 +824,7 @@ $().ready(function() {
                                       }else {
                                           fitToWorkCheck ="OnceADay";
                                       }
-                                      var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask +"&endDateFromJs="+ endDateOfTask+"&fitToWorkCheck="+ fitToWorkCheck+"&exposureBreakTime="+ exposureSlice+"&exposureWorkTime="+ exposureWorkSlice+"&fitToWorkName="+ fitWork;
+                                      var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask +"&endDateFromJs="+ endDateOfTask+"&fitToWorkCheck="+ fitToWorkCheck+"&exposureBreakTime="+ exposureSlice+"&exposureWorkTime="+ exposureWorkSlice+"&fitToWorkName="+ fitWork+"&dateOfCreation="+datum;
                                       var selectedContactNames = [];
 
                //get the user's name corresponding to  keys selected from dropdownlist

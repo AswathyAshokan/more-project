@@ -629,7 +629,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	for _, key := range userDataDetails.MapKeys() {
 		log.Println("inside  notificationnnnn")
 		userNotificationDetail :=UserNotification{}
-		userNotificationDetail.Date =time.Now().Unix()
+		userNotificationDetail.Date =m.Settings.DateOfCreation
 		userNotificationDetail.IsRead =false
 		userNotificationDetail.IsViewed =false
 		userNotificationDetail.TaskId =taskId

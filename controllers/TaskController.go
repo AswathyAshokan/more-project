@@ -87,7 +87,7 @@ func (c *TaskController)AddNewTask() {
 		exposureTask := c.GetString("exposureBreakTime")
 		exposureWorkTime := c.GetString("exposureWorkTime")
 		log.Println("breakkkkk time",exposureTask)
-		task.Settings.DateOfCreation =time.Now().Unix()
+		task.Settings.DateOfCreation =c.GetString("dateOfCreation")
 		task.Settings.Status = helpers.StatusActive
 		task.Settings.TaskStatus =helpers.StatusPending
 
@@ -741,7 +741,7 @@ func (c *TaskController)LoadEditTask() {
 		task.Info.NFCTagID =c.GetString("nfcTagForTask")
 		task.Location.Latitude = c.GetString("latitude")
 		task.Location.Longitude = c.GetString("longitude")
-		task.Settings.DateOfCreation = time.Now().Unix()
+		task.Settings.DateOfCreation = c.GetString("dateOfCreation")
 		tempFitToWorkCheck :=c.GetString("fitToWorkCheck")
 
 		//WorkBreak :=c.GetString("workExplosureText")
