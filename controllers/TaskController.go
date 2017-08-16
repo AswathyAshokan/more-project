@@ -747,7 +747,6 @@ func (c *TaskController)LoadEditTask() {
 		dateOfCreation, err := strconv.ParseInt(dateOfCreationOfTask, 10, 64)
 		task.Settings.DateOfCreation = dateOfCreation
 		tempFitToWorkCheck :=c.GetString("fitToWorkCheck")
-
 		//WorkBreak :=c.GetString("workExplosureText")
 		//WorkBreakSlice :=strings.Split(WorkBreak, ",")
 		exposureTask := c.GetString("exposureBreakTime")
