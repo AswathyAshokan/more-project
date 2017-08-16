@@ -548,6 +548,25 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
+
+
+	//generating unique id
+	//userDataDetails := reflect.ValueOf(m.UsersAndGroups.User)
+	notifyUpdatedId := betterguid.New()
+	log.Println("idddddddddddd",notifyUpdatedId)
+	var r *rand.Rand
+	r = rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	const chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+	result := make([]byte, 2)
+	for i := range result {
+		result[i] = chars[r.Intn(len(chars))]
+	}
+	generatedString :=string(result)
+	log.Println("genertedstring",generatedString)
+	newGeneratedKey:=notifyUpdatedId[0:len(notifyUpdatedId)-2]+generatedString
+	log.Println("newly gener",newGeneratedKey)
+
 	taskValues :=Tasks{}
 	var tempUserKeySlice []string
 	var tempContactKeySlice []string
@@ -566,6 +585,34 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 				userName.FullName = taskValues.UsersAndGroups.User[key.String()].FullName
 				userName.Status =helpers.StatusActive
 				m.UsersAndGroups.User[key.String()] =userName
+				userNotificationDetail :=UserNotification{}
+				userNotificationDetail.Date =m.Settings.DateOfCreation
+				userNotificationDetail.IsRead =false
+				userNotificationDetail.IsViewed =false
+				userNotificationDetail.TaskId =taskId
+				userNotificationDetail.TaskName =m.Info.TaskName
+				userNotificationDetail.Category ="Tasks"
+				userNotificationDetail.Status ="Updated"
+				err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+				if err!=nil{
+					log.Println("Insertion error:",err)
+					return false
+				}
+
+			}else {
+				userNotificationDetail :=UserNotification{}
+				userNotificationDetail.Date =m.Settings.DateOfCreation
+				userNotificationDetail.IsRead =false
+				userNotificationDetail.IsViewed =false
+				userNotificationDetail.TaskId =taskId
+				userNotificationDetail.TaskName =m.Info.TaskName
+				userNotificationDetail.Category ="Tasks"
+				userNotificationDetail.Status ="New"
+				err = dB.Child("/Users/"+tempUserKeySlice[i]+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+				if err!=nil{
+					log.Println("Insertion error:",err)
+					return false
+				}
 			}
 		}
 	}
@@ -610,40 +657,26 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	//updated on user task notification
 
 
-	userDataDetails := reflect.ValueOf(m.UsersAndGroups.User)
-	notifyUpdatedId := betterguid.New()
-	log.Println("idddddddddddd",notifyUpdatedId)
-	var r *rand.Rand
-	r = rand.New(rand.NewSource(time.Now().UnixNano()))
-
-	const chars = "abcdefghijklmnopqrstuvwxyz0123456789"
-	result := make([]byte, 2)
-	for i := range result {
-		result[i] = chars[r.Intn(len(chars))]
-	}
-	generatedString :=string(result)
-	log.Println("genertedstring",generatedString)
-	newGeneratedKey:=notifyUpdatedId[0:len(notifyUpdatedId)-2]+generatedString
-	log.Println("newly gener",newGeneratedKey)
-
-	for _, key := range userDataDetails.MapKeys() {
-		log.Println("inside  notificationnnnn")
-		userNotificationDetail :=UserNotification{}
-		userNotificationDetail.Date =m.Settings.DateOfCreation
-		userNotificationDetail.IsRead =false
-		userNotificationDetail.IsViewed =false
-		userNotificationDetail.TaskId =taskId
-		userNotificationDetail.TaskName =m.Info.TaskName
-		userNotificationDetail.Category ="Tasks"
-		userNotificationDetail.Status ="Updated"
-		err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
-		if err!=nil{
-			log.Println("Insertion error:",err)
-			return false
-		}
 
 
-	}
+	//for _, key := range userDataDetails.MapKeys() {
+	//	log.Println("inside  notificationnnnn")
+	//	userNotificationDetail :=UserNotification{}
+	//	userNotificationDetail.Date =m.Settings.DateOfCreation
+	//	userNotificationDetail.IsRead =false
+	//	userNotificationDetail.IsViewed =false
+	//	userNotificationDetail.TaskId =taskId
+	//	userNotificationDetail.TaskName =m.Info.TaskName
+	//	userNotificationDetail.Category ="Tasks"
+	//	userNotificationDetail.Status ="Updated"
+	//	err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+	//	if err!=nil{
+	//		log.Println("Insertion error:",err)
+	//		return false
+	//	}
+	//
+	//
+	//}
 
 
 
