@@ -89,6 +89,7 @@ func (c *TaskController)AddNewTask() {
 		log.Println("breakkkkk time",exposureTask)
 		dateOfCreationOfTask :=c.GetString("dateOfCreation")
 		dateOfCreation, err := strconv.ParseInt(dateOfCreationOfTask, 10, 64)
+		log.Println("jjjj",dateOfCreation)
 		task.Settings.DateOfCreation =dateOfCreation
 		task.Settings.Status = helpers.StatusActive
 		task.Settings.TaskStatus =helpers.StatusPending

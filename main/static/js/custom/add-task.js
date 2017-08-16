@@ -8,6 +8,7 @@ console.log("job name from url",vm.JobNameFormUrl);
 document.getElementById("task").className += " active";
 var date = new Date();
 var datum = (Date.parse(date))/1000;
+console.log("greenn",datum)
 var pageType = vm.PageType;
 var customerName = "";
 var jobId = "";
