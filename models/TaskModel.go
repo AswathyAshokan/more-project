@@ -571,6 +571,8 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 
 	taskValues :=Tasks{}
 	var tempUserKeySlice []string
+	var tempUserKeyForOldTask []string
+	var uniqueUserKey  []string
 	var tempContactKeySlice []string
 	userName := TaskUser{}
 	err = dB.Child("/Tasks/"+ taskId).Value(&taskValues)
@@ -579,10 +581,56 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	for _, userKeyForTask := range userStatusForTaskFromForm.MapKeys() {
 		tempUserKeySlice = append(tempUserKeySlice, userKeyForTask.String())
 	}
+	for _, userKeyForOldTask := range userStatusInTask.MapKeys() {
+		tempUserKeyForOldTask = append(tempUserKeyForOldTask, userKeyForOldTask.String())
+	}
+	//for i:=0;i<len(tempUserKeySlice);i++{
+	//	tempUserKeyForOldTask = append(tempUserKeyForOldTask,tempUserKeySlice[i])
+	//}
+
+	for i := 0; i < 2; i++ {
+		for _, s1 := range tempUserKeySlice {
+			found := false
+			for _, s2 := range tempUserKeyForOldTask {
+				if s1 == s2 {
+					found = true
+					break
+				}
+			}
+			// String not found. We add it to return slice
+			if !found {
+				uniqueUserKey = append(uniqueUserKey, s1)
+			}
+		}
+		// Swap the slices, only if it was the first loop
+		if i == 0 {
+			tempUserKeySlice, tempUserKeyForOldTask = tempUserKeyForOldTask, tempUserKeySlice
+		}
+	}
+
+	log.Println("the atlast thingsss",uniqueUserKey)
+	for i:=0;i<len(uniqueUserKey);i++{
+		userNotificationDetail :=UserNotification{}
+		userNotificationDetail.Date =m.Settings.DateOfCreation
+		userNotificationDetail.IsRead =false
+		userNotificationDetail.IsViewed =false
+		userNotificationDetail.TaskId =taskId
+		userNotificationDetail.TaskName =m.Info.TaskName
+		userNotificationDetail.Category ="Tasks"
+		userNotificationDetail.Status ="New"
+		userNotificationDetail.IsDeleted =false
+		err = dB.Child("/Users/"+uniqueUserKey[i]+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+		if err!=nil{
+			log.Println("Insertion error:",err)
+			return false
+		}
+
+	}
 
 	for _, key := range userStatusInTask.MapKeys() {
 		for i:=0;i<len(tempUserKeySlice);i++{
 			if tempUserKeySlice[i]==key.String() {
+				log.Println("key in old task",key.String())
 				userName.UserTaskStatus =taskValues.UsersAndGroups.User[key.String()].UserTaskStatus
 				userName.FullName = taskValues.UsersAndGroups.User[key.String()].FullName
 				userName.Status =helpers.StatusActive
@@ -601,25 +649,31 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 					log.Println("Insertion error:",err)
 					return false
 				}
+				break
 
 			}else {
-				userNotificationDetail :=UserNotification{}
-				userNotificationDetail.Date =m.Settings.DateOfCreation
-				userNotificationDetail.IsRead =false
-				userNotificationDetail.IsViewed =false
-				userNotificationDetail.TaskId =taskId
-				userNotificationDetail.TaskName =m.Info.TaskName
-				userNotificationDetail.Category ="Tasks"
-				userNotificationDetail.Status ="New"
-				userNotificationDetail.IsDeleted =false
-				err = dB.Child("/Users/"+tempUserKeySlice[i]+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
-				if err!=nil{
-					log.Println("Insertion error:",err)
-					return false
-				}
+
+
+				//log.Println("key not in old task",tempUserKeySlice[i])
+				//userNotificationDetail :=UserNotification{}
+				//userNotificationDetail.Date =m.Settings.DateOfCreation
+				//userNotificationDetail.IsRead =false
+				//userNotificationDetail.IsViewed =false
+				//userNotificationDetail.TaskId =taskId
+				//userNotificationDetail.TaskName =m.Info.TaskName
+				//userNotificationDetail.Category ="Tasks"
+				//userNotificationDetail.Status ="New"
+				//userNotificationDetail.IsDeleted =false
+				//err = dB.Child("/Users/"+tempUserKeySlice[i]+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+				//if err!=nil{
+				//	log.Println("Insertion error:",err)
+				//	return false
+				//}
 			}
 		}
 	}
+
+
 	//update contactstatus in task while updating
 	taskContactDetail := TaskContact{}
 	contactStatusInTask := reflect.ValueOf(taskValues.Contacts)

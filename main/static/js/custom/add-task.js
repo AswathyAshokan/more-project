@@ -116,6 +116,7 @@ $(function () {
         
     }
     if (pageType == "edit") {
+        document.getElementById("saveAndContinue").disabled = true;
         document.title = 'Edit Task'
         console.log("log",vm.Log);
         var element = document.getElementById('logInMinutes');
