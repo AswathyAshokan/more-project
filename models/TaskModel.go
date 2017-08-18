@@ -747,6 +747,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userTaskDetail.JobName = m.Job.JobName
 		userTaskDetail.TaskName = m.Info.TaskName
 		userTaskDetail.StartDate = m.Info.StartDate
+		userTaskDetail.DateOfCreation =taskValues.Settings.DateOfCreation
 		userTaskDetail.Status =helpers.StatusPending
 		err = dB.Child("/Users/"+userKey+"/Tasks/"+taskId).Update(&userTaskDetail)
 	}
