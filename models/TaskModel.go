@@ -158,6 +158,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 		userNotificationDetail.TaskName =m.Info.TaskName
 		userNotificationDetail.Category ="Tasks"
 		userNotificationDetail.Status ="New"
+		userNotificationDetail.IsDeleted =false
 		err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+notifyId).Set(userNotificationDetail)
 		if err!=nil{
 			log.Println("Insertion error:",err)
@@ -449,6 +450,7 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 		userNotificationDetail.TaskName =taskDetailForUser.Info.TaskName
 		userNotificationDetail.Category ="Tasks"
 		userNotificationDetail.Status ="Deleted"
+		userNotificationDetail.IsDeleted= false
 		err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
 		if err!=nil{
 			log.Println("Insertion error:",err)
@@ -593,6 +595,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 				userNotificationDetail.TaskName =m.Info.TaskName
 				userNotificationDetail.Category ="Tasks"
 				userNotificationDetail.Status ="Updated"
+				userNotificationDetail.IsDeleted =false
 				err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
 				if err!=nil{
 					log.Println("Insertion error:",err)
@@ -608,6 +611,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 				userNotificationDetail.TaskName =m.Info.TaskName
 				userNotificationDetail.Category ="Tasks"
 				userNotificationDetail.Status ="New"
+				userNotificationDetail.IsDeleted =false
 				err = dB.Child("/Users/"+tempUserKeySlice[i]+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
 				if err!=nil{
 					log.Println("Insertion error:",err)

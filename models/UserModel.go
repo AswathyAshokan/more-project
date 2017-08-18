@@ -87,6 +87,7 @@ type UserNotification struct {
 	IsViewed	bool
 	Category	string
 	Status		string
+	IsDeleted       bool
 }
 type UserInvitations struct {
 	Date		int64
@@ -95,4 +96,5 @@ type UserInvitations struct {
 	CompanyAdmin	string
 	CompanyName	string
 	Category	string
+	IsDeleted       bool
 }

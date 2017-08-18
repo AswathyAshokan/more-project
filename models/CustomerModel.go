@@ -288,6 +288,7 @@ func (m *Customers) DeleteCustomerFromDB(ctx context.Context, customerId string,
 					userNotificationDetail.TaskName =taskDetailForUser.Info.TaskName
 					userNotificationDetail.Category ="Tasks"
 					userNotificationDetail.Status ="Deleted"
+					userNotificationDetail.IsDeleted =false
 					err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+notifyDeleteId).Set(userNotificationDetail)
 					if err!=nil{
 						log.Println("Insertion error:",err)

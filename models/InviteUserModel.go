@@ -126,6 +126,7 @@ func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string,admi
 		userInvitationDetail.CompanyAdmin =adminName
 		userInvitationDetail.CompanyName =m.Info.CompanyName
 		userInvitationDetail.Date =m.Settings.DateOfCreation
+		userInvitationDetail.IsDeleted =false
 		err = db.Child("/Users/"+userKey.String()+"/Settings/Notifications/Invitations/"+invitationUniqueID).Set(userInvitationDetail)
 		if err!=nil{
 			log.Println("Insertion error:",err)
