@@ -160,5 +160,5 @@ func (c *WorkLocationcontroller) AddWorkLocaction() {
 	workLocationViewmodel.CompanyTeamName = companyTeamName
 	/*c.Layout = "layout/layout.html"*/
 	c.Data["vm"] = workLocationViewmodel
-	c.TplName = "template/workLocation.html"
+	c.TplName = "template/add-workLocation.html"
 }

@@ -117,7 +117,7 @@ $(document).ready(function() {
               console.log("formData",formData);
             $.ajax({
                 
-                    url:'/' + companyTeamName +'/worklocation',
+                    url:'/' + companyTeamName +'/worklocation/add',
                     type:'post',
                     datatype: 'json',
                     data: formData,
