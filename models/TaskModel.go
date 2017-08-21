@@ -406,6 +406,7 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 	err = dB.Child("/Tasks/"+ taskId).Value(&taskDetailForUser)
 	userData := reflect.ValueOf(taskDetailForUser.UsersAndGroups.User)
 	for _, key := range userData.MapKeys() {
+		log.Println("username ",key.String())
 		userTaskDetail := UserTasks{}
 		userTaskDetail.DateOfCreation = taskDetailForUser.Settings.DateOfCreation
 		userTaskDetail.TaskName = taskDetailForUser.Info.TaskName
@@ -442,6 +443,7 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 	log.Println("iddddddddddd",notifyDeleteId)
 	for _, key := range userDataDetails.MapKeys() {
 		log.Println("inside  notificationnnnn")
+		log.Println("deleted user",key.String())
 		userNotificationDetail :=UserNotification{}
 		userNotificationDetail.Date =time.Now().Unix()
 		userNotificationDetail.IsRead =false

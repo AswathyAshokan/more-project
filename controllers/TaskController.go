@@ -52,17 +52,27 @@ func (c *TaskController)AddNewTask() {
 		startDateString := c.GetString("startDateFomJs")
 		endDateString :=c.GetString("endDateFromJs")
 		fitToWorkName :=c.GetString("fitToWorkName")
-		layout := "01/02/2006 15:04"
-		startDate, err := time.Parse(layout, startDateString)
+		endDateInInt, err := strconv.ParseInt(endDateString, 10, 64)
 		if err != nil {
-			log.Println(err)
+			panic(err)
 		}
-		task.Info.StartDate = startDate.UTC().Unix()
-		endDate, err := time.Parse(layout, endDateString)
+		startDateInInt, err := strconv.ParseInt(startDateString, 10, 64)
 		if err != nil {
-			log.Println(err)
+			panic(err)
 		}
-		task.Info.EndDate = endDate.Unix()
+		//layout := "01/02/2006 15:04"
+		//startDate, err := time.Parse(layout, startDateString)
+		//if err != nil {
+		//	log.Println(err)
+		//}
+		//task.Info.StartDate = startDate.UTC().Unix()
+		//endDate, err := time.Parse(layout, endDateString)
+		//if err != nil {
+		//	log.Println(err)
+		//}
+		//task.Info.EndDate = endDate.Unix()
+		task.Info.StartDate =startDateInInt
+		task.Info.EndDate =endDateInInt
 		task.Info.TaskDescription = c.GetString("taskDescription")
 		task.Info.UserNumber = c.GetString("minUsers")
 		logInMinutes :=c.GetString("logInMinutes")
@@ -707,17 +717,27 @@ func (c *TaskController)LoadEditTask() {
 		log.Println("hgfdfhgd",fitToWorkName)
 		startDateString := c.GetString("startDateFomJs")
 		endDateString :=c.GetString("endDateFromJs")
-		layout := "01/02/2006 15:04"
-		startDate, err := time.Parse(layout, startDateString)
+		//layout := "01/02/2006 15:04"
+		//startDate, err := time.Parse(layout, startDateString)
+		//if err != nil {
+		//	log.Println(err)
+		//}
+		//task.Info.StartDate = startDate.Unix()
+		//endDate, err := time.Parse(layout, endDateString)
+		//if err != nil {
+		//	log.Println(err)
+		//}
+		//task.Info.EndDate = endDate.Unix()
+		endDateInInt, err := strconv.ParseInt(endDateString, 10, 64)
 		if err != nil {
-			log.Println(err)
+			panic(err)
 		}
-		task.Info.StartDate = startDate.Unix()
-		endDate, err := time.Parse(layout, endDateString)
+		startDateInInt, err := strconv.ParseInt(startDateString, 10, 64)
 		if err != nil {
-			log.Println(err)
+			panic(err)
 		}
-		task.Info.EndDate = endDate.Unix()
+		task.Info.StartDate=startDateInInt
+		task.Info.EndDate=endDateInInt
 		task.Info.TaskDescription = c.GetString("taskDescription")
 		task.Info.UserNumber = c.GetString("minUsers")
 		logInMinutes :=c.GetString("logInMinutes")
