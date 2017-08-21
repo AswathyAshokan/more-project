@@ -12,9 +12,6 @@ type Group struct {
 	Members	 	map[string]GroupMembers
 	Settings 	GroupSettings
 	Tasks		map[string] TasksGroup
-
-
-
 }
 type TasksGroup struct {
 	TasksGroupStatus	string

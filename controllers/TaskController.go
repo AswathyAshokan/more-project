@@ -86,6 +86,9 @@ func (c *TaskController)AddNewTask() {
 		UserOrGroupIdArray := c.GetStrings("userOrGroup")
 		UserOrGroupNameArray := c.GetStrings("userAndGroupName")
 		groupKeySliceForTaskString  :=c.GetString("groupArrayElement")
+		log.Println("UserOrGroupIdArray",UserOrGroupIdArray)
+		log.Println("UserOrGroupNameArray",UserOrGroupNameArray)
+		log.Println("groupKeySliceForTaskString",groupKeySliceForTaskString)
 		groupKeySliceForTask :=strings.Split(groupKeySliceForTaskString, ",")
 		tempContactName := c.GetStrings("contactName")
 		tempContactId := c.GetStrings("contactId")
@@ -161,7 +164,6 @@ func (c *TaskController)AddNewTask() {
 							MemberNameArray = append(MemberNameArray, groupDetails.Members[key.String()].MemberName)
 
 						}
-
 					case false:
 						log.Println(helpers.ServerConnectionError)
 					}
@@ -177,9 +179,6 @@ func (c *TaskController)AddNewTask() {
 				}
 
 			}
-
-
-
 		}
 
 

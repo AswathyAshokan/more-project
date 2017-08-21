@@ -1,0 +1,557 @@
+
+   
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script type="text/javascript">
+            var vm = {{.vm}};
+        </script>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/static/css/style.css">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+        <script src="/static/js/jquery-3.1.0.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="/static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+        <script src="/static/js/jquery.validate.js"></script>
+        <script src="/static/js/custom/worklocation.js"></script>
+        <script src="/static/js/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="/static/js/timepicker.js"></script>
+        <script src="/static/js/select2.min.js"></script>
+        <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>
+        <link href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css"rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <section class="header">
+            <div class="container-fluid">
+		<header>
+            <div class="logo">
+		        <img src="/static/images/logo.png" alt="" class="img-responsive">
+		    </div>
+            <div class="right-menu">
+                <ul>
+                    <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">About</a></li>
+                    <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Contact</a></li>
+		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Licence</a></li>
+                </ul>
+                <div class="dropdown">
+                    <button class="dropdown-toggle no-button-style" type="button" data-toggle="dropdown"><i><img src="" id="imageId" style="border-radius:50% 50% 50% 50%; width:30px; height:30px;"></i>
+<!--                        <img src="images/user-dropdown.png">--> 
+                       &emsp; <span class="user-name" id="username"> User</span>
+		                <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href='/{{.vm.CompanyTeamName}}/editProfile'>Edit Profile</a></li>
+                        <li  ><a href="#" data-toggle="modal" id="planChange" >Package</a></li>
+		                <li><a href="/logout">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+                </header>
+            </div>
+        </section>
+        <section class="content-section clearfix">
+            <div class="container-fluid no-gutter-xs">
+                <div class="col-md-2 main-menu-wrapper">
+                    <nav class="main-menu admin-layout">
+                        <ul id="menuItems">
+                            <li id="dashBoard"><a href='/{{.vm.CompanyTeamName}}/dashBoard'><i class="sprites-dashboard"></i>Dashboard</a></li> 
+                            <li id="user"><a href='/{{.vm.CompanyTeamName}}/invite'><i class="sprites-user"></i>User</a></li>
+                            <li id="group"><a href='/{{.vm.CompanyTeamName}}/group' ><i class="sprites-group"></i>Group</a></li>
+                            <li id ="crm"><a href='/{{.vm.CompanyTeamName}}/customer'><i class="sprites-crm"></i>CRM</a></li>
+                            <li id="contact"><a href='/{{.vm.CompanyTeamName}}/contact'><i class="sprites-contact"></i>Contact</a></li>
+                        <!--<li id="nfc"><a href="/{{.vm.CompanyTeamName}}/nfc"><i class="sprites-nfc"></i>NFC Tag</a></li>-->
+                            <li id ="job"><a href='/{{.vm.CompanyTeamName}}/job'><i class="sprites-job"></i>Job</a></li>
+                            <li id="task"><a href='/{{.vm.CompanyTeamName}}/task'><i class="sprites-task"></i>Task</a></li>
+                            <li id="leave"><a href='/{{.vm.CompanyTeamName}}/leave'><i class="sprites-leave"></i>Leave</a></li>
+                        <!--<li><a href="#"><i class="sprites-payroll"></i>Payroll</a></li>-->
+                            <li id="log"><a href="/{{.vm.CompanyTeamName}}/workLog"><i class="sprites-log"></i>Log</a></li>
+                        <!--<li id="log"><a href="/PendingWorks"><i class="sprites-log"></i>Log</a>-->
+                        <!--<li id="time-sheet"><a href="/{{.vm.CompanyTeamName}}/timeSheet"><i class="sprites-log"></i>Time Sheet</a></li>-->
+                            <li id="time-sheet"><a href="/{{.vm.CompanyTeamName}}/PendingWorks"><i class="sprites-log" ></i>Time Sheet</a></li>
+                        <!--<li id="time-sheet"><a href="/{{.vm.CompanyTeamName}}/PendingWorks"><i class="sprites-log" ></i>Time Sheet</a></li>-->
+                        <!--<li><a href="#"><i class="sprites-dures"></i>Duress</a></li>-->
+                            <li id="consent"><a href="/{{.vm.CompanyTeamName}}/consent"><i class="sprites-consent"></i>Consent Receipt</a></li>
+                            <li id="fitToWork"><a href="/{{.vm.CompanyTeamName}}/fitToWork"><i class="sprites-consent"></i>Fit To Work</a></li>
+                            <li id="WorkLocation"><a href="/{{.vm.CompanyTeamName}}/worklocation"><i class="sprites-consent"></i>Work Location</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-md-12 main-content-wrapper padding-50-each">
+               <div class="clearfix">
+                   <h4>Add work location</h4>
+                   <form class="personal-details margin-top-20 clearfix bg-border task-add" id="workLocationForm">
+                       <div class="col-xs-12">
+                           <div class="">
+                               <div id="map" style="width:100%;height:100% ; min-height:300px"></div>
+                           </div>
+                       </div>
+                       <div class="col-xs-12 margin-top-20">
+                           <div class="row">
+                               <div class="clearfix no-bg-border">
+                                   <div class="form-group clearfix">
+                                       <div class="col-sm-6">
+                                           <label  class="">Users/Group</label>
+                                           <select class="form-control sprites-arrow-down multiple-drop" id="usersAndGroupId" multiple="multiple">
+                                               {{range $key, $val := .vm.GroupNameArray}}
+                                               <option value="{{index $.vm.UserAndGroupKey $key}}">{{$val}}</option>
+                                               {{end}}
+                                           </select>
+                                       </div>
+                                       <div class="col-sm-6">
+                                           <label  for="taskLocation" class="">Task Location</label>
+                                           <input class="form-control" id="taskLocation" type="text" name="taskLocation">
+                                       </div>
+                                   </div>
+                                   <div class="align-left col-sm-12">
+                                       <button class="btn btn-primary" id="saveButton">Save</button>
+                                       <button class="btn btn-success">Cancel</button>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </form>
+               </div>
+                </div>
+                <script>
+                  var defaultLatitude = "54.9682059";
+    var defaultLongitude = "-1.6121358";
+    var map;
+    var markers = [];
+    var marker;
+    var geocoder;
+    var initialLocation = document.getElementById("taskLocation").value;
+                    console.log("initialixzation variable",initialLocation);
+<!--..............................................................................-->
+
+                             
+
+<!--...............................................................................-->
+
+     
+    function initialize() {
+        geocoder = new google.maps.Geocoder();
+        var taskLocation = document.getElementById("taskLocation");
+    console.log("taskLocation",taskLocation);
+        
+        //function in case of edit task.set map according to location in text box
+        if(taskLocation.length  != 0){
+        
+            var loc=[];
+            // next line creates asynchronous request
+            geocoder.geocode( { 'address': vm.TaskLocation}, function(results, status) {
+                console.log("loc1");
+                if (status == google.maps.GeocoderStatus.OK) {
+                    console.log("loc2");
+                    loc[0]=results[0].geometry.location.lat();
+                    console.log(loc[0]);
+                    loc[1]=results[0].geometry.location.lng();
+                    console.log(loc[1]);
+                    if(loc[0] == "27.6648274" &&  loc[1] =="-81.51575350000002"){
+                        console.log("loc3");
+                        loc[0]="54.968378";
+                        loc[1]="-1.612146";
+                    }
+                    var mapOptions = {
+                        
+                        center: new google.maps.LatLng(loc[0], loc[1]),
+                        zoom: 13,
+                         mapTypeId: google.maps.MapTypeId.ROADMAP,
+                                   disableDefaultUI: true
+                    };
+                    map = new google.maps.Map(document.getElementById('map'),
+                                  mapOptions);
+                    marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(loc[0], loc[1]),
+                        map: map,
+                    });
+                    markers.push(marker);
+                    document.getElementById('latitudeId').value =loc[0];
+                    document.getElementById('longitudeId').value =loc[1];
+                    var templat = marker.getPosition().lat();
+                    var templng = marker.getPosition().lng();
+                  
+                } else {
+//                    alert("Geocode was not successful for the following reason: " + status);
+                }
+                google.maps.event.addListener(map, 'click', function (event) {
+                    DeleteMarkers();
+                    var latlng = new google.maps.LatLng(event.latLng.lat(),event.latLng.lng());
+                    placeMarker(event.latLng, map);
+                    var geocoder = geocoder = new google.maps.Geocoder();
+                    geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            if (results[1]) {
+                                document.getElementById("taskLocation").value = results[1].formatted_address ;
+                            }
+                            document.getElementById('latitudeId').value =event.latLng.lat();
+                            document.getElementById('longitudeId').value =event.latLng.lng();
+                        }
+                    });
+                });
+            });
+        }
+        
+        var mapOptions = {
+            center: new google.maps.LatLng(defaultLatitude, defaultLongitude),
+            zoom: 14,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+                                   disableDefaultUI: true
+        };
+        map = new google.maps.Map(document.getElementById('map'),
+                                  mapOptions);
+        marker = new google.maps.Marker({
+            position: new google.maps.LatLng(defaultLatitude, defaultLongitude),
+            map: map,
+        });
+        google.maps.event.addListener(map, 'click', function (event) {
+            DeleteMarkers();
+            var latlng = new google.maps.LatLng(event.latLng.lat(),event.latLng.lng());
+            placeMarker(event.latLng, map);
+            var geocoder = geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[1]) {
+                         document.getElementById("taskLocation").value = results[1].formatted_address ;
+                    }
+                    document.getElementById('latitudeId').value =event.latLng.lat();
+                    document.getElementById('longitudeId').value =event.latLng.lng();
+                }
+            });
+        });
+        function placeMarker(position, map) {
+            var marker = new google.maps.Marker({
+                position: position,
+                map: map
+            });
+            map.panTo(position);
+            markers.push(marker);
+        }
+        //delete markers
+        function DeleteMarkers() {
+            console.log("in deletion of marker");
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(null);
+            }
+            markers = [];
+        };
+       
+
+  // get places auto-complete when user type in location-text-box
+        var input = /** @type {HTMLInputElement} */
+            (
+                document.getElementById('taskLocation'));
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+        var infowindow = new google.maps.InfoWindow();
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            infowindow.close();
+            marker.setVisible(false);
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                return;
+            }
+            // If the place has a geometry, then present it on a map.
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+                map.setZoom(15); // Why 17? Because it looks good.
+            }
+            marker.setPosition(place.geometry.location);
+            marker.setVisible(true);
+            markers.push(marker);
+            var address = '';
+            if (place.address_components) {
+                address = [
+                    (place.address_components[0] && place.address_components[0].short_name || ''), (place.address_components[1] && place.address_components[1].short_name || ''), (place.address_components[2] && place.address_components[2].short_name || '')
+                ].join(' ');
+            }
+        });
+    }
+                </script>
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFl3U2s0vqjaN-6rvAaOA8Ts1cfDss_KM&libraries=geometry,places&callback=initialize"></script>
+            </div>
+        </section>
+        <div class="modal fade plans-modal" id="family" role="dialog" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <section class="header">
+                            <div class="container-fluid">
+                                <header>
+                                    <div class="logo">
+                                        <img src="/static/images/logo.png" alt="" class="img-responsive">
+                                    </div>
+                                </header>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="modal-body">
+                        <div class="padding-15">
+                            <div class="clearfix">
+                                <h1 class="h4">Family</h1>
+                                <div class="plans margin-top-20">
+                                    <div class="plan-wrapper col-xs-12 ">
+                                        <div class="plan-inner-wrapper">
+                                            <div class="plan-header bg-red">
+                                                <h3>Family</h3>
+                                                <span class="bg-light-red">Free</span>
+                                            </div>
+                                            <div class="plan-body">
+                                                <span>No. of Users (6)</span>
+                                                <span>Schedule and Task Management</span>
+                                                <span>GPS Tracking</span>
+                                                <span>Log</span>
+                                                <span>Duress Function</span>
+                                                <span>Messaging </span>
+                                                <span>Notifications</span>
+                                            </div>
+                                            <div class="plan-footer bg-light-red">
+                                                <a href="/plan"><h4 >Choose Plan</h4></a> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <section class="footer">
+                            <div class="container-fluid">
+                                <footer>
+                                    <div class="footer-logo">
+                                        <img src="/static/images/logo-footer.png" alt="" class="img-responsive">
+                                    </div>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </footer>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade plans-modal" id="campus" role="dialog" >
+            <div class="modal-dialog"> 
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <section class="header">
+                            <div class="container-fluid">
+                                <header>
+                                    <div class="logo">
+                                        <img src="/static/images/logo.png" alt="" class="img-responsive">
+                                    </div>
+                                </header>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="modal-body">
+                        <div class="padding-15">
+                            <div class="clearfix">
+                                <h1 class="h4">Campus</h1>
+                                <div class="plans margin-top-20">
+                                    <div class="plan-wrapper col-xs-12 ">
+                                        <div class="plan-inner-wrapper">
+                                            <div class="plan-header bg-green">
+                                                <h3>Campus</h3>
+                                                <span class="bg-light-green">Free</span>
+                                            </div>
+                                            <div class="plan-body">
+                                                <span>No. of Users (Unlimited)</span>
+                                                <span>Schedule and Task Management</span>
+                                                <span>GPS Tracking</span>
+                                                <span>Log</span>
+                                                <span>Duress Function</span>
+                                                <span>Messaging </span>
+                                                <span>Notifications</span>
+                                                <span>P-Tag</span>
+                                            </div>
+                                            <div class="plan-footer bg-light-green">
+                                                <a href="/plan"><h4 >Choose Plan</h4></a> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <section class="footer">
+                        <div class="container-fluid">
+                            <footer>
+                                <div class="footer-logo">
+                                    <img src="/static/images/logo-footer.png" alt="" class="img-responsive">
+                                </div>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </footer>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade plans-modal" id="business" role="dialog" >
+        <div class="modal-dialog">
+	    
+	      <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <section class="header">
+                        <div class="container-fluid">
+                            <header>
+                                <div class="logo">
+                                    <img src="/static/images/logo.png" alt="" class="img-responsive">
+                                </div>
+                            </header>
+                        </div>
+                    </section>
+                </div>
+                <div class="modal-body">
+                    <div class="padding-15">
+                        <div class="clearfix">
+                            <h1 class="h4">Business</h1>
+                            <div class="plans margin-top-20">
+                                <div class="plan-wrapper col-xs-12 ">
+                                    <div class="plan-inner-wrapper">
+                                        <div class="plan-header bg-blue">
+                                            <h3>Business</h3>
+                                            <span class="bg-light-blue">Free for 4 users</span>
+                                        </div>
+                                        <div class="plan-body">
+                                            <span>No. of Users (Unlimited)</span>
+                                            <span>Schedule and Task Management</span>
+                                            <span>GPS Tracking</span>
+                                            <span>Log</span>
+                                            <span>Duress Function</span>
+                                            <span>Messaging </span>
+                                            <span>Notifications and Alerts</span>
+                                            <span>CRM</span>
+                                        </div>
+                                        <div class="plan-footer bg-light-blue">
+                                            <a href="/plan"><h4 >Choose Plan</h4></a> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <section class="footer">
+                        <div class="container-fluid">
+                            <footer>
+                                <div class="footer-logo">
+                                    <img src="/static/images/logo-footer.png" alt="" class="img-responsive">
+                                </div>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </footer>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade plans-modal" id="business-plus" role="dialog" >
+        <div class="modal-dialog">
+	    
+	      <!-- Modal content-->
+            <div class="modal-content">
+	        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		         <section class="header">
+					<div class="container-fluid">
+						<header>
+							<div class="logo">
+								<img src="/static/images/logo.png" alt="" class="img-responsive">
+							</div>
+
+						</header>
+					</div>
+				</section>
+	        </div>
+	        <div class="modal-body">
+	          <div class="padding-15">
+				<div class="clearfix">
+					<h1 class="h4">Business-plus</h1>
+
+					<div class="plans margin-top-20">
+						
+						<div class="plan-wrapper col-xs-12 ">
+							<div class="plan-inner-wrapper">
+								<div class="plan-header bg-yellow">
+									<h3>Business Plus</h3>
+									<span class="bg-light-yellow">Plan only</span>
+								</div>
+
+								<div class="plan-body">
+									<span>No. of Users (Unlimited)</span>
+									<span>Schedule and Task Management</span>
+									<span>GPS Tracking</span>
+									<span>Log</span>
+									<span>Duress Function</span>
+									<span>Messaging </span>
+									<span>Notifications and Alerts</span>
+									<span>P-Tag</span>
+									<span>CRM</span>
+									<span>Time and Payroll Management</span>
+									<span>Pre-start Meetings</span>
+									<span>Expiries</span>
+									<span>Exposure</span>
+									<span>Certifications</span>
+								</div>
+
+								<div class="plan-footer bg-light-yellow">
+									 <a href="/plan"><h4 >Choose Plan</h4></a> 
+								</div>
+							</div>
+						</div>
+                    </div>
+                  </div>
+                </div>
+	        </div>
+	        <div class="modal-footer">
+
+		        <section class="footer">
+					<div class="container-fluid">
+						<footer>
+							<div class="footer-logo">
+								<img src="/static/images/logo-footer.png" alt="" class="img-responsive">
+							</div>
+
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</footer>
+					</div>
+				</section>
+	          
+	        </div>
+	      </div>
+	      
+	    </div>
+	</div>
+
+
+	<section class="footer">
+	    <div class="container-fluid">
+		<footer>
+		    <div class="footer-logo">
+		        <img src="/static/images/logo-footer.png" alt="" class="img-responsive">
+		    </div>
+		    <ul>
+		        <li>Copyright <span>Passporte</span> Limited</li>
+		        <li>All Rights Reserved</li>
+		    </ul>
+		</footer>
+	    </div>
+	</section>
+
+
+</body>
+</html>
+
+
+
+
+

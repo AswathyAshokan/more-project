@@ -68,6 +68,10 @@ $(function () {
           $("#contactDiv").show();
     }
     
+    /*var date = new Date();
+    var datum = (Date.parse(date))/1000;*/
+    
+    
     // date picker 
     $( "#startDate" ).datepicker({ minDate: 0});
 //    $( "#endDate" ).datepicker({ minDate: 0});

@@ -83,7 +83,7 @@ func init() {
 	beegae.Router("/:companyTeamName/consent", &controllers.ConsentReceiptController{}, "*:LoadConsentReceipt")
 	beegae.Router("/:companyTeamName/consent/:consentId/edit", &controllers.ConsentReceiptController{}, "*:EditConsentReceipt")
 	beegae.Router("/:companyTeamName/consent/:consentId/delete", &controllers.ConsentReceiptController{}, "*:DeleteConsentReceipt")
-
+	beegae.Router("/:companyTeamName/worklocation", &controllers.WorkLocationcontroller{}, "*:AddWorkLocaction")
 	beegae.Router("/listCountry",&controllers.CountryController{},"*:ListCountries")
 
 

@@ -273,11 +273,6 @@
 <script src="/static/js/jquery.validate.js"></script>
 <script src="/static/js/custom/add-task.js"></script>
 <script src="/static/js/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
-
-<!--
-<script src="/static/js/jquery.plugin.js"></script>
-<script src="/static/js/jquery.timeentry.js"></script>
--->
 <script src="/static/js/timepicker.js"></script>
 <script src="/static/js/select2.min.js"></script>
 <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
@@ -302,6 +297,7 @@
     function initialize() {
         geocoder = new google.maps.Geocoder();
         var taskLocation = document.getElementById("taskLocation");
+    console.log("taskLocation",taskLocation);
         
         //function in case of edit task.set map according to location in text box
         if(taskLocation.length  != 0){
