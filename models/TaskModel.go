@@ -824,6 +824,95 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	customerInTask.CustomerStatus =m.Customer.CustomerStatus
 	err = dB.Child("/Tasks/"+ taskId+"/Customer/").Set(customerInTask)
 
+
+	//change in job when the task assigned to another job
+	jobDetail := map[string]Job {}
+	//updatedJob :=Job{}
+	updatedInfo :=JobInfo{}
+	updatedcustomer :=JobCustomer{}
+	updatedSettings :=JobSettings{}
+
+	if taskValues.Job.JobId == m.Job.JobId{
+		log.Println("no change for job")
+	}else{
+		err = dB.Child("Jobs").OrderBy("Info/CompanyTeamName").EqualTo(companyId).Value(&jobDetail)
+		jobData := reflect.ValueOf(jobDetail)
+		for _, key := range jobData.MapKeys() {
+			if key.String() ==m.Job.JobId && jobDetail[key.String()].Settings.Status==helpers.StatusActive {
+				NumberOfTask :=jobDetail[key.String()].Info.NumberOfTask
+				NumberOfTask =NumberOfTask+1
+				updatedInfo.JobName =jobDetail[key.String()].Info.JobName
+				updatedInfo.JobNumber = jobDetail[key.String()].Info.JobNumber
+				updatedInfo.NumberOfTask = NumberOfTask
+				updatedInfo.CompanyTeamName = companyId
+				updatedInfo.OrderDate =jobDetail[key.String()].Info.OrderDate
+				updatedInfo.OrderNumber =jobDetail[key.String()].Info.OrderNumber
+				err = dB.Child("/Jobs/"+ key.String()+"/Info").Update(&updatedInfo)
+				updatedcustomer.CustomerId= jobDetail[key.String()].Customer.CustomerId
+				updatedcustomer.CustomerName= jobDetail[key.String()].Customer.CustomerName
+				updatedcustomer.CustomerStatus= jobDetail[key.String()].Customer.CustomerStatus
+				err = dB.Child("/Jobs/"+ key.String()+"/Customer").Update(&updatedcustomer)
+				updatedSettings.Status = jobDetail[key.String()].Settings.Status
+				updatedSettings.DateOfCreation = jobDetail[key.String()].Settings.DateOfCreation
+				err = dB.Child("/Jobs/"+ key.String()+"/Settings").Update(&updatedSettings)
+				//totalJobDataStatus := reflect.ValueOf(jobDetail[key.String()].Tasks)
+				//for _, key := range totalJobDataStatus.MapKeys() {
+				//	StatusArray =append(StatusArray,jobDetail[key.String()].Tasks[key.String()].TasksJobStatus)
+				//}
+				//err = dB.Child("/Jobs/"+ key.String()).Update(&updatedJob)
+				//
+				////err = dB.Child("/Jobs/"+ JobId+"/Tasks/").Value(&TotalJobTask)
+				//totalJobData := reflect.ValueOf(jobDetail[key.String()].Tasks)
+				//for _, key := range totalJobData.MapKeys() {
+				//	for i:=0;i<len(StatusArray);i++ {
+				//		JobTaskFOrUpdate.TasksJobStatus =StatusArray[i]
+				//		err = dB.Child("/Jobs/" + JobId + "/Tasks/" + key.String()).Set(JobTaskFOrUpdate)
+				//	}
+				//}
+
+			}
+
+			if key.String() ==taskValues.Job.JobId && jobDetail[key.String()].Settings.Status==helpers.StatusActive {
+				NumberOfTask :=jobDetail[key.String()].Info.NumberOfTask
+				NumberOfTask =NumberOfTask-1
+				updatedInfo.JobName =jobDetail[key.String()].Info.JobName
+				updatedInfo.JobNumber = jobDetail[key.String()].Info.JobNumber
+				updatedInfo.NumberOfTask = NumberOfTask
+				updatedInfo.CompanyTeamName = companyId
+				updatedInfo.OrderDate =jobDetail[key.String()].Info.OrderDate
+				updatedInfo.OrderNumber =jobDetail[key.String()].Info.OrderNumber
+				err = dB.Child("/Jobs/"+ key.String()+"/Info").Update(&updatedInfo)
+				updatedcustomer.CustomerId= jobDetail[key.String()].Customer.CustomerId
+				updatedcustomer.CustomerName= jobDetail[key.String()].Customer.CustomerName
+				updatedcustomer.CustomerStatus= jobDetail[key.String()].Customer.CustomerStatus
+				err = dB.Child("/Jobs/"+ key.String()+"/Customer").Update(&updatedcustomer)
+				updatedSettings.Status = jobDetail[key.String()].Settings.Status
+				updatedSettings.DateOfCreation = jobDetail[key.String()].Settings.DateOfCreation
+				err = dB.Child("/Jobs/"+ key.String()+"/Settings").Update(&updatedSettings)
+				//totalJobDataStatus := reflect.ValueOf(jobDetail[key.String()].Tasks)
+				//for _, key := range totalJobDataStatus.MapKeys() {
+				//	StatusArray =append(StatusArray,jobDetail[key.String()].Tasks[key.String()].TasksJobStatus)
+				//}
+				//err = dB.Child("/Jobs/"+ key.String()).Update(&updatedJob)
+				//
+				////err = dB.Child("/Jobs/"+ JobId+"/Tasks/").Value(&TotalJobTask)
+				//totalJobData := reflect.ValueOf(jobDetail[key.String()].Tasks)
+				//for _, key := range totalJobData.MapKeys() {
+				//	for i:=0;i<len(StatusArray);i++ {
+				//		JobTaskFOrUpdate.TasksJobStatus =StatusArray[i]
+				//		err = dB.Child("/Jobs/" + JobId + "/Tasks/" + key.String()).Set(JobTaskFOrUpdate)
+				//	}
+				//}
+
+			}
+
+
+
+		}
+	}
+
+
+
 	if err!=nil{
 		log.Println("Insertion error:",err)
 		return false
