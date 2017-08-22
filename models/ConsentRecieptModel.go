@@ -7,6 +7,7 @@ import(
 	"strings"
 	"reflect"
 	"app/passporte/helpers"
+
 )
 type ConsentReceipts struct {
 	Info         ConsentData
@@ -174,6 +175,7 @@ func DeleteConsentReceiptById(ctx context.Context,consentId string,companyTeamNa
 	//allUsers := map[string]Users{}
 	ConsentStatusDetails :=ConsentSettings{}
 	updateConsentStatus := ConsentSettings{}
+	getInstructions:=map[string]ConsentInstructions{}
 	//consentInUsers := map[string]ConsentReceiptDetails{}
 	//updateConsentInUsers :=ConsentReceiptDetails{}
 	db, err := GetFirebaseClient(ctx, "")
@@ -188,6 +190,34 @@ func DeleteConsentReceiptById(ctx context.Context,consentId string,companyTeamNa
 	updateConsentStatus.DateOfCreation = ConsentStatusDetails.DateOfCreation
 	updateConsentStatus.Status = helpers.UserStatusDeleted
 	err = db.Child("ConsentReceipts/"+companyTeamName+"/"+consentId+"/Settings").Update(&updateConsentStatus)
+	addConsentToUsers := ConsentReceiptDetails{}
+
+
+
+	//delete consent from users
+	 var userKeySlice []string
+	var instructionKey []string
+	addConsentToUsers.CompanyId = companyTeamName
+	addConsentToUsers.UserResponse = helpers.UserStatusDeleted
+	err = db.Child("ConsentReceipts/"+companyTeamName+"/"+consentId+"/Instructions").Value(&getInstructions)
+	//err = db.Child("/ConsentReceipts/"+companyTeamName+"/"+consentId+"/Instructions").Value(&consentRecepitDetails)
+	dataValue := reflect.ValueOf(getInstructions)
+	for _, key := range dataValue.MapKeys() {
+		instructionKey = append(instructionKey, key.String())
+	}
+	log.Println("instruction key",instructionKey)
+	for i:=0 ;i<1;i++{
+		dataValue := reflect.ValueOf(getInstructions[instructionKey[i]].Users)
+		for _, key := range dataValue.MapKeys() {
+			userKeySlice = append(userKeySlice, key.String())
+		}
+
+	}
+	log.Println("user Key ",userKeySlice)
+	log.Println("consent id ",consentId)
+	for i := 0; i < len(userKeySlice); i++ {
+		err = db.Child("/Users/" + userKeySlice[i] + "/ConsentReceipts/" + consentId).Set(addConsentToUsers)
+	}
 	if err != nil {
 		log.Fatal(err)
 		return  false
