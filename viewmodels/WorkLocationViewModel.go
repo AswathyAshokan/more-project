@@ -14,4 +14,14 @@ type AddLocationViewModel struct {
 	CompanyTeamName			string
 
 }
+type LoadWorkLocationViewModel struct {
+	Values            		[][]string
+	Keys              		[]string
+	CompanyPlan			string
+	AdminFirstName			string
+	AdminLastName			string
+	ProfilePicture			string
+	CompanyTeamName			string
+
+}
 

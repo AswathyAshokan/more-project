@@ -975,12 +975,14 @@ func (c *TaskController)LoadEditTask() {
 							}
 							viewModel.GroupMembers = append(viewModel.GroupMembers, memberSlice)
 
+
 						}
 					}
 					viewModel.UserAndGroupKey = keySliceForGroupAndUser
 				case false:
 					log.Println(helpers.ServerConnectionError)
 				}
+				log.Println("viewModel.GroupMembers",viewModel.GroupMembers)
 			case false:
 				log.Println(helpers.ServerConnectionError)
 			}

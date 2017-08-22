@@ -39,8 +39,7 @@ func (c *InviteUserController) AddInvitation() {
 		inviteUser.Info.LastName = c.GetString("lastname")
 		inviteUser.Info.Email = c.GetString("emailid")
 		inviteUser.Info.UserType = c.GetString("usertype")
-		dateOfCreationString :=c.GetString("dateOfCreation")
-		inviteUser.Settings.DateOfCreation,_= strconv.ParseInt(dateOfCreationString, 10, 64)
+		inviteUser.Settings.DateOfCreation = time.Now().Unix()
 		log.Println("inviteUser.Settings.DateOfCreation",inviteUser.Settings.DateOfCreation)
 		inviteUser.Settings.Status = helpers.StatusInActive
 		inviteUser.Settings.UserResponse = helpers.UserResponsePending

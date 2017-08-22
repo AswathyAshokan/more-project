@@ -61,7 +61,7 @@ func (c *WorkLocationcontroller) AddWorkLocaction() {
 			}
 			if groupKeySliceForWorkLocation[0] != "" {
 				for i := 0; i < len(groupKeySliceForWorkLocation); i++ {
-					groupDetails, dbStatus := group.GetGroupDetailsForWorkLocation(c.AppEngineCtx, groupKeySliceForWorkLocation[i])
+					groupDetails, dbStatus := group.GetGroupDetailsById(c.AppEngineCtx, groupKeySliceForWorkLocation[i])
 					switch dbStatus {
 					case true:
 						groupNameAndDetails.GroupName = groupDetails.Info.GroupName
@@ -121,7 +121,6 @@ func (c *WorkLocationcontroller) AddWorkLocaction() {
 				}
 			}
 			allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx,companyTeamName)
-			log.Println("get all groups",allGroups)
 			switch dbStatus {
 			case true:
 				dataValue := reflect.ValueOf(allGroups)
@@ -131,7 +130,6 @@ func (c *WorkLocationcontroller) AddWorkLocaction() {
 
 						keySliceForGroupAndUser = append(keySliceForGroupAndUser, key.String())
 						workLocationViewmodel.GroupNameArray = append(workLocationViewmodel.GroupNameArray, allGroups[key.String()].Info.GroupName+" (Group)")
-						log.Println("activeeeeeeeeee",workLocationViewmodel.GroupNameArray)
 
 						// For selecting members while selecting a group in dropdown
 						memberSlice = append(memberSlice, key.String())
@@ -140,6 +138,7 @@ func (c *WorkLocationcontroller) AddWorkLocaction() {
 							memberSlice = append(memberSlice, memberKey.String())
 						}
 						workLocationViewmodel.GroupMembers = append(workLocationViewmodel.GroupMembers, memberSlice)
+						log.Println("iam in trouble",workLocationViewmodel.GroupMembers)
 
 					}
 
@@ -161,4 +160,59 @@ func (c *WorkLocationcontroller) AddWorkLocaction() {
 	/*c.Layout = "layout/layout.html"*/
 	c.Data["vm"] = workLocationViewmodel
 	c.TplName = "template/add-workLocation.html"
+}
+
+func (c *WorkLocationcontroller) LoadWorkLocaction() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
+	workLocation,dbStatus:= models.GetAllWorkLocationDetails(c.AppEngineCtx)
+	log.Println("workLocation",workLocation,dbStatus,storedSession)
+	/*switch dbStatus {
+	case true:
+		dataValue := reflect.ValueOf(allCustomer)
+		var keySlice []string
+		for _, key := range dataValue.MapKeys() {
+			keySlice = append(keySlice, key.String())
+		}
+		for _, k := range keySlice {
+			var tempValueSlice []string
+			if allCustomer[k].Settings.Status != helpers.UserStatusDeleted{
+				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.CustomerName)
+				tempValueSlice =append(tempValueSlice,allCustomer[k].Info.Country)
+				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Address)
+				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.State)
+				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.ZipCode)
+				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Email)
+				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.Phone)
+				tempValueSlice = append(tempValueSlice, allCustomer[k].Info.ContactPerson)
+				tempValueSlice = append(tempValueSlice,k)
+				customerViewModel.Values=append(customerViewModel.Values,tempValueSlice)
+				tempValueSlice = tempValueSlice[:0]
+			}
+
+		}
+		customerViewModel.Keys = keySlice
+		customerViewModel.CompanyTeamName = storedSession.CompanyTeamName
+		customerViewModel.CompanyPlan = storedSession.CompanyPlan
+		customerViewModel.AdminFirstName =storedSession.AdminFirstName
+		customerViewModel.AdminLastName =storedSession.AdminLastName
+		customerViewModel.ProfilePicture =storedSession.ProfilePicture
+		log.Println("team name ",customerViewModel.CompanyTeamName)
+		c.Data["vm"] = customerViewModel
+		c.Layout = "layout/layout.html"
+		c.TplName = "template/customer-details.html"
+	case false:
+		log.Println(helpers.ServerConnectionError)
+	}
+	*/
+
+
+
+
+	log.Println("iam here.......")
+	c.Layout = "layout/layout.html"
+	c.TplName = "template/worklocation-details.html"
+
 }

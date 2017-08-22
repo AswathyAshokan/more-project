@@ -1,14 +1,16 @@
-
+console.log("gsgsgsgs",vm.GroupMembers);
 var companyTeamName = vm.CompanyTeamName;
+ var selectedUserArray = [];
 $(document).ready(function() {
-    var selectedUserArray = []; // contains all selected users and groups
+    // contains all selected users and groups
     var selectedGroupArray = [];
     var groupKeyArray = [];
     $("#usersAndGroupId").on('change', function(evt, params) {
         console.log("inside group1");
         var tempArray = $(this).val();
+        
         var clickedOption = "";
-        console.log("array length",tempArray.length)
+        console.log("array length",tempArray);
         if (selectedUserArray.length < tempArray.length) { // for selection
             for (var i = 0; i < tempArray.length; i++) {
                 if (selectedUserArray.indexOf(tempArray[i]) == -1) {
@@ -16,8 +18,9 @@ $(document).ready(function() {
                     clickedOption = tempArray[i];
                 }
             }
-            for (var i = 0; i < vm.GroupMembers.length; i++) {
-                if (vm.GroupMembers[i][0] == clickedOption) {
+            if (vm.GroupMembers !=null){
+                for (var i = 0; i < vm.GroupMembers.length; i++) {
+                    if (vm.GroupMembers[i][0] == clickedOption) {
                     var memberLength = vm.GroupMembers[i].length;
                     groupKeyArray.push(clickedOption)
                     tempArray =[];
@@ -30,46 +33,9 @@ $(document).ready(function() {
                     }
                     selectedGroupArray.push(clickedOption);
                 }
-            }
-            selectedUserArray = tempArray;
-        } else if (selectedUserArray.length > tempArray.length) { // for deselection
-            for (var i = 0; i < selectedUserArray.length; i++) {
-                if (tempArray.indexOf(selectedUserArray[i]) == -1) {
-                    clickedOption = selectedUserArray[i];
-                    
                 }
             }
-        }
-        console.log("group array",groupKeyArray);
-        console.log("user array",selectedUserArray);
-    });
-    $("#usersAndGroupId").on('change', function(evt, params) {
-        console.log("inside group1");
-        var tempArray = $(this).val();
-        var clickedOption = "";
-        console.log("array length",tempArray.length)
-        if (selectedUserArray.length < tempArray.length) { // for selection
-            for (var i = 0; i < tempArray.length; i++) {
-                if (selectedUserArray.indexOf(tempArray[i]) == -1) {
-                    console.log("clicked");
-                    clickedOption = tempArray[i];
-                }
-            }
-            for (var i = 0; i < vm.GroupMembers.length; i++) {
-                if (vm.GroupMembers[i][0] == clickedOption) {
-                    var memberLength = vm.GroupMembers[i].length;
-                    groupKeyArray.push(clickedOption)
-                    tempArray =[];
-                    for (var j = 1; j < memberLength; j++) {
-                        if (tempArray.indexOf(vm.GroupMembers[i][j]) == -1) {
-                            tempArray.push(vm.GroupMembers[i][j])
-                        }
-                        console.log("values of temp array",tempArray);
-                        $("#userOrGroup").val(tempArray);
-                    }
-                    selectedGroupArray.push(clickedOption);
-                }
-            }
+            
             selectedUserArray = tempArray;
         } else if (selectedUserArray.length > tempArray.length) { // for deselection
             for (var i = 0; i < selectedUserArray.length; i++) {

@@ -1,8 +1,8 @@
 /* Author :Aswathy Ashok */
 //Below line is for adding active class to layout side menu..
 
-console.log(vm.FitToWorkArray);
-console.log("gsgsgsgs");
+console.log("jjjj",vm.FitToWorkArray);
+console.log("gsgsgsgs",vm.GroupMembers);
 console.log("job name",vm.JobName);
 console.log("job name from url",vm.JobNameFormUrl);
 document.getElementById("task").className += " active";

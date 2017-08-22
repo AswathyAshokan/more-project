@@ -52,17 +52,18 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context) (bool){
 }
 
 
-func(m *Group) GetGroupDetailsForWorkLocation(ctx context.Context,groupKey string) (Group,bool){
+func GetAllWorkLocationDetails(ctx context.Context) (WorkLocation,bool){
 	log.Println("cp4")
-	groupDetails :=  Group{}
+	workLocationValues :=  WorkLocation{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("/Group/"+groupKey).Value(&groupDetails)
+	err = db.Child("WorkLocation").Value(&workLocationValues)
 	if err != nil {
 		log.Println("cp5")
 		log.Fatal(err)
-		return groupDetails, false
+		return workLocationValues, false
 	}
-	log.Println("cp6",groupDetails)
-	return groupDetails,true
+	return workLocationValues,true
 }
+
+
 

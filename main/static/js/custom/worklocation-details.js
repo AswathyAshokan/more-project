@@ -1,6 +1,4 @@
-
-//Below line is for adding active class to layout side menu..
-console.log("js",vm.CompanyTeamName);
+console.log("js",vm);
 document.getElementById("crm").className += " active";
 
 var companyTeamName = vm.CompanyTeamName;
