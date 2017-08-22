@@ -33,7 +33,20 @@ $(function(){
                 "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
                 }]
         });
-        $('#consent-details tbody').on('click', 'td.details-control', function () {
+        
+        
+       
+        
+/*Add a plus symbol in webpage for add new groups*/
+        var item = $('<span>+</span>');
+        item.click(function() {
+            console.log("teamname",companyTeamName)
+            window.location ="/" + companyTeamName + "/consent/add";
+        });
+        $('.table-wrapper .dataTables_filter').append(item);
+    }
+    
+    $('#consent-details tbody').on('click', 'td.details-control', function () {
             var tr = $(this).closest('tr');
             var row = table.row(tr);
             if ( row.child.isShown()){
@@ -46,17 +59,6 @@ $(function(){
                 tr.addClass('shown');
             }
         });
-        
-       
-        
-/*Add a plus symbol in webpage for add new groups*/
-        var item = $('<span>+</span>');
-        item.click(function() {
-            console.log("teamname",companyTeamName)
-            window.location ="/" + companyTeamName + "/consent/add";
-        });
-        $('.table-wrapper .dataTables_filter').append(item);
-    }
     
      //function to display data inside expanded area
         function format ( InnerContent,data) {
