@@ -63,8 +63,8 @@
       <file leaf-file-name="SessionController.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/SessionController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="461">
-              <caret line="49" column="74" lean-forward="true" selection-start-line="49" selection-start-column="74" selection-end-line="49" selection-end-column="74" />
+            <state relative-caret-position="263">
+              <caret line="38" column="40" lean-forward="true" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -883,13 +883,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00209" summary="1/06/2013:28:   check box">
-      <created>1502169740586</created>
-      <option name="number" value="00209" />
-      <option name="presentableId" value="LOCAL-00209" />
-      <option name="project" value="LOCAL" />
-      <updated>1502169740587</updated>
-    </task>
     <task id="LOCAL-00210" summary="1/06/2013:28:   check box">
       <created>1502169817246</created>
       <option name="number" value="00210" />
@@ -1226,7 +1219,14 @@
       <option name="project" value="LOCAL" />
       <updated>1503385584813</updated>
     </task>
-    <option name="localTasksCounter" value="258" />
+    <task id="LOCAL-00258" summary="1/06/2013:28:   check box">
+      <created>1503385878936</created>
+      <option name="number" value="00258" />
+      <option name="presentableId" value="LOCAL-00258" />
+      <option name="project" value="LOCAL" />
+      <updated>1503385878936</updated>
+    </task>
+    <option name="localTasksCounter" value="259" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1773,8 +1773,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/SessionController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="49" column="74" lean-forward="true" selection-start-line="49" selection-start-column="74" selection-end-line="49" selection-end-column="74" />
+        <state relative-caret-position="263">
+          <caret line="38" column="40" lean-forward="true" selection-start-line="38" selection-start-column="40" selection-end-line="38" selection-end-column="40" />
           <folding />
         </state>
       </provider>

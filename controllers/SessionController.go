@@ -32,7 +32,7 @@ type SessionForAdminValues  struct {
 	SuperAdminEmail		string
 }
 
-var cookieToken = securecookie.New(securecookie.GenerateRandomKey(98), securecookie.GenerateRandomKey(64))
+var cookieToken = securecookie.New(securecookie.GenerateRandomKey(64), securecookie.GenerateRandomKey(32))
 
 func SetSession(w http.ResponseWriter, sessionValues SessionValues){
 
