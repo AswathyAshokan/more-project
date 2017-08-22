@@ -86,8 +86,8 @@
       <file leaf-file-name="InviteUserModel.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/InviteUserModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="162" column="0" lean-forward="true" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
+            <state relative-caret-position="324">
+              <caret line="161" column="41" lean-forward="false" selection-start-line="161" selection-start-column="10" selection-end-line="161" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -752,13 +752,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00202" summary="1/06/2013:28:   check box">
-      <created>1501846712090</created>
-      <option name="number" value="00202" />
-      <option name="presentableId" value="LOCAL-00202" />
-      <option name="project" value="LOCAL" />
-      <updated>1501846712090</updated>
-    </task>
     <task id="LOCAL-00203" summary="1/06/2013:28:   check box">
       <created>1502084707888</created>
       <option name="number" value="00203" />
@@ -1095,7 +1088,14 @@
       <option name="project" value="LOCAL" />
       <updated>1503377881677</updated>
     </task>
-    <option name="localTasksCounter" value="251" />
+    <task id="LOCAL-00251" summary="1/06/2013:28:   check box">
+      <created>1503379605315</created>
+      <option name="number" value="00251" />
+      <option name="presentableId" value="LOCAL-00251" />
+      <option name="project" value="LOCAL" />
+      <updated>1503379605315</updated>
+    </task>
+    <option name="localTasksCounter" value="252" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1651,8 +1651,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/InviteUserModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="162" column="0" lean-forward="true" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
+        <state relative-caret-position="324">
+          <caret line="161" column="41" lean-forward="false" selection-start-line="161" selection-start-column="10" selection-end-line="161" selection-end-column="41" />
           <folding />
         </state>
       </provider>
