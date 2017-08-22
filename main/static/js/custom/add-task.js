@@ -477,12 +477,12 @@ $().ready(function() {
                     addZero(d.getHours()) + ":" + addZero(d.getMinutes());
                     }
                     var startDateString = startDate;
-                    var startDateOfTask = new Date(Date.parse(startDateString))/1000;
-//                    var startDateOfTask = formatDate(date);
+                    var date = new Date(Date.parse(startDateString));
+                    var startDateOfTask = formatDate(date);
                    
                     var endDateString = endDate;
-                    var endDateOfTask = new Date(Date.parse(endDateString))/1000;
-//                    var endDateOfTask = formatDate(endDateData);
+                    var endDateData = new Date(Date.parse(endDateString));
+                    var endDateOfTask = formatDate(endDateData);
                     var minUsers = $("#minUsers option:selected").val();
             //getting map longitude and latitude
                     mapLatitude = document.getElementById("latitudeId").value;// variable to store map latitude

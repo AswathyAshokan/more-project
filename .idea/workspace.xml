@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/InviteUserModel.go" afterPath="$PROJECT_DIR$/models/InviteUserModel.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/TaskController.go" afterPath="$PROJECT_DIR$/controllers/TaskController.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-task.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-task.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,11 +31,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TaskController.go" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TaskController.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="12924">
-              <caret line="731" column="31" lean-forward="false" selection-start-line="731" selection-start-column="31" selection-end-line="731" selection-end-column="31" />
+            <state relative-caret-position="-1692">
+              <caret line="54" column="16" lean-forward="false" selection-start-line="54" selection-start-column="16" selection-end-line="54" selection-end-column="16" />
               <folding>
                 <element signature="e#51#213#0" expanded="true" />
               </folding>
@@ -83,10 +84,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="InviteUserModel.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="InviteUserModel.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/InviteUserModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
+            <state relative-caret-position="2754">
               <caret line="161" column="41" lean-forward="false" selection-start-line="161" selection-start-column="10" selection-end-line="161" selection-end-column="41" />
               <folding />
             </state>
@@ -229,11 +230,11 @@
         <option value="$PROJECT_DIR$/viewmodels/TaskViewModel.go" />
         <option value="$PROJECT_DIR$/models/UserModel.go" />
         <option value="$PROJECT_DIR$/models/CustomerModel.go" />
-        <option value="$PROJECT_DIR$/controllers/TaskController.go" />
         <option value="$PROJECT_DIR$/controllers/ByPassController.go" />
         <option value="$PROJECT_DIR$/models/TaskModel.go" />
         <option value="$PROJECT_DIR$/controllers/ConsentReceiptController.go" />
         <option value="$PROJECT_DIR$/models/InviteUserModel.go" />
+        <option value="$PROJECT_DIR$/controllers/TaskController.go" />
       </list>
     </option>
   </component>
@@ -752,13 +753,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00203" summary="1/06/2013:28:   check box">
-      <created>1502084707888</created>
-      <option name="number" value="00203" />
-      <option name="presentableId" value="LOCAL-00203" />
-      <option name="project" value="LOCAL" />
-      <updated>1502084707889</updated>
-    </task>
     <task id="LOCAL-00204" summary="1/06/2013:28:   check box">
       <created>1502085631180</created>
       <option name="number" value="00204" />
@@ -1095,7 +1089,14 @@
       <option name="project" value="LOCAL" />
       <updated>1503379605315</updated>
     </task>
-    <option name="localTasksCounter" value="252" />
+    <task id="LOCAL-00252" summary="1/06/2013:28:   check box">
+      <created>1503379693096</created>
+      <option name="number" value="00252" />
+      <option name="presentableId" value="LOCAL-00252" />
+      <option name="project" value="LOCAL" />
+      <updated>1503379693096</updated>
+    </task>
+    <option name="localTasksCounter" value="253" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1610,16 +1611,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="12924">
-          <caret line="731" column="31" lean-forward="false" selection-start-line="731" selection-start-column="31" selection-end-line="731" selection-end-column="31" />
-          <folding>
-            <element signature="e#51#213#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/controllers/ConsentReceiptController.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
@@ -1651,9 +1642,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/InviteUserModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
+        <state relative-caret-position="2754">
           <caret line="161" column="41" lean-forward="false" selection-start-line="161" selection-start-column="10" selection-end-line="161" selection-end-column="41" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1692">
+          <caret line="54" column="16" lean-forward="false" selection-start-line="54" selection-start-column="16" selection-end-line="54" selection-end-column="16" />
+          <folding>
+            <element signature="e#51#213#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
