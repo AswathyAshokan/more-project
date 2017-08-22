@@ -151,7 +151,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 	for _, key := range userDataDetails.MapKeys() {
 		log.Println("inside  notificationnnnn")
 		userNotificationDetail :=UserNotification{}
-		userNotificationDetail.Date =m.Settings.DateOfCreation
+		userNotificationDetail.Date =time.Now().Unix()
 		userNotificationDetail.IsRead =false
 		userNotificationDetail.IsViewed =false
 		userNotificationDetail.TaskId =taskUniqueID
@@ -613,7 +613,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	log.Println("the atlast thingsss",uniqueUserKey)
 	for i:=0;i<len(uniqueUserKey);i++{
 		userNotificationDetail :=UserNotification{}
-		userNotificationDetail.Date =m.Settings.DateOfCreation
+		userNotificationDetail.Date =time.Now().Unix()
 		userNotificationDetail.IsRead =false
 		userNotificationDetail.IsViewed =false
 		userNotificationDetail.TaskId =taskId
@@ -638,7 +638,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 				userName.Status =helpers.StatusActive
 				m.UsersAndGroups.User[key.String()] =userName
 				userNotificationDetail :=UserNotification{}
-				userNotificationDetail.Date =m.Settings.DateOfCreation
+				userNotificationDetail.Date =time.Now().Unix()
 				userNotificationDetail.IsRead =false
 				userNotificationDetail.IsViewed =false
 				userNotificationDetail.TaskId =taskId
