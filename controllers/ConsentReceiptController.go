@@ -23,7 +23,9 @@ func (c *ConsentReceiptController) AddConsentReceipt() {
 		consentData.Info.ReceiptName = c.GetString("recieptName")
 		consentData.Info.CompanyName = storedSession.CompanyName
 		tempUserId := c.GetStrings("selectedUserIds")
+		log.Println("selected users key",tempUserId)
 		tempMembers := c.GetStrings("selectedUserNames")
+		log.Println("selecetd members name",tempMembers)
 		instructions := c.GetString("instructionsForUser")
 		instructionsFromUser := strings.Split(instructions, "/@@,")
 		sliceLastValue := instructionsFromUser[len(instructionsFromUser)-1]
@@ -56,12 +58,13 @@ func (c *ConsentReceiptController) AddConsentReceipt() {
 		case true:
 			dataValue := reflect.ValueOf(allUserDetails)
 
+			//for _, groupKey := range dataValue.MapKeys() {
+			//	keySlice = append(keySlice, groupKey.String())
+			//}
 			for _, groupKey := range dataValue.MapKeys() {
-				keySlice = append(keySlice, groupKey.String())
-			}
-			for _, k := range keySlice {
-				if allUserDetails[k].Status != helpers.UserStatusDeleted {
-					allUserNames = append(allUserNames, allUserDetails[k].FullName)
+				if allUserDetails[groupKey.String()].Status != helpers.UserStatusDeleted {
+					keySlice = append(keySlice, groupKey.String())
+					allUserNames = append(allUserNames, allUserDetails[groupKey.String()].FullName)
 					consentView.GroupMembers = allUserNames
 					consentView.GroupKey = keySlice
 				}
@@ -109,6 +112,7 @@ func (c* ConsentReceiptController)LoadConsentReceipt(){
 					var tempValueSlice []string
 
 					if consentById[eachKey].Settings.Status != helpers.UserStatusDeleted {
+
 						tempValueSlice = append(tempValueSlice, "")
 						tempValueSlice = append(tempValueSlice, consentById[eachKey].Info.ReceiptName)
 						tempValueSlice = append(tempValueSlice, eachKey)
@@ -239,12 +243,13 @@ func (c *ConsentReceiptController) EditConsentReceipt() {
 			var keySlice []string
 			dataValue := reflect.ValueOf(allUserDetails)
 
+			//for _, groupKey := range dataValue.MapKeys() {
+			//	keySlice = append(keySlice, groupKey.String())
+			//}
 			for _, groupKey := range dataValue.MapKeys() {
-				keySlice = append(keySlice, groupKey.String())
-			}
-			for _, k := range keySlice {
-				if allUserDetails[k].Status != helpers.UserStatusDeleted {
-					allUserNames = append(allUserNames, allUserDetails[k].FullName)
+				if allUserDetails[groupKey.String()].Status != helpers.UserStatusDeleted {
+					keySlice = append(keySlice, groupKey.String())
+					allUserNames = append(allUserNames, allUserDetails[groupKey.String()].FullName)
 					consentView.GroupMembers = allUserNames
 					consentView.GroupKey = keySlice
 				}

@@ -660,6 +660,7 @@ $().ready(function() {
     $("#saveAndContinue").click(function() {
          $('#saveAndContinue').attr('type', 'submit');
         $('#saveButton').attr('type', 'button');
+        console.log("inside save and continue");
 
          $("#taskDoneForm").validate({
         rules: {
