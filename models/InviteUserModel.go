@@ -158,7 +158,7 @@ func GetAllInviteUsersDetails(ctx context.Context,companyId string) (map[string]
 		log.Fatal(err)
 		return value,limitValue.LimitedUsers,false
 	}
-	err =db.Child("/WorkLog/").Remove()
+	//err =db.Child("/WorkLog/").Remove()
 	log.Println("work log deleted")
 
 	return value,limitValue.LimitedUsers,true
