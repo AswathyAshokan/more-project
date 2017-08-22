@@ -47,7 +47,18 @@ $(function(){
             }
         });
         
-        //function to display data inside expanded area
+       
+        
+/*Add a plus symbol in webpage for add new groups*/
+        var item = $('<span>+</span>');
+        item.click(function() {
+            console.log("teamname",companyTeamName)
+            window.location ="/" + companyTeamName + "/consent/add";
+        });
+        $('.table-wrapper .dataTables_filter').append(item);
+    }
+    
+     //function to display data inside expanded area
         function format ( InnerContent,data) {
             var userId  = data[2];
             var result  ='<div class="pull-left dropdown-tbl" style="padding-right: 50px;">';
@@ -97,15 +108,6 @@ $(function(){
             result +="</div>";
             return result;
         }
-        
-/*Add a plus symbol in webpage for add new groups*/
-        var item = $('<span>+</span>');
-        item.click(function() {
-            console.log("teamname",companyTeamName)
-            window.location ="/" + companyTeamName + "/consent/add";
-        });
-        $('.table-wrapper .dataTables_filter').append(item);
-    }
     /*---------------------------Initial data table calling---------------------------------------------------*/
 
     if(vm.Values != null) {
