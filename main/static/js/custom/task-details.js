@@ -4,7 +4,7 @@ document.getElementById("task").className += " active";
 var companyTeamName = vm.CompanyTeamName
 $(function(){
     console.log(vm.UserArray);
-    console.log("array",vm.ExposureArray);
+    console.log("array",vm);
     var ExposureArray =vm.ExposureArray;
     var mainArray = []; 
     var table = "";

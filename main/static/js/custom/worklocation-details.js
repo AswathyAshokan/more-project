@@ -1,4 +1,3 @@
-console.log("js",vm);
 document.getElementById("crm").className += " active";
 
 var companyTeamName = vm.CompanyTeamName;
@@ -21,7 +20,7 @@ $(function(){
     
 /*Function for assigning data array into data table*/
     function dataTableManipulate(){
-        table =  $("#customer-table").DataTable({
+        table =  $("#workLocation-table").DataTable({
             data: mainArray,
             "columnDefs": [{
                 "targets": -1,
@@ -35,33 +34,39 @@ $(function(){
         var item = $('<span>+</span>');
         item.click(function() {
             console.log("temname",companyTeamName);
-            window.location ='/' + companyTeamName + '/customer/add';
+            window.location ='/' + companyTeamName + '/worklocation/add';
         });
         
         $('.table-wrapper .dataTables_filter').append(item);
     }
 /*---------------------------Initial data table calling---------------------------------------------------*/
-
+    var tempArry = [];
     if(vm.Values != null) {
+        for( i=0;i<vm.Values.length;i++){
+            for( j=0;j<vm.Users.length;j++){
+                for(k=0;k<vm.Users[j].length;k++){
+                    console.log("vm.Values[i][1]",vm.Values[i][1]);
+                    if(vm.Values[i][1] == vm.Users[j][k].UserKey){
+                        tempArry.push(vm.Users[j][k].Name);
+                        vm.Values[i][0] = vm.Values[j][0];
+                    }
+                }
+            }
+            console.log("tempArry",tempArry);
+            vm.Values[i][1] = tempArry;
+            tempArry = [];
+        }
         createDataArray(vm.Values, vm.Keys);
     }
     dataTableManipulate(); 
  /*--------------------------Ending Initial data table calling---------------------------------------------*/
 
-    
-/*list job details of each customer when click on list icon*/
-    $('#customer-table tbody').on( 'click', '#view', function () {
-        var data = table.row( $(this).parents('tr') ).data();
-        var cusomerId = data[8];
-        window.location ='/' + companyTeamName + '/customer/'+ cusomerId + '/job';
-        return false;
-    });
 
-/*Edit customer details when click on edit icon*/
-    $('#customer-table tbody').on( 'click', '#edit', function () {
+    /*Edit customer details when click on edit icon*/
+    $('#workLocation-table tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var cusomerId = data[8];
-        window.location = '/' + companyTeamName +'/customer/'+ cusomerId + '/edit';
+        var workLocationId = data[2];
+        window.location = '/' + companyTeamName +'/worklocation/'+ workLocationId + '/edit';
         return false;
     });
     

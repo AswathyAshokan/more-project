@@ -78,7 +78,7 @@
                 </div>
                 <div class="col-md-12 main-content-wrapper padding-50-each">
                <div class="clearfix">
-                   <h4>Add work location</h4>
+                   <h4 id= "workLocationId">Add work location</h4>
                    <form class="personal-details margin-top-20 clearfix bg-border task-add" id="workLocationForm">
                        <div class="col-xs-12">
                            <div class="">
@@ -183,8 +183,8 @@
                             if (results[1]) {
                                 document.getElementById("taskLocation").value = results[1].formatted_address ;
                             }
-                            document.getElementById('latitudeId').value =event.latLng.lat();
-                            document.getElementById('longitudeId').value =event.latLng.lng();
+                            /*document.getElementById('latitudeId').value =event.latLng.lat();
+                            document.getElementById('longitudeId').value =event.latLng.lng();*/
                         }
                     });
                 });
@@ -213,8 +213,8 @@
                     if (results[1]) {
                          document.getElementById("taskLocation").value = results[1].formatted_address ;
                     }
-                    document.getElementById('latitudeId').value =event.latLng.lat();
-                    document.getElementById('longitudeId').value =event.latLng.lng();
+                    /*document.getElementById('latitudeId').value =event.latLng.lat();
+                    document.getElementById('longitudeId').value =event.latLng.lng();*/
                 }
             });
         });
@@ -228,7 +228,6 @@
         }
         //delete markers
         function DeleteMarkers() {
-            console.log("in deletion of marker");
             for (var i = 0; i < markers.length; i++) {
                 markers[i].setMap(null);
             }

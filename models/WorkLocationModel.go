@@ -9,8 +9,9 @@ type WorkLocation struct {
 	Settings 	WorkLocationSettings
 }
 type WorkLocationInfo struct {
-	WorkLocation       	string
-	UsersAndGroupsInWorkLocation		UsersAndGroupsInWork
+	CompanyTeamName			string
+	WorkLocation       		string
+	UsersAndGroupsInWorkLocation	UsersAndGroupsInWork
 }
 
 type WorkLocationSettings struct {
@@ -52,11 +53,12 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context) (bool){
 }
 
 
-func GetAllWorkLocationDetails(ctx context.Context) (WorkLocation,bool){
+func GetAllWorkLocationDetails(ctx context.Context,CompanyTeamName string) (map[string]WorkLocation,bool){
 	log.Println("cp4")
-	workLocationValues :=  WorkLocation{}
+	workLocationValues := map[string]WorkLocation{}
 	db,err :=GetFirebaseClient(ctx,"")
-	err = db.Child("WorkLocation").Value(&workLocationValues)
+	err = db.Child("WorkLocation").OrderBy("Info/CompanyTeamName").EqualTo(CompanyTeamName).Value(&workLocationValues)
+	//err = db.Child("WorkLocation").Value(&workLocationValues)
 	if err != nil {
 		log.Println("cp5")
 		log.Fatal(err)
@@ -65,5 +67,41 @@ func GetAllWorkLocationDetails(ctx context.Context) (WorkLocation,bool){
 	return workLocationValues,true
 }
 
+func GetAllWorkLocationDetailsByWorkId(ctx context.Context,workLocationId string)(WorkLocation,bool)  {
+	workLocationValues := WorkLocation{}
+	db,err :=GetFirebaseClient(ctx,"")
+	err = db.Child("/WorkLocation/"+workLocationId).Value(&workLocationValues)
+	if err != nil {
+		log.Fatal(err)
+		return workLocationValues, false
+	}
+	return workLocationValues,true
+
+
+}
+
+
+func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId string,companyTeamName string) (bool){
+	workLocationValues := WorkLocation{}
+	db,err :=GetFirebaseClient(ctx,"")
+	if err != nil {
+		log.Println(err)
+	}
+	err = db.Child("/WorkLocation/"+workLocationId).Value(&workLocationValues)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+	m.Settings.DateOfCreation = workLocationValues.Settings.DateOfCreation
+	m.Settings.Status = workLocationValues.Settings.Status
+	log.Println("kjjjjh in model",m)
+	err = db.Child("/WorkLocation/"+workLocationId).Update(m)
+
+	if err != nil {
+		log.Println(err)
+		return false
+	}
+	return  true
+}
 
 

@@ -17,6 +17,8 @@ type AddLocationViewModel struct {
 type LoadWorkLocationViewModel struct {
 	Values            		[][]string
 	Keys              		[]string
+	Users 				[][]WorkLocationUsers
+
 	CompanyPlan			string
 	AdminFirstName			string
 	AdminLastName			string
@@ -24,4 +26,23 @@ type LoadWorkLocationViewModel struct {
 	CompanyTeamName			string
 
 }
+type WorkLocationUsers struct {
+	Name	string
+	UserKey string
+}
 
+type EditWorkLocation struct {
+	WorkLogId 		string
+	GroupNameArray 		[]string
+	UsersKey     		[]string
+	UserNameToEdit		[]string
+	WorkLocation    	string
+	PageType        	string
+	CompanyPlan		string
+	AdminFirstName		string
+	AdminLastName		string
+	ProfilePicture		string
+	CompanyTeamName		string
+	GroupMembers		[][]string
+	UserAndGroupKey		[]string
+}
