@@ -629,6 +629,39 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 
 	}
 
+	//update contactstatus in task while updating
+	taskContactDetail := TaskContact{}
+	contactStatusInTask := reflect.ValueOf(taskValues.Contacts)
+	contactStatusForTaskFromForm :=reflect.ValueOf(m.Contacts)
+	for _, contactKeyForTask := range contactStatusForTaskFromForm.MapKeys() {
+		tempContactKeySlice = append(tempContactKeySlice, contactKeyForTask.String())
+	}
+	for _, key := range contactStatusInTask.MapKeys() {
+		for i := 0; i < len(tempContactKeySlice); i++ {
+			if tempContactKeySlice[i] == key.String() {
+				taskContactDetail.ContactName =taskValues.Contacts[key.String()].ContactName
+				taskContactDetail.EmailId =taskValues.Contacts[key.String()].EmailId
+				taskContactDetail.PhoneNumber =taskValues.Contacts[key.String()].PhoneNumber
+				taskContactDetail.ContactStatus =taskValues.Contacts[key.String()].ContactStatus
+				m.Contacts[key.String()] =taskContactDetail
+
+			}
+		}
+	}
+
+	m.Settings.TaskStatus=taskValues.Settings.TaskStatus
+	m.Settings.DateOfCreation =taskValues.Settings.DateOfCreation
+	m.Settings.FitToWorkDisplayStatus =taskValues.Settings.FitToWorkDisplayStatus
+	m.Settings.Status =taskValues.Settings.Status
+	m.Settings.CompletedPercentage =taskValues.Settings.CompletedPercentage
+	m.Settings.PendingPercentage =taskValues.Settings.PendingPercentage
+	m.Settings.Status =taskValues.Settings.Status
+	m.Customer.CustomerStatus =taskValues.Customer.CustomerStatus
+	m.Job.JobStatus = taskValues.Job.JobStatus
+	log.Println("fdgdfgdfg",m)
+
+	err = dB.Child("/Tasks/"+ taskId).Update(&m)
+
 	for _, key := range userStatusInTask.MapKeys() {
 		for i:=0;i<len(tempUserKeySlice);i++{
 			if tempUserKeySlice[i]==key.String() {
@@ -676,38 +709,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	}
 
 
-	//update contactstatus in task while updating
-	taskContactDetail := TaskContact{}
-	contactStatusInTask := reflect.ValueOf(taskValues.Contacts)
-	contactStatusForTaskFromForm :=reflect.ValueOf(m.Contacts)
-	for _, contactKeyForTask := range contactStatusForTaskFromForm.MapKeys() {
-		tempContactKeySlice = append(tempContactKeySlice, contactKeyForTask.String())
-	}
-	for _, key := range contactStatusInTask.MapKeys() {
-		for i := 0; i < len(tempContactKeySlice); i++ {
-			if tempContactKeySlice[i] == key.String() {
-				taskContactDetail.ContactName =taskValues.Contacts[key.String()].ContactName
-				taskContactDetail.EmailId =taskValues.Contacts[key.String()].EmailId
-				taskContactDetail.PhoneNumber =taskValues.Contacts[key.String()].PhoneNumber
-				taskContactDetail.ContactStatus =taskValues.Contacts[key.String()].ContactStatus
-				m.Contacts[key.String()] =taskContactDetail
 
-			}
-		}
-	}
-
-	m.Settings.TaskStatus=taskValues.Settings.TaskStatus
-	m.Settings.DateOfCreation =taskValues.Settings.DateOfCreation
-	m.Settings.FitToWorkDisplayStatus =taskValues.Settings.FitToWorkDisplayStatus
-	m.Settings.Status =taskValues.Settings.Status
-	m.Settings.CompletedPercentage =taskValues.Settings.CompletedPercentage
-	m.Settings.PendingPercentage =taskValues.Settings.PendingPercentage
-	m.Settings.Status =taskValues.Settings.Status
-	m.Customer.CustomerStatus =taskValues.Customer.CustomerStatus
-	m.Job.JobStatus = taskValues.Job.JobStatus
-	log.Println("fdgdfgdfg",m)
-
-	err = dB.Child("/Tasks/"+ taskId).Update(&m)
 	if err!=nil{
 		log.Println("updation error:",err)
 		return false

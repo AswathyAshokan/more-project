@@ -21,14 +21,14 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	var keySlice []string
 	var keySliceForActiveTask []string
-	var keySliceForActiveTaskCompletedUsers []string
+
 	var keyForLog []string
-	var tempSlice	[]string
+
 	var sliceForLeaveDetails []string
 	viewModel := viewmodels.TimeSheetViewModel{}
 	var userStructSlice []viewmodels.LogDetails
 	var logUserSlice [][]viewmodels.LogDetails
-	logDetails := models.WorkLog{}
+
 	task := models.Tasks{}
 
 		dbStatus, tasks := task.RetrieveTaskFromDB(c.AppEngineCtx, companyTeamName)
@@ -39,12 +39,17 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 			for _, key := range dataValue.MapKeys() {
 				keySlice = append(keySlice, key.String())
 			}
+
 			log.Println("tasks",keySlice)
 			for _, taskKey := range keySlice {
-				keySliceForActiveTask = append(keySliceForActiveTask, taskKey)
+				var keySliceForActiveTaskCompletedUsers []string
+				var tempSlice	[]string
 				userValue := reflect.ValueOf(tasks[taskKey].UsersAndGroups.User)
 				for _, key := range userValue.MapKeys() {
-					if tasks[taskKey].UsersAndGroups.User[key.String()].UserTaskStatus == helpers.StatusCompleted {
+
+
+					keySliceForActiveTask = append(keySliceForActiveTask, taskKey)
+					if tasks[taskKey].UsersAndGroups.User[key.String()].UserTaskStatus == helpers.StatusCompleted&&tasks[taskKey].Settings.Status ==helpers.StatusActive {
 						log.Println("task key",taskKey)
 						keySliceForActiveTaskCompletedUsers = append(keySliceForActiveTaskCompletedUsers, key.String())
 						startDate := strconv.FormatInt(tasks[taskKey].Info.StartDate, 10)
@@ -53,12 +58,19 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 						tempSlice = append(tempSlice,endDate)
 						tempSlice = append(tempSlice,tasks[taskKey].Info.TaskName)
 						tempSlice = append(tempSlice,taskKey)
+						tempSlice = append(tempSlice,key.String())
+						tempSlice =append(tempSlice,tasks[taskKey].UsersAndGroups.User[key.String()].FullName)
 						log.Println("task deatils",tempSlice)
+						viewModel.TaskDetails =append(viewModel.TaskDetails ,tempSlice)
 					}
-				}
-				viewModel.TaskDetails =append(viewModel.TaskDetails ,tempSlice)
 
+				}
+
+				log.Println("key slice for active task completed user",keySliceForActiveTaskCompletedUsers)
+				logDetails :=models.WorkLog{}
+				//var duration []string
 				dbStatus, logUserDetail := logDetails.GetLogDetailOfUser(c.AppEngineCtx, companyTeamName)
+				log.Println("log deatils",logUserDetail)
 
 				switch dbStatus {
 				case true:
@@ -70,7 +82,7 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 					for i := 0; i < len(keySliceForActiveTaskCompletedUsers); i++ {
 						for _, k := range keyForLog {
 							if logUserDetail[k].UserID == keySliceForActiveTaskCompletedUsers[i] {
-								if  logUserDetail[k].LogDescription == "Work Started" || logUserDetail[k].LogDescription == "End of work day"&&logUserDetail[k].TaskID == taskKey{
+								if  logUserDetail[k].LogDescription == "Work Started" || logUserDetail[k].LogDescription == "End of work day"||logUserDetail[k].LogDescription =="Completed" &&logUserDetail[k].TaskID == taskKey{
 									var userStruct viewmodels.LogDetails
 									userStruct.LogTime=logUserDetail[k].LogTime
 									userStruct.TaskID = logUserDetail[k].TaskID
@@ -139,6 +151,8 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 											sliceForLeaveDetails=append(sliceForLeaveDetails,startDateOfLeave)
 											sliceForLeaveDetails=append(sliceForLeaveDetails,endDateOfLeave)
 											sliceForLeaveDetails=append(sliceForLeaveDetails,leaveKey)
+											sliceForLeaveDetails =append(sliceForLeaveDetails,key.String())
+
 										}
 
 									}

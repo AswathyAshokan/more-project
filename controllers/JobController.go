@@ -112,7 +112,12 @@ func (c *JobController)LoadJobDetail() {
 				jobKey = append(jobKey, k)
 				var tempValueSlice []string
 				if jobs[k].Customer.CustomerStatus =="Active"{
-					tempValueSlice = append(tempValueSlice, jobs[k].Customer.CustomerName)
+					if jobs[k].Customer.CustomerName =="Select a Customer"{
+						tempValueSlice = append(tempValueSlice,"")
+					}else{
+						tempValueSlice = append(tempValueSlice, jobs[k].Customer.CustomerName)
+					}
+
 					if !helpers.StringInSlice(jobs[k].Customer.CustomerName, viewModel.UniqueCustomerNames) {
 						viewModel.UniqueCustomerNames = append(viewModel.UniqueCustomerNames, jobs[k].Customer.CustomerName)
 					}

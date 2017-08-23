@@ -146,15 +146,16 @@ $(function(){
 //        }
 //         createDataArray(vm.Values, vm.Keys);
 //    }
-    if (vm.LogArray != null){
-        for(i=0;i<vm.LogArray.length;i++){
-            var userName =vm.LogArray[i][0].UserName;
+    if (vm.TaskDetails != null){
+        for(i=0;i<vm.TaskDetails.length;i++){
+            var userName =vm.TaskDetails[i][5];
             var taskName =vm.TaskDetails[i][2];
             console.log("username",taskName);
             timeSlice.push(userName);
             timeSlice.push(taskName);
             var taskStartDate =vm.TaskDetails[i][0];
             var taskEndDate =vm.TaskDetails[i][1];
+            
             
         }
     }

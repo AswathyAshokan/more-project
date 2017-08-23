@@ -72,7 +72,7 @@ func (m *WorkLog)GetLogDetailOfUser(ctx context.Context,companyTeamName string)(
 	workDetail := map[string]WorkLog{}
 	dB, err := GetFirebaseClient(ctx,"")
 	err = dB.Child("WorkLog/"+companyTeamName).Value(&workDetail)
-	log.Println("worklog",workDetail)
+	log.Println("worklog deatils",workDetail)
 	if err != nil {
 		log.Fatal(err)
 		return false, workDetail
