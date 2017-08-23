@@ -27,7 +27,12 @@ func (c *JobController)AddNewJob() {
 	if r.Method == "POST" {
 		job:=models.Job{}
 		job.Customer.CustomerId = c.GetString("customerId")
-		job.Customer.CustomerName = c.GetString("customerName")
+		customerName :=c.GetString("customerName")
+		if   customerName=="Select a Customer" {
+			job.Customer.CustomerName =""
+		} else{
+			job.Customer.CustomerName = c.GetString("customerName")
+		}
 		job.Info.OrderNumber =c.GetString("orderNumber")
 		orderDate :=c.GetString("orderDate")
 		layout := "01/02/2006"
@@ -132,7 +137,12 @@ func (c *JobController)LoadJobDetail() {
 				tempValueSlice =append(tempValueSlice,jobs[k].Info.OrderNumber)
 				orderDate := time.Unix(jobs[k].Info.OrderDate, 0).Format("01/02/2006")
 				log.Println("dateeee",orderDate)
-				tempValueSlice = append(tempValueSlice, orderDate)
+				if orderDate =="01/01/0001"{
+					tempValueSlice = append(tempValueSlice, "")
+				}else{
+					tempValueSlice = append(tempValueSlice, orderDate)
+				}
+
 				tempValueSlice = append(tempValueSlice, jobs[k].Settings.Status)
 				viewModel.Values = append(viewModel.Values, tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]
@@ -199,7 +209,13 @@ func (c *JobController)LoadEditJob() {
 		jobId := c.Ctx.Input.Param(":jobId")
 		job := models.Job{}
 		job.Customer.CustomerId = c.GetString("customerId")
-		job.Customer.CustomerName = c.GetString("customerName")
+		customerName :=c.GetString("customerName")
+		if   customerName=="Select a Customer" {
+			job.Customer.CustomerName =""
+		} else{
+			job.Customer.CustomerName = c.GetString("customerName")
+		}
+
 		job.Info.OrderNumber =c.GetString("orderNumber")
 		log.Println("orderNumber",job.Info.OrderNumber)
 		orderDate :=c.GetString("orderDate")
