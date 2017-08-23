@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/ByPassController.go" afterPath="$PROJECT_DIR$/controllers/ByPassController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/WorkLocationController.go" afterPath="$PROJECT_DIR$/controllers/WorkLocationController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/worklocation-details.js" afterPath="$PROJECT_DIR$/main/static/js/custom/worklocation-details.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/WorkLocationModel.go" afterPath="$PROJECT_DIR$/models/WorkLocationModel.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routers/router.go" afterPath="$PROJECT_DIR$/routers/router.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/dash-board.html" afterPath="$PROJECT_DIR$/main/views/template/dash-board.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -65,8 +61,8 @@
       <file leaf-file-name="WorkLocationController.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/WorkLocationController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="257">
-              <caret line="401" column="27" lean-forward="false" selection-start-line="401" selection-start-column="27" selection-end-line="401" selection-end-column="27" />
+            <state relative-caret-position="437">
+              <caret line="411" column="0" lean-forward="true" selection-start-line="411" selection-start-column="0" selection-end-line="411" selection-end-column="0" />
               <folding>
                 <element signature="e#20#154#0" expanded="true" />
               </folding>
@@ -720,13 +716,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00163" summary="1/06/2013:28:   check box">
-      <created>1499254998010</created>
-      <option name="number" value="00163" />
-      <option name="presentableId" value="LOCAL-00163" />
-      <option name="project" value="LOCAL" />
-      <updated>1499254998011</updated>
-    </task>
     <task id="LOCAL-00164" summary="1/06/2013:28:   check box">
       <created>1499320187840</created>
       <option name="number" value="00164" />
@@ -1063,7 +1052,14 @@
       <option name="project" value="LOCAL" />
       <updated>1503472083054</updated>
     </task>
-    <option name="localTasksCounter" value="212" />
+    <task id="LOCAL-00212" summary="11/08/2017:28:   add work location deletion">
+      <created>1503474424193</created>
+      <option name="number" value="00212" />
+      <option name="presentableId" value="LOCAL-00212" />
+      <option name="project" value="LOCAL" />
+      <updated>1503474424193</updated>
+    </task>
+    <option name="localTasksCounter" value="213" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1134,7 +1130,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="9/04/2017  10:38:  new version" />
     <MESSAGE value="9/05/2017  10:42:  new version" />
     <MESSAGE value="10/05/2017  5:22:  consent receipt" />
     <MESSAGE value="11/05/2017  12:28: add  consent receipt" />
@@ -1159,7 +1154,8 @@
     <MESSAGE value="11/08/2017:28:   work location details" />
     <MESSAGE value="11/08/2017:28:   add work location details" />
     <MESSAGE value="11/08/2017:28:   add work location editing" />
-    <option name="LAST_COMMIT_MESSAGE" value="11/08/2017:28:   add work location editing" />
+    <MESSAGE value="11/08/2017:28:   add work location deletion" />
+    <option name="LAST_COMMIT_MESSAGE" value="11/08/2017:28:   add work location deletion" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1558,8 +1554,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/WorkLocationController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="401" column="27" lean-forward="false" selection-start-line="401" selection-start-column="27" selection-end-line="401" selection-end-column="27" />
+        <state relative-caret-position="437">
+          <caret line="411" column="0" lean-forward="true" selection-start-line="411" selection-start-column="0" selection-end-line="411" selection-end-column="0" />
           <folding>
             <element signature="e#20#154#0" expanded="true" />
           </folding>
