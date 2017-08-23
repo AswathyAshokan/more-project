@@ -3,6 +3,7 @@ import (
 	"log"
 	"golang.org/x/net/context"
 
+	"app/passporte/helpers"
 )
 type WorkLocation struct {
 	Info 		WorkLocationInfo
@@ -54,7 +55,6 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context) (bool){
 
 
 func GetAllWorkLocationDetails(ctx context.Context,CompanyTeamName string) (map[string]WorkLocation,bool){
-	log.Println("cp4")
 	workLocationValues := map[string]WorkLocation{}
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("WorkLocation").OrderBy("Info/CompanyTeamName").EqualTo(CompanyTeamName).Value(&workLocationValues)
@@ -102,6 +102,31 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 		return false
 	}
 	return  true
+}
+func DeleteWorkLog(ctx context.Context,workLocationId string) (bool) {
+	workLocationValues := WorkLocationSettings{}
+	deleteWorkLocation := WorkLocationSettings{}
+	db,err :=GetFirebaseClient(ctx,"")
+	if err != nil {
+		log.Println(err)
+	}
+	err = db.Child("/WorkLocation/"+workLocationId+"/Settings").Value(&workLocationValues)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+	deleteWorkLocation.Status = helpers.UserStatusDeleted
+	deleteWorkLocation.DateOfCreation = workLocationValues.DateOfCreation
+	err = db.Child("/WorkLocation/"+workLocationId+"/Settings").Update(&deleteWorkLocation)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+	return true
+
+
+
+
 }
 
 

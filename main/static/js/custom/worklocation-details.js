@@ -26,14 +26,13 @@ $(function(){
                 "targets": -1,
                 "width": "10%",
                 "data": null,
-                "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-eye" aria-hidden="true" id="view"></i><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
+                "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
             }]
         });
         
 /*Add a plus symbol in webpage for add new groups*/
         var item = $('<span>+</span>');
         item.click(function() {
-            console.log("temname",companyTeamName);
             window.location ='/' + companyTeamName + '/worklocation/add';
         });
         
@@ -70,74 +69,36 @@ $(function(){
         return false;
     });
     
-    $('#customer-table tbody').on( 'click', '#delete', function () {
+    $('#workLocation-table tbody').on( 'click', '#delete', function () {
+         $("#myGroupModal").modal();
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[8];
-        $.ajax({
-            type: "POST",
-            url: '/' + companyTeamName +'/customer/'+ key + '/deletionOfCustomerIfUsedForJob',
-            data: '',
-            success: function(response){
-                console.log("dhfg",response)
-                
-                if(response=="true"){
-                   
-                     $("#myCustomerJobModel").modal();
-                    $("#deleteNotJob").click(function(){
-                         $.ajax({
-                            type: "POST",
-                            url: '/' + companyTeamName +'/customer/'+ key + '/deletionOfCustomerFromJob',
-                             data: '',
-                            success: function(feedback){
-                                console.log(feedback);
-                                if(feedback=="true"){
-                                    $('#customer-table').dataTable().fnDestroy(); 
-                                    var index = "";
-                                    for(var i = 0; i < mainArray.length; i++) {
-                                    index = mainArray[i].indexOf(key);
-                                    if(index != -1) {
-                                        console.log("dddd", i);
-                                        break;
-                                    }
-                                }
-                                mainArray.splice(i, 1);
-                                dataTableManipulate()
-                                }
-                                else {
-                                }
-                            }
-                         });
-                    });
-                } else {
-                    console.log("inside else part");
-                   
-                    $("#myModal").modal();
-                    $("#confirm").click(function(){
-                        $.ajax({
-                            type: "POST",
-                            url: '/' + companyTeamName +'/customer/'+ key + '/RemoveTask',
-                            data: '',
-                            success: function(response){
-                                if(response=="true"){
-                                    $('#customer-table').dataTable().fnDestroy(); 
-                                    var index = "";
-                                    for(var i = 0; i < mainArray.length; i++) {
-                                    index = mainArray[i].indexOf(key);
-                                    if(index != -1) {
-                                        console.log("dddd", i);
-                                        break;
-                                    }
-                                }
-                                mainArray.splice(i, 1);
-                                dataTableManipulate()
-                                }
-                                else {
-                                }
-                            }
-                        });
-                    });
+        var workLocationId = data[2];
+        $("#confirm").click(function(){
+            $.ajax({
+                type: "POST",
+                url: '/' + companyTeamName +'/worklocation/'+ workLocationId + '/delete',
+                data:'',
+                success: function(response){
+                    if(response=="true"){
+                        $('#workLocation-table').dataTable().fnDestroy();
+                        var index = "";
+                        
+                        for(var i = 0; i < mainArray.length; i++) {
+                           index = mainArray[i].indexOf(workLocationId);
+                           if(index != -1) {
+                               console.log("dddd", i);
+                             break;
+                           }
+                        }
+                        mainArray.splice(i, 1);
+                        dataTableManipulate() 
+                    }
+                    else {
+                        console.log("Removing Failed!");
+                    }
                 }
-            }
+
+            });
         });
     });
 });

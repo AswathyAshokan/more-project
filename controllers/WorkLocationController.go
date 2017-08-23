@@ -168,7 +168,6 @@ func (c *WorkLocationcontroller) LoadWorkLocation() {
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
 	workLocation,dbStatus:= models.GetAllWorkLocationDetails(c.AppEngineCtx,companyTeamName)
-	log.Println("workLocation",workLocation)
 	viewModel := viewmodels.LoadWorkLocationViewModel{}
 	var workLocationUserSlice [][]viewmodels.WorkLocationUsers
 	switch dbStatus {
@@ -391,3 +390,22 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 	c.TplName = "template/add-workLocation.html"
 
 }
+
+
+func (c *WorkLocationcontroller) DeleteWorkLocation() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	workLocationId := c.Ctx.Input.Param(":workLocationId")
+	storedSession := ReadSession(w, r, companyTeamName)
+	log.Println(storedSession)
+	dbStatus := models.DeleteWorkLog(c.AppEngineCtx,workLocationId)
+	switch dbStatus {
+	case true:
+		w.Write([]byte("true"))
+	case false:
+		w.Write([]byte("false"))
+	}
+}
+
+

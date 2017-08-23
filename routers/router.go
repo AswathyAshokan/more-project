@@ -81,6 +81,7 @@ func init() {
 	beegae.Router("/:companyTeamName/consent/:consentId/delete", &controllers.ConsentReceiptController{}, "*:DeleteConsentReceipt")
 	beegae.Router("/:companyTeamName/worklocation/add", &controllers.WorkLocationcontroller{}, "*:AddWorkLocation")
 	beegae.Router("/:companyTeamName/worklocation/:worklocationid/edit", &controllers.WorkLocationcontroller{}, "*:EditWorkLocation")
+	beegae.Router("/:companyTeamName/worklocation/:workLocationId/delete", &controllers.WorkLocationcontroller{}, "*:DeleteWorkLocation")
 	beegae.Router("/:companyTeamName/worklocation", &controllers.WorkLocationcontroller{}, "*:LoadWorkLocation")
 
 	beegae.Router("/listCountry",&controllers.CountryController{},"*:ListCountries")
