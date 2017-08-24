@@ -26,8 +26,7 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 
 	var sliceForLeaveDetails []string
 	viewModel := viewmodels.TimeSheetViewModel{}
-	var userStructSlice []viewmodels.LogDetails
-	var logUserSlice [][]viewmodels.LogDetails
+
 
 	task := models.Tasks{}
 
@@ -72,34 +71,64 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 				dbStatus, logUserDetail := logDetails.GetLogDetailOfUser(c.AppEngineCtx, companyTeamName)
 				log.Println("log deatils",logUserDetail)
 
+				var logUserSlice [][]viewmodels.LogDetails
+				var userStructSlice []viewmodels.LogDetails
+
 				switch dbStatus {
+
 				case true:
 					//var userName string
 					logValue := reflect.ValueOf(logUserDetail)
 					for _, key := range logValue.MapKeys() {
 						keyForLog = append(keyForLog, key.String())
 					}
-					for i := 0; i < len(keySliceForActiveTaskCompletedUsers); i++ {
-						for _, k := range keyForLog {
-							if logUserDetail[k].UserID == keySliceForActiveTaskCompletedUsers[i] {
-								if  logUserDetail[k].LogDescription == "Work Started" || logUserDetail[k].LogDescription == "End of work day"||logUserDetail[k].LogDescription =="Completed" &&logUserDetail[k].TaskID == taskKey{
-									var userStruct viewmodels.LogDetails
-									userStruct.LogTime=logUserDetail[k].LogTime
-									userStruct.TaskID = logUserDetail[k].TaskID
-									userStruct.Type = logUserDetail[k].Type
-									userStruct.UserID = logUserDetail[k].UserID
-									userStruct.UserName = logUserDetail[k].UserName
-									userStruct.LogDescription = logUserDetail[k].LogDescription
-									userStructSlice = append(userStructSlice, userStruct)
-								}
+					log.Println("log keyyy",keyForLog)
+					log.Println("active user keyyyyyyyyy",keySliceForActiveTaskCompletedUsers)
+					for _, logKey := range logValue.MapKeys() {
 
-							}
+						//for j := 0; j < len(keySliceForActiveTaskCompletedUsers); j++ {
+							if  logUserDetail[logKey.String()].LogDescription == "Work Started" || logUserDetail[logKey.String()].LogDescription == "End of work day"||logUserDetail[logKey.String()].LogDescription =="Completed" &&logUserDetail[logKey.String()].TaskID == taskKey{
+								log.Println("task key ",logUserDetail[logKey.String()].TaskID)
+								log.Println("task key 2",taskKey)
+
+								//if logUserDetail[keyForLog[i]].UserID == keySliceForActiveTaskCompletedUsers[j] {
+									log.Println("loop executed")
+									var userStruct viewmodels.LogDetails
+
+									userStruct.LogTime=logUserDetail[logKey.String()].LogTime
+									userStruct.TaskID = logUserDetail[logKey.String()].TaskID
+									userStruct.Type = logUserDetail[logKey.String()].Type
+									userStruct.UserID = logUserDetail[logKey.String()].UserID
+									userStruct.UserName = logUserDetail[logKey.String()].UserName
+									userStruct.LogDescription = logUserDetail[logKey.String()].LogDescription
+									userStructSlice = append(userStructSlice, userStruct)
+
+
+
+
+
+								//}
+
+
+
+							//}
+
+
 						}
+
 					}
 					logUserSlice = append(logUserSlice, userStructSlice)
-					log.Println("log details fromhdjjhjhsdjjh",logUserSlice)
 					viewModel.LogArray =logUserSlice
+					log.Println("viewmodel",viewModel.LogArray)
+
+
+
+
+
+
+
 				}
+
 				//leaveDetail
 
 

@@ -576,6 +576,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	var tempUserKeyForOldTask []string
 	var uniqueUserKey  []string
 	var tempContactKeySlice []string
+	//var oldElementNotInNew []string
 	userName := TaskUser{}
 	err = dB.Child("/Tasks/"+ taskId).Value(&taskValues)
 	userStatusInTask := reflect.ValueOf(taskValues.UsersAndGroups.User)
@@ -586,7 +587,33 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	for _, userKeyForOldTask := range userStatusInTask.MapKeys() {
 		tempUserKeyForOldTask = append(tempUserKeyForOldTask, userKeyForOldTask.String())
 	}
-	//for i:=0;i<len(tempUserKeySlice);i++{
+	res := make([]string, 0)
+	//s_one := []string{"anusha", "kirthy", "reema"}
+	//s_two := []string{"anusha", "raju", "sudha"}
+	for _, s := range tempUserKeyForOldTask {
+		//if !inslice(s, tempUserKeySlice) {
+		//	res = append(res, s)
+		//}
+		for _, v := range tempUserKeySlice {
+			if v == s {
+
+			}
+		}
+		res = append(res, s)
+	}
+	log.Println("the array i got from here",res)
+	//func inslice(n string, h []string) bool {
+	//for _, v := range h {
+	//if v == n {
+	//return true
+	//}
+	//}
+	//return false
+	//}
+
+
+
+//for i:=0;i<len(tempUserKeySlice);i++{
 	//	tempUserKeyForOldTask = append(tempUserKeyForOldTask,tempUserKeySlice[i])
 	//}
 
@@ -609,6 +636,8 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 			tempUserKeySlice, tempUserKeyForOldTask = tempUserKeyForOldTask, tempUserKeySlice
 		}
 	}
+	log.Println("the elemets of the old tasks",tempUserKeySlice)
+
 
 	log.Println("the atlast thingsss",uniqueUserKey)
 	for i:=0;i<len(uniqueUserKey);i++{
@@ -661,7 +690,14 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	log.Println("fdgdfgdfg",m)
 
 	err = dB.Child("/Tasks/"+ taskId).Update(&m)
-
+	for i, v := range tempUserKeySlice {
+		for j :=0;j<len(res);j++ {
+			if v == res[i] {
+				tempUserKeySlice = append(tempUserKeySlice[:i], tempUserKeySlice[i + 1:]...)
+				break
+			}
+		}
+	}
 	for _, key := range userStatusInTask.MapKeys() {
 		for i:=0;i<len(tempUserKeySlice);i++{
 			if tempUserKeySlice[i]==key.String() {
@@ -706,6 +742,25 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 				//}
 			}
 		}
+	}
+
+	for i:=0;i<len(res);i++{
+
+		userNotificationDetail :=UserNotification{}
+		userNotificationDetail.Date =time.Now().Unix()
+		userNotificationDetail.IsRead =false
+		userNotificationDetail.IsViewed =false
+		userNotificationDetail.TaskId =taskId
+		userNotificationDetail.TaskName =taskValues.Info.TaskName
+		userNotificationDetail.Category ="Tasks"
+		userNotificationDetail.Status ="Removed"
+		userNotificationDetail.IsDeleted =false
+		err = dB.Child("/Users/"+res[i]+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+		if err!=nil{
+			log.Println("Insertion error:",err)
+			return false
+		}
+
 	}
 
 
@@ -801,8 +856,12 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 
 	userData := reflect.ValueOf(m.UsersAndGroups.User)
 	userTaskDetail := UserTasks{}
+	userTaskDetailOfOriginal := UserTasks{}
+	userTaskDetailDeleted := UserTasks{}
+	userTaskDetailOfDeleted := UserTasks{}
 	for _, key := range userData.MapKeys() {
 		userKey :=key.String()
+		err = dB.Child("/Users/"+userKey+"/Tasks/"+taskId).Value(&userTaskDetailOfOriginal)
 		userTaskDetail.CompanyId = companyId
 		userTaskDetail.CustomerName = m.Customer.CustomerName
 		userTaskDetail.EndDate = m.Info.EndDate
@@ -810,8 +869,21 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userTaskDetail.TaskName = m.Info.TaskName
 		userTaskDetail.StartDate = m.Info.StartDate
 		userTaskDetail.DateOfCreation =taskValues.Settings.DateOfCreation
-		userTaskDetail.Status =helpers.StatusPending
+		userTaskDetail.Status =userTaskDetailOfOriginal.Status
 		err = dB.Child("/Users/"+userKey+"/Tasks/"+taskId).Update(&userTaskDetail)
+	}
+	//deleted user status
+	for i :=0;i<len(res);i++{
+		err = dB.Child("/Users/"+res[i]+"/Tasks/"+taskId).Value(&userTaskDetailOfDeleted)
+		userTaskDetailDeleted.CompanyId = companyId
+		userTaskDetailDeleted.CustomerName = userTaskDetailOfDeleted.CustomerName
+		userTaskDetailDeleted.EndDate = userTaskDetailOfDeleted.EndDate
+		userTaskDetailDeleted.JobName = userTaskDetailOfDeleted.JobName
+		userTaskDetailDeleted.TaskName = userTaskDetailOfDeleted.TaskName
+		userTaskDetailDeleted.StartDate = userTaskDetailOfDeleted.StartDate
+		userTaskDetailDeleted.DateOfCreation =taskValues.Settings.DateOfCreation
+		userTaskDetailDeleted.Status =helpers.StatusInActive
+		err = dB.Child("/Users/"+res[i]+"/Tasks/"+taskId).Update(&userTaskDetailDeleted)
 	}
 	CustomerTask :=TasksCustomer{}
 	CustomerTask.TasksCustomerStatus =helpers.StatusActive

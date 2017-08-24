@@ -147,14 +147,84 @@ $(function(){
 //         createDataArray(vm.Values, vm.Keys);
 //    }
     if (vm.TaskDetails != null){
-        for(i=0;i<vm.TaskDetails.length;i++){
+        for(var i=0;i<vm.TaskDetails.length;i++){
             var userName =vm.TaskDetails[i][5];
             var taskName =vm.TaskDetails[i][2];
+            var userId =vm.TaskDetails[i][4];
             console.log("username",taskName);
             timeSlice.push(userName);
             timeSlice.push(taskName);
             var taskStartDate =vm.TaskDetails[i][0];
             var taskEndDate =vm.TaskDetails[i][1];
+            var daysWorked =0;
+            var leave =0;
+            var sumOfWorkingDays =0
+            var startDateInFormat = moment.unix(taskStartDate).format("MM/DD/YYYY");
+            var endDateInFormat =   moment.unix(taskEndDate).format("MM/DD/YYYY");
+            for (var j=0;j<vm.LogArray.length;j++){
+                for (var k=0; k<vm.LogArray[j].length ;k++){
+                    if userId ==vm.LogArray[j][k].UserID{
+                        var utcTime = vm.LogArray[j][k].LogTime;
+                        var dateFromDb = parseInt(utcTime)
+                        var d = new Date(dateFromDb * 1000);
+                        var dd = d.getDate();
+                        var mm = d.getMonth() + 1; //January is 0!
+                        var yyyy = d.getFullYear();
+                        var HH = d.getHours();
+                        var min = d.getMinutes();
+                        var sec = d.getSeconds();
+                        if (dd < 10) {
+                            dd = '0' + dd;
+                        }
+                        if (mm < 10) {
+                            mm = '0' + mm;
+                        }
+                        if (HH < 10) {
+                            HH = '0' + HH;
+                        }
+                        if (min < 10) {
+                            min = '0' + min;
+                        }
+                        if (sec < 10) {
+                            sec = '0' + sec;
+                        }
+                        var localTime = (HH + ':' + min);
+                        var localDate = (mm + '/' + dd + '/' + yyyy);
+                       
+                        var difference = taskStartDate - taskEndDate;
+                        var noOfDaysWorked = Math.floor(difference/1000/60/60/24);
+                        console.log("days difference",noOfDaysWorked);
+                        var startDate = new Date(taskStartDate*1000);
+                        var startHours = startDate.getHours();
+                        var startMinutes = "0" + startDate.getMinutes();
+                        var formattedStartTime = startHours + ':' + startMinutes.substr(-2) ;
+                        console.log("formated start time",formattedStartTime);
+                        var endDate = new Date(taskEndDate*1000);
+                        var endHours = endDate.getHours();
+                        var endMinutes = "0" + endDate.getMinutes();
+                        var formattedEndTime = startHours + ':' + startMinutes.substr(-2) ;
+                        console.log("formated end time",formattedEndTime);
+                        if (noOfDaysWorked ==0){
+                            if (localDate ==startDateInFormat){
+                                daysWorked =1;
+                            }
+                        }else{
+                            for (var l=0;l<noOfDaysWorked;l++){
+                                 if (localDate ==startDateInFormat){
+                                     
+                                     sumOfWorkingDays=sumOfWorkingDays+1
+                                     daysWorked =sumOfWorkingDays
+                                 }
+                            }
+                           
+                        }
+                        
+                    }
+                    
+                }
+                startDateInFormat =startDateInFormat.setDate(startDateInFormat.getDate()+1);
+                
+            }
             
             
         }
