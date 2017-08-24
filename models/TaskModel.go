@@ -690,14 +690,15 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	log.Println("fdgdfgdfg",m)
 
 	err = dB.Child("/Tasks/"+ taskId).Update(&m)
-	for i, v := range tempUserKeySlice {
-		for j :=0;j<len(res);j++ {
-			if v == res[i] {
-				tempUserKeySlice = append(tempUserKeySlice[:i], tempUserKeySlice[i + 1:]...)
-				break
-			}
-		}
-	}
+	//for i, v := range tempUserKeySlice {
+	//	for j :=0;j<len(res);j++ {
+	//		if v == res[i] {
+	//			tempUserKeySlice = append(tempUserKeySlice[:i], tempUserKeySlice[i + 1:]...)
+	//			break
+	//		}
+	//	}
+	//}
+	//log.Println("if any error",tempUserKeySlice)
 	for _, key := range userStatusInTask.MapKeys() {
 		for i:=0;i<len(tempUserKeySlice);i++{
 			if tempUserKeySlice[i]==key.String() {
