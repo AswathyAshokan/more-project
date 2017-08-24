@@ -701,7 +701,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	//log.Println("if any error",tempUserKeySlice)
 	for _, key := range userStatusInTask.MapKeys() {
 		for i:=0;i<len(tempUserKeySlice);i++{
-			if tempUserKeySlice[i]==key.String() {
+			if tempUserKeySlice[i]==key.String()&& taskValues.UsersAndGroups.User[key.String()].UserTaskStatus !=helpers.StatusCompleted {
 				log.Println("key in old task",key.String())
 				userName.UserTaskStatus =taskValues.UsersAndGroups.User[key.String()].UserTaskStatus
 				userName.FullName = taskValues.UsersAndGroups.User[key.String()].FullName
@@ -871,7 +871,10 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userTaskDetail.StartDate = m.Info.StartDate
 		userTaskDetail.DateOfCreation =taskValues.Settings.DateOfCreation
 		userTaskDetail.Status =userTaskDetailOfOriginal.Status
-		err = dB.Child("/Users/"+userKey+"/Tasks/"+taskId).Update(&userTaskDetail)
+		if taskValues.UsersAndGroups.User[userKey].UserTaskStatus !=helpers.StatusCompleted{
+			err = dB.Child("/Users/"+userKey+"/Tasks/"+taskId).Update(&userTaskDetail)
+		}
+
 	}
 	//deleted user status
 	for i :=0;i<len(res);i++{
