@@ -19,6 +19,14 @@ import (
 type DashBoardController struct {
 	BaseController
 }
+func IsValueInList(value string, list []string) bool {
+	for _, v := range list {
+		if v == value {
+			return true
+		}
+	}
+	return false
+}
 func (c *DashBoardController)LoadDashBoard() {
 	viewModel  := viewmodels.DashBoardViewModel{}
 	r := c.Ctx.Request
@@ -66,17 +74,26 @@ func (c *DashBoardController)LoadDashBoard() {
 						userStatus = append(userStatus,taskDetail.UsersAndGroups.User[k].UserTaskStatus)
 					}
 					log.Println(userStatus)
-					for i:=0;i<len(userStatus);i++ {
+					//for i:=0;i<len(userStatus);i++ {
+					//
+					//	if userStatus[i] == "Pending"|| userStatus[i] =="Open"{
+					//
+					//		totalUserStatus = "Pending"
+					//		break
+					//	} else {
+					//		totalUserStatus = "Completed"
+					//	}
+					//
+					//}
 
-						if userStatus[i] == "Pending"|| userStatus[i] =="Open"{
-
+						bool1 :=IsValueInList("Pending", userStatus)
+						bool2 :=IsValueInList("Open", userStatus)
+						if (bool1==true ||bool2==true ){
 							totalUserStatus = "Pending"
-							break
-						} else {
-							totalUserStatus = "Completed"
+						}else{
+							totalUserStatus ="Completed"
 						}
 
-					}
 						log.Println("total status",totalUserStatus)
 					for i:=0;i<len(userStatus);i++{
 

@@ -424,7 +424,14 @@ func (c *TaskController)AddNewTask() {
 	}
 
 }
-
+func IsValue1InList(value string, list []string) bool {
+	for _, v := range list {
+		if v == value {
+			return true
+		}
+	}
+	return false
+}
 
 
 
@@ -486,17 +493,26 @@ func (c *TaskController)LoadTaskDetail() {
 								userStatus = append(userStatus, taskDetail.UsersAndGroups.User[k].UserTaskStatus)
 							}
 							log.Println(userStatus)
-							for i := 0; i < len(userStatus); i++ {
-
-								if userStatus[i] == "Pending" || userStatus[i] == "Open" {
-
-									totalUserStatus = "Pending"
-									break
-								} else {
-									totalUserStatus = "Completed"
-								}
-
+							//for i := 0; i < len(userStatus); i++ {
+							//
+							//	if userStatus[i] == "Pending" || userStatus[i] == "Open" {
+							//
+							//		totalUserStatus = "Pending"
+							//		break
+							//	} else {
+							//		totalUserStatus = "Completed"
+							//	}
+							//
+							//
+							//}
+							 bool1 :=IsValue1InList("Pending", userStatus)
+							 bool2 :=IsValue1InList("Open", userStatus)
+							if (bool1==true ||bool2==true ){
+								totalUserStatus = "Pending"
+							}else{
+								totalUserStatus ="Completed"
 							}
+
 							log.Println("total status", totalUserStatus)
 							for i := 0; i < len(userStatus); i++ {
 
