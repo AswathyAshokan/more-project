@@ -935,9 +935,18 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	userTaskDetailOfOriginal := UserTasks{}
 	userTaskDetailDeleted := UserTasks{}
 	userTaskDetailOfDeleted := UserTasks{}
+
+
 	for _, key := range userData.MapKeys() {
 		userKey :=key.String()
 		err = dB.Child("/Users/"+userKey+"/Tasks/"+taskId).Value(&userTaskDetailOfOriginal)
+		if len(userTaskDetailOfOriginal) !=0{
+			userTaskDetail.Status =userTaskDetailOfOriginal.Status
+
+
+		}else{
+			userTaskDetail.Status =helpers.StatusPending
+		}
 		userTaskDetail.CompanyId = companyId
 		userTaskDetail.CustomerName = m.Customer.CustomerName
 		userTaskDetail.EndDate = m.Info.EndDate
@@ -945,7 +954,6 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userTaskDetail.TaskName = m.Info.TaskName
 		userTaskDetail.StartDate = m.Info.StartDate
 		userTaskDetail.DateOfCreation =taskValues.Settings.DateOfCreation
-		userTaskDetail.Status =userTaskDetailOfOriginal.Status
 		userTaskDetail.Id=taskId
 		if taskValues.UsersAndGroups.User[userKey].UserTaskStatus !=helpers.StatusCompleted{
 			err = dB.Child("/Users/"+userKey+"/Tasks/"+taskId).Update(&userTaskDetail)
