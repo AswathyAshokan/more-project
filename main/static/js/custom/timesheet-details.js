@@ -157,10 +157,66 @@ $(function(){
             var taskStartDate =vm.TaskDetails[i][0];
             var taskEndDate =vm.TaskDetails[i][1];
             var daysWorked =0;
+            var extraHours =00:00;
+            var sumExtraHours =00:00;
+            var sumLateHours =00:00;
+            var lateHours =00:00;
+            var diffInStartTime =00:00;
             var leave =0;
+            var sumOfLeave =0;
             var sumOfWorkingDays =0
             var startDateInFormat = moment.unix(taskStartDate).format("MM/DD/YYYY");
             var endDateInFormat =   moment.unix(taskEndDate).format("MM/DD/YYYY");
+            var utcTimeOfStartDate = taskStartDate;
+            var dbStartTime = parseInt(utcTimeOfStartDate)
+            var startDate = new Date(dbStartTime * 1000);
+            var dd = startDate.getDate();
+            var mm = startDate.getMonth() + 1; //January is 0!
+            var yyyy = startDate.getFullYear();
+            var HH = startDate.getHours();
+            var min = startDate.getMinutes();
+            var sec = startDate.getSeconds();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            if (HH < 10) {
+                HH = '0' + HH;
+            }
+            if (min < 10) {
+                min = '0' + min;
+            }
+            if (sec < 10) {
+                sec = '0' + sec;
+            }
+            var startTime = (HH + ':' + min);
+            var utcTimeOfEndDate = taskEndDate;
+            var dbEndTime = parseInt(utcTimeOfEndDate)
+            var endDate = new Date(dbEndTime * 1000);
+            var dd = endDate.getDate();
+            var mm = endDate.getMonth() + 1; //January is 0!
+            var yyyy = endDate.getFullYear();
+            var HH = endDate.getHours();
+            var min = endDate.getMinutes();
+            var sec = endDate.getSeconds();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            if (HH < 10) {
+                HH = '0' + HH;
+            }
+            if (min < 10) {
+                min = '0' + min;
+            }
+            if (sec < 10) {
+                sec = '0' + sec;
+            }
+            var endTime = (HH + ':' + min);
             for (var j=0;j<vm.LogArray.length;j++){
                 for (var k=0; k<vm.LogArray[j].length ;k++){
                     if userId ==vm.LogArray[j][k].UserID{
@@ -203,30 +259,112 @@ $(function(){
                         var endHours = endDate.getHours();
                         var endMinutes = "0" + endDate.getMinutes();
                         var formattedEndTime = startHours + ':' + startMinutes.substr(-2) ;
+                        var localTimeDiff = new Date('00','00',localTime.split(':')[0],localTime.split(':')[1]);
+                        var startTimeDiff = new Date('00','00',startTime.split(':')[0],startTime.split(':')[1]);
+                        var endTimeDiff = new Date('00','00',endTime.split(':')[0],endTime.split(':')[1]);
                         console.log("formated end time",formattedEndTime);
                         if (noOfDaysWorked ==0){
                             if (localDate ==startDateInFormat){
                                 daysWorked =1;
+                                leave=0;
+                                sumOfLeave =leave+sumOfLeave;
+                               
+                                if (localTimeDiff.getTime()>startTimeDiff.getTime()){
+                                    diffInStartTime =moment.utc(moment(localTime," HH:mm").diff(moment(startTime," HH:mm"))).format("HH:mm");
+                                    sumLateHours =sumLateHours+diffInStartTime;
+                                    lateHours =sumLateHours;
+                                    
+                                    
+                                }else{
+                                    diffInStartTime =moment.utc(moment(startTime," HH:mm").diff(moment(localTime," HH:mm"))).format("HH:mm");
+                                    sumExtraHours =sumExtraHours+diffInStartTime;
+                                    extraHours =sumExtraHours;
+                                }
+                                if (localTimeDiff.getTime()>endTimeDiff.getTime()){
+                                    diffInStartTime =moment.utc(moment(localTime," HH:mm").diff(moment(endTime," HH:mm"))).format("HH:mm");
+                                   sumExtraHours =sumExtraHours+diffInStartTime;
+                                    extraHours =sumExtraHours;
+                                    
+                                    
+                                }else{
+                                    diffInStartTime =moment.utc(moment(endTime," HH:mm").diff(moment(localTime," HH:mm"))).format("HH:mm");
+                                    sumLateHours =sumLateHours+diffInStartTime;
+                                    lateHours =sumLateHours;
+                                }
+
+                                
+                               
+
                             }
                         }else{
-                            for (var l=0;l<noOfDaysWorked;l++){
+                            
                                  if (localDate ==startDateInFormat){
-                                     
-                                     sumOfWorkingDays=sumOfWorkingDays+1
-                                     daysWorked =sumOfWorkingDays
+                                     leave=0;
+                                     sumOfLeave =leave+sumOfLeave;
+                                     var dateTime1 = new Date(startDateInFormat).getTime();
+                                     var  dateTime2 = new Date(endDateInFormat).getTime();
+                                     var diff = dateTime2 - dateTime1;
+                                     if (diff >= 0) {
+                                         sumOfWorkingDays=sumOfWorkingDays+1;
+                                         daysWorked =sumOfWorkingDays;
+                                         if (localTimeDiff.getTime()>startTimeDiff.getTime()){
+                                             diffInStartTime =moment.utc(moment(localTime," HH:mm").diff(moment(startTime," HH:mm"))).format("HH:mm");
+                                             sumLateHours =sumLateHours+diffInStartTime;
+                                             lateHours =sumLateHours;
+                                         }else{
+                                             diffInStartTime =moment.utc(moment(startTime," HH:mm").diff(moment(localTime," HH:mm"))).format("HH:mm");
+                                             sumExtraHours =sumExtraHours+diffInStartTime;
+                                             extraHours =sumExtraHours;
+                                         }
+                                         if (localTimeDiff.getTime()>endTimeDiff.getTime()){
+                                             diffInStartTime =moment.utc(moment(localTime," HH:mm").diff(moment(endTime," HH:mm"))).format("HH:mm");
+                                             sumExtraHours =sumExtraHours+diffInStartTime;
+                                             extraHours =sumExtraHours;
+                                         }else{
+                                             diffInStartTime =moment.utc(moment(endTime," HH:mm").diff(moment(localTime," HH:mm"))).format("HH:mm");
+                                             sumLateHours =sumLateHours+diffInStartTime;
+                                             lateHours =sumLateHours;
+                                         }
+                                     }
+                                 }else{
+                                      leave=1;
+                                     sumOfLeave =leave+sumOfLeave;
                                  }
-                            }
-                           
                         }
-                        
+                        var logExtraDay = new Date(localDate).getTime();
+                        var extraEndDay =  new Date(endDateInFormat).getTime();
+                        var extraDifference =logExtraDay-extraEndDay;
+                        if (extraDifference>0){
+                            extraWorkingDay =sumOfWorkingDays+1;
+                            daysWorked =extraWorkingDay;
+                            if (localTimeDiff.getTime()>startTimeDiff.getTime()){
+                                    diffInStartTime =moment.utc(moment(localTime," HH:mm").diff(moment(startTime," HH:mm"))).format("HH:mm");
+                                    sumLateHours =sumLateHours+diffInStartTime;
+                                    lateHours =sumLateHours;
+                                    
+                                    
+                                }else{
+                                    diffInStartTime =moment.utc(moment(startTime," HH:mm").diff(moment(localTime," HH:mm"))).format("HH:mm");
+                                    sumExtraHours =sumExtraHours+diffInStartTime;
+                                    extraHours =sumExtraHours;
+                                }
+                                if (localTimeDiff.getTime()>endTimeDiff.getTime()){
+                                    diffInStartTime =moment.utc(moment(localTime," HH:mm").diff(moment(endTime," HH:mm"))).format("HH:mm");
+                                   sumExtraHours =sumExtraHours+diffInStartTime;
+                                    extraHours =sumExtraHours;
+                                    
+                                    
+                                }else{
+                                    diffInStartTime =moment.utc(moment(endTime," HH:mm").diff(moment(localTime," HH:mm"))).format("HH:mm");
+                                    sumLateHours =sumLateHours+diffInStartTime;
+                                    lateHours =sumLateHours;
+                                }
+                        }
                     }
-                    
                 }
                 startDateInFormat =startDateInFormat.setDate(startDateInFormat.getDate()+1);
-                
             }
-            
-            
+            timeSlice.push(daysWorked);
         }
     }
     

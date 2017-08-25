@@ -545,6 +545,32 @@ func (m *Tasks) GetAllContact(ctx context.Context)(bool,map[string]Tasks) {
 
 }
 
+func Inslice(n string, h []string) bool {
+	for _, v := range h {
+		if v == n {
+			return true
+		}
+	}
+	return false
+}
+
+func InArray(n string, h []string) bool {
+	for _, v := range h {
+		if v == n {
+			return true
+		}
+	}
+	return false
+}
+//func Remove(s []string, r string) []string {
+//	for i, v := range s {
+//		if v == r {
+//			return append(s[:i], s[i+1:]...)
+//		}
+//	}
+//	return s
+//}
+
 /* Function for update task on DB*/
 func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId string,WorkBreakSlice []string,TaskWorkTimeSlice []string,fitToWorkName string)(bool)  {
 
@@ -587,29 +613,19 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	for _, userKeyForOldTask := range userStatusInTask.MapKeys() {
 		tempUserKeyForOldTask = append(tempUserKeyForOldTask, userKeyForOldTask.String())
 	}
-	res := make([]string, 0)
-	//s_one := []string{"anusha", "kirthy", "reema"}
-	//s_two := []string{"anusha", "raju", "sudha"}
-	for _, s := range tempUserKeyForOldTask {
-		//if !inslice(s, tempUserKeySlice) {
-		//	res = append(res, s)
-		//}
-		for _, v := range tempUserKeySlice {
-			if v == s {
+	var EleminatedArray []string
 
-			}
+
+	for _, s := range tempUserKeyForOldTask {
+		if !Inslice(s, tempUserKeySlice) {
+			EleminatedArray = append(EleminatedArray, s)
 		}
-		res = append(res, s)
 	}
-	log.Println("the array i got from here",res)
-	//func inslice(n string, h []string) bool {
-	//for _, v := range h {
-	//if v == n {
-	//return true
-	//}
-	//}
-	//return false
-	//}
+
+
+	log.Println("the actuall new formed array",tempUserKeySlice)
+	log.Println("the old user array",tempUserKeyForOldTask)
+	log.Println("the array i got from here that is removed user ayyar",EleminatedArray)
 
 
 
@@ -690,62 +706,114 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	log.Println("fdgdfgdfg",m)
 
 	err = dB.Child("/Tasks/"+ taskId).Update(&m)
-	//for i, v := range tempUserKeySlice {
-	//	for j :=0;j<len(res);j++ {
-	//		if v == res[i] {
-	//			tempUserKeySlice = append(tempUserKeySlice[:i], tempUserKeySlice[i + 1:]...)
-	//			break
-	//		}
-	//	}
-	//}
-	//log.Println("if any error",tempUserKeySlice)
-	for _, key := range userStatusInTask.MapKeys() {
-		for i:=0;i<len(tempUserKeySlice);i++{
-			if tempUserKeySlice[i]==key.String()&& taskValues.UsersAndGroups.User[key.String()].UserTaskStatus !=helpers.StatusCompleted {
-				log.Println("key in old task",key.String())
-				userName.UserTaskStatus =taskValues.UsersAndGroups.User[key.String()].UserTaskStatus
-				userName.FullName = taskValues.UsersAndGroups.User[key.String()].FullName
-				userName.Status =helpers.StatusActive
-				m.UsersAndGroups.User[key.String()] =userName
-				userNotificationDetail :=UserNotification{}
-				userNotificationDetail.Date =time.Now().Unix()
-				userNotificationDetail.IsRead =false
-				userNotificationDetail.IsViewed =false
-				userNotificationDetail.TaskId =taskId
-				userNotificationDetail.TaskName =m.Info.TaskName
-				userNotificationDetail.Category ="Tasks"
-				userNotificationDetail.Status ="Updated"
-				userNotificationDetail.IsDeleted =false
-				err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
-				if err!=nil{
-					log.Println("Insertion error:",err)
-					return false
+	log.Println("under removeeeeeeeeeeeeeeee")
+	//remove elements from array
+	var newUserArray []string
+	if len(EleminatedArray)!=0{
+		for _, s := range tempUserKeySlice {
+			if !InArray(s, EleminatedArray) {
+				newUserArray = append(newUserArray, s)
+			}
+		}
+		log.Println("if any error",tempUserKeySlice)
+		for _, key := range userStatusInTask.MapKeys() {
+			for i:=0;i<len(newUserArray);i++{
+				if newUserArray[i]==key.String()&& taskValues.UsersAndGroups.User[key.String()].UserTaskStatus !=helpers.StatusCompleted {
+					log.Println("key in old task",key.String())
+					userName.UserTaskStatus =taskValues.UsersAndGroups.User[key.String()].UserTaskStatus
+					userName.FullName = taskValues.UsersAndGroups.User[key.String()].FullName
+					userName.Status =helpers.StatusActive
+					m.UsersAndGroups.User[key.String()] =userName
+					userNotificationDetail :=UserNotification{}
+					userNotificationDetail.Date =time.Now().Unix()
+					userNotificationDetail.IsRead =false
+					userNotificationDetail.IsViewed =false
+					userNotificationDetail.TaskId =taskId
+					userNotificationDetail.TaskName =m.Info.TaskName
+					userNotificationDetail.Category ="Tasks"
+					userNotificationDetail.Status ="Updated"
+					userNotificationDetail.IsDeleted =false
+					err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+					if err!=nil{
+						log.Println("Insertion error:",err)
+						return false
+					}
+					break
+
+				}else {
+
+
+					//log.Println("key not in old task",tempUserKeySlice[i])
+					//userNotificationDetail :=UserNotification{}
+					//userNotificationDetail.Date =m.Settings.DateOfCreation
+					//userNotificationDetail.IsRead =false
+					//userNotificationDetail.IsViewed =false
+					//userNotificationDetail.TaskId =taskId
+					//userNotificationDetail.TaskName =m.Info.TaskName
+					//userNotificationDetail.Category ="Tasks"
+					//userNotificationDetail.Status ="New"
+					//userNotificationDetail.IsDeleted =false
+					//err = dB.Child("/Users/"+tempUserKeySlice[i]+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+					//if err!=nil{
+					//	log.Println("Insertion error:",err)
+					//	return false
+					//}
 				}
-				break
+			}
+		}
+	}else{
+		log.Println("if any error",tempUserKeySlice)
+		for _, key := range userStatusInTask.MapKeys() {
+			for i:=0;i<len(tempUserKeySlice);i++{
+				if tempUserKeySlice[i]==key.String()&& taskValues.UsersAndGroups.User[key.String()].UserTaskStatus !=helpers.StatusCompleted {
+					log.Println("key in old task",key.String())
+					userName.UserTaskStatus =taskValues.UsersAndGroups.User[key.String()].UserTaskStatus
+					userName.FullName = taskValues.UsersAndGroups.User[key.String()].FullName
+					userName.Status =helpers.StatusActive
+					m.UsersAndGroups.User[key.String()] =userName
+					userNotificationDetail :=UserNotification{}
+					userNotificationDetail.Date =time.Now().Unix()
+					userNotificationDetail.IsRead =false
+					userNotificationDetail.IsViewed =false
+					userNotificationDetail.TaskId =taskId
+					userNotificationDetail.TaskName =m.Info.TaskName
+					userNotificationDetail.Category ="Tasks"
+					userNotificationDetail.Status ="Updated"
+					userNotificationDetail.IsDeleted =false
+					err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+					if err!=nil{
+						log.Println("Insertion error:",err)
+						return false
+					}
+					break
 
-			}else {
+				}else {
 
 
-				//log.Println("key not in old task",tempUserKeySlice[i])
-				//userNotificationDetail :=UserNotification{}
-				//userNotificationDetail.Date =m.Settings.DateOfCreation
-				//userNotificationDetail.IsRead =false
-				//userNotificationDetail.IsViewed =false
-				//userNotificationDetail.TaskId =taskId
-				//userNotificationDetail.TaskName =m.Info.TaskName
-				//userNotificationDetail.Category ="Tasks"
-				//userNotificationDetail.Status ="New"
-				//userNotificationDetail.IsDeleted =false
-				//err = dB.Child("/Users/"+tempUserKeySlice[i]+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
-				//if err!=nil{
-				//	log.Println("Insertion error:",err)
-				//	return false
-				//}
+					//log.Println("key not in old task",tempUserKeySlice[i])
+					//userNotificationDetail :=UserNotification{}
+					//userNotificationDetail.Date =m.Settings.DateOfCreation
+					//userNotificationDetail.IsRead =false
+					//userNotificationDetail.IsViewed =false
+					//userNotificationDetail.TaskId =taskId
+					//userNotificationDetail.TaskName =m.Info.TaskName
+					//userNotificationDetail.Category ="Tasks"
+					//userNotificationDetail.Status ="New"
+					//userNotificationDetail.IsDeleted =false
+					//err = dB.Child("/Users/"+tempUserKeySlice[i]+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+					//if err!=nil{
+					//	log.Println("Insertion error:",err)
+					//	return false
+					//}
+				}
 			}
 		}
 	}
 
-	for i:=0;i<len(res);i++{
+
+
+
+	for i:=0;i<len(EleminatedArray);i++{
 
 		userNotificationDetail :=UserNotification{}
 		userNotificationDetail.Date =time.Now().Unix()
@@ -756,7 +824,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userNotificationDetail.Category ="Tasks"
 		userNotificationDetail.Status ="Removed"
 		userNotificationDetail.IsDeleted =false
-		err = dB.Child("/Users/"+res[i]+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+		err = dB.Child("/Users/"+EleminatedArray[i]+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
 		if err!=nil{
 			log.Println("Insertion error:",err)
 			return false
@@ -877,8 +945,8 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 
 	}
 	//deleted user status
-	for i :=0;i<len(res);i++{
-		err = dB.Child("/Users/"+res[i]+"/Tasks/"+taskId).Value(&userTaskDetailOfDeleted)
+	for i :=0;i<len(EleminatedArray);i++{
+		err = dB.Child("/Users/"+EleminatedArray[i]+"/Tasks/"+taskId).Value(&userTaskDetailOfDeleted)
 		userTaskDetailDeleted.CompanyId = companyId
 		userTaskDetailDeleted.CustomerName = userTaskDetailOfDeleted.CustomerName
 		userTaskDetailDeleted.EndDate = userTaskDetailOfDeleted.EndDate
@@ -887,7 +955,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userTaskDetailDeleted.StartDate = userTaskDetailOfDeleted.StartDate
 		userTaskDetailDeleted.DateOfCreation =taskValues.Settings.DateOfCreation
 		userTaskDetailDeleted.Status =helpers.StatusInActive
-		err = dB.Child("/Users/"+res[i]+"/Tasks/"+taskId).Update(&userTaskDetailDeleted)
+		err = dB.Child("/Users/"+EleminatedArray[i]+"/Tasks/"+taskId).Update(&userTaskDetailDeleted)
 	}
 	CustomerTask :=TasksCustomer{}
 	CustomerTask.TasksCustomerStatus =helpers.StatusActive
