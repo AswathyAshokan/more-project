@@ -940,7 +940,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	for _, key := range userData.MapKeys() {
 		userKey :=key.String()
 		err = dB.Child("/Users/"+userKey+"/Tasks/"+taskId).Value(&userTaskDetailOfOriginal)
-		if len(userTaskDetailOfOriginal) !=0{
+		if len(userTaskDetailOfOriginal.Status) !=0{
 			userTaskDetail.Status =userTaskDetailOfOriginal.Status
 
 
