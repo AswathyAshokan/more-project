@@ -379,6 +379,24 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 	}
 	for _, k := range keySlice {
 
+		workLocationValues := map[string]WorkLocation{}
+		err = db.Child("WorkLocation").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&workLocationValues)
+		if err != nil {
+			log.Fatal(err)
+			//return false
+		}
+		WorkLocationUseruu := WorkLocationUser{}
+		updateUserStatus := WorkLocationUser{}
+		dataValue := reflect.ValueOf(workLocationValues)
+		for _, key := range dataValue.MapKeys() {
+			log.Println("key.String()",key.String())
+			log.Println("k",k)
+			err = db.Child("/WorkLocation/"+key.String()+"/Info/UsersAndGroupsInWorkLocation/User/"+k).Value(&WorkLocationUseruu)
+			updateUserStatus.FullName = WorkLocationUseruu.FullName
+			updateUserStatus.Status = helpers.UserStatusDeleted
+			err = db.Child("/WorkLocation/"+key.String()+"/Info/UsersAndGroupsInWorkLocation/User/"+k).Update(&updateUserStatus)
+		}
+
 
 		err = db.Child("Group").Value(&fullGroup)
 		if err != nil {
@@ -570,7 +588,9 @@ func RemoveUsersFromTaskForDelete(ctx context.Context,companyTeamName  string,In
 				log.Fatal(err)
 				return false
 			}
+
 		}
+
 
 	}
 

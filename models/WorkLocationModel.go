@@ -57,6 +57,7 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context) (bool){
 func GetAllWorkLocationDetails(ctx context.Context,CompanyTeamName string) (map[string]WorkLocation,bool){
 	workLocationValues := map[string]WorkLocation{}
 	db,err :=GetFirebaseClient(ctx,"")
+
 	err = db.Child("WorkLocation").OrderBy("Info/CompanyTeamName").EqualTo(CompanyTeamName).Value(&workLocationValues)
 	//err = db.Child("WorkLocation").Value(&workLocationValues)
 	if err != nil {

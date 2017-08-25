@@ -62,6 +62,9 @@
                         <li id ="crm"><a href='/{{.vm.CompanyTeamName}}/customer'><i class="sprites-crm"></i>CRM</a></li>
                         <li id="contact"><a href='/{{.vm.CompanyTeamName}}/contact'><i class="sprites-contact"></i>Contacts</a></li>
                        <li id ="job"><a href='/{{.vm.CompanyTeamName}}/job'><i class="sprites-job"></i>Job</a></li>
+                        
+                        <li id="WorkLocation"><a href="/{{.vm.CompanyTeamName}}/worklocation/add"><i class="sprites-consent"></i>Work Location</a></li>
+                        
                         <li id="task"><a href='/{{.vm.CompanyTeamName}}/task'><i class="sprites-task"></i>Task</a></li>
                         <li id="leave"><a href='/{{.vm.CompanyTeamName}}/leave'><i class="sprites-leave"></i>Leave</a></li>
                        <li id="log"><a href="/{{.vm.CompanyTeamName}}/workLog"><i class="sprites-log"></i>Log</a></li>
@@ -72,7 +75,7 @@
                         <!--<li><a href="#"><i class="sprites-dures"></i>Duress</a></li>-->
                         <li id="consent"><a href="/{{.vm.CompanyTeamName}}/consent"><i class="sprites-consent"></i>Consent Receipt</a></li>
                        <li id="fitToWork"><a href="/{{.vm.CompanyTeamName}}/fitToWork"><i class="sprites-consent"></i>Fit To Work</a></li>
-                        <li id="WorkLocation"><a href="/{{.vm.CompanyTeamName}}/worklocation/add"><i class="sprites-consent"></i>Work Location</a></li>
+                       
                     </ul>
                 </nav>
             </div>
@@ -90,8 +93,8 @@
                                  </div>
                              </div>
                              <ul class="nav nav-tabs tab-logs">
-                                  <button class="active" data-toggle="tab" id="userlog">User Logs</button>
-                                 <button data-toggle="tab"  id="activitylog">Activity logs</button>
+                                  <button class="active" data-toggle="tab" id="userlog">Task Logs</button>
+                                 <button data-toggle="tab"  id="activitylog">Work logs</button>
                                  <!--<li class="active"><a data-toggle="tab" href="/{{.vm.CompanyTeamName}}/workLog">User Logs</a></li>
 								<li><a data-toggle="tab" href="/{{.vm.CompanyTeamName}}/activityworkLog">Activity logs</a></li>-->
 							</ul>

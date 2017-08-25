@@ -127,6 +127,7 @@ func GetAllInstructionsById(ctx context.Context,companyTeamName string,consentId
 }
 
 func(m *ConsentReceipts) UpdateConsentDetailsIfInstructionChanged(ctx context.Context,consentId string,instructionSlice []string,tempGroupId []string,tempGroupMembers []string,companyTeamName string ) (bool) {
+	log.Println("ssjjssecond",consentId)
 	ConsentStatusDetails :=ConsentSettings{}
 	addConsentToUsers := ConsentReceiptDetails{}
 	db, err := GetFirebaseClient(ctx, "")
@@ -134,18 +135,18 @@ func(m *ConsentReceipts) UpdateConsentDetailsIfInstructionChanged(ctx context.Co
 		log.Println(err)
 	}
 	err = db.Child("/ConsentReceipts/"+companyTeamName+"/"+consentId+"/Settings").Value(&ConsentStatusDetails)
-	if err != nil {
+	/*if err != nil {
 		log.Fatal(err)
 		return  false
-	}
+	}*/
 	m.Settings.DateOfCreation = ConsentStatusDetails.DateOfCreation
 	m.Settings.Status = ConsentStatusDetails.Status
 	err = db.Child("/ConsentReceipts/"+companyTeamName+"/"+consentId).Update(&m)
 
-	if err != nil {
+	/*if err != nil {
 		log.Fatal(err)
 		return  false
-	}
+	}*/
 	instructionMap := make(map[string]ConsentInstructions)
 	InstructionForConsent := ConsentInstructions{}
 	for i := 0; i < len(instructionSlice); i++ {
@@ -154,19 +155,20 @@ func(m *ConsentReceipts) UpdateConsentDetailsIfInstructionChanged(ctx context.Co
 		id := betterguid.New()
 		instructionMap[id] = InstructionForConsent
 		err = db.Child("/ConsentReceipts/"+companyTeamName+"/"+consentId+"/Instructions/").Set(instructionMap)
-		if err != nil {
+		/*if err != nil {
 			log.Println(err)
 			return false
-		}
+		}*/
 	}
 	addConsentToUsers.CompanyId = companyTeamName
 	addConsentToUsers.UserResponse = helpers.StatusPending
 	for i := 0; i < len(tempGroupId); i++ {
+		log.Println("tempGroupId[i]",tempGroupId[i])
 		err = db.Child("/Users/"+tempGroupId[i]+"/ConsentReceipts/"+consentId).Set(addConsentToUsers)
-		if err != nil {
+		/*if err != nil {
 			log.Println(err)
 			return false
-		}
+		}*/
 	}
 	return true
 }
@@ -304,6 +306,7 @@ func GetAllUsersFromInstructions(ctx context.Context,consentId string,companyTea
 }
 
 func(m *ConsentReceipts) UpdateConsentDataIfInstructionNotChanged(ctx context.Context,consentId string,instructionSlice []string,tempGroupId []string,tempGroupMembers []string,companyTeamName string ) (bool) {
+	log.Println("jjjji first")
 	ConsentStatusDetails :=ConsentSettings{}
 	addConsentToUsers := ConsentReceiptDetails{}
 	db, err := GetFirebaseClient(ctx, "")

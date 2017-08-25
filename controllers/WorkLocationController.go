@@ -185,9 +185,13 @@ func (c *WorkLocationcontroller) LoadWorkLocation() {
 				userDataValues :=  reflect.ValueOf(workLocation[k].Info.UsersAndGroupsInWorkLocation.User)
 
 				for _,userKey :=range userDataValues.MapKeys(){
+
 					var userStruct viewmodels.WorkLocationUsers
-					userStruct.Name = workLocation[k].Info.UsersAndGroupsInWorkLocation.User[userKey.String()].FullName
-					userStruct.UserKey = k
+					if workLocation[k].Info.UsersAndGroupsInWorkLocation.User[userKey.String()].Status!=helpers.UserStatusDeleted{
+						userStruct.Name = workLocation[k].Info.UsersAndGroupsInWorkLocation.User[userKey.String()].FullName
+						userStruct.UserKey = k
+					}
+
 					userStructSlice = append(userStructSlice, userStruct)
 				}
 				workLocationUserSlice = append(workLocationUserSlice,userStructSlice)
@@ -281,6 +285,7 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 						log.Println(helpers.ServerConnectionError)
 					}
 					for i := 0; i < len(keySliceForGroup); i++ {
+
 						groupMemberNameForTask.MemberName = MemberNameArray[i]
 						groupMemberMap[keySliceForGroup[i]] = groupMemberNameForTask
 					}

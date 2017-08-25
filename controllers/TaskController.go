@@ -402,9 +402,15 @@ func (c *TaskController)AddNewTask() {
 			log.Println(helpers.ServerConnectionError)
 
 		}
+		var locationArray []string
+		workLocation,_ := models.GetAllWorkLocationDetails(c.AppEngineCtx,companyTeamName)
+		dataValue := reflect.ValueOf(workLocation)
+		for _, key := range dataValue.MapKeys() {
+			locationArray = append(locationArray,workLocation[key.String()].Info.WorkLocation)
+		}
 
 		taskcontactSlice = append(taskcontactSlice, contactStructSlice)
-
+		viewModel.WorkLocationArray = locationArray
 		viewModel.CompanyTeamName=storedSession.CompanyTeamName
 		viewModel.CompanyPlan = storedSession.CompanyPlan
 		viewModel.Key = activeJobKey

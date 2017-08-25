@@ -101,7 +101,6 @@ func (c* ConsentReceiptController)LoadConsentReceipt(){
 		}
 		for _, k :=range keySlice {
 			if k == companyTeamName {
-
 				consentById := models.GetSelectedUsersName(c.AppEngineCtx, k)
 				consentDataValues := reflect.ValueOf(consentById)
 				for _, consentKey := range consentDataValues.MapKeys() {
@@ -223,6 +222,7 @@ func (c *ConsentReceiptController) EditConsentReceipt() {
 			log.Println("true nnn")
 		case false:
 			dbStatus := consentData.UpdateConsentDetailsIfInstructionChanged(c.AppEngineCtx,consentId,instructionSlice,tempGroupId,tempGroupMembers,companyTeamName)
+			log.Println("dbStatus",dbStatus)
 			switch dbStatus {
 			case true:
 				w.Write([]byte("true"))

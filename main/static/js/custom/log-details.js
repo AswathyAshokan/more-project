@@ -5,6 +5,7 @@
 console.log(vm);
 $(function(){
     var mainArray = [];   
+    var generalMainArray = [];
     var table = "";
     var unixFromDate = 0;
     var unixToDate = 0;
@@ -15,10 +16,10 @@ $(function(){
     var selectFromDate;
     var actualFromDate;
     var completeTable =[];
+    var tableData = [];
     var lattitude;
     var longitude;
     function createDataArray(values, keys){
-        console.log("inside create");
         var subArray = [];
         for(i = 0; i < values.length; i++) {
             for(var propertyName in values[i]) {
@@ -30,6 +31,58 @@ $(function(){
             
         }
     }
+    // fuction for work log
+    function createGeneralDataArray(values, keys){
+        console.log("inside create");
+        var subArray = [];
+        for(i = 0; i < values.length; i++) {
+            for(var propertyName in values[i]) {
+                subArray.push(values[i][propertyName]);
+            }
+            subArray.push(keys[i])
+            generalMainArray.push(subArray);
+            subArray = [];
+            
+        }
+    }
+    
+    function dataTableManipulate(mainArray){
+        table =  $("#log-details").DataTable({
+            data: mainArray,
+            "searching": true,
+            "info": false,
+            "lengthChange":false,
+           "columnDefs": [{
+               "targets": [5],
+                render : function (data, type, row) {
+                       return '<button class="btn btn-primary btn-xs " id = "btnShow">Show Map</button>';
+                }
+           }]
+        });
+        $('#tbl_details_length').after($('.datepic-top'));
+    }
+    
+    
+    function generaldataTableManipulate(mainArray){
+        table =  $("#log-details").DataTable({
+            data: mainArray,
+            "searching": true,
+            "info": false,
+            "lengthChange":false,
+           "columnDefs": [{
+                'visible': false, 'targets': [4] },
+               
+               {"targets": [5],
+                render : function (data, type, row) {
+                       return '<button class="btn btn-primary btn-xs " id = "btnShow">Show Map</button>';
+                }
+           }]
+        });
+        $('#tbl_details_length').after($('.datepic-top'));
+    }
+    
+    
+    
     completeTable = mainArray;
     $('#refreshButton').click(function(e) {
         $('#log-details').dataTable().fnDestroy();
@@ -52,32 +105,64 @@ $(function(){
             dataTableManipulate(tempArray);
         }
     } 
-    function dataTableManipulate(mainArray){
-        table =  $("#log-details").DataTable({
-            data: mainArray,
-            "searching": true,
-            "info": false,
-            "lengthChange":false,
-           "columnDefs": [{
-               "targets": [5],
-                render : function (data, type, row) {
-                       return '<button class="btn btn-primary btn-xs " id = "btnShow">Show Map</button>';
-                }
-           }]
-        });
-        $('#tbl_details_length').after($('.datepic-top'));
-        
-    }
     
-    $("#activitylog").click(function(){
-      // alert("The paragraph was clicked.");
-       completeTable = mainArray;
+    
+    $("#userlog").on('click',function(){
+        completeTable = mainArray;
         $('#log-details').dataTable().fnDestroy();
        dataTableManipulate(completeTable);
-   });
-     $("#userlog").click(function(){
-       alert("The paragraph was clicked in userlog.");
-   });
+    });
+    
+    $("#activitylog").on( 'click', function () {
+         tableData = generalMainArray
+        $('#log-details').dataTable().fnDestroy();
+        generaldataTableManipulate(tableData);
+    });
+    
+    
+    if(vm.GeneralLogValues != null) {
+        //$('#log-details').dataTable().fnDestroy();
+        for( i=0;i<vm.GeneralLogValues.length;i++){
+            console.log("hghghghg",vm.GeneralLogValues[i]);
+            var utcTime = vm.GeneralLogValues[i][2];
+            var dateFromDb = parseInt(utcTime)
+            var d = new Date(dateFromDb * 1000);
+            var dd = d.getDate();
+            var mm = d.getMonth() + 1; //January is 0!
+            var yyyy = d.getFullYear();
+            var HH = d.getHours();
+            var min = d.getMinutes();
+            var sec = d.getSeconds();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            if (HH < 10) {
+                HH = '0' + HH;
+            }
+            if (min < 10) {
+                min = '0' + min;
+            }
+            if (sec < 10) {
+                sec = '0' + sec;
+            }
+            var localTime = (HH + ':' + min);
+            var localDate = (mm + '/' + dd + '/' + yyyy);
+            vm.GeneralLogValues[i][2]= localDate;
+            vm.GeneralLogValues[i][3] = localTime;
+            lattitude = vm.GeneralLogValues[i][3];
+            longitude= vm.GeneralLogValues[i][4];
+             
+            
+        }
+        createGeneralDataArray(vm.GeneralLogValues, vm.GeneralKey);
+    }
+    //generaldataTableManipulate(generalMainArray);
+    
+    
+
     
   $('#log-details').on( 'click', '#btnShow', function () {
       $("#myModal").modal();
@@ -152,6 +237,7 @@ $(function(){
             vm.Values[i][3] = localTime;
             lattitude = vm.Values[i][5];
             longitude= vm.Values[i][6];
+             //$('#log-details').dataTable().fnDestroy();
             
         }
          createDataArray(vm.Values, vm.Keys);

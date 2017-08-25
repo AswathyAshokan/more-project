@@ -22,7 +22,7 @@ func (c *LogController)LoadLogDetails() {
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
 	logDetails :=models.WorkLog{}
-	//var duration []string
+	var userId []string
 	dbStatus, logUserDetail := logDetails.GetLogDetailOfUser(c.AppEngineCtx, companyTeamName)
 	//var userId string
 	switch dbStatus {
@@ -57,6 +57,7 @@ func (c *LogController)LoadLogDetails() {
 				buffer.Reset()
 			}
 			//taskData := taskName+"("+JobName+")"
+			log.Println("task name",tempTaskNames)
 			tempValueSlice = append(tempValueSlice,tempTaskNames)
 			latitudeInString :=strconv.FormatFloat(logUserDetail[key.String()].Latitude, 'f', 6, 64)
 			longitudeInString :=strconv.FormatFloat(logUserDetail[key.String()].Longitude, 'f', 6, 64)
@@ -66,59 +67,94 @@ func (c *LogController)LoadLogDetails() {
 			tempValueSlice = append(tempValueSlice,logDate)*/
 			viewModel.Values = append(viewModel.Values, tempValueSlice)
 			tempValueSlice = tempValueSlice[:0]
+			userId = append(userId,logUserDetail[key.String()].UserID)
 
 
 
 		}
+		log.Println("userId",userId)
 		var tempGeneralLogSlice []string
 		var tempGenerealLogoutSlice []string
-		/*var lastLoginArray []string
-		var lastLogoutArray []string*/
+		var generalKeySlice []string
 		logStatus,generalLogData := models.GetGeneralLogDataByUserId(c.AppEngineCtx)
 		switch logStatus {
 		case true:
-			log.Println("generalLogData",generalLogData)
 			dataValue := reflect.ValueOf(generalLogData)
 			for _, key := range dataValue.MapKeys() {
-				LogData := models.GetSpecificLogValues(c.AppEngineCtx,key.String())
-				log.Println("LogData",LogData)
-				lastLoginLattitude := strconv.FormatFloat(LogData.Latitude, 'f', 6, 64)
-				lastLoginLongitude := strconv.FormatFloat(LogData.Longitude, 'f', 6, 64)
-				tempGeneralLogSlice = append(tempGeneralLogSlice,lastLoginLattitude)
-				tempGeneralLogSlice = append(tempGeneralLogSlice,lastLoginLongitude)
-				tempGeneralLogSlice = append(tempGeneralLogSlice,strconv.FormatInt(int64(LogData.LogTime), 10))
-				tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.Type)
-				tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.UserID)
-				tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.UserName)
-				tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.LogDescription)
-				viewModel.GeneralLogValues = append(viewModel.GeneralLogValues,tempGeneralLogSlice)
-				tempGeneralLogSlice = tempGeneralLogSlice[:0]
+				generalKeySlice = append(generalKeySlice,key.String())
+				var tempArray []string
+				for i:=0;i<len(userId);i++{
 
+					exists := false
+					for v := 0; v < i; v++ {
+						if userId[v] == userId[i] {
+							exists = true
+							break
+						}
+					}
+					// If no previous element exists, append this one.
+					if !exists {
+						tempArray = append(tempArray, userId[i])
+					}
+					log.Println("exists",exists)
+				}
+				log.Println("tempArray",tempArray)
+				for k :=0;k<len(tempArray);k++{
+					if tempArray[k] == key.String(){
+						LogData := models.GetSpecificLogValues(c.AppEngineCtx,key.String())
+						tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.UserName)
+						tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.Type)
+						tempGeneralLogSlice = append(tempGeneralLogSlice,strconv.FormatInt(int64(LogData.LogTime), 10))
+						log.Println("eeee",strconv.FormatInt(int64(LogData.LogTime), 10))
+						lastLoginLattitude := strconv.FormatFloat(LogData.Latitude, 'f', 6, 64)
+						lastLoginLongitude := strconv.FormatFloat(LogData.Longitude, 'f', 6, 64)
+						tempGeneralLogSlice = append(tempGeneralLogSlice,lastLoginLattitude)
+						tempGeneralLogSlice = append(tempGeneralLogSlice,lastLoginLongitude)
+
+
+						tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.UserID)
+
+						tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.LogDescription)
+						log.Println("tempGeneralLogSlice",tempGeneralLogSlice)
+						viewModel.GeneralLogValues = append(viewModel.GeneralLogValues,tempGeneralLogSlice)
+						tempGeneralLogSlice = tempGeneralLogSlice[:0]
+
+						LogoutData := models.GetSpecificLogoutValues(c.AppEngineCtx,key.String())
+						tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.UserName)
+						tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.Type)
+						tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,strconv.FormatInt(int64(LogoutData.LogTime), 10))
+						log.Println("ffff",strconv.FormatInt(int64(LogoutData.LogTime), 10))
+						lastLogoutLattitude := strconv.FormatFloat(LogoutData.Latitude, 'f', 6, 64)
+						lastLogoutLongitude := strconv.FormatFloat(LogoutData.Longitude, 'f', 6, 64)
+						tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,lastLogoutLattitude)
+						tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,lastLogoutLongitude)
+						tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.UserID)
+						tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.LogDescription)
+						viewModel.GeneralLogValues = append(viewModel.GeneralLogValues,tempGenerealLogoutSlice)
+						tempGenerealLogoutSlice = tempGenerealLogoutSlice[:0]
+
+
+
+					}
+
+				}
 			}
 
-			for _, key := range dataValue.MapKeys() {
-				LogoutData := models.GetSpecificLogoutValues(c.AppEngineCtx,key.String())
-				log.Println("LogData",LogoutData)
-				lastLogoutLattitude := strconv.FormatFloat(LogoutData.Latitude, 'f', 6, 64)
-				lastLogoutLongitude := strconv.FormatFloat(LogoutData.Longitude, 'f', 6, 64)
-				tempGeneralLogSlice = append(tempGenerealLogoutSlice,lastLogoutLattitude)
-				tempGeneralLogSlice = append(tempGenerealLogoutSlice,lastLogoutLongitude)
-				tempGeneralLogSlice = append(tempGenerealLogoutSlice,strconv.FormatInt(int64(LogoutData.LogTime), 10))
-				tempGeneralLogSlice = append(tempGenerealLogoutSlice,LogoutData.Type)
-				tempGeneralLogSlice = append(tempGenerealLogoutSlice,LogoutData.UserID)
-				tempGeneralLogSlice = append(tempGenerealLogoutSlice,LogoutData.UserName)
-				tempGeneralLogSlice = append(tempGenerealLogoutSlice,LogoutData.LogDescription)
-				viewModel.GeneralLogoutValues = append(viewModel.GeneralLogoutValues,tempGenerealLogoutSlice)
-				tempGenerealLogoutSlice = tempGenerealLogoutSlice[:0]
 
-			}
 
+
+			/*for _, key := range dataValue.MapKeys() {
+
+
+			}*/
+		viewModel.GeneralKey = generalKeySlice
 		log.Println("viewModel.GeneralLogoutValues",viewModel.GeneralLogoutValues)
 			log.Println("viewModel.GeneralLogValues ",viewModel.GeneralLogValues )
 		case false:
 
 		}
 		viewModel.Keys = keySlice
+
 	case false :
 		log.Println(helpers.ServerConnectionError)
 	}

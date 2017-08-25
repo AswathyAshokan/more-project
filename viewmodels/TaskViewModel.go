@@ -75,6 +75,7 @@ type AddTaskViewModel  struct {
 	ContactUser			[][]TaskContact
 	JobNameFormUrl			string
 	CustomerNameFormUrl		string
+	WorkLocationArray		[]string
 
 
 }

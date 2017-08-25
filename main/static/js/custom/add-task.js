@@ -3,7 +3,7 @@
 
 console.log("jjjj",vm.FitToWorkArray);
 console.log("gsgsgsgs",vm.GroupMembers);
-console.log("job name",vm.JobName);
+console.log("job name",vm.WorkLocationArray);
 console.log("job name from url",vm.JobNameFormUrl);
 document.getElementById("task").className += " active";
 var date = new Date();
@@ -86,6 +86,29 @@ $(function () {
       actualToDate.setMinutes(59);
       actualToDate.setSeconds(59);
   });
+    
+    //functionfor automatically fill task location textbox
+    
+    $('#taskLocation').keyup(function(){
+        var valThis = $(this).val().toLowerCase();
+        if(valThis == ""){
+            console.log("nulllll");
+            //$('.navList > li').show();  
+        } else {
+            /*for (i=0;i<vm.WorkLocationArray.length;i++){
+                var text = vm.WorkLocationArray[i];
+                (text.indexOf(valThis) >= 0) ? $(this).show() : $(this).hide();
+                
+            }*/
+            console.log("not nullll");
+            /*$('.navList > li').each(function(){
+                var text = $(this).text().toLowerCase();
+                (text.indexOf(valThis) >= 0) ? $(this).show() : $(this).hide();
+            });*/
+        };
+    });
+    
+    
     
     //function to setting jobna me when loaded add and continue button
     if (vm.JobNameFormUrl.length !=0){

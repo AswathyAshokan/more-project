@@ -3,6 +3,7 @@ package viewmodels
 type WorkLogViewModel  struct {
 	Values            		[][]string
 	Keys 				[]string
+	GeneralKey			[]string
 	CompanyTeamName         	string
 	CompanyPlan			string
 	AdminFirstName			string
