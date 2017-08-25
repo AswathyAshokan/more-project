@@ -506,8 +506,9 @@ func (c *TaskController)LoadTaskDetail() {
 							//
 							//}
 							 bool1 :=IsValue1InList("Pending", userStatus)
-							 bool2 :=IsValue1InList("Open", userStatus)
-							if (bool1==true ||bool2==true ){
+							bool2 :=IsValue1InList("Open", userStatus)
+							bool3 :=IsValueInList("Accepted", userStatus)
+							if (bool1==true ||bool2==true ||bool3==true){
 								totalUserStatus = "Pending"
 							}else{
 								totalUserStatus ="Completed"

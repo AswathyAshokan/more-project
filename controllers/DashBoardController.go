@@ -88,7 +88,8 @@ func (c *DashBoardController)LoadDashBoard() {
 
 						bool1 :=IsValueInList("Pending", userStatus)
 						bool2 :=IsValueInList("Open", userStatus)
-						if (bool1==true ||bool2==true ){
+						bool3 :=IsValueInList("Accepted", userStatus)
+						if (bool1==true ||bool2==true || bool3 ==true ){
 							totalUserStatus = "Pending"
 						}else{
 							totalUserStatus ="Completed"
