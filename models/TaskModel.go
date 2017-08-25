@@ -666,7 +666,10 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userNotificationDetail.Category ="Tasks"
 		userNotificationDetail.Status ="New"
 		userNotificationDetail.IsDeleted =false
-		err = dB.Child("/Users/"+uniqueUserKey[i]+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+		if taskValues.UsersAndGroups.User[uniqueUserKey[i]].UserTaskStatus !=helpers.StatusCompleted {
+			err = dB.Child("/Users/"+uniqueUserKey[i]+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+
+		}
 		if err!=nil{
 			log.Println("Insertion error:",err)
 			return false
@@ -824,7 +827,11 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userNotificationDetail.Category ="Tasks"
 		userNotificationDetail.Status ="Removed"
 		userNotificationDetail.IsDeleted =false
-		err = dB.Child("/Users/"+EleminatedArray[i]+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+		if taskValues.UsersAndGroups.User[EleminatedArray[i]].UserTaskStatus !=helpers.StatusCompleted {
+			err = dB.Child("/Users/"+EleminatedArray[i]+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+
+		}
+
 		if err!=nil{
 			log.Println("Insertion error:",err)
 			return false
@@ -939,6 +946,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userTaskDetail.StartDate = m.Info.StartDate
 		userTaskDetail.DateOfCreation =taskValues.Settings.DateOfCreation
 		userTaskDetail.Status =userTaskDetailOfOriginal.Status
+		userTaskDetail.Id=taskId
 		if taskValues.UsersAndGroups.User[userKey].UserTaskStatus !=helpers.StatusCompleted{
 			err = dB.Child("/Users/"+userKey+"/Tasks/"+taskId).Update(&userTaskDetail)
 		}
@@ -955,7 +963,12 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userTaskDetailDeleted.StartDate = userTaskDetailOfDeleted.StartDate
 		userTaskDetailDeleted.DateOfCreation =taskValues.Settings.DateOfCreation
 		userTaskDetailDeleted.Status =helpers.StatusInActive
-		err = dB.Child("/Users/"+EleminatedArray[i]+"/Tasks/"+taskId).Update(&userTaskDetailDeleted)
+		userTaskDetailDeleted.Id =taskId
+		if taskValues.UsersAndGroups.User[EleminatedArray[i]].UserTaskStatus !=helpers.StatusCompleted{
+			err = dB.Child("/Users/"+EleminatedArray[i]+"/Tasks/"+taskId).Update(&userTaskDetailDeleted)
+
+		}
+
 	}
 	CustomerTask :=TasksCustomer{}
 	CustomerTask.TasksCustomerStatus =helpers.StatusActive
