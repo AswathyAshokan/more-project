@@ -445,6 +445,83 @@ func (c *TaskController)LoadTaskDetail() {
 	dbStatus, tasks := task.RetrieveTaskFromDB(c.AppEngineCtx,companyTeamName)
 	viewModel := viewmodels.TaskDetailViewModel{}
 
+	//update task status on db
+
+	companyTask :=models.TaskIdInfo{}
+
+	//section for getting total task completion and pending details
+	dbStatus, companyTaskDetails := companyTask.RetrieveTaskFromCompany(c.AppEngineCtx,companyTeamName)
+	log.Println("sp1")
+	if len(companyTaskDetails) !=0 {
+		log.Println("sp2")
+		switch dbStatus {
+
+		case true:
+			dataValue := reflect.ValueOf(companyTaskDetails)
+			var keySlice []string
+			var totalUserStatus string
+
+			for _, key := range dataValue.MapKeys() {
+				keySlice = append(keySlice, key.String())
+			}
+			for _, k := range keySlice {
+				log.Println("sp3")
+				if companyTaskDetails[k].Status == helpers.StatusActive {
+
+					dbStatus, taskDetail := task.GetTaskDetailById(c.AppEngineCtx, k)
+					switch dbStatus {
+					case true:
+						if taskDetail.Settings.Status == helpers.StatusActive && taskDetail.Customer.CustomerStatus == helpers.StatusActive &&taskDetail.Job.JobStatus == helpers.StatusActive {
+							var userStatus        []string
+							var userKeySlice []string
+							pending := 0
+							completed := 0
+							log.Println("hhhhhh", taskDetail.Info.TaskName)
+							dataValue := reflect.ValueOf(taskDetail.UsersAndGroups.User)
+							for _, key := range dataValue.MapKeys() {
+								userKeySlice = append(userKeySlice, key.String())
+							}
+							for _, k := range userKeySlice {
+
+								userStatus = append(userStatus, taskDetail.UsersAndGroups.User[k].UserTaskStatus)
+							}
+							log.Println(userStatus)
+							for i := 0; i < len(userStatus); i++ {
+
+								if userStatus[i] == "Pending" || userStatus[i] == "Open" {
+
+									totalUserStatus = "Pending"
+									break
+								} else {
+									totalUserStatus = "Completed"
+								}
+
+							}
+							log.Println("total status", totalUserStatus)
+							for i := 0; i < len(userStatus); i++ {
+
+								if userStatus[i] == "Pending" {
+									pending++
+
+								} else {
+									completed++
+								}
+							}
+							completedTaskPercentage := float32(completed) / float32(len(userStatus)) * 100
+							pendingTaskPercentage := float32(pending) / float32(len(userStatus)) * 100
+							taskSettings := models.TaskSetting{}
+							taskSettings.UpdateTaskStatus(c.AppEngineCtx, k, totalUserStatus, completedTaskPercentage, pendingTaskPercentage)
+							log.Println(dbStatus)
+						}
+
+					case false:
+						log.Println(helpers.ServerConnectionError)
+					}
+				}
+
+			}
+		}
+	}
 	switch dbStatus {
 	case true:
 		dataValue := reflect.ValueOf(tasks)
