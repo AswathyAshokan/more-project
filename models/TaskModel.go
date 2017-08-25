@@ -941,7 +941,12 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userKey :=key.String()
 		err = dB.Child("/Users/"+userKey+"/Tasks/"+taskId).Value(&userTaskDetailOfOriginal)
 		if len(userTaskDetailOfOriginal.Status) !=0{
-			userTaskDetail.Status =userTaskDetailOfOriginal.Status
+			if(userTaskDetailOfOriginal.Status =="Open"){
+				userTaskDetail.Status =userTaskDetailOfOriginal.Status
+			}else{
+				userTaskDetail.Status =helpers.StatusPending
+			}
+
 
 
 		}else{
