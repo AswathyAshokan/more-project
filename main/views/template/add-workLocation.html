@@ -100,6 +100,8 @@
                                        <div class="col-sm-6">
                                            <label  for="taskLocation" class="">Task Location</label>
                                            <input class="form-control" id="taskLocation" type="text" name="taskLocation">
+                                            <input  value="" id="latitudeId" type="hidden">
+                                           <input  value="" id="longitudeId" type="hidden">
                                        </div>
                                    </div>
                                    <div class="align-left col-sm-12">
@@ -137,6 +139,7 @@
         if(taskLocation.length  != 0){
         
             var loc=[];
+           
             // next line creates asynchronous request
             geocoder.geocode( { 'address': vm.TaskLocation}, function(results, status) {
                 console.log("loc1");
@@ -174,6 +177,7 @@
 //                    alert("Geocode was not successful for the following reason: " + status);
                 }
                 google.maps.event.addListener(map, 'click', function (event) {
+                    console.log("lattitude",event.latLng.lat())
                     DeleteMarkers();
                     var latlng = new google.maps.LatLng(event.latLng.lat(),event.latLng.lng());
                     placeMarker(event.latLng, map);
@@ -183,8 +187,8 @@
                             if (results[1]) {
                                 document.getElementById("taskLocation").value = results[1].formatted_address ;
                             }
-                            /*document.getElementById('latitudeId').value =event.latLng.lat();
-                            document.getElementById('longitudeId').value =event.latLng.lng();*/
+                            document.getElementById('latitudeId').value =event.latLng.lat();
+                            document.getElementById('longitudeId').value =event.latLng.lng();
                         }
                     });
                 });
@@ -204,6 +208,7 @@
             map: map,
         });
         google.maps.event.addListener(map, 'click', function (event) {
+            console.log("lattitudeggggg",event.latLng.lat())
             DeleteMarkers();
             var latlng = new google.maps.LatLng(event.latLng.lat(),event.latLng.lng());
             placeMarker(event.latLng, map);
@@ -213,8 +218,8 @@
                     if (results[1]) {
                          document.getElementById("taskLocation").value = results[1].formatted_address ;
                     }
-                    /*document.getElementById('latitudeId').value =event.latLng.lat();
-                    document.getElementById('longitudeId').value =event.latLng.lng();*/
+                    document.getElementById('latitudeId').value =event.latLng.lat();
+                    document.getElementById('longitudeId').value =event.latLng.lng();
                 }
             });
         });

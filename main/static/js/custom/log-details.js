@@ -168,6 +168,7 @@ $(function(){
       $("#myModal").modal();
       $('#myModal').on('shown.bs.modal', function(){
           var googleLocation = new google.maps.LatLng(lattitude, longitude);
+          console.log("location",googleLocation);
           var mapOptions = {
           center: googleLocation,
           title: "Google Map",
@@ -181,6 +182,7 @@ $(function(){
           position: googleLocation,
           });
           marker.setMap(map);
+          document.getElementById("#position").value = googleLocation;
        });
   });
     
@@ -284,6 +286,8 @@ $(function(){
         var leave = document.getElementById("leave");
         var timesheet  = document.getElementById("time-sheet");
         var consent = document.getElementById("consent")
+        var workLocation = document.getElementById("WorkLocation")
+        parent.removeChild(workLocation)
         parent.removeChild(timesheet);
         parent.removeChild(consent);
         parent.removeChild(leave);
@@ -299,6 +303,8 @@ $(function(){
             var leave = document.getElementById("leave");
             var timesheet  = document.getElementById("time-sheet");
             var consent = document.getElementById("consent")
+            var workLocation = document.getElementById("WorkLocation")
+            parent.removeChild(workLocation)
             parent.removeChild(timesheet);
             parent.removeChild(consent);
             parent.removeChild(leave);
@@ -325,8 +331,11 @@ $(function(){
     $('#log-details').on( 'click', '#activitylog', function () {
     
      window.location='/' + vm.CompanyTeamName +'/activityworkLog';
+    });
     
-});
+    $("#cancel").click(function() {
+            window.location = '/'+companyTeamName+'/workLog';
+    });
     
 });
 

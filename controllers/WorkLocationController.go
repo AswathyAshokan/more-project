@@ -38,6 +38,9 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		taskLocation := c.GetString("taskLocation")
 		groupKeySliceForWorkLocation :=strings.Split(groupKeySliceForWorkLocationString, ",")
 		userIdArray := c.GetStrings("selectedUserNames")
+		//latitude := c.GetString("latitudeId")
+		longitude := c.GetString("longitudeId")
+		log.Println("longitude",longitude)
 		var groupKeySlice	[]string
 		for j:=0;j<len(userIdArray);j++ {
 			tempName := UserOrGroupNameArray[j]
@@ -54,6 +57,10 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 				WorkLocation.Info.WorkLocation = taskLocation
 				WorkLocation.Info.CompanyTeamName = companyTeamName
 				WorkLocation.Info.UsersAndGroupsInWorkLocation.User = userMap
+				WorkLocation.Info.Latitude ="9.7321201"
+				WorkLocation.Info.Longitude ="76.35365479999996"
+				WorkLocation.Info.StartDate =1503907200
+				WorkLocation.Info.EndDate =1503900000
 				WorkLocation.Settings.DateOfCreation = time.Now().Unix()
 				WorkLocation.Settings.Status = helpers.StatusActive
 				log.Println("userMap[tempId]", userMap)
@@ -91,7 +98,7 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		if groupKeySliceForWorkLocation[0] !="" {
 			WorkLocation.Info.UsersAndGroupsInWorkLocation.Group = groupMap
 		}
-		dbStatus :=WorkLocation.AddWorkLocationToDb(c.AppEngineCtx)
+		dbStatus :=WorkLocation.AddWorkLocationToDb(c.AppEngineCtx,companyTeamName)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -179,11 +186,11 @@ func (c *WorkLocationcontroller) LoadWorkLocation() {
 		}
 		for _, k := range keySlice {
 			var tempValueSlice []string
-			var userStructSlice []viewmodels.WorkLocationUsers
+
 
 			if workLocation[k].Settings.Status != helpers.UserStatusDeleted{
 				userDataValues :=  reflect.ValueOf(workLocation[k].Info.UsersAndGroupsInWorkLocation.User)
-
+				var userStructSlice []viewmodels.WorkLocationUsers
 				for _,userKey :=range userDataValues.MapKeys(){
 
 					var userStruct viewmodels.WorkLocationUsers

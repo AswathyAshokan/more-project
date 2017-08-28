@@ -4,14 +4,21 @@ import (
 	"golang.org/x/net/context"
 
 	"app/passporte/helpers"
+	"strings"
+	"reflect"
 )
 type WorkLocation struct {
 	Info 		WorkLocationInfo
 	Settings 	WorkLocationSettings
 }
 type WorkLocationInfo struct {
+
 	CompanyTeamName			string
 	WorkLocation       		string
+	Latitude			string
+	Longitude			string
+	StartDate			int64
+	EndDate				int64
 	UsersAndGroupsInWorkLocation	UsersAndGroupsInWork
 }
 
@@ -38,17 +45,34 @@ type  GroupMemberNameInWorkLocation struct {
 }
 
 
-func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context) (bool){
+func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName string) (bool){
 	log.Println("add group")
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println(err)
 	}
-	_,err = db.Child("WorkLocation").Push(m)
+	workData,err := db.Child("WorkLocation").Push(m)
 
 	if err != nil {
 		log.Println(err)
 		return false
+	}
+	workDataString := strings.Split(workData.String(),"/")
+	workLocationUniqueID := workDataString[len(workDataString)-2]
+	userData := reflect.ValueOf(m.Info.UsersAndGroupsInWorkLocation.User)
+	for _, key := range userData.MapKeys() {
+		workLocationData := WorkLocationInUser{}
+		workLocationData.CompanyId = companyTeamName
+		workLocationData.DateOfCreation = m.Settings.DateOfCreation
+		workLocationData.WorkLocationForTask = m.Info.WorkLocation
+		workLocationData.EndDate= 1503900000
+		workLocationData.StartDate =1503907200
+		userKey := key.String()
+		err = db.Child("/Users/"+userKey+"/WorkLocation/"+workLocationUniqueID).Set(workLocationData)
+		if err!=nil{
+			log.Println("Insertion error:",err)
+			return false
+		}
 	}
 	return  true
 }

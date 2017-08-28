@@ -10,7 +10,9 @@ $(document).ready(function() {
         var crm = document.getElementById("crm");
         var leave = document.getElementById("leave");
         var timesheet  = document.getElementById("time-sheet");
-        var consent = document.getElementById("consent")
+        var consent = document.getElementById("consent");
+        var workLocation = document.getElementById("workLocation");
+        parent.removeChild(workLocation);
         parent.removeChild(timesheet);
         parent.removeChild(consent);
         parent.removeChild(leave);
@@ -25,7 +27,9 @@ $(document).ready(function() {
             var crm = document.getElementById("crm");
             var leave = document.getElementById("leave");
             var timesheet  = document.getElementById("time-sheet");
-            var consent = document.getElementById("consent")
+            var consent = document.getElementById("consent");
+            var workLocation = document.getElementById("workLocation");
+            parent.removeChild(workLocation);
             parent.removeChild(timesheet);
             parent.removeChild(consent);
             parent.removeChild(leave);

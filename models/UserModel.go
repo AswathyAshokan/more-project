@@ -79,6 +79,13 @@ type UserTasks struct {
 	Status			string
 	TaskName		string
 }
+type WorkLocationInUser struct {
+	CompanyId		string
+	DateOfCreation		int64
+	WorkLocationForTask 	string
+	StartDate               int64
+	EndDate			int64
+}
 type UserNotification struct {
 	TaskId		string
 	TaskName	string

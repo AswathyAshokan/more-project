@@ -425,8 +425,8 @@ $().ready(function() {
         console.log("group array",groupKeyArray);
         console.log("user array",selectedUserArray);
     });
-     
-        $("#saveButton").click(function() {
+    console.log("lattitude kkkkk",document.getElementById('latitudeId').value);
+    $("#saveButton").click(function() {
             $("#taskDoneForm").validate({
                 rules: {
                     taskName : "required",

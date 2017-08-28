@@ -8,7 +8,9 @@ $(function () {
         var crm = document.getElementById("crm");
         var leave = document.getElementById("leave");
         var time  = document.getElementById("time-sheet");
-        var consent = document.getElementById("consent")
+        var consent = document.getElementById("consent");
+         var workLocation = document.getElementById("workLocation")
+         parent.removeChild(workLocation);
         parent.removeChild(time);
         parent.removeChild(consent);
         parent.removeChild(leave);
@@ -24,6 +26,8 @@ $(function () {
             var leave = document.getElementById("leave");
             var time  = document.getElementById("time-sheet");
             var consent = document.getElementById("consent")
+            var workLocation = document.getElementById("workLocation")
+            parent.removeChild(workLocation);
             campusParent.removeChild(time);
             campusParent.removeChild(consent);
             campusParent.removeChild(leave);

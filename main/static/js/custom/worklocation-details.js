@@ -44,14 +44,18 @@ $(function(){
         for( i=0;i<vm.Values.length;i++){
             for( j=0;j<vm.Users.length;j++){
                 for(k=0;k<vm.Users[j].length;k++){
-                    console.log("vm.Values[i][1]",vm.Values[i][1]);
+                    console.log("vm.Users[j][k].Name",vm.Users[j][k].Name);
                     if(vm.Values[i][1] == vm.Users[j][k].UserKey){
+                        if(vm.Users[j][k].Name != null){
+                            
+                            console.log("kkk",vm.Values[j][0])
+                            vm.Values[i][0] = vm.Values[j][0];
+                        }
                         tempArry.push(vm.Users[j][k].Name);
-                        vm.Values[i][0] = vm.Values[j][0];
                     }
                 }
             }
-            console.log("tempArry",tempArry);
+            console.log("tempArry");
             vm.Values[i][1] = tempArry;
             tempArry = [];
         }

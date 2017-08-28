@@ -106,6 +106,7 @@ $(document).ready(function() {
         console.log("group array",groupKeyArray);
         console.log("user array",selectedUserArray);
     });
+    console.log("lattitude",document.getElementById('latitudeId').value);
     $("#workLocationForm").validate({
         rules: {
             usersAndGroupId:"required",
@@ -137,6 +138,7 @@ $(document).ready(function() {
             for(i = 0; i < selectedUserArray.length; i++) {
                 formData = formData+"&selectedUserNames="+selectedUserArray[i];
             }
+             //formData = formData+"&lattitude="+;
               console.log("formData",formData);
             if (vm.PageType == "edit"){
                 var workLocationId =vm.WorkLogId  
@@ -192,6 +194,8 @@ $(document).ready(function() {
         var leave = document.getElementById("leave");
         var timesheet  = document.getElementById("time-sheet");
         var consent = document.getElementById("consent")
+        var workLocation = document.getElementById("WorkLocation")
+        parent.removeChild(workLocation)
         parent.removeChild(timesheet);
         parent.removeChild(consent);
         parent.removeChild(leave);
@@ -206,6 +210,8 @@ $(document).ready(function() {
         var leave = document.getElementById("leave");
         var timesheet  = document.getElementById("time-sheet");
         var consent = document.getElementById("consent")
+        var workLocation = document.getElementById("WorkLocation")
+        parent.removeChild(workLocation)
         parent.removeChild(timesheet);
         parent.removeChild(consent);
         parent.removeChild(leave);
