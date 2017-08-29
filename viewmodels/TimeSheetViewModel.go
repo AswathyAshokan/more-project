@@ -10,10 +10,16 @@ type TimeSheetViewModel struct {
 	Nfs	*onesignal.PlayerListResponse
 	Res	*http.Response
 	Error	error
-	LogArray		[][]LogDetails
-	TaskDetails		[][]string
-	LeaveDetails		[][]string
-	CompanyTeamName		string
+	LogArray			[][]LogDetails
+	TaskDetails			[][]string
+	LeaveDetails			[][]string
+	CompanyTeamName			string
+	LogDetailsTask          	[][]string
+	Keys				[]string
+	CompanyPlan			string
+	AdminFirstName			string
+	AdminLastName			string
+	ProfilePicture			string
 
 
 }

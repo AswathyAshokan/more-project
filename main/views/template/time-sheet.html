@@ -3,6 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Time Sheet</title>
+    <script type="text/javascript">
+        var vm = {{.vm}};
+    </script>
 	 <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
     <script src="/static/js/jquery-3.1.0.min.js" type="text/javascript" charset="utf-8"></script>
@@ -11,8 +14,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-duration-format/1.3.0/moment-duration-format.min.js"></script>
+
+
     <script src="/static/js/custom/timesheet-details.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
+<!--    <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>-->
 
 </head>
 <body>
@@ -25,9 +32,9 @@
 
 		    <div class="right-menu">
 		        <ul>
-		            <li><a href="/PendingWorks">About</a></li>
-		            <li><a href="/PendingWorks">Contact</a></li>
-		            <li><a href="/PendingWorks">Licence</a></li>
+		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">About</a></li>
+		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Contact</a></li>
+		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Licence</a></li>
 		        </ul>
 		        <div class="dropdown">
 		            <button class="dropdown-toggle no-button-style" type="button" data-toggle="dropdown"><i><img src="" id="imageId" style="border-radius:50% 50% 50% 50%; width:30px; height:30px;"></i>
@@ -45,10 +52,11 @@
 	    </div>
 	</section>
 
-	<section class="content-section clearfix">
-		<div class="container-fluid no-gutter-xs">
-			 <div class="col-md-2 main-menu-wrapper">
-                 <nav class="main-menu admin-layout">
+	 <section class="content-section clearfix">
+	    <div class="container-fluid no-gutter-xs">
+            <div class="col-md-2 main-menu-wrapper">
+
+                <nav class="main-menu admin-layout">
                     <ul id="menuItems">
                         <li id="dashBoard"><a href='/{{.vm.CompanyTeamName}}/dashBoard'><i class="sprites-dashboard"></i>Dashboard</a></li> 
                         <li id="user"><a href='/{{.vm.CompanyTeamName}}/invite'><i class="sprites-user"></i>User</a></li>
@@ -57,15 +65,19 @@
                         <li id="contact"><a href='/{{.vm.CompanyTeamName}}/contact'><i class="sprites-contact"></i>Contact</a></li>
                         <!--<li id="nfc"><a href="/{{.vm.CompanyTeamName}}/nfc"><i class="sprites-nfc"></i>NFC Tag</a></li>-->
                         <li id ="job"><a href='/{{.vm.CompanyTeamName}}/job'><i class="sprites-job"></i>Job</a></li>
+                        <li id="WorkLocation"><a href="/{{.vm.CompanyTeamName}}/worklocation"><i class="sprites-consent"></i>Work Location</a></li>
                         <li id="task"><a href='/{{.vm.CompanyTeamName}}/task'><i class="sprites-task"></i>Task</a></li>
                         <li id="leave"><a href='/{{.vm.CompanyTeamName}}/leave'><i class="sprites-leave"></i>Leave</a></li>
                         <!--<li><a href="#"><i class="sprites-payroll"></i>Payroll</a></li>-->
                         <li id="log"><a href="/{{.vm.CompanyTeamName}}/workLog"><i class="sprites-log"></i>Log</a></li>
                         <!--<li id="log"><a href="/PendingWorks"><i class="sprites-log"></i>Log</a>-->
-                        <li id="time-sheet"><a href="/{{.vm.CompanyTeamName}}/timeSheet"><i class="sprites-log"></i>Time Sheet</a></li>
-                        <!--<li id="time-sheet"><a href="/PendingWorks"><i class="sprites-log" ></i>Time Sheet</a></li>-->
+                        <!--<li id="time-sheet"><a href="/{{.vm.CompanyTeamName}}/timeSheet"><i class="sprites-log"></i>Time Sheet</a></li>-->
+                        <li id="time-sheet"><a href="/{{.vm.CompanyTeamName}}/timeSheet"><i class="sprites-log" ></i>Time Sheet</a></li>
+                        <!--<li id="time-sheet"><a href="/{{.vm.CompanyTeamName}}/PendingWorks"><i class="sprites-log" ></i>Time Sheet</a></li>-->
                         <!--<li><a href="#"><i class="sprites-dures"></i>Duress</a></li>-->
-                        <li id="consent"><a href='/{{.vm.CompanyTeamName}}/consent'><i class="sprites-consent"></i>Consent Receipt</a></li>
+                        <li id="consent"><a href="/{{.vm.CompanyTeamName}}/consent"><i class="sprites-consent"></i>Consent Receipt</a></li>
+                        <li id="fitToWork"><a href="/{{.vm.CompanyTeamName}}/fitToWork"><i class="sprites-consent"></i>Fit To Work</a></li>
+                        
                     </ul>
                 </nav>
             </div>
@@ -104,6 +116,12 @@
 
 		</div>
 	</section>
+    
+    
+    
+    
+    
+    
       <div class="modal fade plans-modal" id="family" role="dialog" >
         <div class="modal-dialog">
 	    
@@ -387,8 +405,9 @@
 
 	<script src="/static/js/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
 
-	<script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
+<!--	<script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>-->
 
+<!--
 	<script>
 
 		$(document).ready(function() {
@@ -399,6 +418,7 @@
 		      $('#tbl_details_length').after($('.datepic-top'));
 		  } );
 	</script>
+-->
 
 	
 </body>
