@@ -85,6 +85,11 @@ type WorkLocationInUser struct {
 	WorkLocationForTask 	string
 	StartDate               int64
 	EndDate			int64
+	DailyStartDate          int64
+	DailyEndDate	        int64
+	Latitude		string
+	Longitude		string
+	Status 			string
 }
 type UserNotification struct {
 	TaskId		string

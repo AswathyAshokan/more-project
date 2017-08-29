@@ -6,20 +6,26 @@
         <script type="text/javascript">
             var vm = {{.vm}};
         </script>
-        <meta charset="UTF-8">
+       < meta charset="UTF-8">
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="/static/css/style.css">
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.timeentry.css">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,600,700" rel="stylesheet">
         <script src="/static/js/jquery-3.1.0.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="/static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
         <script src="/static/js/jquery.validate.js"></script>
         <script src="/static/js/custom/add-worklocation.js"></script>
         <script src="/static/js/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="/static/js/timepicker.js"></script>
         <script src="/static/js/select2.min.js"></script>
         <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>
-        <link href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css"rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="js/jquery.plugin.js"></script>
+	<script type="text/javascript" src="js/jquery.timeentry.js"></script>
+        <link href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css"rel="stylesheet"
+              type="text/css" />
+        
     </head>
     <body>
         <section class="header">
@@ -100,20 +106,66 @@
                                        <div class="col-sm-6">
                                            <label  for="taskLocation" class="">Task Location</label>
                                            <input class="form-control" id="taskLocation" type="text" name="taskLocation">
-                                            <input  value="" id="latitudeId" type="hidden">
-                                           <input  value="" id="longitudeId" type="hidden">
+                                            <input  value="" id="latitudeId" type="hidden" name="latitudeId">
+                                           <input  value="" id="longitudeId" type="hidden" name="longitudeId">
                                        </div>
                                    </div>
+                               </div>
+                               
+                               <div class="form-group clearfix">
+
+									 <div class="col-sm-6">
+										 <label for="ex1" class="">Start Date</label>
+										 <div class="callender-wrapper">
+											 <span class="err-wrp">
+												 <input type="text" id="startDate" class="datepicker form-control sprites-callender" name="startDate">
+												 <span class="err err-cl">required</span>
+											 </span>
+                                            <!-- <label for="ex1" class="">End Date</label>-->
+                                             <span class="err-wrp">
+												 <input type="text" id="endDate" class="datepicker form-control sprites-callender" name="endDate">
+												 <span class="err err-cl">required</span>
+											 </span>
+                                                
+											 <!-- <input class="form-control time" id="ex2" type="text"> -->
+											 
+										 </div>
+									 </div>
+
+									 <div class="col-sm-6">
+										 <label for="ex1" class="">Start  Time</label>
+										 <div class="callender-wrapper">
+											 
+                                             <span class="err-wrp">
+												 <!-- <input type="text" class="form-control time" name="name" value="" placeholder="12:00" data-timepicker> -->
+												 <input type="text" class="form-control time"  value="" placeholder="12:00" id="dailyStartTime" name="dailyStartTime">
+												 <span class="err">required</span>
+											 </span>
+                                             
+											 <!-- <input class="form-control time" id="ex2" type="text"> -->
+											 <span class="err-wrp">
+												 <!-- <input type="text" class="form-control time" name="name" value="" placeholder="12:00" data-timepicker> -->
+												 <input type="text" class="form-control time" value="" placeholder="12:00" id="dailyEndTime" name="dailyEndTime">
+												 <span class="err">required</span>
+											 </span>
+										 </div>
+									 </div>
+
+									 </div>
+
                                    <div class="align-left col-sm-12">
                                       <button class="btn btn-primary" id="saveButton">Save</button>
 						    	<button class="btn btn-success" type="button" id="cancel">Cancel</button>
                                    </div>
-                               </div>
+                               
                            </div>
                        </div>
                    </form>
                </div>
                 </div>
+                
+                
+                
                 <script>
                   var defaultLatitude = "54.9682059";
     var defaultLongitude = "-1.6121358";

@@ -106,17 +106,27 @@ $(document).ready(function() {
         console.log("group array",groupKeyArray);
         console.log("user array",selectedUserArray);
     });
-    console.log("lattitude",document.getElementById('latitudeId').value);
+    
     $("#workLocationForm").validate({
         rules: {
             usersAndGroupId:"required",
             taskLocation : "required",
+            startDate:"required",
+            endDate:"required",
+            dailyStartTime:"required",
+            dailyEndTime:"required"
         },
         messages: {
             usersAndGroupId: "Please select user and group",
             taskLocation:"please fill this column",
         },
         submitHandler: function(){//to pass all data of a form serial
+            console.log("lattitude",document.getElementById('latitudeId').value);
+             console.log("longitude",document.getElementById('longitudeId').value);
+            console.log("kkkkkkllllll",document.getElementById('endDate').value);
+     console.log("kkkkkkllllll",document.getElementById('dailyEndTime').value);
+            console.log("kkkkkkllllll",document.getElementById('endDate').value);
+            console.log("kkkkkkllllll",document.getElementById('endDate').value);
              $("#saveButton").attr('disabled', true);
             var formData = $("#workLocationForm").serialize();
             //get the user's name corresponding to  keys selected from dropdownlist 

@@ -19,6 +19,8 @@ type WorkLocationInfo struct {
 	Longitude			string
 	StartDate			int64
 	EndDate				int64
+	DailyStartDate                   int64
+	DailyEndDate			int64
 	UsersAndGroupsInWorkLocation	UsersAndGroupsInWork
 }
 
@@ -65,8 +67,13 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 		workLocationData.CompanyId = companyTeamName
 		workLocationData.DateOfCreation = m.Settings.DateOfCreation
 		workLocationData.WorkLocationForTask = m.Info.WorkLocation
-		workLocationData.EndDate= 1503900000
-		workLocationData.StartDate =1503907200
+		workLocationData.StartDate =1503878400
+		workLocationData.DailyStartDate = 1503907200
+		workLocationData.DailyEndDate = 1503939600
+		workLocationData.EndDate =1503964800
+		workLocationData.Latitude ="9.7321201"
+		workLocationData.Longitude ="76.35365479999996"
+		workLocationData.Status = helpers.StatusPending
 		userKey := key.String()
 		err = db.Child("/Users/"+userKey+"/WorkLocation/"+workLocationUniqueID).Set(workLocationData)
 		if err!=nil{
