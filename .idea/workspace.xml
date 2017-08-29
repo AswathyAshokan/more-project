@@ -3,14 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/ByPassController.go" afterPath="$PROJECT_DIR$/controllers/ByPassController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/WorkLocationController.go" afterPath="$PROJECT_DIR$/controllers/WorkLocationController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-worklocation.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-worklocation.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/worklocation-details.js" afterPath="$PROJECT_DIR$/main/static/js/custom/worklocation-details.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/add-workLocation.html" afterPath="$PROJECT_DIR$/main/views/template/add-workLocation.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/worklocation-details.html" afterPath="$PROJECT_DIR$/main/views/template/worklocation-details.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/UserModel.go" afterPath="$PROJECT_DIR$/models/UserModel.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/WorkLocationModel.go" afterPath="$PROJECT_DIR$/models/WorkLocationModel.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -28,19 +20,43 @@
       <file leaf-file-name="ByPassController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="464">
-              <caret line="33" column="58" lean-forward="false" selection-start-line="33" selection-start-column="58" selection-end-line="33" selection-end-column="58" />
+            <state relative-caret-position="333">
+              <caret line="33" column="62" lean-forward="false" selection-start-line="33" selection-start-column="62" selection-end-line="33" selection-end-column="62" />
+              <folding>
+                <marker date="1504005799335" expanded="true" signature="1040:1080" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TaskController.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1432">
+              <caret line="550" column="20" lean-forward="false" selection-start-line="550" selection-start-column="20" selection-end-line="550" selection-end-column="20" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WorkLocationModel.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/WorkLocationModel.go">
+      <file leaf-file-name="TimeSheetController.go" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/controllers/TimeSheetController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="988">
-              <caret line="63" column="77" lean-forward="false" selection-start-line="63" selection-start-column="77" selection-end-line="63" selection-end-column="77" />
+            <state relative-caret-position="138">
+              <caret line="233" column="8" lean-forward="true" selection-start-line="233" selection-start-column="8" selection-end-line="233" selection-end-column="8" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InviteUserModel.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/InviteUserModel.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="432">
+              <caret line="117" column="9" lean-forward="true" selection-start-line="114" selection-start-column="8" selection-end-line="117" selection-end-column="9" />
+              <folding>
+                <element signature="e#39#143#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -48,49 +64,52 @@
       <file leaf-file-name="UserModel.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/UserModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="85" column="37" lean-forward="false" selection-start-line="85" selection-start-column="37" selection-end-line="85" selection-end-column="37" />
+            <state relative-caret-position="252">
+              <caret line="17" column="1" lean-forward="false" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LogController.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/controllers/LogController.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="206">
+              <caret line="149" column="32" lean-forward="false" selection-start-line="149" selection-start-column="32" selection-end-line="149" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WorkLogViewModel.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/viewmodels/WorkLogViewModel.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="10" column="46" lean-forward="false" selection-start-line="7" selection-start-column="8" selection-end-line="10" selection-end-column="46" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TimeSheetViewModel.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/viewmodels/TimeSheetViewModel.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="342">
+              <caret line="22" column="31" lean-forward="false" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="31" />
               <folding>
-                <marker date="1504005619758" expanded="true" signature="519:564" ph="{...}" />
-                <marker date="1504005619758" expanded="true" signature="586:847" ph="{...}" />
-                <marker date="1504005619758" expanded="true" signature="872:943" ph="{...}" />
-                <marker date="1504005619758" expanded="true" signature="967:1042" ph="{...}" />
-                <marker date="1504005619758" expanded="true" signature="1069:1229" ph="{...}" />
-                <marker date="1504005619758" expanded="true" signature="1262:1303" ph="{...}" />
-                <marker date="1504005619758" expanded="true" signature="1327:1496" ph="{...}" />
-                <marker date="1504005619758" expanded="true" signature="1796:1929" ph="{...}" />
+                <marker date="1504002362831" expanded="false" signature="27:80" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WorkLocationController.go" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/controllers/WorkLocationController.go">
+      <file leaf-file-name="TimeSheetModel.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/TimeSheetModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="170" column="65" lean-forward="false" selection-start-line="170" selection-start-column="61" selection-end-line="170" selection-end-column="65" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WorkLocationViewModel.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/viewmodels/WorkLocationViewModel.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="17" column="8" lean-forward="false" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TimeSheetController.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/controllers/TimeSheetController.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1746">
-              <caret line="108" column="129" lean-forward="false" selection-start-line="108" selection-start-column="129" selection-end-line="108" selection-end-column="129" />
+            <state relative-caret-position="403">
+              <caret line="23" column="31" lean-forward="true" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
               <folding>
-                <marker date="1504005619278" expanded="true" signature="255:9326" ph="{...}" />
+                <element signature="e#15#131#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -99,18 +118,8 @@
       <file leaf-file-name="TaskModel.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="11016">
-              <caret line="623" column="0" lean-forward="false" selection-start-line="618" selection-start-column="8" selection-end-line="623" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DashBoardController.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/controllers/DashBoardController.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1350">
-              <caret line="90" column="93" lean-forward="false" selection-start-line="90" selection-start-column="48" selection-end-line="90" selection-end-column="93" />
+            <state relative-caret-position="126">
+              <caret line="923" column="46" lean-forward="true" selection-start-line="923" selection-start-column="46" selection-end-line="923" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -128,6 +137,9 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
+      <find>ma</find>
+      <find>groupMemberMap</find>
+      <find>groupKeySlice</find>
       <find>buff</find>
       <find>GetSelectedUsersName</find>
       <find>fitToWorkStructSlice</find>
@@ -155,9 +167,6 @@
       <find>val</find>
       <find>tempUserKeySlice</find>
       <find>Removed</find>
-      <find>endDateFromJs</find>
-      <find>iam</find>
-      <find>iam</find>
     </findStrings>
     <replaceStrings>
       <replace>instructionKeyString</replace>
@@ -184,6 +193,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/main/views/layout/layout.html" />
+        <option value="$PROJECT_DIR$/controllers/ConsentRecieptController.go" />
+        <option value="$PROJECT_DIR$/main/static/js/custom/add-consentreceipt.js" />
+        <option value="$PROJECT_DIR$/main/views/template/consentreceipt-details.html" />
         <option value="$PROJECT_DIR$/main/static/js/custom/consentreceipt-deatils.js" />
         <option value="$PROJECT_DIR$/models/LoginModel.go" />
         <option value="$PROJECT_DIR$/controllers/Customer- ManagementController.go" />
@@ -200,7 +213,6 @@
         <option value="$PROJECT_DIR$/viewmodels/CustomerViewModel.go" />
         <option value="$PROJECT_DIR$/controllers/CustomerController.go" />
         <option value="$PROJECT_DIR$/models/GroupModel.go" />
-        <option value="$PROJECT_DIR$/models/TimeSheetModel.go" />
         <option value="$PROJECT_DIR$/controllers/LeaveController.go" />
         <option value="$PROJECT_DIR$/helpers/ConstantHelpers.go" />
         <option value="$PROJECT_DIR$/viewmodels/FitToWorkViewModel.go" />
@@ -218,23 +230,20 @@
         <option value="$PROJECT_DIR$/viewmodels/TaskViewModel.go" />
         <option value="$PROJECT_DIR$/models/CustomerModel.go" />
         <option value="$PROJECT_DIR$/controllers/ConsentReceiptController.go" />
-        <option value="$PROJECT_DIR$/models/InviteUserModel.go" />
         <option value="$PROJECT_DIR$/controllers/SessionController.go" />
         <option value="$USER_HOME$/coding/golang/go/src/net/http/cookie.go" />
         <option value="$PROJECT_DIR$/models/ConsentRecieptModel.go" />
         <option value="$PROJECT_DIR$/models/LogModel.go" />
         <option value="$PROJECT_DIR$/controllers/JobController.go" />
-        <option value="$PROJECT_DIR$/viewmodels/TimeSheetViewModel.go" />
-        <option value="$PROJECT_DIR$/controllers/TimeSheetController.go" />
         <option value="$PROJECT_DIR$/models/TaskModel.go" />
         <option value="$PROJECT_DIR$/controllers/DashBoardController.go" />
         <option value="$PROJECT_DIR$/controllers/TaskController.go" />
-        <option value="$PROJECT_DIR$/main/static/js/jquery.timeentry.js" />
-        <option value="$PROJECT_DIR$/main/static/css/jquery.timeentry.css" />
-        <option value="$PROJECT_DIR$/models/UserModel.go" />
-        <option value="$PROJECT_DIR$/models/WorkLocationModel.go" />
         <option value="$PROJECT_DIR$/controllers/ByPassController.go" />
-        <option value="$PROJECT_DIR$/controllers/WorkLocationController.go" />
+        <option value="$PROJECT_DIR$/viewmodels/TimeSheetViewModel.go" />
+        <option value="$PROJECT_DIR$/models/InviteUserModel.go" />
+        <option value="$PROJECT_DIR$/models/TimeSheetModel.go" />
+        <option value="$PROJECT_DIR$/models/UserModel.go" />
+        <option value="$PROJECT_DIR$/controllers/TimeSheetController.go" />
       </list>
     </option>
   </component>
@@ -265,6 +274,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -311,6 +321,34 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="tests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="routers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="models" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -326,6 +364,46 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="template" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -368,6 +446,46 @@
               <option name="myItemId" value="static" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="images" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passporte" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="helpers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -385,9 +503,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -420,11 +537,14 @@
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
           <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/workspace.xml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/controllers/TimeSheetController.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/models/InviteUserModel.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/models/TimeSheetModel.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/controllers/ByPassController.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/controllers/WorkLocationController.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/main/static/js/custom/add-worklocation.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/main/static/js/custom/worklocation-details.js</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/main/views/template/add-workLocation.html</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/main/views/template/worklocation-details.html</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/models/UserModel.go</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/viewmodels/TimeSheetViewModel.go</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/models/WorkLocationModel.go</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Created" />
@@ -760,27 +880,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00228" summary="1/06/2013:28:   check box">
-      <created>1502363456236</created>
-      <option name="number" value="00228" />
-      <option name="presentableId" value="LOCAL-00228" />
-      <option name="project" value="LOCAL" />
-      <updated>1502363456236</updated>
-    </task>
-    <task id="LOCAL-00229" summary="1/06/2013:28:   check box">
-      <created>1502365049559</created>
-      <option name="number" value="00229" />
-      <option name="presentableId" value="LOCAL-00229" />
-      <option name="project" value="LOCAL" />
-      <updated>1502365049559</updated>
-    </task>
-    <task id="LOCAL-00230" summary="1/06/2013:28:   check box">
-      <created>1502365746728</created>
-      <option name="number" value="00230" />
-      <option name="presentableId" value="LOCAL-00230" />
-      <option name="project" value="LOCAL" />
-      <updated>1502365746728</updated>
-    </task>
     <task id="LOCAL-00231" summary="1/06/2013:28:   check box">
       <created>1502427368249</created>
       <option name="number" value="00231" />
@@ -1096,14 +1195,35 @@
       <option name="project" value="LOCAL" />
       <updated>1503662237024</updated>
     </task>
-    <task id="LOCAL-00276" summary="1/06/2013:28:   work location">
-      <created>1503984904078</created>
+    <task id="LOCAL-00276" summary="1/06/2013:28:   check box">
+      <created>1503662997644</created>
       <option name="number" value="00276" />
       <option name="presentableId" value="LOCAL-00276" />
       <option name="project" value="LOCAL" />
-      <updated>1503984904085</updated>
+      <updated>1503662997644</updated>
     </task>
-    <option name="localTasksCounter" value="277" />
+    <task id="LOCAL-00277" summary="1/06/2013:28:   check box">
+      <created>1503999785584</created>
+      <option name="number" value="00277" />
+      <option name="presentableId" value="LOCAL-00277" />
+      <option name="project" value="LOCAL" />
+      <updated>1503999785585</updated>
+    </task>
+    <task id="LOCAL-00278" summary="1/06/2013:28:   check box">
+      <created>1504003411528</created>
+      <option name="number" value="00278" />
+      <option name="presentableId" value="LOCAL-00278" />
+      <option name="project" value="LOCAL" />
+      <updated>1504003411528</updated>
+    </task>
+    <task id="LOCAL-00279" summary="1/06/2013:28:   check box">
+      <created>1504005574724</created>
+      <option name="number" value="00279" />
+      <option name="presentableId" value="LOCAL-00279" />
+      <option name="project" value="LOCAL" />
+      <updated>1504005574725</updated>
+    </task>
+    <option name="localTasksCounter" value="280" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1118,7 +1238,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32580644" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="top" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32258064" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5419355" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.54285717" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18064517" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -1174,6 +1294,7 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="29/03/2017  12:12: shared documents1" />
     <MESSAGE value="6/04/2017  12:12: shared documents1" />
     <MESSAGE value="10/04/2017  5:05: shared documents1" />
     <MESSAGE value="10/04/2017  5:23: shared documents1" />
@@ -1198,8 +1319,7 @@
     <MESSAGE value="22/05/2013:28:   consent receipt details" />
     <MESSAGE value="1/06/2013:28:   consent receipt details" />
     <MESSAGE value="1/06/2013:28:   check box" />
-    <MESSAGE value="1/06/2013:28:   work location" />
-    <option name="LAST_COMMIT_MESSAGE" value="1/06/2013:28:   work location" />
+    <option name="LAST_COMMIT_MESSAGE" value="1/06/2013:28:   check box" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1220,6 +1340,41 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/main/static/js/custom/dash-board.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1891">
+          <caret line="11" column="8" lean-forward="true" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/Customer- ManagementController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-144">
+          <caret line="58" column="0" lean-forward="true" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/viewmodels/CustomerViewModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="576">
+          <caret line="32" column="30" lean-forward="false" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/GroupController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2383">
+          <caret line="199" column="26" lean-forward="true" selection-start-line="199" selection-start-column="26" selection-end-line="199" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/helpers/ConstantHelpers.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="17" column="36" lean-forward="false" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/viewmodels/AccountsViewModel.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -1248,13 +1403,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/viewmodels/WorkLogViewModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/controllers/LeaveController.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="350">
@@ -1280,7 +1428,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3582">
           <caret line="207" column="17" lean-forward="false" selection-start-line="207" selection-start-column="17" selection-end-line="207" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1295,7 +1442,52 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="22" column="61" lean-forward="false" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="61" />
-          <folding />
+          <folding>
+            <marker date="1502252099574" expanded="true" signature="1129:1208" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="1248:1320" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="1344:1431" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="1459:1555" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="1582:1645" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="1666:1753" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="1876:3364" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="1933:1995" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="2100:2146" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="2242:2288" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="2745:2791" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="3295:3341" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="3429:3758" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="3523:3562" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="3714:3733" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="3737:3756" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="3843:4120" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="3926:3965" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="4037:4087" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="4197:4842" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="4270:4293" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="4357:4393" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="4788:4826" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="4943:5834" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="5015:5038" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="5102:5138" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="5645:5683" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="5780:5818" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="5903:6126" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="5981:6018" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="6073:6110" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="6233:6573" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="6304:6327" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="6391:6427" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="6519:6557" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="6648:6924" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="6742:6781" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="6845:6895" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="7120:7405" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="7215:7254" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="7325:7375" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="7510:7802" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="7599:7638" ph="{...}" />
+            <marker date="1502252099574" expanded="true" signature="7722:7772" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1331,7 +1523,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2286">
           <caret line="132" column="0" lean-forward="false" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1346,7 +1537,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="188">
           <caret line="55" column="5" lean-forward="false" selection-start-line="55" selection-start-column="5" selection-end-line="55" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1354,7 +1544,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5184">
           <caret line="293" column="17" lean-forward="false" selection-start-line="293" selection-start-column="17" selection-end-line="293" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1362,7 +1551,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="936">
           <caret line="52" column="46" lean-forward="false" selection-start-line="52" selection-start-column="46" selection-end-line="52" selection-end-column="46" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1377,15 +1565,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="29" column="51" lean-forward="true" selection-start-line="29" selection-start-column="51" selection-end-line="29" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/InviteUserModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="88" column="25" lean-forward="false" selection-start-line="88" selection-start-column="25" selection-end-line="88" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1400,7 +1579,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1980">
           <caret line="290" column="79" lean-forward="false" selection-start-line="290" selection-start-column="79" selection-end-line="290" selection-end-column="79" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1450,7 +1628,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routers/router.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2790">
+        <state relative-caret-position="2718">
           <caret line="155" column="45" lean-forward="false" selection-start-line="155" selection-start-column="41" selection-end-line="155" selection-end-column="50" />
           <folding>
             <element signature="e#52#121#0" expanded="false" />
@@ -1469,9 +1647,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="206">
           <caret line="215" column="26" lean-forward="true" selection-start-line="215" selection-start-column="26" selection-end-line="215" selection-end-column="26" />
-          <folding>
-            <element signature="e#16#137#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1479,62 +1654,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4824">
           <caret line="277" column="49" lean-forward="false" selection-start-line="277" selection-start-column="49" selection-end-line="277" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/viewmodels/TimeSheetViewModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="19" column="24" lean-forward="true" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/TimeSheetModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/LogController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-594">
-          <caret line="31" column="57" lean-forward="false" selection-start-line="31" selection-start-column="57" selection-end-line="31" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/LogModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1224">
-          <caret line="73" column="49" lean-forward="false" selection-start-line="73" selection-start-column="49" selection-end-line="73" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/TimeSheetController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1746">
-          <caret line="108" column="129" lean-forward="false" selection-start-line="108" selection-start-column="129" selection-end-line="108" selection-end-column="129" />
-          <folding>
-            <marker date="1504005619278" expanded="true" signature="255:9326" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/DashBoardModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="7" column="8" lean-forward="false" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11016">
-          <caret line="623" column="0" lean-forward="false" selection-start-line="618" selection-start-column="8" selection-end-line="623" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1547,75 +1666,105 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/static/js/jquery.timeentry.js">
+    <entry file="file://$PROJECT_DIR$/models/DashBoardModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="524">
-          <caret line="1058" column="11" lean-forward="false" selection-start-line="1058" selection-start-column="11" selection-end-line="1058" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/static/css/jquery.timeentry.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="1" lean-forward="false" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="59" column="53" lean-forward="true" selection-start-line="59" selection-start-column="53" selection-end-line="59" selection-end-column="53" />
-          <folding />
+        <state relative-caret-position="18">
+          <caret line="7" column="8" lean-forward="false" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
-          <caret line="33" column="58" lean-forward="false" selection-start-line="33" selection-start-column="58" selection-end-line="33" selection-end-column="58" />
+        <state relative-caret-position="333">
+          <caret line="33" column="62" lean-forward="false" selection-start-line="33" selection-start-column="62" selection-end-line="33" selection-end-column="62" />
+          <folding>
+            <marker date="1504005799335" expanded="true" signature="1040:1080" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1432">
+          <caret line="550" column="20" lean-forward="false" selection-start-line="550" selection-start-column="20" selection-end-line="550" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/WorkLocationModel.go">
+    <entry file="file://$PROJECT_DIR$/controllers/LogController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="988">
-          <caret line="63" column="77" lean-forward="false" selection-start-line="63" selection-start-column="77" selection-end-line="63" selection-end-column="77" />
+        <state relative-caret-position="206">
+          <caret line="149" column="32" lean-forward="false" selection-start-line="149" selection-start-column="32" selection-end-line="149" selection-end-column="32" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/viewmodels/WorkLogViewModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="46" lean-forward="false" selection-start-line="7" selection-start-column="8" selection-end-line="10" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/LogModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1109">
+          <caret line="73" column="49" lean-forward="false" selection-start-line="73" selection-start-column="49" selection-end-line="73" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="923" column="46" lean-forward="true" selection-start-line="923" selection-start-column="46" selection-end-line="923" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/InviteUserModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="117" column="9" lean-forward="true" selection-start-line="114" selection-start-column="8" selection-end-line="117" selection-end-column="9" />
+          <folding>
+            <element signature="e#39#143#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/TimeSheetModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="23" column="31" lean-forward="true" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
+          <folding>
+            <element signature="e#15#131#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/UserModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="85" column="37" lean-forward="false" selection-start-line="85" selection-start-column="37" selection-end-line="85" selection-end-column="37" />
-          <folding>
-            <marker date="1504005619758" expanded="true" signature="519:564" ph="{...}" />
-            <marker date="1504005619758" expanded="true" signature="586:847" ph="{...}" />
-            <marker date="1504005619758" expanded="true" signature="872:943" ph="{...}" />
-            <marker date="1504005619758" expanded="true" signature="967:1042" ph="{...}" />
-            <marker date="1504005619758" expanded="true" signature="1069:1229" ph="{...}" />
-            <marker date="1504005619758" expanded="true" signature="1262:1303" ph="{...}" />
-            <marker date="1504005619758" expanded="true" signature="1327:1496" ph="{...}" />
-            <marker date="1504005619758" expanded="true" signature="1796:1929" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/viewmodels/WorkLocationViewModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="17" column="8" lean-forward="false" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+        <state relative-caret-position="252">
+          <caret line="17" column="1" lean-forward="false" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/WorkLocationController.go">
+    <entry file="file://$PROJECT_DIR$/viewmodels/TimeSheetViewModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="170" column="65" lean-forward="false" selection-start-line="170" selection-start-column="61" selection-end-line="170" selection-end-column="65" />
+        <state relative-caret-position="342">
+          <caret line="22" column="31" lean-forward="false" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="31" />
+          <folding>
+            <marker date="1504002362831" expanded="false" signature="27:80" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/TimeSheetController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="233" column="8" lean-forward="true" selection-start-line="233" selection-start-column="8" selection-end-line="233" selection-end-column="8" />
           <folding />
         </state>
       </provider>
