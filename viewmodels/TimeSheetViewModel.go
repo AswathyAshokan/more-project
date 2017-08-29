@@ -20,6 +20,7 @@ type TimeSheetViewModel struct {
 	AdminFirstName			string
 	AdminLastName			string
 	ProfilePicture			string
+	UserStartTimeAndEndTime         [][]string
 
 
 }

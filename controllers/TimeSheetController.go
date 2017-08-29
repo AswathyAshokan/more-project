@@ -25,7 +25,7 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 
 	var keyForLog []string
 
-	var sliceForLeaveDetails []string
+	//var sliceForLeaveDetails []string
 	viewModel := viewmodels.TimeSheetViewModel{}
 
 
@@ -154,72 +154,88 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 				//leaveDetail
 
 
-				var keySliceForUser []string
-				var keySlice []string
-				var tempSliceForLeave []string
-				companyUsersForLeave := models.Company{}
-				leave := models.LeaveRequests{}
-				dbStatus, companyUserDetail := companyUsersForLeave.GetUsersForDropdownFromCompany(c.AppEngineCtx, companyTeamName)
-
-				switch dbStatus {
-				case true:
-					dataValue := reflect.ValueOf(companyUserDetail)
-					for _, key := range dataValue.MapKeys() {
-						dataValue := reflect.ValueOf(companyUserDetail[key.String()].Users)
-						for _, userKey := range dataValue.MapKeys() {
-							keySliceForUser = append(keySliceForUser, userKey.String())
-
-						}
-					}
-				case false :
-					log.Println(helpers.ServerConnectionError)
-				}
-				dbStatus, leaveDetail := leave.GetAllLeaveRequest(c.AppEngineCtx, keySliceForUser)
-				switch dbStatus {
-				case true:
-					dataValue := reflect.ValueOf(leaveDetail)
-					for _, key := range dataValue.MapKeys() {
-						keySlice = append(keySlice, key.String())
-						tempSliceForLeave = append(tempSliceForLeave,key.String())
-
-
-
-					}
-					log.Println("leave key",tempSliceForLeave)
-					for _, leaveKey := range tempSliceForLeave {
-						for i:=0;i<len(keySliceForActiveTaskCompletedUsers);i++{
-							if leaveKey == keySliceForActiveTaskCompletedUsers[i] {
-								status, leaveDetailOfUser,_,_ := leave.GetAllLeaveRequestById(c.AppEngineCtx, leaveKey,companyTeamName)
-								switch status {
-								case true:
-									dataValue := reflect.ValueOf(leaveDetailOfUser)
-									for _, key := range dataValue.MapKeys() {
-										if leaveDetailOfUser[key.String()].Settings.Status == "Accepted"{
-											numberOfDays := strconv.FormatInt(leaveDetailOfUser[key.String()].Info.NumberOfDays, 10)
-											startDateOfLeave := strconv.FormatInt(leaveDetailOfUser[key.String()].Info.StartDate, 10)
-											endDateOfLeave := strconv.FormatInt(leaveDetailOfUser[key.String()].Info.EndDate, 10)
-											sliceForLeaveDetails=append(sliceForLeaveDetails,numberOfDays)
-											sliceForLeaveDetails=append(sliceForLeaveDetails,startDateOfLeave)
-											sliceForLeaveDetails=append(sliceForLeaveDetails,endDateOfLeave)
-											sliceForLeaveDetails=append(sliceForLeaveDetails,leaveKey)
-											sliceForLeaveDetails =append(sliceForLeaveDetails,key.String())
-
-										}
-
-									}
-								case false:
-									log.Println(helpers.ServerConnectionError)
-								}
-							}
-						}
-					}
-				case false :
-					log.Println(helpers.ServerConnectionError)
-				}
+				//var keySliceForUser []string
+				//var keySlice []string
+				//var tempSliceForLeave []string
+				//companyUsersForLeave := models.Company{}
+				//leave := models.LeaveRequests{}
+				//dbStatus, companyUserDetail := companyUsersForLeave.GetUsersForDropdownFromCompany(c.AppEngineCtx, companyTeamName)
+				//
+				//switch dbStatus {
+				//case true:
+				//	dataValue := reflect.ValueOf(companyUserDetail)
+				//	for _, key := range dataValue.MapKeys() {
+				//		dataValue := reflect.ValueOf(companyUserDetail[key.String()].Users)
+				//		for _, userKey := range dataValue.MapKeys() {
+				//			keySliceForUser = append(keySliceForUser, userKey.String())
+				//
+				//		}
+				//	}
+				//case false :
+				//	log.Println(helpers.ServerConnectionError)
+				//}
+				//dbStatus, leaveDetail := leave.GetAllLeaveRequest(c.AppEngineCtx, keySliceForUser)
+				//switch dbStatus {
+				//case true:
+				//	dataValue := reflect.ValueOf(leaveDetail)
+				//	for _, key := range dataValue.MapKeys() {
+				//		keySlice = append(keySlice, key.String())
+				//		tempSliceForLeave = append(tempSliceForLeave,key.String())
+				//
+				//
+				//
+				//	}
+				//	log.Println("leave key",tempSliceForLeave)
+				//	for _, leaveKey := range tempSliceForLeave {
+				//		for i:=0;i<len(keySliceForActiveTaskCompletedUsers);i++{
+				//			if leaveKey == keySliceForActiveTaskCompletedUsers[i] {
+				//				status, leaveDetailOfUser,_,_ := leave.GetAllLeaveRequestById(c.AppEngineCtx, leaveKey,companyTeamName)
+				//				switch status {
+				//				case true:
+				//					dataValue := reflect.ValueOf(leaveDetailOfUser)
+				//					for _, key := range dataValue.MapKeys() {
+				//						if leaveDetailOfUser[key.String()].Settings.Status == "Accepted"{
+				//							numberOfDays := strconv.FormatInt(leaveDetailOfUser[key.String()].Info.NumberOfDays, 10)
+				//							startDateOfLeave := strconv.FormatInt(leaveDetailOfUser[key.String()].Info.StartDate, 10)
+				//							endDateOfLeave := strconv.FormatInt(leaveDetailOfUser[key.String()].Info.EndDate, 10)
+				//							sliceForLeaveDetails=append(sliceForLeaveDetails,numberOfDays)
+				//							sliceForLeaveDetails=append(sliceForLeaveDetails,startDateOfLeave)
+				//							sliceForLeaveDetails=append(sliceForLeaveDetails,endDateOfLeave)
+				//							sliceForLeaveDetails=append(sliceForLeaveDetails,leaveKey)
+				//							sliceForLeaveDetails =append(sliceForLeaveDetails,key.String())
+				//
+				//						}
+				//
+				//					}
+				//				case false:
+				//					log.Println(helpers.ServerConnectionError)
+				//				}
+				//			}
+				//		}
+				//	}
+				//case false :
+				//	log.Println(helpers.ServerConnectionError)
+				//}
 			}
 		}
-	log.Println("leave details of user",sliceForLeaveDetails)
-	viewModel.LeaveDetails=append(viewModel.LeaveDetails,sliceForLeaveDetails)
+	log.Println("hiiiiiiiiii")
+	users :=models.Users{}
+	dbStatus, companyUserDetail := users.GetAllUsers(c.AppEngineCtx)
+	switch dbStatus{
+	case true:
+		log.Println("users information",companyUserDetail)
+	case false:
+		log.Println(helpers.ServerConnectionError)
+
+
+	}
+
+
+
+
+
+	//log.Println("leave details of user",sliceForLeaveDetails)
+	//viewModel.LeaveDetails=append(viewModel.LeaveDetails,sliceForLeaveDetails)
 	viewModel.CompanyTeamName =companyTeamName
 	viewModel.CompanyPlan = storedSession.CompanyPlan
 	viewModel.AdminLastName =storedSession.AdminLastName

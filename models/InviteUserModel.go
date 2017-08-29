@@ -86,6 +86,9 @@ func(m *EmailInvitation) CheckEmailIdInDb(ctx context.Context,companyID string)b
 }
 
 
+
+
+
 func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string,adminName string)bool {
 	userDetails := map[string]Users{}
 	db,err :=GetFirebaseClient(ctx,"")
