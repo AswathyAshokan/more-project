@@ -17,9 +17,9 @@ type WorkLocationInfo struct {
 	WorkLocation       		string
 	Latitude			string
 	Longitude			string
-	StartDate			int64
-	EndDate				int64
-	DailyStartDate                   int64
+	StartDate			string
+	EndDate				string
+	DailyStartDate                  int64
 	DailyEndDate			int64
 	UsersAndGroupsInWorkLocation	UsersAndGroupsInWork
 }
@@ -63,16 +63,20 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 	workLocationUniqueID := workDataString[len(workDataString)-2]
 	userData := reflect.ValueOf(m.Info.UsersAndGroupsInWorkLocation.User)
 	for _, key := range userData.MapKeys() {
+		/*if m.Info.UsersAndGroupsInWorkLocation.User[key.String()].Status!=helpers.UserStatusDeleted{
+
+		}*/
+		log.Println("keyyyy",key.String())
 		workLocationData := WorkLocationInUser{}
 		workLocationData.CompanyId = companyTeamName
 		workLocationData.DateOfCreation = m.Settings.DateOfCreation
 		workLocationData.WorkLocationForTask = m.Info.WorkLocation
-		workLocationData.StartDate =1503878400
-		workLocationData.DailyStartDate = 1503907200
-		workLocationData.DailyEndDate = 1503939600
-		workLocationData.EndDate =1503964800
-		workLocationData.Latitude ="9.7321201"
-		workLocationData.Longitude ="76.35365479999996"
+		workLocationData.StartDate =m.Info.StartDate
+		workLocationData.EndDate =m.Info.EndDate
+		workLocationData.DailyStartDate = m.Info.DailyStartDate
+		workLocationData.DailyEndDate = m.Info.DailyEndDate
+		workLocationData.Latitude =m.Info.Latitude
+		workLocationData.Longitude =m.Info.Longitude
 		workLocationData.Status = helpers.StatusPending
 		userKey := key.String()
 		err = db.Child("/Users/"+userKey+"/WorkLocation/"+workLocationUniqueID).Set(workLocationData)

@@ -7,7 +7,7 @@
             var vm = {{.vm}};
         </script>
        < meta charset="UTF-8">
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="/static/css/style.css">
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
@@ -20,12 +20,10 @@
         <script src="/static/js/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="/static/js/select2.min.js"></script>
         <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" src="/static/js/jquery.plugin.js"></script>
+	<script type="text/javascript" src="/static/js/jquery.timeentry.js"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>
-        <script type="text/javascript" src="js/jquery.plugin.js"></script>
-	<script type="text/javascript" src="js/jquery.timeentry.js"></script>
-        <link href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css"rel="stylesheet"
-              type="text/css" />
-        
+       
     </head>
     <body>
         <section class="header">
@@ -67,6 +65,8 @@
                             <li id="contact"><a href='/{{.vm.CompanyTeamName}}/contact'><i class="sprites-contact"></i>Contact</a></li>
                         <!--<li id="nfc"><a href="/{{.vm.CompanyTeamName}}/nfc"><i class="sprites-nfc"></i>NFC Tag</a></li>-->
                             <li id ="job"><a href='/{{.vm.CompanyTeamName}}/job'><i class="sprites-job"></i>Job</a></li>
+                             <li id="WorkLocation"><a href="/{{.vm.CompanyTeamName}}/worklocation"><i class="sprites-consent"></i>Work Location</a></li>
+                            
                             <li id="task"><a href='/{{.vm.CompanyTeamName}}/task'><i class="sprites-task"></i>Task</a></li>
                             <li id="leave"><a href='/{{.vm.CompanyTeamName}}/leave'><i class="sprites-leave"></i>Leave</a></li>
                         <!--<li><a href="#"><i class="sprites-payroll"></i>Payroll</a></li>-->
@@ -78,7 +78,7 @@
                         <!--<li><a href="#"><i class="sprites-dures"></i>Duress</a></li>-->
                             <li id="consent"><a href="/{{.vm.CompanyTeamName}}/consent"><i class="sprites-consent"></i>Consent Receipt</a></li>
                             <li id="fitToWork"><a href="/{{.vm.CompanyTeamName}}/fitToWork"><i class="sprites-consent"></i>Fit To Work</a></li>
-                            <li id="WorkLocation"><a href="/{{.vm.CompanyTeamName}}/worklocation"><i class="sprites-consent"></i>Work Location</a></li>
+                           
                         </ul>
                     </nav>
                 </div>
@@ -115,16 +115,18 @@
                                <div class="form-group clearfix">
 
 									 <div class="col-sm-6">
-										 <label for="ex1" class="">Start Date</label>
+										
 										 <div class="callender-wrapper">
-											 <span class="err-wrp">
+											 <span class="err-wrp" style="margin-right: 15px;" >
+                                                  <label for="ex1" class="">Start Date</label>
 												 <input type="text" id="startDate" class="datepicker form-control sprites-callender" name="startDate">
-												 <span class="err err-cl">required</span>
+												 <!--<span class="err err-cl">required</span>-->
 											 </span>
                                             <!-- <label for="ex1" class="">End Date</label>-->
                                              <span class="err-wrp">
-												 <input type="text" id="endDate" class="datepicker form-control sprites-callender" name="endDate">
-												 <span class="err err-cl">required</span>
+                                                  <label for="ex1" class="">End Date</label>
+												 <input  type="text" id="endDate" class="datepicker form-control sprites-callender" name="endDate">
+												<!-- <span class="err err-cl">required</span>-->
 											 </span>
                                                 
 											 <!-- <input class="form-control time" id="ex2" type="text"> -->
@@ -133,20 +135,22 @@
 									 </div>
 
 									 <div class="col-sm-6">
-										 <label for="ex1" class="">Start  Time</label>
+										 
 										 <div class="callender-wrapper">
 											 
-                                             <span class="err-wrp">
+                                             <span class="err-wrp" style="margin-right: 15px;">
+                                                 <label for="ex1" class="">Start  Time</label>
 												 <!-- <input type="text" class="form-control time" name="name" value="" placeholder="12:00" data-timepicker> -->
 												 <input type="text" class="form-control time"  value="" placeholder="12:00" id="dailyStartTime" name="dailyStartTime">
-												 <span class="err">required</span>
+												 <!--<span class="err">required</span>-->
 											 </span>
                                              
 											 <!-- <input class="form-control time" id="ex2" type="text"> -->
 											 <span class="err-wrp">
+                                                 <label for="ex1" class="">End  Time</label>
 												 <!-- <input type="text" class="form-control time" name="name" value="" placeholder="12:00" data-timepicker> -->
 												 <input type="text" class="form-control time" value="" placeholder="12:00" id="dailyEndTime" name="dailyEndTime">
-												 <span class="err">required</span>
+												<!-- <span class="err">required</span>-->
 											 </span>
 										 </div>
 									 </div>
@@ -166,15 +170,14 @@
                 
                 
                 
-                <script>
-                  var defaultLatitude = "54.9682059";
+                <script> 
+    var defaultLatitude = "54.9682059";
     var defaultLongitude = "-1.6121358";
     var map;
     var markers = [];
     var marker;
     var geocoder;
     var initialLocation = document.getElementById("taskLocation").value;
-                    console.log("initialixzation variable",initialLocation);
 <!--..............................................................................-->
 
                              
@@ -191,7 +194,6 @@
         if(taskLocation.length  != 0){
         
             var loc=[];
-           
             // next line creates asynchronous request
             geocoder.geocode( { 'address': vm.TaskLocation}, function(results, status) {
                 console.log("loc1");
@@ -229,7 +231,6 @@
 //                    alert("Geocode was not successful for the following reason: " + status);
                 }
                 google.maps.event.addListener(map, 'click', function (event) {
-                    console.log("lattitude",event.latLng.lat())
                     DeleteMarkers();
                     var latlng = new google.maps.LatLng(event.latLng.lat(),event.latLng.lng());
                     placeMarker(event.latLng, map);
@@ -260,7 +261,6 @@
             map: map,
         });
         google.maps.event.addListener(map, 'click', function (event) {
-            console.log("lattitudeggggg",event.latLng.lat())
             DeleteMarkers();
             var latlng = new google.maps.LatLng(event.latLng.lat(),event.latLng.lng());
             placeMarker(event.latLng, map);
@@ -306,7 +306,10 @@
             if (!place.geometry) {
                 return;
             }
-            // If the place has a geometry, then present it on a map.
+            document.getElementById('latitudeId').value =place.geometry.location.lat();
+            document.getElementById('longitudeId').value =place.geometry.location.lng();
+
+    // If the place has a geometry, then present it on a map.
             if (place.geometry.viewport) {
                 map.fitBounds(place.geometry.viewport);
             } else {
@@ -324,7 +327,13 @@
             }
         });
     }
-                </script>
+</script>
+    <script>
+			$(function () {
+				$("input[id^='daily']").timeEntry({show24Hours: true});
+				$(".timeEntry-control").remove();
+			});
+	</script>
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFl3U2s0vqjaN-6rvAaOA8Ts1cfDss_KM&libraries=geometry,places&callback=initialize"></script>
             </div>
         </section>

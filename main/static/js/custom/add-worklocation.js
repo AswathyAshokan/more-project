@@ -123,13 +123,54 @@ $(document).ready(function() {
         submitHandler: function(){//to pass all data of a form serial
             console.log("lattitude",document.getElementById('latitudeId').value);
              console.log("longitude",document.getElementById('longitudeId').value);
-            console.log("kkkkkkllllll",document.getElementById('endDate').value);
-     console.log("kkkkkkllllll",document.getElementById('dailyEndTime').value);
-            console.log("kkkkkkllllll",document.getElementById('endDate').value);
-            console.log("kkkkkkllllll",document.getElementById('endDate').value);
+           
+            
+            
+            var starDateString = document.getElementById('startDate').value;
+            var endDateString = document.getElementById('endDate').value;
              $("#saveButton").attr('disabled', true);
+            
+            var startdatum = Date.parse(starDateString);
+            var endDatum = Date.parse(endDateString);
+           
+            var startDateInDate = new Date(starDateString);
+            var dailyStartTime = document.getElementById('dailyStartTime').value;
+            
+            var endDateInDate = new Date(endDateString);
+            var dailyEndTime = document.getElementById('dailyEndTime').value;
+            
+            startTimeArray = dailyStartTime.split(':');
+            startHour = parseInt(startTimeArray[0]);
+            startMin = parseInt(startTimeArray[1]);
+            startDateInDate.setHours(startHour);
+            startDateInDate.setMinutes(startMin);
+            endTimeArray = dailyEndTime.split(':');
+            endHour = parseInt(endTimeArray[0]);
+            endMin = parseInt(endTimeArray[1]);
+            endDateInDate.setHours(endHour);
+            endDateInDate.setMinutes(endMin);
+            //function to convert  date to mm/dd/yyyy format
+            function formatDate(d){
+                function addZero(n){
+                    return n < 10 ? '0' + n : '' + n;
+                }
+                return addZero(d.getMonth()+1)+"/"+ addZero(d.getDate()) + "/" + d.getFullYear() + " " + 
+            addZero(d.getHours()) + ":" + addZero(d.getMinutes());
+            }
+            var startDateString = startDateInDate;
+            var date = new Date(Date.parse(startDateString));
+            var startDateOfWork = formatDate(date);
+            var endDateString = endDateInDate;
+            var endDateData = new Date(Date.parse(endDateString));
+            var endDateOfWork = formatDate(endDateData);
+            console.log("startDateOfWork",startDateOfWork)
+            console.log("endDateOfWork",endDateOfWork)
+            
+            
             var formData = $("#workLocationForm").serialize();
             //get the user's name corresponding to  keys selected from dropdownlist 
+            formData = formData+"&startDateTimeStamp="+startdatum+"&endDateTimeStamp="+endDatum +"&dailyStartTimeString="+startDateOfWork+"&dailyEndTimeString="+endDateOfWork;
+            
             var selectedUserAndGroupName = [];
               $("#usersAndGroupId option:selected").each(function () {
                   var $this = $(this);

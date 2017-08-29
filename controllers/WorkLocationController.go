@@ -36,10 +36,10 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		groupKeySliceForWorkLocationString := c.GetString("groupArrayElement")
 		UserOrGroupNameArray :=c.GetStrings("userAndGroupName")
 		taskLocation := c.GetString("taskLocation")
-		dailyEndTime := c.GetString("dailyEndTime")
-		dailyStartTime := c.GetString("dailyStartTime")
-		startDate := c.GetString("startDate")
-		endDate := c.GetString("endDate")
+		dailyEndTime := c.GetString("dailyStartTimeString")
+		dailyStartTime := c.GetString("dailyEndTimeString")
+		startDate := c.GetString("startDateTimeStamp")
+		endDate := c.GetString("endDateTimeStamp")
 		log.Println("kkkkkkkk",dailyEndTime,dailyStartTime,startDate,endDate)
 		groupKeySliceForWorkLocation :=strings.Split(groupKeySliceForWorkLocationString, ",")
 		userIdArray := c.GetStrings("selectedUserNames")
@@ -47,6 +47,20 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		latitude := c.GetString("latitudeId")
 		longitude := c.GetString("longitudeId")
 		log.Println("longitude",longitude,latitude)
+
+
+		layout := "01/02/2006 15:04"
+		startDateInUnix, err := time.Parse(layout, dailyStartTime)
+		if err != nil {
+			log.Println(err)
+		}
+		//task.Info.StartDate = startDate.UTC().Unix()
+		endDateInUnix, err := time.Parse(layout, dailyEndTime)
+		if err != nil {
+			log.Println(err)
+		}
+		//task.Info.EndDate = endDate.Unix()
+
 		var groupKeySlice	[]string
 		for j:=0;j<len(userIdArray);j++ {
 			tempName := UserOrGroupNameArray[j]
@@ -63,12 +77,13 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 				WorkLocation.Info.WorkLocation = taskLocation
 				WorkLocation.Info.CompanyTeamName = companyTeamName
 				WorkLocation.Info.UsersAndGroupsInWorkLocation.User = userMap
-				WorkLocation.Info.Latitude ="9.7321201"
-				WorkLocation.Info.Longitude ="76.35365479999996"
-				WorkLocation.Info.StartDate =1503878400
-				WorkLocation.Info.DailyStartDate = 1503907200
-				WorkLocation.Info.DailyEndDate = 1503939600
-				WorkLocation.Info.EndDate =1503964800
+				WorkLocation.Info.Latitude =latitude
+				WorkLocation.Info.Longitude =longitude
+				WorkLocation.Info.StartDate =startDate
+				WorkLocation.Info.EndDate =endDate
+				WorkLocation.Info.DailyStartDate = startDateInUnix.Unix()
+				WorkLocation.Info.DailyEndDate =endDateInUnix.Unix()
+
 				WorkLocation.Settings.DateOfCreation = time.Now().Unix()
 				WorkLocation.Settings.Status = helpers.StatusActive
 				log.Println("userMap[tempId]", userMap)
@@ -212,9 +227,15 @@ func (c *WorkLocationcontroller) LoadWorkLocation() {
 				workLocationUserSlice = append(workLocationUserSlice,userStructSlice)
 				tempValueSlice =append(tempValueSlice,workLocation[k].Info.WorkLocation)
 				tempValueSlice =append(tempValueSlice,k)
+				tempValueSlice =append(tempValueSlice,workLocation[k].Info.StartDate)
+				log.Println("start work ",workLocation[k].Info.StartDate)
+				log.Println("start work ",workLocation[k].Info.EndDate)
+				tempValueSlice = append(tempValueSlice,workLocation[k].Info.EndDate)
+				log.Println("viewmodel",tempValueSlice)
 				viewModel.Values=append(viewModel.Values,tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]
 			}
+
 
 		}
 		viewModel.Users = workLocationUserSlice
