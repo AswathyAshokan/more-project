@@ -229,8 +229,10 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 			for _, companyKey := range companyValue.MapKeys() {
 				if companyUserDetail[key.String()].WorkLocation[companyKey.String()].CompanyId ==companyTeamName{
 					var tempSliceOfUser []string
-					tempSliceOfUser=append(tempSliceOfUser,companyUserDetail[key.String()].WorkLocation[companyKey.String()].DailyStartDate)
-					tempSliceOfUser=append(tempSliceOfUser,companyUserDetail[key.String()].WorkLocation[companyKey.String()].DailyEndDate)
+					startTimeString := strconv.FormatInt(companyUserDetail[key.String()].WorkLocation[companyKey.String()].DailyStartDate, 10)
+					tempSliceOfUser=append(tempSliceOfUser,startTimeString)
+					endTimeString :=strconv.FormatInt(companyUserDetail[key.String()].WorkLocation[companyKey.String()].DailyEndDate, 10)
+					tempSliceOfUser=append(tempSliceOfUser,endTimeString)
 					tempSliceOfUser=append(tempSliceOfUser,key.String())
 					viewModel.UserStartTimeAndEndTime=append(viewModel.UserStartTimeAndEndTime,tempSliceOfUser)
 
