@@ -116,6 +116,11 @@ func GetAllWorkLocationDetailsByWorkId(ctx context.Context,workLocationId string
 
 }
 
+func IsWorkAssignedToUser(ctx context.Context ,startDate string,endDate string )()  {
+
+
+}
+
 
 func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId string,companyTeamName string) (bool){
 	workLocationValues := WorkLocation{}

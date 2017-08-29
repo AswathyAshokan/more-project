@@ -50,8 +50,6 @@ $(function(){
                             
                             console.log("kkk",vm.Values[j][0])
                             vm.Values[i][0] = vm.Values[j][0];
-                            vm.Values[i][1] = vm.Values[j][1];
-                            vm.Values[i][2] = vm.Values[j][3];
                         }
                         tempArry.push(vm.Users[j][k].Name);
                     }

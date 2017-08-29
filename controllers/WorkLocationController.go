@@ -116,6 +116,7 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 					groupKeySlice = append(groupKeySlice, string(groupKeySliceForWorkLocation[i]))
 				}
 			}
+			//uniqueWorkLocation := models.IsWorkAssignedToUser(c.AppEngineCtx,startDate,endDate,tempName)
 		}
 		WorkLocation.Info.UsersAndGroupsInWorkLocation.User = userMap
 		if groupKeySliceForWorkLocation[0] !="" {
