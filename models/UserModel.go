@@ -12,6 +12,7 @@ type Users struct {
 	ConsentReceipts         map[string]ConsentReceiptDetails
 	Task			map[string]UserNotification
 	Invitations		map[string]UserInvitations
+	WorkLocation		map[string]WorkLocationInUser
 	//Invitations        map[string]UserInvitations
 
 }

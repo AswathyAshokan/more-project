@@ -223,7 +223,22 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 	dbStatus, companyUserDetail := users.GetAllUsers(c.AppEngineCtx)
 	switch dbStatus{
 	case true:
-		log.Println("users information",companyUserDetail)
+		dataValue := reflect.ValueOf(companyUserDetail)
+		for _, key := range dataValue.MapKeys() {
+			companyValue :=reflect.ValueOf(companyUserDetail[key.String()].WorkLocation)
+			for _, companyKey := range companyValue.MapKeys() {
+				if companyUserDetail[key.String()].WorkLocation[companyKey.String()].CompanyId ==companyTeamName{
+					var tempSliceOfUser []string
+					tempSliceOfUser=append(tempSliceOfUser,companyUserDetail[key.String()].WorkLocation[companyKey.String()].DailyStartDate)
+					tempSliceOfUser=append(tempSliceOfUser,companyUserDetail[key.String()].WorkLocation[companyKey.String()].DailyEndDate)
+					tempSliceOfUser=append(tempSliceOfUser,key.String())
+					viewModel.UserStartTimeAndEndTime=append(viewModel.UserStartTimeAndEndTime,tempSliceOfUser)
+
+
+				}
+
+			}
+		}
 	case false:
 		log.Println(helpers.ServerConnectionError)
 
@@ -233,7 +248,7 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 
 
 
-
+	log.Println("user dataaaaaaaaaa",viewModel.UserStartTimeAndEndTime)
 	//log.Println("leave details of user",sliceForLeaveDetails)
 	//viewModel.LeaveDetails=append(viewModel.LeaveDetails,sliceForLeaveDetails)
 	viewModel.CompanyTeamName =companyTeamName
