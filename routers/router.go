@@ -74,7 +74,7 @@ func init() {
 	beegae.Router("/changePassword",&controllers.AccountsController{},"*:ChangeSuperAdminsPassword")
 	beegae.Router("/isOldPasswordCorrect/:oldPassword", &controllers.AccountsController{},"*:OldPasswordCheck")
 	beegae.Router("/:companyTeamName/shareddocuments/:inviteuserid",&controllers.SharedDocumentController{},"*:LoadSharedDocuments")
-
+	beegae.Router("/:companyTeamName/shareddocuments",&controllers.SharedDocumentController{},"*:LoadSharedDocumentsAllSharedDocuments")
 	beegae.Router("/:companyTeamName/consent/add", &controllers.ConsentReceiptController{}, "*:AddConsentReceipt")
 	beegae.Router("/:companyTeamName/consent", &controllers.ConsentReceiptController{}, "*:LoadConsentReceipt")
 	beegae.Router("/:companyTeamName/consent/:consentId/edit", &controllers.ConsentReceiptController{}, "*:EditConsentReceipt")

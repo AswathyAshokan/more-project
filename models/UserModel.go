@@ -84,8 +84,8 @@ type WorkLocationInUser struct {
 	CompanyId		string
 	DateOfCreation		int64
 	WorkLocationForTask 	string
-	StartDate               string
-	EndDate			string
+	StartDate               int64
+	EndDate			int64
 	DailyStartDate          int64
 	DailyEndDate	        int64
 	Latitude		string

@@ -8,6 +8,7 @@ import (
 	"regexp"
 	"time"
 	"strings"
+	"strconv"
 )
 
 type WorkLocationcontroller struct {
@@ -38,17 +39,18 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		taskLocation := c.GetString("taskLocation")
 		dailyEndTime := c.GetString("dailyStartTimeString")
 		dailyStartTime := c.GetString("dailyEndTimeString")
-		startDate := c.GetString("startDateTimeStamp")
-		endDate := c.GetString("endDateTimeStamp")
-		log.Println("kkkkkkkk",dailyEndTime,dailyStartTime,startDate,endDate)
 		groupKeySliceForWorkLocation :=strings.Split(groupKeySliceForWorkLocationString, ",")
 		userIdArray := c.GetStrings("selectedUserNames")
 		//latitude := c.GetString("latitudeId")
 		latitude := c.GetString("latitudeId")
 		longitude := c.GetString("longitudeId")
 		log.Println("longitude",longitude,latitude)
-
-
+		startDate := c.GetString("startDateTimeStamp")
+		endDate := c.GetString("endDateTimeStamp")
+		startDateInt , err := strconv.ParseInt(startDate, 10, 64)
+		endDateInt, err := strconv.ParseInt(endDate, 10, 64)
+		log.Println("Type 1",reflect.TypeOf(startDate))
+		log.Println("Type 2",reflect.TypeOf(endDateInt))
 		layout := "01/02/2006 15:04"
 		startDateInUnix, err := time.Parse(layout, dailyStartTime)
 		if err != nil {
@@ -79,8 +81,8 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 				WorkLocation.Info.UsersAndGroupsInWorkLocation.User = userMap
 				WorkLocation.Info.Latitude =latitude
 				WorkLocation.Info.Longitude =longitude
-				WorkLocation.Info.StartDate =startDate
-				WorkLocation.Info.EndDate =endDate
+				WorkLocation.Info.StartDate =startDateInt
+				WorkLocation.Info.EndDate =endDateInt
 				WorkLocation.Info.DailyStartDate = startDateInUnix.Unix()
 				WorkLocation.Info.DailyEndDate =endDateInUnix.Unix()
 
@@ -228,10 +230,10 @@ func (c *WorkLocationcontroller) LoadWorkLocation() {
 				workLocationUserSlice = append(workLocationUserSlice,userStructSlice)
 				tempValueSlice =append(tempValueSlice,workLocation[k].Info.WorkLocation)
 				tempValueSlice =append(tempValueSlice,k)
-				tempValueSlice =append(tempValueSlice,workLocation[k].Info.StartDate)
+				//tempValueSlice =append(tempValueSlice,workLocation[k].Info.StartDate)
 				log.Println("start work ",workLocation[k].Info.StartDate)
 				log.Println("start work ",workLocation[k].Info.EndDate)
-				tempValueSlice = append(tempValueSlice,workLocation[k].Info.EndDate)
+				//tempValueSlice = append(tempValueSlice,workLocation[k].Info.EndDate)
 				log.Println("viewmodel",tempValueSlice)
 				viewModel.Values=append(viewModel.Values,tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]
@@ -394,8 +396,9 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 
 					}
 
-
+					//viewModelForEdit.WorkLocation = allGroups[key.String()]
 				}
+
 				viewModelForEdit.WorkLogId = workLocationId
 				viewModelForEdit.UserAndGroupKey=keySliceForGroupAndUser
 			case false:
@@ -416,6 +419,11 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 				viewModelForEdit.UsersKey = append(viewModelForEdit.UsersKey,userKey.String())
 			}
 			viewModelForEdit.WorkLocation = workLocation.Info.WorkLocation
+			/*viewModelForEdit.DailyStartTime = workLocation.Info.DailyStartDate
+			viewModelForEdit.DailyEndTime = workLocation.Info.DailyEndDate
+			viewModelForEdit.StartDate = workLocation.Info.StartDate
+			viewModelForEdit.EndDate = workLocation.Info.EndDate*/
+
 
 		case false:
 			log.Println(helpers.ServerConnectionError)
@@ -439,6 +447,7 @@ func (c *WorkLocationcontroller) DeleteWorkLocation() {
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	workLocationId := c.Ctx.Input.Param(":workLocationId")
+	log.Println("workLocationId",workLocationId)
 	storedSession := ReadSession(w, r, companyTeamName)
 	log.Println(storedSession)
 	dbStatus := models.DeleteWorkLog(c.AppEngineCtx,workLocationId)

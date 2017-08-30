@@ -76,7 +76,7 @@ $(function(){
 
     $('#shareddocument-table tbody').on( 'click', '#view', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        window.location =   data[2];
+        window.location =   data[3];
         return false;
     });
 /*------------------------------------------------------------------------------------------------------*/

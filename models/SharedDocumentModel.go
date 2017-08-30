@@ -61,19 +61,52 @@ func GetAllUserDetail(ctx context.Context,tempEmailId string ) (map[string]Users
 }
 
 
-func GetExpireDetailsOfUser(ctx context.Context,specifiedUserId string ) (map[string]Expirations,bool) {
+func GetExpireDetailsOfUser(ctx context.Context,specifiedUserId string ) (map[string]Expirations,bool,string) {
 	expiryDetails := map[string]Expirations{}
+	var fullName string
 	db, err := GetFirebaseClient(ctx, "")
 	if err != nil {
 		log.Fatal(err)
-		return expiryDetails, false
+		return expiryDetails, false,fullName
 	}
+	err = db.Child("Users/"+specifiedUserId+"/Info/FullName").Value(&fullName)
 	err = db.Child("/Expirations/"+specifiedUserId).Value(&expiryDetails)
 	if err != nil{
 		log.Fatal(err)
-		return expiryDetails, false
+		return expiryDetails, false,fullName
 	}
-	return expiryDetails,true
+	return expiryDetails,true,fullName
+
+
+}
+func GetAllSharedDocumentsByCompany(ctx context.Context,companyTeamname string )(map[string]Expirations,bool,string){
+	companyData :=map[string]Company{}
+	userDetails := map[string]Users{}
+	expiryDetails := map[string]Expirations{}
+	var name string
+	db,err :=GetFirebaseClient(ctx,"")
+	if err != nil{
+		log.Fatal(err)
+	}
+	err = db.Child("Users").Value(&userDetails)
+	dataValue := reflect.ValueOf(userDetails)
+	for _, key := range dataValue.MapKeys() {
+		err = db.Child("/Users/"+key.String()+"/Company/").Value(&companyData)
+		companyDataValues := reflect.ValueOf(companyData)
+		for _, k := range companyDataValues.MapKeys() {
+			log.Println("k",k,"companyTeamname",companyTeamname)
+			if k.String() == companyTeamname{
+				err = db.Child("/Expirations/"+key.String()).Value(&expiryDetails)
+				err = db.Child("/Users/"+key.String()+"/Info/FullName").Value(&name)
+				return expiryDetails,true,name
+
+			}
+		}
+
+
+	}
+
+	return expiryDetails,true,name
 
 
 }

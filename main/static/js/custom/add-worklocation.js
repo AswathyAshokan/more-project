@@ -1,14 +1,46 @@
 console.log("gsgsgsgs",vm.UserNameToEdit);
 var companyTeamName = vm.CompanyTeamName;
  var selectedUserArray = [];
+var startDateInUnix;
+var endDateInUnix;
+
 $(document).ready(function() {
     // contains all selected users and groups
     if(vm.PageType == "edit"){ 
         var selectArray =[];
         selectArray = vm.UsersKey;
         $("#usersAndGroupId").val(selectArray);
-        console.log("array",selectArray);
+         startDateInUnix = vm.StartDate
+        var dateFromDb = parseInt(startDateInUnix)
+            var d = new Date(dateFromDb * 1000);
+            var dd = d.getDate();
+            var mm = d.getMonth() + 1; //January is 0!
+            var yyyy = d.getFullYear();
+            var HH = d.getHours();
+            var min = d.getMinutes();
+            var sec = d.getSeconds();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            if (HH < 10) {
+                HH = '0' + HH;
+            }
+            if (min < 10) {
+                min = '0' + min;
+            }
+            if (sec < 10) {
+                sec = '0' + sec;
+            }
+            //var localTime = (HH + ':' + min);
+            var localDate = (mm + '/' + dd + '/' + yyyy);
         document.getElementById("taskLocation").value = vm.WorkLocation;
+       /* document.getElementById("startDate").value = localDate;
+        document.getElementById("endDate").value = vm.EndDate;
+        document.getElementById("dailyStartTime").value = vm.DailyStartTime;
+        document.getElementById("dailyEndTime").value = vm.DailyEndTime;*/
         document.getElementById("workLocationId").innerHTML = "Edit WorkLocation";//for display heading of each webpage
         var selectedGroupArray = [];
     var groupKeyArray = [];
@@ -130,8 +162,8 @@ $(document).ready(function() {
             var endDateString = document.getElementById('endDate').value;
              $("#saveButton").attr('disabled', true);
             
-            var startdatum = Date.parse(starDateString);
-            var endDatum = Date.parse(endDateString);
+            var startdatum = Date.parse(starDateString)/1000;
+            var endDatum = Date.parse(endDateString)/1000;
            
             var startDateInDate = new Date(starDateString);
             var dailyStartTime = document.getElementById('dailyStartTime').value;

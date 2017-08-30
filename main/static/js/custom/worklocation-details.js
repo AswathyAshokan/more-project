@@ -68,7 +68,7 @@ $(function(){
     /*Edit customer details when click on edit icon*/
     $('#workLocation-table tbody').on( 'click', '#edit', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var workLocationId = data[2];
+        var workLocationId = data[4];
         window.location = '/' + companyTeamName +'/worklocation/'+ workLocationId + '/edit';
         return false;
     });
@@ -76,7 +76,7 @@ $(function(){
     $('#workLocation-table tbody').on( 'click', '#delete', function () {
          $("#myGroupModal").modal();
         var data = table.row( $(this).parents('tr') ).data();
-        var workLocationId = data[2];
+        var workLocationId = data[4];
         $("#confirm").click(function(){
             $.ajax({
                 type: "POST",

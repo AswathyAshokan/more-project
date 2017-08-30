@@ -45,6 +45,12 @@ $(function(){
         $('.table-wrapper .dataTables_filter').append(item);
         
     }
+    /*var link = $('<a>shatata</a>')
+    link.click(function(){
+        window.location="/"+companyTeamName+"/sharedDocuments";
+    });
+    $('.table-wrapper .dataTables_filter').append(link);*/
+    
     
 /*---------------------------Initial data table calling---------------------------------------------------*/
 

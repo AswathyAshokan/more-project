@@ -17,8 +17,8 @@ type WorkLocationInfo struct {
 	WorkLocation       		string
 	Latitude			string
 	Longitude			string
-	StartDate			string
-	EndDate				string
+	StartDate			int64
+	EndDate				int64
 	DailyStartDate                  int64
 	DailyEndDate			int64
 	UsersAndGroupsInWorkLocation	UsersAndGroupsInWork
@@ -147,6 +147,11 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 func DeleteWorkLog(ctx context.Context,workLocationId string) (bool) {
 	workLocationValues := WorkLocationSettings{}
 	deleteWorkLocation := WorkLocationSettings{}
+	userDetails := map[string]Users{}
+	workLocationFromUser := map[string]WorkLocationInUser{}
+	WorkLocationOfSpecifiedUser :=WorkLocationInUser{}
+	UpdatewOrKLocationFromUser := WorkLocationInUser{}
+
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println(err)
@@ -158,11 +163,45 @@ func DeleteWorkLog(ctx context.Context,workLocationId string) (bool) {
 	}
 	deleteWorkLocation.Status = helpers.UserStatusDeleted
 	deleteWorkLocation.DateOfCreation = workLocationValues.DateOfCreation
-	err = db.Child("/WorkLocation/"+workLocationId+"/Settings").Update(&deleteWorkLocation)
+	/*err = db.Child("/WorkLocation/"+workLocationId+"/Settings").Update(&deleteWorkLocation)
 	if err != nil {
 		log.Fatal(err)
 		return false
+	}*/
+	err = db.Child("Users").Value(&userDetails)
+	dataValue := reflect.ValueOf(userDetails)
+	for _, key := range dataValue.MapKeys() {
+		log.Println("key",key.String())
+		err = db.Child("Users/"+key.String()+"/WorkLocation/").Value(&workLocationFromUser)
+		//log.Println("workLocationFromUser",workLocationFromUser)
+		dataValueOfUserWorkLocation := reflect.ValueOf(workLocationFromUser)
+		for _, k := range dataValueOfUserWorkLocation.MapKeys() {
+			log.Println("keys of work log",k)
+			if k.String() == workLocationId{
+				err = db.Child("Users/"+key.String()+"/WorkLocation/"+k.String()).Value(&WorkLocationOfSpecifiedUser)
+				UpdatewOrKLocationFromUser.EndDate =WorkLocationOfSpecifiedUser.EndDate
+				UpdatewOrKLocationFromUser.StartDate=WorkLocationOfSpecifiedUser.StartDate
+				UpdatewOrKLocationFromUser.Status =helpers.UserStatusDeleted
+				UpdatewOrKLocationFromUser.CompanyId =WorkLocationOfSpecifiedUser.CompanyId
+				UpdatewOrKLocationFromUser.DailyEndDate =WorkLocationOfSpecifiedUser.DailyEndDate
+				UpdatewOrKLocationFromUser.DailyStartDate =WorkLocationOfSpecifiedUser.DailyStartDate
+				UpdatewOrKLocationFromUser.Latitude =WorkLocationOfSpecifiedUser.Latitude
+				UpdatewOrKLocationFromUser.Longitude =WorkLocationOfSpecifiedUser.Longitude
+				UpdatewOrKLocationFromUser.WorkLocationForTask =WorkLocationOfSpecifiedUser.WorkLocationForTask
+				err = db.Child("Users/"+key.String()+"/WorkLocation/"+k.String()).Update(&UpdatewOrKLocationFromUser)
+
+			}
+			log.Println("WorkLocationOfSpecifiedUser",WorkLocationOfSpecifiedUser)
+
+		}
+
 	}
+
+
+
+
+
+
 	return true
 
 
