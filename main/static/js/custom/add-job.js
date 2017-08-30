@@ -17,17 +17,14 @@ $().ready(function() {
         $("#customerId").val(selectArray);
         //$("#customerId option[text=selectArray]").attr("selected","selected");
         document.getElementById("jobHead").innerHTML = "Edit Job";
-    }
-    //adding alphanumeric validation 
-    
-
-    $("#jobForm").validate({
+        
+          $("#jobForm").validate({
         rules: {
             customerId:"required",
             jobName: {
                 required: true,
                 remote:{
-                    url: "/isJobNameUsed/" + jobName,
+                    url: "/isJobNameUsed/" + jobName+ "/" +vm.PageType+ "/" + vm.JobName,
                     type: "post"
                 }
             },
@@ -35,7 +32,7 @@ $().ready(function() {
             jobNumber: {
                 required: true,
                 remote:{
-                    url: "/isJobNumberUsed/" + jobNumber,
+                    url: "/isJobNumberUsed/" + jobNumber+ "/" +vm.PageType+ "/" + vm.JobNumber,
                     type: "post"
                 }
             }
@@ -76,7 +73,50 @@ $().ready(function() {
                         console.log(error);
                     }
                 });
-            } else {
+            } 
+        }
+    });
+    }
+    
+     if(pageType == "add") {
+         $("#jobForm").validate({
+        rules: {
+            customerId:"required",
+            jobName: {
+                required: true,
+                remote:{
+                    url: "/isJobNameUsed/" + jobName,
+                    type: "post"
+                }
+            },
+            
+            jobNumber: {
+                required: true,
+                remote:{
+                    url: "/isJobNumberUsed/" + jobNumber,
+                    type: "post"
+                }
+            }
+        },
+        messages: {
+            jobName: {
+                required: "Enter job name",
+                remote: "Job name already exists!"
+            },
+            jobNumber:{
+                required:"Enter job number",
+                remote: "Job number already exists!",
+            },
+        },
+        submitHandler: function() { 
+            
+             $("#saveButton").attr('disabled', true);
+            var formData = $("#jobForm").serialize();
+            var customerName = $('#customerId option:selected').text();
+            formData = formData +"&customerName="+customerName;
+            console.log(formData);
+            var jobId = vm.JobId;
+             
                 $.ajax({
                     url: '/' + companyTeamName + '/job/add',
                     type: 'post',
@@ -93,9 +133,15 @@ $().ready(function() {
                         console.log(error);
                     }
                 });
-            }
         }
     });
+    }
+    
+    
+    //adding alphanumeric validation 
+    
+
+  
     $("#cancel").click(function() {
         window.location = '/' +  companyTeamName  + '/job';
     });

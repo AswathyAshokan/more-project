@@ -12,6 +12,7 @@ import (
 	"app/passporte/helpers"
 	"log"
 	"strconv"
+	"strings"
 )
 
 type JobController struct {
@@ -85,6 +86,7 @@ func (c *JobController)AddNewJob() {
 		viewModel.AdminFirstName = storedSession.AdminFirstName
 		viewModel.AdminLastName = storedSession.AdminLastName
 		viewModel.ProfilePicture =storedSession.ProfilePicture
+		viewModel.PageType =helpers.SelectPageForAdd
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-job.html"
@@ -296,29 +298,119 @@ func (c *JobController)LoadEditJob() {
 	}
 }
 //Function to check job name exists in DB
+//func (c *JobController)CheckJobName(){
+//	w := c.Ctx.ResponseWriter
+//	jobName := c.GetString("jobName")
+//	isJobNameUsed := models.CheckJobNameIsUsed(c.AppEngineCtx, jobName)
+//	switch isJobNameUsed{
+//	case true:
+//		w.Write([]byte("true"))
+//	case false:
+//		w.Write([]byte("false"))
+//	}
+//}
+////Function to check job number exists in DB
+//func (c *JobController)CheckJobNumber(){
+//	w := c.Ctx.ResponseWriter
+//	jobNumber := c.GetString("jobNumber")
+//	isJobNumberUsed := models.CheckJobNumberIsUsed(c.AppEngineCtx, jobNumber)
+//	switch isJobNumberUsed{
+//	case true:
+//		w.Write([]byte("true"))
+//	case false:
+//		w.Write([]byte("false"))
+//	}
+//}
+
+
 func (c *JobController)CheckJobName(){
 	w := c.Ctx.ResponseWriter
+	log.Println("inside phone number check")
 	jobName := c.GetString("jobName")
-	isJobNameUsed := models.CheckJobNameIsUsed(c.AppEngineCtx, jobName)
+	log.Println("phone number",jobName)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	isJobNameUsed := models.CheckJobNameIsUsed(c.AppEngineCtx, jobName,companyTeamName)
 	switch isJobNameUsed{
 	case true:
-		w.Write([]byte("true"))
-	case false:
 		w.Write([]byte("false"))
+	case false:
+		w.Write([]byte("true"))
 	}
 }
-//Function to check job number exists in DB
 func (c *JobController)CheckJobNumber(){
 	w := c.Ctx.ResponseWriter
 	jobNumber := c.GetString("jobNumber")
-	isJobNumberUsed := models.CheckJobNumberIsUsed(c.AppEngineCtx, jobNumber)
-	switch isJobNumberUsed{
+	log.Println("email",jobNumber)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	isEmailAddressUsed := models.CheckJobNumberIsUsed(c.AppEngineCtx, jobNumber,companyTeamName)
+	switch isEmailAddressUsed{
 	case true:
-		w.Write([]byte("true"))
-	case false:
 		w.Write([]byte("false"))
+	case false:
+		w.Write([]byte("true"))
 	}
 }
+
+
+
+func (c *JobController)CheckJobNameOnEdit(){
+	log.Println("iam im dangetsr situation in email validation")
+	w := c.Ctx.ResponseWriter
+	jobName := c.GetString("jobName")
+	log.Println("email",jobName)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	pageType := c.Ctx.Input.Param(":type")
+	oldJobName := c.Ctx.Input.Param(":oldjobName")
+	if pageType == "edit" && strings.Compare(oldJobName, jobName) == 0 {
+		log.Println("iam in true condion")
+		w.Write([]byte("true"))
+	} else {
+		isJobNameUsed := models.CheckJobNameIsUsed(c.AppEngineCtx, jobName,companyTeamName)
+		switch isJobNameUsed{
+		case true:
+			w.Write([]byte("false"))
+		case false:
+			w.Write([]byte("true"))
+		}
+
+	}
+
+}
+
+
+func (c *JobController)CheckJobNumberOnEdit(){
+	log.Println("iam in check phnoe number conditon")
+	w := c.Ctx.ResponseWriter
+	jobNumber := c.GetString("jobNumber")
+	log.Println("phone number",jobNumber)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	pageType := c.Ctx.Input.Param(":type")
+	log.Println("typeeee",pageType)
+	oldJobNumber := c.Ctx.Input.Param(":oldjobNumber")
+	log.Println("phoneNumber",jobNumber,pageType,oldJobNumber)
+	if pageType == "edit" && strings.Compare(oldJobNumber, jobNumber) == 0 {
+		log.Println("iam in true condion")
+		w.Write([]byte("true"))
+	} else {
+		log.Println("iam in false condion")
+		isjobNumberUsed := models.CheckJobNumberIsUsed(c.AppEngineCtx, jobNumber,companyTeamName)
+		switch isjobNumberUsed{
+		case true:
+			w.Write([]byte("false"))
+		case false:
+			w.Write([]byte("true"))
+		}
+
+	}
+
+}
+
+
+
+
+
+
+
 func (c *JobController)LoadDeleteJob() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter

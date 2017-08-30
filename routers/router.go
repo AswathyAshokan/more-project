@@ -108,8 +108,12 @@ func init() {
 	beegae.Router("/:companyTeamName/job/:jobId/delete", &controllers.JobController{},"*:LoadDeleteJob")
 	beegae.Router("/isJobNameUsed/:jobName", &controllers.JobController{},"*:CheckJobName")
 	beegae.Router("/isJobNumberUsed/:jobNumber", &controllers.JobController{},"*:CheckJobNumber")
+	beegae.Router("/isJobNameUsed/:jobName/:type/:oldjobName", &controllers.JobController{},"*:CheckJobNameOnEdit")
+	beegae.Router("/isJobNumberUsed/:jobNumber/:type/:oldjobNumber", &controllers.JobController{},"*:CheckJobNumberOnEdit")
+
 	beegae.Router("/:companyTeamName/job/:jobId/RemoveTask", &controllers.JobController{}, "*:RemoveJobFromTask")
 	beegae.Router("/:companyTeamName/job/:jobId/deletionOfJob", &controllers.JobController{}, "*:DeleteJobIfNotInTask")
+
 
 	beegae.Router("/:companyTeamName/task/add", &controllers.TaskController{},"*:AddNewTask")
 	beegae.Router("/:companyTeamName/task", &controllers.TaskController{},"*:LoadTaskDetail")

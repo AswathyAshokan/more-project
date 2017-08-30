@@ -150,39 +150,86 @@ func (m *Job) UpdateJobToDB( ctx context.Context,jobId string)(bool)  {
 
 }
 
-func CheckJobNameIsUsed(ctx context.Context, jobName string)bool{
+//func CheckJobNameIsUsed(ctx context.Context, jobName string)bool{
+//	job := map[string]Job{}
+//	dB, err := GetFirebaseClient(ctx, "")
+//	if err != nil {
+//		log.Println("No Db Connection!")
+//	}
+//	err = dB.Child("Jobs").OrderBy("JobName").EqualTo(jobName).Value(&job)
+//	if err!=nil{
+//		log.Println("Error:",err)
+//	}
+//	if len(job)==0{
+//		return true
+//	}else{
+//		return false
+//	}
+//}
+//
+//func CheckJobNumberIsUsed(ctx context.Context, jobNumber string)bool{
+//	job := map[string]Job{}
+//	dB, err := GetFirebaseClient(ctx, "")
+//	if err != nil {
+//		log.Println("No Db Connection!")
+//	}
+//	err = dB.Child("Jobs").OrderBy("JobNumber").EqualTo(jobNumber).Value(&job)
+//	if err!=nil{
+//		log.Println("Error:",err)
+//	}
+//	if len(job)==0{
+//		return true
+//	}else{
+//		return false
+//	}
+//}
+
+
+func CheckJobNameIsUsed(ctx context.Context, jobName string,companyTeamName string)bool{
 	job := map[string]Job{}
 	dB, err := GetFirebaseClient(ctx, "")
 	if err != nil {
 		log.Println("No Db Connection!")
 	}
-	err = dB.Child("Jobs").OrderBy("JobName").EqualTo(jobName).Value(&job)
-	if err!=nil{
-		log.Println("Error:",err)
+	err = dB.Child("Jobs").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&job)
+	jobDetails := reflect.ValueOf(job)
+	for _, jobKey:=range jobDetails.MapKeys() {
+		if job[jobKey.String()].Info.JobName == jobName&& job[jobKey.String()].Settings.Status ==helpers.StatusActive{
+			log.Println("ggg1")
+			return true
+			break
+		}
 	}
-	if len(job)==0{
-		return true
-	}else{
-		return false
+	return false
+
+}
+func CheckJobNumberIsUsed(ctx context.Context, jobNumber string,companyTeamName string)bool{
+	job := map[string]Job{}
+	dB, err := GetFirebaseClient(ctx, "")
+	if err != nil {
+		log.Println("No Db Connection!")
 	}
+	err = dB.Child("Jobs").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&job)
+	jobDetails := reflect.ValueOf(job)
+	for _, jobKey:=range jobDetails.MapKeys() {
+		if job[jobKey.String()].Info.JobNumber == jobNumber&& job[jobKey.String()].Settings.Status ==helpers.StatusActive{
+			log.Println("ggg1")
+			return true
+			break
+		}
+	}
+	return false
+
 }
 
-func CheckJobNumberIsUsed(ctx context.Context, jobNumber string)bool{
-	job := map[string]Job{}
-	dB, err := GetFirebaseClient(ctx, "")
-	if err != nil {
-		log.Println("No Db Connection!")
-	}
-	err = dB.Child("Jobs").OrderBy("JobNumber").EqualTo(jobNumber).Value(&job)
-	if err!=nil{
-		log.Println("Error:",err)
-	}
-	if len(job)==0{
-		return true
-	}else{
-		return false
-	}
-}
+
+
+
+
+
+
+
+
 func (m *Job) DeleteJobFromDB(ctx context.Context, jobId string,TaskSlice []string,companyTeamName string)(bool)  {
 
 	jobDetailForUpdate :=TasksJob{}
