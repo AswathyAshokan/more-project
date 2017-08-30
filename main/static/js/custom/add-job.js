@@ -23,6 +23,7 @@ $().ready(function() {
 
     $("#jobForm").validate({
         rules: {
+            customerId:"required",
             jobName: {
                 required: true,
                 remote:{
@@ -30,6 +31,7 @@ $().ready(function() {
                     type: "post"
                 }
             },
+            
             jobNumber: {
                 required: true,
                 remote:{
