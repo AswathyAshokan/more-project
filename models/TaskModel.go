@@ -696,6 +696,25 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 			}
 		}
 	}
+	//updating the user
+	userNames :=TaskUser{}
+	usersInTask :=reflect.ValueOf(m.UsersAndGroups.User)
+	for _, usersInTaskKey := range usersInTask.MapKeys() {
+		userInOldTask :=reflect.ValueOf(taskValues.UsersAndGroups.User)
+		for _, usersInOldTaskKey := range userInOldTask.MapKeys() {
+			if usersInTaskKey.String() ==usersInOldTaskKey.String(){
+				userTaskStatus:=  taskValues.UsersAndGroups.User[usersInTaskKey.String()].UserTaskStatus
+				userNames.UserTaskStatus=userTaskStatus
+				userNames.FullName =m.UsersAndGroups.User[usersInTaskKey.String()].FullName
+				userNames.Status =m.UsersAndGroups.User[usersInTaskKey.String()].Status
+
+				m.UsersAndGroups.User[usersInTaskKey.String()]=userNames
+			}
+
+		}
+
+	}
+
 
 	m.Settings.TaskStatus=taskValues.Settings.TaskStatus
 	m.Settings.DateOfCreation =taskValues.Settings.DateOfCreation
@@ -941,7 +960,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userKey :=key.String()
 		err = dB.Child("/Users/"+userKey+"/Tasks/"+taskId).Value(&userTaskDetailOfOriginal)
 		if len(userTaskDetailOfOriginal.Status) !=0{
-			if(userTaskDetailOfOriginal.Status =="Open"){
+			if(userTaskDetailOfOriginal.Status =="Open"||userTaskDetailOfOriginal.Status=="Completed"){
 				userTaskDetail.Status =userTaskDetailOfOriginal.Status
 			}else{
 				userTaskDetail.Status =helpers.StatusPending
