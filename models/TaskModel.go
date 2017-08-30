@@ -394,11 +394,13 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 	taskUpdate := TaskSetting{}
 	taskDeletion :=TaskSetting{}
 	taskDetailForUser :=Tasks{}
+	taskValues :=Tasks{}
 	dB, err := GetFirebaseClient(ctx,"")
 
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
+	err = dB.Child("/Tasks/"+ taskId).Value(&taskValues)
 	taskDeletion.Status =helpers.StatusInActive
 	err = dB.Child("/Tasks/"+ taskId+"/Settings").Value(&taskUpdate)
 	taskDeletion.DateOfCreation =taskUpdate.DateOfCreation
@@ -468,22 +470,23 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 	err = dB.Child("/Jobs/").Value(&jobForTask)
 	jobData := reflect.ValueOf(jobForTask)
 	for _, key := range jobData.MapKeys() {
-		jobTaskData := reflect.ValueOf(jobForTask[key.String()].Tasks)
-		for _, taskKey := range jobTaskData.MapKeys() {
-			if taskKey.String() == taskId{
-				NumberOfTask :=jobForTask[key.String()].Info.NumberOfTask
-				NumberOfTask =NumberOfTask-1
-				updatedInfo.JobName =jobForTask[key.String()].Info.JobName
+		if key.String() == taskValues.Job.JobId {
+				NumberOfTask := jobForTask[key.String()].Info.NumberOfTask
+				if NumberOfTask > 0 {
+					NewNumberOfTask := NumberOfTask - 1
+					updatedInfo.NumberOfTask = NewNumberOfTask
+				}
+
+				updatedInfo.JobName = jobForTask[key.String()].Info.JobName
 				updatedInfo.JobNumber = jobForTask[key.String()].Info.JobNumber
-				updatedInfo.NumberOfTask = NumberOfTask
+
 				updatedInfo.CompanyTeamName = companyId
-				updatedInfo.OrderDate =jobForTask[key.String()].Info.OrderDate
-				updatedInfo.OrderNumber =jobForTask[key.String()].Info.OrderNumber
-				err = dB.Child("/Jobs/"+ key.String()+"/Info").Update(&updatedInfo)
+				updatedInfo.OrderDate = jobForTask[key.String()].Info.OrderDate
+				updatedInfo.OrderNumber = jobForTask[key.String()].Info.OrderNumber
+				err = dB.Child("/Jobs/" + key.String() + "/Info").Update(&updatedInfo)
+
 			}
 
-
-		}
 
 	}
 	//delete task from company

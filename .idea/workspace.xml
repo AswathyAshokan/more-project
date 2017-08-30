@@ -105,8 +105,8 @@
       <file leaf-file-name="TaskModel.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="1065" column="129" lean-forward="false" selection-start-line="1065" selection-start-column="129" selection-end-line="1065" selection-end-column="129" />
+            <state relative-caret-position="-9911">
+              <caret line="490" column="9" lean-forward="false" selection-start-line="490" selection-start-column="9" selection-end-line="490" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -883,13 +883,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00237" summary="1/06/2013:28:   check box">
-      <created>1502709318085</created>
-      <option name="number" value="00237" />
-      <option name="presentableId" value="LOCAL-00237" />
-      <option name="project" value="LOCAL" />
-      <updated>1502709318085</updated>
-    </task>
     <task id="LOCAL-00238" summary="1/06/2013:28:   check box">
       <created>1502861384753</created>
       <option name="number" value="00238" />
@@ -1226,7 +1219,14 @@
       <option name="project" value="LOCAL" />
       <updated>1504077976157</updated>
     </task>
-    <option name="localTasksCounter" value="286" />
+    <task id="LOCAL-00286" summary="1/06/2013:28:   check box">
+      <created>1504078835465</created>
+      <option name="number" value="00286" />
+      <option name="presentableId" value="LOCAL-00286" />
+      <option name="project" value="LOCAL" />
+      <updated>1504078835466</updated>
+    </task>
+    <option name="localTasksCounter" value="287" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1769,8 +1769,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="1065" column="129" lean-forward="false" selection-start-line="1065" selection-start-column="129" selection-end-line="1065" selection-end-column="129" />
+        <state relative-caret-position="-9911">
+          <caret line="490" column="9" lean-forward="false" selection-start-line="490" selection-start-column="9" selection-end-line="490" selection-end-column="9" />
           <folding />
         </state>
       </provider>
