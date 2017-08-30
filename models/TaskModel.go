@@ -425,7 +425,17 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 		}
 	}
 
-
+	//setting task id to contact
+	ContactTask :=TasksContact{}
+	ContactTask.TaskContactStatus =helpers.StatusInActive
+	userDatas := reflect.ValueOf(taskDetailForUser.Contacts)
+	for _, key := range userDatas.MapKeys() {
+		err = dB.Child("/Contacts/"+ key.String()+"/Tasks/"+taskId).Set(ContactTask)
+	}
+	JobTask :=TasksJob{}
+	JobTask.TasksJobStatus =helpers.StatusInActive
+	JobIdInTask :=taskDetailForUser.Job.JobId
+	err = dB.Child("/Jobs/"+ JobIdInTask+"/Tasks/"+taskId).Set(JobTask)
 	//updated on user task notification
 	notifyDeleteId := betterguid.New()
 	var r *rand.Rand
@@ -575,7 +585,7 @@ func InArray(n string, h []string) bool {
 //}
 
 /* Function for update task on DB*/
-func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId string,WorkBreakSlice []string,TaskWorkTimeSlice []string,fitToWorkName string)(bool)  {
+func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId string,WorkBreakSlice []string,TaskWorkTimeSlice []string,fitToWorkName string,ContactId []string,GroupId []string,JobId string,CustomerId string)(bool)  {
 
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
@@ -731,6 +741,38 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	log.Println("fdgdfgdfg",m)
 
 	err = dB.Child("/Tasks/"+ taskId).Update(&m)
+	//setting task id to contact
+	ContactTask :=TasksContact{}
+	ContactTask.TaskContactStatus =helpers.StatusActive
+	for i:=0;i<len(ContactId);i++{
+		err = dB.Child("/Contacts/"+ ContactId[i]+"/Tasks/"+taskId).Set(ContactTask)
+
+	}
+	if err!=nil{
+		log.Println("Insertion error:",err)
+		return false
+	}
+
+
+	JobTask :=TasksJob{}
+	//JobTaskFOrUpdate :=TasksJob{}
+	//TotalJobTask :=map[string]TasksJob {}
+	JobTask.TasksJobStatus =helpers.StatusActive
+	err = dB.Child("/Jobs/"+ JobId+"/Tasks/"+taskId).Set(JobTask)
+
+	//setting task id to Group
+	GroupTask :=TasksGroup{}
+	GroupTask.TasksGroupStatus =helpers.StatusActive
+	for i:=0;i<len(GroupId);i++{
+		err = dB.Child("/Group/"+ GroupId[i] +"/Tasks/"+taskId).Set(GroupTask)
+
+	}
+
+
+
+
+
+
 	log.Println("under removeeeeeeeeeeeeeeee")
 	//remove elements from array
 	var newUserArray []string
@@ -1008,7 +1050,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	CustomerTask :=TasksCustomer{}
 	CustomerTask.TasksCustomerStatus =helpers.StatusActive
 	job := Job{}
-	JobId := m.Job.JobId
+	//JobId := m.Job.JobId
 	err = dB.Child("/Jobs/"+ JobId).Value(&job)
 	CustomerIdForTask :=job.Customer.CustomerId
 	customerInTask :=TaskCustomer{}

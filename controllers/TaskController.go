@@ -796,11 +796,14 @@ func (c *TaskController)LoadEditTask() {
 		log.Println("task name",task.Info.TaskName )
 		task.Job.JobName = c.GetString("jobName")
 		task.Job.JobId = c.GetString("jobId")
+		jobIdForTask  :=task.Job.JobId
 		task.Customer.CustomerName = c.GetString("customerName")
 		if task.Customer.CustomerName =="Select a Job"{
 			task.Customer.CustomerName=""
 		}
 		task.Customer.CustomerId = c.GetString("jobId")
+		customerIdForTask :=task.Customer.CustomerId
+
 		task.Info.TaskLocation =c.GetString("taskLocation")
 		fitToWorkName :=c.GetString("fitToWorkName")
 		log.Println("hgfdfhgd",fitToWorkName)
@@ -947,7 +950,7 @@ func (c *TaskController)LoadEditTask() {
 		task.Contacts = contactMap
 
 		//Add data to task DB
-		dbStatus := task.UpdateTaskToDB(c.AppEngineCtx, taskId,companyId,TaskBreakTimeSlice,TaskWorkTimeSlice,fitToWorkName)
+		dbStatus := task.UpdateTaskToDB(c.AppEngineCtx, taskId,companyId,TaskBreakTimeSlice,TaskWorkTimeSlice,fitToWorkName,tempContactId,groupKeySlice,jobIdForTask,customerIdForTask)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
