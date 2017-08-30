@@ -5,10 +5,15 @@ package models
 type Expirations struct {
 	Info 		ExpirationInfo
 	Settings 	ExpirationSettings
+	Company         map[string]CompanyData
 
 }
 
+type CompanyData struct {
+	CompanyName  	string
+	CompanyStatus  string
 
+}
 type ExpirationInfo struct {
 	AlertType 		string
 	Description 		string

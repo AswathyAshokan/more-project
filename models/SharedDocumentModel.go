@@ -79,34 +79,42 @@ func GetExpireDetailsOfUser(ctx context.Context,specifiedUserId string ) (map[st
 
 
 }
-func GetAllSharedDocumentsByCompany(ctx context.Context,companyTeamname string )(map[string]Expirations,bool,string){
-	companyData :=map[string]Company{}
-	userDetails := map[string]Users{}
+func GetAllSharedDocumentsByCompany(ctx context.Context,companyTeamname string )(Expirations,bool,string,[]string){
+	//companyData :=map[string]Company{}
+	var KeySlice []string
 	expiryDetails := map[string]Expirations{}
-	var name string
+	CompanyDetails := map[string]CompanyData{}
+	eachExpiry :=map[string]Expirations{}
+	selectedExpiry := Expirations{}
+	var fullName string
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil{
 		log.Fatal(err)
 	}
-	err = db.Child("Users").Value(&userDetails)
-	dataValue := reflect.ValueOf(userDetails)
+	err = db.Child("Expirations").Value(&expiryDetails)
+	log.Println("expiryDetails",expiryDetails)
+	dataValue := reflect.ValueOf(expiryDetails)
 	for _, key := range dataValue.MapKeys() {
-		err = db.Child("/Users/"+key.String()+"/Company/").Value(&companyData)
-		companyDataValues := reflect.ValueOf(companyData)
-		for _, k := range companyDataValues.MapKeys() {
-			log.Println("k",k,"companyTeamname",companyTeamname)
-			if k.String() == companyTeamname{
-				err = db.Child("/Expirations/"+key.String()).Value(&expiryDetails)
-				err = db.Child("/Users/"+key.String()+"/Info/FullName").Value(&name)
-				return expiryDetails,true,name
+		log.Println("kety out ",key)
+		err = db.Child("Users/"+key.String()+"/Info/FullName").Value(&fullName)
+		err = db.Child("/Expirations/"+key.String()).Value(&eachExpiry)
+
+		eachDataValues := reflect.ValueOf(eachExpiry)
+		for _, k := range eachDataValues.MapKeys() {
+			err = db.Child("/Expirations/"+key.String()+"/"+k.String()+"/Company").Value(&CompanyDetails)
+			companyDataValues := reflect.ValueOf(CompanyDetails)
+			for _, companykey := range companyDataValues.MapKeys() {
+				if companykey.String() == companyTeamname{
+					err = db.Child("/Expirations/"+key.String()+"/"+k.String()).Value(&selectedExpiry)
+					KeySlice = append(KeySlice,k.String())
+				}
+				log.Println("yyyyyyyy",selectedExpiry)
 
 			}
 		}
-
-
 	}
 
-	return expiryDetails,true,name
+	return selectedExpiry,true,fullName,KeySlice
 
 
 }
