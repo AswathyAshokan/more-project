@@ -1065,13 +1065,15 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 
 			if key.String() ==taskValues.Job.JobId && jobDetail[key.String()].Settings.Status==helpers.StatusActive {
 				NumberOfTask :=jobDetail[key.String()].Info.NumberOfTask
+				log.Println("number of task",NumberOfTask)
 				if NumberOfTask >0{
-					NumberOfTask =NumberOfTask-1
+					log.Println("inside job decrement")
+					NewNumberOfTask :=NumberOfTask-1
+					updatedInfo.NumberOfTask = NewNumberOfTask
 				}
 
 				updatedInfo.JobName =jobDetail[key.String()].Info.JobName
 				updatedInfo.JobNumber = jobDetail[key.String()].Info.JobNumber
-				updatedInfo.NumberOfTask = NumberOfTask
 				updatedInfo.CompanyTeamName = companyId
 				updatedInfo.OrderDate =jobDetail[key.String()].Info.OrderDate
 				updatedInfo.OrderNumber =jobDetail[key.String()].Info.OrderNumber

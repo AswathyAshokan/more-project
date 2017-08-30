@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/JobController.go" afterPath="$PROJECT_DIR$/controllers/JobController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-job.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-job.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/JobModel.go" afterPath="$PROJECT_DIR$/models/JobModel.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/TaskModel.go" afterPath="$PROJECT_DIR$/models/TaskModel.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routers/router.go" afterPath="$PROJECT_DIR$/routers/router.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -64,11 +60,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JobController.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="JobController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/JobController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="155">
-              <caret line="373" column="17" lean-forward="true" selection-start-line="373" selection-start-column="17" selection-end-line="373" selection-end-column="17" />
+            <state relative-caret-position="137">
+              <caret line="372" column="31" lean-forward="true" selection-start-line="372" selection-start-column="31" selection-end-line="372" selection-end-column="31" />
               <folding>
                 <element signature="e#51#187#0" expanded="true" />
               </folding>
@@ -106,11 +102,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TaskModel.go" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TaskModel.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2450">
-              <caret line="1071" column="44" lean-forward="false" selection-start-line="1071" selection-start-column="44" selection-end-line="1071" selection-end-column="44" />
+            <state relative-caret-position="196">
+              <caret line="1065" column="129" lean-forward="false" selection-start-line="1065" selection-start-column="129" selection-end-line="1065" selection-end-column="129" />
               <folding />
             </state>
           </provider>
@@ -241,10 +237,10 @@
         <option value="$PROJECT_DIR$/models/UserModel.go" />
         <option value="$PROJECT_DIR$/controllers/TimeSheetController.go" />
         <option value="$PROJECT_DIR$/controllers/ByPassController.go" />
-        <option value="$PROJECT_DIR$/models/TaskModel.go" />
         <option value="$PROJECT_DIR$/routers/router.go" />
         <option value="$PROJECT_DIR$/models/JobModel.go" />
         <option value="$PROJECT_DIR$/controllers/JobController.go" />
+        <option value="$PROJECT_DIR$/models/TaskModel.go" />
       </list>
     </option>
   </component>
@@ -887,13 +883,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00236" summary="1/06/2013:28:   check box">
-      <created>1502708449489</created>
-      <option name="number" value="00236" />
-      <option name="presentableId" value="LOCAL-00236" />
-      <option name="project" value="LOCAL" />
-      <updated>1502708449490</updated>
-    </task>
     <task id="LOCAL-00237" summary="1/06/2013:28:   check box">
       <created>1502709318085</created>
       <option name="number" value="00237" />
@@ -1230,7 +1219,14 @@
       <option name="project" value="LOCAL" />
       <updated>1504073953174</updated>
     </task>
-    <option name="localTasksCounter" value="285" />
+    <task id="LOCAL-00285" summary="1/06/2013:28:   check box">
+      <created>1504077976157</created>
+      <option name="number" value="00285" />
+      <option name="presentableId" value="LOCAL-00285" />
+      <option name="project" value="LOCAL" />
+      <updated>1504077976157</updated>
+    </task>
+    <option name="localTasksCounter" value="286" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1245,7 +1241,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32580644" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="top" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32258064" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.54285717" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.54285717" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18064517" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -1703,14 +1699,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2450">
-          <caret line="1071" column="44" lean-forward="false" selection-start-line="1071" selection-start-column="44" selection-end-line="1071" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/CustomerModel.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2045">
@@ -1771,11 +1759,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/JobController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="373" column="17" lean-forward="true" selection-start-line="373" selection-start-column="17" selection-end-line="373" selection-end-column="17" />
+        <state relative-caret-position="137">
+          <caret line="372" column="31" lean-forward="true" selection-start-line="372" selection-start-column="31" selection-end-line="372" selection-end-column="31" />
           <folding>
             <element signature="e#51#187#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="1065" column="129" lean-forward="false" selection-start-line="1065" selection-start-column="129" selection-end-line="1065" selection-end-column="129" />
+          <folding />
         </state>
       </provider>
     </entry>
