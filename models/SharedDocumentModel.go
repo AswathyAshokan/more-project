@@ -3,8 +3,8 @@ package models
 import (
 	"log"
 	"golang.org/x/net/context"
-
 	"reflect"
+	"time"
 )
 
 
@@ -79,9 +79,11 @@ func GetExpireDetailsOfUser(ctx context.Context,specifiedUserId string ) (map[st
 
 
 }
-func GetAllSharedDocumentsByCompany(ctx context.Context,companyTeamname string )(Expirations,bool,string,[]string){
+func GetAllSharedDocumentsByCompany(ctx context.Context,companyTeamname string )(Expirations,bool,string,[]string,[][]string){
 	//companyData :=map[string]Company{}
 	var KeySlice []string
+	var AllSharedfile [][]string
+
 	expiryDetails := map[string]Expirations{}
 	CompanyDetails := map[string]CompanyData{}
 	eachExpiry :=map[string]Expirations{}
@@ -106,15 +108,29 @@ func GetAllSharedDocumentsByCompany(ctx context.Context,companyTeamname string )
 			for _, companykey := range companyDataValues.MapKeys() {
 				if companykey.String() == companyTeamname{
 					err = db.Child("/Expirations/"+key.String()+"/"+k.String()).Value(&selectedExpiry)
-					KeySlice = append(KeySlice,k.String())
+
 				}
+				var tempSlice	[]string
 				log.Println("yyyyyyyy",selectedExpiry)
+				if selectedExpiry.Info.Mode =="Public" {
+					KeySlice = append(KeySlice,k.String())
+					tempSlice = append(tempSlice, selectedExpiry.Info.Description)
+					tempSlice = append(tempSlice, time.Unix(selectedExpiry.Info.ExpirationDate, 0).Format("01/02/2006"))
+
+					tempSlice = append(tempSlice, fullName)
+					tempSlice = append(tempSlice, selectedExpiry.Info.DocumentId)
+					AllSharedfile = append(AllSharedfile, tempSlice)
+				}
+
+
+
+
 
 			}
 		}
 	}
 
-	return selectedExpiry,true,fullName,KeySlice
+	return selectedExpiry,true,fullName,KeySlice,AllSharedfile
 
 
 }

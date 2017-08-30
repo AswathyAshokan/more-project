@@ -85,21 +85,22 @@ func (c *SharedDocumentController) LoadSharedDocumentsAllSharedDocuments() {
 	storedSession := ReadSession(w, r, companyTeamName)
 	log.Println("session :", storedSession)
 	documentsViewModels := viewmodels.SharedDocument{}
-	expiry, dbStatus ,Name,expiryKeySlice:= models.GetAllSharedDocumentsByCompany(c.AppEngineCtx, companyTeamName)
+	expiry, dbStatus ,Name,expiryKeySlice,AllSharedDocument:= models.GetAllSharedDocumentsByCompany(c.AppEngineCtx, companyTeamName)
 	switch dbStatus {
 	case true:
-		var tempValueSlice []string
-		log.Println("expiry",expiry,Name)
-		if expiry.Info.Mode =="Public"{
-			tempValueSlice = append(tempValueSlice, expiry.Info.Description)
-			tempValueSlice = append(tempValueSlice, time.Unix(expiry.Info.ExpirationDate, 0).Format("01/02/2006"))
-			tempValueSlice = append(tempValueSlice, Name)
-			tempValueSlice = append(tempValueSlice, expiry.Info.DocumentId)
 
-			documentsViewModels.Values = append(documentsViewModels.Values, tempValueSlice)
-			tempValueSlice = tempValueSlice[:0]
-		}
+		log.Println("expiry",expiry,Name)
+		//if expiry.Info.Mode =="Public"{
+		//	var tempValueSlice []string
+		//	tempValueSlice = append(tempValueSlice, expiry.Info.Description)
+		//	tempValueSlice = append(tempValueSlice, time.Unix(expiry.Info.ExpirationDate, 0).Format("01/02/2006"))
+		//	tempValueSlice = append(tempValueSlice, Name)
+		//	tempValueSlice = append(tempValueSlice, expiry.Info.DocumentId)
+			documentsViewModels.Values = AllSharedDocument
+		//
+		//}
 		log.Println("expiryKeySlice",expiryKeySlice)
+		log.Println("alllll",documentsViewModels.Values)
 	case false :
 		log.Println(helpers.ServerConnectionError)
 	}
