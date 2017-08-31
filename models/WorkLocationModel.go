@@ -4,8 +4,9 @@ import (
 	"golang.org/x/net/context"
 
 	"app/passporte/helpers"
-	"strings"
+	//"strings"
 	"reflect"
+	"github.com/kjk/betterguid"
 )
 type WorkLocation struct {
 	Info 		WorkLocationInfo
@@ -54,15 +55,10 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 	if err != nil {
 		log.Println(err)
 	}
-	workData,err := db.Child("WorkLocation").Push(m)
 
-	if err != nil {
-		log.Println("w14")
-		log.Println(err)
-		return false
-	}
-	workDataString := strings.Split(workData.String(),"/")
-	workLocationUniqueID := workDataString[len(workDataString)-2]
+	//workDataString := strings.Split(workData.String(),"/")
+	//workLocationUniqueID := workDataString[len(workDataString)-2]
+	workLocationUniqueID := betterguid.New()
 	userData := reflect.ValueOf(m.Info.UsersAndGroupsInWorkLocation.User)
 	for _, key := range userData.MapKeys() {
 		log.Println("w15")
@@ -91,6 +87,14 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 			return false
 		}
 	}
+	err = db.Child("WorkLocation/"+workLocationUniqueID).Set(m)
+
+	if err != nil {
+		log.Println("w14")
+		log.Println(err)
+		return false
+	}
+
 	return  true
 }
 
