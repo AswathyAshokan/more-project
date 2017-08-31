@@ -52,6 +52,7 @@ func(m *Group) AddGroupToDb(ctx context.Context) (bool){
 //Fetch all the details of group
 func GetAllGroupDetails(ctx context.Context,companyTeamName string) (map[string]Group,bool){
 	//user := User{}
+	log.Println("w12")
 	db,err :=GetFirebaseClient(ctx,"")
 	value := map[string]Group{}
 	err = db.Child("Group").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&value)

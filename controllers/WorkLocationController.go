@@ -16,6 +16,7 @@ type WorkLocationcontroller struct {
 }
 
 func (c *WorkLocationcontroller) AddWorkLocation() {
+	log.Println("w1")
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
@@ -34,6 +35,7 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 	userName :=models.WorkLocationUser{}
 	WorkLocation := models.WorkLocation{}
 	if r.Method == "POST" {
+		log.Println("w2")
 		groupKeySliceForWorkLocationString := c.GetString("groupArrayElement")
 		UserOrGroupNameArray :=c.GetStrings("userAndGroupName")
 		taskLocation := c.GetString("taskLocation")
@@ -62,9 +64,10 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 			log.Println(err)
 		}
 		//task.Info.EndDate = endDate.Unix()
-
+		log.Println("w3")
 		var groupKeySlice	[]string
 		for j:=0;j<len(userIdArray);j++ {
+			log.Println("w4")
 			tempName := UserOrGroupNameArray[j]
 			userOrGroupRegExp := regexp.MustCompile(`\((.*?)\)`)
 			userOrGroupSelection := userOrGroupRegExp.FindStringSubmatch(tempName)
@@ -92,6 +95,7 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 
 			}
 			if groupKeySliceForWorkLocation[0] != "" {
+				log.Println("w5")
 				for i := 0; i < len(groupKeySliceForWorkLocation); i++ {
 					groupDetails, dbStatus := group.GetGroupDetailsById(c.AppEngineCtx, groupKeySliceForWorkLocation[i])
 					switch dbStatus {
@@ -120,6 +124,7 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 			}
 			//uniqueWorkLocation := models.IsWorkAssignedToUser(c.AppEngineCtx,startDate,endDate,tempName)
 		}
+		log.Println("w6")
 		WorkLocation.Info.UsersAndGroupsInWorkLocation.User = userMap
 		if groupKeySliceForWorkLocation[0] !="" {
 			WorkLocation.Info.UsersAndGroupsInWorkLocation.Group = groupMap
@@ -132,11 +137,13 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 			w.Write([]byte("false"))
 		}
 	}else {
+		log.Println("w7")
 		usersDetail :=models.Users{}
 		dbStatus ,testUser:= companyUsers.GetUsersForDropdownFromCompany(c.AppEngineCtx,companyTeamName)
 
 		switch dbStatus {
 		case true:
+			log.Println("w9")
 			dataValue := reflect.ValueOf(testUser)
 			for _, key := range dataValue.MapKeys() {
 
@@ -156,6 +163,7 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 			allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx,companyTeamName)
 			switch dbStatus {
 			case true:
+				log.Println("w10")
 				dataValue := reflect.ValueOf(allGroups)
 				for _, key := range dataValue.MapKeys() {
 					if allGroups[key.String()].Settings.Status =="Active"{
@@ -186,6 +194,7 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		}
 
 	}
+	log.Println("w11")
 	workLocationViewmodel.AdminFirstName = storedSession.AdminFirstName
 	workLocationViewmodel.AdminLastName = storedSession.AdminLastName
 	workLocationViewmodel.ProfilePicture =storedSession.ProfilePicture

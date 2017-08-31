@@ -49,6 +49,7 @@ type  GroupMemberNameInWorkLocation struct {
 
 func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName string) (bool){
 	log.Println("add group")
+	log.Println("w13")
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println(err)
@@ -56,6 +57,7 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 	workData,err := db.Child("WorkLocation").Push(m)
 
 	if err != nil {
+		log.Println("w14")
 		log.Println(err)
 		return false
 	}
@@ -63,10 +65,13 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 	workLocationUniqueID := workDataString[len(workDataString)-2]
 	userData := reflect.ValueOf(m.Info.UsersAndGroupsInWorkLocation.User)
 	for _, key := range userData.MapKeys() {
+		log.Println("w15")
 		/*if m.Info.UsersAndGroupsInWorkLocation.User[key.String()].Status!=helpers.UserStatusDeleted{
 
 		}*/
+
 		log.Println("keyyyy",key.String())
+		log.Println("workLocationUniqueID",workLocationUniqueID)
 		workLocationData := WorkLocationInUser{}
 		workLocationData.CompanyId = companyTeamName
 		workLocationData.DateOfCreation = m.Settings.DateOfCreation
@@ -81,6 +86,7 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 		userKey := key.String()
 		err = db.Child("/Users/"+userKey+"/WorkLocation/"+workLocationUniqueID).Set(workLocationData)
 		if err!=nil{
+			log.Println("w16")
 			log.Println("Insertion error:",err)
 			return false
 		}

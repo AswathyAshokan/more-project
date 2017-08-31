@@ -52,7 +52,7 @@ func (c *RegisterController) Register() {
 		admin.Settings.Status = helpers.StatusActive
 		log.Println("state",company.Info.State)
 		if company.Plan == helpers.PlanBusiness{
-			company.Settings.LimitedUsers ="4"
+			company.Settings.LimitedUsers ="100"
 		}
 		dbStatus,_:= admin.CreateAdminAndCompany(c.AppEngineCtx, company)
 		log.Println("dbStatus",dbStatus)

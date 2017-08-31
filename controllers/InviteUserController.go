@@ -333,13 +333,13 @@ func (c *InviteUserController) AddInvitationByUpgradationOfPlan() {
 	inviteUser := models.EmailInvitation{}
 	addViewModel := viewmodels.AddInviteUserViewModel{}
 	if r.Method == "POST" {
-		log.Println("vshdhafdahsfjhjhhjsf")
 		inviteUser.Info.CompanyAdmin = storedSession.AdminFirstName+" "+storedSession.AdminLastName
 		inviteUser.Info.FirstName = c.GetString("firstname")
 		inviteUser.Info.LastName = c.GetString("lastname")
 		inviteUser.Info.Email = c.GetString("emailid")
 		inviteUser.Info.UserType = c.GetString("usertype")
-		inviteUser.Settings.DateOfCreation =(time.Now().UnixNano() / 1000000)
+		inviteUser.Settings.DateOfCreation = time.Now().Unix()
+		log.Println("inviteUser.Settings.DateOfCreation",inviteUser.Settings.DateOfCreation)
 		inviteUser.Settings.Status = helpers.StatusInActive
 		inviteUser.Settings.UserResponse = helpers.UserResponsePending
 		inviteUser.Info.CompanyTeamName = storedSession.CompanyTeamName
@@ -347,6 +347,7 @@ func (c *InviteUserController) AddInvitationByUpgradationOfPlan() {
 		inviteUser.Info.CompanyName = storedSession.CompanyName
 		userFullName := storedSession.AdminFirstName+" "+storedSession.AdminLastName
 		companyID := storedSession.CompanyTeamName
+
 		dbStatus := inviteUser.CheckEmailIdInDb(c.AppEngineCtx,companyID)
 		switch dbStatus {
 		case true:
@@ -388,9 +389,14 @@ func (c *InviteUserController) AddInvitationByUpgradationOfPlan() {
 	} else {
 		newLimitValues,_:= strconv.Atoi(numberOfUsers)
 		companyPlan := storedSession.CompanyPlan
+
+
+
+
+
 		if companyPlan == helpers.PlanBusiness {
 			updatedNoOfUsers := models.UpdateNoOfLimitedUser(c.AppEngineCtx, companyTeamName,newLimitValues)
-			info, _,dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx, companyTeamName)
+			info, _ ,dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx, companyTeamName)
 			switch dbStatus {
 			case true:
 				var tempValueSlice []string
@@ -406,6 +412,7 @@ func (c *InviteUserController) AddInvitationByUpgradationOfPlan() {
 						tempValueSlice = append(tempValueSlice, info[key].UserResponse)
 						uniqueEmailSlice = append(uniqueEmailSlice, info[key].Email)//appent email id into slice
 					}
+
 				}
 				var count = 0
 				for i := 0; i < len(tempValueSlice); i++ {
