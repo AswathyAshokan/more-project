@@ -169,7 +169,7 @@ $(function () {
         }
         var DynamicTaskListing ="";
         for (var i=0; i<subArray.length; i++){
-            DynamicTaskListing+=' <p>'+subArray[i]+'</p>';
+            DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart()">'+subArray[i]+'</p>';
         }
         $("#taskListing").prepend(DynamicTaskListing);
         subArray = [];
@@ -184,7 +184,7 @@ $(function () {
     }
     var DynamicTaskListing ="";
     for (var i=0; i<subArray.length; i++){
-        DynamicTaskListing+=' <p>'+subArray[i]+'</p>';
+        DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart()">'+subArray[i]+'</p>';
     }
     $("#taskListing").prepend(DynamicTaskListing);
     

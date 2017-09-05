@@ -17,12 +17,17 @@ type LeaveInfo struct {
 }
 type LeaveSettings struct {
 	DateOfCreation 		int64
-	Status         		string
+
 }
 type LeaveRequests   struct {
 	Info     	LeaveInfo
 	Settings 	LeaveSettings
+	Company 	map[string]CompanyLeave
 
+}
+type CompanyLeave struct {
+	CompanyName	string
+	Status		string
 }
 func (m *LeaveRequests)GetAllLeaveRequest(ctx context.Context,userKeySlice []string)(bool,map[string]LeaveRequests) {
 	leaveDetail :=  map[string]LeaveRequests{}
@@ -60,8 +65,10 @@ func (m *LeaveRequests)GetAllLeaveRequestById(ctx context.Context,userKey string
 	}
 	return true,leaveDetailOfUser,company,companyInvitation
 }
-func (m *LeaveRequests) AcceptLeaveRequestById( ctx context.Context,leaveId string,userId string)(bool)  {
+func (m *LeaveRequests) AcceptLeaveRequestById( ctx context.Context,leaveId string,userId string,companyTeamName string,companyName string)(bool)  {
 	leaveDetailOfUser :=LeaveRequests{}
+	//leaveDetailMap :=map[string]CompanyLeave{}
+	leaveDetailStruct :=CompanyLeave{}
 	leaveDetail :=LeaveRequests{}
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
@@ -73,8 +80,11 @@ func (m *LeaveRequests) AcceptLeaveRequestById( ctx context.Context,leaveId stri
 	leaveDetailOfUser.Info.Reason =leaveDetail.Info.Reason
 	leaveDetailOfUser.Info.StartDate =leaveDetail.Info.StartDate
 	leaveDetailOfUser.Settings.DateOfCreation =leaveDetail.Settings.DateOfCreation
-	leaveDetailOfUser.Settings.Status ="Accepted"
+	leaveDetailStruct.CompanyName =companyTeamName
+	leaveDetailStruct.Status ="Accepted"
+	//leaveDetailOfUser.Settings.Status ="Accepted"
 	err = dB.Child("/LeaveRequests/"+ userId+"/"+leaveId).Update(&leaveDetailOfUser)
+	err = dB.Child("/LeaveRequests/"+ userId+"/"+leaveId+"/Company/"+companyTeamName).Update(&leaveDetailStruct)
 	if err!=nil{
 		log.Println("Insertion error:",err)
 		return false
@@ -82,9 +92,10 @@ func (m *LeaveRequests) AcceptLeaveRequestById( ctx context.Context,leaveId stri
 	return true
 
 }
-func (m *LeaveRequests) RejectLeaveRequestById( ctx context.Context,leaveId string,userId string)(bool)  {
+func (m *LeaveRequests) RejectLeaveRequestById( ctx context.Context,leaveId string,userId string,companyTeamName string,companyName string)(bool)  {
 	leaveDetailOfUser :=LeaveRequests{}
 	leaveDetail :=LeaveRequests{}
+	leaveDetailStruct :=CompanyLeave{}
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
 		log.Println("Connection error:",err)
@@ -95,8 +106,12 @@ func (m *LeaveRequests) RejectLeaveRequestById( ctx context.Context,leaveId stri
 	leaveDetailOfUser.Info.Reason =leaveDetail.Info.Reason
 	leaveDetailOfUser.Info.StartDate =leaveDetail.Info.StartDate
 	leaveDetailOfUser.Settings.DateOfCreation =leaveDetail.Settings.DateOfCreation
-	leaveDetailOfUser.Settings.Status ="Rejected"
+	leaveDetailStruct.Status ="Rejected"
+	leaveDetailStruct.CompanyName =companyTeamName
+	//leaveDetailOfUser.Settings.Status ="Rejected"
 	err = dB.Child("/LeaveRequests/"+ userId+"/"+leaveId).Update(&leaveDetailOfUser)
+	err = dB.Child("/LeaveRequests/"+ userId+"/"+leaveId+"/Company/"+companyTeamName).Update(&leaveDetailStruct)
+
 	if err!=nil{
 		log.Println("Insertion error:",err)
 		return false

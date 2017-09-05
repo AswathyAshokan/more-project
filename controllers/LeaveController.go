@@ -110,7 +110,14 @@ func (c *LeaveController) LoadUserLeave() {
 						if userInvitation[InviteKeys.String()].UserType == "Subcontractor"{
 							tempValueSlice = append(tempValueSlice, "Subcontractor")
 						} else {
-							tempValueSlice = append(tempValueSlice, leaveDetailOfUser[key.String()].Settings.Status)
+							companyUserLeave :=reflect.ValueOf(leaveDetailOfUser[key.String()].Company)
+							for _, leaveKey := range companyUserLeave.MapKeys() {
+								if leaveKey.String() ==companyId{
+									tempValueSlice = append(tempValueSlice, leaveDetailOfUser[key.String()].Company[leaveKey.String()].Status)
+
+								}
+
+							}
 						}
 					}
 				}
@@ -138,9 +145,14 @@ func (c *LeaveController) LoadUserLeave() {
 func (c *LeaveController) LoadAcceptUserLeave() {
 	leaveKey := c.Ctx.Input.Param(":leaveKey")
 	userKey := c.Ctx.Input.Param(":userKey")
-	leave := models.LeaveRequests{}
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	status:= leave.AcceptLeaveRequestById(c.AppEngineCtx, leaveKey,userKey)
+	storedSession := ReadSession(w, r, companyTeamName)
+	companyName :=storedSession.CompanyName
+	leave := models.LeaveRequests{}
+
+	status:= leave.AcceptLeaveRequestById(c.AppEngineCtx, leaveKey,userKey,companyTeamName,companyName)
 	log.Println("sucess")
 	switch status {
 	case true:
@@ -155,9 +167,13 @@ func (c *LeaveController) LoadAcceptUserLeave() {
 func (c *LeaveController) LoadRejectUserLeave() {
 	leaveKey := c.Ctx.Input.Param(":leaveKey")
 	userKey := c.Ctx.Input.Param(":userKey")
-	leave := models.LeaveRequests{}
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	status:= leave.RejectLeaveRequestById(c.AppEngineCtx, leaveKey,userKey)
+	storedSession := ReadSession(w, r, companyTeamName)
+	companyName :=storedSession.CompanyName
+	leave := models.LeaveRequests{}
+	status:= leave.RejectLeaveRequestById(c.AppEngineCtx, leaveKey,userKey,companyTeamName,companyName)
 	log.Println("sucess")
 	switch status {
 	case true:
