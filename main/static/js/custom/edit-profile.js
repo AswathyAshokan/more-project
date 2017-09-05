@@ -32,6 +32,7 @@ function displayImage() {
         $(".edit-account input").toggleClass("dis-txt");
         $('#edit-txt').text("Save");
         $('#edit-txt').attr('type', 'submit');
+       
         return false;
     }
 }
@@ -80,6 +81,9 @@ $().ready(function() {
             $(".edit-account input").toggleClass("dis-txt");	
             $('#edit-txt').text("Save");
             $('#edit-txt').attr('type', 'submit');
+            document.getElementById("name").removeAttribute('readonly');
+            document.getElementById("emailId").removeAttribute('readonly');
+            document.getElementById("phoneNumber").removeAttribute('readonly');
             return false;
         }
         $("#adminAccountDetail").validate({
@@ -93,8 +97,8 @@ $().ready(function() {
             },
             messages: {
                 name:"Please enter your Name ",
-                emailId: "Please enter Phone Number",
-                phoneNumber:"Please enter your Email id"
+                emailId: "Please enter Email Id ",
+                phoneNumber:"Please enter Phone Number"
             },
             
             submitHandler: function(){//to pass all data of a form serial
