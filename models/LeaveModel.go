@@ -103,14 +103,17 @@ func (m *LeaveRequests) RejectLeaveRequestById( ctx context.Context,leaveId stri
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
+	log.Println("userid ",userId)
+	log.Println("leave id",leaveId)
 	err = dB.Child("/LeaveRequests/"+userId+"/"+leaveId).Value(&leaveDetail)
+	log.Println("leave deatilssssssss",leaveDetail)
 	leaveDetailOfUser.EndDate =leaveDetail.Info.EndDate
 	leaveDetailOfUser.NumberOfDays =leaveDetail.Info.NumberOfDays
 	leaveDetailOfUser.Reason =leaveDetail.Info.Reason
 	leaveDetailOfUser.StartDate =leaveDetail.Info.StartDate
 	leaveSettings.DateOfCreation =leaveDetail.Settings.DateOfCreation
 	leaveDetailStruct.Status ="Rejected"
-	leaveDetailStruct.CompanyName =companyTeamName
+	leaveDetailStruct.CompanyName =companyName
 	//leaveDetailOfUser.Settings.Status ="Rejected"
 	err = dB.Child("/LeaveRequests/"+ userId+"/"+leaveId+"/Info").Set(&leaveDetailOfUser)
 	err = dB.Child("/LeaveRequests/"+ userId+"/"+leaveId+"/Settings").Set(&leaveSettings)

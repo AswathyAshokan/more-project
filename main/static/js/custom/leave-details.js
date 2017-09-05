@@ -138,8 +138,8 @@ $(function(){
     //function when click on accept button
     $('#leave_details').on( 'click', '#accept', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var leaveKey = data[6];
-        var userKey =data[7];
+        var leaveKey = data[7];
+        var userKey =data[8];
         //alert(data[4]);
        // window.location = '/'+ companyTeamName +'/leave/' + leaveKey +'/'+userKey+ '/edit';
         $.ajax({
@@ -173,8 +173,8 @@ $(function(){
     //function when click on reject button
     $('#leave_details').on( 'click', '#reject', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var leaveKey = data[6];
-        var userKey =data[7];
+        var leaveKey = data[7];
+        var userKey =data[8];
         $.ajax({
                 type: "GET",
                 url: '/'+ companyTeamName +'/leave/' + leaveKey +'/'+userKey+ '/reject',
