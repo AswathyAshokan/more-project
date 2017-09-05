@@ -43,6 +43,7 @@ $(function(){
             window.location = "/" + companyTeamName +"/invite/add";
         });
         $('.table-wrapper .dataTables_filter').append(item);
+         $('.table-wrapper .dataTables_filter').prepend($('#sharedDoc'));
         
     }
     /*var link = $('<a>shatata</a>')
@@ -51,7 +52,10 @@ $(function(){
     });
     $('.table-wrapper .dataTables_filter').append(link);*/
     
+    //shared document
     
+    
+//    $('#inviteuser-table').after($('#sharedDoc'));
 /*---------------------------Initial data table calling---------------------------------------------------*/
 
     if(vm.Values != null) {

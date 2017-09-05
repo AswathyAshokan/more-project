@@ -480,7 +480,9 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 	err = dB.Child("/Jobs/").Value(&jobForTask)
 	jobData := reflect.ValueOf(jobForTask)
 	for _, key := range jobData.MapKeys() {
-		if key.String() == taskValues.Job.JobId {
+		if len(taskValues.Job.JobId) !=0{
+			if key.String() == taskValues.Job.JobId {
+				log.Println("inside delet=ction and updation of jobbb")
 				NumberOfTask := jobForTask[key.String()].Info.NumberOfTask
 				if NumberOfTask > 0 {
 					NewNumberOfTask := NumberOfTask - 1
@@ -496,6 +498,8 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 				err = dB.Child("/Jobs/" + key.String() + "/Info").Update(&updatedInfo)
 
 			}
+
+		}
 
 
 	}
