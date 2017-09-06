@@ -169,7 +169,7 @@ $(function () {
         }
         var DynamicTaskListing ="";
         for (var i=0; i<subArray.length; i++){
-            DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart()">'+subArray[i]+'</p>';
+            DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event)">'+subArray[i]+'</p>';
         }
         $("#taskListing").prepend(DynamicTaskListing);
         subArray = [];
@@ -184,11 +184,14 @@ $(function () {
     }
     var DynamicTaskListing ="";
     for (var i=0; i<subArray.length; i++){
-        DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart()">'+subArray[i]+'</p>';
+        DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event)">'+subArray[i]+'</p>';
     }
     $("#taskListing").prepend(DynamicTaskListing);
     
-    
+    FunctionToChangeBarChart = function(event){
+       
+         console.log($(event.target).text());
+    }
     
     
 });

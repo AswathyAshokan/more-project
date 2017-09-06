@@ -8,7 +8,7 @@ import (
 	"log"
 	//"bytes"
 	//"regexp"
-	//"strconv"
+	"strconv"
 	//"fmt"
 
 	"app/passporte/helpers"
@@ -53,6 +53,8 @@ func (c *DashBoardController)LoadDashBoard() {
 			}
 			for _, k := range keySlice {
 				log.Println("sp3")
+				var tempSLiceForBarChart []string
+
 				if companyTaskDetails[k].Status ==helpers.StatusActive{
 
 
@@ -69,12 +71,72 @@ func (c *DashBoardController)LoadDashBoard() {
 					for _, key := range dataValue.MapKeys() {
 						userKeySlice = append(userKeySlice, key.String())
 					}
-					for _, k := range userKeySlice {
+					for _, userKeyForTask := range userKeySlice {
 
-						userStatus = append(userStatus,taskDetail.UsersAndGroups.User[k].UserTaskStatus)
+						userStatus = append(userStatus,taskDetail.UsersAndGroups.User[userKeyForTask].UserTaskStatus)
 					}
 					log.Println(userStatus)
-					//for i:=0;i<len(userStatus);i++ {
+
+
+						tempSLiceForBarChart=append(tempSLiceForBarChart,taskDetail.Info.TaskName)
+						tempSLiceForBarChart=append(tempSLiceForBarChart,k)
+						startDate := strconv.FormatInt(taskDetail.Info.StartDate, 10)
+						tempSLiceForBarChart=append(tempSLiceForBarChart,startDate)
+						endDate := strconv.FormatInt(taskDetail.Info.StartDate, 10)
+						tempSLiceForBarChart=append(tempSLiceForBarChart,endDate)
+						viewModel.TaskDetailForBarChart =append(viewModel.TaskDetailForBarChart,tempSLiceForBarChart)
+
+						//dataValue := reflect.ValueOf(taskDetail.UsersAndGroups.User)
+						for _, userKey := range userKeySlice {
+							if taskDetail.UsersAndGroups.User[userKey].Status !=helpers.UserStatusDeleted{
+								var userArrayForBarChart []string
+								userArrayForBarChart =append(userArrayForBarChart,taskDetail.UsersAndGroups.User[userKey].FullName)
+								userArrayForBarChart =append(userArrayForBarChart,taskDetail.UsersAndGroups.User[userKey].UserTaskStatus)
+								userArrayForBarChart =append(userArrayForBarChart,userKey)
+								userArrayForBarChart =append(userArrayForBarChart,k)
+								viewModel.UserDetailForBarChart =append(viewModel.UserDetailForBarChart,userArrayForBarChart)
+							}
+
+
+
+						}
+
+						//create array for bar chart display
+						logDetails :=models.WorkLog{}
+						//var logUserForBarChart []string
+						var keyForLog []string
+						dbStatus, logUserDetail := logDetails.GetLogDetailOfUser(c.AppEngineCtx, companyTeamName)
+						switch dbStatus {
+
+						case true:
+							//var userName string
+							logValue := reflect.ValueOf(logUserDetail)
+							for _, key := range logValue.MapKeys() {
+								keyForLog = append(keyForLog, key.String())
+							}
+							//var timeSliceForNew [][]string
+							log.Println("log keyyy", keyForLog)
+
+							for _, logKey := range logValue.MapKeys() {
+								for i :=0;i<len(userKeySlice);i++{
+									 if logUserDetail[logKey.String()].UserID ==userKeySlice[i] && k==logUserDetail[logKey.String()].TaskID&&logUserDetail[logKey.String()].LogDescription=="Work Started"{
+
+
+
+
+									 }
+								}
+
+
+							}
+						case false:
+							log.Println(helpers.ServerConnectionError)
+						}
+
+
+
+
+						//for i:=0;i<len(userStatus);i++ {
 					//
 					//	if userStatus[i] == "Pending"|| userStatus[i] =="Open"{
 					//
@@ -123,6 +185,7 @@ func (c *DashBoardController)LoadDashBoard() {
 			totalCompletion :=0
 			totalPending :=0
 			var completedOrPendingKey []string
+
 			for _, taskKey := range keySlice {
 				log.Println("sp4")
 				dbStatus, taskDetail := task.GetTaskDetailById(c.AppEngineCtx, taskKey)
@@ -136,7 +199,14 @@ func (c *DashBoardController)LoadDashBoard() {
 						} else {
 							totalPending++
 						}
+
+
+
+
 					}
+
+
+
 
 				case false:
 					log.Println(helpers.ServerConnectionError)
@@ -244,6 +314,8 @@ func (c *DashBoardController)LoadDashBoard() {
 	case false:
 		log.Println(helpers.ServerConnectionError)
 	}
+
+
 
 	viewModel.Key = activeJobKey
 	viewModel.JobArrayLength =len(activeJobKey)

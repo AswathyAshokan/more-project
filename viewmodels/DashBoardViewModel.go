@@ -15,5 +15,7 @@ type DashBoardViewModel struct {
 	AdminFirstName		string
 	AdminLastName		string
 	ProfilePicture		string
+	TaskDetailForBarChart   [][]string
+	UserDetailForBarChart   [][]string
 
 }

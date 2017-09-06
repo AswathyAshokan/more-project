@@ -470,8 +470,6 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 			log.Println("Insertion error:",err)
 			return false
 		}
-
-
 	}
 
 	//function to decrement the number of task  when deleting job
@@ -628,7 +626,10 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		tempUserKeySlice = append(tempUserKeySlice, userKeyForTask.String())
 	}
 	for _, userKeyForOldTask := range userStatusInTask.MapKeys() {
-		tempUserKeyForOldTask = append(tempUserKeyForOldTask, userKeyForOldTask.String())
+		if taskValues.UsersAndGroups.User[userKeyForOldTask.String()].Status !=helpers.UserStatusDeleted{
+			tempUserKeyForOldTask = append(tempUserKeyForOldTask, userKeyForOldTask.String())
+
+		}
 	}
 	var EleminatedArray []string
 
