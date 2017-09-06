@@ -10,7 +10,8 @@ type WorkLogViewModel  struct {
 	AdminLastName			string
 	ProfilePicture			string
 	GeneralLogValues                [][]string
-	GeneralLogoutValues              [][]string
+	GeneralLogoutValues             [][]string
+	WorkLocationValues		[][]string
 	/*GeneralLogin 			[][]string
 	GeneralLogOut			[][]string*/
 

@@ -9,6 +9,9 @@ import (
 
 type WorkLog struct {
 
+	Category	string
+	Date		string
+	WorkId		string
 	Duration 	string
 	Latitude	float64
 	LogDescription	string
@@ -30,6 +33,7 @@ type GeneralLog struct {
 type LastLoginInfo struct {
 	LogDescription 		string
 	Latitude		float64
+	Duration 		string
 	LogTime 		int64
 	Longitude		float64
 	Type 			string
@@ -41,6 +45,7 @@ type LastLogoutInfo struct {
 	LogDescription 		string
 	Latitude		float64
 	LogTime 		int64
+	Duration 		string
 	Longitude		float64
 	Type 			string
 	UserID			string

@@ -89,13 +89,14 @@ $(function(){
         $('#fromDate').datepicker('setDate', null);
         $('#toDate').datepicker('setDate', null);
         dataTableManipulate(completeTable);
-     });
+    });
     function listLogDetails(unixFromDate,unixToDate){
         var tempArray = [];
         var startDate =0;
         var unixStartDate = 0;
         for (i =0;i<vm.Values.length;i++){
-            startDate = new Date(vm.Values[i][7]);
+            startDate = new Date(vm.Values[i][2]);
+            console.log("date from date",vm.Values[i][2]);
             unixStartDate = Date.parse(startDate)/1000;
            if( (unixFromDate <= unixStartDate && unixStartDate <= unixToDate) || (unixFromDate <= unixStartDate && unixStartDate <= unixToDate) || (unixFromDate >= startDate && unixStartDate >= unixToDate)) {
                
@@ -110,16 +111,116 @@ $(function(){
     $("#userlog").on('click',function(){
         completeTable = mainArray;
         $('#log-details').dataTable().fnDestroy();
-       dataTableManipulate(completeTable);
+        dataTableManipulate(completeTable);
+        $('#log-details').on( 'click', '#btnShow', function () {
+            var data = table.row( $(this).parents('tr') ).data();
+              lattitude = data[5];
+              longitude = data[6];
+              console.log("data",data);
+              $("#myModal").modal();
+              $('#myModal').on('shown.bs.modal', function(){
+                  console.log("lattitude  in general log:",lattitude);
+                  console.log("longitude n general log:",longitude);
+                  var googleLocation = new google.maps.LatLng(lattitude, longitude);
+                  console.log("location",googleLocation);
+                  var mapOptions = {
+                  center: googleLocation,
+                  title: "Google Map",
+                  width: 50,
+                  height: 50,
+                  zoom: 15,
+                  mapTypeId: google.maps.MapTypeId.ROADMAP
+                  }
+                  var map = new google.maps.Map($("#dvMap")[0], mapOptions);
+                  var marker = new google.maps.Marker({
+                  position: googleLocation,
+                  });
+                  marker.setMap(map);
+                 var geocoder = new google.maps.Geocoder();
+                  var latLng = new google.maps.LatLng(lattitude,longitude);
+                  geocoder.geocode({       
+                      latLng: latLng 
+                  }, function(responses) { 
+                      if (responses && responses.length > 0) {
+                          $('#position').text(responses[0].formatted_address)
+                      }
+                  });
+              });
+        });
     });
     
     $("#activitylog").on( 'click', function () {
          tableData = generalMainArray
         $('#log-details').dataTable().fnDestroy();
         generaldataTableManipulate(tableData);
+        $('#log-details').on( 'click', '#btnShow', function () {
+              var data = table.row( $(this).parents('tr') ).data();
+              lattitude = data[4];
+              longitude = data[5];
+              console.log("data",data);
+              $("#myModal").modal();
+              $('#myModal').on('shown.bs.modal', function(){
+                  var googleLocation = new google.maps.LatLng(lattitude, longitude);
+                  var mapOptions = {
+                  center: googleLocation,
+                  title: "Google Map",
+                  width: 50,
+                  height: 50,
+                  zoom: 15,
+                  mapTypeId: google.maps.MapTypeId.ROADMAP
+                  }
+                  var map = new google.maps.Map($("#dvMap")[0], mapOptions);
+                  var marker = new google.maps.Marker({
+                  position: googleLocation,
+                  });
+                  marker.setMap(map);
+                  var geocoder = new google.maps.Geocoder();
+                  var latLng = new google.maps.LatLng(lattitude,longitude);
+                  geocoder.geocode({  
+                      latLng: latLng
+                  }, function(responses) { 
+                      if (responses && responses.length > 0) {
+                          $('#position').text(responses[0].formatted_address)
+                      }
+                  });
+              });
+        });
     });
     
-    
+    if( vm.WorkLocationValues !=null){
+        for( i=0;i<vm.WorkLocationValues.length;i++){
+            var utcTime = vm.WorkLocationValues[i][3];
+            var dateFromDb = parseInt(utcTime)
+            var d = new Date(dateFromDb * 1000);
+            var dd = d.getDate();
+            var mm = d.getMonth() + 1; //January is 0!
+            var yyyy = d.getFullYear();
+            var HH = d.getHours();
+            var min = d.getMinutes();
+            var sec = d.getSeconds();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            if (HH < 10) {
+                HH = '0' + HH;
+            }
+            if (min < 10) {
+                min = '0' + min;
+            }
+            if (sec < 10) {
+                sec = '0' + sec;
+            }
+            var localTime = (HH + ':' + min);
+            var localDate = (mm + '/' + dd + '/' + yyyy);
+            vm.WorkLocationValues[i][2]= localDate;
+            vm.WorkLocationValues[i][3] = localTime;
+        }
+        createGeneralDataArray(vm.WorkLocationValues, vm.WorkLocationValues);
+        
+    }
     if(vm.GeneralLogValues != null) {
         //$('#log-details').dataTable().fnDestroy();
         for( i=0;i<vm.GeneralLogValues.length;i++){
@@ -150,11 +251,13 @@ $(function(){
             }
             var localTime = (HH + ':' + min);
             var localDate = (mm + '/' + dd + '/' + yyyy);
+            /*lattitude = vm.GeneralLogValues[i][3];
+            longitude= vm.GeneralLogValues[i][4];*/
             vm.GeneralLogValues[i][2]= localDate;
             vm.GeneralLogValues[i][3] = localTime;
-            lattitude = vm.GeneralLogValues[i][3];
-            longitude= vm.GeneralLogValues[i][4];
-             
+            
+            /*console.log("lattitude  in general log:",lattitude);
+            console.log("longitude n general log:",longitude);*/
             
         }
         createGeneralDataArray(vm.GeneralLogValues, vm.GeneralKey);
@@ -165,8 +268,14 @@ $(function(){
 
     
   $('#log-details').on( 'click', '#btnShow', function () {
+      var data = table.row( $(this).parents('tr') ).data();
+      lattitude = data[5];
+      longitude = data[6];
+      console.log("data",data);
       $("#myModal").modal();
       $('#myModal').on('shown.bs.modal', function(){
+          console.log("lattitude  in general log:",lattitude);
+          console.log("longitude n general log:",longitude);
           var googleLocation = new google.maps.LatLng(lattitude, longitude);
           console.log("location",googleLocation);
           var mapOptions = {
@@ -182,9 +291,19 @@ $(function(){
           position: googleLocation,
           });
           marker.setMap(map);
-          document.getElementById("#position").value = googleLocation;
-       });
+          var geocoder = new google.maps.Geocoder();
+          var latLng = new google.maps.LatLng(lattitude,longitude);
+          geocoder.geocode({       
+          latLng: latLng    
+          }, function(responses) { 
+              if (responses && responses.length > 0) { 
+              $('#position').text(responses[0].formatted_address)
+              }
+          });
+      });
   });
+     
+      
     
     if(vm.Values != null) {
         for( i=0;i<vm.Values.length;i++){
@@ -213,8 +332,6 @@ $(function(){
             if (sec < 10) {
                 sec = '0' + sec;
             }
-            /*var utcInDateForm = new Date(dateFromDb);
-            var datum = Date.parse(utcInDateForm);*/
             var localTime = (HH + ':' + min);
             var localDate = (mm + '/' + dd + '/' + yyyy);
             //var d = localDate.slice(0, 10).split('/');
@@ -237,14 +354,32 @@ $(function(){
             var between = actualloggedTime + " &nbspto&nbsp" +hours +    ":"    +minutes;*/
             vm.Values[i][2]= localDate;
             vm.Values[i][3] = localTime;
-            lattitude = vm.Values[i][5];
-            longitude= vm.Values[i][6];
+           /* lattitude = vm.Values[i][5];
+            longitude= vm.Values[i][6];*/
              //$('#log-details').dataTable().fnDestroy();
             
         }
          createDataArray(vm.Values, vm.Keys);
     }
     dataTableManipulate(mainArray);   
+    
+    
+    //for get address of a place in label in map
+   /* var geocoder = new google.maps.Geocoder;
+               var latlng = { lat: parseFloat(lastLocation.latitude), lng: parseFloat(lastLocation.longitude) };
+               geocoder.geocode({ 'location': latlng }, function (results, status) {
+
+                   if (status === 'OK') {
+                       if (results[0]) {
+                           // var originAddress = results[0].formatted_address;
+
+                           console.log("formatted_address", results[0].formatted_address)
+                           //return results[0].formatted_address;
+                           
+                       }
+                   }
+               });
+    */
     
     
     
