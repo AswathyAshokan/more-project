@@ -168,6 +168,42 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 
 	}
 
+
+	//setting number of task in job
+	jobDetail := map[string]Job {}
+
+	updatedInfo :=JobInfo{}
+	updatedcustomer :=JobCustomer{}
+	updatedSettings :=JobSettings{}
+	JobTask :=TasksJob{}
+	JobTask.TasksJobStatus =helpers.StatusActive
+	err = dB.Child("Jobs").OrderBy("Info/CompanyTeamName").EqualTo(companyId).Value(&jobDetail)
+	jobData := reflect.ValueOf(jobDetail)
+	for _, key := range jobData.MapKeys() {
+		if key.String() ==m.Job.JobId  {
+			log.Println("inside job addddddddddd")
+			NumberOfTask :=jobDetail[key.String()].Info.NumberOfTask
+			NumberOfTaskNew :=NumberOfTask+1
+			updatedInfo.JobName =jobDetail[key.String()].Info.JobName
+			updatedInfo.JobNumber = jobDetail[key.String()].Info.JobNumber
+			updatedInfo.NumberOfTask = NumberOfTaskNew
+			updatedInfo.CompanyTeamName = companyId
+			updatedInfo.OrderDate =jobDetail[key.String()].Info.OrderDate
+			updatedInfo.OrderNumber =jobDetail[key.String()].Info.OrderNumber
+			err = dB.Child("/Jobs/"+ key.String()+"/Info").Update(&updatedInfo)
+			updatedcustomer.CustomerId= jobDetail[key.String()].Customer.CustomerId
+			updatedcustomer.CustomerName= jobDetail[key.String()].Customer.CustomerName
+			updatedcustomer.CustomerStatus= jobDetail[key.String()].Customer.CustomerStatus
+			err = dB.Child("/Jobs/"+ key.String()+"/Customer").Update(&updatedcustomer)
+			updatedSettings.Status = jobDetail[key.String()].Settings.Status
+			updatedSettings.DateOfCreation = jobDetail[key.String()].Settings.DateOfCreation
+			err = dB.Child("/Jobs/"+ key.String()+"/Settings").Update(&updatedSettings)
+
+
+		}
+
+	}
+
 	if len(fitToWorksName) !=0{
 		FitToWorkForSetting :=TaskFitToWorkSettings{}
 		FitToWorkForInfo  :=TaskFitToWorkInfo{}
@@ -301,55 +337,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 	}
 
 
-	//setting number of task in job
-	jobDetail := map[string]Job {}
-	//updatedJob :=Job{}
-	updatedInfo :=JobInfo{}
-	updatedcustomer :=JobCustomer{}
-	updatedSettings :=JobSettings{}
-	JobTask :=TasksJob{}
-	//JobTaskFOrUpdate :=TasksJob{}
-	//TotalJobTask :=map[string]TasksJob {}
-	JobTask.TasksJobStatus =helpers.StatusActive
-	//var StatusArray []string
-	err = dB.Child("Jobs").OrderBy("Info/CompanyTeamName").EqualTo(companyId).Value(&jobDetail)
-	jobData := reflect.ValueOf(jobDetail)
-	for _, key := range jobData.MapKeys() {
-		if key.String() ==m.Job.JobId  {
-			NumberOfTask :=jobDetail[key.String()].Info.NumberOfTask
-			NumberOfTask =NumberOfTask+1
-			updatedInfo.JobName =jobDetail[key.String()].Info.JobName
-			updatedInfo.JobNumber = jobDetail[key.String()].Info.JobNumber
-			updatedInfo.NumberOfTask = NumberOfTask
-			updatedInfo.CompanyTeamName = companyId
-			updatedInfo.OrderDate =jobDetail[key.String()].Info.OrderDate
-			updatedInfo.OrderNumber =jobDetail[key.String()].Info.OrderNumber
-			err = dB.Child("/Jobs/"+ key.String()+"/Info").Update(&updatedInfo)
-			updatedcustomer.CustomerId= jobDetail[key.String()].Customer.CustomerId
-			updatedcustomer.CustomerName= jobDetail[key.String()].Customer.CustomerName
-			updatedcustomer.CustomerStatus= jobDetail[key.String()].Customer.CustomerStatus
-			err = dB.Child("/Jobs/"+ key.String()+"/Customer").Update(&updatedcustomer)
-			updatedSettings.Status = jobDetail[key.String()].Settings.Status
-			updatedSettings.DateOfCreation = jobDetail[key.String()].Settings.DateOfCreation
-			err = dB.Child("/Jobs/"+ key.String()+"/Settings").Update(&updatedSettings)
-			//totalJobDataStatus := reflect.ValueOf(jobDetail[key.String()].Tasks)
-			//for _, key := range totalJobDataStatus.MapKeys() {
-			//	StatusArray =append(StatusArray,jobDetail[key.String()].Tasks[key.String()].TasksJobStatus)
-			//}
-			//err = dB.Child("/Jobs/"+ key.String()).Update(&updatedJob)
-			//
-			////err = dB.Child("/Jobs/"+ JobId+"/Tasks/").Value(&TotalJobTask)
-			//totalJobData := reflect.ValueOf(jobDetail[key.String()].Tasks)
-			//for _, key := range totalJobData.MapKeys() {
-			//	for i:=0;i<len(StatusArray);i++ {
-			//		JobTaskFOrUpdate.TasksJobStatus =StatusArray[i]
-			//		err = dB.Child("/Jobs/" + JobId + "/Tasks/" + key.String()).Set(JobTaskFOrUpdate)
-			//	}
-			//}
 
-		}
-
-	}
 	//setting task id to Job
 
 
@@ -359,12 +347,6 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 		log.Println("Insertion error:",err)
 		return false
 	}
-
-	//JobTaskMap := make(map[string]TasksJob)
-	//JobTask :=TasksJob{}
-	//JobTask.TasksJobStatus =helpers.StatusActive
-	//JobTaskMap[taskUniqueID] = JobTask
-	//err = dB.Child("/Jobs/"+ JobId+"/Tasks/").Set(JobTaskMap)
 
 
 	if err!=nil{
@@ -403,6 +385,39 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 	err = dB.Child("/Tasks/"+ taskId).Value(&taskValues)
 	taskDeletion.Status =helpers.StatusInActive
 	err = dB.Child("/Tasks/"+ taskId+"/Settings").Value(&taskUpdate)
+	//function to decrement the number of task  when deleting job
+	jobForTask :=map[string]Job{}
+	updatedInfo :=JobInfo{}
+	err = dB.Child("/Jobs/").Value(&jobForTask)
+	jobData := reflect.ValueOf(jobForTask)
+	for _, key := range jobData.MapKeys() {
+		if len(taskValues.Job.JobId) !=0{
+			if key.String() == taskValues.Job.JobId {
+				log.Println("inside delet=ction and updation of jobbb")
+				NumberOfTask := jobForTask[key.String()].Info.NumberOfTask
+				if NumberOfTask > 0 {
+					NewNumberOfTask := NumberOfTask - 1
+					updatedInfo.NumberOfTask = NewNumberOfTask
+				}
+
+				updatedInfo.JobName = jobForTask[key.String()].Info.JobName
+				updatedInfo.JobNumber = jobForTask[key.String()].Info.JobNumber
+
+				updatedInfo.CompanyTeamName = companyId
+				updatedInfo.OrderDate = jobForTask[key.String()].Info.OrderDate
+				updatedInfo.OrderNumber = jobForTask[key.String()].Info.OrderNumber
+				err = dB.Child("/Jobs/" + key.String() + "/Info").Update(&updatedInfo)
+
+			}
+
+		}
+
+
+	}
+
+
+
+
 	taskDeletion.DateOfCreation =taskUpdate.DateOfCreation
 	err = dB.Child("/Tasks/"+ taskId+"/Settings").Update(&taskDeletion)
 	err = dB.Child("/Tasks/"+ taskId).Value(&taskDetailForUser)
@@ -472,35 +487,7 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 		}
 	}
 
-	//function to decrement the number of task  when deleting job
-	jobForTask :=map[string]Job{}
-	updatedInfo :=JobInfo{}
-	err = dB.Child("/Jobs/").Value(&jobForTask)
-	jobData := reflect.ValueOf(jobForTask)
-	for _, key := range jobData.MapKeys() {
-		if len(taskValues.Job.JobId) !=0{
-			if key.String() == taskValues.Job.JobId {
-				log.Println("inside delet=ction and updation of jobbb")
-				NumberOfTask := jobForTask[key.String()].Info.NumberOfTask
-				if NumberOfTask > 0 {
-					NewNumberOfTask := NumberOfTask - 1
-					updatedInfo.NumberOfTask = NewNumberOfTask
-				}
 
-				updatedInfo.JobName = jobForTask[key.String()].Info.JobName
-				updatedInfo.JobNumber = jobForTask[key.String()].Info.JobNumber
-
-				updatedInfo.CompanyTeamName = companyId
-				updatedInfo.OrderDate = jobForTask[key.String()].Info.OrderDate
-				updatedInfo.OrderNumber = jobForTask[key.String()].Info.OrderNumber
-				err = dB.Child("/Jobs/" + key.String() + "/Info").Update(&updatedInfo)
-
-			}
-
-		}
-
-
-	}
 	//delete task from company
 	companyTaskDetail := map[string]TaskIdInfo{}
 	updatedcompanyTaskDetail :=TaskIdInfo{}
