@@ -324,8 +324,9 @@ $(function(){
                                break;
                            }
                         }
-                        mainArray.splice(i, 1);
-                        dataTableManipulate(mainArray);   
+//                        mainArray.splice(i, 1);
+//                        dataTableManipulate(mainArray);   
+                         window.location = '/' + companyTeamName + '/task';
                     }
                     else {
                         console.log("Removing Failed!");

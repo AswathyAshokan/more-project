@@ -382,7 +382,9 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 	if err!=nil{
 		log.Println("Connection error:",err)
 	}
+	log.Println("taskkkkk id in model",taskId)
 	err = dB.Child("/Tasks/"+ taskId).Value(&taskValues)
+	log.Println("task details",taskValues)
 	taskDeletion.Status =helpers.StatusInActive
 	err = dB.Child("/Tasks/"+ taskId+"/Settings").Value(&taskUpdate)
 	//function to decrement the number of task  when deleting job
@@ -392,6 +394,7 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 	jobData := reflect.ValueOf(jobForTask)
 	for _, key := range jobData.MapKeys() {
 		log.Println("job details",len(taskValues.Job.JobId) )
+		log.Println("task details",taskValues.Job.JobId)
 		if len(taskValues.Job.JobName) !=0{
 			if key.String() == taskValues.Job.JobId {
 				log.Println("inside delet=ction and updation of jobbb")

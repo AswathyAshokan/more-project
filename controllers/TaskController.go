@@ -219,7 +219,7 @@ func (c *TaskController)AddNewTask() {
 		log.Println("gggg",reflect.TypeOf(c.Ctx.Input.Param(":jobName")))
 		viewModel.JobNameFormUrl =c.Ctx.Input.Param(":jobName")
 		viewModel.CustomerNameFormUrl =c.Ctx.Input.Param(":customerName")
-		log.Println("job name22222",viewModel.JobNameFormUrl)
+
 		//Getting Jobs
 		dbStatus, allJobs := models.GetAllJobs(c.AppEngineCtx,companyTeamName)
 		switch dbStatus {
@@ -263,10 +263,10 @@ func (c *TaskController)AddNewTask() {
 					for _, fitToWorkInstructionKey := range fitToWorkInstructionValues.MapKeys() {
 						tempInstructionKeySlice = append(tempInstructionKeySlice, fitToWorkInstructionKey.String())
 					}
-					log.Println("dsdfsdfsf",tempInstructionKeySlice)
+
 					for _, eachInstructionKey := range tempInstructionKeySlice {
 						instructionDescription =append(instructionDescription,getInstructions[eachInstructionKey].Description)
-						log.Println("instttt",instructionDescription)
+
 					}
 					fitToWorkStruct.FitToWorkName =fitToWorkById[eachKey].FitToWorkName
 					fitToWorkStruct.Instruction =instructionDescription
@@ -277,7 +277,6 @@ func (c *TaskController)AddNewTask() {
 			viewModel.FitToWorkKey =keySliceForFitToWork
 			tempfitToWorkStructSlice =append(tempfitToWorkStructSlice,fitToWorkStructSlice)
 			viewModel.FitToWorkForTask=tempfitToWorkStructSlice
-			log.Println("instruction struct",viewModel.FitToWorkForTask)
 		case false:
 			log.Println(helpers.ServerConnectionError)
 			}
@@ -311,7 +310,6 @@ func (c *TaskController)AddNewTask() {
 
 
 			allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx,companyTeamName)
-			log.Println("get all groups",allGroups)
 			switch dbStatus {
 			case true:
 				dataValue := reflect.ValueOf(allGroups)
@@ -321,7 +319,6 @@ func (c *TaskController)AddNewTask() {
 
 						keySliceForGroupAndUser = append(keySliceForGroupAndUser, key.String())
 						viewModel.GroupNameArray = append(viewModel.GroupNameArray, allGroups[key.String()].Info.GroupName+" (Group)")
-						log.Println("activeeeeeeeeee",viewModel.GroupNameArray)
 
 						// For selecting members while selecting a group in dropdown
 						memberSlice = append(memberSlice, key.String())
@@ -458,9 +455,7 @@ func (c *TaskController)LoadTaskDetail() {
 
 	//section for getting total task completion and pending details
 	dbStatus, companyTaskDetails := companyTask.RetrieveTaskFromCompany(c.AppEngineCtx,companyTeamName)
-	log.Println("sp1")
 	if len(companyTaskDetails) !=0 {
-		log.Println("sp2")
 		switch dbStatus {
 
 		case true:
@@ -472,7 +467,6 @@ func (c *TaskController)LoadTaskDetail() {
 				keySlice = append(keySlice, key.String())
 			}
 			for _, k := range keySlice {
-				log.Println("sp3")
 				if companyTaskDetails[k].Status == helpers.StatusActive {
 
 					dbStatus, taskDetail := task.GetTaskDetailById(c.AppEngineCtx, k)
@@ -483,7 +477,6 @@ func (c *TaskController)LoadTaskDetail() {
 							var userKeySlice []string
 							pending := 0
 							completed := 0
-							log.Println("hhhhhh", taskDetail.Info.TaskName)
 							dataValue := reflect.ValueOf(taskDetail.UsersAndGroups.User)
 							for _, key := range dataValue.MapKeys() {
 								userKeySlice = append(userKeySlice, key.String())
@@ -492,7 +485,7 @@ func (c *TaskController)LoadTaskDetail() {
 
 								userStatus = append(userStatus, taskDetail.UsersAndGroups.User[k].UserTaskStatus)
 							}
-							log.Println(userStatus)
+
 							//for i := 0; i < len(userStatus); i++ {
 							//
 							//	if userStatus[i] == "Pending" || userStatus[i] == "Open" {
@@ -514,7 +507,6 @@ func (c *TaskController)LoadTaskDetail() {
 								totalUserStatus ="Completed"
 							}
 
-							log.Println("total status", totalUserStatus)
 							for i := 0; i < len(userStatus); i++ {
 
 								if userStatus[i] == "Pending" {
@@ -528,7 +520,7 @@ func (c *TaskController)LoadTaskDetail() {
 							pendingTaskPercentage := float32(pending) / float32(len(userStatus)) * 100
 							taskSettings := models.TaskSetting{}
 							taskSettings.UpdateTaskStatus(c.AppEngineCtx, k, totalUserStatus, completedTaskPercentage, pendingTaskPercentage)
-							log.Println(dbStatus)
+
 						}
 
 					case false:
@@ -711,7 +703,6 @@ func (c *TaskController)LoadTaskDetail() {
 						var exposureStructSlice []viewmodels.TaskExposure
 						for _, key := range exposureValue.MapKeys() {
 
-							log.Println("inside exposure")
 							var exposureStruct viewmodels.TaskExposure
 							exposureStruct.BreakMinute =taskExposureDetails[key.String()].BreakDurationInMinutes
 							exposureStruct.WorkingHour =taskExposureDetails[key.String()].BreakStartTimeInMinutes
@@ -723,11 +714,10 @@ func (c *TaskController)LoadTaskDetail() {
 					case false:
 					}
 
-					log.Println("gggg",taskExposureSlice)
+
 				//}
 
 				viewModel.ExposureArray =taskExposureSlice
-				log.Println("exposure",taskExposureSlice)
 
 
 
@@ -770,6 +760,7 @@ func (c *TaskController)LoadDeleteTask() {
 	ReadSession(w, r, companyTeamName)
 	companyId :=storedSession.CompanyId
 	taskId :=c.Ctx.Input.Param(":taskId")
+	log.Println("task id",taskId)
 	task := models.Tasks{}
 	dbStatus := task.DeleteTaskFromDB(c.AppEngineCtx, taskId,companyId)
 	switch dbStatus {
