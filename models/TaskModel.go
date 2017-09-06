@@ -391,7 +391,8 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 	err = dB.Child("/Jobs/").Value(&jobForTask)
 	jobData := reflect.ValueOf(jobForTask)
 	for _, key := range jobData.MapKeys() {
-		if len(taskValues.Job.JobId) !=0{
+		log.Println("job details",len(taskValues.Job.JobId) )
+		if len(taskValues.Job.JobName) !=0{
 			if key.String() == taskValues.Job.JobId {
 				log.Println("inside delet=ction and updation of jobbb")
 				NumberOfTask := jobForTask[key.String()].Info.NumberOfTask
