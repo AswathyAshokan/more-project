@@ -1,8 +1,11 @@
-console.log("gsgsgsgs",vm.UserNameToEdit);
+console.log("start time",vm.DailyStartTime);
+console.log("end time",vm.DailyEndTime);
 var companyTeamName = vm.CompanyTeamName;
  var selectedUserArray = [];
 var startDateInUnix;
 var endDateInUnix;
+var dailyStartTimeUnix;
+var dailyEndTimeUnix;
 
 $(document).ready(function() {
     // contains all selected users and groups
@@ -10,37 +13,73 @@ $(document).ready(function() {
         var selectArray =[];
         selectArray = vm.UsersKey;
         $("#usersAndGroupId").val(selectArray);
-         startDateInUnix = vm.StartDate
+        startDateInUnix = vm.StartDate
         var dateFromDb = parseInt(startDateInUnix)
-            var d = new Date(dateFromDb * 1000);
-            var dd = d.getDate();
-            var mm = d.getMonth() + 1; //January is 0!
-            var yyyy = d.getFullYear();
-            var HH = d.getHours();
-            var min = d.getMinutes();
-            var sec = d.getSeconds();
-            if (dd < 10) {
+        var d = new Date(dateFromDb * 1000);
+        var dd = d.getDate();
+        var mm = d.getMonth() + 1; //January is 0!
+        var yyyy = d.getFullYear();
+        if (dd < 10) {
                 dd = '0' + dd;
             }
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
-            if (HH < 10) {
-                HH = '0' + HH;
-            }
-            if (min < 10) {
-                min = '0' + min;
-            }
-            if (sec < 10) {
-                sec = '0' + sec;
-            }
-            //var localTime = (HH + ':' + min);
-            var localDate = (mm + '/' + dd + '/' + yyyy);
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var localDate = (mm + '/' + dd + '/' + yyyy);
+        
+        endDateInUnix = vm.EndDate
+        var endDateFromDb = parseInt(endDateInUnix)
+        var end = new Date(endDateFromDb * 1000);
+        var enda = end.getDate();
+        var endmm = end.getMonth() + 1; //January is 0!
+        var endyyyy = end.getFullYear();if (enda < 10) {
+            enda = '0' + enda;
+        }
+        if (endmm < 10) {
+            endmm = '0' + endmm;
+        }
+        var localEndDate = (endmm + '/' + enda + '/' + endyyyy);
+        
+        dailyStartTimeUnix = vm.DailyStartTime;
+        var parseDailyStartTime = new Date(dailyStartTimeUnix);
+        var dailyStartHours = parseDailyStartTime.getHours();
+        var dailyStartMins = parseDailyStartTime.getMinutes();
+        var dailyStartSecs = parseDailyStartTime.getSeconds();
+        if (dailyStartHours<10){
+            dailyStartHours = '0'+dailyStartHours;
+        }
+        if (dailyStartMins < 10){
+            dailyStartMins = '0'+dailyStartMins;
+        }
+        if (dailyStartSecs < 10){
+            dailyStartSecs = '0'+dailyStartSecs;
+        }
+        var dailyLocalStartTime = (dailyStartHours +':'+dailyStartMins)
+        console.log("start work",dailyLocalStartTime);
+        
+        dailyEndTimeUnix = vm.DailyEndTime;
+        var psrseDailyEndTime = new Date(dailyEndTimeUnix);
+        var dailyEndHours = psrseDailyEndTime.getHours();
+        var dailyEndMins = psrseDailyEndTime.getMinutes();
+        var dailyEndSecs = psrseDailyEndTime.getSeconds();
+        if (dailyEndHours<10){
+            dailyEndHours = '0'+dailyEndHours;
+        }
+        if (dailyEndMins < 10){
+            dailyEndMins = '0'+dailyEndMins;
+        }
+        if (dailyEndSecs < 10){
+            dailyEndSecs = '0'+dailyEndSecs;
+        }
+        var dailyLocalEndTime = (dailyEndHours +':'+dailyEndMins)
+        console.log("end work",dailyLocalEndTime);
+        
+        
         document.getElementById("taskLocation").value = vm.WorkLocation;
-       /* document.getElementById("startDate").value = localDate;
-        document.getElementById("endDate").value = vm.EndDate;
+        document.getElementById("startDate").value = localDate;
+        document.getElementById("endDate").value = localEndDate;
         document.getElementById("dailyStartTime").value = vm.DailyStartTime;
-        document.getElementById("dailyEndTime").value = vm.DailyEndTime;*/
+        document.getElementById("dailyEndTime").value = vm.DailyEndTime;
         document.getElementById("workLocationId").innerHTML = "Edit WorkLocation";//for display heading of each webpage
         var selectedGroupArray = [];
     var groupKeyArray = [];

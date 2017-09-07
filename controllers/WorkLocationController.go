@@ -278,7 +278,7 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 	groupMemberNameForTask :=models.GroupMemberNameInWorkLocation{}
 	groupMemberMap := make(map[string]models.GroupMemberNameInWorkLocation)
 	userName :=models.WorkLocationUser{}
-	WorkLocation := models.WorkLocation{}
+	//WorkLocation := models.WorkLocation{}
 	viewModelForEdit := viewmodels.EditWorkLocation{}
 	companyUsers :=models.Company{}
 	userMap := make(map[string]models.WorkLocationUser)
@@ -287,14 +287,40 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 	groupMap := make(map[string]models.WorkLocationGroup)
 	var MemberNameArray [] string
 	group := models.Group{}
+	WorkLocation := models.WorkLocation{}
 	if r.Method == "POST" {
 		groupKeySliceForWorkLocationString := c.GetString("groupArrayElement")
 		UserOrGroupNameArray :=c.GetStrings("userAndGroupName")
 		taskLocation := c.GetString("taskLocation")
+		dailyEndTime := c.GetString("dailyEndTimeString")
+		dailyStartTime := c.GetString("dailyStartTimeString")
 		groupKeySliceForWorkLocation :=strings.Split(groupKeySliceForWorkLocationString, ",")
 		userIdArray := c.GetStrings("selectedUserNames")
+		//latitude := c.GetString("latitudeId")
+		latitude := c.GetString("latitudeId")
+		longitude := c.GetString("longitudeId")
+		log.Println("longitude",longitude,latitude)
+		startDate := c.GetString("startDateTimeStamp")
+		endDate := c.GetString("endDateTimeStamp")
+		startDateInt , err := strconv.ParseInt(startDate, 10, 64)
+		endDateInt, err := strconv.ParseInt(endDate, 10, 64)
+		log.Println("Type 1",reflect.TypeOf(startDate))
+		log.Println("Type 2",reflect.TypeOf(endDateInt))
+		layout := "01/02/2006 15:04"
+		startDateInUnix, err := time.Parse(layout, dailyStartTime)
+		if err != nil {
+			log.Println(err)
+		}
+		//task.Info.StartDate = startDate.UTC().Unix()
+		endDateInUnix, err := time.Parse(layout, dailyEndTime)
+		if err != nil {
+			log.Println(err)
+		}
+		//task.Info.EndDate = endDate.Unix()
+		log.Println("w3")
 		var groupKeySlice	[]string
 		for j:=0;j<len(userIdArray);j++ {
+			log.Println("w4")
 			tempName := UserOrGroupNameArray[j]
 			userOrGroupRegExp := regexp.MustCompile(`\((.*?)\)`)
 			userOrGroupSelection := userOrGroupRegExp.FindStringSubmatch(tempName)
@@ -309,9 +335,17 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 				WorkLocation.Info.WorkLocation = taskLocation
 				WorkLocation.Info.CompanyTeamName = companyTeamName
 				WorkLocation.Info.UsersAndGroupsInWorkLocation.User = userMap
+				WorkLocation.Info.Latitude =latitude
+				WorkLocation.Info.Longitude =longitude
+				WorkLocation.Info.StartDate =startDateInt
+				WorkLocation.Info.EndDate =endDateInt
+				WorkLocation.Info.DailyStartDate = startDateInUnix.Unix()
+				WorkLocation.Info.DailyEndDate =endDateInUnix.Unix()
+
 				WorkLocation.Settings.DateOfCreation = time.Now().Unix()
 				WorkLocation.Settings.Status = helpers.StatusActive
 				log.Println("userMap[tempId]", userMap)
+
 
 			}
 			if groupKeySliceForWorkLocation[0] != "" {
@@ -347,6 +381,7 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 		if groupKeySliceForWorkLocation[0] !="" {
 			WorkLocation.Info.UsersAndGroupsInWorkLocation.Group = groupMap
 		}
+		log.Println("worklocation in controller",WorkLocation)
 		dbStatus :=WorkLocation.EditWorkLocationToDb(c.AppEngineCtx,workLocationId,companyTeamName)
 		switch dbStatus {
 		case true:
@@ -427,17 +462,21 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 				viewModelForEdit.UserNameToEdit = append(viewModelForEdit.UserNameToEdit,workLocation.Info.UsersAndGroupsInWorkLocation.User[userKey.String()].FullName)
 				viewModelForEdit.UsersKey = append(viewModelForEdit.UsersKey,userKey.String())
 			}
-			viewModelForEdit.WorkLocation = workLocation.Info.WorkLocation
-			/*viewModelForEdit.DailyStartTime = workLocation.Info.DailyStartDate
-			viewModelForEdit.DailyEndTime = workLocation.Info.DailyEndDate
-			viewModelForEdit.StartDate = workLocation.Info.StartDate
-			viewModelForEdit.EndDate = workLocation.Info.EndDate*/
+			startTime := time.Unix(workLocation.Info.DailyStartDate, 0)
+			startTimeOfWorkLocation := startTime.String()[11:16]
+			endTime := time.Unix(workLocation.Info.DailyEndDate,0)
+			endTimeOfWorkLocation := endTime.String()[11:16]
 
+
+			viewModelForEdit.WorkLocation = workLocation.Info.WorkLocation
+			viewModelForEdit.DailyStartTime = startTimeOfWorkLocation
+			viewModelForEdit.DailyEndTime = endTimeOfWorkLocation
+			viewModelForEdit.StartDate = workLocation.Info.StartDate
+			viewModelForEdit.EndDate = workLocation.Info.EndDate
 
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
-
 
 	}
 	viewModelForEdit.CompanyTeamName = storedSession.CompanyTeamName

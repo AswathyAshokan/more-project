@@ -45,8 +45,8 @@ type EditWorkLocation struct {
 	CompanyTeamName		string
 	GroupMembers		[][]string
 	UserAndGroupKey		[]string
-	StartDate		string
-	EndDate 		string
-	DailyStartTime		int64
-	DailyEndTime 		int64
+	StartDate		int64
+	EndDate 		int64
+	DailyStartTime		string
+	DailyEndTime 		string
 }

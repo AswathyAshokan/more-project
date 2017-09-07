@@ -133,25 +133,31 @@ func IsWorkAssignedToUser(ctx context.Context ,startDate string,endDate string )
 
 
 func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId string,companyTeamName string) (bool){
-	workLocationValues := WorkLocation{}
+	workLocationValues := WorkLocationSettings{}
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println(err)
 	}
-	err = db.Child("/WorkLocation/"+workLocationId).Value(&workLocationValues)
+	err = db.Child("/WorkLocation/"+workLocationId+"/Settings").Value(&workLocationValues)
 	if err != nil {
 		log.Fatal(err)
 		return false
 	}
-	m.Settings.DateOfCreation = workLocationValues.Settings.DateOfCreation
-	m.Settings.Status = workLocationValues.Settings.Status
+	log.Println("workLocationValues",workLocationValues)
+	m.Settings.DateOfCreation = workLocationValues.DateOfCreation
+	m.Settings.Status = workLocationValues.Status
 	log.Println("kjjjjh in model",m)
-	err = db.Child("/WorkLocation/"+workLocationId).Update(m)
-
-	if err != nil {
-		log.Println(err)
-		return false
+	userData := reflect.ValueOf(m.Info.UsersAndGroupsInWorkLocation.User)
+	for _, key := range userData.MapKeys() {
+		log.Println("idddd",key)
 	}
+	//err = db.Child("/WorkLocation/"+workLocationId).Set(m)
+	//
+	//if err != nil {
+	//	log.Println(err)
+	//	return false
+	//}
+
 	return  true
 }
 func DeleteWorkLog(ctx context.Context,workLocationId string) (bool) {
@@ -173,11 +179,11 @@ func DeleteWorkLog(ctx context.Context,workLocationId string) (bool) {
 	}
 	deleteWorkLocation.Status = helpers.UserStatusDeleted
 	deleteWorkLocation.DateOfCreation = workLocationValues.DateOfCreation
-	/*err = db.Child("/WorkLocation/"+workLocationId+"/Settings").Update(&deleteWorkLocation)
+	err = db.Child("/WorkLocation/"+workLocationId+"/Settings").Update(&deleteWorkLocation)
 	if err != nil {
 		log.Fatal(err)
 		return false
-	}*/
+	}
 	err = db.Child("Users").Value(&userDetails)
 	dataValue := reflect.ValueOf(userDetails)
 	for _, key := range dataValue.MapKeys() {
@@ -207,15 +213,7 @@ func DeleteWorkLog(ctx context.Context,workLocationId string) (bool) {
 
 	}
 
-
-
-
-
-
 	return true
-
-
-
 
 }
 
