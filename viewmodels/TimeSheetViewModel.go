@@ -21,6 +21,8 @@ type TimeSheetViewModel struct {
 	AdminLastName			string
 	ProfilePicture			string
 	UserStartTimeAndEndTime         [][]string
+	TaskTimeSheetDetail		[][]string
+	WorkTimeSheeetDetails		[][]string
 
 
 }
