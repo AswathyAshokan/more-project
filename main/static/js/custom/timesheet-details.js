@@ -676,6 +676,8 @@ $(function(){
 
     });
     
+     
+    
     
     //date filtering function
     $('#toDate').change(function () {
@@ -683,26 +685,38 @@ $(function(){
         fromDateValue = $('#fromDate').val();
         if (toDateValue.length !=0 && fromDateValue.length !=0){
             console.log("hhhhhhh");
+            var FinalArrayForDateFilter =[[]];
             if(document.getElementById('workDetail').clicked != true)
             {
+                 for (var i=0;i<mainArray.length;i++){
                 console.log("our main array",mainArray);
+                     var  ArrayForDateFilter =[];
                 for (var i=0;i<mainArray.length;i++){
-//                    for (var j:=0;j<mainArray[i].length;j++){
-//                        
-//                        if (mainArray[i][j])
-//                    
-//                        
-//                        
-//                    }
-//                    if 
+                    
+                    if (mainArray[i].length !=0){
+                        var d1 = fromDateValue.split("/");
+                        var d2 = toDateValue.split("/");
+                        var c = mainArray[i][8].split("/");
+                        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
+                        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
+                        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+                        if (check >= from && check <= to){
+                        ArrayForDateFilter.push(mainArray[i]);
+                        if (ArrayForDateFilter[i][6]==mainArray[i+1][6] && ArrayForDateFilter[i][7]==mainArray[i+1][7]){
+                            ArrayForDateFilter.push(mainArray[i+1]);
+                        }
+                        }
+                    }
                 }
+                    FinalArrayForDateFilter.push(ArrayForDateFilter) 
+                     i++;
+                 }
+                 }
             }
-        }
+        console.lof("our final array",FinalArrayForDateFilter);
+        });
         
-        
-
-      
-  });
+    
     
     
     
