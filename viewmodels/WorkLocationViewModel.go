@@ -49,4 +49,6 @@ type EditWorkLocation struct {
 	EndDate 		int64
 	DailyStartTime		string
 	DailyEndTime 		string
+	LatitudeForEditing	string
+	LongitudeForEditing	string
 }

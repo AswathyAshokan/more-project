@@ -1,4 +1,4 @@
-console.log("start time",vm.DailyStartTime);
+console.log("start time",vm.UsersKey);
 console.log("end time",vm.DailyEndTime);
 var companyTeamName = vm.CompanyTeamName;
  var selectedUserArray = [];
@@ -40,93 +40,67 @@ $(document).ready(function() {
         }
         var localEndDate = (endmm + '/' + enda + '/' + endyyyy);
         
-        dailyStartTimeUnix = vm.DailyStartTime;
-        var parseDailyStartTime = new Date(dailyStartTimeUnix);
-        var dailyStartHours = parseDailyStartTime.getHours();
-        var dailyStartMins = parseDailyStartTime.getMinutes();
-        var dailyStartSecs = parseDailyStartTime.getSeconds();
-        if (dailyStartHours<10){
-            dailyStartHours = '0'+dailyStartHours;
-        }
-        if (dailyStartMins < 10){
-            dailyStartMins = '0'+dailyStartMins;
-        }
-        if (dailyStartSecs < 10){
-            dailyStartSecs = '0'+dailyStartSecs;
-        }
-        var dailyLocalStartTime = (dailyStartHours +':'+dailyStartMins)
-        console.log("start work",dailyLocalStartTime);
-        
-        dailyEndTimeUnix = vm.DailyEndTime;
-        var psrseDailyEndTime = new Date(dailyEndTimeUnix);
-        var dailyEndHours = psrseDailyEndTime.getHours();
-        var dailyEndMins = psrseDailyEndTime.getMinutes();
-        var dailyEndSecs = psrseDailyEndTime.getSeconds();
-        if (dailyEndHours<10){
-            dailyEndHours = '0'+dailyEndHours;
-        }
-        if (dailyEndMins < 10){
-            dailyEndMins = '0'+dailyEndMins;
-        }
-        if (dailyEndSecs < 10){
-            dailyEndSecs = '0'+dailyEndSecs;
-        }
-        var dailyLocalEndTime = (dailyEndHours +':'+dailyEndMins)
-        console.log("end work",dailyLocalEndTime);
-        
-        
         document.getElementById("taskLocation").value = vm.WorkLocation;
         document.getElementById("startDate").value = localDate;
         document.getElementById("endDate").value = localEndDate;
         document.getElementById("dailyStartTime").value = vm.DailyStartTime;
         document.getElementById("dailyEndTime").value = vm.DailyEndTime;
+        document.getElementById("latitudeId").value = vm.LatitudeForEditing;
+        document.getElementById("longitudeId").value = vm.LongitudeForEditing;
         document.getElementById("workLocationId").innerHTML = "Edit WorkLocation";//for display heading of each webpage
         var selectedGroupArray = [];
-    var groupKeyArray = [];
-    $("#usersAndGroupId").on('change', function(evt, params) {
-        console.log("inside group1");
-        var tempArray = $(this).val();
-        
-        var clickedOption = "";
-        console.log("array length",tempArray);
-        if (selectedUserArray.length < tempArray.length) { // for selection
-            for (var i = 0; i < tempArray.length; i++) {
-                if (selectedUserArray.indexOf(tempArray[i]) == -1) {
-                    console.log("clicked");
-                    clickedOption = tempArray[i];
-                }
-            }
-            if (vm.GroupMembers !=null){
-                for (var i = 0; i < vm.GroupMembers.length; i++) {
-                    if (vm.GroupMembers[i][0] == clickedOption) {
-                    var memberLength = vm.GroupMembers[i].length;
-                    groupKeyArray.push(clickedOption)
-                    tempArray =[];
-                    for (var j = 1; j < memberLength; j++) {
-                        if (tempArray.indexOf(vm.GroupMembers[i][j]) == -1) {
-                            tempArray.push(vm.GroupMembers[i][j])
-                        }
-                        console.log("values of temp array",tempArray);
-                        $("#usersAndGroupId").val(tempArray);
-                    }
-                    selectedGroupArray.push(clickedOption);
-                }
-                }
-            }
-            
-            selectedUserArray = tempArray;
-        } else if (selectedUserArray.length > tempArray.length) { // for deselection
-            for (var i = 0; i < selectedUserArray.length; i++) {
-                if (tempArray.indexOf(selectedUserArray[i]) == -1) {
-                    clickedOption = selectedUserArray[i];
-                    
-                }
-            }
-            selectedUserArray = tempArray;
+        var groupKeyArray = [];
+        for(var i=0;i<vm.UsersKey.length;i++){
+            selectedUserArray.push(vm.UsersKey[i]);
         }
-        console.log("group array",groupKeyArray);
-        console.log("user array",selectedUserArray);
-    });
+        console.log("selectedUserArray",selectedUserArray);
+        /*alert("selectedUserArray",selectedUserArray);
+        /*$("#usersAndGroupId").on('change', function(evt, params) {
+            console.log("inside group1");
+            var tempArray = $(this).val();
+
+            var clickedOption = "";
+            console.log("array length",tempArray);
+            if (selectedUserArray.length < tempArray.length) { // for selection
+                for (var i = 0; i < tempArray.length; i++) {
+                    if (selectedUserArray.indexOf(tempArray[i]) == -1) {
+                        console.log("clicked");
+                        clickedOption = tempArray[i];
+                    }
+                }
+                if (vm.GroupMembers !=null){
+                    for (var i = 0; i < vm.GroupMembers.length; i++) {
+                        if (vm.GroupMembers[i][0] == clickedOption) {
+                        var memberLength = vm.GroupMembers[i].length;
+                        groupKeyArray.push(clickedOption)
+                        tempArray =[];
+                        for (var j = 1; j < memberLength; j++) {
+                            if (tempArray.indexOf(vm.GroupMembers[i][j]) == -1) {
+                                tempArray.push(vm.GroupMembers[i][j])
+                            }
+                            console.log("values of temp array",tempArray);
+                            $("#usersAndGroupId").val(tempArray);
+                        }
+                        selectedGroupArray.push(clickedOption);
+                    }
+                    }
+                }
+
+                selectedUserArray = tempArray;
+            } else if (selectedUserArray.length > tempArray.length) { // for deselection
+                for (var i = 0; i < selectedUserArray.length; i++) {
+                    if (tempArray.indexOf(selectedUserArray[i]) == -1) {
+                        clickedOption = selectedUserArray[i];
+
+                    }
+                }
+                selectedUserArray = tempArray;
+            }
+            console.log("group array",groupKeyArray);
+            console.log("user array in editing",selectedUserArray);
+            alert("selectedUserArray in change",selectedUserArray)
+        });
+        console.log("user array in editing out side",selectedUserArray);*/
        
     }
     
@@ -180,7 +154,7 @@ $(document).ready(function() {
     
     $("#workLocationForm").validate({
         rules: {
-            usersAndGroupId:"required",
+           // usersAndGroupId:"required",
             taskLocation : "required",
             startDate:"required",
             endDate:"required",
@@ -188,7 +162,7 @@ $(document).ready(function() {
             dailyEndTime:"required"
         },
         messages: {
-            usersAndGroupId: "Please select user and group",
+            usersAndGroupId: "Please select user or group",
             taskLocation:"please fill this column",
         },
         submitHandler: function(){//to pass all data of a form serial
@@ -262,7 +236,15 @@ $(document).ready(function() {
             }
              //formData = formData+"&lattitude="+;
               console.log("formData",formData);
+            var ConcatinatedUser ;
             if (vm.PageType == "edit"){
+                for(i=0;i<vm.UsersKey.length;i++){
+                    formData = formData+"&oldUsers="+vm.UsersKey[i];
+                    /*console.log("second values",vm.UsersKey[i+1]);
+                    var UserIdSring = vm.UsersKey[i].concat(",");
+                    ConcatinatedUser = UserIdSring.concat(vm.UsersKey[i+1]);*/
+                    
+                }
                 var workLocationId =vm.WorkLogId  
                 $.ajax({
                     url:'/' + companyTeamName +'/worklocation/'+ workLocationId + '/edit',
@@ -273,8 +255,13 @@ $(document).ready(function() {
                     success : function(response){
                         if(response == "true"){
                             window.location='/' + companyTeamName +'/worklocation';
+                        }else  if(response == "falseAlreadyExist"){
+                            $("#myModalForUniqueTest").modal();
+                            $("#cancelForCheckUnique").click(function(){
+                                window.location = '/'+companyTeamName+'/worklocation';
+                            });
                         }else {
-                             $("#saveButton").attr('disabled', false);
+                            $("#saveButton").attr('disabled', false);
                         }
                     },
                     error: function (request,status, error) {
@@ -290,9 +277,17 @@ $(document).ready(function() {
                         data: formData,
                         //call back or get response here
                         success : function(response){
+                            console.log("response",response);
                             if(response == "true"){
                                window.location = '/'+companyTeamName+'/worklocation';
-                            }else {
+                            }else  if(response == "falseAlreadyExist"){
+                             $("#myModalForUniqueTest").modal();
+                                $("#cancelForCheckUnique").click(function(){
+                                     window.location = '/'+companyTeamName+'/worklocation';
+                                });
+                                // window.location = '/'+companyTeamName+'/worklocation';
+                            }else{
+                                 $("#saveButton").attr('disabled', false);
                             }
                         },
                         error: function (request,status, error) {

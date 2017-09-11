@@ -49,6 +49,7 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		log.Println("longitude",longitude,latitude)
 		startDate := c.GetString("startDateTimeStamp")
 		endDate := c.GetString("endDateTimeStamp")
+		log.Println("startDate",startDate)
 		startDateInt , err := strconv.ParseInt(startDate, 10, 64)
 		endDateInt, err := strconv.ParseInt(endDate, 10, 64)
 		log.Println("Type 1",reflect.TypeOf(startDate))
@@ -64,7 +65,8 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 			log.Println(err)
 		}
 		//task.Info.EndDate = endDate.Unix()
-		log.Println("w3")
+		log.Println("userIdArray",userIdArray)
+		log.Println("groupKeySliceForWorkLocation",groupKeySliceForWorkLocation)
 		var groupKeySlice	[]string
 		for j:=0;j<len(userIdArray);j++ {
 			log.Println("w4")
@@ -122,20 +124,30 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 					groupKeySlice = append(groupKeySlice, string(groupKeySliceForWorkLocation[i]))
 				}
 			}
-			//uniqueWorkLocation := models.IsWorkAssignedToUser(c.AppEngineCtx,startDate,endDate,tempName)
+
 		}
-		log.Println("w6")
 		WorkLocation.Info.UsersAndGroupsInWorkLocation.User = userMap
 		if groupKeySliceForWorkLocation[0] !="" {
 			WorkLocation.Info.UsersAndGroupsInWorkLocation.Group = groupMap
 		}
-		dbStatus :=WorkLocation.AddWorkLocationToDb(c.AppEngineCtx,companyTeamName)
-		switch dbStatus {
-		case true:
-			w.Write([]byte("true"))
-		case false:
-			w.Write([]byte("false"))
+		uniqueWorkLocationStatus := models.IsWorkAssignedToUser(c.AppEngineCtx,startDateInt,endDateInt,userIdArray,companyTeamName)
+		if uniqueWorkLocationStatus == true {
+			dbStatus :=WorkLocation.AddWorkLocationToDb(c.AppEngineCtx,companyTeamName)
+			switch dbStatus {
+			case true:
+				log.Println("true not unique")
+				w.Write([]byte("true"))
+			case false:
+				log.Println("true false not unique")
+				w.Write([]byte("false"))
+			}
+		}else {
+			log.Println("false")
+			w.Write([]byte("falseAlreadyExist"))
 		}
+		log.Println("w6",WorkLocation)
+
+
 	}else {
 		log.Println("w7")
 		usersDetail :=models.Users{}
@@ -273,21 +285,19 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	workLocationId := c.Ctx.Input.Param(":worklocationid")
 	storedSession := ReadSession(w, r, companyTeamName)
-	log.Println("iiii",storedSession,workLocationId)
+	companyUsers :=models.Company{}
+	var keySliceForGroupAndUser []string
+	userMap := make(map[string]models.WorkLocationUser)
 	groupNameAndDetails := models.WorkLocationGroup{}
 	groupMemberNameForTask :=models.GroupMemberNameInWorkLocation{}
 	groupMemberMap := make(map[string]models.GroupMemberNameInWorkLocation)
-	userName :=models.WorkLocationUser{}
-	//WorkLocation := models.WorkLocation{}
-	viewModelForEdit := viewmodels.EditWorkLocation{}
-	companyUsers :=models.Company{}
-	userMap := make(map[string]models.WorkLocationUser)
-	var keySliceForGroup [] string
-	var keySliceForGroupAndUser []string
 	groupMap := make(map[string]models.WorkLocationGroup)
+	var keySliceForGroup [] string
 	var MemberNameArray [] string
 	group := models.Group{}
+	userName :=models.WorkLocationUser{}
 	WorkLocation := models.WorkLocation{}
+	viewModelForEdit :=viewmodels.EditWorkLocation{}
 	if r.Method == "POST" {
 		groupKeySliceForWorkLocationString := c.GetString("groupArrayElement")
 		UserOrGroupNameArray :=c.GetStrings("userAndGroupName")
@@ -296,16 +306,17 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 		dailyStartTime := c.GetString("dailyStartTimeString")
 		groupKeySliceForWorkLocation :=strings.Split(groupKeySliceForWorkLocationString, ",")
 		userIdArray := c.GetStrings("selectedUserNames")
+		log.Println("selected users array",userIdArray)
 		//latitude := c.GetString("latitudeId")
 		latitude := c.GetString("latitudeId")
 		longitude := c.GetString("longitudeId")
 		log.Println("longitude",longitude,latitude)
 		startDate := c.GetString("startDateTimeStamp")
 		endDate := c.GetString("endDateTimeStamp")
+		oldUserId := c.GetStrings("oldUsers")
+		log.Println("oldUserId",oldUserId)
 		startDateInt , err := strconv.ParseInt(startDate, 10, 64)
 		endDateInt, err := strconv.ParseInt(endDate, 10, 64)
-		log.Println("Type 1",reflect.TypeOf(startDate))
-		log.Println("Type 2",reflect.TypeOf(endDateInt))
 		layout := "01/02/2006 15:04"
 		startDateInUnix, err := time.Parse(layout, dailyStartTime)
 		if err != nil {
@@ -346,9 +357,9 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 				WorkLocation.Settings.Status = helpers.StatusActive
 				log.Println("userMap[tempId]", userMap)
 
-
 			}
 			if groupKeySliceForWorkLocation[0] != "" {
+				log.Println("w5")
 				for i := 0; i < len(groupKeySliceForWorkLocation); i++ {
 					groupDetails, dbStatus := group.GetGroupDetailsById(c.AppEngineCtx, groupKeySliceForWorkLocation[i])
 					switch dbStatus {
@@ -367,7 +378,6 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 						log.Println(helpers.ServerConnectionError)
 					}
 					for i := 0; i < len(keySliceForGroup); i++ {
-
 						groupMemberNameForTask.MemberName = MemberNameArray[i]
 						groupMemberMap[keySliceForGroup[i]] = groupMemberNameForTask
 					}
@@ -376,26 +386,30 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 					groupKeySlice = append(groupKeySlice, string(groupKeySliceForWorkLocation[i]))
 				}
 			}
+			//uniqueWorkLocation := models.IsWorkAssignedToUser(c.AppEngineCtx,startDate,endDate,tempName)
 		}
+
 		WorkLocation.Info.UsersAndGroupsInWorkLocation.User = userMap
 		if groupKeySliceForWorkLocation[0] !="" {
 			WorkLocation.Info.UsersAndGroupsInWorkLocation.Group = groupMap
 		}
-		log.Println("worklocation in controller",WorkLocation)
-		dbStatus :=WorkLocation.EditWorkLocationToDb(c.AppEngineCtx,workLocationId,companyTeamName)
-		switch dbStatus {
-		case true:
-			log.Println("true")
-			w.Write([]byte("true"))
-		case false:
-			w.Write([]byte("false"))
+		log.Println("user map for serious issue",WorkLocation.Info.UsersAndGroupsInWorkLocation.User)
+		log.Println("group map for serious issue",WorkLocation.Info.UsersAndGroupsInWorkLocation.Group)
+		uniqueWorkLocationStatus := models.IsWorkAssignedToUserInEditSection(c.AppEngineCtx,startDateInt,endDateInt,userIdArray,companyTeamName,oldUserId)
+		if uniqueWorkLocationStatus == true {
+			dbStatus :=WorkLocation.EditWorkLocationToDb(c.AppEngineCtx,workLocationId,companyTeamName)
+			switch dbStatus {
+			case true:
+				log.Println("true not unique")
+				w.Write([]byte("true"))
+			case false:
+				log.Println("true false not unique")
+				w.Write([]byte("false"))
+			}
+		}else {
+			log.Println("false")
+			w.Write([]byte("falseAlreadyExist"))
 		}
-
-
-
-
-
-
 	} else{
 		usersDetail :=models.Users{}
 		dbStatus ,testUser:= companyUsers.GetUsersForDropdownFromCompany(c.AppEngineCtx,companyTeamName)
@@ -452,7 +466,6 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 			log.Println(helpers.ServerConnectionError)
 		}
 		workLocation,dbStatus:= models.GetAllWorkLocationDetailsByWorkId(c.AppEngineCtx,workLocationId)
-		log.Println("workLocation",workLocation,dbStatus)
 		switch dbStatus {
 		case true:
 			viewModelForEdit.PageType = helpers.SelectPageForEdit
@@ -467,7 +480,8 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 			endTime := time.Unix(workLocation.Info.DailyEndDate,0)
 			endTimeOfWorkLocation := endTime.String()[11:16]
 
-
+			viewModelForEdit.LatitudeForEditing = workLocation.Info.Latitude
+			viewModelForEdit.LongitudeForEditing = workLocation.Info.Longitude
 			viewModelForEdit.WorkLocation = workLocation.Info.WorkLocation
 			viewModelForEdit.DailyStartTime = startTimeOfWorkLocation
 			viewModelForEdit.DailyEndTime = endTimeOfWorkLocation

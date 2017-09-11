@@ -97,7 +97,7 @@
                                    <div class="form-group clearfix">
                                        <div class="col-sm-6">
                                            <label  class="">Users/Group</label>
-                                           <select class="form-control sprites-arrow-down multiple-drop" id="usersAndGroupId" multiple="multiple">
+                                           <select class="form-control sprites-arrow-down multiple-drop" id="usersAndGroupId" multiple="multiple" required>
                                                {{range $key, $val := .vm.GroupNameArray}}
                                                <option value="{{index $.vm.UserAndGroupKey $key}}">{{$val}}</option>
                                                {{end}}
@@ -611,6 +611,20 @@
 		</footer>
 	    </div>
 	</section>
+        <div class="modal fade" id="myModalForUniqueTest" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>Already Assign a WorkLocation for this User.Choose another User</p>
+                    </div>
+                    <div class="modal-footer">
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal" id="confirm">Delete</button>-->
+                        <button type="button" class="btn btn-default" data-dismiss="modal" id="cancelForCheckUnique">Cancel</button>
+                    </div>
+                </div>
+            </div>
+</div>
 
 
 </body>
