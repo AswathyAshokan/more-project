@@ -688,11 +688,11 @@ $(function(){
             var FinalArrayForDateFilter =[[]];
             if(document.getElementById('workDetail').clicked != true)
             {
-                 for (var i=0;i<mainArray.length;i++){
+                
                 console.log("our main array",mainArray);
-                     var  ArrayForDateFilter =[];
+                     
                 for (var i=0;i<mainArray.length;i++){
-                    
+                    var  ArrayForDateFilter =[];
                     if (mainArray[i].length !=0){
                         var d1 = fromDateValue.split("/");
                         var d2 = toDateValue.split("/");
@@ -701,19 +701,23 @@ $(function(){
                         var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
                         var check = new Date(c[2], parseInt(c[1])-1, c[0]);
                         if (check >= from && check <= to){
-                        ArrayForDateFilter.push(mainArray[i]);
-                        if (ArrayForDateFilter[i][6]==mainArray[i+1][6] && ArrayForDateFilter[i][7]==mainArray[i+1][7]){
-                            ArrayForDateFilter.push(mainArray[i+1]);
-                        }
+                            ArrayForDateFilter.push(mainArray[i]);
+                            console.log("inner array",ArrayForDateFilter);
+                            for (var j=i+1;j<mainArray.length;j++){
+                                console.log("ffff",ArrayForDateFilter[i][6]);
+                                if ((ArrayForDateFilter[i][6]==mainArray[j][6])&& (ArrayForDateFilter[i][7] == mainArray[j][7])){
+                                    ArrayForDateFilter.push(mainArray[j]);
+                                }
+                            }
+                            FinalArrayForDateFilter.push(ArrayForDateFilter) 
                         }
                     }
                 }
-                    FinalArrayForDateFilter.push(ArrayForDateFilter) 
-                     i++;
-                 }
+                    
+                     
                  }
             }
-        console.lof("our final array",FinalArrayForDateFilter);
+        console.log("our final array",FinalArrayForDateFilter);
         });
         
     
