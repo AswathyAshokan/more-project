@@ -226,7 +226,7 @@ func (c *GroupController) EditGroup() {
 		switch dbStatus {
 		case true:
 			dataValue := reflect.ValueOf(allUserDetails)
-
+			log.Println("each user deteails when create a group",allUserDetails)
 			for _, groupKey := range dataValue.MapKeys() {
 				keySlice = append(keySlice, groupKey.String())
 			}

@@ -235,7 +235,7 @@ func (c *WorkLocationcontroller) LoadWorkLocation() {
 			var tempValueSlice []string
 
 
-			if workLocation[k].Settings.Status != helpers.UserStatusDeleted{
+			if workLocation[k].Settings.Status != helpers.StatusInActive{
 				userDataValues :=  reflect.ValueOf(workLocation[k].Info.UsersAndGroupsInWorkLocation.User)
 				var userStructSlice []viewmodels.WorkLocationUsers
 				for _,userKey :=range userDataValues.MapKeys(){

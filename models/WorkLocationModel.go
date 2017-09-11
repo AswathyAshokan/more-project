@@ -143,21 +143,23 @@ func IsWorkAssignedToUser(ctx context.Context ,startDate int64,endDate int64, us
 	dataValue := reflect.ValueOf(workLocationValues)
 	for _, key := range dataValue.MapKeys() {
 		log.Println("alredy key",key.String())
-		userDataValues :=  reflect.ValueOf(workLocationValues[key.String()].Info.UsersAndGroupsInWorkLocation.User)
-		for _,userKey :=range userDataValues.MapKeys(){
-			log.Println("alredy strat",workLocationValues[key.String()].Info.StartDate)
-			log.Println("alredy end",workLocationValues[key.String()].Info.EndDate )
-			for i:=0;i<len(userArray);i++{
-				if userKey.String() == userArray[i]{
-					if (workLocationValues[key.String()].Info.StartDate ==startDate )&&(workLocationValues[key.String()].Info.EndDate ==endDate){
-						return false
+		if workLocationValues[key.String()].Settings.Status != helpers.StatusInActive{
+			userDataValues :=  reflect.ValueOf(workLocationValues[key.String()].Info.UsersAndGroupsInWorkLocation.User)
+			for _,userKey :=range userDataValues.MapKeys(){
+				log.Println("alredy strat",workLocationValues[key.String()].Info.StartDate)
+				log.Println("alredy end",workLocationValues[key.String()].Info.EndDate )
+				for i:=0;i<len(userArray);i++{
+					if userKey.String() == userArray[i]{
+						if (workLocationValues[key.String()].Info.StartDate ==startDate )&&(workLocationValues[key.String()].Info.EndDate ==endDate){
+							return false
+						}
 					}
 				}
 			}
 		}
+
 	}
 	return true
-
 }
 
 
@@ -262,7 +264,7 @@ func DeleteWorkLog(ctx context.Context,workLocationId string) (bool) {
 		log.Fatal(err)
 		return false
 	}
-	deleteWorkLocation.Status = helpers.UserStatusDeleted
+	deleteWorkLocation.Status = helpers.StatusInActive
 	deleteWorkLocation.DateOfCreation = workLocationValues.DateOfCreation
 	err = db.Child("/WorkLocation/"+workLocationId+"/Settings").Update(&deleteWorkLocation)
 	if err != nil {
@@ -282,7 +284,7 @@ func DeleteWorkLog(ctx context.Context,workLocationId string) (bool) {
 				err = db.Child("Users/"+key.String()+"/WorkLocation/"+k.String()).Value(&WorkLocationOfSpecifiedUser)
 				UpdatewOrKLocationFromUser.EndDate =WorkLocationOfSpecifiedUser.EndDate
 				UpdatewOrKLocationFromUser.StartDate=WorkLocationOfSpecifiedUser.StartDate
-				UpdatewOrKLocationFromUser.Status =helpers.UserStatusDeleted
+				UpdatewOrKLocationFromUser.Status =helpers.StatusInActive
 				UpdatewOrKLocationFromUser.CompanyId =WorkLocationOfSpecifiedUser.CompanyId
 				UpdatewOrKLocationFromUser.DailyEndDate =WorkLocationOfSpecifiedUser.DailyEndDate
 				UpdatewOrKLocationFromUser.DailyStartDate =WorkLocationOfSpecifiedUser.DailyStartDate
@@ -319,33 +321,37 @@ func IsWorkAssignedToUserInEditSection(ctx context.Context ,startDate int64,endD
 	}
 	dataValue := reflect.ValueOf(workLocationValues)
 	for _, key := range dataValue.MapKeys() {
-		userDataValues :=  reflect.ValueOf(workLocationValues[key.String()].Info.UsersAndGroupsInWorkLocation.User)
-		for _,userKey :=range userDataValues.MapKeys(){
-			log.Println("userKey",userKey)
-			var filteringArray []string
-			for i:=0;i<len(userArray);i++{
-				exists := false
-				for j:=0;j<len(oldUserId);j++{
+		if workLocationValues[key.String()].Settings.Status != helpers.StatusInActive{
+			userDataValues :=  reflect.ValueOf(workLocationValues[key.String()].Info.UsersAndGroupsInWorkLocation.User)
+			for _,userKey :=range userDataValues.MapKeys(){
+				log.Println("userKey",userKey)
+				var filteringArray []string
+				for i:=0;i<len(userArray);i++{
+					exists := false
+					for j:=0;j<len(oldUserId);j++{
 
-					if userArray[i] == oldUserId[j] {
-						exists = true
-						break
+						if userArray[i] == oldUserId[j] {
+							exists = true
+							break
+						}
+					}
+					// If no previous element exists, append this one.
+					if !exists {
+						filteringArray = append(filteringArray, userArray[i])
 					}
 				}
-				// If no previous element exists, append this one.
-				if !exists {
-					filteringArray = append(filteringArray, userArray[i])
-				}
-			}
-			for k:=0;k<len(filteringArray);k++{
-				if userKey.String() == filteringArray[k]{
-					if (workLocationValues[key.String()].Info.StartDate ==startDate )&&(workLocationValues[key.String()].Info.EndDate ==endDate){
-						return false
+				for k:=0;k<len(filteringArray);k++{
+					if userKey.String() == filteringArray[k]{
+						if (workLocationValues[key.String()].Info.StartDate ==startDate )&&(workLocationValues[key.String()].Info.EndDate ==endDate){
+							return false
+						}
 					}
 				}
+
 			}
 
 		}
+
 	}
 
 	return true
