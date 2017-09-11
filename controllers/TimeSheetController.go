@@ -61,27 +61,31 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 
 							logDetailsSlice=append(logDetailsSlice,"1")
 							logDetailsSlice=append(logDetailsSlice,"0")
+							if len(timeSheetUserDetails[key.String()].TaskStartTime)!=0{
+								dataValue := reflect.ValueOf(timeSheetUserDetails[key.String()].TaskStartTime)
+								for _, taskStartTimeKey := range dataValue.MapKeys() {
+									StartTime := strconv.FormatInt(timeSheetUserDetails[key.String()].TaskStartTime[taskStartTimeKey.String()].Time, 10)
+									dailyTaskStartTimeSlice=append(dailyTaskStartTimeSlice,StartTime)
 
-							dataValue := reflect.ValueOf(timeSheetUserDetails[key.String()].TaskStartTime)
-							for _, taskStartTimeKey := range dataValue.MapKeys() {
-								StartTime := strconv.FormatInt(timeSheetUserDetails[key.String()].TaskStartTime[taskStartTimeKey.String()].Time, 10)
-								dailyTaskStartTimeSlice=append(dailyTaskStartTimeSlice,StartTime)
+								}
 
+								logDetailsSlice=append(logDetailsSlice,dailyTaskStartTimeSlice[0])
 							}
-
-							logDetailsSlice=append(logDetailsSlice,dailyTaskStartTimeSlice[0])
 							taskDateFrom := strconv.FormatInt(timeSheetUserDetails[key.String()].TaskDateFrom, 10)
 							logDetailsSlice =append(logDetailsSlice,taskDateFrom)
 							DailyStartTime := strconv.FormatInt(timeSheetUserDetails[key.String()].DailyStartTime, 10)
 							logDetailsSlice =append(logDetailsSlice,DailyStartTime)
-							dataValueOfEndTime := reflect.ValueOf(timeSheetUserDetails[key.String()].TaskEndTime)
-							for _, taskEndTimeKey := range dataValueOfEndTime.MapKeys() {
-								EndTime := strconv.FormatInt(timeSheetUserDetails[key.String()].TaskEndTime[taskEndTimeKey.String()].Time, 10)
-								dailyTaskEndTimeSlice=append(dailyTaskEndTimeSlice,EndTime)
+							if len(timeSheetUserDetails[key.String()].TaskEndTime) !=0{
+								dataValueOfEndTime := reflect.ValueOf(timeSheetUserDetails[key.String()].TaskEndTime)
+								for _, taskEndTimeKey := range dataValueOfEndTime.MapKeys() {
+									EndTime := strconv.FormatInt(timeSheetUserDetails[key.String()].TaskEndTime[taskEndTimeKey.String()].Time, 10)
+									dailyTaskEndTimeSlice=append(dailyTaskEndTimeSlice,EndTime)
 
+								}
+								lengthOfSlice :=len(dailyTaskEndTimeSlice)
+								logDetailsSlice=append(logDetailsSlice,dailyTaskEndTimeSlice[lengthOfSlice-1])
 							}
-							lengthOfSlice :=len(dailyTaskEndTimeSlice)
-							logDetailsSlice=append(logDetailsSlice,dailyTaskEndTimeSlice[lengthOfSlice-1])
+
 							TaskDateTo := strconv.FormatInt(timeSheetUserDetails[key.String()].TaskDateTo, 10)
 							logDetailsSlice =append(logDetailsSlice,TaskDateTo)
 							DailyEndTime := strconv.FormatInt(timeSheetUserDetails[key.String()].DailyEndTime, 10)
@@ -100,16 +104,16 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 						workDetailsSlice=append(workDetailsSlice,"1")
 						workDetailsSlice=append(workDetailsSlice,"0")
 						log.Println("in1",workDetailsSlice)
-						dataValue := reflect.ValueOf(timeSheetUserDetails[key.String()].WorkStartTime)
-						for _, workStartTimeKey := range dataValue.MapKeys() {
-							StartTime := strconv.FormatInt(timeSheetUserDetails[key.String()].WorkStartTime[workStartTimeKey.String()].Time, 10)
-							dailyWorkStartTimeSlice=append(dailyWorkStartTimeSlice,StartTime)
+						if len(timeSheetUserDetails[key.String()].WorkStartTime){
+							dataValue := reflect.ValueOf(timeSheetUserDetails[key.String()].WorkStartTime)
+							for _, workStartTimeKey := range dataValue.MapKeys() {
+								StartTime := strconv.FormatInt(timeSheetUserDetails[key.String()].WorkStartTime[workStartTimeKey.String()].Time, 10)
+								dailyWorkStartTimeSlice=append(dailyWorkStartTimeSlice,StartTime)
+
+							}
+							workDetailsSlice=append(workDetailsSlice,dailyWorkStartTimeSlice[0])
 
 						}
-
-						workDetailsSlice=append(workDetailsSlice,dailyWorkStartTimeSlice[0])
-
-
 						DailyStartTime := strconv.FormatInt(timeSheetUserDetails[key.String()].DailyStartTime, 10)
 						workDetailsSlice =append(workDetailsSlice,DailyStartTime)
 						if len(timeSheetUserDetails[key.String()].WorkEndTime)!=0{
@@ -120,8 +124,6 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 
 							}
 							lengthOfSlice :=len(dailyWorkEndTimeSlice)
-
-
 							workDetailsSlice=append(workDetailsSlice,dailyWorkEndTimeSlice[lengthOfSlice-1])
 						}
 
