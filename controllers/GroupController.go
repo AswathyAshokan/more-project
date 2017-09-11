@@ -205,6 +205,7 @@ func (c *GroupController) EditGroup() {
 		tempGroupMembers := c.GetStrings("selectedUserNames")
 		for i := 0; i < len(tempGroupId); i++ {
 			members.MemberName = tempGroupMembers[i]
+			members.Status = helpers.StatusActive
 			m[tempGroupId[i]] = members
 		}
 		group.Members = m
@@ -253,7 +254,6 @@ func (c *GroupController) EditGroup() {
 					viewModel.GroupMembersToEdit = append(viewModel.GroupMembersToEdit, selectedMemberKey.String())
 
 				}
-
 			}
 			viewModel.PageType = helpers.SelectPageForEdit
 			viewModel.CompanyTeamName = storedSession.CompanyTeamName
@@ -289,10 +289,6 @@ func (c *GroupController)  GroupNameCheck(){
 			w.Write([]byte("false"))
 		}
 	}
-
-
-
-
 
 }
 
