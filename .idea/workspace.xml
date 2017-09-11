@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/GOPATH__passporte_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/GOPATH__passporte_2.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/ByPassController.go" afterPath="$PROJECT_DIR$/controllers/ByPassController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/TimeSheetController.go" afterPath="$PROJECT_DIR$/controllers/TimeSheetController.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/timesheet-details.js" afterPath="$PROJECT_DIR$/main/static/js/custom/timesheet-details.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/time-sheet.html" afterPath="$PROJECT_DIR$/main/views/template/time-sheet.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/TimeSheetModel.go" afterPath="$PROJECT_DIR$/models/TimeSheetModel.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viewmodels/TimeSheetViewModel.go" afterPath="$PROJECT_DIR$/viewmodels/TimeSheetViewModel.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -36,11 +31,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TimeSheetController.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TimeSheetController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/TimeSheetController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="89" column="137" lean-forward="false" selection-start-line="89" selection-start-column="137" selection-end-line="89" selection-end-column="137" />
+            <state relative-caret-position="360">
+              <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
               <folding>
                 <element signature="e#20#151#0" expanded="true" />
               </folding>
@@ -58,11 +53,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TimeSheetViewModel.go" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TimeSheetViewModel.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/viewmodels/TimeSheetViewModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="17" column="48" lean-forward="false" selection-start-line="17" selection-start-column="48" selection-end-line="17" selection-end-column="48" />
+            <state relative-caret-position="216">
+              <caret line="15" column="46" lean-forward="true" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -207,8 +202,8 @@
         <option value="$PROJECT_DIR$/controllers/TaskController.go" />
         <option value="$PROJECT_DIR$/controllers/ByPassController.go" />
         <option value="$PROJECT_DIR$/models/TimeSheetModel.go" />
-        <option value="$PROJECT_DIR$/viewmodels/TimeSheetViewModel.go" />
         <option value="$PROJECT_DIR$/controllers/TimeSheetController.go" />
+        <option value="$PROJECT_DIR$/viewmodels/TimeSheetViewModel.go" />
       </list>
     </option>
   </component>
@@ -468,8 +463,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -726,13 +721,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
-    </task>
-    <task id="LOCAL-00251" summary="1/06/2013:28:   check box">
-      <created>1503379605315</created>
-      <option name="number" value="00251" />
-      <option name="presentableId" value="LOCAL-00251" />
-      <option name="project" value="LOCAL" />
-      <updated>1503379605315</updated>
     </task>
     <task id="LOCAL-00252" summary="1/06/2013:28:   check box">
       <created>1503379693096</created>
@@ -1070,7 +1058,14 @@
       <option name="project" value="LOCAL" />
       <updated>1504692136790</updated>
     </task>
-    <option name="localTasksCounter" value="300" />
+    <task id="LOCAL-00300" summary="1/06/2013:28:   check box">
+      <created>1505059057858</created>
+      <option name="number" value="00300" />
+      <option name="presentableId" value="LOCAL-00300" />
+      <option name="project" value="LOCAL" />
+      <updated>1505059057859</updated>
+    </task>
+    <option name="localTasksCounter" value="301" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1303,7 +1298,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1325,7 +1319,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="250">
           <caret line="153" column="26" lean-forward="false" selection-start-line="153" selection-start-column="26" selection-end-line="153" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1533,14 +1526,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/viewmodels/TimeSheetViewModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="17" column="48" lean-forward="false" selection-start-line="17" selection-start-column="48" selection-end-line="17" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="522">
@@ -1553,11 +1538,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/TimeSheetController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="89" column="137" lean-forward="false" selection-start-line="89" selection-start-column="137" selection-end-line="89" selection-end-column="137" />
+        <state relative-caret-position="360">
+          <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
           <folding>
             <element signature="e#20#151#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/viewmodels/TimeSheetViewModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="15" column="46" lean-forward="true" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
+          <folding />
         </state>
       </provider>
     </entry>
