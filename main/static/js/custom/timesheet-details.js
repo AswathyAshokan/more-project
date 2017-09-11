@@ -686,14 +686,15 @@ $(function(){
             if(document.getElementById('workDetail').clicked != true)
             {
                 console.log("our main array",mainArray);
-                for (var i:=0;i<mainArray.length;i++){
-                    for (var j:=0;j<mainArray[i].length;j++){
-                        
-//                        if (mainArray[i][j])
+                for (var i=0;i<mainArray.length;i++){
+//                    for (var j:=0;j<mainArray[i].length;j++){
 //                        
-                        
-                        
-                    }
+//                        if (mainArray[i][j])
+//                    
+//                        
+//                        
+//                    }
+//                    if 
                 }
             }
         }

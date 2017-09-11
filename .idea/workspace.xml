@@ -4,7 +4,6 @@
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/timesheet-details.js" afterPath="$PROJECT_DIR$/main/static/js/custom/timesheet-details.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/viewmodels/TimeSheetViewModel.go" afterPath="$PROJECT_DIR$/viewmodels/TimeSheetViewModel.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -722,13 +721,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00252" summary="1/06/2013:28:   check box">
-      <created>1503379693096</created>
-      <option name="number" value="00252" />
-      <option name="presentableId" value="LOCAL-00252" />
-      <option name="project" value="LOCAL" />
-      <updated>1503379693096</updated>
-    </task>
     <task id="LOCAL-00253" summary="1/06/2013:28:   check box">
       <created>1503380049733</created>
       <option name="number" value="00253" />
@@ -1065,7 +1057,14 @@
       <option name="project" value="LOCAL" />
       <updated>1505059057859</updated>
     </task>
-    <option name="localTasksCounter" value="301" />
+    <task id="LOCAL-00301" summary="1/06/2013:28:   check box">
+      <created>1505103834173</created>
+      <option name="number" value="00301" />
+      <option name="presentableId" value="LOCAL-00301" />
+      <option name="project" value="LOCAL" />
+      <updated>1505103834174</updated>
+    </task>
+    <option name="localTasksCounter" value="302" />
     <servers />
   </component>
   <component name="ToolWindowManager">
