@@ -1,4 +1,4 @@
-document.getElementById("crm").className += " active";
+document.getElementById("WorkLocation").className += " active";
 
 var companyTeamName = vm.CompanyTeamName;
 
