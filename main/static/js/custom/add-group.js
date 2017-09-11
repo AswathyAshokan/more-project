@@ -4,10 +4,13 @@
 console.log("nnnn",vm.GroupMembersToEdit)
 document.getElementById("group").className += " active";
 var companyTeamName = vm.CompanyTeamName;
+var selectArray =[];
 $().ready(function() {
     if(vm.PageType == "edit"){ 
-        var selectArray =[];
-        selectArray = vm.GroupMembersToEdit;
+        for(var i=0;i<vm.GroupMembersToEdit.length;i++){
+            selectArray.push(vm.GroupMembersToEdit[i]);
+        }
+        
         $("#selectedUserIds").val(selectArray);
         console.log("array",selectArray);
         document.getElementById("groupName").value = vm.GroupNameToEdit;
