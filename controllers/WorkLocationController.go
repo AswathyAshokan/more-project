@@ -224,6 +224,7 @@ func (c *WorkLocationcontroller) LoadWorkLocation() {
 	workLocation,dbStatus:= models.GetAllWorkLocationDetails(c.AppEngineCtx,companyTeamName)
 	viewModel := viewmodels.LoadWorkLocationViewModel{}
 	var workLocationUserSlice [][]viewmodels.WorkLocationUsers
+	var KeyValues []string
 	switch dbStatus {
 	case true:
 		dataValue := reflect.ValueOf(workLocation)
@@ -256,6 +257,7 @@ func (c *WorkLocationcontroller) LoadWorkLocation() {
 				log.Println("start work ",workLocation[k].Info.EndDate)
 				//tempValueSlice = append(tempValueSlice,workLocation[k].Info.EndDate)
 				log.Println("viewmodel",tempValueSlice)
+				KeyValues = append(KeyValues,k)
 				viewModel.Values=append(viewModel.Values,tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]
 			}
@@ -263,7 +265,7 @@ func (c *WorkLocationcontroller) LoadWorkLocation() {
 
 		}
 		viewModel.Users = workLocationUserSlice
-		viewModel.Keys = keySlice
+		viewModel.Keys = KeyValues
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
 		viewModel.CompanyPlan = storedSession.CompanyPlan
 		viewModel.AdminFirstName =storedSession.AdminFirstName

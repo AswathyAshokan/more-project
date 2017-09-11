@@ -77,7 +77,8 @@ $(function(){
     $('#workLocation-table tbody').on( 'click', '#delete', function () {
          $("#myGroupModal").modal();
         var data = table.row( $(this).parents('tr') ).data();
-        console.log("data",data[2]);
+        console.log("full data",data);
+        console.log("data id",data[2]);
         var workLocationId = data[2];
         $("#confirm").click(function(){
             $.ajax({
