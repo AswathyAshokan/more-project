@@ -53,6 +53,7 @@ func (c *GroupController) AddGroup() {
 
 		var keySlice []string
 		var allUserNames [] string
+		var tempGroupKeySlice []string
 		allUserDetails, dbStatus := groupUser.TakeGroupMemberName(c.AppEngineCtx, companyTeamName)
 		switch dbStatus {
 		case true:
@@ -65,12 +66,12 @@ func (c *GroupController) AddGroup() {
 				if allUserDetails[k].Status != helpers.UserStatusDeleted {
 					allUserNames = append(allUserNames, allUserDetails[k].FullName)
 					groupViewModel.GroupMembers = allUserNames
-					groupViewModel.GroupKey = keySlice
+					tempGroupKeySlice =append(tempGroupKeySlice,k)
 				}
 			}
 			groupViewModel.CompanyTeamName = storedSession.CompanyTeamName
 			groupViewModel.CompanyPlan = storedSession.CompanyPlan
-			groupViewModel.GroupKey = keySlice
+			groupViewModel.GroupKey = tempGroupKeySlice
 			groupViewModel.PageType = helpers.SelectPageForAdd
 			groupViewModel.AdminFirstName = storedSession.AdminFirstName
 			groupViewModel.AdminLastName = storedSession.AdminLastName
@@ -221,11 +222,12 @@ func (c *GroupController) EditGroup() {
 		viewModel := viewmodels.EditGroupViewModel{}
 		var allUserNames [] string
 		var keySlice []string
-		var tempKeySlice []string
+
 		// Getting all Data for page load...
 		allUserDetails, dbStatus := groupUser.TakeGroupMemberName(c.AppEngineCtx, companyTeamName)
 		switch dbStatus {
 		case true:
+			var tempKeySlice []string
 			dataValue := reflect.ValueOf(allUserDetails)
 			log.Println("each user deteails when create a group",allUserDetails)
 			for _, groupKey := range dataValue.MapKeys() {
@@ -240,6 +242,7 @@ func (c *GroupController) EditGroup() {
 				}
 			}
 			viewModel.GroupKey = tempKeySlice
+			log.Println("group key in edit group details ",tempKeySlice)
 			viewModel.PageType = helpers.SelectPageForEdit
 		case false:
 			log.Println(helpers.ServerConnectionError)

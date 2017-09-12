@@ -8,8 +8,8 @@ var companyTeamName = vm.CompanyTeamName;
 $().ready(function() {
     if(vm.PageType == "edit"){ 
         var selectArray =[];
-        for(var i=0;i<vm.GroupMembersToEdit.length;i++){
-            selectArray.push(vm.GroupMembersToEdit[i]);
+        for(var u = 0 ; u <= vm.GroupMembersToEdit.length;u++){
+            selectArray.push(vm.GroupMembersToEdit[u]);
         }
         
         $("#selectedUserIds").val(selectArray);

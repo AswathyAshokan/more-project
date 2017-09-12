@@ -35,7 +35,6 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 	userName :=models.WorkLocationUser{}
 	WorkLocation := models.WorkLocation{}
 	if r.Method == "POST" {
-		log.Println("w2")
 		groupKeySliceForWorkLocationString := c.GetString("groupArrayElement")
 		UserOrGroupNameArray :=c.GetStrings("userAndGroupName")
 		taskLocation := c.GetString("taskLocation")
@@ -105,9 +104,10 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 						groupNameAndDetails.GroupName = groupDetails.Info.GroupName
 						memberData := reflect.ValueOf(groupDetails.Members)
 						for _, key := range memberData.MapKeys() {
-							keySliceForGroup = append(keySliceForGroup, key.String())
+
 							log.Println("status",groupDetails.Members[key.String()].Status)
 							if groupDetails.Members[key.String()].Status != helpers.UserStatusDeleted{
+								keySliceForGroup = append(keySliceForGroup, key.String())
 								MemberNameArray = append(MemberNameArray, groupDetails.Members[key.String()].MemberName)
 								break
 							}
@@ -124,7 +124,6 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 					groupKeySlice = append(groupKeySlice, string(groupKeySliceForWorkLocation[i]))
 				}
 			}
-
 		}
 		WorkLocation.Info.UsersAndGroupsInWorkLocation.User = userMap
 		if groupKeySliceForWorkLocation[0] !="" {
@@ -135,27 +134,18 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 			dbStatus :=WorkLocation.AddWorkLocationToDb(c.AppEngineCtx,companyTeamName)
 			switch dbStatus {
 			case true:
-				log.Println("true not unique")
 				w.Write([]byte("true"))
 			case false:
-				log.Println("true false not unique")
 				w.Write([]byte("false"))
 			}
 		}else {
-			log.Println("false")
 			w.Write([]byte("falseAlreadyExist"))
 		}
-		log.Println("w6",WorkLocation)
-
-
 	}else {
-		log.Println("w7")
 		usersDetail :=models.Users{}
 		dbStatus ,testUser:= companyUsers.GetUsersForDropdownFromCompany(c.AppEngineCtx,companyTeamName)
-
 		switch dbStatus {
 		case true:
-			log.Println("w9")
 			dataValue := reflect.ValueOf(testUser)
 			for _, key := range dataValue.MapKeys() {
 
@@ -175,7 +165,6 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 			allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx,companyTeamName)
 			switch dbStatus {
 			case true:
-				log.Println("w10")
 				dataValue := reflect.ValueOf(allGroups)
 				for _, key := range dataValue.MapKeys() {
 					if allGroups[key.String()].Settings.Status =="Active"{
@@ -206,7 +195,6 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		}
 
 	}
-	log.Println("w11")
 	workLocationViewmodel.AdminFirstName = storedSession.AdminFirstName
 	workLocationViewmodel.AdminLastName = storedSession.AdminLastName
 	workLocationViewmodel.ProfilePicture =storedSession.ProfilePicture
@@ -250,19 +238,13 @@ func (c *WorkLocationcontroller) LoadWorkLocation() {
 					userStructSlice = append(userStructSlice, userStruct)
 				}
 				workLocationUserSlice = append(workLocationUserSlice,userStructSlice)
+				log.Println("work location user slice",workLocationUserSlice)
 				tempValueSlice =append(tempValueSlice,workLocation[k].Info.WorkLocation)
 				tempValueSlice =append(tempValueSlice,k)
-				//tempValueSlice =append(tempValueSlice,workLocation[k].Info.StartDate)
-				log.Println("start work ",workLocation[k].Info.StartDate)
-				log.Println("start work ",workLocation[k].Info.EndDate)
-				//tempValueSlice = append(tempValueSlice,workLocation[k].Info.EndDate)
-				log.Println("viewmodel",tempValueSlice)
 				KeyValues = append(KeyValues,k)
 				viewModel.Values=append(viewModel.Values,tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]
 			}
-
-
 		}
 		viewModel.Users = workLocationUserSlice
 		viewModel.Keys = KeyValues
