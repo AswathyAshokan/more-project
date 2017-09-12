@@ -57,6 +57,7 @@ $(function(){
     var workValues =[[]];
     var mainArray = [];
     var workMainArray =[];
+    var taskArrayWithDate =[];
     var table = "";
     
     if (vm.TaskTimeSheetDetail != null){
@@ -396,7 +397,7 @@ $(function(){
                  timeSlice.push(sumExtraHours);
                  timeSlice.push(vm.TaskTimeSheetDetail[i][10]);
                  timeSlice.push(vm.TaskTimeSheetDetail[i][11]);
-                 timeSlice.push(vm.TaskTimeSheetDetail[i][12]);
+                 timeSlice.push(taskStartDateFromLog);
                  Values.push(timeSlice);
              }
         }
@@ -633,6 +634,20 @@ $(function(){
             subArray = [];
         }
         }
+    
+     function createDataArrayTaskWithDate(workValues){
+        var subArray = [];
+        for(i = 1; i < workValues.length; i++) {
+            for(var propertyName in workValues[i]) {
+                subArray.push(workValues[i][propertyName]);
+            }
+            taskArrayWithDate.push(subArray);
+            subArray = [];
+        }
+        }
+    
+    
+    
     function dataTableManipulate(mainArray){
         table =  $("#timeSheet_details").DataTable({
             data: mainArray,
@@ -682,7 +697,9 @@ $(function(){
     //date filtering function
     $('#toDate').change(function () {
         toDateValue = $('#toDate').val();
+        console.log("to date",toDateValue);
         fromDateValue = $('#fromDate').val();
+        console.log("from date",fromDateValue);
         if (toDateValue.length !=0 && fromDateValue.length !=0){
             console.log("hhhhhhh");
             var FinalArrayForDateFilter =[[]];
@@ -690,9 +707,13 @@ $(function(){
             if(document.getElementById('workDetail').clicked != true)
             {
                 console.log("inside 1 1");
+                console.log("kkkk");
                 
-                for (var k=0;k<mainArray.length;i++){
+                for (var k=0;k<mainArray.length;k++){
                     if (mainArray[k].length !=0){
+                        console.log("main date",mainArray[k][8]);
+                        
+                        
                         var d1 = fromDateValue.split("/");
                         var d2 = toDateValue.split("/");
                         var c = mainArray[k][8].split("/");
@@ -700,24 +721,88 @@ $(function(){
                         var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
                         var check = new Date(c[2], parseInt(c[1])-1, c[0]);
                         if (check >= from && check <= to){
-                           
-                            ArrayForDateFilter.push(mainArray[k]);
-                            console.log("array filter",ArrayForDateFilter);
-                            for(var j=1;j<mainArray.length;j++){
-                                
-                                if (ArrayForDateFilter[k][6]==mainArray[j][6] && ArrayForDateFilter[k][7]==mainArray[j][7]){
-                                    ArrayForDateFilter.push(mainArray[j]);
-                                }
-                            }
-                            FinalArrayForDateFilter.push(ArrayForDateFilter); 
-                            ArrayForDateFilter =[];
+                           console.log("our array",mainArray[k]);
+                         ArrayForDateFilter.push(mainArray[k]);
+                          console.log("array filter",ArrayForDateFilter);
                             
+                            
+                          for(var j=0;j<mainArray.length;j++){
+                              if (j !=k){
+                                  console.log("id1",ArrayForDateFilter[0][6]);
+                                  console.log("id2",mainArray[j][6]);
+                                  console.log("id3",ArrayForDateFilter[0][7]);
+                                  console.log("id4",mainArray[j][7]);
+                                  console.log("next array",mainArray[j]);
+                                  if (ArrayForDateFilter[0][6]==mainArray[j][6] && ArrayForDateFilter[0][7]==mainArray[j][7]){
+                                      console.log("condition true");
+                                      ArrayForDateFilter.push(mainArray[j]);
+                                  }
+                              }
+                          }
+                            FinalArrayForDateFilter.push(ArrayForDateFilter); 
+                            var  ArrayForDateFilter =[];
                         }
                     }
                 }
                 console.log("our final array",FinalArrayForDateFilter);
+                var TaskTimeSheetRealArray =[[]];
+                
+                for (var i=1;i<FinalArrayForDateFilter.length;i++){
+                    var TaskValues =[];
+                    var sumLateHours="00:00";
+                    var sumExtraHours="00:00";
+                    TaskValues.push(FinalArrayForDateFilter[i][0][0]);
+                    console.log("hhh",FinalArrayForDateFilter[i][0][0]);
+                    TaskValues.push(FinalArrayForDateFilter[i][0][1]);
+                    TaskValues.push(FinalArrayForDateFilter[i].length);
+                    TaskValues.push(FinalArrayForDateFilter[i][0][3]);
+
+                    for  (var j=0;j<FinalArrayForDateFilter[i].length;j++){
+                        console.log ("late hours",FinalArrayForDateFilter[i][j][4]);
+                        var t1 = FinalArrayForDateFilter[i][j][4].split(':');
+                        var t2 = sumLateHours.split(':');
+                        var mins = Number(t1[1])+Number(t2[1]);
+                        var hrs = Math.floor(parseInt(mins / 60));
+                        hrs = Number(t1[0])+Number(t2[0])+hrs;
+                        mins = mins % 60;
+                        if ((hrs >= 0) && (hrs < 10) && (Math.floor(hrs) == hrs)) {
+                            hrs ="0"+hrs;
+                        }
+                        if ((mins >= 0) && (mins < 10) && (Math.floor(mins) == mins)) {
+                            mins ="0"+mins;
+                        }
+                        sumLateHours=hrs+':'+mins;
+                        
+                        var extrat1 = FinalArrayForDateFilter[i][j][5].split(':');
+                        var extrat2 = sumExtraHours.split(':');
+                        var extramins = Number(extrat1[1])+Number(extrat2[1]);
+                        var extrahrs = Math.floor(parseInt(extramins / 60));
+                        extrahrs = Number(extrat1[0])+Number(extrat2[0])+extrahrs;
+                        extramins = extramins % 60;
+                        if ((extrahrs >= 0) && (extrahrs < 10) && (Math.floor(extrahrs) == extrahrs)) {
+                            extrahrs ="0"+extrahrs;
+                        }
+                        if ((extramins >= 0) && (extramins < 10) && (Math.floor(extramins) == extramins)) {
+                            extramins ="0"+extramins;
+                        }
+                        sumExtraHours=extrahrs+':'+extramins;
+                        
+                        
+                    }
+                    TaskValues.push(sumExtraHours);
+                    TaskValues.push(sumLateHours);
+                    TaskTimeSheetRealArray.push(TaskValues);
+                    
+                }
+                console.log("our new array",TaskTimeSheetRealArray)
             }
         }
+        
+         $('#timeSheet_details').dataTable().fnDestroy();
+        if(TaskTimeSheetRealArray != null) {
+            createDataArrayTaskWithDate(TaskTimeSheetRealArray);
+        }
+        dataTableManipulate(taskArrayWithDate);
         
         });
         
