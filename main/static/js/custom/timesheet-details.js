@@ -531,7 +531,7 @@ $(function(){
                  var workEndTimeFromLogDiff = toSeconds(workEndTimeFromLog);
                  var DailyEndTimeDiff = toSeconds(DailyEndTime);
                  if (workStartTimeFromLogDiff>DailyStartTimeDiff){
-                     console.log("c1");
+                     
                      diffInStartTime =moment.utc(moment(workStartTimeFromLog," HH:mm").diff(moment(DailyStartTime," HH:mm"))).format("HH:mm");
                      var t1 = diffInStartTime.split(':');
                      var t2 = sumLateHours.split(':');
@@ -565,7 +565,7 @@ $(function(){
                      sumExtraHours=hrs+':'+mins;
                      extraHours =sumExtraHours;
                  }
-                console.log("error2");
+               
                 if (workEndTimeFromLogDiff>DailyEndTimeDiff){
                     console.log("c4");
                      diffInStartTime =moment.utc(moment(workEndTimeFromLog," HH:mm").diff(moment(DailyEndTime," HH:mm"))).format("HH:mm");
@@ -689,28 +689,20 @@ $(function(){
             var  ArrayForDateFilter =[];
             if(document.getElementById('workDetail').clicked != true)
             {
-                
-                
-                     
-                for (var i=0;i<mainArray.length;i++){
-                   
-                    console.log("our main array",mainArray);
-                    if (mainArray[i].length !=0){
+                for (var k=0;k<mainArray.length;i++){
+                    if (mainArray[k].length !=0){
                         var d1 = fromDateValue.split("/");
                         var d2 = toDateValue.split("/");
-                        var c = mainArray[i][8].split("/");
+                        var c = mainArray[k][8].split("/");
                         var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
                         var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
                         var check = new Date(c[2], parseInt(c[1])-1, c[0]);
                         if (check >= from && check <= to){
-                            console.log("main array inside check",mainArray[i]);
-                            ArrayForDateFilter.push(mainArray[i]);
+                           
+                            ArrayForDateFilter.push(mainArray[k]);
                             for(var j=1;j<mainArray.length;j++){
-                                console.log("array1",ArrayForDateFilter[i][6]);
-                                console.log("array2",mainArray[j][6]);
-                                console.log("array3",ArrayForDateFilter[i][7]);
-                                console.log("array4",mainArray[j][7]);
-                                if (ArrayForDateFilter[i][6]==mainArray[j][6] && ArrayForDateFilter[i][7]==mainArray[j][7]){
+                                
+                                if (ArrayForDateFilter[k][6]==mainArray[j][6] && ArrayForDateFilter[k][7]==mainArray[j][7]){
                                     ArrayForDateFilter.push(mainArray[j]);
                                 }
                             }
@@ -720,9 +712,10 @@ $(function(){
                         }
                     }
                 }
+                console.log("our final array",FinalArrayForDateFilter);
             }
         }
-        console.log("our final array",FinalArrayForDateFilter);
+        
         });
         
     
