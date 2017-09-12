@@ -21,12 +21,6 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
 	var keySlice []string
-
-	//var keySliceForActiveTask []string
-	//
-	//var keyForLog []string
-
-	//var sliceForLeaveDetails []string
 	viewModel := viewmodels.TimeSheetViewModel{}
 	timeSheet :=models.TimeSheet{}
 
@@ -92,7 +86,6 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 							logDetailsSlice =append(logDetailsSlice,DailyEndTime)
 							logDetailsSlice =append(logDetailsSlice,keySlice[i])
 							logDetailsSlice =append(logDetailsSlice,timeSheetUserDetails[key.String()].TaskId)
-
 							logDetailsSlice =append(logDetailsSlice,timeSheetUserDetails[key.String()].Date)
 
 						}
@@ -113,6 +106,8 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 							}
 							workDetailsSlice=append(workDetailsSlice,dailyWorkStartTimeSlice[0])
 
+						}else{
+							workDetailsSlice=append(workDetailsSlice,"")
 						}
 						DailyStartTime := strconv.FormatInt(timeSheetUserDetails[key.String()].DailyStartTime, 10)
 						workDetailsSlice =append(workDetailsSlice,DailyStartTime)
@@ -125,6 +120,9 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 							}
 							lengthOfSlice :=len(dailyWorkEndTimeSlice)
 							workDetailsSlice=append(workDetailsSlice,dailyWorkEndTimeSlice[lengthOfSlice-1])
+						}else{
+							workDetailsSlice=append(workDetailsSlice,"")
+
 						}
 
 						DailyEndTime := strconv.FormatInt(timeSheetUserDetails[key.String()].DailyEndTime, 10)
@@ -134,7 +132,34 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 						workDetailsSlice =append(workDetailsSlice,keySlice[i])
 						workDetailsSlice =append(workDetailsSlice,timeSheetUserDetails[key.String()].Date)
 						log.Println("workdetails  ",workDetailsSlice)
-						viewModel.WorkTimeSheeetDetails =append(viewModel.WorkTimeSheeetDetails,workDetailsSlice)
+						log.Println("length of arrayy",len(viewModel.WorkTimeSheeetDetails))
+
+							log.Println("insideeee sucesss")
+							if len(viewModel.WorkTimeSheeetDetails) ==0{
+								log.Println("n111")
+								viewModel.WorkTimeSheeetDetails =append(viewModel.WorkTimeSheeetDetails,workDetailsSlice)
+								log.Println("urrrr under",viewModel.WorkTimeSheeetDetails)
+							}else{
+								var condition=""
+								for i :=0;i<len(viewModel.WorkTimeSheeetDetails);i++{
+									log.Println("n222")
+									log.Println("i1",viewModel.WorkTimeSheeetDetails[i][8])
+									log.Println("i2",workDetailsSlice[8])
+									log.Println("i3",viewModel.WorkTimeSheeetDetails[i][9] )
+									log.Println("i4",workDetailsSlice[9])
+									if viewModel.WorkTimeSheeetDetails[i][8] ==workDetailsSlice[8] && viewModel.WorkTimeSheeetDetails[i][9] ==workDetailsSlice[9]{
+										condition ="true";
+										break
+
+									}else{
+										condition ="false"
+									}
+
+								}
+								if condition=="false"{
+									viewModel.WorkTimeSheeetDetails =append(viewModel.WorkTimeSheeetDetails,workDetailsSlice)
+								}
+							}
 					}
 				case false:
 				}
