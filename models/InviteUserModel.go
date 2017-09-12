@@ -400,7 +400,8 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 			err = db.Child("/WorkLocation/"+key.String()+"/Info/UsersAndGroupsInWorkLocation/User/"+k).Update(&updateUserStatus)
 		}
 
-
+		var deletedKey string
+		var tempGroupKeys []string
 		err = db.Child("Group").Value(&fullGroup)
 		if err != nil {
 			log.Fatal(err)
@@ -416,34 +417,34 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 					log.Fatal(err)
 					return  false
 				}
-				var tempGroupKeys []string
-				//log.Println("groupDetails",groupDetails)
 				groupMembersDataValue := reflect.ValueOf(groupDetails)
 				for _, groupMembersKey := range groupMembersDataValue.MapKeys() {
-					tempGroupKeys = append(tempGroupKeys,groupMembersKey.String())
 					if k == groupMembersKey.String(){
-						err = db.Child("/Group/"+ eachGroupKey+"/Members/"+groupMembersKey.String()).Value(&groupMembersDetails)
-						if err != nil {
-							log.Fatal(err)
-							return  false
-						}
-					}
-				}
-				for i:=0;i<len(tempGroupKeys);i++{
-					if k == tempGroupKeys[i]{
-						updateMemberDetails.Status = helpers.UserStatusDeleted
-						updateMemberDetails.MemberName = groupMembersDetails.MemberName
-						err = db.Child("/Group/"+ eachGroupKey+"/Members/"+tempGroupKeys[i]).Update(&updateMemberDetails)
-						if err != nil {
-							log.Fatal(err)
-							return  false
-						}
+						deletedKey = groupMembersKey.String()
 
 					}
-
 				}
-
+				err = db.Child("/Group/"+ eachGroupKey+"/Members/"+deletedKey).Value(&groupMembersDetails)
+				if err != nil {
+					log.Fatal(err)
+					return  false
+				}
+				if groupMembersDetails.Status !="" && groupMembersDetails.MemberName != ""{
+					tempGroupKeys = append(tempGroupKeys,eachGroupKey)
+				}
 			}
+
+		 for i:=0;i<len(tempGroupKeys);i++{
+			 updateMemberDetails.Status = helpers.UserStatusDeleted
+			 updateMemberDetails.MemberName = groupMembersDetails.MemberName
+			 err = db.Child("/Group/"+ tempGroupKeys[i]+"/Members/"+deletedKey).Update(&updateMemberDetails)
+			 if err != nil {
+				 log.Fatal(err)
+				 return  false
+			 }
+
+		 }
+		log.Println("each key of group in invited users",tempGroupKeys)
 		err = db.Child("Users/"+k+"/Company/"+companyTeamName).Value(&companyInUsers)
 		if err != nil {
 			log.Fatal(err)

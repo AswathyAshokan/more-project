@@ -221,6 +221,7 @@ func (c *GroupController) EditGroup() {
 		viewModel := viewmodels.EditGroupViewModel{}
 		var allUserNames [] string
 		var keySlice []string
+		var tempKeySlice []string
 		// Getting all Data for page load...
 		allUserDetails, dbStatus := groupUser.TakeGroupMemberName(c.AppEngineCtx, companyTeamName)
 		switch dbStatus {
@@ -232,12 +233,14 @@ func (c *GroupController) EditGroup() {
 			}
 			for _, k := range keySlice {
 				if allUserDetails[k].Status != helpers.UserStatusDeleted {
+					tempKeySlice = append(tempKeySlice,k)
 					allUserNames = append(allUserNames, allUserDetails[k].FullName)
 					viewModel.GroupMembers = allUserNames
-					viewModel.GroupKey = keySlice
-					viewModel.PageType = helpers.SelectPageForEdit
+
 				}
 			}
+			viewModel.GroupKey = tempKeySlice
+			viewModel.PageType = helpers.SelectPageForEdit
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
