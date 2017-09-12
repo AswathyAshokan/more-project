@@ -689,6 +689,8 @@ $(function(){
             var  ArrayForDateFilter =[];
             if(document.getElementById('workDetail').clicked != true)
             {
+                console.log("inside 1 1");
+                
                 for (var k=0;k<mainArray.length;i++){
                     if (mainArray[k].length !=0){
                         var d1 = fromDateValue.split("/");
@@ -700,6 +702,7 @@ $(function(){
                         if (check >= from && check <= to){
                            
                             ArrayForDateFilter.push(mainArray[k]);
+                            console.log("array filter",ArrayForDateFilter);
                             for(var j=1;j<mainArray.length;j++){
                                 
                                 if (ArrayForDateFilter[k][6]==mainArray[j][6] && ArrayForDateFilter[k][7]==mainArray[j][7]){
