@@ -5,10 +5,35 @@
 	<title>Dures</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/webrtc/jquery.min.js"></script>
+   <script src="/static/js/webrtc/pubnub-3.7.14.min.js"></script>
+   <script src="/static/js/webrtc/webrtc.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+
+   <script>
+     // Initialize Firebase
+     var config = {
+       apiKey: "AIzaSyDME5QGEf2AZd0eJGf5NAzOqKui7RtH4qc",
+       authDomain: "passporte-b9070.firebaseapp.com",
+       databaseURL: "https://passporte-b9070.firebaseio.com",
+       storageBucket: "passporte-b9070.appspot.com",
+       messagingSenderId: "196354561117"
+     };
+     firebase.initializeApp(config);
+
+     var refDuress = firebase.database().ref('Duress');
+     refDuress.limitToLast(1)
+                 .on('child_added', function (snapshot) {
+                     var key = snapshot.key;
+                     var data = snapshot.val();
+                     console.log(key);
+                     console.log(data);
+                 });
+   </script>
 
 </head>
 <body>
-	<section class="header">
+    <section class="header">
         <div class="container-fluid">
             <header>
 				<div class="logo">
@@ -34,25 +59,53 @@
 			</header>
 		</div>
 	</section>
+    
+    <div id="vid-box"></div>
+    <form name="loginForm" id="login" action="#" onsubmit="return login(this);">
+       <input type="text" name="username" id="username" placeholder="Pick a username!" />
+       <input type="submit" name="login_submit" value="Log In">
+   </form>
+    <form name="callForm" id="call" action="#" onsubmit="return makeCall(this);">
+       <input type="text" name="number" placeholder="Enter user to dial!" />
+       <input type="submit" value="Call" />
+   </form>
 
-	<section class="content-section clearfix">
+   <script>
+       var video_out = document.getElementById("vid-box");
+       function login(form) {
+           var phone = window.phone = PHONE({
+               number: form.username.value || "Anonymous", // listen on username line else Anonymous
+               publish_key: 'pub-c-c07e26b9-10d6-431a-b137-331774ce286e',
+               subscribe_key: 'sub-c-fa0d94dc-ff3a-11e6-8ce0-0619f8945a4f',
+           });
+           phone.ready(function () { form.username.style.background = "#55ff5b "; });
+           phone.receive(function (session) {
+               session.connected(function (session) { video_out.appendChild(session.video); });
+               session.ended(function (session) { video_out.innerHTML = ''; });
+           });
+           return false;     // So the form does not submit.
+       }
+       function makeCall(form) {
+           if (!window.phone) alert("Login First!");
+           else phone.dial(form.number.value);
+           return false;
+       }
+   </script>
+    <section class="content-section clearfix">
 		<div class="container-fluid no-gutter-xs padding-50-each dures">
 
 			<div class="col-sm-6 map-wrapper">
 				<h4>User Name</h4>
 				<div id="googleMap"></div>
 			</div>
-			<div >
+			<div class="col-sm-6 img-wrapper">
 				<img src="/static/images/img1.png" alt="" class="img-responsive">
 			</div>
 				
 		</div>
 		
 	</section>
-    
-    
-
-	<section class="footer">
+    <section class="footer">
 		<div class="container-fluid">
 			<footer>
 				<div class="footer-logo">
@@ -67,19 +120,15 @@
 	</section>
     <script src="/static/js/jquery-3.1.0.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
-
-
-	<script>
-		function initMap() {
-			var mapProp= {
+    <script>
+        function initMap() {
+            var mapProp= {
 			    center:new google.maps.LatLng(51.508742,-0.120850),
 			    zoom:5,
 			};
 			var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
 		}
 	</script>
-
-<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgcNVR6h4uvt9ZlwyruCz3xbABfjoTxvk&callback=myMap"></script> -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFl3U2s0vqjaN-6rvAaOA8Ts1cfDss_KM&callback=initMap" type="text/javascript"></script>
     <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
 </body>
