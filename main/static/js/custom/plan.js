@@ -44,25 +44,40 @@ $().ready(function(){
     
     $(".selectPlanButton").click(function(){
         if(sessionFlag == true){
-            var companyPlan = $(this).attr('id');//to get the id of selected plan
-            $.ajax({              
-              url:'/plan/update',
-              type:'post',
-              datatype: 'json',
-              data: {'companyPlan':companyPlan
-                    },
-              //call back or get response here
-              success : function(data){
-                var jsonData = JSON.parse(data)
-                if(jsonData[0] == "true"){;
-                    window.location ='/' + jsonData[1] +'/invite';
-                   /* window.location = '/'+ jsonData[1] +'/'+ jsonData[2] +'/payment';*/
-                } else {
-                    console.log("haiiii");
-                      window.location = '/login';
+            $.ajax({
+                type: "POST",
+                url: '/' + companyTeamName +'/'+selectedCompanyPlan+'/payment',
+                data: '',
+                success: function(response){
+                    if(response=="true"){
+                    }
+                    else {
+                    }
                 }
-              }
             });
+            
+            
+            
+            
+//            var companyPlan = $(this).attr('id');//to get the id of selected plan
+//            $.ajax({              
+//              url:'/plan/update',
+//              type:'post',
+//              datatype: 'json',
+//              data: {'companyPlan':companyPlan
+//                    },
+//              //call back or get response here
+//              success : function(data){
+//                var jsonData = JSON.parse(data)
+//                if(jsonData[0] == "true"){;
+//                    window.location ='/' + jsonData[1] +'/invite';
+//                   /* window.location = '/'+ jsonData[1] +'/'+ jsonData[2] +'/payment';*/
+//                } else {
+//                    console.log("haiiii");
+//                      window.location = '/login';
+//                }
+//              }
+//            });
         } else {
             $("#plan-confirm").modal();
             status = localStorage.setItem('loginStatus','false');
