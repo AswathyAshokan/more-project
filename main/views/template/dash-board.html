@@ -82,73 +82,62 @@
                     </ul>
                 </nav>
             </div>
-
-			<div class="col-md-12 main-content-wrapper padding-50-each">
-        <div class="clearfix dashboard">
-            <h1 class="h4">Dashboard</h1>
-            <div class="piechart-wrapper clearfix">
-                <div class="pie1 col-sm-6">
-                    <p>All jobs</p>
-                    <div class="piechart">
-                        <div id="pie1" class="example" style="width: 100px;"></div>
-                        <div class="range">
-                            <span class="range-completed">Completed</span>
-                            <span class="range-pending">Pending</span>
-                             <span class="range-empty">No Job</span>
+            <div class="col-md-12 main-content-wrapper padding-50-each">
+                <div class="clearfix dashboard">
+                    <h1 class="h4">Dashboard</h1>
+                    <div class="piechart-wrapper clearfix">
+                        <div class="pie1 col-sm-6">
+                            <p>All jobs</p>
+                            <div class="piechart">
+                                <div id="pie1" class="example" style="width: 100px;"></div>
+                                <div class="range">
+                                    <span class="range-completed">Completed</span>
+                                    <span class="range-pending">Pending</span>
+                                    <span class="range-empty">No Job</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pie2 col-sm-6">
+                            <p>All users</p>
+                            <div class="piechart">
+                                <div id="pie2" class="example" style="width: 100px;"></div>
+                                <div class="range">
+                                    <span class="range-invited">Invited</span>
+                                    <span class="range-accepted">Accepted</span>
+                                    <span class="range-rejected">Rejected</span>
+                                    <span class="range-empty">No Users</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="pie2 col-sm-6">
-                    <p>All users</p>
-                    <div class="piechart">
-                        <div id="pie2" class="example" style="width: 100px;"></div>
-                        <div class="range">
-                            <span class="range-invited">Invited</span>
-                            <span class="range-accepted">Accepted</span>
-                            <span class="range-rejected">Rejected</span>
-                            <span class="range-empty">No Users</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="task-graph-wrapper">
-                <select class="form-control sprites-arrow-down"  onchange="getTaskDetails();" id="jobName" name="jobName">
-                   <option selected disabled value="SelectAJob">Select a Job</option>
-                    <option  value="All">All</option>
-                    {{range $key, $val := .vm.JobNameArray}}
-                    <option id="{{index $.vm.Key $key}}" value="{{$val}}" >{{$val}} </option>
-                    {{end}}
-                </select>
-                <div class="task-graph">
-                    <div class="col-sm-6 tsk-lst-wrapper">
-                        <h4>Task Listing</h4>
-                        <div class="tsk-lst" id="taskListing" name="taskListing">
-                            
-<!--                            <span><a href="/0">See More Tasks</a></span>-->
-                        </div>
-                    </div>
-<!--
-                    <div class="col-sm-6">
-                        <h5 style="text-align: center;margin-bottom: -36px;margin-top: -3px;">Task Status and Users</h5>
-                        <div id="chart"></div>
-                    </div>
--->
-                    <div class="col-sm-6 graph-ed">
+                    <div class="task-graph-wrapper">
+                        <select class="form-control sprites-arrow-down"  onchange="getTaskDetails();" id="jobName" name="jobName">
+                            <option selected disabled value="SelectAJob">Select a Job</option>
+                            <option  value="All">All</option>
+                            {{range $key, $val := .vm.JobNameArray}}
+                            <option id="{{index $.vm.Key $key}}" value="{{$val}}" >{{$val}} </option>
+                            {{end}}
+                        </select>
+                        <div class="task-graph">
+                            <div class="col-sm-6 tsk-lst-wrapper">
+                                <h4>Task Listing</h4>
+                                <div class="tsk-lst" id="taskListing" name="taskListing">
+                                </div>
+                            </div>
+                            <div class="col-sm-6 graph-ed">
                                 <h5 style="">Task Status and Users</h5>
                                 <!-- <img src="images/grapg.png" alt=""> -->
                                 <!-- <div id="chart"></div> -->
-                                    <div id="chartContainer" style="height: 379px; width: 100%;" class="clearfix"></div>
+                                <div id="chartContainer" style="height: 379px; width: 100%;" class="clearfix"></div>
                             </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-					
-				</div>
-			</div>
+			
 
-		</div>
-	</section>
+
 
 	 <div class="modal fade plans-modal" id="family" role="dialog" >
         <div class="modal-dialog">

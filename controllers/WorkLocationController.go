@@ -234,11 +234,10 @@ func (c *WorkLocationcontroller) LoadWorkLocation() {
 						userStruct.Name = workLocation[k].Info.UsersAndGroupsInWorkLocation.User[userKey.String()].FullName
 						userStruct.UserKey = k
 					}
-
 					userStructSlice = append(userStructSlice, userStruct)
 				}
 				workLocationUserSlice = append(workLocationUserSlice,userStructSlice)
-				log.Println("work location user slice",workLocationUserSlice)
+				log.Println("work location user slice",userStructSlice)
 				tempValueSlice =append(tempValueSlice,workLocation[k].Info.WorkLocation)
 				tempValueSlice =append(tempValueSlice,k)
 				KeyValues = append(KeyValues,k)

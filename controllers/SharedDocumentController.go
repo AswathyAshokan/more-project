@@ -7,7 +7,7 @@ import (
 	"reflect"
 	"app/passporte/viewmodels"
 	"app/passporte/helpers"
-	"time"
+	"strconv"
 )
 type SharedDocumentController struct {
 	BaseController
@@ -38,6 +38,7 @@ func (c *SharedDocumentController) LoadSharedDocuments() {
 					keySlice = append(keySlice, key.String())
 				}
 				for _, specifiedUserId := range keySlice {
+					log.Println("specifiedUserId",specifiedUserId)
 					expiry, status,Name := models.GetExpireDetailsOfUser(c.AppEngineCtx, specifiedUserId)
 					log.Println("expiry", expiry)
 					switch status {
@@ -51,7 +52,8 @@ func (c *SharedDocumentController) LoadSharedDocuments() {
 							var tempValueSlice []string
 							if expiry[k].Info.Mode == "Public" {
 								tempValueSlice = append(tempValueSlice, expiry[k].Info.Description)
-								tempValueSlice = append(tempValueSlice, time.Unix(expiry[k].Info.ExpirationDate, 0).Format("01/02/2006"))
+								expirationDate := strconv.FormatInt(int64(expiry[k].Info.ExpirationDate), 10)
+								tempValueSlice = append(tempValueSlice, expirationDate)
 								tempValueSlice = append(tempValueSlice,Name)
 								tempValueSlice = append(tempValueSlice, expiry[k].Info.DocumentId)
 

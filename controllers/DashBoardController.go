@@ -14,6 +14,7 @@ import (
 	"app/passporte/helpers"
 
 	"app/passporte/viewmodels"
+	"encoding/json"
 )
 
 type DashBoardController struct {
@@ -56,131 +57,97 @@ func (c *DashBoardController)LoadDashBoard() {
 				var tempSLiceForBarChart []string
 
 				if companyTaskDetails[k].Status ==helpers.StatusActive{
-
-
-				dbStatus, taskDetail := task.GetTaskDetailById(c.AppEngineCtx, k)
-				switch dbStatus {
-				case true:
-					if taskDetail.Settings.Status ==helpers.StatusActive && taskDetail.Customer.CustomerStatus ==helpers.StatusActive &&taskDetail.Job.JobStatus ==helpers.StatusActive{
-					var userStatus	[]string
-					var userKeySlice []string
-					pending :=0
-					completed :=0
-						log.Println("hhhhhh",taskDetail.Info.TaskName)
-					dataValue := reflect.ValueOf(taskDetail.UsersAndGroups.User)
-					for _, key := range dataValue.MapKeys() {
-						userKeySlice = append(userKeySlice, key.String())
-					}
-					for _, userKeyForTask := range userKeySlice {
-
-						userStatus = append(userStatus,taskDetail.UsersAndGroups.User[userKeyForTask].UserTaskStatus)
-					}
-					log.Println(userStatus)
-
-
-						tempSLiceForBarChart=append(tempSLiceForBarChart,taskDetail.Info.TaskName)
-						tempSLiceForBarChart=append(tempSLiceForBarChart,k)
-						startDate := strconv.FormatInt(taskDetail.Info.StartDate, 10)
-						tempSLiceForBarChart=append(tempSLiceForBarChart,startDate)
-						endDate := strconv.FormatInt(taskDetail.Info.StartDate, 10)
-						tempSLiceForBarChart=append(tempSLiceForBarChart,endDate)
-						viewModel.TaskDetailForBarChart =append(viewModel.TaskDetailForBarChart,tempSLiceForBarChart)
-
-						//dataValue := reflect.ValueOf(taskDetail.UsersAndGroups.User)
-						for _, userKey := range userKeySlice {
-							if taskDetail.UsersAndGroups.User[userKey].Status !=helpers.UserStatusDeleted{
-								var userArrayForBarChart []string
-								userArrayForBarChart =append(userArrayForBarChart,taskDetail.UsersAndGroups.User[userKey].FullName)
-								userArrayForBarChart =append(userArrayForBarChart,taskDetail.UsersAndGroups.User[userKey].UserTaskStatus)
-								userArrayForBarChart =append(userArrayForBarChart,userKey)
-								userArrayForBarChart =append(userArrayForBarChart,k)
-								viewModel.UserDetailForBarChart =append(viewModel.UserDetailForBarChart,userArrayForBarChart)
+					dbStatus, taskDetail := task.GetTaskDetailById(c.AppEngineCtx, k)
+					switch dbStatus {
+					case true:
+						if taskDetail.Settings.Status ==helpers.StatusActive && taskDetail.Customer.CustomerStatus ==helpers.StatusActive &&taskDetail.Job.JobStatus ==helpers.StatusActive{
+							var userStatus	[]string
+							var userKeySlice []string
+							pending :=0
+							completed :=0
+							log.Println("hhhhhh",taskDetail.Info.TaskName)
+							dataValue := reflect.ValueOf(taskDetail.UsersAndGroups.User)
+							for _, key := range dataValue.MapKeys() {
+								userKeySlice = append(userKeySlice, key.String())
 							}
-
-
-
-						}
-
-						//create array for bar chart display
-						logDetails :=models.WorkLog{}
-						//var logUserForBarChart []string
-						var keyForLog []string
-						dbStatus, logUserDetail := logDetails.GetLogDetailOfUser(c.AppEngineCtx, companyTeamName)
-						switch dbStatus {
-
-						case true:
-							//var userName string
-							logValue := reflect.ValueOf(logUserDetail)
-							for _, key := range logValue.MapKeys() {
-								keyForLog = append(keyForLog, key.String())
+							for _, userKeyForTask := range userKeySlice {
+								userStatus = append(userStatus,taskDetail.UsersAndGroups.User[userKeyForTask].UserTaskStatus)
 							}
-							//var timeSliceForNew [][]string
-							log.Println("log keyyy", keyForLog)
+							tempSLiceForBarChart=append(tempSLiceForBarChart,taskDetail.Info.TaskName)
+							tempSLiceForBarChart=append(tempSLiceForBarChart,k)
+							startDate := strconv.FormatInt(taskDetail.Info.StartDate, 10)
+							tempSLiceForBarChart=append(tempSLiceForBarChart,startDate)
+							endDate := strconv.FormatInt(taskDetail.Info.StartDate, 10)
+							tempSLiceForBarChart=append(tempSLiceForBarChart,endDate)
+							viewModel.TaskDetailForBarChart =append(viewModel.TaskDetailForBarChart,tempSLiceForBarChart)
 
-							for _, logKey := range logValue.MapKeys() {
-								for i :=0;i<len(userKeySlice);i++{
-									 if logUserDetail[logKey.String()].UserID ==userKeySlice[i] && k==logUserDetail[logKey.String()].TaskID&&logUserDetail[logKey.String()].LogDescription=="Work Started"{
-
-
-
-
-									 }
+							//dataValue := reflect.ValueOf(taskDetail.UsersAndGroups.User)
+							for _, userKey := range userKeySlice {
+								if taskDetail.UsersAndGroups.User[userKey].Status !=helpers.UserStatusDeleted{
+									var userArrayForBarChart []string
+									userArrayForBarChart =append(userArrayForBarChart,taskDetail.UsersAndGroups.User[userKey].FullName)
+									userArrayForBarChart =append(userArrayForBarChart,taskDetail.UsersAndGroups.User[userKey].UserTaskStatus)
+									userArrayForBarChart =append(userArrayForBarChart,userKey)
+									userArrayForBarChart =append(userArrayForBarChart,k)
+									viewModel.UserDetailForBarChart =append(viewModel.UserDetailForBarChart,userArrayForBarChart)
 								}
-
-
 							}
-						case false:
-							log.Println(helpers.ServerConnectionError)
+							//create array for bar chart display
+							logDetails :=models.WorkLog{}
+							//var logUserForBarChart []string
+							var keyForLog []string
+							dbStatus, logUserDetail := logDetails.GetLogDetailOfUser(c.AppEngineCtx, companyTeamName)
+							switch dbStatus {
+							case true:
+								//var userName string
+								logValue := reflect.ValueOf(logUserDetail)
+								for _, key := range logValue.MapKeys() {
+									keyForLog = append(keyForLog, key.String())
+								}
+								//var timeSliceForNew [][]string
+								log.Println("log keyyy", keyForLog)
+
+								for _, logKey := range logValue.MapKeys() {
+									for i :=0;i<len(userKeySlice);i++{
+										 if logUserDetail[logKey.String()].UserID ==userKeySlice[i] && k==logUserDetail[logKey.String()].TaskID&&logUserDetail[logKey.String()].LogDescription=="Work Started"{
+
+										 }
+									}
+								}
+							case false:
+								log.Println(helpers.ServerConnectionError)
+							}
+							bool1 :=IsValueInList("Pending", userStatus)
+							bool2 :=IsValueInList("Open", userStatus)
+							bool3 :=IsValueInList("Accepted", userStatus)
+							if (bool1==true ||bool2==true || bool3 ==true ){
+								totalUserStatus = "Pending"
+							}else{
+								totalUserStatus ="Completed"
+							}
+
+							log.Println("total status",totalUserStatus)
+						for i:=0;i<len(userStatus);i++{
+
+
+							if userStatus[i] == "Pending" {
+								pending++
+
+							}else{
+								completed++
+							}
+						}
+						completedTaskPercentage := float32(completed)/float32(len(userStatus))*100
+						pendingTaskPercentage  := float32(pending)/ float32(len(userStatus))*100
+						taskSettings :=models.TaskSetting{}
+						taskSettings.UpdateTaskStatus(c.AppEngineCtx, k,totalUserStatus,completedTaskPercentage,pendingTaskPercentage)
+						log.Println(dbStatus)
 						}
 
-
-
-
-						//for i:=0;i<len(userStatus);i++ {
-					//
-					//	if userStatus[i] == "Pending"|| userStatus[i] =="Open"{
-					//
-					//		totalUserStatus = "Pending"
-					//		break
-					//	} else {
-					//		totalUserStatus = "Completed"
-					//	}
-					//
-					//}
-
-						bool1 :=IsValueInList("Pending", userStatus)
-						bool2 :=IsValueInList("Open", userStatus)
-						bool3 :=IsValueInList("Accepted", userStatus)
-						if (bool1==true ||bool2==true || bool3 ==true ){
-							totalUserStatus = "Pending"
-						}else{
-							totalUserStatus ="Completed"
-						}
-
-						log.Println("total status",totalUserStatus)
-					for i:=0;i<len(userStatus);i++{
-
-
-						if userStatus[i] == "Pending" {
-							pending++
-
-						}else{
-							completed++
-						}
+					case false:
+						log.Println(helpers.ServerConnectionError)
 					}
-					completedTaskPercentage := float32(completed)/float32(len(userStatus))*100
-					pendingTaskPercentage  := float32(pending)/ float32(len(userStatus))*100
-					taskSettings :=models.TaskSetting{}
-					taskSettings.UpdateTaskStatus(c.AppEngineCtx, k,totalUserStatus,completedTaskPercentage,pendingTaskPercentage)
-					log.Println(dbStatus)
-					}
-
-				case false:
-					log.Println(helpers.ServerConnectionError)
 				}
-				}
-
-
 			}
 			totalCompletion :=0
 			totalPending :=0
@@ -199,28 +166,17 @@ func (c *DashBoardController)LoadDashBoard() {
 						} else {
 							totalPending++
 						}
-
-
-
-
 					}
-
-
-
-
 				case false:
 					log.Println(helpers.ServerConnectionError)
 				}
-
 			}
 			if len(completedOrPendingKey) !=0 {
-				log.Println("sp5")
 				completedTaskPercentageForViewModel := float32(totalCompletion)/float32(len(completedOrPendingKey))*100
 				pendingTaskPercentageForViewModel  := float32(totalPending)/ float32(len(completedOrPendingKey))*100
 				viewModel.CompletedTask =completedTaskPercentageForViewModel
 				viewModel.PendingTask =pendingTaskPercentageForViewModel
 			}
-
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
@@ -228,8 +184,6 @@ func (c *DashBoardController)LoadDashBoard() {
 		viewModel.CompletedTask =0
 		viewModel.PendingTask =0
 	}
-
-
 	companyInvitaion :=models.CompanyInvitations{}
 	acceptedUser :=0
 	rejectedUser :=0
@@ -255,8 +209,6 @@ func (c *DashBoardController)LoadDashBoard() {
 			}else {
 				rejectedUser++
 			}
-
-
 		}
 		acceptedUsersPercentageForViewModel := float32(acceptedUser)/float32(len(inviteKey))*100
 		rejectedUsersPercentageForViewModel  := float32(pendingUser)/ float32(len(inviteKey))*100
@@ -328,3 +280,123 @@ func (c *DashBoardController)LoadDashBoard() {
 	c.TplName = "template/dash-board.html"
 
 }
+
+func (c *DashBoardController)LoadBarChartForDashBord() {
+	//r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	taskName := c.GetString("TaskName")
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	log.Println("kkkkkk", taskName, companyTeamName)
+	companyTask := models.TaskIdInfo{}
+	task := models.Tasks{}
+	//section for getting total task completion and pending details
+	dbStatus, companyTaskDetails := companyTask.RetrieveTaskFromCompany(c.AppEngineCtx, companyTeamName)
+	switch dbStatus {
+	case true:
+		dataValue := reflect.ValueOf(companyTaskDetails)
+		var keySlice []string
+		logDetails := models.WorkLog{}
+		//var totalUserStatus string
+		for _, key := range dataValue.MapKeys() {
+			keySlice = append(keySlice, key.String())
+		}
+		var barChart [][] string
+		var allLogTimeArray[][] string
+		var starEndDateArray [] string
+		for _, k := range keySlice {
+			log.Println("sp3")
+			//var tempSLiceForBarChart []string
+			if companyTaskDetails[k].Status == helpers.StatusActive {
+				Status, taskDetail := task.GetTaskDetailById(c.AppEngineCtx, k)
+				switch Status {
+				case true:
+					if taskDetail.Settings.Status == helpers.StatusActive {
+						if taskDetail.Info.TaskName == taskName {
+							log.Println("iam in first if")
+
+							starEndDateArray = append(starEndDateArray, strconv.FormatInt(int64(taskDetail.Info.StartDate), 10))
+							starEndDateArray = append(starEndDateArray, strconv.FormatInt(int64(taskDetail.Info.EndDate), 10))
+							/*barChart = append(barChart,starEndDateArray)
+							starEndDateArray = starEndDateArray[:0]*/
+							//log.Println("starEndDateArray",starEndDateArray)
+
+							_, logUserDetail := logDetails.GetLogDetailOfUser(c.AppEngineCtx, companyTeamName)
+							log.Println("logUserDetail", logUserDetail)
+							logValue := reflect.ValueOf(logUserDetail)
+							for _, logKey := range logValue.MapKeys() {
+								log.Println("in first loop")
+								dataValueOfUser := reflect.ValueOf(taskDetail.UsersAndGroups.User)
+								for _, userkey := range dataValueOfUser.MapKeys() {
+									log.Println("in second loop")
+									if taskDetail.UsersAndGroups.User[userkey.String()].Status != helpers.UserStatusDeleted {
+										log.Println("iam in second if")
+										if userkey.String() == logUserDetail[logKey.String()].UserID {
+											log.Println("iam in third if")
+
+
+											if logUserDetail[logKey.String()].LogDescription == "Task Started" {
+												var UserDetailsForStartTask []string
+												var logTimeArrayForStartTask []string
+												log.Println("iam in fourth if")
+												logTimeArrayForStartTask = append(logTimeArrayForStartTask, logUserDetail[logKey.String()].UserID)
+												logTimeArrayForStartTask = append(logTimeArrayForStartTask, strconv.FormatInt(int64(logUserDetail[logKey.String()].LogTime), 10))
+												logTimeArrayForStartTask = append(logTimeArrayForStartTask,logUserDetail[logKey.String()].LogDescription)
+												allLogTimeArray = append(allLogTimeArray,logTimeArrayForStartTask)
+												logTimeArrayForStartTask = logTimeArrayForStartTask [:0]
+												//log.Println("logTimeArray",logTimeArrayForStartTask)
+												//barChart = append(barChart,logTimeArrayForStartTask)
+												UserDetailsForStartTask = append(UserDetailsForStartTask, taskDetail.UsersAndGroups.User[userkey.String()].FullName)
+												UserDetailsForStartTask = append(UserDetailsForStartTask, taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus)
+												UserDetailsForStartTask = append(UserDetailsForStartTask, userkey.String())
+												barChart = append(barChart,UserDetailsForStartTask)
+												UserDetailsForStartTask = UserDetailsForStartTask[:0]
+											} else if logUserDetail[logKey.String()].LogDescription == helpers.StatusCompleted {
+												var UserDetailsForCompleted []string
+												UserDetailsForCompleted = append(UserDetailsForCompleted, taskDetail.UsersAndGroups.User[userkey.String()].FullName)
+												UserDetailsForCompleted = append(UserDetailsForCompleted, taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus)
+												UserDetailsForCompleted = append(UserDetailsForCompleted, userkey.String())
+												barChart = append(barChart,UserDetailsForCompleted)
+												UserDetailsForCompleted = UserDetailsForCompleted [:0]
+											}
+
+											//log.Println("logTimeArrayForStartTask", logTimeArrayForStartTask)
+										}
+
+										if taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus == helpers.StatusPending {
+											var UserDetailsForPendingTask []string
+
+											UserDetailsForPendingTask = append(UserDetailsForPendingTask, taskDetail.UsersAndGroups.User[userkey.String()].FullName)
+											UserDetailsForPendingTask = append(UserDetailsForPendingTask, taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus)
+											UserDetailsForPendingTask = append(UserDetailsForPendingTask, userkey.String())
+											barChart = append(barChart,UserDetailsForPendingTask)
+											UserDetailsForPendingTask = UserDetailsForPendingTask [:0]
+										}
+										//log.Println("UserDetailsForPendingTask",UserDetailsForPendingTask)
+
+									}
+								}
+							}
+
+						}
+					}
+
+					/*slices := []interface{}{"true"}
+					sliceToClient, _ := json.Marshal(slices)
+					log.Println("sliceToClient",sliceToClient)*/
+
+				case false:
+					log.Println("iam in error cobdition of inner loop")
+				}
+			}
+		}
+		slices := []interface{}{"true",barChart,allLogTimeArray,starEndDateArray}
+		sliceToClient, _ := json.Marshal(slices)
+		log.Println("sliceToClient",sliceToClient)
+		w.Write(sliceToClient)
+	case false:
+		log.Println("iam in error cobdition")
+		w.Write([]byte("false"))
+	}
+}
+
+

@@ -4,7 +4,8 @@ import (
 	"log"
 	"golang.org/x/net/context"
 	"reflect"
-	"time"
+	"app/passporte/helpers"
+	"strconv"
 )
 
 
@@ -83,7 +84,6 @@ func GetAllSharedDocumentsByCompany(ctx context.Context,companyTeamname string )
 	//companyData :=map[string]Company{}
 	var KeySlice []string
 	var AllSharedfile [][]string
-
 	expiryDetails := map[string]Expirations{}
 	CompanyDetails := map[string]CompanyData{}
 	eachExpiry :=map[string]Expirations{}
@@ -94,33 +94,35 @@ func GetAllSharedDocumentsByCompany(ctx context.Context,companyTeamname string )
 		log.Fatal(err)
 	}
 	err = db.Child("Expirations").Value(&expiryDetails)
-	log.Println("expiryDetails",expiryDetails)
 	dataValue := reflect.ValueOf(expiryDetails)
 	for _, key := range dataValue.MapKeys() {
 		log.Println("kety out ",key)
 		err = db.Child("Users/"+key.String()+"/Info/FullName").Value(&fullName)
 		err = db.Child("/Expirations/"+key.String()).Value(&eachExpiry)
-
 		eachDataValues := reflect.ValueOf(eachExpiry)
 		for _, k := range eachDataValues.MapKeys() {
 			err = db.Child("/Expirations/"+key.String()+"/"+k.String()+"/Company").Value(&CompanyDetails)
 			companyDataValues := reflect.ValueOf(CompanyDetails)
 			for _, companykey := range companyDataValues.MapKeys() {
-				if companykey.String() == companyTeamname{
-					err = db.Child("/Expirations/"+key.String()+"/"+k.String()).Value(&selectedExpiry)
+				if CompanyDetails[companykey.String()].CompanyStatus != helpers.UserStatusDeleted{
+					log.Println("test 1")
+					if companykey.String() == companyTeamname{
+						err = db.Child("/Expirations/"+key.String()+"/"+k.String()).Value(&selectedExpiry)
 
+					}
+					var tempSlice	[]string
+					log.Println("yyyyyyyy",selectedExpiry)
+					if selectedExpiry.Info.Mode =="Public" {
+						KeySlice = append(KeySlice,k.String())
+						tempSlice = append(tempSlice, selectedExpiry.Info.Description)
+						expirationDate := strconv.FormatInt(int64(selectedExpiry.Info.ExpirationDate), 10)
+						tempSlice = append(tempSlice, expirationDate)
+						tempSlice = append(tempSlice, fullName)
+						tempSlice = append(tempSlice, selectedExpiry.Info.DocumentId)
+						AllSharedfile = append(AllSharedfile, tempSlice)
+					}
 				}
-				var tempSlice	[]string
-				log.Println("yyyyyyyy",selectedExpiry)
-				if selectedExpiry.Info.Mode =="Public" {
-					KeySlice = append(KeySlice,k.String())
-					tempSlice = append(tempSlice, selectedExpiry.Info.Description)
-					tempSlice = append(tempSlice, time.Unix(selectedExpiry.Info.ExpirationDate, 0).Format("01/02/2006"))
 
-					tempSlice = append(tempSlice, fullName)
-					tempSlice = append(tempSlice, selectedExpiry.Info.DocumentId)
-					AllSharedfile = append(AllSharedfile, tempSlice)
-				}
 
 
 

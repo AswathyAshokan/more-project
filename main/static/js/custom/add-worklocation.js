@@ -137,7 +137,6 @@ $(document).ready(function() {
                 }
                 }
             }
-            
             selectedUserArray = tempArray;
         } else if (selectedUserArray.length > tempArray.length) { // for deselection
             for (var i = 0; i < selectedUserArray.length; i++) {
@@ -167,10 +166,7 @@ $(document).ready(function() {
         },
         submitHandler: function(){//to pass all data of a form serial
             console.log("lattitude",document.getElementById('latitudeId').value);
-             console.log("longitude",document.getElementById('longitudeId').value);
-           
-            
-            
+            console.log("longitude",document.getElementById('longitudeId').value);
             var starDateString = document.getElementById('startDate').value;
             var endDateString = document.getElementById('endDate').value;
              $("#saveButton").attr('disabled', true);
@@ -270,28 +266,27 @@ $(document).ready(function() {
             
             } else {
                 $.ajax({
-
-                        url:'/' + companyTeamName +'/worklocation/add',
-                        type:'post',
-                        datatype: 'json',
-                        data: formData,
-                        //call back or get response here
-                        success : function(response){
-                            console.log("response",response);
-                            if(response == "true"){
-                               window.location = '/'+companyTeamName+'/worklocation';
-                            }else  if(response == "falseAlreadyExist"){
-                             $("#myModalForUniqueTest").modal();
-                                $("#cancelForCheckUnique").click(function(){
-                                     window.location = '/'+companyTeamName+'/worklocation';
-                                });
-                                // window.location = '/'+companyTeamName+'/worklocation';
-                            }else{
-                                 $("#saveButton").attr('disabled', false);
-                            }
-                        },
-                        error: function (request,status, error) {
+                    url:'/' + companyTeamName +'/worklocation/add',
+                    type:'post',
+                    datatype: 'json',
+                    data: formData,
+                    //call back or get response here
+                    success : function(response){
+                        console.log("response",response);
+                        if(response == "true"){
+                           window.location = '/'+companyTeamName+'/worklocation';
+                        }else  if(response == "falseAlreadyExist"){
+                         $("#myModalForUniqueTest").modal();
+                            $("#cancelForCheckUnique").click(function(){
+                                 window.location = '/'+companyTeamName+'/worklocation';
+                            });
+                            // window.location = '/'+companyTeamName+'/worklocation';
+                        }else{
+                             $("#saveButton").attr('disabled', false);
                         }
+                    },
+                    error: function (request,status, error) {
+                    }
                     });
                     return false;
                 }

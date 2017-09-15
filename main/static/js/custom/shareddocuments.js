@@ -1,4 +1,4 @@
-
+console.log(vm);
 $(function(){
     var unixFromDate = 0;
     var unixToDate = 0;
@@ -68,6 +68,22 @@ $(function(){
 
 /*----------------------------------Initialize Datatable--------------------------------------------------*/
     if(vm.Values != null) {
+        for( i=0;i<vm.Values.length;i++){
+            var utcTime = vm.Values[i][1];
+            var dateFromDb = parseInt(utcTime)
+            var d = new Date(dateFromDb * 1000);
+            var dd = d.getDate();
+            var mm = d.getMonth() + 1; //January is 0!
+            var yyyy = d.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            var localDate = (mm + '/' + dd + '/' + yyyy);
+            vm.Values[i][1]= localDate;
+        }
         createDataArray(vm.Values, vm.Keys);
     }
     dataTableManipulate(mainArray);

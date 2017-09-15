@@ -390,6 +390,8 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 		}
 		WorkLocationUseruu := WorkLocationUser{}
 		updateUserStatus := WorkLocationUser{}
+		CompanyDetailsOfExpiration := CompanyData{}
+		updateCompantDeatilsFromExperation := CompanyData{}
 		dataValue := reflect.ValueOf(workLocationValues)
 		for _, key := range dataValue.MapKeys() {
 			log.Println("key.String()",key.String())
@@ -397,9 +399,20 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 			err = db.Child("/WorkLocation/"+key.String()+"/Info/UsersAndGroupsInWorkLocation/User/"+k).Value(&WorkLocationUseruu)
 			updateUserStatus.FullName = WorkLocationUseruu.FullName
 			updateUserStatus.Status = helpers.UserStatusDeleted
-			err = db.Child("/WorkLocation/"+key.String()+"/Info/UsersAndGroupsInWorkLocation/User/"+k).Update(&updateUserStatus)
+			//err = db.Child("/WorkLocation/"+key.String()+"/Info/UsersAndGroupsInWorkLocation/User/"+k).Update(&updateUserStatus)
 		}
-
+		eachExpiry :=map[string]Expirations{}
+		err = db.Child("/Expirations/"+k).Value(&eachExpiry)
+		log.Println("eachExpiry",eachExpiry)
+		eachDataValues := reflect.ValueOf(eachExpiry)
+		for _, expirationKey := range eachDataValues.MapKeys() {
+			log.Println("expirationKey.String()",expirationKey.String())
+			err = db.Child("/Expirations/"+k+"/"+expirationKey.String()+"/Company/"+companyTeamName).Value(&CompanyDetailsOfExpiration)
+			log.Println("iam in experation model",CompanyDetailsOfExpiration.CompanyName,CompanyDetailsOfExpiration.CompanyStatus)
+			updateCompantDeatilsFromExperation.CompanyName = CompanyDetailsOfExpiration.CompanyName
+			updateCompantDeatilsFromExperation.CompanyStatus = helpers.UserStatusDeleted
+			err = db.Child("/Expirations/"+k+"/"+expirationKey.String()+"/Company/"+companyTeamName).Update(&updateCompantDeatilsFromExperation)
+		}
 		var deletedKey string
 		var tempGroupKeys []string
 		err = db.Child("Group").Value(&fullGroup)
@@ -437,14 +450,13 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 		 for i:=0;i<len(tempGroupKeys);i++{
 			 updateMemberDetails.Status = helpers.UserStatusDeleted
 			 updateMemberDetails.MemberName = groupMembersDetails.MemberName
-			 err = db.Child("/Group/"+ tempGroupKeys[i]+"/Members/"+deletedKey).Update(&updateMemberDetails)
+			 //err = db.Child("/Group/"+ tempGroupKeys[i]+"/Members/"+deletedKey).Update(&updateMemberDetails)
 			 if err != nil {
 				 log.Fatal(err)
 				 return  false
 			 }
 
 		 }
-		log.Println("each key of group in invited users",tempGroupKeys)
 		err = db.Child("Users/"+k+"/Company/"+companyTeamName).Value(&companyInUsers)
 		if err != nil {
 			log.Fatal(err)
@@ -453,7 +465,7 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 		updateCompanyStatus.CompanyName = companyInUsers.CompanyName
 		updateCompanyStatus.DateOfJoin = companyInUsers.DateOfJoin
 		updateCompanyStatus.Status = helpers.UserStatusDeleted
-		err = db.Child("Users/"+k+"/Company/"+companyTeamName).Update(&updateCompanyStatus)
+		//err = db.Child("Users/"+k+"/Company/"+companyTeamName).Update(&updateCompanyStatus)
 		if err != nil {
 			log.Fatal(err)
 			return false
@@ -467,7 +479,7 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 		updateUsersInCompany.DateOfJoin = usersInCompany.DateOfJoin
 		updateUsersInCompany.Email=usersInCompany.Email
 		updateUsersInCompany.FullName = usersInCompany.FullName
-		err = db.Child("Company/"+companyTeamName+"/Users/"+k).Update(&updateCompanyStatus)
+		//err = db.Child("Company/"+companyTeamName+"/Users/"+k).Update(&updateCompanyStatus)
 		if err != nil {
 			log.Fatal(err)
 			return false
@@ -483,7 +495,7 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 		updateInvitation.Status= helpers.UserStatusDeleted
 		updateInvitation.UserResponse = helpers.UserStatusDeleted
 		updateInvitation.UserType = invitationData.UserType
-		err = db.Child("Company/"+companyTeamName+"/Invitation/"+InviteUserId).Update(&updateInvitation)
+		//err = db.Child("Company/"+companyTeamName+"/Invitation/"+InviteUserId).Update(&updateInvitation)
 		if err != nil {
 			log.Fatal(err)
 			return false
@@ -505,7 +517,7 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 		updateInvitationFromInvitation.Settings.DateOfCreation = editInvitation.Settings.DateOfCreation
 		updateInvitationFromInvitation.Settings.UserResponse = helpers.UserStatusDeleted
 		updateInvitationFromInvitation.Settings.Status = helpers.UserStatusDeleted
-		err = db.Child("Invitation/"+formattedEmail+"/"+InviteUserId).Update(&updateInvitationFromInvitation)
+		//err = db.Child("Invitation/"+formattedEmail+"/"+InviteUserId).Update(&updateInvitationFromInvitation)
 		if err != nil {
 			log.Fatal(err)
 			return  false

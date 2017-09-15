@@ -43,6 +43,7 @@ func (c *LoginController) Login() {
 			log.Println("hhhh",sessionValues.CompanyPlan)
 			slices := []interface{}{"true", sessionValues.CompanyTeamName,sessionValues.AdminFirstName,sessionValues.PaymentStatus,sessionValues.CompanyPlan}
 			sliceToClient, _ := json.Marshal(slices)
+			log.Println("sliceToClient",sliceToClient)
 			w.Write(sliceToClient)
 		case false:
 			dbStatus,superAdminDetails:= login.CheckSuperAdminLogin(c.AppEngineCtx)
