@@ -7,7 +7,7 @@ import (
 	"reflect"
 	//"app/passporte/helpers"
 	"strconv"
-	// "fmt"
+	"strings"
 
 	"log"
 )
@@ -89,7 +89,8 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 						viewModel.TaskTimeSheetDetail =append(viewModel.TaskTimeSheetDetail,logDetailsSlice)
 
 						workDetailsSlice=append(workDetailsSlice,timeSheetUserDetails[key.String()].UserName)
-						workDetailsSlice=append(workDetailsSlice,timeSheetUserDetails[key.String()].TaskName)
+						result := strings.Split(timeSheetUserDetails[key.String()].WorkLocation, ",")
+						workDetailsSlice=append(workDetailsSlice,result[0]+","+result[1])
 						workDetailsSlice=append(workDetailsSlice,"1")
 						workDetailsSlice=append(workDetailsSlice,"0")
 						log.Println("in1",workDetailsSlice)
@@ -123,8 +124,6 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 
 						DailyEndTime := strconv.FormatInt(timeSheetUserDetails[key.String()].DailyEndTime, 10)
 						workDetailsSlice =append(workDetailsSlice,DailyEndTime)
-
-
 						workDetailsSlice =append(workDetailsSlice,keySlice[i])
 						workDetailsSlice =append(workDetailsSlice,timeSheetUserDetails[key.String()].Date)
 						log.Println("workdetails  ",workDetailsSlice)

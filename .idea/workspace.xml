@@ -4,9 +4,9 @@
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/ByPassController.go" afterPath="$PROJECT_DIR$/controllers/ByPassController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/LeaveController.go" afterPath="$PROJECT_DIR$/controllers/LeaveController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/InviteUserModel.go" afterPath="$PROJECT_DIR$/models/InviteUserModel.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/UserModel.go" afterPath="$PROJECT_DIR$/models/UserModel.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/TimeSheetController.go" afterPath="$PROJECT_DIR$/controllers/TimeSheetController.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/timesheet-details.js" afterPath="$PROJECT_DIR$/main/static/js/custom/timesheet-details.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/TimeSheetModel.go" afterPath="$PROJECT_DIR$/models/TimeSheetModel.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -24,10 +24,10 @@
       <file leaf-file-name="ByPassController.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="477">
-              <caret line="33" column="58" lean-forward="false" selection-start-line="33" selection-start-column="58" selection-end-line="33" selection-end-column="58" />
+            <state relative-caret-position="349">
+              <caret line="35" column="53" lean-forward="true" selection-start-line="35" selection-start-column="53" selection-end-line="35" selection-end-column="53" />
               <folding>
-                <marker date="1505554254194" expanded="true" signature="1034:1074" ph="..." />
+                <marker date="1505558811966" expanded="true" signature="1036:1076" ph="..." />
               </folding>
             </state>
           </provider>
@@ -36,11 +36,21 @@
       <file leaf-file-name="TimeSheetController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/TimeSheetController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="497">
-              <caret line="154" column="32" lean-forward="false" selection-start-line="154" selection-start-column="32" selection-end-line="154" selection-end-column="32" />
+            <state relative-caret-position="260">
+              <caret line="95" column="83" lean-forward="true" selection-start-line="95" selection-start-column="83" selection-end-line="95" selection-end-column="83" />
               <folding>
-                <element signature="e#20#151#0" expanded="true" />
+                <element signature="e#20#152#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TimeSheetModel.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/TimeSheetModel.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="26" column="29" lean-forward="true" selection-start-line="26" selection-start-column="29" selection-end-line="26" selection-end-column="29" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -156,7 +166,6 @@
         <option value="$PROJECT_DIR$/controllers/PaymentController.go" />
         <option value="$PROJECT_DIR$/viewmodels/CustomerViewModel.go" />
         <option value="$PROJECT_DIR$/controllers/CustomerController.go" />
-        <option value="$PROJECT_DIR$/models/TimeSheetModel.go" />
         <option value="$PROJECT_DIR$/helpers/ConstantHelpers.go" />
         <option value="$PROJECT_DIR$/viewmodels/FitToWorkViewModel.go" />
         <option value="$PROJECT_DIR$/controllers/FitToWorkController.go" />
@@ -192,7 +201,6 @@
         <option value="$PROJECT_DIR$/models/WorkLocationModel.go" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
         <option value="$PROJECT_DIR$/main/views/template/watch_room.html" />
-        <option value="$PROJECT_DIR$/controllers/TimeSheetController.go" />
         <option value="$PROJECT_DIR$/routers/router.go" />
         <option value="$PROJECT_DIR$/controllers/DuressController.go" />
         <option value="$PROJECT_DIR$/viewmodels/TaskViewModel.go" />
@@ -203,6 +211,8 @@
         <option value="$PROJECT_DIR$/controllers/LeaveController.go" />
         <option value="$PROJECT_DIR$/models/UserModel.go" />
         <option value="$PROJECT_DIR$/models/InviteUserModel.go" />
+        <option value="$PROJECT_DIR$/models/TimeSheetModel.go" />
+        <option value="$PROJECT_DIR$/controllers/TimeSheetController.go" />
         <option value="$PROJECT_DIR$/controllers/ByPassController.go" />
       </list>
     </option>
@@ -722,13 +732,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00252" summary="1/06/2013:28:   check box">
-      <created>1503379693096</created>
-      <option name="number" value="00252" />
-      <option name="presentableId" value="LOCAL-00252" />
-      <option name="project" value="LOCAL" />
-      <updated>1503379693096</updated>
-    </task>
     <task id="LOCAL-00253" summary="1/06/2013:28:   check box">
       <created>1503380049733</created>
       <option name="number" value="00253" />
@@ -1065,7 +1068,14 @@
       <option name="project" value="LOCAL" />
       <updated>1505543894304</updated>
     </task>
-    <option name="localTasksCounter" value="301" />
+    <task id="LOCAL-00301" summary="1/06/2013:28:   work location">
+      <created>1505555186846</created>
+      <option name="number" value="00301" />
+      <option name="presentableId" value="LOCAL-00301" />
+      <option name="project" value="LOCAL" />
+      <updated>1505555186846</updated>
+    </task>
+    <option name="localTasksCounter" value="302" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1409,13 +1419,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/TimeSheetModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/controllers/GroupController.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="273">
@@ -1524,16 +1527,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/TimeSheetController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="497">
-          <caret line="154" column="32" lean-forward="false" selection-start-line="154" selection-start-column="32" selection-end-line="154" selection-end-column="32" />
-          <folding>
-            <element signature="e#20#151#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/UserModel.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="188">
@@ -1550,12 +1543,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/models/TimeSheetModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="26" column="29" lean-forward="true" selection-start-line="26" selection-start-column="29" selection-end-line="26" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/TimeSheetController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="95" column="83" lean-forward="true" selection-start-line="95" selection-start-column="83" selection-end-line="95" selection-end-column="83" />
+          <folding>
+            <element signature="e#20#152#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="477">
-          <caret line="33" column="58" lean-forward="false" selection-start-line="33" selection-start-column="58" selection-end-line="33" selection-end-column="58" />
+        <state relative-caret-position="349">
+          <caret line="35" column="53" lean-forward="true" selection-start-line="35" selection-start-column="53" selection-end-line="35" selection-end-column="53" />
           <folding>
-            <marker date="1505554254194" expanded="true" signature="1034:1074" ph="..." />
+            <marker date="1505558811966" expanded="true" signature="1036:1076" ph="..." />
           </folding>
         </state>
       </provider>

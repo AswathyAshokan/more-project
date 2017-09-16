@@ -658,7 +658,7 @@ $(function(){
     function dataTableManipulate(mainArray){
         table =  $("#timeSheet_details").DataTable({
             data: mainArray,
-            "columnDefs": [{'visible': false, 'targets': [3],
+            "columnDefs": [{ "title": "Task Name", "targets": 1 },{'visible': false, 'targets': [3],
             }]
         });
     }
@@ -679,14 +679,14 @@ $(function(){
         }
     function workdataTableManipulate(workMainArray){
             table =  $("#timeSheet_details").DataTable({
-            data: workMainArray,
-            "searching": true,
-            "info": false,
-            "lengthChange":false,
-            "columnDefs": [{
-                'visible': false, 'targets': [1] ,'visible': false, 'targets': [3]
-            }]
-        });
+                data: workMainArray,
+                "searching": true,
+                "info": false,
+                "lengthChange":false,
+                "columnDefs": [ { "title": "Work Location", "targets": 1 },{
+                    'visible': false, 'targets': [3],
+                }]
+            });
         $('#tbl_details_length').after($('.datepic-top'));
     }
     

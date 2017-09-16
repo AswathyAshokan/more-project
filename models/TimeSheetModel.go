@@ -25,6 +25,7 @@ type TimeSheet struct{
 	WorkEndTime     map[string]WorkEndTimeForTimeSheet
 	TaskDateFrom	int64
 	TaskDateTo 	int64
+	WorkLocation    string
 
 
 
