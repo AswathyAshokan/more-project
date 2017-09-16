@@ -1,10 +1,6 @@
 /* Author :Aswathy Ashok */
 //Below line is for adding active class to layout side menu..
 
-console.log("jjjj",vm.FitToWorkArray);
-console.log("gsgsgsgs",vm.GroupMembers);
-console.log("job name",vm.WorkLocationArray);
-console.log("job name from url",vm.JobNameFormUrl);
 document.getElementById("task").className += " active";
 var date = new Date();
 var datum = (Date.parse(date))/1000;
@@ -12,6 +8,7 @@ console.log("greenn",datum);
 var pageType = vm.PageType;
 var customerName = "";
 var jobId = "";
+var taskLocationCondition="";
 var companyTeamName = vm.CompanyTeamName;
 var selectedUserArray = []; // contains all selected users and groups
 var selectedGroupArray = []; // contains all selected groups
@@ -29,12 +26,13 @@ var exposureSlice =[];
 var exposureTimeArray =[];
 var exposureWorkSlice =[];
 var exposureWorkTimeArray =[];
- var repeat= "";
+var repeat= "";
 var fitWork= "";
 var jobNameWithUrl ="";
 var customerNameWithUrl ="";
 var contactName =[];
 var contactId =[];
+var taskWorkLocation =[];
 //if group members is null ,group member array is initialised
 if(vm.GroupMembers == null) {
     vm.GroupMembers = [];
@@ -67,25 +65,18 @@ $(function () {
          document.getElementById("ExplosureDiv").style.display = "block";
           $("#contactDiv").show();
     }
-    
-    /*var date = new Date();
-    var datum = (Date.parse(date))/1000;*/
-    
-    
-    // date picker 
     $( "#startDate" ).datepicker({ minDate: 0});
-//    $( "#endDate" ).datepicker({ minDate: 0});
-  $('#startDate').change(function () {
-      selectedToDate = $('#startDate').val();
-      var year = selectedToDate.substring(6, 10);
-      var day = selectedToDate.substring(3, 5);
-      var month = selectedToDate.substring(0, 2);
-      $('#endDate').datepicker("option", "minDate", new Date(year, month-1, day));
-      actualToDate = new Date(selectFromDate);
-      actualToDate.setHours(23);
-      actualToDate.setMinutes(59);
-      actualToDate.setSeconds(59);
-  });
+    $('#startDate').change(function () {
+        selectedToDate = $('#startDate').val();
+        var year = selectedToDate.substring(6, 10);
+        var day = selectedToDate.substring(3, 5);
+        var month = selectedToDate.substring(0, 2);
+        $('#endDate').datepicker("option", "minDate", new Date(year, month-1, day));
+        actualToDate = new Date(selectFromDate);
+        actualToDate.setHours(23);
+        actualToDate.setMinutes(59);
+        actualToDate.setSeconds(59);
+    });
     
     //functionfor automatically fill task location textbox
     
@@ -93,22 +84,10 @@ $(function () {
         var valThis = $(this).val().toLowerCase();
         if(valThis == ""){
             console.log("nulllll");
-            //$('.navList > li').show();  
         } else {
-            /*for (i=0;i<vm.WorkLocationArray.length;i++){
-                var text = vm.WorkLocationArray[i];
-                (text.indexOf(valThis) >= 0) ? $(this).show() : $(this).hide();
-                
-            }*/
-            console.log("not nullll");
-            /*$('.navList > li').each(function(){
-                var text = $(this).text().toLowerCase();
-                (text.indexOf(valThis) >= 0) ? $(this).show() : $(this).hide();
-            });*/
+            
         };
     });
-    
-    
     
     //function to setting jobna me when loaded add and continue button
     if (vm.JobNameFormUrl.length !=0){
@@ -140,7 +119,6 @@ $(function () {
             opt.value = contactId[i];
             sel.appendChild(opt);
         }
-        
     }
     if (pageType == "edit") {
         document.getElementById("saveAndContinue").disabled = true;
@@ -171,9 +149,7 @@ $(function () {
             var div = document.getElementById('nfcTagId');
             div.style.visibility = 'visible';
             div.style.display ='inline';
-            console.log("nfc",vm.NFCTagId);
             document.getElementById("nfcTagForTask").value =vm.NFCTagId;
-            
         }else{
             document.getElementById("loginType2").checked = true;
         }
@@ -425,7 +401,9 @@ $().ready(function() {
         console.log("group array",groupKeyArray);
         console.log("user array",selectedUserArray);
     });
-    console.log("lattitude kkkkk",document.getElementById('latitudeId').value);
+    
+    
+    
     $("#saveButton").click(function() {
             $("#taskDoneForm").validate({
                 rules: {
@@ -468,6 +446,84 @@ $().ready(function() {
                     },
                 },
                 submitHandler: function() {
+                    if (selectedUserArray.length !=0){
+                        for ( var i=0;i<selectedUserArray.length;i++){
+                            for (var j=0;j<vm.WorkLocationForUser.length;j++){
+                                if (vm.WorkLocationForUser[j][2] ==selectedUserArray[i]){
+                                    var utcTime = vm.WorkLocationForUser[j][0];
+                                    var dateFromDb = parseInt(utcTime);
+                                    var d = new Date(dateFromDb * 1000);
+                                    var dd = d.getDate();
+                                    var mm = d.getMonth() + 1; //January is 0!
+                                    var yyyy = d.getFullYear();
+                                    var HH = d.getHours();
+                                    var min = d.getMinutes();
+                                    var sec = d.getSeconds();
+                                    if (dd < 10) {
+                                        dd = '0' + dd;
+                                    }
+                                    if (mm < 10) {
+                                        mm = '0' + mm;
+                                    }
+                                    if (HH < 10) {
+                                        HH = '0' + HH;
+                                    }
+                                    if (min < 10) {
+                                        min = '0' + min;
+                                    }
+                                    if (sec < 10) {
+                                        sec = '0' + sec;
+                                    }
+                                    var workStartDate = (mm + '/' + dd + '/' + yyyy);
+                                    var utcTime = vm.WorkLocationForUser[j][1];
+                                    var dateFromDb = parseInt(utcTime)
+                                    var d = new Date(dateFromDb * 1000);
+                                    var dd = d.getDate();
+                                    var mm = d.getMonth() + 1; //January is 0!
+                                    var yyyy = d.getFullYear();
+                                    var HH = d.getHours();
+                                    var min = d.getMinutes();
+                                    var sec = d.getSeconds();
+                                    if (dd < 10) {
+                                        dd = '0' + dd;
+                                    }
+                                    if (mm < 10) {
+                                        mm = '0' + mm;
+                                    }
+                                    if (HH < 10) {
+                                        HH = '0' + HH;
+                                    }
+                                    if (min < 10) {
+                                        min = '0' + min;
+                                    }
+                                    if (sec < 10) {
+                                        sec = '0' + sec;
+                                    }
+                                    var workEndDate = (mm + '/' + dd + '/' + yyyy);
+                                    var StartDateOfTask = $('#startDate').val();
+                                    var EndDateOfTask = $('#endDate').val();
+                                    var workStartDate1 = workStartDate.split("/");
+                                    var workEndDate1 = workEndDate.split("/");
+                                    var StartDateOfTask1 = StartDateOfTask.split("/");
+                                    var EndDateOfTask1 = EndDateOfTask.split("/");
+                                    var from = new Date(workStartDate1[2], parseInt(workStartDate1[1])-1, workStartDate1[0]);  // -1 because months are from 0 to 11
+                                    var to   = new Date(workEndDate1[2], parseInt(workEndDate1[1])-1, workEndDate1[0]);
+                                    var StartDateOfTaskCheck = new Date(StartDateOfTask1[2], parseInt(StartDateOfTask1[1])-1, StartDateOfTask1[0]);
+                                    var EndDateOfTaskCheck = new Date(EndDateOfTask1[2], parseInt(EndDateOfTask1[1])-1, EndDateOfTask1[0]);
+                                    if (StartDateOfTaskCheck >= from && StartDateOfTaskCheck <= to && EndDateOfTaskCheck >= from && EndDateOfTaskCheck <= to){
+                                        console.log("condition is true")
+                                        taskWorkLocation.push("true")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    console.log("work location array",taskWorkLocation);
+                    if (taskWorkLocation.length ==selectedUserArray.length&&taskWorkLocation.length >0){
+                        taskLocationCondition="true"
+                    }else{
+                        taskLocationCondition="false"
+                    } 
                     var nfcTagId =  document.getElementById("nfcTagForTask").value;
             //code for date and time conversion
                     var startDate = new Date($("#startDate").val());
@@ -533,6 +589,7 @@ $().ready(function() {
 //                    {
                         if( mapLatitude.length  !=0)
                         {
+                            if(taskLocationCondition=="true"){
                                        $("#saveButton").attr('disabled', true);
                                       var taskId=vm.TaskId;
                                       var jobnew = $("#jobName option:selected").val()
@@ -657,11 +714,13 @@ $().ready(function() {
                                               }
                                           });
                                       }
+                                  }else{
+                                      $("#myTaskStatus").modal();
                                   }
-                              else{
-                                  $("#mapValidationError").css({"color": "red", "font-size": "15px"});
-                                  $("#mapValidationError").html("please select location from map.").show();
-                              }
+                        } else{
+                            $("#mapValidationError").css({"color": "red", "font-size": "15px"});
+                            $("#mapValidationError").html("please select location from map.").show();
+                        }
                           
 //                    }
 //            else {
@@ -726,8 +785,89 @@ $().ready(function() {
              },
          },
         submitHandler: function() {
-            
-             var nfcTagId =  document.getElementById("nfcTagForTask").value;
+            if (selectedUserArray.length !=0){
+                console.log("ad1");
+                for ( var i=0;i<selectedUserArray.length;i++){
+                    console.log("ad2");
+                    for (var j=0;j<vm.WorkLocationForUser.length;j++){
+                        console.log("ad3");
+                        if (vm.WorkLocationForUser[j][2] ==selectedUserArray[i]){
+                            console.log("ad3");
+                            var utcTime = vm.WorkLocationForUser[j][0];
+                            var dateFromDb = parseInt(utcTime)
+                            var d = new Date(dateFromDb * 1000);
+                            var dd = d.getDate();
+                            var mm = d.getMonth() + 1; //January is 0!
+                            var yyyy = d.getFullYear();
+                            var HH = d.getHours();
+                            var min = d.getMinutes();
+                            var sec = d.getSeconds();
+                            if (dd < 10) {
+                                dd = '0' + dd;
+                            }
+                            if (mm < 10) {
+                                mm = '0' + mm;
+                            }
+                            if (HH < 10) {
+                                HH = '0' + HH;
+                            }
+                            if (min < 10) {
+                                min = '0' + min;
+                            }
+                            if (sec < 10) {
+                                sec = '0' + sec;
+                            }
+                            var workStartDate = (mm + '/' + dd + '/' + yyyy);
+                            var utcTime = vm.WorkLocationForUser[j][1];
+                            var dateFromDb = parseInt(utcTime)
+                            var d = new Date(dateFromDb * 1000);
+                            var dd = d.getDate();
+                            var mm = d.getMonth() + 1; //January is 0!
+                            var yyyy = d.getFullYear();
+                            var HH = d.getHours();
+                            var min = d.getMinutes();
+                            var sec = d.getSeconds();
+                            if (dd < 10) {
+                                dd = '0' + dd;
+                            }
+                            if (mm < 10) {
+                                mm = '0' + mm;
+                            }
+                            if (HH < 10) {
+                                HH = '0' + HH;
+                            }
+                            if (min < 10) {
+                                min = '0' + min;
+                            }
+                            if (sec < 10) {
+                                sec = '0' + sec;
+                            }
+                            var workEndDate = (mm + '/' + dd + '/' + yyyy);
+                            var StartDateOfTask = $('#startDate').val();
+                            var EndDateOfTask = $('#endDate').val();
+                            var workStartDate1 = workStartDate.split("/");
+                            var workEndDate1 = workEndDate.split("/");
+                            var StartDateOfTask1 = StartDateOfTask.split("/");
+                            var EndDateOfTask1 = EndDateOfTask.split("/");
+                            var from = new Date(workStartDate1[2], parseInt(workStartDate1[1])-1, workStartDate1[0]);  // -1 because months are from 0 to 11
+                            var to   = new Date(workEndDate1[2], parseInt(workEndDate1[1])-1, workEndDate1[0]);
+                            var StartDateOfTaskCheck = new Date(StartDateOfTask1[2], parseInt(StartDateOfTask1[1])-1, StartDateOfTask1[0]);
+                            var EndDateOfTaskCheck = new Date(EndDateOfTask1[2], parseInt(EndDateOfTask1[1])-1, EndDateOfTask1[0]);
+                            if (StartDateOfTaskCheck >= from && StartDateOfTaskCheck <= to && EndDateOfTaskCheck >= from && EndDateOfTaskCheck <= to){
+                                console.log("condition is true")
+                                taskWorkLocation.push("true")
+                            }
+                        }
+                    }
+                }
+            }
+            console.log("work location array",taskWorkLocation);
+            if (taskWorkLocation.length ==selectedUserArray.length&&taskWorkLocation.length >0){
+                taskLocationCondition="true"
+            }else{
+                taskLocationCondition="false"
+            } 
+            var nfcTagId =  document.getElementById("nfcTagForTask").value;
             //code for date and time conversion
             var startDate = new Date($("#startDate").val());
             
@@ -799,6 +939,7 @@ $().ready(function() {
 //                    {
                         if( mapLatitude.length  !=0)
                         {
+                            if(taskLocationCondition=="true"){
                                        $("#saveAndContinue").attr('disabled', true);
                                       var taskId=vm.TaskId;
                                       var jobnew = $("#jobName option:selected").val()
@@ -928,11 +1069,14 @@ $().ready(function() {
                                               }
                                           });
                                       }
-                                  }
-                              else{
-                                  $("#mapValidationError").css({"color": "red", "font-size": "15px"});
-                                  $("#mapValidationError").html("please select location from map.").show();
-                              }
+                                  
+                        }else{
+                            $("#myTaskStatus").modal();
+                        }
+                        } else{
+                            $("#mapValidationError").css({"color": "red", "font-size": "15px"});
+                            $("#mapValidationError").html("please select location from map.").show();
+                        }
                           
 //                    }
 //            else {

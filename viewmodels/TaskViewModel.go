@@ -51,6 +51,7 @@ type EditTaskViewModel  struct {
 	ContactNameKeyToEdit		[]string
 	JobNameFormUrl			string
 	CustomerNameFormUrl		string
+	WorkLocationForUser		[][]string
 
 
 }
@@ -76,6 +77,8 @@ type AddTaskViewModel  struct {
 	JobNameFormUrl			string
 	CustomerNameFormUrl		string
 	WorkLocationArray		[]string
+	WorkLocationForUser		[][]string
+
 
 
 }

@@ -29,7 +29,7 @@ type CompanyLeave struct {
 	CompanyName	string
 	Status		string
 }
-func (m *LeaveRequests)GetAllLeaveRequest(ctx context.Context,userKeySlice []string)(bool,map[string]LeaveRequests) {
+func (m *LeaveRequests)GetAllLeaveRequest(ctx context.Context)(bool,map[string]LeaveRequests) {
 	leaveDetail :=  map[string]LeaveRequests{}
 	//company :=Company{}
 	dB, err := GetFirebaseClient(ctx,"")

@@ -22,7 +22,7 @@
             <div class="clearfix">
                 <h1 class="h4">Edit profile</h1>
                 <div class="margin-top-20">
-                    <form class="clearfix max-form-width form-horizontal edit-account" style="" id="adminAccountDetail"  name="adminAccountDetail" enctype="multipart/form-data">
+                    <form class="clearfix max-form-width form-horizontal edit-account" style="" id="adminAccountDetail"  name="adminAccountDetail" enctype="multipart/form-data" method="POST">
                         <div class="col-sm-8">
                             <div class="form-group clearfix">
                                 <label class="control-label col-sm-4" for="email" >Name:</label>
@@ -45,11 +45,12 @@
                         </div>
                         <div class="col-sm-4" id="imageUploadDiv"  >
                             <div class="img-upload-wrapper">
-                                <img src="/static/images/avatar.png" alt="" class="img-responsive" id="imageUpload" style="border-radius:50% 50% 50% 50%; width:100px; height:100px;">
+                                <img src="/static/images/avatar.png" alt="" class="img-responsive" id="imageUpload"  style="width:100px; height:100px;">
                                 <div><!---KjkoXNx588Z8D9XSwt9/task/-KkUNGrV4YCFeNPcuVFq/editwindow.localStorage.clear();-->
+                                     <p id="img"></p>
                                     <span class="img-upload">
                                         <button class="btn btn-success" id="imageUpload"  type="hidden">Browse</button>
-                                        <input type="file" onchange="displayImage(),resizeImg()" id="fileButton"  >
+                                        <input type="file" onchange="displayImage()" id="fileButton"  >
                                     </span>
                                 </div>
                             </div>

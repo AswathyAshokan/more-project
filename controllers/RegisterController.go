@@ -127,18 +127,30 @@ func (c *RegisterController) EditProfile() {
 	admin := models.Admins{}
 	if r.Method == "POST" {
 		admin.Info.FirstName = c.GetString("name")
+		log.Println("t1",admin.Info.FirstName )
 		admin.Info.Email = c.GetString("emailId")
+		log.Println("t2",admin.Info.Email)
 		admin.Info.PhoneNo = c.GetString("phoneNumber")
+		log.Println("t3",admin.Info.PhoneNo)
+		var profilePicture string
 		tempProfile :=c.GetString("profilePicture")
-		parts := strings.Split(tempProfile, "/")
-		parts = append(parts[:len(parts)-3], strings.Join(parts[len(parts)-3:], "%2F"))
-		profilePicture := strings.Join(parts, "/")
-		admin.Settings.ProfilePicture = profilePicture
+		if len(tempProfile) !=0 {
+			parts := strings.Split(tempProfile, "/")
+			parts = append(parts[:len(parts)-3], strings.Join(parts[len(parts)-3:], "%2F"))
+			profilePicture = strings.Join(parts, "/")
+			admin.Settings.ProfilePicture = profilePicture
+		}
+
+
 		tempThumbProfile :=c.GetString("thumbPicture")
-		thumParts := strings.Split(tempThumbProfile, "/")
-		thumParts = append(thumParts[:len(thumParts)-3], strings.Join(thumParts[len(thumParts)-3:], "%2F"))
-		thumbPicture := strings.Join(thumParts, "/")
-		admin.Settings.ThumbProfilePicture=thumbPicture
+		if len(tempThumbProfile) !=0{
+			thumParts := strings.Split(tempThumbProfile, "/")
+			thumParts = append(thumParts[:len(thumParts)-3], strings.Join(thumParts[len(thumParts)-3:], "%2F"))
+			thumbPicture := strings.Join(thumParts, "/")
+			admin.Settings.ThumbProfilePicture=thumbPicture
+		}
+
+		log.Println("profile picture",profilePicture)
 		dbStatus := admin.EditAdminDetails(c.AppEngineCtx, adminId)
 		sessionValues := SessionValues{}
 		sessionValues.AdminId = adminId
@@ -149,13 +161,16 @@ func (c *RegisterController) EditProfile() {
 		sessionValues.CompanyName = storedSession.CompanyName
 		sessionValues.CompanyTeamName = storedSession.CompanyTeamName
 		sessionValues.CompanyPlan = storedSession.CompanyPlan
-		sessionValues.ProfilePicture =thumbPicture
+		sessionValues.ProfilePicture =profilePicture
 		sessionValues.PaymentStatus = storedSession.PaymentStatus
 		SetSession(w, sessionValues)
 		switch dbStatus {
+
 		case true:
+			log.Println("trueeee")
 			w.Write([]byte("true"))
 		case false:
+			log.Println("false")
 			w.Write([]byte("false"))
 		}
 

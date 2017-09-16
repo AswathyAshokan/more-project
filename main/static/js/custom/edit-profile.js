@@ -7,13 +7,13 @@ var thumbUrl = "";
 var profileUrl = "";
 var tempProfilePicture ="";
 var tempThumbPicture ="";
- console.log("profile picture",vm.ProfilePicture);
- var image = document.getElementsByClassName("imageUpload");
+var pictureUploded ="";
+console.log("profile picture",vm.ProfilePicture);
+var image = document.getElementsByClassName("imageUpload");
 image.src = vm.ProfilePicture;
-
 //function for displaying image
 function displayImage() {
-
+    pictureUploded="true";
     file    = document.querySelector('input[type=file]').files[0];
     var reader  = new FileReader();
     reader.onloadend = function () {
@@ -48,18 +48,17 @@ var config = {
 firebase.initializeApp(config);
 
 
-function resizeImg() {
-    console.log("inside");
-    img  = document.querySelector('input[type=file]').files[0];
-    img.height = 200;
-    img.width = 100;
-}
+//function resizeImg() {
+//    console.log("inside");
+//    img  = document.querySelector('input[type=file]').files[0];
+//    img.height = 100;
+//    img.width = 100;
+//}
 $().ready(function() {
     
     document.getElementById("name").value = vm.FirstName;
     document.getElementById("emailId").value = vm.Email;
     document.getElementById("phoneNumber").value = vm.PhoneNo;
-    
     //to check the plan and load modal according to plan
     if(vm.CompanyPlan == "family")
         {
@@ -102,37 +101,34 @@ $().ready(function() {
             },
             
             submitHandler: function(){//to pass all data of a form serial
-                
-                //image upload
-                //var imageNumber =0;
-                 var now = new Date();
+                $("#edit-txt").attr('disabled', true);
+                var tempProfilePicture ="";
+                var tempThumbPicture ="";
+                var now = new Date();
                 var datetime = now.getFullYear()+'/'+(now.getMonth()+1)+'/'+now.getDate(); 
                 datetime += ' '+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
                 unixDateTime = Date.parse(datetime)/1000;
-//                tempProfilePicture  =file.name(' ').join('_');
-//                console.log("temp",tempProfilePicture);
-                 var tempProfilePicture = file.name.replace(/\s/g, '');
+                console.log("condition ttt",pictureUploded);
+                if (pictureUploded=="true"){
+                     tempProfilePicture = file.name.replace(/\s/g, '');
+                }
+                 
                 var storageRef = firebase.storage().ref('profilePicturesOfAdmin/original/'+unixDateTime+tempProfilePicture);
                 storageRef.put(file);
                 function error(err) {
                     console.log("error",err);
                 }
-                
-                //retrieve image from firebase storage
-                //tempThumbPicture  =img.name(' ').join('_');
-                var tempThumbPicture =img.name.replace(/\s/g, '');
+                if (pictureUploded=="true"){
+                     tempThumbPicture = file.name.replace(/\s/g, '');
+                }
                 var storageRef = firebase.storage().ref('profilePicturesOfAdmin/thumbnail/'+unixDateTime+tempThumbPicture);
                 storageRef.put(img);
                 function error(err) {
                     console.log("error",err);
                 }
-                
                 var displayThumbRef = firebase.storage().ref('profilePicturesOfAdmin/thumbnail/'+unixDateTime+tempThumbPicture);
                 setTimeout(function() { displayThumbRef.getDownloadURL().then(function(url) {
-                    // Get the download URL for 'images/stars.jpg'
-                    // This can be inserted into an <img> tag
                     thumbUrl=url;
-                   
                 }).catch(function(error) {
                     console.error(error);
                 }); }, 3000);
@@ -198,6 +194,7 @@ $().ready(function() {
                 confirmpassword:"Retype password is incorrect"
             },
             submitHandler: function(){//to pass all data of a form serial
+                 $("#updateAdminPassword").attr('disabled', true);
                 var formData = $("#adminPasswordChangeModal").serialize();
                 $.ajax({
                     url:'/'+ companyTeamName +'/changePassword',

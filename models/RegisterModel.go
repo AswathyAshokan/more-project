@@ -187,6 +187,7 @@ func (m *Admins)GetCompanyDetails(ctx context.Context, adminId string) (bool,Adm
      return true,companyAdmins
 }
 func(m *Admins) EditAdminDetails(ctx context.Context ,adminId string) (bool){
+	log.Println("inside update")
 
 	admin := Admins{}
 	dB,err :=GetFirebaseClient(ctx,"")

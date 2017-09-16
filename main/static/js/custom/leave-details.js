@@ -67,7 +67,7 @@ $(function(){
                          case 'Accepted' : return '<button class="btn btn-primary btn-xs " >Accepted</button>'; break;
                          case 'Rejected' : return '<button class="btn btn-danger btn-xs " >Rejected</button>'; break;
                          case 'Pending' : return '<button class="btn btn-primary btn-xs " id ="accept">Accept</button>'+"  "+'<button class="btn btn-danger btn-xs " id="reject">Reject</button>'; break;
-                         case 'Subcontractor':return '<button class="btn btn-primary btn-xs " >Leave Applied</button>'; break;
+                         case 'Applied':return '<button class="btn btn-primary btn-xs " >Leave Applied</button>'; break;
 
                          default  : return 'N/A';
                      }
@@ -138,8 +138,10 @@ $(function(){
     //function when click on accept button
     $('#leave_details').on( 'click', '#accept', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var leaveKey = data[7];
-        var userKey =data[8];
+        var leaveKey = data[8];
+        var userKey =data[7];
+        console.log("leave key",leaveKey);
+        console.log("user key",userKey);
         //alert(data[4]);
        // window.location = '/'+ companyTeamName +'/leave/' + leaveKey +'/'+userKey+ '/edit';
         $.ajax({
@@ -173,8 +175,10 @@ $(function(){
     //function when click on reject button
     $('#leave_details').on( 'click', '#reject', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var leaveKey = data[7];
-        var userKey =data[8];
+        var leaveKey = data[8];
+        var userKey =data[7];
+         console.log("leave key",leaveKey);
+        console.log("user key",userKey);
         $.ajax({
                 type: "GET",
                 url: '/'+ companyTeamName +'/leave/' + leaveKey +'/'+userKey+ '/reject',
