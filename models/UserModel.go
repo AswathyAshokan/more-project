@@ -45,6 +45,7 @@ type UsersCompany struct{
 	CompanyName             string
 	DateOfJoin		int64
 	Status			string
+	UserType		string
 }
 
 type NextOfKin struct {

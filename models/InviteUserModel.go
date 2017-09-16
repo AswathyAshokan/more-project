@@ -266,6 +266,7 @@ func(m *CompanyInvitations) UpdateInviteUserById(ctx context.Context,InviteUserI
 	editInvitation :=EmailInvitation{}
 	updateInvitation :=EmailInvitation{}
 	value := CompanyInvitations{}
+	userMap := map[string]Users{}
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Fatal(err)
@@ -306,6 +307,23 @@ func(m *CompanyInvitations) UpdateInviteUserById(ctx context.Context,InviteUserI
 	if err != nil {
 		log.Fatal(err)
 		return  false
+	}
+	err = db.Child("Company/"+companyTeamName+"/Invitation/"+InviteUserId).Value(&value)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+	err = db.Child("Users").OrderBy("Info/Email").EqualTo(value.Email).Value(&userMap)
+	dataValue := reflect.ValueOf(userMap)
+	for _, key := range dataValue.MapKeys() {
+		UserCompany := UsersCompany{}
+		UpdatedUserCompany := UsersCompany{}
+		err = db.Child("Users/" + key.String() + "/Company/" + companyTeamName).Value(&UserCompany)
+		UpdatedUserCompany.Status = UserCompany.Status
+		UpdatedUserCompany.CompanyName = UserCompany.CompanyName
+		UpdatedUserCompany.DateOfJoin = UserCompany.DateOfJoin
+		UpdatedUserCompany.UserType = m.UserType
+		err = db.Child("Users/" + key.String() + "/Company/" + companyTeamName).Set(&UpdatedUserCompany)
 	}
 	return true
 

@@ -16,31 +16,14 @@ func (c *LeaveController) LoadUserLeave() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
-	//var keySliceForUser []string
 	var keySlice []string
-	//var commonKey []string
 	storedSession := ReadSession(w, r, companyTeamName)
 	companyId := storedSession.CompanyId
-	//companyUsersForLeave := models.Company{}
 	leave := models.LeaveRequests{}
-	//dbStatus, companyUserDetail := companyUsersForLeave.GetUsersForDropdownFromCompany(c.AppEngineCtx, companyTeamName)
 	viewModel := viewmodels.LeaveViewModel{}
-	//switch dbStatus {
-	//case true:
-	//	dataValue := reflect.ValueOf(companyUserDetail)
-	//	for _, key := range dataValue.MapKeys() {
-	//		dataValue := reflect.ValueOf(companyUserDetail[key.String()].Users)
-	//		for _, userKey := range dataValue.MapKeys() {
-	//			keySliceForUser = append(keySliceForUser, userKey.String())
-	//		}
-	//	}
-	//case false :
-	//	log.Println(helpers.ServerConnectionError)
-	//}
 	dbStatus, leaveDetail := leave.GetAllLeaveRequest(c.AppEngineCtx)
 	switch dbStatus {
 	case true:
-		log.Println("leve request",leaveDetail)
 		dataValue := reflect.ValueOf(leaveDetail)
 		for _, key := range dataValue.MapKeys() {
 			keySlice = append(keySlice, key.String())
@@ -48,40 +31,7 @@ func (c *LeaveController) LoadUserLeave() {
 	case false :
 		log.Println(helpers.ServerConnectionError)
 	}
-	//compare two slice
-	//for i := 0; i < 2; i++ {
-	//	for _, sliceOfUser := range keySliceForUser {
-	//		found := false
-	//		for _, sliceOfLeaveRequest := range keySlice {
-	//			if sliceOfUser == sliceOfLeaveRequest {
-	//				found = true
-	//				break
-	//			}
-	//		}
-	//		// String not found. We add it to return slice
-	//		if found {
-	//			commonKey = append(commonKey, sliceOfUser)
-	//		}
-	//	}
-	//	// Swap the slices, only if it was the first loop
-	//	if i == 0 {
-	//		keySliceForUser, keySlice = keySlice, keySliceForUser
-	//	}
-	//}
-	////remove duplicate value of slice
-	//duplicateKey := map[string]bool{}
-	//
-	//// Create a map of all unique elements.
-	//for v := range commonKey {
-	//	duplicateKey[commonKey[v]] = true
-	//}
-
-	// Place all keys from the map into a slice.
-	//var userLeaveKey []string
 	var keyForLeave []string
-	//for key, _ := range duplicateKey {
-	//	userLeaveKey = append(userLeaveKey, key)
-	//}
 	for _, specifiedUserId := range keySlice {
 		status, leaveDetailOfUser,userDetail,userInvitation := leave.GetAllLeaveRequestById(c.AppEngineCtx, specifiedUserId,companyId)
 		switch status {
@@ -168,8 +118,6 @@ func (c *LeaveController) LoadAcceptUserLeave() {
 func (c *LeaveController) LoadRejectUserLeave() {
 	leaveKey := c.Ctx.Input.Param(":leaveKey")
 	userKey := c.Ctx.Input.Param(":userKey")
-	log.Println("leave key",leaveKey)
-	log.Println("user key",userKey)
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
