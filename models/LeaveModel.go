@@ -14,6 +14,7 @@ type LeaveInfo struct {
 	EndDate    	 	int64
 	NumberOfDays    	int64
 	Reason			string
+	UserName		string
 }
 type LeaveSettings struct {
 	DateOfCreation 		int64
@@ -28,6 +29,7 @@ type LeaveRequests   struct {
 type CompanyLeave struct {
 	CompanyName	string
 	Status		string
+	UserType        string
 }
 func (m *LeaveRequests)GetAllLeaveRequest(ctx context.Context)(bool,map[string]LeaveRequests) {
 	leaveDetail :=  map[string]LeaveRequests{}
@@ -69,6 +71,7 @@ func (m *LeaveRequests) AcceptLeaveRequestById( ctx context.Context,leaveId stri
 	leaveDetailOfUser :=LeaveInfo{}
 	//leaveDetailMap :=map[string]CompanyLeave{}
 	leaveDetailStruct :=CompanyLeave{}
+	updateDetailStruct :=CompanyLeave{}
 	leaveDetail :=LeaveRequests{}
 	leaveSettings :=LeaveSettings{}
 	dB, err := GetFirebaseClient(ctx,"")
@@ -80,8 +83,11 @@ func (m *LeaveRequests) AcceptLeaveRequestById( ctx context.Context,leaveId stri
 	leaveDetailOfUser.NumberOfDays =leaveDetail.Info.NumberOfDays
 	leaveDetailOfUser.Reason =leaveDetail.Info.Reason
 	leaveDetailOfUser.StartDate =leaveDetail.Info.StartDate
+	leaveDetailOfUser.UserName =leaveDetail.Info.UserName
 	leaveSettings.DateOfCreation =leaveDetail.Settings.DateOfCreation
 	leaveDetailStruct.CompanyName =companyTeamName
+	err = dB.Child("/LeaveRequests/"+userId+"/"+leaveId+"/Company/"+companyTeamName).Value(&updateDetailStruct)
+	leaveDetailStruct.UserType=updateDetailStruct.UserType
 	leaveDetailStruct.Status ="Accepted"
 	//leaveDetailOfUser.Settings.Status ="Accepted"
 	err = dB.Child("/LeaveRequests/"+ userId+"/"+leaveId+"/Info").Set(&leaveDetailOfUser)
@@ -98,6 +104,7 @@ func (m *LeaveRequests) RejectLeaveRequestById( ctx context.Context,leaveId stri
 	leaveDetailOfUser :=LeaveInfo{}
 	leaveDetail :=LeaveRequests{}
 	leaveDetailStruct :=CompanyLeave{}
+	updateDetailStruct :=CompanyLeave{}
 	leaveSettings :=LeaveSettings{}
 	dB, err := GetFirebaseClient(ctx,"")
 	if err!=nil{
@@ -111,10 +118,12 @@ func (m *LeaveRequests) RejectLeaveRequestById( ctx context.Context,leaveId stri
 	leaveDetailOfUser.NumberOfDays =leaveDetail.Info.NumberOfDays
 	leaveDetailOfUser.Reason =leaveDetail.Info.Reason
 	leaveDetailOfUser.StartDate =leaveDetail.Info.StartDate
+	leaveDetailOfUser.UserName =leaveDetail.Info.UserName
 	leaveSettings.DateOfCreation =leaveDetail.Settings.DateOfCreation
 	leaveDetailStruct.Status ="Rejected"
 	leaveDetailStruct.CompanyName =companyName
-	//leaveDetailOfUser.Settings.Status ="Rejected"
+	err = dB.Child("/LeaveRequests/"+userId+"/"+leaveId+"/Company/"+companyTeamName).Value(&updateDetailStruct)
+	leaveDetailStruct.UserType=leaveDetailStruct.UserType
 	err = dB.Child("/LeaveRequests/"+ userId+"/"+leaveId+"/Info").Set(&leaveDetailOfUser)
 	err = dB.Child("/LeaveRequests/"+ userId+"/"+leaveId+"/Settings").Set(&leaveSettings)
 	err = dB.Child("/LeaveRequests/"+ userId+"/"+leaveId+"/Company/"+companyTeamName).Set(&leaveDetailStruct)

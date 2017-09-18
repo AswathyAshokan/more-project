@@ -33,7 +33,7 @@ func (c *LeaveController) LoadUserLeave() {
 	}
 	var keyForLeave []string
 	for _, specifiedUserId := range keySlice {
-		status, leaveDetailOfUser,userDetail,userInvitation := leave.GetAllLeaveRequestById(c.AppEngineCtx, specifiedUserId,companyId)
+		status, leaveDetailOfUser,_,_ := leave.GetAllLeaveRequestById(c.AppEngineCtx, specifiedUserId,companyId)
 		switch status {
 		case true:
 			log.Println("lvvvv",leaveDetailOfUser)
@@ -44,32 +44,25 @@ func (c *LeaveController) LoadUserLeave() {
 					if CompanyKey.String() == companyId {
 						keyForLeave = append(keyForLeave, key.String())
 						var tempValueSlice []string
-						inviteUser := reflect.ValueOf(userInvitation)
-						for _, InviteKey := range inviteUser.MapKeys() {
-							if userDetail.Email == userInvitation[InviteKey.String()].Email {
-								tempValueSlice = append(tempValueSlice, userDetail.FullName + "" + "(" + userInvitation[InviteKey.String()].UserType + ")")
-								break
+						companyUserLeaves := reflect.ValueOf(leaveDetailOfUser[key.String()].Company)
+						for _, leaveKey := range companyUserLeaves.MapKeys() {
+							if leaveKey.String() == companyId {
+								tempValueSlice = append(tempValueSlice, leaveDetailOfUser[key.String()].Info.UserName+ "" + "(" + leaveDetailOfUser[key.String()].Company[leaveKey.String()].UserType + ")")
 							}
 						}
 						startDate := strconv.FormatInt(int64(leaveDetailOfUser[key.String()].Info.StartDate), 10)
-						//startDate := time.Unix(leaveDetailOfUser[key.String()].Info.StartDate, 0)
 						tempValueSlice = append(tempValueSlice, startDate)
 						endDate := strconv.FormatInt(int64(leaveDetailOfUser[key.String()].Info.EndDate), 10)
-						//endDate := time.Unix(leaveDetailOfUser[key.String()].Info.EndDate, 0)
 						tempValueSlice = append(tempValueSlice, endDate)
 						numberOfDays := strconv.FormatInt(leaveDetailOfUser[key.String()].Info.NumberOfDays, 10)
 						tempValueSlice = append(tempValueSlice, numberOfDays)
 						tempValueSlice = append(tempValueSlice, leaveDetailOfUser[key.String()].Info.Reason)
-						for _, InviteKeys := range inviteUser.MapKeys() {
-							if userDetail.Email == userInvitation[InviteKeys.String()].Email {
 								companyUserLeave := reflect.ValueOf(leaveDetailOfUser[key.String()].Company)
 								for _, leaveKey := range companyUserLeave.MapKeys() {
 									if leaveKey.String() == companyId {
 										tempValueSlice = append(tempValueSlice, leaveDetailOfUser[key.String()].Company[leaveKey.String()].Status)
 									}
 								}
-							}
-						}
 						tempValueSlice = append(tempValueSlice, key.String())
 						tempValueSlice = append(tempValueSlice, specifiedUserId)
 						viewModel.Values = append(viewModel.Values, tempValueSlice)

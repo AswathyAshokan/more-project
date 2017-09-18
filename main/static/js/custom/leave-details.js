@@ -138,7 +138,7 @@ $(function(){
     //function when click on accept button
     $('#leave_details').on( 'click', '#accept', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var leaveKey = data[8];
+        var leaveKey = data[6];
         var userKey =data[7];
         console.log("leave key",leaveKey);
         console.log("user key",userKey);
@@ -175,7 +175,7 @@ $(function(){
     //function when click on reject button
     $('#leave_details').on( 'click', '#reject', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        var leaveKey = data[8];
+        var leaveKey = data[6];
         var userKey =data[7];
          console.log("leave key",leaveKey);
         console.log("user key",userKey);
