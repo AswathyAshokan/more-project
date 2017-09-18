@@ -111,11 +111,16 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 						if len(timeSheetUserDetails[key.String()].WorkEndTime)!=0{
 							dataValueOfWorkEndTime := reflect.ValueOf(timeSheetUserDetails[key.String()].WorkEndTime)
 							for _, workEndTimeKey := range dataValueOfWorkEndTime.MapKeys() {
-								EndTime := strconv.FormatInt(timeSheetUserDetails[key.String()].TaskEndTime[workEndTimeKey.String()].Time, 10)
+								EndTime := strconv.FormatInt(timeSheetUserDetails[key.String()].WorkEndTime[workEndTimeKey.String()].Time, 10)
 								dailyWorkEndTimeSlice=append(dailyWorkEndTimeSlice,EndTime)
 
 							}
+							log.Println("end time")
 							lengthOfSlice :=len(dailyWorkEndTimeSlice)
+							log.Println("end time length",lengthOfSlice)
+							log.Println("end time slice",dailyWorkEndTimeSlice)
+							log.Println("end time value",dailyWorkEndTimeSlice[lengthOfSlice-1])
+
 							workDetailsSlice=append(workDetailsSlice,dailyWorkEndTimeSlice[lengthOfSlice-1])
 						}else{
 							workDetailsSlice=append(workDetailsSlice,"")

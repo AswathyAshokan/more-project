@@ -471,9 +471,10 @@ $(function(){
                  if (sec < 10) {
                      sec = '0' + sec;
                  }
-                 var DailyStartTime = (HH + ':' + min);
+                var DailyStartTime = (HH + ':' + min);
+                console.log("daily start time",DailyStartTime);
                 var utcTime = vm.WorkTimeSheeetDetails[i][6];
-                 var dateFromDb = parseInt(utcTime)
+                var dateFromDb = parseInt(utcTime)
                  var d = new Date(dateFromDb * 1000);
                  var dd = d.getDate();
                  var mm = d.getMonth() + 1; //January is 0!
@@ -497,6 +498,7 @@ $(function(){
                      sec = '0' + sec;
                  }
                 var workEndTimeFromLog = (HH + ':' + min);
+                console.log("work end time",workEndTimeFromLog);
                 var workEndDateFromLog = (mm + '/' + dd + '/' + yyyy);
                 var utcTime = vm.WorkTimeSheeetDetails[i][7];
                 var dateFromDb = parseInt(utcTime);
@@ -524,6 +526,7 @@ $(function(){
                      sec = '0' + sec;
                  }
                  var DailyEndTime = (HH + ':' + min);
+                console.log("daily end time",DailyEndTime);
                 function toSeconds(t) {
                      var bits = t.split(':');
                      return bits[0]*3600 + bits[1]*60 ;
@@ -583,8 +586,9 @@ $(function(){
                     if ((mins >= 0) && (mins < 10) && (Math.floor(mins) == mins)) {
                         mins ="0"+mins;
                     }
-                     sumExtraHours=hrs+':'+mins;
-                     extraHours =sumExtraHours;
+                    sumExtraHours=hrs+':'+mins;
+                    console.log("extra time used",sumExtraHours);
+                    extraHours =sumExtraHours;
                 }else if (workEndTimeFromLogDiff<DailyEndTimeDiff){
                     diffInStartTime =moment.utc(moment(DailyEndTime," HH:mm").diff(moment(taskEndTimeFromLog," HH:mm"))).format("HH:mm");
                     var t1 = diffInStartTime.split(':');
@@ -603,7 +607,7 @@ $(function(){
                     lateHours =sumLateHours;
                 }
                 workSlice.push(lateHours);
-                workSlice.push(sumExtraHours);
+                workSlice.push(extraHours);
                 workSlice.push(vm.WorkTimeSheeetDetails[i][8]);
                 workSlice.push(workStartDateFromLog);
                 workValues.push(workSlice);
