@@ -3,7 +3,6 @@ import (
 
 	"app/passporte/models"
 	"app/passporte/viewmodels"
-
 	"reflect"
 	//"app/passporte/helpers"
 	"strconv"
@@ -60,12 +59,15 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 								}
 
 								logDetailsSlice=append(logDetailsSlice,dailyTaskStartTimeSlice[0])
+							}else{
+								logDetailsSlice=append(logDetailsSlice,"")
 							}
 							taskDateFrom := strconv.FormatInt(timeSheetUserDetails[key.String()].TaskDateFrom, 10)
 							logDetailsSlice =append(logDetailsSlice,taskDateFrom)
 							DailyStartTime := strconv.FormatInt(timeSheetUserDetails[key.String()].DailyStartTime, 10)
 							logDetailsSlice =append(logDetailsSlice,DailyStartTime)
 							if len(timeSheetUserDetails[key.String()].TaskEndTime) !=0{
+								log.Println(("log end timeee"))
 								dataValueOfEndTime := reflect.ValueOf(timeSheetUserDetails[key.String()].TaskEndTime)
 								for _, taskEndTimeKey := range dataValueOfEndTime.MapKeys() {
 									EndTime := strconv.FormatInt(timeSheetUserDetails[key.String()].TaskEndTime[taskEndTimeKey.String()].Time, 10)
@@ -74,6 +76,8 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 								}
 								lengthOfSlice :=len(dailyTaskEndTimeSlice)
 								logDetailsSlice=append(logDetailsSlice,dailyTaskEndTimeSlice[lengthOfSlice-1])
+							}else{
+								logDetailsSlice=append(logDetailsSlice,"")
 							}
 
 							TaskDateTo := strconv.FormatInt(timeSheetUserDetails[key.String()].TaskDateTo, 10)

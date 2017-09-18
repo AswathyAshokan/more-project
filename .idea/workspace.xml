@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/ByPassController.go" afterPath="$PROJECT_DIR$/controllers/ByPassController.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/TimeSheetController.go" afterPath="$PROJECT_DIR$/controllers/TimeSheetController.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-task.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-task.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/timesheet-details.js" afterPath="$PROJECT_DIR$/main/static/js/custom/timesheet-details.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -45,10 +45,10 @@
       <file leaf-file-name="TimeSheetController.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/TimeSheetController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="117" column="79" lean-forward="true" selection-start-line="117" selection-start-column="79" selection-end-line="117" selection-end-column="79" />
+            <state relative-caret-position="18">
+              <caret line="68" column="115" lean-forward="false" selection-start-line="68" selection-start-column="115" selection-end-line="68" selection-end-column="115" />
               <folding>
-                <element signature="e#20#152#0" expanded="true" />
+                <element signature="e#20#151#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -876,13 +876,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00256" summary="1/06/2013:28:   check box">
-      <created>1503385075577</created>
-      <option name="number" value="00256" />
-      <option name="presentableId" value="LOCAL-00256" />
-      <option name="project" value="LOCAL" />
-      <updated>1503385075580</updated>
-    </task>
     <task id="LOCAL-00257" summary="1/06/2013:28:   check box">
       <created>1503385584813</created>
       <option name="number" value="00257" />
@@ -1219,7 +1212,14 @@
       <option name="project" value="LOCAL" />
       <updated>1505720418298</updated>
     </task>
-    <option name="localTasksCounter" value="305" />
+    <task id="LOCAL-00305" summary="1/06/2013:28:   work location">
+      <created>1505724124382</created>
+      <option name="number" value="00305" />
+      <option name="presentableId" value="LOCAL-00305" />
+      <option name="project" value="LOCAL" />
+      <updated>1505724124382</updated>
+    </task>
+    <option name="localTasksCounter" value="306" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1705,10 +1705,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/TimeSheetController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="117" column="79" lean-forward="true" selection-start-line="117" selection-start-column="79" selection-end-line="117" selection-end-column="79" />
+        <state relative-caret-position="18">
+          <caret line="68" column="115" lean-forward="false" selection-start-line="68" selection-start-column="115" selection-end-line="68" selection-end-column="115" />
           <folding>
-            <element signature="e#20#152#0" expanded="true" />
+            <element signature="e#20#151#0" expanded="true" />
           </folding>
         </state>
       </provider>

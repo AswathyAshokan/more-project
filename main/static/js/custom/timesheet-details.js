@@ -100,6 +100,7 @@ $(function(){
                      sec = '0' + sec;
                  }
                  var taskStartTimeFromLog = (HH + ':' + min);
+                 console.log("start task time",taskStartTimeFromLog);
                  var taskStartDateFromLog = (mm + '/' + dd + '/' + yyyy);
                  
                  var utcTime = vm.TaskTimeSheetDetail[i][5];
@@ -128,7 +129,7 @@ $(function(){
                  }
                  var taskStartTimeFromTask = (HH + ':' + min);
                  var taskStartDateFromTask = (mm + '/' + dd + '/' + yyyy);
-                 
+                 console.log("task start time from task",taskStartTimeFromTask);
                  
                  var utcTime = vm.TaskTimeSheetDetail[i][6];
                  var dateFromDb = parseInt(utcTime)
@@ -252,6 +253,7 @@ $(function(){
                  var DailyEndTimeDiff = toSeconds(DailyEndTime);
                  if (taskStartDateFromLog ==taskStartDateFromTask ){
                      if (taskStartTimeFromLogDiff>taskStartTimeFromTaskDiff){
+                         console.log("login1");
                          diffInStartTime =moment.utc(moment(taskStartTimeFromLog," HH:mm").diff(moment(taskStartTimeFromTask," HH:mm"))).format("HH:mm");
                          var t1 = diffInStartTime.split(':');
                          var t2 = sumLateHours.split(':');
@@ -267,6 +269,7 @@ $(function(){
                          }
                          sumLateHours=hrs+':'+mins;
                          lateHours =sumLateHours;
+                         console.log("late hours of task",lateHours)
                      }else if (taskStartTimeFromLogDiff<taskStartTimeFromTaskDiff){
                          diffInStartTime =moment.utc(moment(taskStartTimeFromTask," HH:mm").diff(moment(taskStartTimeFromLog," HH:mm"))).format("HH:mm");
                          var t1 = diffInStartTime.split(':');
@@ -284,8 +287,8 @@ $(function(){
                          sumExtraHours=hrs+':'+mins;
                          extraHours =sumExtraHours;
                      }
-                 }
-                 if (taskStartDateFromLog !=taskStartDateFromTask ){
+                 }else{
+                     console.log("hhhh");
                      if (taskStartTimeFromLogDiff>DailyStartTimeDiff){
                          diffInStartTime =moment.utc(moment(taskStartTimeFromLog," HH:mm").diff(moment(DailyStartTime," HH:mm"))).format("HH:mm");
                          var t1 = diffInStartTime.split(':');
@@ -320,9 +323,13 @@ $(function(){
                          extraHours =sumExtraHours;
                      }
                  }
+//                 if (taskStartDateFromLog !=taskStartDateFromTask ){
+                     
+//                 }
                 
                  if (taskEndDateFromLog ==taskEndDateFromTask ){
                      if (taskEndTimeFromLogDiff>taskEndTimeFromTaskDiff){
+                         console.log("90jjj");
                          diffInStartTime =moment.utc(moment(taskEndTimeFromLog," HH:mm").diff(moment(taskEndTimeFromTask," HH:mm"))).format("HH:mm");
                          var t1 = diffInStartTime.split(':');
                          var t2 = sumExtraHours.split(':');
@@ -339,6 +346,7 @@ $(function(){
                          sumExtraHours=hrs+':'+mins;
                          extraHours =sumExtraHours;
                      }else if (taskEndTimeFromLogDiff<taskEndTimeFromTaskDiff){
+                         console.log("lllll");
                          diffInStartTime =moment.utc(moment(taskEndTimeFromTask," HH:mm").diff(moment(taskEndTimeFromLog," HH:mm"))).format("HH:mm");
                          var t1 = diffInStartTime.split(':');
                          var t2 = sumLateHours.split(':');
@@ -356,10 +364,8 @@ $(function(){
                          sumLateHours=hrs+':'+mins;
                          lateHours =sumLateHours;
                      }
-                 }
-                 if (taskEndDateFromLog !=taskEndDateFromTask ){
-                
-                     if (taskEndTimeFromLogDiff>DailyEndTimeDiff){
+                 }else{
+                      if (taskEndTimeFromLogDiff>DailyEndTimeDiff){
                          diffInStartTime =moment.utc(moment(taskEndTimeFromLog," HH:mm").diff(moment(DailyEndTime," HH:mm"))).format("HH:mm");
                          var t1 = diffInStartTime.split(':');
                          var t2 = sumExtraHours.split(':');
@@ -377,6 +383,7 @@ $(function(){
                          extraHours =sumExtraHours;
 
                      }else if (taskEndTimeFromLogDiff<DailyEndTimeDiff){
+                         console.log("gggt5");
                          diffInStartTime =moment.utc(moment(DailyEndTime," HH:mm").diff(moment(taskEndTimeFromLog," HH:mm"))).format("HH:mm");
                          var t1 = diffInStartTime.split(':');
                          var t2 = sumLateHours.split(':');
@@ -394,8 +401,12 @@ $(function(){
                          lateHours =sumLateHours;
                      }
                  }
+//                 if (taskEndDateFromLog !=taskEndDateFromTask ){
+                
+                    
+//                 }
                  timeSlice.push(lateHours);
-                 timeSlice.push(sumExtraHours);
+                 timeSlice.push(extraHours);
                  timeSlice.push(vm.TaskTimeSheetDetail[i][10]);
                  timeSlice.push(vm.TaskTimeSheetDetail[i][11]);
                  timeSlice.push(taskStartDateFromLog);
