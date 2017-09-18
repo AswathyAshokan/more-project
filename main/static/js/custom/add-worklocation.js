@@ -110,7 +110,6 @@ $(document).ready(function() {
     $("#usersAndGroupId").on('change', function(evt, params) {
         console.log("inside group1");
         var tempArray = $(this).val();
-        
         var clickedOption = "";
         console.log("array length",tempArray);
         if (selectedUserArray.length < tempArray.length) { // for selection
@@ -168,7 +167,10 @@ $(document).ready(function() {
             console.log("lattitude",document.getElementById('latitudeId').value);
             console.log("longitude",document.getElementById('longitudeId').value);
             var starDateString = document.getElementById('startDate').value;
+            console.log("starDateString in first",starDateString);
+            
             var endDateString = document.getElementById('endDate').value;
+            console.log("end date in second",endDateString);
              $("#saveButton").attr('disabled', true);
             
             var startdatum = Date.parse(starDateString)/1000;
@@ -201,12 +203,12 @@ $(document).ready(function() {
             var startDateString = startDateInDate;
             var date = new Date(Date.parse(startDateString));
             var startDateOfWork = formatDate(date);
-            var endDateString = endDateInDate;
-            var endDateData = new Date(Date.parse(endDateString));
+            var endDateStringInUtc = endDateInDate;
+            var endDateData = new Date(Date.parse(endDateStringInUtc));
             var endDateOfWork = formatDate(endDateData);
-            console.log("startDateOfWork",startDateOfWork)
-            console.log("endDateOfWork",endDateOfWork)
             
+            console.log("localStartDate",starDateString);
+            console.log("localEndDate",endDateString);
             
             var formData = $("#workLocationForm").serialize();
             //get the user's name corresponding to  keys selected from dropdownlist 

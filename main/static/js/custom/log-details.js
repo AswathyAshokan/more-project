@@ -147,6 +147,38 @@ $(function(){
                   });
               });
         });
+        
+        $('#fromDate').change(function () {
+        selectFromDate = $('#fromDate').val();
+        var fromYear = selectFromDate.substring(6, 10);
+        var fromDay = selectFromDate.substring(3, 5);
+        var fromMonth = selectFromDate.substring(0, 2);
+        $('#toDate').datepicker("option", "minDate", new Date(fromYear, fromMonth-1, fromDay));
+        actualFromDate = new Date(selectFromDate);
+        actualFromDate.setHours(0);
+        actualFromDate.setMinutes(0);
+        actualFromDate.setSeconds(0);
+        unixFromDate = Date.parse(actualFromDate)/1000;
+        listLogDetails(unixFromDate,unixToDate);
+    });
+    
+    $('#toDate').change(function () {
+        selectedToDate = $('#toDate').val();
+        var year = selectedToDate.substring(6, 10);
+        var day = selectedToDate.substring(3, 5);
+        var month = selectedToDate.substring(0, 2);
+        $('#fromDate').datepicker("option", "maxDate", new Date(year, month-1, day));
+        actualToDate = new Date(selectedToDate);
+        actualToDate.setHours(23);
+        actualToDate.setMinutes(59);
+        actualToDate.setSeconds(59);
+        unixToDate = Date.parse(actualToDate)/1000;
+        listLogDetails(unixFromDate,unixToDate);
+    });
+        
+        
+        
+        
     });
     
     $("#activitylog").on( 'click', function () {
@@ -334,54 +366,12 @@ $(function(){
             }
             var localTime = (HH + ':' + min);
             var localDate = (mm + '/' + dd + '/' + yyyy);
-            //var d = localDate.slice(0, 10).split('/');
-            //var formatedDate = d[1] +'/'+ d[0] +'/'+ d[2];
-           // console.log("formatedDate",formatedDate);
-            /*var timeSplitArray = localTime.split(":");
-            var hours = timeSplitArray[0];
-            var minutes = timeSplitArray[1];
-            var duration = vm.Values[i][2];
-            var durationSplitArray = duration.split(":");
-            var duartionHours = durationSplitArray[0];
-            var durationMinutes = durationSplitArray[1];
-            var localTimeInMinutes = parseFloat(hours)*60 + parseFloat(minutes);
-            if (localTimeInMinutes>durationMinutes){
-                var loggedTime = localTimeInMinutes - durationMinutes
-                var loggedHours = window.parseInt(loggedTime/60);
-                var loggedMins = loggedTime%60;
-            }
-            var actualloggedTime =loggedHours +   ":" +loggedMins
-            var between = actualloggedTime + " &nbspto&nbsp" +hours +    ":"    +minutes;*/
             vm.Values[i][2]= localDate;
             vm.Values[i][3] = localTime;
-           /* lattitude = vm.Values[i][5];
-            longitude= vm.Values[i][6];*/
-             //$('#log-details').dataTable().fnDestroy();
-            
         }
          createDataArray(vm.Values, vm.Keys);
     }
-    dataTableManipulate(mainArray);   
-    
-    
-    //for get address of a place in label in map
-   /* var geocoder = new google.maps.Geocoder;
-               var latlng = { lat: parseFloat(lastLocation.latitude), lng: parseFloat(lastLocation.longitude) };
-               geocoder.geocode({ 'location': latlng }, function (results, status) {
-
-                   if (status === 'OK') {
-                       if (results[0]) {
-                           // var originAddress = results[0].formatted_address;
-
-                           console.log("formatted_address", results[0].formatted_address)
-                           //return results[0].formatted_address;
-                           
-                       }
-                   }
-               });
-    */
-    
-    
+    dataTableManipulate(mainArray); 
     
     $('#fromDate').change(function () {
         selectFromDate = $('#fromDate').val();

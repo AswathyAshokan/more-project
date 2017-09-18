@@ -7,6 +7,8 @@ import (
 	//"strings"
 	"reflect"
 	"github.com/kjk/betterguid"
+	"time"
+
 )
 type WorkLocation struct {
 	Info 		WorkLocationInfo
@@ -22,6 +24,8 @@ type WorkLocationInfo struct {
 	EndDate				int64
 	DailyStartDate                  int64
 	DailyEndDate			int64
+	StartDateInString		string
+	EndDateInString			string
 	UsersAndGroupsInWorkLocation	UsersAndGroupsInWork
 }
 
@@ -56,18 +60,20 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 		log.Println(err)
 	}
 	log.Println("db",db)
-	//workDataString := strings.Split(workData.String(),"/")
-	//workLocationUniqueID := workDataString[len(workDataString)-2]
+	startDateInt := m.Info.StartDate
+	endDateInt := m.Info.EndDate
+	starta := time.Unix(startDateInt, 0).UTC()
+	log.Println("utc time in golang",starta)
+	enda := time.Unix(endDateInt, 0).UTC()
+	log.Println("utc enda",enda)
 	workLocationUniqueID := betterguid.New()
 	userData := reflect.ValueOf(m.Info.UsersAndGroupsInWorkLocation.User)
 	for _, key := range userData.MapKeys() {
 		log.Println("w15")
-		/*if m.Info.UsersAndGroupsInWorkLocation.User[key.String()].Status!=helpers.UserStatusDeleted{
+		if m.Info.UsersAndGroupsInWorkLocation.User[key.String()].Status!=helpers.UserStatusDeleted{
 
-		}*/
+		}
 
-		log.Println("keyyyy",key.String())
-		log.Println("workLocationUniqueID",workLocationUniqueID)
 		workLocationData := WorkLocationInUser{}
 		workLocationData.CompanyId = companyTeamName
 		workLocationData.DateOfCreation = m.Settings.DateOfCreation
@@ -126,6 +132,13 @@ func GetAllWorkLocationDetailsByWorkId(ctx context.Context,workLocationId string
 
 }
 
+func inTimeSpan(start, end, check time.Time) bool {
+	log.Println("iam in hhhhhhh",check.After(start) && check.Before(end))
+	return check.After(start) && check.Before(end)
+}
+
+
+
 func IsWorkAssignedToUser(ctx context.Context ,startDate int64,endDate int64, userArray []string,companyTeamName string )(bool)  {
 	log.Println("startDate in model",startDate)
 	log.Println("end date in model",endDate)
@@ -140,10 +153,44 @@ func IsWorkAssignedToUser(ctx context.Context ,startDate int64,endDate int64, us
 		log.Fatal(err)
 		//return workLocationValues, false
 	}
+
 	dataValue := reflect.ValueOf(workLocationValues)
 	for _, key := range dataValue.MapKeys() {
 		log.Println("alredy key",key.String())
 		if workLocationValues[key.String()].Settings.Status != helpers.StatusInActive{
+
+
+			oldStartDate := time.Unix(workLocationValues[key.String()].Info.StartDate, 0).UTC()
+			oldEndDate := time.Unix(workLocationValues[key.String()].Info.EndDate,0).UTC()
+			newStartDate :=  time.Unix(startDate, 0).UTC()
+			newEndDate := time.Unix(endDate, 0).UTC()
+			start, _ := time.Parse(time.RFC822, oldStartDate.String())
+			end, _ := time.Parse(time.RFC822, oldEndDate.String())
+
+			in, _ := time.Parse(time.RFC822, newStartDate.String())
+			out, _ := time.Parse(time.RFC822, newEndDate.String())
+			log.Println("old start date",oldStartDate)
+			log.Println("old End Dtae",oldEndDate)
+			log.Println(" vew start date",newStartDate)
+			log.Println("new emd date",newEndDate)
+			if inTimeSpan(start, end, in) {
+				log.Println("iam in qqqqq")
+				log.Println(in, "is between", start, "and", end, ".")
+			}
+
+			if !inTimeSpan(start, end, out) {
+				log.Println("iam in oooooo")
+				log.Println(out, "is not between", start, "and", end, ".")
+			}
+
+
+
+
+
+
+
+
+
 			userDataValues :=  reflect.ValueOf(workLocationValues[key.String()].Info.UsersAndGroupsInWorkLocation.User)
 			for _,userKey :=range userDataValues.MapKeys(){
 				log.Println("alredy strat",workLocationValues[key.String()].Info.StartDate)

@@ -301,7 +301,12 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 			keySlice = append(keySlice, key.String())
 		}
 		var barChart [][] string
-		var allLogTimeArray[][] string
+		var allPendinUserArray  [][]string
+		var allRejectedUserArray [][]string
+		var allAcceptdUserArray	 [][]string
+		var  allCompletedUserArray [][]string
+		var keysValues [] string
+		var tempArray []string
 		var starEndDateArray [] string
 		for _, k := range keySlice {
 			log.Println("sp3")
@@ -310,6 +315,7 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 				Status, taskDetail := task.GetTaskDetailById(c.AppEngineCtx, k)
 				switch Status {
 				case true:
+					dataValueOfUser := reflect.ValueOf(taskDetail.UsersAndGroups.User)
 					if taskDetail.Settings.Status == helpers.StatusActive {
 						if taskDetail.Info.TaskName == taskName {
 							log.Println("iam in first if")
@@ -322,62 +328,78 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 
 							_, logUserDetail := logDetails.GetLogDetailOfUser(c.AppEngineCtx, companyTeamName)
 							log.Println("logUserDetail", logUserDetail)
+
 							logValue := reflect.ValueOf(logUserDetail)
 							for _, logKey := range logValue.MapKeys() {
 								log.Println("in first loop")
-								dataValueOfUser := reflect.ValueOf(taskDetail.UsersAndGroups.User)
+
 								for _, userkey := range dataValueOfUser.MapKeys() {
+									keysValues = append(keysValues,userkey.String())
+									var acceptedUsers []string
+									var UserDetailsForStartTask []string
+									var UserDetailsForCompleted []string
+
+
 									log.Println("in second loop")
 									if taskDetail.UsersAndGroups.User[userkey.String()].Status != helpers.UserStatusDeleted {
 										log.Println("iam in second if")
+
 										if userkey.String() == logUserDetail[logKey.String()].UserID {
 											log.Println("iam in third if")
 
 
 											if logUserDetail[logKey.String()].LogDescription == "Task Started" {
-												var UserDetailsForStartTask []string
-												var logTimeArrayForStartTask []string
-												log.Println("iam in fourth if")
-												logTimeArrayForStartTask = append(logTimeArrayForStartTask, logUserDetail[logKey.String()].UserID)
-												logTimeArrayForStartTask = append(logTimeArrayForStartTask, strconv.FormatInt(int64(logUserDetail[logKey.String()].LogTime), 10))
-												logTimeArrayForStartTask = append(logTimeArrayForStartTask,logUserDetail[logKey.String()].LogDescription)
-												allLogTimeArray = append(allLogTimeArray,logTimeArrayForStartTask)
-												logTimeArrayForStartTask = logTimeArrayForStartTask [:0]
-												//log.Println("logTimeArray",logTimeArrayForStartTask)
-												//barChart = append(barChart,logTimeArrayForStartTask)
-												UserDetailsForStartTask = append(UserDetailsForStartTask, taskDetail.UsersAndGroups.User[userkey.String()].FullName)
-												UserDetailsForStartTask = append(UserDetailsForStartTask, taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus)
-												UserDetailsForStartTask = append(UserDetailsForStartTask, userkey.String())
+												UserDetailsForStartTask = append(UserDetailsForStartTask, logUserDetail[logKey.String()].LogDescription)
+												UserDetailsForStartTask = append(UserDetailsForStartTask,strconv.FormatInt(int64(logUserDetail[logKey.String()].LogTime), 10) )
 												barChart = append(barChart,UserDetailsForStartTask)
 												UserDetailsForStartTask = UserDetailsForStartTask[:0]
 											} else if logUserDetail[logKey.String()].LogDescription == helpers.StatusCompleted {
-												var UserDetailsForCompleted []string
-												UserDetailsForCompleted = append(UserDetailsForCompleted, taskDetail.UsersAndGroups.User[userkey.String()].FullName)
-												UserDetailsForCompleted = append(UserDetailsForCompleted, taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus)
+
+												//UserDetailsForCompleted = append(UserDetailsForCompleted, taskDetail.UsersAndGroups.User[userkey.String()].FullName)
+												UserDetailsForCompleted = append(UserDetailsForCompleted, logUserDetail[logKey.String()].LogDescription)
+												UserDetailsForCompleted = append(UserDetailsForCompleted,strconv.FormatInt(int64(logUserDetail[logKey.String()].LogTime), 10))
 												UserDetailsForCompleted = append(UserDetailsForCompleted, userkey.String())
-												barChart = append(barChart,UserDetailsForCompleted)
+												allCompletedUserArray = append(allCompletedUserArray,UserDetailsForCompleted)
 												UserDetailsForCompleted = UserDetailsForCompleted [:0]
+											} else if(logUserDetail[logKey.String()].LogDescription == helpers.StatusAccepted){
+												acceptedUsers = append(acceptedUsers,logUserDetail[logKey.String()].LogDescription)
+												acceptedUsers = append(acceptedUsers,strconv.FormatInt(int64(logUserDetail[logKey.String()].LogTime), 10))
+												acceptedUsers = append(acceptedUsers,userkey.String())
+												allAcceptdUserArray = append(allAcceptdUserArray,acceptedUsers)
+												//barChart = append(barChart,acceptedUsers)
+												acceptedUsers = acceptedUsers[:0]
 											}
-
-											//log.Println("logTimeArrayForStartTask", logTimeArrayForStartTask)
 										}
 
-										if taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus == helpers.StatusPending {
-											var UserDetailsForPendingTask []string
 
-											UserDetailsForPendingTask = append(UserDetailsForPendingTask, taskDetail.UsersAndGroups.User[userkey.String()].FullName)
-											UserDetailsForPendingTask = append(UserDetailsForPendingTask, taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus)
-											UserDetailsForPendingTask = append(UserDetailsForPendingTask, userkey.String())
-											barChart = append(barChart,UserDetailsForPendingTask)
-											UserDetailsForPendingTask = UserDetailsForPendingTask [:0]
-										}
 										//log.Println("UserDetailsForPendingTask",UserDetailsForPendingTask)
 
 									}
 								}
 							}
 
+
+
 						}
+					}
+					for _, userkey := range dataValueOfUser.MapKeys() {
+						if taskDetail.UsersAndGroups.User[userkey.String()].Status != helpers.UserStatusDeleted {
+							var rejectedUsers []string
+							var UserDetailsForPendingTask []string
+							if taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus == helpers.StatusPending {
+								UserDetailsForPendingTask = append(UserDetailsForPendingTask, taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus)
+								UserDetailsForPendingTask = append(UserDetailsForPendingTask, userkey.String())
+								allPendinUserArray = append(allPendinUserArray,UserDetailsForPendingTask)
+								//barChart = append(barChart,UserDetailsForPendingTask)
+								UserDetailsForPendingTask = UserDetailsForPendingTask [:0]
+							} else  if taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus == helpers.UserResponseRejected{
+								rejectedUsers = append(rejectedUsers,taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus)
+								rejectedUsers = append(rejectedUsers, userkey.String())
+								allRejectedUserArray = append(allRejectedUserArray,rejectedUsers)
+								rejectedUsers = rejectedUsers[:0]
+							}
+						}
+
 					}
 
 					/*slices := []interface{}{"true"}
@@ -389,7 +411,23 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 				}
 			}
 		}
-		slices := []interface{}{"true",barChart,allLogTimeArray,starEndDateArray}
+		for i:=0;i<len(keysValues);i++{
+
+			exists := false
+			for v := 0; v < i; v++ {
+				if keysValues[v] == keysValues[i] {
+					exists = true
+					break
+				}
+			}
+			// If no previous element exists, append this one.
+			if !exists {
+				tempArray = append(tempArray, keysValues[i])
+			}
+		}
+		 totalUsers :=  len(tempArray)
+		log.Println("total",len(tempArray))
+		slices := []interface{}{"true",barChart,allCompletedUserArray,allAcceptdUserArray,allPendinUserArray,allRejectedUserArray,starEndDateArray,totalUsers}
 		sliceToClient, _ := json.Marshal(slices)
 		log.Println("sliceToClient",sliceToClient)
 		w.Write(sliceToClient)

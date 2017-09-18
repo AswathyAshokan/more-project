@@ -31,9 +31,13 @@ $(function(){
         var tempArray = [];
         var expiryDate =0;
         var unixExpiryDate = 0;
+        console.log("unixFromDate",unixFromDate);
+        console.log("unixToDate",unixToDate);
         for (i =0;i<vm.Values.length;i++){
+            console.log("vm.Values[i][1]",vm.Values[i][1]);
             expiryDate = new Date(vm.Values[i][1]);
             unixExpiryDate = Date.parse(expiryDate)/1000;
+            console.log("unixExpiryDate",unixExpiryDate);
             if(unixFromDate <= unixExpiryDate && unixToDate == 0){
                 tempArray.push(mainArray[i]);
             
@@ -103,30 +107,34 @@ $(function(){
 /*------------------------------------------------------------------------------------------------------*/
 
     $('#fromDate').change(function () {
-        selectFromDate = $('#fromDate').val();
+         selectFromDate = $('#fromDate').val();
+        console.log("selectFromDate",selectFromDate);
         var fromYear = selectFromDate.substring(6, 10);
         var fromDay = selectFromDate.substring(3, 5);
         var fromMonth = selectFromDate.substring(0, 2);
         $('#toDate').datepicker("option", "minDate", new Date(fromYear, fromMonth-1, fromDay));
-        actualFromDate = new Date(selectedToDate);
+        actualFromDate = new Date(selectFromDate);
         actualFromDate.setHours(0);
         actualFromDate.setMinutes(0);
         actualFromDate.setSeconds(0);
         unixFromDate = Date.parse(actualFromDate)/1000;
+        console.log("unixFromDate",unixFromDate);
         listSharedDocumentByDate(unixFromDate,unixToDate);
     });
     
     $('#toDate').change(function () {
         selectedToDate = $('#toDate').val();
+        console.log("selectedToDate",selectedToDate);
         var year = selectedToDate.substring(6, 10);
         var day = selectedToDate.substring(3, 5);
         var month = selectedToDate.substring(0, 2);
         $('#fromDate').datepicker("option", "maxDate", new Date(year, month-1, day));
-        actualToDate = new Date(selectFromDate);
+        actualToDate = new Date(selectedToDate);
         actualToDate.setHours(23);
         actualToDate.setMinutes(59);
         actualToDate.setSeconds(59);
         unixToDate = Date.parse(actualToDate)/1000;
+        console.log("unixToDate",unixToDate);
         listSharedDocumentByDate(unixFromDate,unixToDate);
     });
     

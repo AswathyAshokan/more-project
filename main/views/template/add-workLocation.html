@@ -189,9 +189,10 @@
                             console.log("taskLocation",taskLocation);
                             //function in case of edit task.set map according to location in text box
                             if(taskLocation.length  != 0){
+                                console.log("iam i n html not zero condition");
                                 var loc=[];
                                 // next line creates asynchronous request
-                                geocoder.geocode( { 'address': vm.TaskLocation}, function(results, status) {
+                                geocoder.geocode( { 'address': vm.WorkLocation}, function(results, status) {
                                     console.log("loc1");
                                     if (status == google.maps.GeocoderStatus.OK) {
                                         console.log("loc2");

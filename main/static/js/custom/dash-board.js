@@ -179,77 +179,135 @@ $(function () {
             data: formData,
             //call back or get response here
             success : function(data){
-                
                 var jsonData = JSON.parse(data)
                 console.log("data",jsonData);
+                
+                
                 if(jsonData[0] == "true"){
-                    console.log("jsonData[1]",jsonData[1])
-                    console.log("jsonData[2]",jsonData[2])
-                    console.log("jsonData[3]",jsonData[3])
-                    var taskStartDate = jsonData[3][0];
-                    var taskEndDate =  jsonData[3][1];
-                    var startdateFromDb = parseInt(taskStartDate)
-                    var d = new Date(startdateFromDb * 1000);
-                    var dd = d.getDate();
-                    var mm = d.getMonth() + 1; //January is 0!
-                    var yyyy = d.getFullYear();
-                    if (dd < 10) {
-                        dd = '0' + dd;
+                    var persentageOfAcceptedUser;
+                    var persentageOfRejectedUsers;
+                    var PersentageOfStartedUser;
+                    var PersentageOfCompletedUsers;
+                    var persentageOfPendingUsers;
+                    var TotalNoUsers = jsonData[7];
+                    var today = new Date();
+                    var dd = today.getDate();
+                    var mm = today.getMonth()+1; //January is 0!
+                    var yyyy = today.getFullYear();
+                    if(dd<10) {
+                        dd = '0'+dd
+                    } 
+
+                    if(mm<10) {
+                        mm = '0'+mm
                     }
-                    if (mm < 10) {
-                        mm = '0' + mm;
-                    }
-                    var starDate = ( dd +'/'+mm + '/' + yyyy);
-                    console.log("starDate",starDate);
+                    var CurrentMonth = mm;
+                    var currentDay = dd;
+                    var currentYear = yyyy;
                     
-                    var enddateFromDb = parseInt(taskEndDate);
-                    var endDay = new Date(enddateFromDb * 1000);
-                    var enddd = endDay.getDate();
-                    var endmm = endDay.getMonth() + 1; //January is 0!
-                    var endyyyy =endDay.getFullYear();
-                    if (enddd < 10) {
-                        enddd = '0' + enddd;
-                    }
-                    if (endmm < 10) {
-                        endmm = '0' + endmm;
-                    }
-                    var endDate = (enddd+'/'+endmm +'/'+endyyyy);
-                    console.log("endDate",endDate);
-                    
-                    
-                    var mdy = starDate.split('/');
-                    return new Date(mdy[2], mdy[0]-1, mdy[1]);
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    var usersArray = [[]];
-                    var LogArray = [[]];
-                    usersArray =  jsonData[1];
-                    LogArray = jsonData[2];
-                    var logTimeArray = []; 
-                    var logTimeArrayForAllUser = [[]];
-                    console.log("usersArray",usersArray);
-                    console.log("LogArray",LogArray);
-                    for(i=0;i<usersArray.length;i++){
-                        console.log("user array for dash ", usersArray[i][2]);
-                            for ( k=0;k<LogArray .length;k++){
-                                console.log("LogArray[k][m]",LogArray[k][0]);
-                                    if (usersArray[i][2] == LogArray[k][0] ){
-                                        logTimeArray.push(LogArray[k][1]);
-                                        logTimeArray.push(LogArray[k][0]);
-                                        logTimeArrayForAllUser.push(logTimeArray);
-                                        logTimeArray = [];
-                                    }
+                    console.log("todayDate",today);
+                   
+                    //for filtering details of task started users
+                     
+                     var AcceptedWOrk = jsonData[3];
+                    var acceptedCount = 0;
+                    if (AcceptedWOrk.length !=null){
+                        for (i = 0;i<AcceptedWOrk.length;i++){
+                            console.log("inner loop of ",AcceptedWOrk[i][3]);
+                            var acceptedDate = AcceptedWOrk[i][1];
+                            var acceptedDateFromDb = parseInt(acceptedDate)
+                            var d = new Date(acceptedDateFromDb * 1000);
+                            var dd = d.getDate();
+                            var mm = d.getMonth() + 1; //January is 0!
+                            var yyyy = d.getFullYear();
+                            if (dd < 10) {
+                                dd = '0' + dd;
                             }
+                            if (mm < 10) {
+                                mm = '0' + mm;
+                            }
+                            if (mm == CurrentMonth && currentDay == dd && currentYear == yyyy ){
+                               acceptedCount = acceptedCount+1;
+                            }
+                            
+                            
+                        }
                     }
-                    console.log("kkkkkkk",logTimeArrayForAllUser);
                     
-                    //window.location='/' + companyTeamName +'/invite';
+                    //for filtaring details of task accepted User
+                    var startTaskArray = jsonData[1];
+                    var startTaskCount = 0;
+                    if (startTaskArray.length !=null){
+                        for (i = 0;i<startTaskArray.length;i++){
+                            console.log("inner loop of ",startTaskArray[i][3]);
+                            var startTaskDate = startTaskArray[i][1];
+                            var startTaskDateFromDb = parseInt(startTaskDate)
+                            var d = new Date(startTaskDateFromDb * 1000);
+                            var dd = d.getDate();
+                            var mm = d.getMonth() + 1; //January is 0!
+                            var yyyy = d.getFullYear();
+                            if (dd < 10) {
+                                dd = '0' + dd;
+                            }
+                            if (mm < 10) {
+                                mm = '0' + mm;
+                            }
+                            if (mm == CurrentMonth && currentDay == dd && currentYear == yyyy ){
+                               startTaskCount = startTaskCount+1;
+                            }
+                            
+                            
+                        }
+                    }
+                    
+                    //for filtering of Completed task
+                    
+                    var completedTask = jsonData[2];
+                    var completedTaskCount = 0;
+                    if (completedTask.length !=null){
+                        for (i = 0;i<completedTask.length;i++){
+                            console.log("inner loop of ",completedTask[i][3]);
+                            var completedTaskDate = completedTask[i][1];
+                            var completedTaskDateFromDb = parseInt(completedTaskDate)
+                            var d = new Date(completedTaskDateFromDb * 1000);
+                            var dd = d.getDate();
+                            var mm = d.getMonth() + 1; //January is 0!
+                            var yyyy = d.getFullYear();
+                            if (dd < 10) {
+                                dd = '0' + dd;
+                            }
+                            if (mm < 10) {
+                                mm = '0' + mm;
+                            }
+                            if (mm == CurrentMonth && currentDay == dd && currentYear == yyyy ){
+                               completedTaskCount = completedTaskCount+1;
+                            }
+                        }
+                    }
+                    //for filtering of pending Task
+                    var pendingTask = jsonData[4];
+                    var pendingTaskCount = 0;
+                    if (pendingTask.length !=null){
+                        pendingTaskCount = pendingTask.length;
+                    }
+                    
+                    //for fitering of rejected Users
+                    var rejectedUsers = jsonData[5];
+                    var rejectedTaskCount = 0;
+                    if(rejectedUsers.length !=null){
+                        rejectedTaskCount = rejectedUsers.length;
+                    }
+                    
+                    persentageOfAcceptedUser = (acceptedCount/TotalNoUsers)*100;
+                    persentageOfRejectedUsers = (rejectedTaskCount/TotalNoUsers)*100;
+                    PersentageOfStartedUser = (startTaskCount/TotalNoUsers)*100;
+                    PersentageOfCompletedUsers = (completedTaskCount/TotalNoUsers)*100;
+                    persentageOfPendingUsers = (pendingTaskCount/TotalNoUsers)*100;
+                    console.log("persentageOfAcceptedUser",persentageOfAcceptedUser);
+                    console.log("persentageOfRejectedUsers",persentageOfRejectedUsers);
+                    console.log("PersentageOfStartedUser",PersentageOfStartedUser);
+                    console.log("persentageOfPendingUsers",persentageOfPendingUsers);
+                    console.log("PersentageOfCompletedUsers",PersentageOfCompletedUsers);
                 }
                 else{
                     console.log("Server Problem");

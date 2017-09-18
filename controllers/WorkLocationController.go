@@ -15,6 +15,7 @@ type WorkLocationcontroller struct {
 	BaseController
 }
 
+
 func (c *WorkLocationcontroller) AddWorkLocation() {
 	log.Println("w1")
 	r := c.Ctx.Request
@@ -42,17 +43,15 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		dailyStartTime := c.GetString("dailyStartTimeString")
 		groupKeySliceForWorkLocation :=strings.Split(groupKeySliceForWorkLocationString, ",")
 		userIdArray := c.GetStrings("selectedUserNames")
-		//latitude := c.GetString("latitudeId")
 		latitude := c.GetString("latitudeId")
 		longitude := c.GetString("longitudeId")
-		log.Println("longitude",longitude,latitude)
 		startDate := c.GetString("startDateTimeStamp")
 		endDate := c.GetString("endDateTimeStamp")
-		log.Println("startDate",startDate)
 		startDateInt , err := strconv.ParseInt(startDate, 10, 64)
 		endDateInt, err := strconv.ParseInt(endDate, 10, 64)
-		log.Println("Type 1",reflect.TypeOf(startDate))
-		log.Println("Type 2",reflect.TypeOf(endDateInt))
+		//today := time.Now()
+
+
 		layout := "01/02/2006 15:04"
 		startDateInUnix, err := time.Parse(layout, dailyStartTime)
 		if err != nil {
@@ -73,7 +72,6 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 			userOrGroupRegExp := regexp.MustCompile(`\((.*?)\)`)
 			userOrGroupSelection := userOrGroupRegExp.FindStringSubmatch(tempName)
 			if (userOrGroupSelection[1]) == "User" {
-				log.Println("cp1")
 				tempName = tempName[:len(tempName) - 7]
 				userName.FullName = tempName
 				userName.Status = helpers.StatusActive
@@ -89,7 +87,6 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 				WorkLocation.Info.EndDate =endDateInt
 				WorkLocation.Info.DailyStartDate = startDateInUnix.Unix()
 				WorkLocation.Info.DailyEndDate =endDateInUnix.Unix()
-
 				WorkLocation.Settings.DateOfCreation = time.Now().Unix()
 				WorkLocation.Settings.Status = helpers.StatusActive
 				log.Println("userMap[tempId]", userMap)
@@ -130,17 +127,17 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 			WorkLocation.Info.UsersAndGroupsInWorkLocation.Group = groupMap
 		}
 		uniqueWorkLocationStatus := models.IsWorkAssignedToUser(c.AppEngineCtx,startDateInt,endDateInt,userIdArray,companyTeamName)
-		if uniqueWorkLocationStatus == true {
-			dbStatus :=WorkLocation.AddWorkLocationToDb(c.AppEngineCtx,companyTeamName)
-			switch dbStatus {
-			case true:
-				w.Write([]byte("true"))
-			case false:
-				w.Write([]byte("false"))
-			}
-		}else {
-			w.Write([]byte("falseAlreadyExist"))
+	if uniqueWorkLocationStatus == true {
+		dbStatus :=WorkLocation.AddWorkLocationToDb(c.AppEngineCtx,companyTeamName)
+		switch dbStatus {
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
 		}
+	}else {
+		w.Write([]byte("falseAlreadyExist"))
+	}
 	}else {
 		usersDetail :=models.Users{}
 		dbStatus ,testUser:= companyUsers.GetUsersForDropdownFromCompany(c.AppEngineCtx,companyTeamName)
