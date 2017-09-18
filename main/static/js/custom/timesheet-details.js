@@ -345,6 +345,7 @@ $(function(){
                          }
                          sumExtraHours=hrs+':'+mins;
                          extraHours =sumExtraHours;
+                         console.log("extra hours",extraHours);
                      }else if (taskEndTimeFromLogDiff<taskEndTimeFromTaskDiff){
                          console.log("lllll");
                          diffInStartTime =moment.utc(moment(taskEndTimeFromTask," HH:mm").diff(moment(taskEndTimeFromLog," HH:mm"))).format("HH:mm");
@@ -405,6 +406,7 @@ $(function(){
                 
                     
 //                 }
+                 console.log("llllllllldddldl",extraHours)
                  timeSlice.push(lateHours);
                  timeSlice.push(extraHours);
                  timeSlice.push(vm.TaskTimeSheetDetail[i][10]);
@@ -580,6 +582,7 @@ $(function(){
                      }
                      sumExtraHours=hrs+':'+mins;
                      extraHours =sumExtraHours;
+                     console.log("extra hours",extraHours);
                  }
                
                 if (workEndTimeFromLogDiff>DailyEndTimeDiff){
@@ -598,7 +601,6 @@ $(function(){
                         mins ="0"+mins;
                     }
                     sumExtraHours=hrs+':'+mins;
-                    console.log("extra time used",sumExtraHours);
                     extraHours =sumExtraHours;
                 }else if (workEndTimeFromLogDiff<DailyEndTimeDiff){
                     diffInStartTime =moment.utc(moment(DailyEndTime," HH:mm").diff(moment(taskEndTimeFromLog," HH:mm"))).format("HH:mm");
@@ -617,6 +619,7 @@ $(function(){
                     sumLateHours=hrs+':'+mins;
                     lateHours =sumLateHours;
                 }
+                console.log("jsdddddddd",extraHours);
                 workSlice.push(lateHours);
                 workSlice.push(extraHours);
                 workSlice.push(vm.WorkTimeSheeetDetails[i][8]);

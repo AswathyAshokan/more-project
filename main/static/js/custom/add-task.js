@@ -140,6 +140,83 @@ $(function () {
         }
         var selectArrayForGroup = vm.GroupMembersAndUserToEdit;
         $("#userOrGroup").val(selectArrayForGroup);
+        if (selectArrayForGroup.length !=0){
+            for ( var i=0;i<selectArrayForGroup.length;i++){
+                            for (var j=0;j<vm.WorkLocationForUser.length;j++){
+                                if (vm.WorkLocationForUser[j][2] ==selectArrayForGroup[i]){
+                                    var utcTime = vm.WorkLocationForUser[j][0];
+                                    var dateFromDb = parseInt(utcTime);
+                                    var d = new Date(dateFromDb * 1000);
+                                    var dd = d.getDate();
+                                    var mm = d.getMonth() + 1; //January is 0!
+                                    var yyyy = d.getFullYear();
+                                    var HH = d.getHours();
+                                    var min = d.getMinutes();
+                                    var sec = d.getSeconds();
+                                    if (dd < 10) {
+                                        dd = '0' + dd;
+                                    }
+                                    if (mm < 10) {
+                                        mm = '0' + mm;
+                                    }
+                                    if (HH < 10) {
+                                        HH = '0' + HH;
+                                    }
+                                    if (min < 10) {
+                                        min = '0' + min;
+                                    }
+                                    if (sec < 10) {
+                                        sec = '0' + sec;
+                                    }
+                                    var workStartDate = (mm + '/' + dd + '/' + yyyy);
+                                    var utcTime = vm.WorkLocationForUser[j][1];
+                                    var dateFromDb = parseInt(utcTime)
+                                    var d = new Date(dateFromDb * 1000);
+                                    var dd = d.getDate();
+                                    var mm = d.getMonth() + 1; //January is 0!
+                                    var yyyy = d.getFullYear();
+                                    var HH = d.getHours();
+                                    var min = d.getMinutes();
+                                    var sec = d.getSeconds();
+                                    if (dd < 10) {
+                                        dd = '0' + dd;
+                                    }
+                                    if (mm < 10) {
+                                        mm = '0' + mm;
+                                    }
+                                    if (HH < 10) {
+                                        HH = '0' + HH;
+                                    }
+                                    if (min < 10) {
+                                        min = '0' + min;
+                                    }
+                                    if (sec < 10) {
+                                        sec = '0' + sec;
+                                    }
+                                    var workEndDate = (mm + '/' + dd + '/' + yyyy);
+                                    var StartDateOfTask = $('#startDate').val();
+                                    var EndDateOfTask = $('#endDate').val();
+                                    var workStartDate1 = workStartDate.split("/");
+                                    var workEndDate1 = workEndDate.split("/");
+                                    var StartDateOfTask1 = StartDateOfTask.split("/");
+                                    var EndDateOfTask1 = EndDateOfTask.split("/");
+                                    var from = new Date(workStartDate1[2], parseInt(workStartDate1[1])-1, workStartDate1[0]);  // -1 because months are from 0 to 11
+                                    var to   = new Date(workEndDate1[2], parseInt(workEndDate1[1])-1, workEndDate1[0]);
+                                    var StartDateOfTaskCheck = new Date(StartDateOfTask1[2], parseInt(StartDateOfTask1[1])-1, StartDateOfTask1[0]);
+                                    var EndDateOfTaskCheck = new Date(EndDateOfTask1[2], parseInt(EndDateOfTask1[1])-1, EndDateOfTask1[0]);
+                                    if (StartDateOfTaskCheck >= from && StartDateOfTaskCheck <= to && EndDateOfTaskCheck >= from && EndDateOfTaskCheck <= to){
+                                        console.log("condition is true")
+                                        taskWorkLocation.push("true")
+                                    }
+                                }
+                            }
+            }
+        }
+         if (taskWorkLocation.length ==selectArrayForGroup.length&&taskWorkLocation.length >0){
+             taskLocationCondition="true"
+         }else{
+             taskLocationCondition="false"
+         } 
         document.getElementById("startTime").value = vm.StartTime;
         document.getElementById("endTime").value = vm.EndTime;
         var element = document.getElementById('minUsers');
@@ -447,6 +524,7 @@ $().ready(function() {
                 },
                 submitHandler: function() {
                     if (selectedUserArray.length !=0){
+                        taskWorkLocation=[];
                         for ( var i=0;i<selectedUserArray.length;i++){
                             for (var j=0;j<vm.WorkLocationForUser.length;j++){
                                 if (vm.WorkLocationForUser[j][2] ==selectedUserArray[i]){
@@ -519,11 +597,14 @@ $().ready(function() {
                         }
                     }
                     console.log("work location array",taskWorkLocation);
-                    if (taskWorkLocation.length ==selectedUserArray.length&&taskWorkLocation.length >0){
+                    if (selectedUserArray.length !=0){
+                         if (taskWorkLocation.length ==selectedUserArray.length&&taskWorkLocation.length >0){
                         taskLocationCondition="true"
                     }else{
                         taskLocationCondition="false"
                     } 
+                    }
+                   
                     var nfcTagId =  document.getElementById("nfcTagForTask").value;
             //code for date and time conversion
                     var startDate = new Date($("#startDate").val());
@@ -787,6 +868,7 @@ $().ready(function() {
         submitHandler: function() {
             if (selectedUserArray.length !=0){
                 console.log("ad1");
+                taskWorkLocation=[];
                 for ( var i=0;i<selectedUserArray.length;i++){
                     console.log("ad2");
                     for (var j=0;j<vm.WorkLocationForUser.length;j++){
@@ -862,11 +944,14 @@ $().ready(function() {
                 }
             }
             console.log("work location array",taskWorkLocation);
-            if (taskWorkLocation.length ==selectedUserArray.length&&taskWorkLocation.length >0){
-                taskLocationCondition="true"
+            if (selectedUserArray.length !=0){
+                if (taskWorkLocation.length ==selectedUserArray.length&&taskWorkLocation.length >0){
+                    taskLocationCondition="true"
             }else{
                 taskLocationCondition="false"
             } 
+            }
+            
             var nfcTagId =  document.getElementById("nfcTagForTask").value;
             //code for date and time conversion
             var startDate = new Date($("#startDate").val());

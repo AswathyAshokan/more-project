@@ -15,8 +15,8 @@ func (c *ByPassController)ByPass() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	login := models.Login{}
-	login.Email = "aby@gmail.com"
-	login.Password = []byte("123456789")
+	login.Email = "admin@admin.com"
+	login.Password = []byte("12345678")
 	log.Println(login)
 	loginStatus, adminDetails, companyDetails, adminId := login.CheckLogin(c.AppEngineCtx)
 	switch loginStatus{
@@ -31,7 +31,7 @@ func (c *ByPassController)ByPass() {
 		sessionValues.CompanyTeamName = companyDetails.Info.CompanyTeamName
 		sessionValues.CompanyPlan = companyDetails.Plan
 		SetSession(w, sessionValues)
-		initialLink :="-KtFEJ1zSdTpxiE4dGAN/timeSheet"
+		initialLink :="-Ksr4Ot8eWY6KF_a8-qe/task"
 
 		http.Redirect(w, r, initialLink, 302)
 	case false:
