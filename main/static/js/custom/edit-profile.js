@@ -112,7 +112,6 @@ $().ready(function() {
                 if (pictureUploded=="true"){
                      tempProfilePicture = file.name.replace(/\s/g, '');
                 }
-                 
                 var storageRef = firebase.storage().ref('profilePicturesOfAdmin/original/'+unixDateTime+tempProfilePicture);
                 storageRef.put(file);
                 function error(err) {
