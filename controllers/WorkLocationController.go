@@ -126,8 +126,6 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		if groupKeySliceForWorkLocation[0] !="" {
 			WorkLocation.Info.UsersAndGroupsInWorkLocation.Group = groupMap
 		}
-		uniqueWorkLocationStatus := models.IsWorkAssignedToUser(c.AppEngineCtx,startDateInt,endDateInt,userIdArray,companyTeamName)
-	if uniqueWorkLocationStatus == true {
 		dbStatus :=WorkLocation.AddWorkLocationToDb(c.AppEngineCtx,companyTeamName)
 		switch dbStatus {
 		case true:
@@ -135,9 +133,18 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		case false:
 			w.Write([]byte("false"))
 		}
-	}else {
+		/*uniqueWorkLocationStatus := models.IsWorkAssignedToUser(c.AppEngineCtx,startDateInt,endDateInt,userIdArray,companyTeamName)
+	if uniqueWorkLocationStatus == true {
+		dbStatus :=WorkLocation.AddWorkLocationToDb(c.AppEngineCtx,companyTeamName)
+		switch dbStatus {
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
+		}*/
+	/*}else {
 		w.Write([]byte("falseAlreadyExist"))
-	}
+	}*/
 	}else {
 		usersDetail :=models.Users{}
 		dbStatus ,testUser:= companyUsers.GetUsersForDropdownFromCompany(c.AppEngineCtx,companyTeamName)
@@ -192,6 +199,29 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		}
 
 	}
+	workLocationValues := models.IsWorkAssignedToUser(c.AppEngineCtx,companyTeamName)
+	log.Println("allWorkLocationData",workLocationValues)
+	dataValue := reflect.ValueOf(workLocationValues)
+
+	for _, key := range dataValue.MapKeys() {
+		log.Println("alredy key",key.String())
+		if workLocationValues[key.String()].Settings.Status != helpers.StatusInActive{
+			userDataValues :=  reflect.ValueOf(workLocationValues[key.String()].Info.UsersAndGroupsInWorkLocation.User)
+			for _,userKey :=range userDataValues.MapKeys(){
+				var tempUserArray []string
+				log.Println("alredy strat",workLocationValues[key.String()].Info.StartDate)
+				log.Println("alredy end",workLocationValues[key.String()].Info.EndDate )
+				startDateFromDbInInt:= strconv.FormatInt(int64(workLocationValues[key.String()].Info.StartDate), 10)
+				endDateFromDbInInt:=strconv.FormatInt(workLocationValues[key.String()].Info.EndDate, 10)
+				tempUserArray = append(tempUserArray,userKey.String())
+				tempUserArray = append(tempUserArray, startDateFromDbInInt)
+				tempUserArray = append(tempUserArray, endDateFromDbInInt)
+				workLocationViewmodel.DateValues = append(workLocationViewmodel.DateValues,tempUserArray)
+			}
+		}
+
+	}
+	log.Println("tempUserArray",workLocationViewmodel.DateValues)
 	workLocationViewmodel.AdminFirstName = storedSession.AdminFirstName
 	workLocationViewmodel.AdminLastName = storedSession.AdminLastName
 	workLocationViewmodel.ProfilePicture =storedSession.ProfilePicture
@@ -473,6 +503,7 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 		}
 
 	}
+
 	viewModelForEdit.CompanyTeamName = storedSession.CompanyTeamName
 	viewModelForEdit.CompanyPlan = storedSession.CompanyPlan
 	viewModelForEdit.AdminFirstName =storedSession.AdminFirstName

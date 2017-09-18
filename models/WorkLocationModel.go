@@ -53,8 +53,6 @@ type  GroupMemberNameInWorkLocation struct {
 
 
 func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName string) (bool){
-	log.Println("add group")
-	log.Println("w13")
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println(err)
@@ -139,10 +137,7 @@ func inTimeSpan(start, end, check time.Time) bool {
 
 
 
-func IsWorkAssignedToUser(ctx context.Context ,startDate int64,endDate int64, userArray []string,companyTeamName string )(bool)  {
-	log.Println("startDate in model",startDate)
-	log.Println("end date in model",endDate)
-	log.Println("userArray",userArray)
+func IsWorkAssignedToUser(ctx context.Context ,companyTeamName string )( map[string]WorkLocation)  {
 	workLocationValues := map[string]WorkLocation{}
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
@@ -150,47 +145,14 @@ func IsWorkAssignedToUser(ctx context.Context ,startDate int64,endDate int64, us
 	}
 	err = db.Child("WorkLocation").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&workLocationValues)
 	if err != nil {
-		log.Fatal(err)
-		//return workLocationValues, false
+		//.log.Fatal(err)
+		return workLocationValues
 	}
 
-	dataValue := reflect.ValueOf(workLocationValues)
+	/*dataValue := reflect.ValueOf(workLocationValues)
 	for _, key := range dataValue.MapKeys() {
 		log.Println("alredy key",key.String())
 		if workLocationValues[key.String()].Settings.Status != helpers.StatusInActive{
-
-
-			oldStartDate := time.Unix(workLocationValues[key.String()].Info.StartDate, 0).UTC()
-			oldEndDate := time.Unix(workLocationValues[key.String()].Info.EndDate,0).UTC()
-			newStartDate :=  time.Unix(startDate, 0).UTC()
-			newEndDate := time.Unix(endDate, 0).UTC()
-			start, _ := time.Parse(time.RFC822, oldStartDate.String())
-			end, _ := time.Parse(time.RFC822, oldEndDate.String())
-
-			in, _ := time.Parse(time.RFC822, newStartDate.String())
-			out, _ := time.Parse(time.RFC822, newEndDate.String())
-			log.Println("old start date",oldStartDate)
-			log.Println("old End Dtae",oldEndDate)
-			log.Println(" vew start date",newStartDate)
-			log.Println("new emd date",newEndDate)
-			if inTimeSpan(start, end, in) {
-				log.Println("iam in qqqqq")
-				log.Println(in, "is between", start, "and", end, ".")
-			}
-
-			if !inTimeSpan(start, end, out) {
-				log.Println("iam in oooooo")
-				log.Println(out, "is not between", start, "and", end, ".")
-			}
-
-
-
-
-
-
-
-
-
 			userDataValues :=  reflect.ValueOf(workLocationValues[key.String()].Info.UsersAndGroupsInWorkLocation.User)
 			for _,userKey :=range userDataValues.MapKeys(){
 				log.Println("alredy strat",workLocationValues[key.String()].Info.StartDate)
@@ -205,8 +167,8 @@ func IsWorkAssignedToUser(ctx context.Context ,startDate int64,endDate int64, us
 			}
 		}
 
-	}
-	return true
+	}*/
+	return workLocationValues
 }
 
 

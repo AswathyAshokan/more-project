@@ -12,6 +12,7 @@ type AddLocationViewModel struct {
 	AdminLastName			string
 	ProfilePicture			string
 	CompanyTeamName			string
+	DateValues   			[][]string
 
 }
 type LoadWorkLocationViewModel struct {

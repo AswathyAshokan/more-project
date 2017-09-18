@@ -88,6 +88,7 @@ func (c *SharedDocumentController) LoadSharedDocumentsAllSharedDocuments() {
 	log.Println("session :", storedSession)
 	documentsViewModels := viewmodels.SharedDocument{}
 	expiry, dbStatus ,Name,expiryKeySlice,AllSharedDocument:= models.GetAllSharedDocumentsByCompany(c.AppEngineCtx, companyTeamName)
+	log.Println("AllSharedDocument",AllSharedDocument)
 	switch dbStatus {
 	case true:
 
