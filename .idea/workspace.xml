@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/GOPATH__passporte_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/GOPATH__passporte_2.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/TimeSheetController.go" afterPath="$PROJECT_DIR$/controllers/TimeSheetController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/edit-profile.js" afterPath="$PROJECT_DIR$/main/static/js/custom/edit-profile.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/timesheet-details.js" afterPath="$PROJECT_DIR$/main/static/js/custom/timesheet-details.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/edit-profile.html" afterPath="$PROJECT_DIR$/main/views/template/edit-profile.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/time-sheet.html" afterPath="$PROJECT_DIR$/main/views/template/time-sheet.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,10 +19,10 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ByPassController.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ByPassController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="349">
+            <state relative-caret-position="457">
               <caret line="35" column="43" lean-forward="false" selection-start-line="35" selection-start-column="43" selection-end-line="35" selection-end-column="43" />
               <folding>
                 <marker date="1505735312015" expanded="true" signature="1045:1085" ph="..." />
@@ -45,11 +41,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TimeSheetController.go" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TimeSheetController.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/TimeSheetController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="117" column="121" lean-forward="true" selection-start-line="117" selection-start-column="121" selection-end-line="117" selection-end-column="121" />
+            <state relative-caret-position="306">
+              <caret line="165" column="40" lean-forward="false" selection-start-line="165" selection-start-column="40" selection-end-line="165" selection-end-column="40" />
               <folding>
                 <element signature="e#20#151#0" expanded="true" />
               </folding>
@@ -754,13 +750,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00261" summary="1/06/2013:28:   check box">
-      <created>1503402347657</created>
-      <option name="number" value="00261" />
-      <option name="presentableId" value="LOCAL-00261" />
-      <option name="project" value="LOCAL" />
-      <updated>1503402347657</updated>
-    </task>
     <task id="LOCAL-00262" summary="1/06/2013:28:   check box">
       <created>1503462326201</created>
       <option name="number" value="00262" />
@@ -1097,7 +1086,14 @@
       <option name="project" value="LOCAL" />
       <updated>1505736173481</updated>
     </task>
-    <option name="localTasksCounter" value="310" />
+    <task id="LOCAL-00310" summary="1/06/2013:28:   work location">
+      <created>1505795755901</created>
+      <option name="number" value="00310" />
+      <option name="presentableId" value="LOCAL-00310" />
+      <option name="project" value="LOCAL" />
+      <updated>1505795755904</updated>
+    </task>
+    <option name="localTasksCounter" value="311" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1565,22 +1561,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/TimeSheetController.go">
+    <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="117" column="121" lean-forward="true" selection-start-line="117" selection-start-column="121" selection-end-line="117" selection-end-column="121" />
+        <state relative-caret-position="457">
+          <caret line="35" column="43" lean-forward="false" selection-start-line="35" selection-start-column="43" selection-end-line="35" selection-end-column="43" />
           <folding>
-            <element signature="e#20#151#0" expanded="true" />
+            <marker date="1505735312015" expanded="true" signature="1045:1085" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
+    <entry file="file://$PROJECT_DIR$/controllers/TimeSheetController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
-          <caret line="35" column="43" lean-forward="false" selection-start-line="35" selection-start-column="43" selection-end-line="35" selection-end-column="43" />
+        <state relative-caret-position="306">
+          <caret line="165" column="40" lean-forward="false" selection-start-line="165" selection-start-column="40" selection-end-line="165" selection-end-column="40" />
           <folding>
-            <marker date="1505735312015" expanded="true" signature="1045:1085" ph="..." />
+            <element signature="e#20#151#0" expanded="true" />
           </folding>
         </state>
       </provider>
