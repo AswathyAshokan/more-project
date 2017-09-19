@@ -119,35 +119,43 @@ func (c *LogController)LoadLogDetails() {
 						var tempGeneralLogSlice []string
 						var tempGenerealLogoutSlice []string
 						LogData := models.GetSpecificLogValues(c.AppEngineCtx,key.String())
-						tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.UserName)
-						tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.Type)
-						tempGeneralLogSlice = append(tempGeneralLogSlice,strconv.FormatInt(int64(LogData.LogTime), 10))
-						tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.Duration)
-						lastLoginLattitude := strconv.FormatFloat(LogData.Latitude, 'f', 6, 64)
-						lastLoginLongitude := strconv.FormatFloat(LogData.Longitude, 'f', 6, 64)
-						tempGeneralLogSlice = append(tempGeneralLogSlice,lastLoginLattitude)
-						tempGeneralLogSlice = append(tempGeneralLogSlice,lastLoginLongitude)
-						tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.UserID)
-						tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.LogDescription)
-						log.Println("work log each person",tempGeneralLogSlice)
-						viewModel.GeneralLogValues = append(viewModel.GeneralLogValues,tempGeneralLogSlice)
-						log.Println("viewModel.GeneralLogValues $$$$$$$",viewModel.GeneralLogValues)
+						log.Println("LogData",LogData)
+						if(LogData.UserName !=""){
+							tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.UserName)
+							tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.Type)
+							tempGeneralLogSlice = append(tempGeneralLogSlice,strconv.FormatInt(int64(LogData.LogTime), 10))
+							tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.Duration)
+							lastLoginLattitude := strconv.FormatFloat(LogData.Latitude, 'f', 6, 64)
+							lastLoginLongitude := strconv.FormatFloat(LogData.Longitude, 'f', 6, 64)
+							tempGeneralLogSlice = append(tempGeneralLogSlice,lastLoginLattitude)
+							tempGeneralLogSlice = append(tempGeneralLogSlice,lastLoginLongitude)
+							tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.UserID)
+							tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.LogDescription)
+							log.Println("work log each person",tempGeneralLogSlice)
+							viewModel.GeneralLogValues = append(viewModel.GeneralLogValues,tempGeneralLogSlice)
+							log.Println("viewModel.GeneralLogValues $$$$$$$",viewModel.GeneralLogValues)
+						}
+
 
 
 						LogoutData := models.GetSpecificLogoutValues(c.AppEngineCtx,key.String())
-						tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.UserName)
-						tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.Type)
-						tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,strconv.FormatInt(int64(LogoutData.LogTime), 10))
-						tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.Duration)
-						lastLogoutLattitude := strconv.FormatFloat(LogoutData.Latitude, 'f', 6, 64)
-						lastLogoutLongitude := strconv.FormatFloat(LogoutData.Longitude, 'f', 6, 64)
-						tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,lastLogoutLattitude)
-						tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,lastLogoutLongitude)
-						tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.UserID)
-						tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.LogDescription)
-						log.Println("work logout each person",tempGenerealLogoutSlice)
-						viewModel.GeneralLogValues = append(viewModel.GeneralLogValues,tempGenerealLogoutSlice)
-						log.Println("viewModel.GeneralLogValues******",viewModel.GeneralLogValues)
+						log.Println("LogoutData",LogoutData)
+						if LogoutData.UserName !=""{
+							tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.UserName)
+							tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.Type)
+							tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,strconv.FormatInt(int64(LogoutData.LogTime), 10))
+							tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.Duration)
+							lastLogoutLattitude := strconv.FormatFloat(LogoutData.Latitude, 'f', 6, 64)
+							lastLogoutLongitude := strconv.FormatFloat(LogoutData.Longitude, 'f', 6, 64)
+							tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,lastLogoutLattitude)
+							tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,lastLogoutLongitude)
+							tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.UserID)
+							tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.LogDescription)
+							log.Println("work logout each person",tempGenerealLogoutSlice)
+							viewModel.GeneralLogValues = append(viewModel.GeneralLogValues,tempGenerealLogoutSlice)
+							log.Println("viewModel.GeneralLogValues******",viewModel.GeneralLogValues)
+						}
+
 						//tempGenerealLogoutSlice = tempGenerealLogoutSlice[:0]
 
 

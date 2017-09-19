@@ -122,12 +122,6 @@ func GetAllSharedDocumentsByCompany(ctx context.Context,companyTeamname string )
 						AllSharedfile = append(AllSharedfile, tempSlice)
 					}
 				}
-
-
-
-
-
-
 			}
 		}
 	}
