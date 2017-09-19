@@ -565,25 +565,26 @@ $(function(){
                      }
                      sumLateHours=hrs+':'+mins;
                      lateHours =sumLateHours;
-                 }else if (workStartTimeFromLogDiff<DailyStartTimeDiff){
-                     diffInStartTime =moment.utc(moment(DailyStartTime," HH:mm").diff(moment(workStartTimeFromLog," HH:mm"))).format("HH:mm");
-                     console.log("c3",diffInStartTime);
-                     var t1 = diffInStartTime.split(':');
-                     var t2 = sumExtraHours.split(':');
-                     var mins = Number(t1[1])+Number(t2[1]);
-                     var hrs = Math.floor(parseInt(mins / 60));
-                     hrs = Number(t1[0])+Number(t2[0])+hrs;
-                     mins = mins % 60;
-                     if ((hrs >= 0) && (hrs < 10) && (Math.floor(hrs) == hrs)) {
-                         hrs ="0"+hrs;
-                     }
-                     if ((mins >= 0) && (mins < 10) && (Math.floor(mins) == mins)) {
-                         mins ="0"+mins;
-                     }
-                     sumExtraHours=hrs+':'+mins;
-                     extraHours =sumExtraHours;
-                     console.log("extra hours",extraHours);
                  }
+//                else if (workStartTimeFromLogDiff<DailyStartTimeDiff){
+//                     diffInStartTime =moment.utc(moment(DailyStartTime," HH:mm").diff(moment(workStartTimeFromLog," HH:mm"))).format("HH:mm");
+//                     console.log("c3",diffInStartTime);
+//                     var t1 = diffInStartTime.split(':');
+//                     var t2 = sumExtraHours.split(':');
+//                     var mins = Number(t1[1])+Number(t2[1]);
+//                     var hrs = Math.floor(parseInt(mins / 60));
+//                     hrs = Number(t1[0])+Number(t2[0])+hrs;
+//                     mins = mins % 60;
+//                     if ((hrs >= 0) && (hrs < 10) && (Math.floor(hrs) == hrs)) {
+//                         hrs ="0"+hrs;
+//                     }
+//                     if ((mins >= 0) && (mins < 10) && (Math.floor(mins) == mins)) {
+//                         mins ="0"+mins;
+//                     }
+//                     sumExtraHours=hrs+':'+mins;
+//                     extraHours =sumExtraHours;
+//                     console.log("extra hours",extraHours);
+//                 }
                
                 if (workEndTimeFromLogDiff>DailyEndTimeDiff){
                     console.log("c4");
@@ -602,6 +603,7 @@ $(function(){
                     }
                     sumExtraHours=hrs+':'+mins;
                     extraHours =sumExtraHours;
+                    console.log("extra time used by ffff",extraHours)
                 }else if (workEndTimeFromLogDiff<DailyEndTimeDiff){
                     diffInStartTime =moment.utc(moment(DailyEndTime," HH:mm").diff(moment(taskEndTimeFromLog," HH:mm"))).format("HH:mm");
                     var t1 = diffInStartTime.split(':');
@@ -625,6 +627,7 @@ $(function(){
                 workSlice.push(vm.WorkTimeSheeetDetails[i][8]);
                 workSlice.push(workStartDateFromLog);
                 workValues.push(workSlice);
+                console.log("exteedddd");
                 
             }
         }

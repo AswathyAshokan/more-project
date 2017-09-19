@@ -99,6 +99,7 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 						workDetailsSlice=append(workDetailsSlice,"0")
 						log.Println("in1",workDetailsSlice)
 						if len(timeSheetUserDetails[key.String()].WorkStartTime) !=0{
+							log.Println("crr11")
 							dataValue := reflect.ValueOf(timeSheetUserDetails[key.String()].WorkStartTime)
 							for _, workStartTimeKey := range dataValue.MapKeys() {
 								StartTime := strconv.FormatInt(timeSheetUserDetails[key.String()].WorkStartTime[workStartTimeKey.String()].Time, 10)

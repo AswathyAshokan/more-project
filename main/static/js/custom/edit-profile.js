@@ -13,7 +13,6 @@ var image = document.getElementsByClassName("imageUpload");
 image.src = vm.ProfilePicture;
 //function for displaying image
 function displayImage() {
-    pictureUploded="true";
     file    = document.querySelector('input[type=file]').files[0];
     var reader  = new FileReader();
     reader.onloadend = function () {
@@ -48,12 +47,12 @@ var config = {
 firebase.initializeApp(config);
 
 
-//function resizeImg() {
-//    console.log("inside");
-//    img  = document.querySelector('input[type=file]').files[0];
-//    img.height = 100;
-//    img.width = 100;
-//}
+function resizeImg() {
+    console.log("inside");
+    img  = document.querySelector('input[type=file]').files[0];
+    img.height = 100;
+    img.width = 100;
+}
 $().ready(function() {
     
     document.getElementById("name").value = vm.FirstName;
@@ -102,24 +101,21 @@ $().ready(function() {
             
             submitHandler: function(){//to pass all data of a form serial
                 $("#edit-txt").attr('disabled', true);
-                var tempProfilePicture ="";
-                var tempThumbPicture ="";
                 var now = new Date();
                 var datetime = now.getFullYear()+'/'+(now.getMonth()+1)+'/'+now.getDate(); 
                 datetime += ' '+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
                 unixDateTime = Date.parse(datetime)/1000;
-                console.log("condition ttt",pictureUploded);
-                if (pictureUploded=="true"){
-                     tempProfilePicture = file.name.replace(/\s/g, '');
-                }
+                var tempProfilePicture = file.name.replace(/\s/g, '');
+                console.log("jjjjjjj1");
+                
                 var storageRef = firebase.storage().ref('profilePicturesOfAdmin/original/'+unixDateTime+tempProfilePicture);
-                storageRef.put(file);
+                storageRef.put(img);
                 function error(err) {
                     console.log("error",err);
+                    alert("kkk",err);
                 }
-                if (pictureUploded=="true"){
-                     tempThumbPicture = file.name.replace(/\s/g, '');
-                }
+                console.log("mmmmmmmm");
+                var tempThumbPicture = file.name.replace(/\s/g, '');
                 var storageRef = firebase.storage().ref('profilePicturesOfAdmin/thumbnail/'+unixDateTime+tempThumbPicture);
                 storageRef.put(img);
                 function error(err) {
