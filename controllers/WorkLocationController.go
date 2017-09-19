@@ -403,22 +403,12 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 		if groupKeySliceForWorkLocation[0] !="" {
 			WorkLocation.Info.UsersAndGroupsInWorkLocation.Group = groupMap
 		}
-		log.Println("user map for serious issue",WorkLocation.Info.UsersAndGroupsInWorkLocation.User)
-		log.Println("group map for serious issue",WorkLocation.Info.UsersAndGroupsInWorkLocation.Group)
-		uniqueWorkLocationStatus := models.IsWorkAssignedToUserInEditSection(c.AppEngineCtx,startDateInt,endDateInt,userIdArray,companyTeamName,oldUserId)
-		if uniqueWorkLocationStatus == true {
-			dbStatus :=WorkLocation.EditWorkLocationToDb(c.AppEngineCtx,workLocationId,companyTeamName)
-			switch dbStatus {
-			case true:
-				log.Println("true not unique")
-				w.Write([]byte("true"))
-			case false:
-				log.Println("true false not unique")
-				w.Write([]byte("false"))
-			}
-		}else {
-			log.Println("false")
-			w.Write([]byte("falseAlreadyExist"))
+		dbStatus :=WorkLocation.EditWorkLocationToDb(c.AppEngineCtx,workLocationId,companyTeamName)
+		switch dbStatus {
+		case true:
+			w.Write([]byte("true"))
+		case false:
+			w.Write([]byte("false"))
 		}
 	} else{
 		usersDetail :=models.Users{}
@@ -504,11 +494,36 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 
 	}
 
+
+	workLocationValues := models.IsWorkAssignedToUser(c.AppEngineCtx,companyTeamName)
+	log.Println("allWorkLocationData",workLocationValues)
+	dataValue := reflect.ValueOf(workLocationValues)
+
+	for _, key := range dataValue.MapKeys() {
+		log.Println("alredy key",key.String())
+		if workLocationValues[key.String()].Settings.Status != helpers.StatusInActive{
+			userDataValues :=  reflect.ValueOf(workLocationValues[key.String()].Info.UsersAndGroupsInWorkLocation.User)
+			for _,userKey :=range userDataValues.MapKeys(){
+				var tempUserArray []string
+				log.Println("alredy strat",workLocationValues[key.String()].Info.StartDate)
+				log.Println("alredy end",workLocationValues[key.String()].Info.EndDate )
+				startDateFromDbInInt:= strconv.FormatInt(int64(workLocationValues[key.String()].Info.StartDate), 10)
+				endDateFromDbInInt:=strconv.FormatInt(workLocationValues[key.String()].Info.EndDate, 10)
+				tempUserArray = append(tempUserArray,userKey.String())
+				tempUserArray = append(tempUserArray, startDateFromDbInInt)
+				tempUserArray = append(tempUserArray, endDateFromDbInInt)
+				viewModelForEdit.DateValues = append(viewModelForEdit.DateValues,tempUserArray)
+			}
+		}
+
+	}
+
 	viewModelForEdit.CompanyTeamName = storedSession.CompanyTeamName
 	viewModelForEdit.CompanyPlan = storedSession.CompanyPlan
 	viewModelForEdit.AdminFirstName =storedSession.AdminFirstName
 	viewModelForEdit.AdminLastName =storedSession.AdminLastName
 	viewModelForEdit.ProfilePicture =storedSession.ProfilePicture
+	log.Println("viewModelForEdit",viewModelForEdit)
 	c.Data["vm"] = viewModelForEdit
 	c.TplName = "template/add-workLocation.html"
 

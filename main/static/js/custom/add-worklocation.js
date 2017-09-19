@@ -9,9 +9,23 @@ var dailyEndTimeUnix;
 var taskWorkLocation = [];
 var taskLocationCondition="";
 var  startDateString ;
+var count =0;
+var returnString;
 
 $(document).ready(function() {
     // contains all selected users and groups
+    function checkUserId(userId) {
+        if(vm.DateValues !=null){
+            for(var j=0 ;j<vm.DateValues.length;j++ ){
+            if(vm.DateValues[j][0] !=userId ){
+                returnString ="true"
+            }else{
+                returnString ="false"
+            }
+        }
+            return returnString
+        }
+    }
     if(vm.PageType == "edit"){ 
         var selectArray =[];
         selectArray = vm.UsersKey;
@@ -43,6 +57,119 @@ $(document).ready(function() {
         }
         var localEndDate = (endmm + '/' + enda + '/' + endyyyy);
         
+        // for checking the uniqueness Of work loccation
+        
+         if(vm.DateValues != null){
+                if (selectedUserArray.length !=0){
+                    taskWorkLocation=[];
+                    for ( var x=0;x<vm.DateValues.length;x++){
+                        for( var y=0;y<vm.UsersKey.length;y++){
+                            if (vm.DateValues[x][0] == vm.UsersKey[y]){
+                                console.log(" both id of users ARE equal");
+                                var utcTime = vm.DateValues[x][1];
+                                var dateFromDb = parseInt(utcTime);
+                                var d = new Date(dateFromDb * 1000);
+                                var dd = d.getDate();
+                                var mm = d.getMonth() + 1; //January is 0!
+                                var yyyy = d.getFullYear();
+                                var HH = d.getHours();
+                                var min = d.getMinutes();
+                                var sec = d.getSeconds();
+                                if (dd < 10) {
+                                    dd = '0' + dd;
+                                }
+                                if (mm < 10) {
+                                    mm = '0' + mm;
+                                }
+                                if (HH < 10) {
+                                    HH = '0' + HH;
+                                }
+                                if (min < 10) {
+                                    min = '0' + min;
+                                }
+                                if (sec < 10) {
+                                    sec = '0' + sec;
+                                }
+                                var workStartDateFromDb = (mm + '/' + dd + '/' + yyyy);
+                                var utcTime =vm.DateValues[x][2];
+                                var dateFromDb = parseInt(utcTime)
+                                var d = new Date(dateFromDb * 1000);
+                                var dd = d.getDate();
+                                var mm = d.getMonth() + 1; //January is 0!
+                                var yyyy = d.getFullYear();
+                                var HH = d.getHours();
+                                var min = d.getMinutes();
+                                var sec = d.getSeconds();
+                                if (dd < 10) {
+                                    dd = '0' + dd;
+                                }
+                                if (mm < 10) {
+                                    mm = '0' + mm;
+                                }
+                                if (HH < 10) {
+                                    HH = '0' + HH;
+                                }
+                                if (min < 10) {
+                                    min = '0' + min;
+                                }
+                                if (sec < 10) {
+                                    sec = '0' + sec;
+                                }
+                                var workEndDateFromDb = (mm + '/' + dd + '/' + yyyy);
+                                /*var newStartDate =document.getElementById("startDate").value 
+                                var newEndDate =document.getElementById("endDate").value*/
+                                var StartDateOfTask = document.getElementById("startDate").value ;
+                                var EndDateOfTask = document.getElementById("endDate").value;
+                                console.log("StartDateOfTask",StartDateOfTask);
+                                console.log("EndDateOfTask",EndDateOfTask);
+                                console.log("workStartDateFromDb",workStartDateFromDb);
+                                console.log("workEndDateFromDb",workEndDateFromDb);
+                                var workStartDate1 = workStartDateFromDb.split("/");
+                                var workEndDate1 = workEndDateFromDb.split("/");
+                                var StartDateOfTask1 = StartDateOfTask.split("/");
+                                var EndDateOfTask1 = EndDateOfTask.split("/");
+                                console.log("workStartDate1",workStartDate1);
+                                console.log("workEndDate1",workEndDate1);
+                                console.log("StartDateOfTask1",StartDateOfTask1);
+                                console.log("EndDateOfTask1",EndDateOfTask1)
+                                var from = new Date(workStartDate1[2], parseInt(workStartDate1[1])-1, workStartDate1[0]);  // -1 because months are from 0 to 11
+                                    var to   = new Date(workEndDate1[2], parseInt(workEndDate1[1])-1, workEndDate1[0]);
+                                    var StartDateOfTaskCheck = new Date(StartDateOfTask1[2], parseInt(StartDateOfTask1[1])-1, StartDateOfTask1[0]);
+                                    var EndDateOfTaskCheck = new Date(EndDateOfTask1[2], parseInt(EndDateOfTask1[1])-1, EndDateOfTask1[0]);
+                                    if (StartDateOfTaskCheck >= from && StartDateOfTaskCheck <= to && EndDateOfTaskCheck >= from && EndDateOfTaskCheck <= to){
+                                        console.log("condition is true")
+                                        taskWorkLocation.push("true")
+                                    }
+                                console.log("inside id equal testlocation",taskWorkLocation);
+                            } 
+                        }
+                    }
+            }
+            }else{
+                for( var z=0;z<vm.UsersKey.length;z++){
+                    taskWorkLocation.push("true");
+                }
+            }
+            var selecetUserArrayLength = vm.UsersKey.length;
+            for(var i=0;i<selecetUserArrayLength;i++){
+                console.log("selectedUserArray[i]",vm.UsersKey[i]);
+               var returnValues = checkUserId(vm.UsersKey[i]);
+                if(returnValues =="true"){
+                    count = count+1;
+                }
+            }
+            for(var i=0;i<count;i++){
+                taskWorkLocation.push("true")
+            }
+            console.log("count",count);
+            console.log("taskWorkLocation in final",taskWorkLocation);
+            
+            if (taskWorkLocation.length ==vm.UsersKey.length&&taskWorkLocation.length >0){
+                taskLocationCondition="true"
+            }else{
+                taskLocationCondition="false"
+            }
+        console.log("taskLocationCondition in editing.....",taskLocationCondition)
         document.getElementById("taskLocation").value = vm.WorkLocation;
         document.getElementById("startDate").value = localDate;
         document.getElementById("endDate").value = localEndDate;
@@ -53,9 +180,9 @@ $(document).ready(function() {
         document.getElementById("workLocationId").innerHTML = "Edit WorkLocation";//for display heading of each webpage
         var selectedGroupArray = [];
         var groupKeyArray = [];
-        for(var i=0;i<vm.UsersKey.length;i++){
+        /*for(var i=0;i<vm.UsersKey.length;i++){
             selectedUserArray.push(vm.UsersKey[i]);
-        }
+        }*/
         console.log("selectedUserArray",selectedUserArray);
     }
     
@@ -117,77 +244,80 @@ $(document).ready(function() {
             taskLocation:"please fill this column",
         },
         submitHandler: function(){//to pass all data of a form serial
-            
-            
             if(vm.DateValues != null){
-                console.log("cp1");
-                for ( var x=0;x<vm.DateValues.length;x++){
-                    for( var y=0;y<selectedUserArray.length;y++){
-                         console.log("cp2",selectedUserArray[y],"cp3",vm.DateValues[x][0]);
-                        if (vm.DateValues[x][0] == selectedUserArray[y]){
-                            console.log(" both id of users ARE equal");
-                            var utcTime = vm.DateValues[x][1];
-                            var dateFromDb = parseInt(utcTime);
-                            var d = new Date(dateFromDb * 1000);
-                            var dd = d.getDate();
-                            var mm = d.getMonth() + 1; //January is 0!
-                            var yyyy = d.getFullYear();
-                            var HH = d.getHours();
-                            var min = d.getMinutes();
-                            var sec = d.getSeconds();
-                            if (dd < 10) {
-                                dd = '0' + dd;
-                            }
-                            if (mm < 10) {
-                                mm = '0' + mm;
-                            }
-                            if (HH < 10) {
-                                HH = '0' + HH;
-                            }
-                            if (min < 10) {
-                                min = '0' + min;
-                            }
-                            if (sec < 10) {
-                                sec = '0' + sec;
-                            }
-                            var workStartDateFromDb = (mm + '/' + dd + '/' + yyyy);
-                            var utcTime =vm.DateValues[x][2];
-                            var dateFromDb = parseInt(utcTime)
-                            var d = new Date(dateFromDb * 1000);
-                            var dd = d.getDate();
-                            var mm = d.getMonth() + 1; //January is 0!
-                            var yyyy = d.getFullYear();
-                            var HH = d.getHours();
-                            var min = d.getMinutes();
-                            var sec = d.getSeconds();
-                            if (dd < 10) {
-                                dd = '0' + dd;
-                            }
-                            if (mm < 10) {
-                                mm = '0' + mm;
-                            }
-                            if (HH < 10) {
-                                HH = '0' + HH;
-                            }
-                            if (min < 10) {
-                                min = '0' + min;
-                            }
-                            if (sec < 10) {
-                                sec = '0' + sec;
-                            }
-                            var workEndDateFromDb = (mm + '/' + dd + '/' + yyyy);
-                            /*var newStartDate =document.getElementById("startDate").value 
-                            var newEndDate =document.getElementById("endDate").value*/
-                            
-                            
-                            
-                             var StartDateOfTask = document.getElementById("startDate").value 
-                                    var EndDateOfTask = document.getElementById("endDate").value
-                                    var workStartDate1 = workStartDateFromDb.split("/");
-                                    var workEndDate1 = workEndDateFromDb.split("/");
-                                    var StartDateOfTask1 = StartDateOfTask.split("/");
-                                    var EndDateOfTask1 = EndDateOfTask.split("/");
-                                    var from = new Date(workStartDate1[2], parseInt(workStartDate1[1])-1, workStartDate1[0]);  // -1 because months are from 0 to 11
+                if (selectedUserArray.length !=0){
+                    taskWorkLocation=[];
+                    for ( var x=0;x<vm.DateValues.length;x++){
+                        for( var y=0;y<selectedUserArray.length;y++){
+                            if (vm.DateValues[x][0] == selectedUserArray[y]){
+                                console.log(" both id of users ARE equal");
+                                var utcTime = vm.DateValues[x][1];
+                                var dateFromDb = parseInt(utcTime);
+                                var d = new Date(dateFromDb * 1000);
+                                var dd = d.getDate();
+                                var mm = d.getMonth() + 1; //January is 0!
+                                var yyyy = d.getFullYear();
+                                var HH = d.getHours();
+                                var min = d.getMinutes();
+                                var sec = d.getSeconds();
+                                if (dd < 10) {
+                                    dd = '0' + dd;
+                                }
+                                if (mm < 10) {
+                                    mm = '0' + mm;
+                                }
+                                if (HH < 10) {
+                                    HH = '0' + HH;
+                                }
+                                if (min < 10) {
+                                    min = '0' + min;
+                                }
+                                if (sec < 10) {
+                                    sec = '0' + sec;
+                                }
+                                var workStartDateFromDb = (mm + '/' + dd + '/' + yyyy);
+                                var utcTime =vm.DateValues[x][2];
+                                var dateFromDb = parseInt(utcTime)
+                                var d = new Date(dateFromDb * 1000);
+                                var dd = d.getDate();
+                                var mm = d.getMonth() + 1; //January is 0!
+                                var yyyy = d.getFullYear();
+                                var HH = d.getHours();
+                                var min = d.getMinutes();
+                                var sec = d.getSeconds();
+                                if (dd < 10) {
+                                    dd = '0' + dd;
+                                }
+                                if (mm < 10) {
+                                    mm = '0' + mm;
+                                }
+                                if (HH < 10) {
+                                    HH = '0' + HH;
+                                }
+                                if (min < 10) {
+                                    min = '0' + min;
+                                }
+                                if (sec < 10) {
+                                    sec = '0' + sec;
+                                }
+                                var workEndDateFromDb = (mm + '/' + dd + '/' + yyyy);
+                                /*var newStartDate =document.getElementById("startDate").value 
+                                var newEndDate =document.getElementById("endDate").value*/
+                                var StartDateOfTask = document.getElementById("startDate").value ;
+                                var EndDateOfTask = document.getElementById("endDate").value;
+                                console.log("StartDateOfTask",StartDateOfTask);
+                                console.log("EndDateOfTask",EndDateOfTask);
+                                console.log("workStartDateFromDb",workStartDateFromDb);
+                                console.log("workEndDateFromDb",workEndDateFromDb);
+                                var workStartDate1 = workStartDateFromDb.split("/");
+                                var workEndDate1 = workEndDateFromDb.split("/");
+                                var StartDateOfTask1 = StartDateOfTask.split("/");
+                                var EndDateOfTask1 = EndDateOfTask.split("/");
+                                console.log("workStartDate1",workStartDate1);
+                                console.log("workEndDate1",workEndDate1);
+                                console.log("StartDateOfTask1",StartDateOfTask1);
+                                console.log("EndDateOfTask1",EndDateOfTask1)
+                                var from = new Date(workStartDate1[2], parseInt(workStartDate1[1])-1, workStartDate1[0]);  // -1 because months are from 0 to 11
                                     var to   = new Date(workEndDate1[2], parseInt(workEndDate1[1])-1, workEndDate1[0]);
                                     var StartDateOfTaskCheck = new Date(StartDateOfTask1[2], parseInt(StartDateOfTask1[1])-1, StartDateOfTask1[0]);
                                     var EndDateOfTaskCheck = new Date(EndDateOfTask1[2], parseInt(EndDateOfTask1[1])-1, EndDateOfTask1[0]);
@@ -195,25 +325,40 @@ $(document).ready(function() {
                                         console.log("condition is true")
                                         taskWorkLocation.push("true")
                                     }
-                        } else{
-                             taskWorkLocation.push("true");
+                                console.log("inside id equal testlocation",taskWorkLocation);
+                            } 
                         }
                     }
+            } else{
+                for(var k=0;k<vm.UsersKey.length;k++){
+                     taskWorkLocation.push("true");
                 }
+            }
             }else{
                 for( var z=0;z<selectedUserArray.length;z++){
                     taskWorkLocation.push("true");
                 }
             }
-            
-            if (taskWorkLocation.length ==selectedUserArray.length&&taskWorkLocation.length >0){
-                taskLocationCondition="true"
-            }else{
-                taskLocationCondition="false"
-            } 
-            
-            
-            
+            var selecetUserArrayLength = selectedUserArray.length;
+            for(var i=0;i<selecetUserArrayLength;i++){
+                console.log("selectedUserArray[i]",selectedUserArray[i]);
+               var returnValues = checkUserId(selectedUserArray[i]);
+                if(returnValues =="true"){
+                    count = count+1;
+                }
+            }
+            for(var i=0;i<count;i++){
+                taskWorkLocation.push("true")
+            }
+            console.log("count",count);
+            console.log("taskWorkLocation in final",taskWorkLocation);
+            if (selectedUserArray.length !=0){
+                if (taskWorkLocation.length ==selectedUserArray.length&&taskWorkLocation.length >0){
+                    taskLocationCondition="true"
+                }else{
+                    taskLocationCondition="false"
+                } 
+            }
             var starDateString = document.getElementById('startDate').value;
             var endDateString = document.getElementById('endDate').value;
             $("#saveButton").attr('disabled', true);

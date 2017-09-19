@@ -130,12 +130,6 @@ func GetAllWorkLocationDetailsByWorkId(ctx context.Context,workLocationId string
 
 }
 
-func inTimeSpan(start, end, check time.Time) bool {
-	log.Println("iam in hhhhhhh",check.After(start) && check.Before(end))
-	return check.After(start) && check.Before(end)
-}
-
-
 
 func IsWorkAssignedToUser(ctx context.Context ,companyTeamName string )( map[string]WorkLocation)  {
 	workLocationValues := map[string]WorkLocation{}
@@ -148,26 +142,6 @@ func IsWorkAssignedToUser(ctx context.Context ,companyTeamName string )( map[str
 		//.log.Fatal(err)
 		return workLocationValues
 	}
-
-	/*dataValue := reflect.ValueOf(workLocationValues)
-	for _, key := range dataValue.MapKeys() {
-		log.Println("alredy key",key.String())
-		if workLocationValues[key.String()].Settings.Status != helpers.StatusInActive{
-			userDataValues :=  reflect.ValueOf(workLocationValues[key.String()].Info.UsersAndGroupsInWorkLocation.User)
-			for _,userKey :=range userDataValues.MapKeys(){
-				log.Println("alredy strat",workLocationValues[key.String()].Info.StartDate)
-				log.Println("alredy end",workLocationValues[key.String()].Info.EndDate )
-				for i:=0;i<len(userArray);i++{
-					if userKey.String() == userArray[i]{
-						if (workLocationValues[key.String()].Info.StartDate ==startDate )&&(workLocationValues[key.String()].Info.EndDate ==endDate){
-							return false
-						}
-					}
-				}
-			}
-		}
-
-	}*/
 	return workLocationValues
 }
 
@@ -314,57 +288,5 @@ func DeleteWorkLog(ctx context.Context,workLocationId string) (bool) {
 }
 
 
-func IsWorkAssignedToUserInEditSection(ctx context.Context ,startDate int64,endDate int64, userArray []string,companyTeamName string ,oldUserId []string)(bool)  {
-	log.Println("startDate in model",startDate)
-	log.Println("end date in model",endDate)
-	log.Println("userArray",userArray)
-	workLocationValues := map[string]WorkLocation{}
-	db,err :=GetFirebaseClient(ctx,"")
-	if err != nil {
-		log.Println(err)
-	}
-	err = db.Child("WorkLocation").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&workLocationValues)
-	if err != nil {
-		log.Fatal(err)
-		//return workLocationValues, false
-	}
-	dataValue := reflect.ValueOf(workLocationValues)
-	for _, key := range dataValue.MapKeys() {
-		if workLocationValues[key.String()].Settings.Status != helpers.StatusInActive{
-			userDataValues :=  reflect.ValueOf(workLocationValues[key.String()].Info.UsersAndGroupsInWorkLocation.User)
-			for _,userKey :=range userDataValues.MapKeys(){
-				log.Println("userKey",userKey)
-				var filteringArray []string
-				for i:=0;i<len(userArray);i++{
-					exists := false
-					for j:=0;j<len(oldUserId);j++{
-
-						if userArray[i] == oldUserId[j] {
-							exists = true
-							break
-						}
-					}
-					// If no previous element exists, append this one.
-					if !exists {
-						filteringArray = append(filteringArray, userArray[i])
-					}
-				}
-				for k:=0;k<len(filteringArray);k++{
-					if userKey.String() == filteringArray[k]{
-						if (workLocationValues[key.String()].Info.StartDate ==startDate )&&(workLocationValues[key.String()].Info.EndDate ==endDate){
-							return false
-						}
-					}
-				}
-
-			}
-
-		}
-
-	}
-
-	return true
-
-}
 
 

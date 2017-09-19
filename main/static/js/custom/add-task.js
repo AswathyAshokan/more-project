@@ -142,7 +142,7 @@ $(function () {
         $("#userOrGroup").val(selectArrayForGroup);
         if (selectArrayForGroup.length !=0){
             for ( var i=0;i<selectArrayForGroup.length;i++){
-                            for (var j=0;j<vm.WorkLocationForUser.length;j++){
+                for (var j=0;j<vm.WorkLocationForUser.length;j++){
                                 if (vm.WorkLocationForUser[j][2] ==selectArrayForGroup[i]){
                                     var utcTime = vm.WorkLocationForUser[j][0];
                                     var dateFromDb = parseInt(utcTime);
@@ -204,6 +204,10 @@ $(function () {
                                     var to   = new Date(workEndDate1[2], parseInt(workEndDate1[1])-1, workEndDate1[0]);
                                     var StartDateOfTaskCheck = new Date(StartDateOfTask1[2], parseInt(StartDateOfTask1[1])-1, StartDateOfTask1[0]);
                                     var EndDateOfTaskCheck = new Date(EndDateOfTask1[2], parseInt(EndDateOfTask1[1])-1, EndDateOfTask1[0]);
+                                    console.log("from",from);
+                                    console.log("to",to);
+                                    console.log("StartDateOfTaskCheck",StartDateOfTaskCheck);
+                                    console.log("EndDateOfTaskCheck",EndDateOfTaskCheck);
                                     if (StartDateOfTaskCheck >= from && StartDateOfTaskCheck <= to && EndDateOfTaskCheck >= from && EndDateOfTaskCheck <= to){
                                         console.log("condition is true")
                                         taskWorkLocation.push("true")
