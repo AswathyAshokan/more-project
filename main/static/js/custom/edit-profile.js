@@ -8,17 +8,33 @@ var profileUrl = "";
 var tempProfilePicture ="";
 var tempThumbPicture ="";
 var pictureUploded ="";
+
+var originalUploaded=false;
+var thumbUploaded=false;
 console.log("profile picture",vm.ProfilePicture);
-var image = document.getElementsByClassName("imageUpload");
-image.src = vm.ProfilePicture;
+if (vm.ProfilePicture !=""){
+    console.log("inside pic");
+    document.getElementById("imageUpload").src = vm.ProfilePicture;
+}
+//var image = document.getElementsByClassName("imageUpload");
+//image.src = vm.ProfilePicture;
 //function for displaying image
+
 function displayImage() {
+    
+//     var filePath = $(this).val();
+//    console.log("kkkkkkk",filePath);
+//            
     file    = document.querySelector('input[type=file]').files[0];
     var reader  = new FileReader();
     reader.onloadend = function () {
-        document.getElementById("imageUpload").src = reader.result;
+//        document.getElementById("imageUpload").src = reader.result;
+//        console.log("d",reader.result);
+//        document.getElementById('imageUpload').style.backgroundImage="url(reader.result)"; // specify the image path here
+
     }
     console.log("newww",document.getElementById("imageUpload").src);
+    
     if (file) {
         reader.readAsDataURL(file);
     } else {
@@ -31,7 +47,6 @@ function displayImage() {
         $(".edit-account input").toggleClass("dis-txt");
         $('#edit-txt').text("Save");
         $('#edit-txt').attr('type', 'submit');
-       
         return false;
     }
 }
@@ -45,8 +60,6 @@ var config = {
             messagingSenderId: "196354561117"
         };
 firebase.initializeApp(config);
-
-
 function resizeImg() {
     console.log("inside");
     img  = document.querySelector('input[type=file]').files[0];
@@ -55,6 +68,15 @@ function resizeImg() {
 }
 $().ready(function() {
     
+    $('#fileButton').on('change',function ()
+        {
+        
+            var filePath = $(this).val();
+            console.log(filePath);
+            
+                document.getElementById('imageUpload').style.backgroundImage="url(filePath)"; // specify the image path here
+
+        });
     document.getElementById("name").value = vm.FirstName;
     document.getElementById("emailId").value = vm.Email;
     document.getElementById("phoneNumber").value = vm.PhoneNo;
@@ -69,8 +91,6 @@ $().ready(function() {
         }else if (vm.CompanyPlan == "businessPlus") {
            $('#planChange').attr('data-target','#business-plus');
         }
-    
-    
     //function for editing form
    $('#edit-txt').on('click', function() {
         var btntxt = $("#edit-txt").text();
@@ -106,59 +126,55 @@ $().ready(function() {
                 datetime += ' '+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
                 unixDateTime = Date.parse(datetime)/1000;
                 var tempProfilePicture = file.name.replace(/\s/g, '');
-                console.log("jjjjjjj1");
-                
-                var storageRef = firebase.storage().ref('profilePicturesOfAdmin/original/'+unixDateTime+tempProfilePicture);
-                storageRef.put(img);
-                function error(err) {
-                    console.log("error",err);
-                    alert("kkk",err);
-                }
-                console.log("mmmmmmmm");
-                var tempThumbPicture = file.name.replace(/\s/g, '');
-                var storageRef = firebase.storage().ref('profilePicturesOfAdmin/thumbnail/'+unixDateTime+tempThumbPicture);
-                storageRef.put(img);
-                function error(err) {
-                    console.log("error",err);
-                }
-                var displayThumbRef = firebase.storage().ref('profilePicturesOfAdmin/thumbnail/'+unixDateTime+tempThumbPicture);
-                setTimeout(function() { displayThumbRef.getDownloadURL().then(function(url) {
-                    thumbUrl=url;
-                }).catch(function(error) {
-                    console.error(error);
-                }); }, 3000);
-                 var displayProfileRef = firebase.storage().ref('profilePicturesOfAdmin/original/'+unixDateTime+tempProfilePicture);
-                setTimeout(function() { displayProfileRef.getDownloadURL().then(function(url) {
-                    // Get the download URL for 'images/stars.jpg'
-                    // This can be inserted into an <img> tag
-                    profileUrl=url;
-                    
-                }).catch(function(error) {
-                    console.error(error);
-                }); }, 2000);
-                setTimeout(function(){var formData = $("#adminAccountDetail").serialize()+ "&profilePicture=" + profileUrl+"&profilePicturePath=" + file+"&thumbPicture=" + thumbUrl;
-                                      console.log("thumb",thumbUrl);
-                                      console.log("profile",profileUrl);
-                                      $.ajax({
-                                          url:'/'+ companyTeamName + '/editProfile',
-                                          type:'post',
-                                          datatype: 'json',
-                                          data: formData,
-                    //call back or get response here
-                                          success : function(response){
-                                              if(response == "true"){
-                                                   window.location =  '/'+companyTeamName+'/dashBoard';
-//                                                  $('#edit-txt').text("Edit");
-//                                                  $(".edit-account input").prop( "disabled", true );
-//                                                  $('#edit-txt').attr('type', 'button');
-                                              } else {
-                                                  $('#edit-txt').text("Edit");
-                                              }
-                                          },
-                                          error: function (request,status, error) {
-                                          }
-                                      });
-                                      return false;},5000);
+                var uploadTaskOriginal = firebase.storage().ref().child('profilePicturesOfAdmin/original/'+unixDateTime+tempProfilePicture).put(img);
+                uploadTaskOriginal.on('state_changed', function(snapshot){
+                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                      console.log('Upload is ' + progress + '% done');
+                }, function(error) {
+                      // Handle unsuccessful uploads
+                }, function() {
+                      // Handle successful uploads on complete
+                      // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                    var downloadURL = uploadTaskOriginal.snapshot.downloadURL;
+                    profileUrl=downloadURL;
+                    originalUploaded=true;
+                });
+                var uploadTaskThumb = firebase.storage().ref().child('profilePicturesOfAdmin/thumbnail/'+unixDateTime+tempThumbPicture).put(img);
+                    uploadTaskThumb.on('state_changed', function(snapshot){
+                        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        console.log('Upload is ' + progress + '% done');
+                    }, function(error) {
+                          // Handle unsuccessful uploads
+                    }, function() {
+                        var downloadURL1 = uploadTaskThumb.snapshot.downloadURL;
+                        thumbUrl=downloadURL1;
+                        thumbUploaded=true;
+                    });
+                var editProfile=  setInterval(function(){
+                    console.log("originalUploaded",originalUploaded)
+                   console.log("thumbUploaded",thumbUploaded)
+                   if(originalUploaded && thumbUploaded ){
+                       var formData = $("#adminAccountDetail").serialize()+ "&profilePicture=" + profileUrl+"&profilePicturePath=" + file+"&thumbPicture=" + thumbUrl;
+                       console.log("thumb",thumbUrl);
+                       console.log("profile",profileUrl);
+                       $.ajax({
+                           url:'/'+ companyTeamName + '/editProfile',
+                           type:'post',
+                           datatype: 'json',
+                           data: formData,
+                           success : function(response){
+                               if(response == "true"){
+                                   window.location =  '/'+companyTeamName+'/dashBoard';
+                               } else {
+                                   $('#edit-txt').text("Edit");
+                               }
+                           },
+                           error: function (request,status, error) {
+                           }
+                       });
+                       clearInterval(editProfile);
+                   }
+                },3000);
             }
         });
    });
