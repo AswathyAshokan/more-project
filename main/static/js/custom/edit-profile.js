@@ -30,7 +30,7 @@ function displayImage() {
     reader.onloadend = function () {
 //        document.getElementById("imageUpload").src = reader.result;
 //        console.log("d",reader.result);
-//        document.getElementById('imageUpload').style.backgroundImage="url(reader.result)"; // specify the image path here
+        document.getElementById('imageUpload').style.backgroundImage="url(reader.result)"; // specify the image path here
 
     }
     console.log("newww",document.getElementById("imageUpload").src);
@@ -73,8 +73,9 @@ $().ready(function() {
         
             var filePath = $(this).val();
             console.log(filePath);
+//        document.getElementById('imageUpload').style.backgroundImage="url(filePath)";
             
-                document.getElementById('imageUpload').style.backgroundImage="url(filePath)"; // specify the image path here
+//                document.getElementById('imageUpload').style.backgroundImage="url(filePath)"; // specify the image path here
 
         });
     document.getElementById("name").value = vm.FirstName;
