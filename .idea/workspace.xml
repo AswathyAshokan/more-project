@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/edit-profile.js" afterPath="$PROJECT_DIR$/main/static/js/custom/edit-profile.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/duress.html" afterPath="$PROJECT_DIR$/main/views/template/duress.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -907,13 +906,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00264" summary="1/06/2013:28:   check box">
-      <created>1503479638591</created>
-      <option name="number" value="00264" />
-      <option name="presentableId" value="LOCAL-00264" />
-      <option name="project" value="LOCAL" />
-      <updated>1503479638591</updated>
-    </task>
     <task id="LOCAL-00265" summary="1/06/2013:28:   check box">
       <created>1503574172431</created>
       <option name="number" value="00265" />
@@ -1250,7 +1242,14 @@
       <option name="project" value="LOCAL" />
       <updated>1505821090320</updated>
     </task>
-    <option name="localTasksCounter" value="313" />
+    <task id="LOCAL-00313" summary="1/06/2013:28:   work location">
+      <created>1505822231273</created>
+      <option name="number" value="00313" />
+      <option name="presentableId" value="LOCAL-00313" />
+      <option name="project" value="LOCAL" />
+      <updated>1505822231273</updated>
+    </task>
+    <option name="localTasksCounter" value="314" />
     <servers />
   </component>
   <component name="ToolWindowManager">
