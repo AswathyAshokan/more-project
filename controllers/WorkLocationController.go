@@ -133,18 +133,6 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		case false:
 			w.Write([]byte("false"))
 		}
-		/*uniqueWorkLocationStatus := models.IsWorkAssignedToUser(c.AppEngineCtx,startDateInt,endDateInt,userIdArray,companyTeamName)
-	if uniqueWorkLocationStatus == true {
-		dbStatus :=WorkLocation.AddWorkLocationToDb(c.AppEngineCtx,companyTeamName)
-		switch dbStatus {
-		case true:
-			w.Write([]byte("true"))
-		case false:
-			w.Write([]byte("false"))
-		}*/
-	/*}else {
-		w.Write([]byte("falseAlreadyExist"))
-	}*/
 	}else {
 		usersDetail :=models.Users{}
 		dbStatus ,testUser:= companyUsers.GetUsersForDropdownFromCompany(c.AppEngineCtx,companyTeamName)

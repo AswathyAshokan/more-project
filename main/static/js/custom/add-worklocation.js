@@ -60,7 +60,7 @@ $(document).ready(function() {
         // for checking the uniqueness Of work loccation
         
          if(vm.DateValues != null){
-                if (selectedUserArray.length !=0){
+                if (vm.UsersKey.length !=0){
                     taskWorkLocation=[];
                     for ( var x=0;x<vm.DateValues.length;x++){
                         for( var y=0;y<vm.UsersKey.length;y++){
@@ -146,9 +146,9 @@ $(document).ready(function() {
                     }
             }
             }else{
-                for( var z=0;z<vm.UsersKey.length;z++){
+                /*for( var z=0;z<vm.UsersKey.length;z++){
                     taskWorkLocation.push("true");
-                }
+                }*/
             }
             var selecetUserArrayLength = vm.UsersKey.length;
             for(var i=0;i<selecetUserArrayLength;i++){
@@ -329,11 +329,11 @@ $(document).ready(function() {
                             } 
                         }
                     }
-            } else{
+            } /*else{
                 for(var k=0;k<vm.UsersKey.length;k++){
                      taskWorkLocation.push("true");
                 }
-            }
+            }*/
             }else{
                 for( var z=0;z<selectedUserArray.length;z++){
                     taskWorkLocation.push("true");
@@ -350,7 +350,7 @@ $(document).ready(function() {
             for(var i=0;i<count;i++){
                 taskWorkLocation.push("true")
             }
-            console.log("count",count);
+            console.log("selectedUserArray",selectedUserArray);
             console.log("taskWorkLocation in final",taskWorkLocation);
             if (selectedUserArray.length !=0){
                 if (taskWorkLocation.length ==selectedUserArray.length&&taskWorkLocation.length >0){
@@ -359,6 +359,7 @@ $(document).ready(function() {
                     taskLocationCondition="false"
                 } 
             }
+            console.log("taskLocationCondition",taskLocationCondition);
             var starDateString = document.getElementById('startDate').value;
             var endDateString = document.getElementById('endDate').value;
             $("#saveButton").attr('disabled', true);

@@ -217,6 +217,7 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 	m.Settings.DateOfCreation = workLocationValues.DateOfCreation
 	m.Settings.Status = workLocationValues.Status
 	userData := reflect.ValueOf(m.Info.UsersAndGroupsInWorkLocation.User)
+	log.Println("edited values",m)
 	for _, key := range userData.MapKeys() {
 		log.Println("idddd",key)
 	}

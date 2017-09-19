@@ -63,7 +63,7 @@ func (c *LogController)LoadLogDetails() {
 				tempValueSlice = append(tempValueSlice,longitudeInString)
 				viewModel.Values = append(viewModel.Values, tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]
-				userId = append(userId,logUserDetail[key.String()].UserID)
+				//userId = append(userId,logUserDetail[key.String()].UserID)
 
 			} else {
 				//var buffer bytes.Buffer
@@ -80,19 +80,22 @@ func (c *LogController)LoadLogDetails() {
 				tempValueSlice = append(tempValueSlice,longitudeInString)
 				viewModel.WorkLocationValues = append(viewModel.WorkLocationValues, tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]
-				userId = append(userId,logUserDetail[key.String()].UserID)
+
 
 			}
+			//userId = append(userId,logUserDetail[key.String()].UserID)
 
 		}
 
 		var generalKeySlice []string
 		logStatus,generalLogData := models.GetGeneralLogDataByUserId(c.AppEngineCtx)
+		log.Println("logStatus @@@@@",generalLogData)
 		switch logStatus {
 		case true:
 			dataValue := reflect.ValueOf(generalLogData)
 			for _, key := range dataValue.MapKeys() {
-				generalKeySlice = append(generalKeySlice,key.String())
+				log.Println("key ?????",key.String())
+				userId = append(userId,key.String())
 				var tempArray []string
 				for i:=0;i<len(userId);i++{
 
@@ -108,8 +111,11 @@ func (c *LogController)LoadLogDetails() {
 						tempArray = append(tempArray, userId[i])
 					}
 				}
+				log.Println("tempArray ",tempArray)
 				for k :=0;k<len(tempArray);k++{
 					if tempArray[k] == key.String(){
+						log.Println("key.String() 111111",key.String())
+						generalKeySlice = append(generalKeySlice,key.String())
 						var tempGeneralLogSlice []string
 						var tempGenerealLogoutSlice []string
 						LogData := models.GetSpecificLogValues(c.AppEngineCtx,key.String())
@@ -121,13 +127,11 @@ func (c *LogController)LoadLogDetails() {
 						lastLoginLongitude := strconv.FormatFloat(LogData.Longitude, 'f', 6, 64)
 						tempGeneralLogSlice = append(tempGeneralLogSlice,lastLoginLattitude)
 						tempGeneralLogSlice = append(tempGeneralLogSlice,lastLoginLongitude)
-
-
 						tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.UserID)
-
 						tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.LogDescription)
 						log.Println("work log each person",tempGeneralLogSlice)
 						viewModel.GeneralLogValues = append(viewModel.GeneralLogValues,tempGeneralLogSlice)
+						log.Println("viewModel.GeneralLogValues $$$$$$$",viewModel.GeneralLogValues)
 
 
 						LogoutData := models.GetSpecificLogoutValues(c.AppEngineCtx,key.String())
@@ -143,6 +147,7 @@ func (c *LogController)LoadLogDetails() {
 						tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.LogDescription)
 						log.Println("work logout each person",tempGenerealLogoutSlice)
 						viewModel.GeneralLogValues = append(viewModel.GeneralLogValues,tempGenerealLogoutSlice)
+						log.Println("viewModel.GeneralLogValues******",viewModel.GeneralLogValues)
 						//tempGenerealLogoutSlice = tempGenerealLogoutSlice[:0]
 
 
@@ -167,6 +172,7 @@ func (c *LogController)LoadLogDetails() {
 	viewModel.AdminLastName =storedSession.AdminLastName
 	viewModel.AdminFirstName =storedSession.AdminFirstName
 	viewModel.ProfilePicture =storedSession.ProfilePicture
+	log.Println("viewModel.GeneralLogValues !!!!!!!!!!!!!!!!!!!!!!!!",viewModel.GeneralLogValues)
 	c.Data["vm"] = viewModel
 	c.TplName = "template/log.html"
 }
