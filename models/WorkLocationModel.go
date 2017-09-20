@@ -24,8 +24,6 @@ type WorkLocationInfo struct {
 	EndDate				int64
 	DailyStartDate                  int64
 	DailyEndDate			int64
-	StartDateInString		string
-	EndDateInString			string
 	UsersAndGroupsInWorkLocation	UsersAndGroupsInWork
 }
 
@@ -216,6 +214,7 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 	log.Println("worklocation values in model oid users",OldUserWorkLocation)
 	m.Settings.DateOfCreation = workLocationValues.DateOfCreation
 	m.Settings.Status = workLocationValues.Status
+
 	userData := reflect.ValueOf(m.Info.UsersAndGroupsInWorkLocation.User)
 	log.Println("edited values",m)
 	for _, key := range userData.MapKeys() {

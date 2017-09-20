@@ -325,6 +325,18 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 		if err != nil {
 			log.Println(err)
 		}
+		WorkLocation.Info.WorkLocation = taskLocation
+		WorkLocation.Info.CompanyTeamName = companyTeamName
+		WorkLocation.Info.UsersAndGroupsInWorkLocation.User = userMap
+		WorkLocation.Info.Latitude =latitude
+		WorkLocation.Info.Longitude =longitude
+		WorkLocation.Info.StartDate =startDateInt
+		WorkLocation.Info.EndDate =endDateInt
+		WorkLocation.Info.DailyStartDate = startDateInUnix.Unix()
+		WorkLocation.Info.DailyEndDate =endDateInUnix.Unix()
+
+		WorkLocation.Settings.DateOfCreation = time.Now().Unix()
+		WorkLocation.Settings.Status = helpers.StatusActive
 		//task.Info.EndDate = endDate.Unix()
 		log.Println("w3")
 		var groupKeySlice	[]string
@@ -333,6 +345,7 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 			tempName := UserOrGroupNameArray[j]
 			userOrGroupRegExp := regexp.MustCompile(`\((.*?)\)`)
 			userOrGroupSelection := userOrGroupRegExp.FindStringSubmatch(tempName)
+
 			if (userOrGroupSelection[1]) == "User" {
 				log.Println("cp1")
 				tempName = tempName[:len(tempName) - 7]
@@ -341,18 +354,7 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 				log.Println("tempId", userIdArray[j])
 				userMap[userIdArray[j]] = userName
 				log.Println("userMap", userMap)
-				WorkLocation.Info.WorkLocation = taskLocation
-				WorkLocation.Info.CompanyTeamName = companyTeamName
-				WorkLocation.Info.UsersAndGroupsInWorkLocation.User = userMap
-				WorkLocation.Info.Latitude =latitude
-				WorkLocation.Info.Longitude =longitude
-				WorkLocation.Info.StartDate =startDateInt
-				WorkLocation.Info.EndDate =endDateInt
-				WorkLocation.Info.DailyStartDate = startDateInUnix.Unix()
-				WorkLocation.Info.DailyEndDate =endDateInUnix.Unix()
 
-				WorkLocation.Settings.DateOfCreation = time.Now().Unix()
-				WorkLocation.Settings.Status = helpers.StatusActive
 				log.Println("userMap[tempId]", userMap)
 
 			}
@@ -388,6 +390,7 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 		}
 
 		WorkLocation.Info.UsersAndGroupsInWorkLocation.User = userMap
+		log.Println("userMap in controller",WorkLocation.Info.UsersAndGroupsInWorkLocation.User)
 		if groupKeySliceForWorkLocation[0] !="" {
 			WorkLocation.Info.UsersAndGroupsInWorkLocation.Group = groupMap
 		}
