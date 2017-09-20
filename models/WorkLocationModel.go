@@ -137,9 +137,11 @@ func IsWorkAssignedToUser(ctx context.Context ,companyTeamName string )( map[str
 	}
 	err = db.Child("WorkLocation").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&workLocationValues)
 	if err != nil {
+		log.Println("error connection")
 		//.log.Fatal(err)
 		return workLocationValues
 	}
+	log.Println("workLocationValues",workLocationValues)
 	return workLocationValues
 }
 

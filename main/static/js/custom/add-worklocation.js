@@ -13,9 +13,8 @@ var count =0;
 var returnString;
 var dbString;
 var idArray = [];
-var successIdArray = [];
 var uniqueIdArray = [];
-var uniqueSucessArray =[];
+
 
 
 $(document).ready(function() {
@@ -194,9 +193,10 @@ $(document).ready(function() {
                    //count = count+1;
             }
         }
-        for(var i=0;i<idArray.length;i++){
-            taskWorkLocation.push("true");
-        }
+         uniqueIdArray = Array.from(new Set(idArray))
+            for(var i=0;i<uniqueIdArray.length;i++){
+                taskWorkLocation.push("true");
+            }
         if (vm.UsersKey.length !=0){
             if (taskWorkLocation.length ==vm.UsersKey.length&&taskWorkLocation.length >0){
                 taskLocationCondition="true"
@@ -364,6 +364,7 @@ $(document).ready(function() {
                 }
             }
             var selecetUserArrayLength = selectedUserArray.length;
+           
             for(var i=0;i<selecetUserArrayLength;i++){
                 console.log("selectedUserArray[i]",selectedUserArray[i]);
                 var returnValues = checkUserId(selectedUserArray[i]);
@@ -373,10 +374,13 @@ $(document).ready(function() {
                    //count = count+1;
                 }
             }
+            
             console.log("idArray",idArray);
-            for(var i=0;i<idArray.length;i++){
+            uniqueIdArray = Array.from(new Set(idArray))
+            for(var i=0;i<uniqueIdArray.length;i++){
                 taskWorkLocation.push("true");
             }
+            console.log("final taskLocation",taskWorkLocation);
             if (selectedUserArray.length !=0){
                 if (taskWorkLocation.length ==selectedUserArray.length&&taskWorkLocation.length >0){
                     taskLocationCondition="true"
