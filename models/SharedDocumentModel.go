@@ -116,7 +116,7 @@ func GetAllSharedDocumentsByCompany(ctx context.Context,companyTeamname string )
 					log.Println("test 1")
 					if companykey.String() == companyTeamname{
 						log.Println("companyTeamname",companyTeamname,companykey.String())
-						err = db.Child("/Expirations/"+key.String()+"/"+k.String()).Value(&selectedExpiry)
+						//err = db.Child("/Expirations/"+key.String()+"/"+k.String()).Value(&selectedExpiry)
 						if selectedExpiry.Info.Mode =="Public" {
 							err = db.Child("Users/"+key.String()+"/Info/FullName").Value(&fullName)
 							var tempSlice	[]string
