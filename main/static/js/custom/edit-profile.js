@@ -58,10 +58,11 @@ $().ready(function() {
     if (vm.ProfilePicture.length !=0){
         document.getElementById('imageUploads').style.backgroundImage = "url(" + vm.ProfilePicture + ")"; 
     }
-    if(document.getElementById("fileButton").value == "") {
-        originalUploaded=true;
-        thumbUploaded=true;
-    }
+//    if(document.getElementById("fileButton").value == "") {
+//        console.log("not clickeddddd");
+//        originalUploaded=true;
+//        thumbUploaded=true;
+//    }
     document.getElementById("name").value = vm.FirstName;
     document.getElementById("emailId").value = vm.Email;
     document.getElementById("phoneNumber").value = vm.PhoneNo;
@@ -105,16 +106,15 @@ $().ready(function() {
             },
             
             submitHandler: function(){//to pass all data of a form serial
-                if (fileUploaded.length !=0){
+               
                 $("#edit-txt").attr('disabled', true);
+                if (fileUploaded.length !=0){
                 var now = new Date();
-                var tempProfilePicture ="";
                 var datetime = now.getFullYear()+'/'+(now.getMonth()+1)+'/'+now.getDate(); 
                 datetime += ' '+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
                 unixDateTime = Date.parse(datetime)/1000;
-                if ( fileUploaded.length !=0){
-                 tempProfilePicture = file.name.replace(/\s/g, '');
-                }
+                var tempProfilePicture = file.name.replace(/\s/g, '');
+                
                 
                 var uploadTaskOriginal = firebase.storage().ref().child('profilePicturesOfAdmin/original/'+unixDateTime+tempProfilePicture).put(img);
                 uploadTaskOriginal.on('state_changed', function(snapshot){
@@ -140,7 +140,11 @@ $().ready(function() {
                         thumbUrl=downloadURL1;
                         thumbUploaded=true;
                     });
+                }else{
+                    originalUploaded=true;
+                    thumbUploaded=true;
                 }
+                
                 var editProfile=  setInterval(function(){
                     console.log("originalUploaded",originalUploaded)
                    console.log("thumbUploaded",thumbUploaded)
