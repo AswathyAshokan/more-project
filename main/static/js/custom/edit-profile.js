@@ -11,10 +11,12 @@ var pictureUploded ="";
 
 var originalUploaded=false;
 var thumbUploaded=false;
+var fileUploaded ="";
 console.log("profile picture",vm.ProfilePicture);
 
 //function for displaying image
 function displayImage() {
+    fileUploaded=true;
     file    = document.querySelector('input[type=file]').files[0];
     var reader  = new FileReader();
     reader.onloadend = function () {
@@ -55,6 +57,10 @@ function resizeImg() {
 $().ready(function() {
     if (vm.ProfilePicture.length !=0){
         document.getElementById('imageUploads').style.backgroundImage = "url(" + vm.ProfilePicture + ")"; 
+    }
+    if(document.getElementById("fileButton").value == "") {
+        originalUploaded=true;
+        thumbUploaded=true;
     }
     document.getElementById("name").value = vm.FirstName;
     document.getElementById("emailId").value = vm.Email;
@@ -99,12 +105,17 @@ $().ready(function() {
             },
             
             submitHandler: function(){//to pass all data of a form serial
+                if (fileUploaded.length !=0){
                 $("#edit-txt").attr('disabled', true);
                 var now = new Date();
+                var tempProfilePicture ="";
                 var datetime = now.getFullYear()+'/'+(now.getMonth()+1)+'/'+now.getDate(); 
                 datetime += ' '+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
                 unixDateTime = Date.parse(datetime)/1000;
-                var tempProfilePicture = file.name.replace(/\s/g, '');
+                if ( fileUploaded.length !=0){
+                 tempProfilePicture = file.name.replace(/\s/g, '');
+                }
+                
                 var uploadTaskOriginal = firebase.storage().ref().child('profilePicturesOfAdmin/original/'+unixDateTime+tempProfilePicture).put(img);
                 uploadTaskOriginal.on('state_changed', function(snapshot){
                     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -129,6 +140,7 @@ $().ready(function() {
                         thumbUrl=downloadURL1;
                         thumbUploaded=true;
                     });
+                }
                 var editProfile=  setInterval(function(){
                     console.log("originalUploaded",originalUploaded)
                    console.log("thumbUploaded",thumbUploaded)

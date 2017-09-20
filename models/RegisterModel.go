@@ -199,7 +199,8 @@ func(m *Admins) EditAdminDetails(ctx context.Context ,adminId string) (bool){
 		log.Fatal(err)
 		return false
 	}
-
+	m.Settings.ThumbProfilePicture =admin.Settings.ThumbProfilePicture
+	m.Settings.ProfilePicture =admin.Settings.ProfilePicture
 	m.Settings.DateOfCreation = admin.Settings.DateOfCreation
 	m.Settings.Status = admin.Settings.Status
 	m.Info.LastName = admin.Info.LastName
