@@ -33,9 +33,11 @@
       <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="56">
-              <caret line="1588" column="21" lean-forward="false" selection-start-line="1588" selection-start-column="21" selection-end-line="1588" selection-end-column="21" />
-              <folding />
+            <state relative-caret-position="92">
+              <caret line="1590" column="21" lean-forward="false" selection-start-line="1590" selection-start-column="21" selection-end-line="1590" selection-end-column="21" />
+              <folding>
+                <marker date="1505893317517" expanded="true" signature="91954:91996" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -43,8 +45,8 @@
       <file leaf-file-name="RegisterModel.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/RegisterModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-154">
-              <caret line="202" column="78" lean-forward="false" selection-start-line="202" selection-start-column="78" selection-end-line="202" selection-end-column="78" />
+            <state relative-caret-position="332">
+              <caret line="238" column="74" lean-forward="true" selection-start-line="238" selection-start-column="74" selection-end-line="238" selection-end-column="74" />
               <folding />
             </state>
           </provider>
@@ -838,13 +840,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00272" summary="1/06/2013:28:   check box">
-      <created>1503656764860</created>
-      <option name="number" value="00272" />
-      <option name="presentableId" value="LOCAL-00272" />
-      <option name="project" value="LOCAL" />
-      <updated>1503656764860</updated>
-    </task>
     <task id="LOCAL-00273" summary="1/06/2013:28:   check box">
       <created>1503659682515</created>
       <option name="number" value="00273" />
@@ -1181,7 +1176,14 @@
       <option name="project" value="LOCAL" />
       <updated>1505892010296</updated>
     </task>
-    <option name="localTasksCounter" value="321" />
+    <task id="LOCAL-00321" summary="1/06/2013:28:   work location">
+      <created>1505892798347</created>
+      <option name="number" value="00321" />
+      <option name="presentableId" value="LOCAL-00321" />
+      <option name="project" value="LOCAL" />
+      <updated>1505892798347</updated>
+    </task>
+    <option name="localTasksCounter" value="322" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1649,9 +1651,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="1588" column="21" lean-forward="false" selection-start-line="1588" selection-start-column="21" selection-end-line="1588" selection-end-column="21" />
-          <folding />
+        <state relative-caret-position="92">
+          <caret line="1590" column="21" lean-forward="false" selection-start-line="1590" selection-start-column="21" selection-end-line="1590" selection-end-column="21" />
+          <folding>
+            <marker date="1505893317517" expanded="true" signature="91954:91996" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1665,8 +1669,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/RegisterModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-154">
-          <caret line="202" column="78" lean-forward="false" selection-start-line="202" selection-start-column="78" selection-end-line="202" selection-end-column="78" />
+        <state relative-caret-position="332">
+          <caret line="238" column="74" lean-forward="true" selection-start-line="238" selection-start-column="74" selection-end-line="238" selection-end-column="74" />
           <folding />
         </state>
       </provider>

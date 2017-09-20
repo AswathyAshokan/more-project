@@ -204,7 +204,7 @@ func(m *Admins) EditAdminDetails(ctx context.Context ,adminId string) (bool){
 		m.Settings.ProfilePicture=m.Settings.ProfilePicture
 	}else{
 		m.Settings.ProfilePicture =admin.Settings.ProfilePicture
-		m.Settings.DateOfCreation = admin.Settings.DateOfCreation
+		m.Settings.ThumbProfilePicture = admin.Settings.ThumbProfilePicture
 	}
 
 
@@ -214,6 +214,7 @@ func(m *Admins) EditAdminDetails(ctx context.Context ,adminId string) (bool){
 	m.Company.CompanyId =admin.Company.CompanyId
 	m.Company.CompanyName = admin.Company.CompanyName
 	m.Company.CompanyStatus =admin.Company.CompanyStatus
+	m.Settings.DateOfCreation =admin.Settings.DateOfCreation
 	err = dB.Child("/Admins/"+adminId).Update(&m)
 	if err != nil {
 		log.Println(err)
