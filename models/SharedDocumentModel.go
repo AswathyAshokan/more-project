@@ -6,6 +6,7 @@ import (
 	"reflect"
 	"app/passporte/helpers"
 	"strconv"
+
 )
 
 
@@ -89,6 +90,8 @@ func GetAllSharedDocumentsByCompany(ctx context.Context,companyTeamname string )
 	eachExpiry :=map[string]Expirations{}
 	selectedExpiry := Expirations{}
 	var fullName string
+	/*var userKey []string
+	var documentKey []string*/
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil{
 		log.Fatal(err)
@@ -97,38 +100,46 @@ func GetAllSharedDocumentsByCompany(ctx context.Context,companyTeamname string )
 	dataValue := reflect.ValueOf(expiryDetails)
 	for _, key := range dataValue.MapKeys() {
 		log.Println("kety out ",key)
-		err = db.Child("Users/"+key.String()+"/Info/FullName").Value(&fullName)
+
 		err = db.Child("/Expirations/"+key.String()).Value(&eachExpiry)
 		eachDataValues := reflect.ValueOf(eachExpiry)
 		for _, k := range eachDataValues.MapKeys() {
 			err = db.Child("/Expirations/"+key.String()+"/"+k.String()+"/Company").Value(&CompanyDetails)
+			/*if CompanyDetails.CompanyName !=""&&CompanyDetails.CompanyStatus !=""{
+				userKey = append(userKey,key.String())
+				documentKey = append(documentKey,k.String())
+			}*/
 			companyDataValues := reflect.ValueOf(CompanyDetails)
 			for _, companykey := range companyDataValues.MapKeys() {
+
 				if CompanyDetails[companykey.String()].CompanyStatus != helpers.UserStatusDeleted{
 					log.Println("test 1")
 					if companykey.String() == companyTeamname{
+						log.Println("companyTeamname",companyTeamname,companykey.String())
 						err = db.Child("/Expirations/"+key.String()+"/"+k.String()).Value(&selectedExpiry)
+						if selectedExpiry.Info.Mode =="Public" {
+							err = db.Child("Users/"+key.String()+"/Info/FullName").Value(&fullName)
+							var tempSlice	[]string
+							KeySlice = append(KeySlice,k.String())
+							tempSlice = append(tempSlice, selectedExpiry.Info.Description)
+							expirationDate := strconv.FormatInt(int64(selectedExpiry.Info.ExpirationDate), 10)
+							tempSlice = append(tempSlice, expirationDate)
+							tempSlice = append(tempSlice, fullName)
+							tempSlice = append(tempSlice, selectedExpiry.Info.DocumentId)
+							AllSharedfile = append(AllSharedfile, tempSlice)
+							tempSlice = tempSlice[:0]
+						}
 
-					}
-					var tempSlice	[]string
-					log.Println("yyyyyyyy",selectedExpiry)
-					if selectedExpiry.Info.Mode =="Public" {
-						KeySlice = append(KeySlice,k.String())
-						tempSlice = append(tempSlice, selectedExpiry.Info.Description)
-						expirationDate := strconv.FormatInt(int64(selectedExpiry.Info.ExpirationDate), 10)
-						tempSlice = append(tempSlice, expirationDate)
-						tempSlice = append(tempSlice, fullName)
-						tempSlice = append(tempSlice, selectedExpiry.Info.DocumentId)
-						AllSharedfile = append(AllSharedfile, tempSlice)
 					}
 				}
 			}
 		}
 	}
+	/*log.Println("userKey",userKey)*/
 
+
+	log.Println("AllSharedfile",AllSharedfile)
 	return selectedExpiry,true,fullName,KeySlice,AllSharedfile
-
-
 }
 
 

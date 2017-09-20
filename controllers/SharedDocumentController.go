@@ -87,9 +87,9 @@ func (c *SharedDocumentController) LoadSharedDocumentsAllSharedDocuments() {
 	storedSession := ReadSession(w, r, companyTeamName)
 	log.Println("session :", storedSession)
 	documentsViewModels := viewmodels.SharedDocument{}
-	expiry, dbStatus ,Name,expiryKeySlice,AllSharedDocument:= models.GetAllSharedDocumentsByCompany(c.AppEngineCtx, companyTeamName)
+	_, _ ,_,expiryKeySlice,AllSharedDocument:= models.GetAllSharedDocumentsByCompany(c.AppEngineCtx, companyTeamName)
 	log.Println("AllSharedDocument",AllSharedDocument)
-	switch dbStatus {
+	/*switch dbStatus {
 	case true:
 
 		log.Println("expiry",expiry,Name)
@@ -106,7 +106,8 @@ func (c *SharedDocumentController) LoadSharedDocumentsAllSharedDocuments() {
 		log.Println("alllll",documentsViewModels.Values)
 	case false :
 		log.Println(helpers.ServerConnectionError)
-	}
+	}*/
+	documentsViewModels.Values = AllSharedDocument
 	documentsViewModels.Keys = expiryKeySlice
 	documentsViewModels.CompanyTeamName = storedSession.CompanyTeamName
 	documentsViewModels.CompanyPlan = storedSession.CompanyPlan

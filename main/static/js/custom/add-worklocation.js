@@ -102,7 +102,7 @@ $(document).ready(function() {
         
         if(vm.DateValues != null){
             if (vm.UsersKey.length !=0){
-                taskWorkLocation=[];
+                taskWorkLocation = [];
                 for ( var x=0;x<vm.DateValues.length;x++){
                     for( var y=0;y<vm.UsersKey.length;y++){
                         if (vm.DateValues[x][0] == vm.UsersKey[y]){
@@ -179,11 +179,11 @@ $(document).ready(function() {
                     }
                 }
             }
-        }else{
+        }/*else{
             for( var z=0;z<vm.UsersKey.length;z++){
                 taskWorkLocation.push("true");
             }
-        }
+        }*/
         var selecetUserArrayLength = vm.UsersKey.length;
         for(var i=0;i<selecetUserArrayLength;i++){
             var returnValues = checkUserId(vm.UsersKey[i]);
