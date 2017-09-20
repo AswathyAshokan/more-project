@@ -186,8 +186,9 @@ func (m *Admins)GetCompanyDetails(ctx context.Context, adminId string) (bool,Adm
 	}
      return true,companyAdmins
 }
-func(m *Admins) EditAdminDetails(ctx context.Context ,adminId string) (bool){
+func(m *Admins) EditAdminDetails(ctx context.Context ,adminId string) (bool,string){
 	log.Println("inside update")
+	var adminPicture =""
 
 	admin := Admins{}
 	dB,err :=GetFirebaseClient(ctx,"")
@@ -197,12 +198,15 @@ func(m *Admins) EditAdminDetails(ctx context.Context ,adminId string) (bool){
 	err = dB.Child("Admins/"+adminId).Value(&admin)
 	if err != nil{
 		log.Fatal(err)
-		return false
+		return false,adminPicture
 	}
-	if (len(m.Settings.ProfilePicture) !=0){
+	if (len(m.Settings.ProfilePicture ) !=0){
+		log.Println("kkkkkkk")
 		m.Settings.ThumbProfilePicture =m.Settings.ThumbProfilePicture
 		m.Settings.ProfilePicture=m.Settings.ProfilePicture
 	}else{
+		adminPicture =admin.Settings.ProfilePicture
+		log.Println("gggggg")
 		m.Settings.ProfilePicture =admin.Settings.ProfilePicture
 		m.Settings.ThumbProfilePicture = admin.Settings.ThumbProfilePicture
 	}
@@ -218,9 +222,9 @@ func(m *Admins) EditAdminDetails(ctx context.Context ,adminId string) (bool){
 	err = dB.Child("/Admins/"+adminId).Update(&m)
 	if err != nil {
 		log.Println(err)
-		return false
+		return false,adminPicture
 	}
-	return  true
+	return  true,adminPicture
 }
 func(m *Admins) EditAdminPassword(ctx context.Context ,adminId string,confirmPassword []byte) (bool){
 	admin := Admins{}

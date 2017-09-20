@@ -151,7 +151,7 @@ func (c *RegisterController) EditProfile() {
 		}
 
 		log.Println("profile picture",profilePicture)
-		dbStatus := admin.EditAdminDetails(c.AppEngineCtx, adminId)
+		dbStatus,adminPicture := admin.EditAdminDetails(c.AppEngineCtx, adminId)
 		sessionValues := SessionValues{}
 		sessionValues.AdminId = adminId
 		sessionValues.AdminFirstName = admin.Info.FirstName
@@ -161,7 +161,14 @@ func (c *RegisterController) EditProfile() {
 		sessionValues.CompanyName = storedSession.CompanyName
 		sessionValues.CompanyTeamName = storedSession.CompanyTeamName
 		sessionValues.CompanyPlan = storedSession.CompanyPlan
-		sessionValues.ProfilePicture =profilePicture
+		if len(profilePicture)!=0{
+			sessionValues.ProfilePicture =profilePicture
+			log.Println("valuesss",profilePicture)
+		}else{
+			sessionValues.ProfilePicture=adminPicture
+			log.Println("admin",adminPicture)
+		}
+
 		sessionValues.PaymentStatus = storedSession.PaymentStatus
 		SetSession(w, sessionValues)
 		switch dbStatus {
