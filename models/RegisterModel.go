@@ -227,6 +227,8 @@ func(m *Admins) EditAdminPassword(ctx context.Context ,adminId string,confirmPas
 	}
 	m.Settings.DateOfCreation = admin.Settings.DateOfCreation
 	m.Settings.Status = admin.Settings.Status
+	m.Settings.ProfilePicture =admin.Settings.ProfilePicture
+	m.Settings.ThumbProfilePicture =admin.Settings.ThumbProfilePicture
 	m.Info.LastName = admin.Info.LastName
 	m.Info.Email =admin.Info.Email
 	m.Info.FirstName = admin.Info.FirstName
