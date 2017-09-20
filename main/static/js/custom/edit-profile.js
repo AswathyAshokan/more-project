@@ -12,36 +12,21 @@ var pictureUploded ="";
 var originalUploaded=false;
 var thumbUploaded=false;
 console.log("profile picture",vm.ProfilePicture);
-if (vm.ProfilePicture !=""){
-    console.log("inside pic");
-    document.getElementById("imageUpload").src = vm.ProfilePicture;
-}
-//var image = document.getElementsByClassName("imageUpload");
-//image.src = vm.ProfilePicture;
-//function for displaying image
 
+//function for displaying image
 function displayImage() {
-    
-//     var filePath = $(this).val();
-//    console.log("kkkkkkk",filePath);
-//            
     file    = document.querySelector('input[type=file]').files[0];
     var reader  = new FileReader();
     reader.onloadend = function () {
-//        document.getElementById("imageUpload").src = reader.result;
-//        console.log("d",reader.result);
-        document.getElementById('imageUpload').style.backgroundImage="url(reader.result)"; // specify the image path here
-
+        document.getElementById('imageUploads').style.backgroundImage = "url(" + reader.result + ")"; 
+       
     }
     console.log("newww",document.getElementById("imageUpload").src);
-    
     if (file) {
         reader.readAsDataURL(file);
     } else {
-        console.log("ooooo",vm.ProfilePicture);
-        document.getElementById("imageUpload").src = vm.ProfilePicture;
     }
-        var btntxt = $("#edit-txt").text();
+    var btntxt = $("#edit-txt").text();
     if (btntxt == 'Edit') {
         $(".edit-account input").prop( "disabled", false );
         $(".edit-account input").toggleClass("dis-txt");
@@ -50,6 +35,7 @@ function displayImage() {
         return false;
     }
 }
+
 //uploading image
 var config = {
             apiKey: "AIzaSyDME5QGEf2AZd0eJGf5NAzOqKui7RtH4qc",
@@ -67,17 +53,9 @@ function resizeImg() {
     img.width = 100;
 }
 $().ready(function() {
-    
-    $('#fileButton').on('change',function ()
-        {
-        
-            var filePath = $(this).val();
-            console.log(filePath);
-//        document.getElementById('imageUpload').style.backgroundImage="url(filePath)";
-            
-//                document.getElementById('imageUpload').style.backgroundImage="url(filePath)"; // specify the image path here
-
-        });
+    if (vm.ProfilePicture.length !=0){
+        document.getElementById('imageUploads').style.backgroundImage = "url(" + vm.ProfilePicture + ")"; 
+    }
     document.getElementById("name").value = vm.FirstName;
     document.getElementById("emailId").value = vm.Email;
     document.getElementById("phoneNumber").value = vm.PhoneNo;
