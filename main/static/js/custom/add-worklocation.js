@@ -11,13 +11,35 @@ var taskLocationCondition="";
 var  startDateString ;
 var count =0;
 var returnString;
+var dbString;
+var idArray = [];
+var successIdArray = [];
+var uniqueIdArray = [];
+var uniqueSucessArray =[];
+
 
 $(document).ready(function() {
-    // contains all selected users and groups
+    
     function checkUserId(userId) {
+       if(vm.DateValues !=null){
+           for(var j=0 ;j<vm.DateValues.length;j++ ){
+           if(vm.DateValues[j][0] !=userId ){
+               console.log("in if func")
+               returnString ="true"
+           }else{
+                 console.log("in else func")
+               returnString ="false"
+           }
+       }
+           return returnString
+       }
+   }
+    // contains all selected users and groups
+    /*function CheckUserIdFromDb(userId) {
         if(vm.DateValues !=null){
             for(var j=0 ;j<vm.DateValues.length;j++ ){
-            if(vm.DateValues[j][0] !=userId ){
+                console.log("hi all first me");
+            if(vm.DateValues[j][0] != userId ){
                 returnString ="true"
             }else{
                 returnString ="false"
@@ -26,6 +48,26 @@ $(document).ready(function() {
             return returnString
         }
     }
+    function checkUserId(userId){
+        if(uniqueSucessArray.length !=0){
+            for(var i=0;i< uniqueSucessArray.length;i++){
+                console.log("hi all second me",uniqueSucessArray,userId);
+                if( uniqueSucessArray[i] != userId ){
+                    dbString ="true"
+                }
+                else{
+                    dbString = "false"
+                }
+            }
+        
+        }else{
+            console.log("opopopopp");
+            dbString ="true"
+        }
+        console.log("dbString",dbString)
+        return dbString
+        
+    }*/
     if(vm.PageType == "edit"){ 
         var selectArray =[];
         selectArray = vm.UsersKey;
@@ -250,7 +292,9 @@ $(document).ready(function() {
                     for ( var x=0;x<vm.DateValues.length;x++){
                         for( var y=0;y<selectedUserArray.length;y++){
                             if (vm.DateValues[x][0] == selectedUserArray[y]){
-                                console.log(" both id of users ARE equal");
+                                //successIdArray.push(selectedUserArray[y]);
+                                console.log(" both id of users ARE equal from db",vm.DateValues[x][0]);
+                                console.log("selested from dropdown",selectedUserArray[y]);
                                 var utcTime = vm.DateValues[x][1];
                                 var dateFromDb = parseInt(utcTime);
                                 var d = new Date(dateFromDb * 1000);
@@ -322,31 +366,86 @@ $(document).ready(function() {
                                     var StartDateOfTaskCheck = new Date(StartDateOfTask1[2], parseInt(StartDateOfTask1[1])-1, StartDateOfTask1[0]);
                                     var EndDateOfTaskCheck = new Date(EndDateOfTask1[2], parseInt(EndDateOfTask1[1])-1, EndDateOfTask1[0]);
                                     if (StartDateOfTaskCheck >= from && StartDateOfTaskCheck <= to && EndDateOfTaskCheck >= from && EndDateOfTaskCheck <= to){
-                                        console.log("condition is true")
+                                        console.log("condition is true");
+                                    } else{
                                         taskWorkLocation.push("true")
+                                        console.log("iam in else part");
                                     }
+                                
                                 console.log("inside id equal testlocation",taskWorkLocation);
-                            } 
+                            }/*else{
+                                 //idArray.push(selectedUserArray[y]);
+                            }*/
+                           
                         }
                     }
-            } /*else{
-                for(var k=0;k<vm.UsersKey.length;k++){
-                     taskWorkLocation.push("true");
-                }
-            }*/
+            }
             }else{
                 for( var z=0;z<selectedUserArray.length;z++){
                     taskWorkLocation.push("true");
                 }
             }
             var selecetUserArrayLength = selectedUserArray.length;
-            for(var i=0;i<selecetUserArrayLength;i++){
-                console.log("selectedUserArray[i]",selectedUserArray[i]);
-               var returnValues = checkUserId(selectedUserArray[i]);
-                if(returnValues =="true"){
-                    count = count+1;
+           for(var i=0;i<selecetUserArrayLength;i++){
+               console.log("selectedUserArray[i]",selectedUserArray[i]);
+              var returnValues = checkUserId(selectedUserArray[i]);
+               console.log("returnValues",returnValues);
+               if(returnValues =="true"){
+                   idArray.push(selectedUserArray[i]);
+                   //count = count+1;
+               }
+           }
+            console.log("idArray",idArray);
+           for(var i=0;i<idArray.length;i++){
+               taskWorkLocation.push("true");
+           }
+            
+//            uniqueIdArray = Array.from(new Set(idArray));
+//            console.log("unique ",uniqueIdArray);
+//            uniqueSucessArray = Array.from(new Set(successIdArray)); 
+            /*if(uniqueSucessArray.length !=0){
+                for(var i=0;i<uniqueSucessArray.length;i++){
+                    console.log("successIdArray[i]",uniqueSucessArray[i]);
+                    var returnValues = checkUserId(uniqueSucessArray[i]);
+                    if(returnValues =="true"){
+                        var dbReturnValue = CheckUserIdFromDb(uniqueSucessArray[i]);
+                        console.log("returnValues",returnValues);
+                        if( dbReturnValue =="true"){
+                            console.log("dbReturnValue",dbReturnValue);
+                            count = count+1;
+                        }
+                    }
                 }
-            }
+            } else{*/
+            /*if(uniqueIdArray.length !=1 && uniqueSucessArray.length !=1){
+                for(var i =0;i<uniqueIdArray.length;i++){
+                    var dbReturnValue = CheckUserIdFromDb(uniqueIdArray[i]);
+                    console.log("dbReturnValue",dbReturnValue);
+                    if( dbReturnValue =="true"){
+                        var returnValues = checkUserId(uniqueIdArray[i]);
+                        console.log("returnValues",returnValues);
+                        if(returnValues == "true"){
+                            console.log("iam in second loop");
+                            console.log("dbReturnValue",dbReturnValue);
+                            count = count+1;
+                        }
+                        
+                    }
+                }
+            } else{
+                console.log("iam fars second loop")
+                for(var i =0;i<uniqueIdArray.length;i++){
+                    var dbReturnValue = CheckUserIdFromDb(uniqueIdArray[i]);
+                     if( dbReturnValue =="true"){
+                          count = count+1;
+                     }
+                }
+                
+            }*/
+                
+          /*  }*/
+            
+            console.log("count",count)
             for(var i=0;i<count;i++){
                 taskWorkLocation.push("true")
             }
