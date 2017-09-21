@@ -90,6 +90,19 @@ func (c *PaymentController)PaymentSuccess() {
 	w.Write([]byte(fmt.Sprintf(html)))
 	}
 
+func (c *PaymentController)AppPurchaseSuccess() {
+	w := c.Ctx.ResponseWriter
+	// This is where you would probably want to thank the user for their order
+	// or what have you.  The order information at this point is in POST
+	// variables.  However, you don't want to "process" the order until you
+	// get validation from the IPN.  That's where you would have the code to
+	// email an admin, update the database with payment status, activate a
+	// membership, etc.
+
+	html := "<html><body><h1>Thank you! Payment accepted!</h1></body></html>"
+	w.Write([]byte(fmt.Sprintf(html)))
+}
+
 func (c *PaymentController)PaymentCancelReturn() {
 	w := c.Ctx.ResponseWriter
 	html := "<html><body><h1>Oh ok. Payment cancelled!</h1></body></html>"

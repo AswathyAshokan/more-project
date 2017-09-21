@@ -20,6 +20,7 @@
     <script src="/static/js/barChart.jquery.js"></script>
     <link rel="stylesheet" href="/static/css/style.css">
     <script src="/static/js/jquery.canvasjs.min.js"></script>
+        
     </head>
 <body>
 	<section class="header">
@@ -32,6 +33,23 @@
 		    <div class="right-menu">
 		        <ul>
 		            <ul>
+                        <li class="notification-wrp">
+                           <button class="no-button-style notification-btn"  id="notificationId" onclick="myNotification()">
+                               <i class="fa fa-bell" aria-hidden="true"></i>
+                               <span class="badge">5</span>
+                           </button>
+
+                           <div class="not-list-wrp" id="notificationDiv">
+                               <h5>Notifications</h5>
+<!--                               <ul>-->
+<!--
+                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
+                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
+                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
+-->
+<!--                               </ul>-->
+                           </div>
+                       </li>
 		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">About</a></li>
 		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Contact</a></li>
 		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Licence</a></li>
@@ -475,6 +493,11 @@
 
 		</script>
 -->
+        <script>
+        $('.notification-btn').on('click', function() {
+           $(this).parent('.notification-wrp').toggleClass('show-notification');
+           });
+    </script>
 
 	
 </body>

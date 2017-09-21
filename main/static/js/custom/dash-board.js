@@ -1,5 +1,9 @@
-console.log("company name",vm.CompanyTeamName);
+console.log("company name",vm);
 $(function () {
+    
+    //for notification
+     var DynamicNotification ="";
+    
     var companyTeamName =vm.CompanyTeamName
     if(vm.CompanyPlan == 'family' ){
         var parent = document.getElementById("menuItems");
@@ -133,6 +137,23 @@ $(function () {
     }
     
     var subArray = [];
+    
+   myNotification= function () {
+       console.log("hiiii");
+         DynamicNotification ='<ul';
+        for(var i=0;i<vm.NotificationArray.length;i++){
+//             document.getElementById("notificationDiv").innerHTML = "<ul"
+           
+            for(var j=0;j<vm.NotificationArray[i].length;j++){
+                DynamicNotification+=' <li>'+"User"+vm.NotificationArray[i][j][2]+vm.NotificationArray[i][j][3]+"delay to reach location"+vm.NotificationArray[i][j][4]+"for task"+vm.NotificationArray[i][j][5]+'</li>';
+            }
+            
+        }
+        DynamicNotification ='</ul';
+        $("#notificationDiv").prepend(DynamicNotification);
+    }
+    
+    
     getTaskDetails = function(){
         $("#taskListing").html("");
         var job = $("#jobName option:selected").val() ;

@@ -14,6 +14,7 @@ func init() {
 	beegae.Router("/", &controllers.LoginController{}, "*:Root")
 	beegae.Router("/login", &controllers.LoginController{}, "*:Login")
 	beegae.Router("/register", &controllers.RegisterController{}, "*:Register")
+
 	beegae.Router("/:companyTeamName/editProfile", &controllers.RegisterController{}, "*:EditProfile")
 	beegae.Router("/:companyTeamName/changePassword",&controllers.RegisterController{},"*:ChangeAdminsPassword")
 	beegae.Router("/:companyTeamName/isOldAdminPasswordCorrect/:oldPassword", &controllers.RegisterController{},"*:OldAdminPasswordCheck")
@@ -147,6 +148,7 @@ func init() {
 	beegae.Router("/:companyTeamName/:companyPlan/payment",&controllers.PaymentController{},"*:Home")
 	beegae.Router("/:companyTeamName/:companyPlan/paymentcancelreturn",&controllers.PaymentController{},"*:PaymentCancelReturn")
 	beegae.Router("/:companyTeamName/:companyPlan/paymentsuccess" ,&controllers.PaymentController{},"*:PaymentSuccess" )
+	beegae.Router("/appPurchaseSuccess", &controllers.PaymentController{}, "*:AppPurchaseSuccess")
 	beegae.Router("/:companyTeamName/:companyPlan/ipn" ,&controllers.PaymentController{},"*:IPN")
 
 	//user log detail section

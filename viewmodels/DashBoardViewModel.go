@@ -17,5 +17,6 @@ type DashBoardViewModel struct {
 	ProfilePicture		string
 	TaskDetailForBarChart   [][]string
 	UserDetailForBarChart   [][]string
+	NotificationArray	[][]string
 
 }

@@ -17,6 +17,11 @@
     <script src="/static/js/custom/shareddocuments.js"></script>
     <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script>
+        $('.notification-btn').on('click', function() {
+           $(this).parent('.notification-wrp').toggleClass('show-notification');
+           });
+    </script>
 </head>
 <body>
 	<section class="header">
@@ -28,6 +33,21 @@
 
 		    <div class="right-menu">
 		        <ul>
+                    <li class="notification-wrp">
+                           <button class="no-button-style notification-btn">
+                               <i class="fa fa-bell" aria-hidden="true"></i>
+                               <span class="badge">5</span>
+                           </button>
+
+                           <div class="not-list-wrp">
+                               <h5>Notifications</h5>
+                               <ul>
+                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
+                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
+                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
+                               </ul>
+                           </div>
+                       </li>
 		            <li><a href="">About</a></li>
 		            <li><a href="">Contact</a></li>
 		            <li><a href="">Licence</a></li>
