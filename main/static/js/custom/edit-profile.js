@@ -13,12 +13,7 @@ var originalUploaded=false;
 var thumbUploaded=false;
 var fileUploaded ="";
 console.log("profile picture",vm.ProfilePicture);
-var DynamicNotification ="";
-    if (vm.NotificationNumber !=0){
-        document.getElementById("number").textContent=vm.NotificationArray.length;
-    }else{
-        document.getElementById("number").textContent="";
-    }
+
 
 //function for displaying image
 function displayImage() {
