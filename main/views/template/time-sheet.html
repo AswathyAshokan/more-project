@@ -14,10 +14,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
+<!--
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-duration-format/1.3.0/moment-duration-format.min.js"></script>
+-->
     <script src="/static/js/custom/timesheet-details.js" type="text/javascript" charset="utf-8"></script>
     <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/js/moment.js"></script>
 </head>
 <body>
 	<section class="header">
@@ -27,11 +30,30 @@
 		        <img src="/static/images/logo.png" alt="" class="img-responsive">
 		    </div>
 
-		    <div class="right-menu">
+		      <div class="right-menu">
 		        <ul>
+		            <ul>
+                        <li class="notification-wrp">
+                           <button class="no-button-style notification-btn"  id="notificationId" onclick="myNotification()" method="post">
+                               <i class="fa fa-bell" aria-hidden="true"></i>
+                               <span class="badge" id="number"></span>
+                           </button>
+
+                           <div class="not-list-wrp" id="notificationDiv">
+<!--                               <h5>Notifications</h5>-->
+<!--                               <ul>-->
+<!--
+                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
+                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
+                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
+-->
+<!--                               </ul>-->
+                           </div>
+                       </li>
 		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">About</a></li>
 		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Contact</a></li>
 		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Licence</a></li>
+		        </ul>
 		        </ul>
 		        <div class="dropdown">
 		            <button class="dropdown-toggle no-button-style" type="button" data-toggle="dropdown"><i><img src="" id="imageId" style="border-radius:50% 50% 50% 50%; width:30px; height:30px;"></i>
@@ -424,6 +446,11 @@
 		  } );
 	</script>
 -->
+    <script>
+        $('.notification-btn').on('click', function() {
+           $(this).parent('.notification-wrp').toggleClass('show-notification');
+           });
+    </script>
 
 	
 </body>

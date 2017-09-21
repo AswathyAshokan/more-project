@@ -14,6 +14,8 @@ type WorkLogViewModel  struct {
 	WorkLocationValues		[][]string
 	/*GeneralLogin 			[][]string
 	GeneralLogOut			[][]string*/
+	NotificationArray		[][]string
+	NotificationNumber      	 int
 
 
 

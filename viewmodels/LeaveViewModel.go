@@ -8,4 +8,6 @@ type LeaveViewModel  struct {
 	CompanyTeamName			string
 	CompanyPlan			string
 	ProfilePicture			string
+	NotificationArray		[][]string
+	NotificationNumber       	int
 }

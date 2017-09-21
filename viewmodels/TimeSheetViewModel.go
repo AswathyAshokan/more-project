@@ -23,6 +23,8 @@ type TimeSheetViewModel struct {
 	UserStartTimeAndEndTime         [][]string
 	TaskTimeSheetDetail		[][]string
 	WorkTimeSheeetDetails		[][]string
+	NotificationArray		[][]string
+	NotificationNumber      	 int
 
 
 

@@ -13,6 +13,12 @@ var originalUploaded=false;
 var thumbUploaded=false;
 var fileUploaded ="";
 console.log("profile picture",vm.ProfilePicture);
+var DynamicNotification ="";
+    if (vm.NotificationNumber !=0){
+        document.getElementById("number").textContent=vm.NotificationArray.length;
+    }else{
+        document.getElementById("number").textContent="";
+    }
 
 //function for displaying image
 function displayImage() {
@@ -66,6 +72,38 @@ $().ready(function() {
     document.getElementById("name").value = vm.FirstName;
     document.getElementById("emailId").value = vm.Email;
     document.getElementById("phoneNumber").value = vm.PhoneNo;
+    
+    
+      myNotification= function () {
+        console.log("hiiii");
+        document.getElementById("notificationDiv").innerHTML = "";
+        var DynamicTaskListing="";
+        if (vm.NotificationArray !=null){
+            DynamicTaskListing ="<h5>"+"Notifications"+"</h5>"+"<ul>";
+        for(var i=0;i<vm.NotificationArray.length;i++){
+            console.log("sp1");
+            var timeDifference =moment(new Date(new Date(vm.NotificationArray[i][6]*1000)), "YYYYMMDD").fromNow();
+            DynamicTaskListing += "<li>"+"User"+" "+vm.NotificationArray[i][2]+" "+vm.NotificationArray[i][3]+"  "+"delay to reach location"+" "+vm.NotificationArray[i][4]+" "+"for task"+" "+vm.NotificationArray[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
+            
+            
+        }
+            $("#notificationDiv").prepend(DynamicTaskListing+"</ul>");
+            document.getElementById("number").textContent="";
+            $.ajax({
+                url:'/'+ companyTeamName + '/notification/update',
+                type: 'post',
+                success : function(response) {
+                    if (response == "true" ) {
+                    } else {
+                    }
+                },
+                error: function (request,status, error) {
+                    console.log(error);
+                }
+            }); 
+        }
+        
+        }
     //to check the plan and load modal according to plan
     if(vm.CompanyPlan == "family")
         {

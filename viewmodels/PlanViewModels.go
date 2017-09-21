@@ -7,6 +7,8 @@ type Plan struct {
 	AdminFirstName		string
 	AdminLastName		string
 	ProfilePicture		string
+	NotificationArray	[][]string
+	NotificationNumber       int
 }
 
 

@@ -23,6 +23,7 @@
         <script type="text/javascript" src="/static/js/jquery.plugin.js"></script>
 	<script type="text/javascript" src="/static/js/jquery.timeentry.js"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>
+        <script src="/static/js/moment.js"></script>
        
     </head>
     <body>
@@ -32,24 +33,43 @@
             <div class="logo">
 		        <img src="/static/images/logo.png" alt="" class="img-responsive">
 		    </div>
-            <div class="right-menu">
-                <ul>
-                    <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">About</a></li>
-                    <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Contact</a></li>
+             <div class="right-menu">
+		        <ul>
+		            <ul>
+                        <li class="notification-wrp">
+                           <button class="no-button-style notification-btn"  id="notificationId" onclick="myNotification()" method="post">
+                               <i class="fa fa-bell" aria-hidden="true"></i>
+                               <span class="badge" id="number"></span>
+                           </button>
+
+                           <div class="not-list-wrp" id="notificationDiv">
+<!--                               <h5>Notifications</h5>-->
+<!--                               <ul>-->
+<!--
+                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
+                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
+                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
+-->
+<!--                               </ul>-->
+                           </div>
+                       </li>
+		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">About</a></li>
+		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Contact</a></li>
 		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Licence</a></li>
-                </ul>
-                <div class="dropdown">
-                    <button class="dropdown-toggle no-button-style" type="button" data-toggle="dropdown"><i><img src="" id="imageId" style="border-radius:50% 50% 50% 50%; width:30px; height:30px;"></i>
+		        </ul>
+		        </ul>
+		        <div class="dropdown">
+		            <button class="dropdown-toggle no-button-style" type="button" data-toggle="dropdown"><i><img src="" id="imageId" style="border-radius:50% 50% 50% 50%; width:30px; height:30px;"></i>
 <!--                        <img src="images/user-dropdown.png">--> 
                        &emsp; <span class="user-name" id="username"> User</span>
 		                <span class="caret"></span></button>
                     <ul class="dropdown-menu">
-                        <li><a href='/{{.vm.CompanyTeamName}}/editProfile'>Edit Profile</a></li>
-                        <li  ><a href="#" data-toggle="modal" id="planChange" >Package</a></li>
+		                <li><a href='/{{.vm.CompanyTeamName}}/editProfile'>Edit Profile</a></li>
+		                <li  ><a href="#" data-toggle="modal" id="planChange" >Package</a></li>
 		                <li><a href="/logout">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
+		            </ul>
+		        </div>
+		    </div>
                 </header>
             </div>
         </section>

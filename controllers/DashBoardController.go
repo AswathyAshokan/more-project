@@ -36,6 +36,7 @@ func (c *DashBoardController)LoadDashBoard() {
 	storedSession := ReadSession(w, r, companyTeamName)
 	companyTask :=models.TaskIdInfo{}
 	task := models.Tasks{}
+	 notificationCount :=0;
 	//section for getting total task completion and pending details
 	dbStatus, companyTaskDetails := companyTask.RetrieveTaskFromCompany(c.AppEngineCtx,companyTeamName)
 	var jobKeySlice []string
@@ -279,16 +280,20 @@ func (c *DashBoardController)LoadDashBoard() {
 			case true:
 				notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
 				for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-					if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
 						var NotificationArray []string
+					if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
+						notificationCount=notificationCount+1;
+					}
 						NotificationArray =append(NotificationArray,notificationUserKey.String())
 						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
 						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
 						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
 						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
 						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
+						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
+						NotificationArray =append(NotificationArray,date)
 						viewModel.NotificationArray=append(viewModel.NotificationArray,NotificationArray)
-					}
+
 				}
 			case false:
 			}
@@ -296,8 +301,8 @@ func (c *DashBoardController)LoadDashBoard() {
 	case false:
 	}
 
-
-
+	log.Println("nottttttttttt",viewModel.NotificationArray)
+	viewModel.NotificationNumber =notificationCount
 	viewModel.Key = activeJobKey
 	viewModel.JobArrayLength =len(activeJobKey)
 	viewModel.CompanyTeamName =companyTeamName

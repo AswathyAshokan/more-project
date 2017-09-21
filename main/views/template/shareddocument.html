@@ -17,11 +17,8 @@
     <script src="/static/js/custom/shareddocuments.js"></script>
     <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-    <script>
-        $('.notification-btn').on('click', function() {
-           $(this).parent('.notification-wrp').toggleClass('show-notification');
-           });
-    </script>
+    <script src="/static/js/moment.js"></script>
+    
 </head>
 <body>
 	<section class="header">
@@ -31,26 +28,22 @@
 		        <img src="/static/images/logo.png" alt="" class="img-responsive">
 		    </div>
 
-		    <div class="right-menu">
+		      <div class="right-menu">
 		        <ul>
-                    <li class="notification-wrp">
-                           <button class="no-button-style notification-btn">
+		            <ul>
+                        <li class="notification-wrp">
+                           <button class="no-button-style notification-btn"  id="notificationId" onclick="myNotification()" method="post">
                                <i class="fa fa-bell" aria-hidden="true"></i>
-                               <span class="badge">5</span>
+                               <span class="badge" id="number">5</span>
                            </button>
 
-                           <div class="not-list-wrp">
-                               <h5>Notifications</h5>
-                               <ul>
-                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
-                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
-                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
-                               </ul>
-                           </div>
+                           <div class="not-list-wrp" id="notificationDiv">
+                            </div>
                        </li>
-		            <li><a href="">About</a></li>
-		            <li><a href="">Contact</a></li>
-		            <li><a href="">Licence</a></li>
+		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">About</a></li>
+		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Contact</a></li>
+		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Licence</a></li>
+		        </ul>
 		        </ul>
 		        <div class="dropdown">
 		            <button class="dropdown-toggle no-button-style" type="button" data-toggle="dropdown"><i><img src="" id="imageId" style="border-radius:50% 50% 50% 50%; width:30px; height:30px;"></i>
@@ -428,6 +421,11 @@
 		</footer>
 	    </div>
 	</section>
+    <script>
+        $('.notification-btn').on('click', function() {
+           $(this).parent('.notification-wrp').toggleClass('show-notification');
+           });
+    </script>
 
     </body>
 </html>

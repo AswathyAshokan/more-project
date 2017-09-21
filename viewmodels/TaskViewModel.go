@@ -52,6 +52,8 @@ type EditTaskViewModel  struct {
 	JobNameFormUrl			string
 	CustomerNameFormUrl		string
 	WorkLocationForUser		[][]string
+	NotificationArray		[][]string
+	NotificationNumber      	 int
 
 
 }
@@ -78,6 +80,8 @@ type AddTaskViewModel  struct {
 	CustomerNameFormUrl		string
 	WorkLocationArray		[]string
 	WorkLocationForUser		[][]string
+	NotificationArray		[][]string
+	NotificationNumber      	 int
 
 
 
@@ -118,6 +122,8 @@ type TaskDetailViewModel  struct {
 	UserArray				[][]TaskUsers
 	MinUserAndLoginTypeArray		[][]string
 	ExposureArray				[][]TaskExposure
+	NotificationArray			[][]string
+	NotificationNumber       		int
 }
 
 type TaskFitToWork struct {

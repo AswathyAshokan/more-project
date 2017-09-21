@@ -14,6 +14,7 @@ Date:01/02/2017-->
     <script src="/static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
     <script src="/static/js/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/static/js/custom/layout.js"></script>
+    <script src="/static/js/moment.js"></script>
     
  
     <!-- <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>-->
@@ -32,18 +33,13 @@ Date:01/02/2017-->
 		    <div class="right-menu">
 		        <ul>
                     <li class="notification-wrp">
-                           <button class="no-button-style notification-btn">
+                           <button class="no-button-style notification-btn"  id="notificationId" onclick="myNotification()" method="post">
                                <i class="fa fa-bell" aria-hidden="true"></i>
-                               <span class="badge">5</span>
+                               <span class="badge" id="number"></span>
                            </button>
 
-                           <div class="not-list-wrp">
-                               <h5>Notifications</h5>
-                               <ul>
-                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
-                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
-                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
-                               </ul>
+                           <div class="not-list-wrp" id="notificationDiv">
+                             
                            </div>
                        </li>
 		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">About</a></li>

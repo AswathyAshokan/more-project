@@ -7,6 +7,7 @@ import (
 	"reflect"
 	"log"
 	"strings"
+	"strconv"
 )
 type ConsentReceiptController struct {
 	BaseController
@@ -53,6 +54,48 @@ func (c *ConsentReceiptController) AddConsentReceipt() {
 		groupUser := models.Users{}
 		var keySlice []string
 		var allUserNames [] string
+		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
+		var notificationCount=0
+		switch dbStatus {
+		case true:
+
+			notificationOfUser := reflect.ValueOf(notificationValue)
+			for _, notificationUserKey := range notificationOfUser.MapKeys() {
+				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
+				switch dbStatus {
+				case true:
+					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
+					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
+						var NotificationArray []string
+						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
+							notificationCount=notificationCount+1;
+						}
+						NotificationArray =append(NotificationArray,notificationUserKey.String())
+						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
+						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
+						NotificationArray =append(NotificationArray,date)
+						consentView.NotificationArray=append(consentView.NotificationArray,NotificationArray)
+
+					}
+				case false:
+				}
+			}
+		case false:
+		}
+		consentView.NotificationNumber=notificationCount
+
+
+
+
+
+
+
+
+
 		allUserDetails, dbStatus := groupUser.TakeGroupMemberName(c.AppEngineCtx, companyTeamName)
 		switch dbStatus {
 		case true:
@@ -146,6 +189,40 @@ func (c* ConsentReceiptController)LoadConsentReceipt(){
 				}
 			}
 		}
+		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
+		var notificationCount=0
+
+		switch dbStatus {
+		case true:
+
+			notificationOfUser := reflect.ValueOf(notificationValue)
+			for _, notificationUserKey := range notificationOfUser.MapKeys() {
+				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
+				switch dbStatus {
+				case true:
+					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
+					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
+						var NotificationArray []string
+						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
+							notificationCount=notificationCount+1;
+						}
+						NotificationArray =append(NotificationArray,notificationUserKey.String())
+						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
+						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
+						NotificationArray =append(NotificationArray,date)
+						consentViewModel.NotificationArray=append(consentViewModel.NotificationArray,NotificationArray)
+
+					}
+				case false:
+				}
+			}
+		case false:
+		}
+		consentViewModel.NotificationNumber=notificationCount
 		consentViewModel.Keys = keySlice
 		consentViewModel.CompanyTeamName = storedSession.CompanyTeamName
 		consentViewModel.CompanyPlan = storedSession.CompanyPlan
@@ -235,6 +312,41 @@ func (c *ConsentReceiptController) EditConsentReceipt() {
 
 		var allUserNames [] string
 		allUsers := models.Users{}
+		var notificationCount=0
+		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
+
+		switch dbStatus {
+		case true:
+
+			notificationOfUser := reflect.ValueOf(notificationValue)
+			for _, notificationUserKey := range notificationOfUser.MapKeys() {
+				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
+				switch dbStatus {
+				case true:
+					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
+					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
+						var NotificationArray []string
+						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
+							notificationCount=notificationCount+1;
+						}
+						NotificationArray =append(NotificationArray,notificationUserKey.String())
+						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
+						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
+						NotificationArray =append(NotificationArray,date)
+						consentView.NotificationArray=append(consentView.NotificationArray,NotificationArray)
+
+					}
+				case false:
+				}
+			}
+		case false:
+		}
+		consentView.NotificationNumber=notificationCount
+
 		allUserDetails, dbStatus := allUsers.TakeGroupMemberName(c.AppEngineCtx, companyTeamName)
 		switch dbStatus {
 		case true:
@@ -287,6 +399,8 @@ func (c *ConsentReceiptController) EditConsentReceipt() {
 	c.TplName = "template/add-consentreceipt.html"
 
 }
+
+
 
 
 

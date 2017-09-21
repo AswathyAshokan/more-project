@@ -13,4 +13,6 @@ type UserViewModel struct {
 	Status         string
 	DateOfCreation int64
 	Key 		[]string
+	NotificationArray	[][]string
+	NotificationNumber       int
 }

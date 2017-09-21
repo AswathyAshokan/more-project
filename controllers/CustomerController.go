@@ -9,6 +9,7 @@ import (
 	"app/passporte/helpers"
 	"time"
 	"strings"
+	"strconv"
 )
 
 type CustomerController struct {
@@ -47,6 +48,43 @@ func (c *CustomerController) AddCustomer() {
 
 	} else {
 		addViewModel := viewmodels.AddCustomerViewModel{}
+
+		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
+		var notificationCount=0
+		switch dbStatus {
+		case true:
+
+			notificationOfUser := reflect.ValueOf(notificationValue)
+			for _, notificationUserKey := range notificationOfUser.MapKeys() {
+				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
+				switch dbStatus {
+				case true:
+					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
+					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
+						var NotificationArray []string
+						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
+							notificationCount=notificationCount+1;
+						}
+						NotificationArray =append(NotificationArray,notificationUserKey.String())
+						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
+						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
+						NotificationArray =append(NotificationArray,date)
+						addViewModel.NotificationArray=append(addViewModel.NotificationArray,NotificationArray)
+
+					}
+				case false:
+				}
+			}
+		case false:
+		}
+
+
+		addViewModel.NotificationNumber =notificationCount
+
 
 		log.Println("cp12")
 		addViewModel.CompanyTeamName = storedSession.CompanyTeamName
@@ -93,18 +131,54 @@ func (c *CustomerController) CustomerDetails() {
 
 		}
 		customerViewModel.Keys = keySlice
-		customerViewModel.CompanyTeamName = storedSession.CompanyTeamName
-		customerViewModel.CompanyPlan = storedSession.CompanyPlan
-		customerViewModel.AdminFirstName =storedSession.AdminFirstName
-		customerViewModel.AdminLastName =storedSession.AdminLastName
-		customerViewModel.ProfilePicture =storedSession.ProfilePicture
-		log.Println("team name ",customerViewModel.CompanyTeamName)
-		c.Data["vm"] = customerViewModel
-		c.Layout = "layout/layout.html"
-		c.TplName = "template/customer-details.html"
+
 	case false:
 		log.Println(helpers.ServerConnectionError)
 	}
+	dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
+	var notificationCount=0
+	switch dbStatus {
+	case true:
+
+		notificationOfUser := reflect.ValueOf(notificationValue)
+		for _, notificationUserKey := range notificationOfUser.MapKeys() {
+			dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
+			switch dbStatus {
+			case true:
+				notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
+				for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
+					var NotificationArray []string
+					if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
+						notificationCount=notificationCount+1;
+					}
+					NotificationArray =append(NotificationArray,notificationUserKey.String())
+					NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
+					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
+					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
+					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
+					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
+					date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
+					NotificationArray =append(NotificationArray,date)
+					customerViewModel.NotificationArray=append(customerViewModel.NotificationArray,NotificationArray)
+
+				}
+			case false:
+			}
+		}
+	case false:
+	}
+
+	customerViewModel.NotificationNumber =notificationCount
+
+	customerViewModel.CompanyTeamName = storedSession.CompanyTeamName
+	customerViewModel.CompanyPlan = storedSession.CompanyPlan
+	customerViewModel.AdminFirstName =storedSession.AdminFirstName
+	customerViewModel.AdminLastName =storedSession.AdminLastName
+	customerViewModel.ProfilePicture =storedSession.ProfilePicture
+	log.Println("team name ",customerViewModel.CompanyTeamName)
+	c.Data["vm"] = customerViewModel
+	c.Layout = "layout/layout.html"
+	c.TplName = "template/customer-details.html"
 }
 
 // delete each customer using customer id
@@ -152,10 +226,11 @@ func (c *CustomerController) EditCustomer() {
 		}
 
 	} else {
+		customerViewModel := viewmodels.EditCustomerViewModel{}
 		editResult, DbStatus := customer.EditCustomer(c.AppEngineCtx, customerId)
 		switch DbStatus {
 		case true:
-			customerViewModel := viewmodels.EditCustomerViewModel{}
+
 			customerViewModel.State= editResult.Info.State
 			customerViewModel.ZipCode = editResult.Info.ZipCode
 			customerViewModel.Email = editResult.Info.Email
@@ -166,17 +241,52 @@ func (c *CustomerController) EditCustomer() {
 			customerViewModel.PageType = helpers.SelectPageForEdit
 			customerViewModel.CustomerId = customerId
 			customerViewModel.Country =editResult.Info.Country
-			customerViewModel.CompanyTeamName = storedSession.CompanyTeamName
-			customerViewModel.CompanyPlan = storedSession.CompanyPlan
-			customerViewModel.AdminLastName =storedSession.AdminLastName
-			customerViewModel.AdminFirstName =storedSession.AdminFirstName
-			customerViewModel.ProfilePicture =storedSession.ProfilePicture
-			c.Data["vm"] = customerViewModel
-			c.Layout = "layout/layout.html"
-			c.TplName = "template/add-customer.html"
+
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
+		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
+		var notificationCount=0
+		switch dbStatus {
+		case true:
+
+			notificationOfUser := reflect.ValueOf(notificationValue)
+			for _, notificationUserKey := range notificationOfUser.MapKeys() {
+				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
+				switch dbStatus {
+				case true:
+					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
+					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
+						var NotificationArray []string
+						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
+							notificationCount=notificationCount+1;
+						}
+						NotificationArray =append(NotificationArray,notificationUserKey.String())
+						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
+						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
+						NotificationArray =append(NotificationArray,date)
+						customerViewModel.NotificationArray=append(customerViewModel.NotificationArray,NotificationArray)
+
+					}
+				case false:
+				}
+			}
+		case false:
+		}
+		customerViewModel.NotificationNumber =notificationCount
+
+		customerViewModel.CompanyTeamName = storedSession.CompanyTeamName
+		customerViewModel.CompanyPlan = storedSession.CompanyPlan
+		customerViewModel.AdminLastName =storedSession.AdminLastName
+		customerViewModel.AdminFirstName =storedSession.AdminFirstName
+		customerViewModel.ProfilePicture =storedSession.ProfilePicture
+		c.Data["vm"] = customerViewModel
+		c.Layout = "layout/layout.html"
+		c.TplName = "template/add-customer.html"
 	}
 }
 func (c *CustomerController)  CustomerNameCheck(){

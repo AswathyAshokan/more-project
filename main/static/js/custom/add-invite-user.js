@@ -3,6 +3,12 @@
 //Below line is for adding active class to layout side menu..
 console.log(vm.FirstName);
 document.getElementById("user").className += " active";
+var DynamicNotification ="";
+    if (vm.NotificationNumber !=0){
+        document.getElementById("number").textContent=vm.NotificationArray.length;
+    }else{
+        document.getElementById("number").textContent="";
+    }
 
 var companyTeamName = vm.CompanyTeamName;
 var selectedCompanyPlan = vm.CompanyPlan;
@@ -14,6 +20,63 @@ $().ready(function() {
         var total = 5*noOfUserFromUser;
         document.getElementById("result").innerHTML="$"+total;
     });
+    
+    myNotification= function () {
+        console.log("hiiii");
+        document.getElementById("notificationDiv").innerHTML = "";
+        var DynamicTaskListing="";
+        if (vm.NotificationArray !=null){
+            DynamicTaskListing ="<h5>"+"Notifications"+"</h5>"+"<ul>";
+        for(var i=0;i<vm.NotificationArray.length;i++){
+            console.log("sp1");
+            var timeDifference =moment(new Date(new Date(vm.NotificationArray[i][6]*1000)), "YYYYMMDD").fromNow();
+            DynamicTaskListing += "<li>"+"User"+" "+vm.NotificationArray[i][2]+" "+vm.NotificationArray[i][3]+"  "+"delay to reach location"+" "+vm.NotificationArray[i][4]+" "+"for task"+" "+vm.NotificationArray[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
+            
+            
+        }
+            $("#notificationDiv").prepend(DynamicTaskListing+"</ul>");
+            document.getElementById("number").textContent="";
+            $.ajax({
+                url:'/'+ companyTeamName + '/notification/update',
+                type: 'post',
+                success : function(response) {
+                    if (response == "true" ) {
+                    } else {
+                    }
+                },
+                error: function (request,status, error) {
+                    console.log(error);
+                }
+            }); 
+        }else{
+            DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
+            $("#notificationDiv").prepend(DynamicTaskListing);
+            
+        }
+        
+        }
+     
+     
+     
+     clearNotification= function () {
+          document.getElementById("notificationDiv").innerHTML = "";
+          $.ajax({
+                url:'/'+ companyTeamName + '/notification/delete',
+                type: 'post',
+                success : function(response) {
+                    if (response == "true" ) {
+                    } else {
+                    }
+                },
+                error: function (request,status, error) {
+                    console.log(error);
+                }
+            }); 
+         
+         
+         
+     }
+    
     
     if(vm.PageType == "edit"){
         document.getElementById("firstname").value = vm.FirstName;
@@ -55,6 +118,38 @@ $().ready(function() {
          });
     }
     
+    
+    
+     myNotification= function () {
+        console.log("hiiii");
+        document.getElementById("notificationDiv").innerHTML = "";
+        var DynamicTaskListing="";
+        if (vm.NotificationArray !=null){
+            DynamicTaskListing ="<h5>"+"Notifications"+"</h5>"+"<ul>";
+        for(var i=0;i<vm.NotificationArray.length;i++){
+            console.log("sp1");
+            var timeDifference =moment(new Date(new Date(vm.NotificationArray[i][6]*1000)), "YYYYMMDD").fromNow();
+            DynamicTaskListing += "<li>"+"User"+" "+vm.NotificationArray[i][2]+" "+vm.NotificationArray[i][3]+"  "+"delay to reach location"+" "+vm.NotificationArray[i][4]+" "+"for task"+" "+vm.NotificationArray[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
+            
+            
+        }
+            $("#notificationDiv").prepend(DynamicTaskListing+"</ul>");
+            document.getElementById("number").textContent="";
+            $.ajax({
+                url:'/'+ companyTeamName + '/notification/update',
+                type: 'post',
+                success : function(response) {
+                    if (response == "true" ) {
+                    } else {
+                    }
+                },
+                error: function (request,status, error) {
+                    console.log(error);
+                }
+            }); 
+        }
+        
+        }
     
     /*var date = new Date();
     var datum = (Date.parse(date))/1000;

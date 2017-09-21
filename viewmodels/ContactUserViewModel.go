@@ -23,5 +23,7 @@ type ContactUserViewModel  struct {
 	CustomerNameArray 	[]string
 	CustomerKeys             []string
 	EditCustomerKey		[]string
+	NotificationArray	[][]string
+	NotificationNumber       int
 
 }

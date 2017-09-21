@@ -24,4 +24,6 @@ type JobViewModel  struct {
 	CustomerMatch		string
 	OrderNumber		string
 	OrderDate		string
+	NotificationArray	[][]string
+	NotificationNumber       int
 }

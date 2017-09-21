@@ -161,6 +161,9 @@ func init() {
 	beegae.Router("/:companyTeamName/dashBoard", &controllers.DashBoardController{},"*:LoadDashBoard")
 	beegae.Router("/:companyTeamName/dashboard/barchart", &controllers.DashBoardController{},"*:LoadBarChartForDashBord")
 	beegae.Router("/:companyTeamName/timeSheet", &controllers.TimeSheetController{},"*:LoadTimeSheetDetails")
+	beegae.Router("/:companyTeamName/notification/update", &controllers.NotificationController{},"*:NotificationUpdate")
+	beegae.Router("/:companyTeamName/notification/delete", &controllers.NotificationController{},"*:NotificationDelete")
+
 	beegae.Router("/push", &controllers.ServerNotificationController{},"*:ServerNotificationDetails")
 
 

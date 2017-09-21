@@ -8,10 +8,13 @@ type FitToWork struct {
 	Values			[][]string
 	InnerContent            []FitToWorkStruct
 	Keys			[]string
+	NotificationArray	[][]string
+	NotificationNumber       int
 }
 type FitToWorkStruct struct {
-	Description   	string
-	InstructionKey  string
+	Description   		string
+	InstructionKey  	string
+
 
 }
 type EditFitToWork struct {
@@ -28,5 +31,7 @@ type EditFitToWork struct {
 	UserNameToEdit         		[]string
 	InstructionArrayToEdit  	[]string
 	FitToWorkId   			string
+	NotificationArray		[][]string
+	NotificationNumber       	int
 
 }

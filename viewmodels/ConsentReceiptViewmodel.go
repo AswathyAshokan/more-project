@@ -7,6 +7,8 @@ type ConsentReceipt struct {
 	AdminFirstName		string
 	AdminLastName		string
 	ProfilePicture		string
+	NotificationArray	[][]string
+	NotificationNumber       int
 }
 
 type LoadConsent struct {
@@ -18,14 +20,17 @@ type LoadConsent struct {
 	AdminFirstName		string
 	AdminLastName		string
 	ProfilePicture		string
+	NotificationArray	[][]string
+	NotificationNumber       int
 
 }
 type ConsentStruct struct {
-	Description   	string
-	AcceptedUsers 	[]string
-	RejectedUsers 	[]string
-	PendingUsers  	[]string
-	InstructionKey  string
+	Description   		string
+	AcceptedUsers 		[]string
+	RejectedUsers 		[]string
+	PendingUsers  		[]string
+	InstructionKey  	string
+
 
 }
 type EditConsentReceipt struct {
@@ -45,4 +50,6 @@ type EditConsentReceipt struct {
 	ConsentId   			string
 	UsersForEdit 			[]string
 	SelectedUsersKey 		[]string
+	NotificationArray		[][]string
+	NotificationNumber       	int
 }

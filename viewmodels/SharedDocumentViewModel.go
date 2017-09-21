@@ -8,4 +8,6 @@ type SharedDocument struct {
 	ProfilePicture			string
 	CompanyTeamName			string
 	CompanyPlan			string
+	NotificationArray		[][]string
+	NotificationNumber       	int
 }

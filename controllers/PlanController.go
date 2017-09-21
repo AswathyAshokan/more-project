@@ -7,6 +7,9 @@ import (
 	"app/passporte/models"
 	"encoding/json"
 	"log"
+	"reflect"
+	"strconv"
+
 )
 
 type PlanController struct {
@@ -21,6 +24,40 @@ func (c *PlanController) PlanDetails() {
 	sessionValues, sessionStatus := SessionForPlan(w,r)
 	planViewModel.SessionFlag = sessionStatus
 	planViewModel.CompanyPlan = sessionValues.CompanyPlan
+	companyTeamName :=sessionValues.CompanyTeamName
+	dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
+	var notificationCount=0
+	switch dbStatus {
+	case true:
+
+		notificationOfUser := reflect.ValueOf(notificationValue)
+		for _, notificationUserKey := range notificationOfUser.MapKeys() {
+			dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
+			switch dbStatus {
+			case true:
+				notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
+				for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
+					var NotificationArray []string
+					if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
+						notificationCount=notificationCount+1;
+					}
+					NotificationArray =append(NotificationArray,notificationUserKey.String())
+					NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
+					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
+					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
+					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
+					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
+					date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
+					NotificationArray =append(NotificationArray,date)
+					planViewModel.NotificationArray=append(planViewModel.NotificationArray,NotificationArray)
+
+				}
+			case false:
+			}
+		}
+	case false:
+	}
+	planViewModel.NotificationNumber=notificationCount
 	c.Data["vm"] = planViewModel
 	c.TplName = "template/plan.html"
 }

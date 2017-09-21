@@ -8,6 +8,8 @@ type GroupList struct {
 	AdminFirstName		string
 	AdminLastName		string
 	ProfilePicture		string
+	NotificationArray	[][]string
+	NotificationNumber       int
 }
 
 type AddGroupViewModel struct {
@@ -20,6 +22,8 @@ type AddGroupViewModel struct {
 	AdminFirstName		string
 	AdminLastName		string
 	ProfilePicture		string
+	NotificationArray	[][]string
+	NotificationNumber       int
 }
 
 type EditGroupViewModel struct {
@@ -34,4 +38,6 @@ type EditGroupViewModel struct {
 	AdminFirstName		string
 	AdminLastName		string
 	ProfilePicture		string
+	NotificationArray	[][]string
+	NotificationNumber       int
 }

@@ -18,6 +18,8 @@ type InviteUserViewModel struct {
 	AdminFirstName		string
 	AdminLastName		string
 	ProfilePicture		string
+	NotificationArray	[][]string
+	NotificationNumber       int
 }
 
 type EditInviteUserViewModel struct {
@@ -34,6 +36,8 @@ type EditInviteUserViewModel struct {
 	AdminLastName		string
 	ProfilePicture		string
 	UserResponse      	string
+	NotificationArray	[][]string
+	NotificationNumber       int
 
 }
 type AddInviteUserViewModel struct {
@@ -43,4 +47,6 @@ type AddInviteUserViewModel struct {
 	AdminFirstName		string
 	AdminLastName		string
 	ProfilePicture		string
+	NotificationArray	[][]string
+	NotificationNumber       int
 }

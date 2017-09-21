@@ -13,6 +13,8 @@ type AddLocationViewModel struct {
 	ProfilePicture			string
 	CompanyTeamName			string
 	DateValues   			[][]string
+	NotificationArray		[][]string
+	NotificationNumber       	int
 
 }
 type LoadWorkLocationViewModel struct {
@@ -25,6 +27,8 @@ type LoadWorkLocationViewModel struct {
 	AdminLastName			string
 	ProfilePicture			string
 	CompanyTeamName			string
+	NotificationArray		[][]string
+	NotificationNumber       	int
 
 }
 type WorkLocationUsers struct {
@@ -53,4 +57,6 @@ type EditWorkLocation struct {
 	LatitudeForEditing	string
 	LongitudeForEditing	string
 	DateValues		[][]string
+	NotificationArray	[][]string
+	NotificationNumber       int
 }

@@ -18,6 +18,8 @@ type Customer struct {
 	AdminLastName	string
 	ProfilePicture	string
 	Country		string
+	NotificationArray	[][]string
+	NotificationNumber       int
 }
 type EditCustomerViewModel struct {
 
@@ -36,6 +38,8 @@ type EditCustomerViewModel struct {
 	AdminLastName	string
 	ProfilePicture	string
 	Country		string
+	NotificationArray	[][]string
+	NotificationNumber       int
 
 }
 
@@ -45,4 +49,6 @@ type AddCustomerViewModel struct {
 	AdminFirstName		string
 	AdminLastName		string
 	ProfilePicture		string
+	NotificationArray	[][]string
+	NotificationNumber       int
 }

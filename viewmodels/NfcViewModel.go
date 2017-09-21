@@ -8,6 +8,8 @@ type NfcViewModel struct {
 	AdminFirstName	string
 	AdminLastName	string
 	ProfilePicture	string
+	NotificationArray	[][]string
+	NotificationNumber       int
 
 }
 
@@ -23,5 +25,7 @@ type EditNfcViewModel struct {
 	AdminFirstName	string
 	AdminLastName	string
 	ProfilePicture	string
+	NotificationArray	[][]string
+	NotificationNumber       int
 
 }

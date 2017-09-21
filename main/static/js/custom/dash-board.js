@@ -3,6 +3,11 @@ $(function () {
     
     //for notification
      var DynamicNotification ="";
+    if (vm.NotificationNumber !=0){
+        document.getElementById("number").textContent=vm.NotificationArray.length;
+    }else{
+        document.getElementById("number").textContent="";
+    }
     
     var companyTeamName =vm.CompanyTeamName
     if(vm.CompanyPlan == 'family' ){
@@ -135,26 +140,64 @@ $(function () {
         chart.render();
         $(".canvasjs-chart-credit").hide();
     }
-    
     var subArray = [];
-    
-   myNotification= function () {
-       console.log("hiiii");
-         DynamicNotification ='<ul';
+    myNotification= function () {
+        console.log("hiiii");
+        document.getElementById("notificationDiv").innerHTML = "";
+        var DynamicTaskListing="";
+        if (vm.NotificationArray !=null){
+            DynamicTaskListing ="<h5>"+"Notifications"+"</h5>"+"<ul>";
         for(var i=0;i<vm.NotificationArray.length;i++){
-//             document.getElementById("notificationDiv").innerHTML = "<ul"
-           
-            for(var j=0;j<vm.NotificationArray[i].length;j++){
-                DynamicNotification+=' <li>'+"User"+vm.NotificationArray[i][j][2]+vm.NotificationArray[i][j][3]+"delay to reach location"+vm.NotificationArray[i][j][4]+"for task"+vm.NotificationArray[i][j][5]+'</li>';
-            }
+            console.log("sp1");
+            var timeDifference =moment(new Date(new Date(vm.NotificationArray[i][6]*1000)), "YYYYMMDD").fromNow();
+            DynamicTaskListing += "<li>"+"User"+" "+vm.NotificationArray[i][2]+" "+vm.NotificationArray[i][3]+"  "+"delay to reach location"+" "+vm.NotificationArray[i][4]+" "+"for task"+" "+vm.NotificationArray[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
+            
             
         }
-        DynamicNotification ='</ul';
-        $("#notificationDiv").prepend(DynamicNotification);
-    }
+            $("#notificationDiv").prepend(DynamicTaskListing+"</ul>");
+            document.getElementById("number").textContent="";
+            $.ajax({
+                url:'/'+ companyTeamName + '/notification/update',
+                type: 'post',
+                success : function(response) {
+                    if (response == "true" ) {
+                    } else {
+                    }
+                },
+                error: function (request,status, error) {
+                    console.log(error);
+                }
+            }); 
+        }else{
+            DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
+            $("#notificationDiv").prepend(DynamicTaskListing);
+            
+        }
+        
+        }
+     
+     
+     
+     clearNotification= function () {
+          document.getElementById("notificationDiv").innerHTML = "";
+          $.ajax({
+                url:'/'+ companyTeamName + '/notification/delete',
+                type: 'post',
+                success : function(response) {
+                    if (response == "true" ) {
+                    } else {
+                    }
+                },
+                error: function (request,status, error) {
+                    console.log(error);
+                }
+            }); 
+         
+         
+         
+     }
     
-    
-    getTaskDetails = function(){
+   getTaskDetails = function(){
         $("#taskListing").html("");
         var job = $("#jobName option:selected").val() ;
         for(i = 0; i < vm.TaskDetailArray.length; i++) {
@@ -172,7 +215,7 @@ $(function () {
         for (var i=0; i<subArray.length; i++){
             DynamicTaskListing+='<p class="menu_links" onclick="FunctionToChangeBarChart(event) onmouseover="" style="cursor: pointer; ">'+subArray[i]+'</p>';
         }
-        $("#taskListing").prepend(DynamicTaskListing);
+        $("#taskListing").append(DynamicTaskListing);
         subArray = [];
     }
     var selectAJob = $("#jobName option:selected").val() ;

@@ -209,6 +209,39 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		}
 
 	}
+	dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
+	var notificationCount=0
+	switch dbStatus {
+	case true:
+
+		notificationOfUser := reflect.ValueOf(notificationValue)
+		for _, notificationUserKey := range notificationOfUser.MapKeys() {
+			dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
+			switch dbStatus {
+			case true:
+				notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
+				for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
+					var NotificationArray []string
+					if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
+						notificationCount=notificationCount+1;
+					}
+					NotificationArray =append(NotificationArray,notificationUserKey.String())
+					NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
+					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
+					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
+					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
+					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
+					date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
+					NotificationArray =append(NotificationArray,date)
+					workLocationViewmodel.NotificationArray=append(workLocationViewmodel.NotificationArray,NotificationArray)
+
+				}
+			case false:
+			}
+		}
+	case false:
+	}
+	workLocationViewmodel.NotificationNumber=notificationCount
 	log.Println("tempUserArray",workLocationViewmodel.DateValues)
 	workLocationViewmodel.AdminFirstName = storedSession.AdminFirstName
 	workLocationViewmodel.AdminLastName = storedSession.AdminLastName
@@ -260,6 +293,39 @@ func (c *WorkLocationcontroller) LoadWorkLocation() {
 				tempValueSlice = tempValueSlice[:0]
 			}
 		}
+		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
+		var notificationCount=0
+		switch dbStatus {
+		case true:
+
+			notificationOfUser := reflect.ValueOf(notificationValue)
+			for _, notificationUserKey := range notificationOfUser.MapKeys() {
+				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
+				switch dbStatus {
+				case true:
+					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
+					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
+						var NotificationArray []string
+						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
+							notificationCount=notificationCount+1;
+						}
+						NotificationArray =append(NotificationArray,notificationUserKey.String())
+						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
+						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
+						NotificationArray =append(NotificationArray,date)
+						viewModel.NotificationArray=append(viewModel.NotificationArray,NotificationArray)
+
+					}
+				case false:
+				}
+			}
+		case false:
+		}
+		viewModel.NotificationNumber=notificationCount
 		viewModel.Users = workLocationUserSlice
 		viewModel.Keys = KeyValues
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
@@ -505,7 +571,39 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 		}
 
 	}
+	dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
+	var notificationCount=0
+	switch dbStatus {
+	case true:
 
+		notificationOfUser := reflect.ValueOf(notificationValue)
+		for _, notificationUserKey := range notificationOfUser.MapKeys() {
+			dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
+			switch dbStatus {
+			case true:
+				notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
+				for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
+					var NotificationArray []string
+					if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
+						notificationCount=notificationCount+1;
+					}
+					NotificationArray =append(NotificationArray,notificationUserKey.String())
+					NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
+					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
+					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
+					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
+					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
+					date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
+					NotificationArray =append(NotificationArray,date)
+					viewModelForEdit.NotificationArray=append(viewModelForEdit.NotificationArray,NotificationArray)
+
+				}
+			case false:
+			}
+		}
+	case false:
+	}
+	viewModelForEdit.NotificationNumber=notificationCount
 	viewModelForEdit.CompanyTeamName = storedSession.CompanyTeamName
 	viewModelForEdit.CompanyPlan = storedSession.CompanyPlan
 	viewModelForEdit.AdminFirstName =storedSession.AdminFirstName

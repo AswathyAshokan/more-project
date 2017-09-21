@@ -18,5 +18,6 @@ type DashBoardViewModel struct {
 	TaskDetailForBarChart   [][]string
 	UserDetailForBarChart   [][]string
 	NotificationArray	[][]string
+	NotificationNumber       int
 
 }

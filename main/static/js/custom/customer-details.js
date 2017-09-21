@@ -4,6 +4,12 @@ console.log("js",vm.CompanyTeamName);
 document.getElementById("crm").className += " active";
 
 var companyTeamName = vm.CompanyTeamName;
+var DynamicNotification ="";
+    if (vm.NotificationNumber !=0){
+        document.getElementById("number").textContent=vm.NotificationArray.length;
+    }else{
+        document.getElementById("number").textContent="";
+    }
 
 /*Function for creating Data Array for data table*/
 $(function(){ 
@@ -66,6 +72,61 @@ $(function(){
         window.location = '/' + companyTeamName +'/customer/'+ cusomerId + '/edit';
         return false;
     });
+    myNotification= function () {
+        console.log("hiiii");
+        document.getElementById("notificationDiv").innerHTML = "";
+        var DynamicTaskListing="";
+        if (vm.NotificationArray !=null){
+            DynamicTaskListing ="<h5>"+"Notifications"+"</h5>"+"<ul>";
+        for(var i=0;i<vm.NotificationArray.length;i++){
+            console.log("sp1");
+            var timeDifference =moment(new Date(new Date(vm.NotificationArray[i][6]*1000)), "YYYYMMDD").fromNow();
+            DynamicTaskListing += "<li>"+"User"+" "+vm.NotificationArray[i][2]+" "+vm.NotificationArray[i][3]+"  "+"delay to reach location"+" "+vm.NotificationArray[i][4]+" "+"for task"+" "+vm.NotificationArray[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
+            
+            
+        }
+            $("#notificationDiv").prepend(DynamicTaskListing+"</ul>");
+            document.getElementById("number").textContent="";
+            $.ajax({
+                url:'/'+ companyTeamName + '/notification/update',
+                type: 'post',
+                success : function(response) {
+                    if (response == "true" ) {
+                    } else {
+                    }
+                },
+                error: function (request,status, error) {
+                    console.log(error);
+                }
+            }); 
+        }else{
+            DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
+            $("#notificationDiv").prepend(DynamicTaskListing);
+            
+        }
+        
+        }
+     
+     
+     
+     clearNotification= function () {
+          document.getElementById("notificationDiv").innerHTML = "";
+          $.ajax({
+                url:'/'+ companyTeamName + '/notification/delete',
+                type: 'post',
+                success : function(response) {
+                    if (response == "true" ) {
+                    } else {
+                    }
+                },
+                error: function (request,status, error) {
+                    console.log(error);
+                }
+            }); 
+         
+         
+         
+     }
     
     $('#customer-table tbody').on( 'click', '#delete', function () {
         var data = table.row( $(this).parents('tr') ).data();
