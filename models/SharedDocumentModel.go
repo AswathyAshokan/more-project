@@ -102,6 +102,7 @@ func GetAllSharedDocumentsByCompany(ctx context.Context,companyTeamname string )
 		log.Println("kety out ",key)
 
 		err = db.Child("/Expirations/"+key.String()).Value(&eachExpiry)
+		log.Println("eachExpiry",eachExpiry)
 		eachDataValues := reflect.ValueOf(eachExpiry)
 		for _, k := range eachDataValues.MapKeys() {
 			err = db.Child("/Expirations/"+key.String()+"/"+k.String()+"/Company").Value(&CompanyDetails)
@@ -117,15 +118,16 @@ func GetAllSharedDocumentsByCompany(ctx context.Context,companyTeamname string )
 					if companykey.String() == companyTeamname{
 						log.Println("companyTeamname",companyTeamname,companykey.String())
 						//err = db.Child("/Expirations/"+key.String()+"/"+k.String()).Value(&selectedExpiry)
-						if selectedExpiry.Info.Mode =="Public" {
+						if eachExpiry[k.String()].Info.Mode =="Public" {
 							err = db.Child("Users/"+key.String()+"/Info/FullName").Value(&fullName)
 							var tempSlice	[]string
 							KeySlice = append(KeySlice,k.String())
-							tempSlice = append(tempSlice, selectedExpiry.Info.Description)
-							expirationDate := strconv.FormatInt(int64(selectedExpiry.Info.ExpirationDate), 10)
+							tempSlice = append(tempSlice, eachExpiry[k.String()].Info.Description)
+							expirationDate := strconv.FormatInt(int64(eachExpiry[k.String()].Info.ExpirationDate), 10)
 							tempSlice = append(tempSlice, expirationDate)
 							tempSlice = append(tempSlice, fullName)
-							tempSlice = append(tempSlice, selectedExpiry.Info.DocumentId)
+							tempSlice = append(tempSlice, eachExpiry[k.String()].Info.DocumentId)
+							log.Println("tempSlice",tempSlice)
 							AllSharedfile = append(AllSharedfile, tempSlice)
 							tempSlice = tempSlice[:0]
 						}

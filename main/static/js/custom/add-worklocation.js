@@ -14,6 +14,11 @@ var returnString;
 var dbString;
 var idArray = [];
 var uniqueIdArray = [];
+var condition ="";
+var conditionArray =[];
+var editConditionArry = [];
+var countInEdit = 0;
+var condintionInEdit ="";
 
 
 
@@ -25,9 +30,12 @@ $(document).ready(function() {
            if(vm.DateValues[j][0] !=userId ){
                console.log("in if func")
                returnString ="true"
+               
            }else{
                  console.log("in else func")
                returnString ="false"
+               break;
+               
            }
        }
            return returnString
@@ -166,11 +174,16 @@ $(document).ready(function() {
                             var to   = new Date(workEndDate1[2], parseInt(workEndDate1[1])-1, workEndDate1[0]);
                             var StartDateOfTaskCheck = new Date(StartDateOfTask1[2], parseInt(StartDateOfTask1[1])-1, StartDateOfTask1[0]);
                             var EndDateOfTaskCheck = new Date(EndDateOfTask1[2], parseInt(EndDateOfTask1[1])-1, EndDateOfTask1[0]);
+                            console.log("looooooo");
                             if (StartDateOfTaskCheck >= from && StartDateOfTaskCheck <= to && EndDateOfTaskCheck >= from && EndDateOfTaskCheck <= to){
-                                console.log("condition is true");
+                                condintionInEdit="false";
+                                editConditionArry.push("false");
+                                console.log("i am in success of ifff");
+                               
                             } else{
-                                taskWorkLocation.push("true")
+                                condintionInEdit="true";
                                 console.log("iam in else part");
+                                break;
                             }
                         }/*else{
                                  //idArray.push(selectedUserArray[y]);
@@ -179,24 +192,48 @@ $(document).ready(function() {
                     }
                 }
             }
-        }/*else{
+        }
+        
+        if(vm.DateValues != null){
+                if (vm.UsersKey.length !=0){
+                    for ( var x=0;x<vm.DateValues.length;x++){
+                        for( var y=0;y<vm.UsersKey.length;y++){
+                            countInEdit=countInEdit+1;
+                            }
+                        }
+                }
+            }
+        console.log("countInEdit",countInEdit);
+        console.log("editConditionArry",editConditionArry);
+         if(countInEdit !=0){
+                if (editConditionArry !=null){
+                    if (editConditionArry.length ==countInEdit){
+                        for(var i=0;i<editConditionArry.length;i++){
+                            taskWorkLocation.push("true");
+                        }
+                    } 
+                }
+            }
+        
+        
+        /*else{
             for( var z=0;z<vm.UsersKey.length;z++){
                 taskWorkLocation.push("true");
             }
         }*/
-        var selecetUserArrayLength = vm.UsersKey.length;
-        for(var i=0;i<selecetUserArrayLength;i++){
-            var returnValues = checkUserId(vm.UsersKey[i]);
-            console.log("returnValues",returnValues);
-            if(returnValues =="true"){
-                idArray.push(vm.UsersKey[i]);
-                   //count = count+1;
-            }
-        }
-         uniqueIdArray = Array.from(new Set(idArray))
-            for(var i=0;i<uniqueIdArray.length;i++){
-                taskWorkLocation.push("true");
-            }
+//        var selecetUserArrayLength = vm.UsersKey.length;
+//        for(var i=0;i<selecetUserArrayLength;i++){
+//            var returnValues = checkUserId(vm.UsersKey[i]);
+//            console.log("returnValues",returnValues);
+//            if(returnValues =="true"){
+//                idArray.push(vm.UsersKey[i]);
+//                   //count = count+1;
+//            }
+//        }
+//         uniqueIdArray = Array.from(new Set(idArray))
+//            for(var i=0;i<uniqueIdArray.length;i++){
+//                taskWorkLocation.push("true");
+//            }
         if (vm.UsersKey.length !=0){
             if (taskWorkLocation.length ==vm.UsersKey.length&&taskWorkLocation.length >0){
                 taskLocationCondition="true"
@@ -346,9 +383,13 @@ $(document).ready(function() {
                                     var StartDateOfTaskCheck = new Date(StartDateOfTask1[2], parseInt(StartDateOfTask1[1])-1, StartDateOfTask1[0]);
                                     var EndDateOfTaskCheck = new Date(EndDateOfTask1[2], parseInt(EndDateOfTask1[1])-1, EndDateOfTask1[0]);
                                     if (StartDateOfTaskCheck >= from && StartDateOfTaskCheck <= to && EndDateOfTaskCheck >= from && EndDateOfTaskCheck <= to){
-                                        console.log("condition is true");
+                                        condition="true";
+                                        console.log("i am in success of ifff");
+                                        break;
+                                        
                                     } else{
-                                        taskWorkLocation.push("true")
+                                        condition="false";
+                                        conditionArray.push("false");
                                         console.log("iam in else part");
                                     }
                             }/*else{
@@ -357,27 +398,39 @@ $(document).ready(function() {
                            
                         }
                     }
-            }
+                }
             }else{
                 for( var z=0;z<selectedUserArray.length;z++){
                     taskWorkLocation.push("true");
                 }
             }
-            var selecetUserArrayLength = selectedUserArray.length;
-           
-            for(var i=0;i<selecetUserArrayLength;i++){
-                console.log("selectedUserArray[i]",selectedUserArray[i]);
-                var returnValues = checkUserId(selectedUserArray[i]);
-                console.log("returnValues",returnValues);
-                if(returnValues =="true"){
-                    idArray.push(selectedUserArray[i]);
-                   //count = count+1;
+            if(vm.DateValues != null){
+                if (selectedUserArray.length !=0){
+                    for ( var x=0;x<vm.DateValues.length;x++){
+                        for( var y=0;y<selectedUserArray.length;y++){
+                            count=count+1;
+                            }
+                        }
+                }
+            }
+            if(count !=0){
+                if (conditionArray !=null){
+                    if (conditionArray.length ==count){
+                        for(var i=0;i<conditionArray.length;i++){
+                            taskWorkLocation.push("true");
+                        }
+                    } 
                 }
             }
             
-            console.log("idArray",idArray);
-            uniqueIdArray = Array.from(new Set(idArray))
-            for(var i=0;i<uniqueIdArray.length;i++){
+            var selecetUserArrayLength = selectedUserArray.length;
+            for(var i=0;i<selecetUserArrayLength;i++){
+                var returnValues = checkUserId(selectedUserArray[i]);
+                if(returnValues =="true"){
+                    idArray.push(selectedUserArray[i]);
+                }
+            }
+            for(var i=0;i<idArray.length;i++){
                 taskWorkLocation.push("true");
             }
             console.log("final taskLocation",taskWorkLocation);
