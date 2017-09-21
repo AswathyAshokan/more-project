@@ -5,6 +5,7 @@ console.log(vm.FirstName);
 document.getElementById("user").className += " active";
 
 var companyTeamName = vm.CompanyTeamName;
+var selectedCompanyPlan = vm.CompanyPlan;
 
 $().ready(function() {
     
@@ -49,7 +50,8 @@ $().ready(function() {
               //$('#closemodal').modal('hide');
              $('#limitModel').modal('hide');
              var numberOfUsers  = document.getElementById("noOfUsers").value
-             window.location ='/' + companyTeamName +'/invite/'+numberOfUsers+'/AddExtraUserByUpgradePlan';
+             window.location = '/'+selectedCompanyPlan+'/payment'
+             //window.location ='/' + companyTeamName +'/invite/'+numberOfUsers+'/AddExtraUserByUpgradePlan';
          });
     }
     

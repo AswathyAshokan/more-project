@@ -43,10 +43,13 @@ $().ready(function(){
     
     
     $(".selectPlanButton").click(function(){
+        console.log("sessionFlag",sessionFlag);
+        console.log("companyTeamName",companyTeamName);
+        console.log("selectedCompanyPlan",selectedCompanyPlan);
         if(sessionFlag == true){
             $.ajax({
                 type: "POST",
-                url: '/' + companyTeamName +'/'+selectedCompanyPlan+'/payment',
+                url: '/'+selectedCompanyPlan+'/payment',
                 data: '',
                 success: function(response){
                     if(response=="true"){

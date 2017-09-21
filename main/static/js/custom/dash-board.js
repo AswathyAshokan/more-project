@@ -170,7 +170,7 @@ $(function () {
         }
         var DynamicTaskListing ="";
         for (var i=0; i<subArray.length; i++){
-            DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event)">'+subArray[i]+'</p>';
+            DynamicTaskListing+='<p class="menu_links" onclick="FunctionToChangeBarChart(event) onmouseover="" style="cursor: pointer; ">'+subArray[i]+'</p>';
         }
         $("#taskListing").prepend(DynamicTaskListing);
         subArray = [];

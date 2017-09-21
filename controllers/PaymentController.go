@@ -50,8 +50,11 @@ var amount = "5" // keeping it simple for this tutorial. You should accept the a
 //var paypal_url = "https://www.paypal.com/cgi-bin/webscr"
 var paypal_url = "https://www.sandbox.paypal.com/cgi-bin/webscr"
 func (c *PaymentController)Home() {
+	log.Println("iam in payment page ")
+	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
-	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	sessionValues, _ := SessionForPlan(w,r)
+	companyTeamName := sessionValues.CompanyTeamName
 	log.Println("company name",companyTeamName)
 	companyPlan := c.Ctx.Input.Param(":companyPlan")
 	log.Println("company plan",companyPlan)

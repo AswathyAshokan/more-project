@@ -24,3 +24,7 @@ input[type=number]::-webkit-outer-spin-button {
     height:  100px; width: 100px;
     border: 1px solid #bbb;
 }
+
+/*for fingrt point in text box*/
+
+a.menu_links { cursor: pointer; }
