@@ -49,7 +49,7 @@ $().ready(function(){
         if(sessionFlag == true){
             $.ajax({
                 type: "POST",
-                url: '/'+selectedCompanyPlan+'/payment',
+                url: '/'+companyTeamName+'/dashBoard',
                 data: '',
                 success: function(response){
                     if(response=="true"){
