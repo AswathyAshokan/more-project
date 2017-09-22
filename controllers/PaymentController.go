@@ -208,7 +208,5 @@ func (c *PaymentController)IPN() {
 
 }
 func (c *PaymentController)AppPurchaseSuccess() {
-	w := c.Ctx.ResponseWriter
-	html := "<html><body><h1>Oh ok. Payment cancelled!</h1></body></html>"
-	w.Write([]byte(fmt.Sprintf(html)))
+	c.TplName = "template/paymentSucessApp.html"
 }

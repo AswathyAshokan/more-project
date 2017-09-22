@@ -146,8 +146,8 @@ func init() {
 	//Paypal sections'
 
 	beegae.Router("/:companyPlan/payment",&controllers.PaymentController{},"*:Home")
-	beegae.Router("/:companyTeamName/:companyPlan/paymentcancelreturn",&controllers.PaymentController{},"*:PaymentCancelReturn")
-	beegae.Router("/:companyTeamName/:companyPlan/paymentsuccess" ,&controllers.PaymentController{},"*:PaymentSuccess" )
+	beegae.Router("/:companyPlan/paymentcancelreturn",&controllers.PaymentController{},"*:PaymentCancelReturn")
+	beegae.Router("/:companyPlan/paymentsuccess" ,&controllers.PaymentController{},"*:PaymentSuccess" )
 	beegae.Router("/appPurchaseSuccess", &controllers.PaymentController{}, "*:AppPurchaseSuccess")
 	beegae.Router("/:companyTeamName/:companyPlan/ipn" ,&controllers.PaymentController{},"*:IPN")
 

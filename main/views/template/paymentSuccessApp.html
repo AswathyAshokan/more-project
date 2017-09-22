@@ -4,9 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script type="text/javascript" src="/static/js/aes.js"></script>
 </head>
 <body>
-<script type="text/javascript" src="/static/js/aes.js"></script>
+
 <h1>Thank you! Payment accepted!</h1>
+var urlParams = location.search.split('ProcessKey=')[1];
+var decrypted = CryptoJS.AES.decrypt(urlParams, "passporte");
+var uid = decrypted.toString(CryptoJS.enc.Utf8);
+alert(uid);
 </body>
 </html>
