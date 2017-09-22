@@ -6,11 +6,16 @@
     <script type="text/javascript">
         var vm = {{.vm}};
     </script>
+    
     <script src="static/js/custom/paymentSuccess.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        var urlParams = location.search.split('numberofusers=')[1];
+    </script>
 
 </head>
 <body>
 <h1>Thank you! Payment accepted!</h1>
 <input type="button" name="accepted" value="Proceed" id="accpetd" onclick="successFunction()" method="post">
+    
 </body>
 </html>

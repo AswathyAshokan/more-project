@@ -25,9 +25,9 @@ var image_url = "https://d1ohg4ss876yi2.cloudfront.net/logo35x35.png" // image o
 
 // change socketloop.com:8080 to your domain name
 // REMEMBER : localhost won't work and IPN simulator only deal with port 80 or 443
-var cancel_return = "http://localhost:8080/:companyTeamName/:companyPlan/paymentcancelreturn"
-var return_url = "http://localhost:8080/:companyTeamName/:companyPlan/paymentsuccess" // return is Golang's keyword
-var notify_url = "http://localhost:8080/:companyTeamName/:companyPlan/ipn"            // <--- important for IPN to work!
+var cancel_return = "http://localhost:8080/paymentcancelreturn"
+var return_url = "http://localhost:8080/paymentSuccessPage"// return is Golang's keyword
+var notify_url = "http://localhost:8080/ipn"            // <--- important for IPN to work!
 
 // just an example for custom field, could be username, etc. Use custom field
 // for extra verification purpose or to mark PAID status in
@@ -58,9 +58,9 @@ func (c *PaymentController)Home() {
 	log.Println("company name",companyTeamName)
 	companyPlan := c.Ctx.Input.Param(":companyPlan")
 	log.Println("company plan",companyPlan)
-	amount := c.GetString("paymentPrice")
-	//noOfUsers :=c.GetString("noOfUsers")
-	//sessionValues.NumberOfUsers = noOfUsers
+	amount := c.Ctx.Input.Param(":paymentPrice")
+	noOfUsers :=c.Ctx.Input.Param(":NumberOfUsers")
+	sessionValues.NumberOfUsers = noOfUsers
 	companyName :=sessionValues.CompanyName
 	html := "<html><body><h1>You will be directed to PayPal now to pay USD " + amount + " to SocketLoop!</h1>"
 	html = html + "<form action=' " + paypal_url + "' method='post'>"
@@ -71,7 +71,7 @@ func (c *PaymentController)Home() {
 	html = html + "<input type='hidden' name='image_url' value='" + image_url + "'>"
 	html = html + "<input type='hidden' name='cancel_return' value='" + cancel_return + "'>"
 	html = html + "<input type='hidden' name='notify_url' value='" + notify_url + "'>"
-	html = html + "<input type='hidden' name='return' value='" + return_url + "'>" //use return instead of return_url
+	html = html + "<input type='hidden' name='return' value='" + return_url +"?numberofusers="+noOfUsers + "'>" //use return instead of return_url
 	html = html + "<input type='hidden' name='company Name' value='" + companyName + "'>"
 	html = html + "<input type='hidden' name='rm' value='" + rm + "'>"
 	html = html + "<input type='hidden' name='cmd' value='" + cmd + "'>"
@@ -96,13 +96,15 @@ func (c *PaymentController)PaymentSuccess() {
 	//html := "<html><body><h1>Thank you! Payment accepted!</h1></body></html>"
 	//w.Write([]byte(fmt.Sprintf(html)))
 	r := c.Ctx.Request
-	w :=c.Ctx.ResponseWriter
+	w := c.Ctx.ResponseWriter
 	sessionValues, _ := SessionForPlan(w,r)
 	companyTeamName := sessionValues.CompanyTeamName
-	//NumberOfUsers :=sessionValues.NumberOfUsers
+	log.Println("company name",companyTeamName)
+	NumberOfUsers :=sessionValues.NumberOfUsers
+	log.Println("number of users",NumberOfUsers)
 	viewModel :=viewmodels.PaymentViewModel{}
 	viewModel.CompanyTeamName=companyTeamName
-	//viewModel.NumberOfUsers =NumberOfUsers
+	viewModel.NumberOfUsers =NumberOfUsers
 	c.Data["vm"] = viewModel
 	c.TplName = "template/paymentSucessOfWeb.html"
 	}

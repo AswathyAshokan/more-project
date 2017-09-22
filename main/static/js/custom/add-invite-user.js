@@ -114,22 +114,22 @@ $().ready(function() {
              $('#limitModel').modal('hide');
              var numberOfUsers  = document.getElementById("noOfUsers").value;
              var paymentPrice =numberOfUsers*5;
-             var formData = formData+"&payment="+paymentPrice+"&noOfUsers="+numberOfUsers;
-//             window.location = '/'+selectedCompanyPlan+'/payment'
-             $.ajax({
-                url:'/'+ selectedCompanyPlan + '/payment',
-                 type:'post',
-                    datatype: 'json',
-                    data: formData,
-                success : function(response) {
-                    if (response == "true" ) {
-                    } else {
-                    }
-                },
-                error: function (request,status, error) {
-                    console.log(error);
-                }
-            }); 
+//             var formData = formData+"&payment="+paymentPrice+"&noOfUsers="+numberOfUsers;
+             window.location = '/'+selectedCompanyPlan+'/payment/'+paymentPrice+'/'+numberOfUsers;
+//             $.ajax({
+//                url:'/'+ selectedCompanyPlan + '/payment',
+//                 type:'post',
+//                    datatype: 'json',
+//                    data: formData,
+//                success : function(response) {
+//                    if (response == "true" ) {
+//                    } else {
+//                    }
+//                },
+//                error: function (request,status, error) {
+//                    console.log(error);
+//                }
+//            }); 
              //window.location ='/' + companyTeamName +'/invite/'+numberOfUsers+'/AddExtraUserByUpgradePlan';
          });
     }
