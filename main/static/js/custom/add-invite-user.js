@@ -114,6 +114,7 @@ $().ready(function() {
              $('#limitModel').modal('hide');
              var numberOfUsers  = document.getElementById("noOfUsers").value
              window.location = '/'+selectedCompanyPlan+'/payment'
+             
              //window.location ='/' + companyTeamName +'/invite/'+numberOfUsers+'/AddExtraUserByUpgradePlan';
          });
     }
