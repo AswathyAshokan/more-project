@@ -163,8 +163,7 @@ $().ready(function() {
                 }
             }); 
         }
-        
-        }
+}
     
     /*var date = new Date();
     var datum = (Date.parse(date))/1000;

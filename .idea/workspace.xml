@@ -81,31 +81,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="shareddocument.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="shareddocument.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main/views/template/shareddocument.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
+            <state relative-caret-position="-468">
               <caret line="34" column="124" lean-forward="false" selection-start-line="34" selection-start-column="124" selection-end-line="34" selection-end-column="124" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="aes.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main/static/js/aes.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="283">
-              <caret line="22" column="8" lean-forward="false" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="paymentSucessApp.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="paymentSucessApp.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/views/template/paymentSucessApp.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="8" column="6" lean-forward="true" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+            <state relative-caret-position="198">
+              <caret line="11" column="7" lean-forward="true" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -874,13 +864,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00283" summary="1/06/2013:28:   work log">
-      <created>1504698275108</created>
-      <option name="number" value="00283" />
-      <option name="presentableId" value="LOCAL-00283" />
-      <option name="project" value="LOCAL" />
-      <updated>1504698275180</updated>
-    </task>
     <task id="LOCAL-00284" summary="1/06/2013:28:   work log">
       <created>1504760093278</created>
       <option name="number" value="00284" />
@@ -1217,7 +1200,14 @@
       <option name="project" value="LOCAL" />
       <updated>1506061870140</updated>
     </task>
-    <option name="localTasksCounter" value="332" />
+    <task id="LOCAL-00332" summary="1/06/2013:28:   work location">
+      <created>1506062573880</created>
+      <option name="number" value="00332" />
+      <option name="presentableId" value="LOCAL-00332" />
+      <option name="project" value="LOCAL" />
+      <updated>1506062573880</updated>
+    </task>
+    <option name="localTasksCounter" value="333" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1649,14 +1639,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/views/template/shareddocument.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="34" column="124" lean-forward="false" selection-start-line="34" selection-start-column="124" selection-end-line="34" selection-end-column="124" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/controllers/NotificationController.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="468">
@@ -1683,14 +1665,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/static/js/aes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="22" column="8" lean-forward="false" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routers/router.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="317">
@@ -1709,8 +1683,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main/views/template/paymentSucessApp.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="6" lean-forward="true" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+        <state relative-caret-position="198">
+          <caret line="11" column="7" lean-forward="true" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/static/js/aes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="22" column="8" lean-forward="false" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/views/template/shareddocument.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-468">
+          <caret line="34" column="124" lean-forward="false" selection-start-line="34" selection-start-column="124" selection-end-line="34" selection-end-column="124" />
           <folding />
         </state>
       </provider>
