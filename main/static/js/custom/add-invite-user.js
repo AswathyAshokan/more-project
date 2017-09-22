@@ -112,11 +112,14 @@ $().ready(function() {
          $("#payNowBtn").click(function(){
               //$('#closemodal').modal('hide');
              $('#limitModel').modal('hide');
-             var numberOfUsers  = document.getElementById("noOfUsers").value
-             window.location = '/'+selectedCompanyPlan+'/payment'
+             var numberOfUsers  = document.getElementById("noOfUsers").value;
+             var paymentPrice =numberOfUsers*5;
+             var formData = formData+"&payment="+paymentPrice;
+//             window.location = '/'+selectedCompanyPlan+'/payment'
              $.ajax({
-                url:'/'+ selectedCompanyPlan + '/payment/update',
+                url:'/'+ selectedCompanyPlan + '/payment',
                 type: 'post',
+                 data: formData
                 success : function(response) {
                     if (response == "true" ) {
                     } else {
