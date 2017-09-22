@@ -114,7 +114,18 @@ $().ready(function() {
              $('#limitModel').modal('hide');
              var numberOfUsers  = document.getElementById("noOfUsers").value
              window.location = '/'+selectedCompanyPlan+'/payment'
-             
+             $.ajax({
+                url:'/'+ selectedCompanyPlan + '/payment/update',
+                type: 'post',
+                success : function(response) {
+                    if (response == "true" ) {
+                    } else {
+                    }
+                },
+                error: function (request,status, error) {
+                    console.log(error);
+                }
+            }); 
              //window.location ='/' + companyTeamName +'/invite/'+numberOfUsers+'/AddExtraUserByUpgradePlan';
          });
     }
