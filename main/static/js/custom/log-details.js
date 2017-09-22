@@ -43,7 +43,7 @@ if (vm.NotificationNumber !=0){
         document.getElementById("notificationDiv").innerHTML = "";
         var DynamicTaskListing="";
         if (vm.NotificationArray !=null){
-            DynamicTaskListing ="<h5>"+"Notifications"+"</h5>"+"<ul>";
+            DynamicTaskListing ="<h5>"+"Notifications"+''<input type="button" id="notoficationClear">+"</h5>"+"<ul>";
         for(var i=0;i<vm.NotificationArray.length;i++){
             console.log("sp1");
             var timeDifference =moment(new Date(new Date(vm.NotificationArray[i][6]*1000)), "YYYYMMDD").fromNow();

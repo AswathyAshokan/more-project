@@ -93,7 +93,7 @@ func (c *PaymentController)PaymentSuccess() {
 	w.Write([]byte(fmt.Sprintf(html)))
 	}
 
-func (c *PaymentController)AppPurchaseSuccess() {
+func (c *PaymentController)PurchaseSuccess() {
 	w := c.Ctx.ResponseWriter
 	// This is where you would probably want to thank the user for their order
 	// or what have you.  The order information at this point is in POST
@@ -206,4 +206,9 @@ func (c *PaymentController)IPN() {
 
 	}
 
+}
+func (c *PaymentController)AppPurchaseSuccess() {
+	w := c.Ctx.ResponseWriter
+	html := "<html><body><h1>Oh ok. Payment cancelled!</h1></body></html>"
+	w.Write([]byte(fmt.Sprintf(html)))
 }

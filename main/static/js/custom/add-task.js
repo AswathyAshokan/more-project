@@ -591,6 +591,7 @@ $().ready(function() {
                 },
                 submitHandler: function() {
                     if (selectedUserArray.length !=0){
+                        if (vm.WorkLocationForUser !=null){
                         taskWorkLocation=[];
                         for ( var i=0;i<selectedUserArray.length;i++){
                             for (var j=0;j<vm.WorkLocationForUser.length;j++){
@@ -661,6 +662,7 @@ $().ready(function() {
                                     }
                                 }
                             }
+                        }
                         }
                     }
                     console.log("work location array",taskWorkLocation);
@@ -935,6 +937,7 @@ $().ready(function() {
          },
         submitHandler: function() {
             if (selectedUserArray.length !=0){
+                 if (vm.WorkLocationForUser !=null){
                 console.log("ad1");
                 taskWorkLocation=[];
                 for ( var i=0;i<selectedUserArray.length;i++){
@@ -1010,6 +1013,7 @@ $().ready(function() {
                         }
                     }
                 }
+                 }
             }
             console.log("work location array",taskWorkLocation);
             if (selectedUserArray.length !=0){

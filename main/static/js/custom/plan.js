@@ -53,16 +53,8 @@ $().ready(function(){
                 data: '',
                 success: function(response){
                     if(response=="true"){
-                    }
-                    else {
-                    }
-                }
-            });
-            
-            
-            
-            
-//            var companyPlan = $(this).attr('id');//to get the id of selected plan
+                        
+                          var companyPlan = $(this).attr('id');//to get the id of selected plan
 //            $.ajax({              
 //              url:'/plan/update',
 //              type:'post',
@@ -81,6 +73,16 @@ $().ready(function(){
 //                }
 //              }
 //            });
+                    }
+                    else {
+                    }
+                }
+            });
+            
+            
+            
+            
+//          
         } else {
             $("#plan-confirm").modal();
             status = localStorage.setItem('loginStatus','false');
