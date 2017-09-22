@@ -731,15 +731,27 @@ document.getElementById("imageId").src=vm.ProfilePicture;
         var crm = document.getElementById("crm");
         var leave = document.getElementById("leave");
         var timesheet  = document.getElementById("time-sheet");
-        var consent = document.getElementById("consent")
-        var workLocation = document.getElementById("WorkLocation")
-        parent.removeChild(workLocation)
+        var consent = document.getElementById("consent");
+        var workLocation = document.getElementById("workLocation");
+        var leave = document.getElementById("leave");
+        var log =  document.getElementById("log");
+        var timesheet =document.getElementById("time-sheet");
+        var fitToWork = document.getElementById("fitToWork");
+        var dashBoard = document.getElementById("dashBoard");
+        parent.removeChild(workLocation);
         parent.removeChild(timesheet);
         parent.removeChild(consent);
         parent.removeChild(leave);
         parent.removeChild(contact);
         parent.removeChild(job);
         parent.removeChild(crm);
+        parent.removeChild(leave);
+        parent.removeChild(log);
+        parent.removeChild(timesheet);
+        parent.removeChild(fitToWork);
+        parent.removeChild(dashBoard);
+        
+        
     } else if(vm.CompanyPlan == 'campus'){
         var parent = document.getElementById("menuItems");
         var contact = document.getElementById("contact");
@@ -747,16 +759,26 @@ document.getElementById("imageId").src=vm.ProfilePicture;
         var crm = document.getElementById("crm");
         var leave = document.getElementById("leave");
         var timesheet  = document.getElementById("time-sheet");
-        var consent = document.getElementById("consent")
-        var workLocation = document.getElementById("WorkLocation")
-        parent.removeChild(workLocation)
+        var consent = document.getElementById("consent");
+        var workLocation = document.getElementById("workLocation");
+        var leave = document.getElementById("leave");
+        var log =  document.getElementById("log");
+        var timesheet =document.getElementById("time-sheet");
+        var fitToWork = document.getElementById("fitToWork");
+        var dashBoard = document.getElementById("dashBoard");
+        parent.removeChild(workLocation);
         parent.removeChild(timesheet);
         parent.removeChild(consent);
         parent.removeChild(leave);
         parent.removeChild(contact);
         parent.removeChild(job);
         parent.removeChild(crm);
-    }
+        parent.removeChild(leave);
+        parent.removeChild(log);
+        parent.removeChild(timesheet);
+        parent.removeChild(fitToWork);
+        parent.removeChild(dashBoard);
+     }
     document.getElementById("username").textContent=vm.AdminFirstName;
     document.getElementById("imageId").src=vm.ProfilePicture;
     if (vm.ProfilePicture ==""){

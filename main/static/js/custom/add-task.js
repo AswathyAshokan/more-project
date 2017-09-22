@@ -887,7 +887,8 @@ $().ready(function() {
     $("#cancel").click(function() {
         window.location = '/' + companyTeamName + '/task';
     });
-    $("#saveAndContinue").click(function() {
+   /* $("#saveAndContinue").click(function() {*/
+    $(document).on("click",'#saveAndContinue',function(){
          $('#saveAndContinue').attr('type', 'submit');
         $('#saveButton').attr('type', 'button');
         console.log("inside save and continue");
