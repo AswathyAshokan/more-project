@@ -357,7 +357,6 @@ document.getElementById("imageId").src=vm.ProfilePicture;
         },
         submitHandler: function(){//to pass all data of a form serial
             if(vm.PageType == "edit"){
-                alert("haii in edit");
                 if(vm.DateValues != null){
                     if (selectedUserArray.length !=0){
                         taskWorkLocation=[];
@@ -473,7 +472,6 @@ document.getElementById("imageId").src=vm.ProfilePicture;
                     taskWorkLocation.push("true");
                 }
             } else{
-                alert("haai in add")
                 if(vm.DateValues != null){
                     if (selectedUserArray.length !=0){
                         taskWorkLocation=[];
