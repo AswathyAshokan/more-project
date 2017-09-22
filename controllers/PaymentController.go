@@ -60,7 +60,7 @@ func (c *PaymentController)Home() {
 	log.Println("company plan",companyPlan)
 	amount := c.Ctx.Input.Param(":paymentPrice")
 	noOfUsers :=c.Ctx.Input.Param(":NumberOfUsers")
-	sessionValues.NumberOfUsers = noOfUsers
+	//sessionValues.NumberOfUsers = noOfUsers
 	companyName :=sessionValues.CompanyName
 	html := "<html><body><h1>You will be directed to PayPal now to pay USD " + amount + " to SocketLoop!</h1>"
 	html = html + "<form action=' " + paypal_url + "' method='post'>"
@@ -100,11 +100,11 @@ func (c *PaymentController)PaymentSuccess() {
 	sessionValues, _ := SessionForPlan(w,r)
 	companyTeamName := sessionValues.CompanyTeamName
 	log.Println("company name",companyTeamName)
-	NumberOfUsers :=sessionValues.NumberOfUsers
-	log.Println("number of users",NumberOfUsers)
+	//NumberOfUsers :=sessionValues.NumberOfUsers
+	//log.Println("number of users",NumberOfUsers)
 	viewModel :=viewmodels.PaymentViewModel{}
 	viewModel.CompanyTeamName=companyTeamName
-	viewModel.NumberOfUsers =NumberOfUsers
+	//viewModel.NumberOfUsers =NumberOfUsers
 	c.Data["vm"] = viewModel
 	c.TplName = "template/paymentSucessOfWeb.html"
 	}
