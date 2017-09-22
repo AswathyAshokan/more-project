@@ -8,7 +8,7 @@ import (
 	"regexp"
 	"strings"
 	"fmt"
-
+	"app/passporte/viewmodels"
 )
 type PaymentController struct {
 	BaseController
@@ -58,6 +58,10 @@ func (c *PaymentController)Home() {
 	log.Println("company name",companyTeamName)
 	companyPlan := c.Ctx.Input.Param(":companyPlan")
 	log.Println("company plan",companyPlan)
+	amount := c.GetString("paymentPrice")
+	//noOfUsers :=c.GetString("noOfUsers")
+	//sessionValues.NumberOfUsers = noOfUsers
+	companyName :=sessionValues.CompanyName
 	html := "<html><body><h1>You will be directed to PayPal now to pay USD " + amount + " to SocketLoop!</h1>"
 	html = html + "<form action=' " + paypal_url + "' method='post'>"
 	// now add the PayPal variables to be posted
@@ -68,11 +72,11 @@ func (c *PaymentController)Home() {
 	html = html + "<input type='hidden' name='cancel_return' value='" + cancel_return + "'>"
 	html = html + "<input type='hidden' name='notify_url' value='" + notify_url + "'>"
 	html = html + "<input type='hidden' name='return' value='" + return_url + "'>" //use return instead of return_url
-	html = html + "<input type='hidden' name='custom' value='" + custom + "'>"
+	html = html + "<input type='hidden' name='company Name' value='" + companyName + "'>"
 	html = html + "<input type='hidden' name='rm' value='" + rm + "'>"
 	html = html + "<input type='hidden' name='cmd' value='" + cmd + "'>"
-	html = html + "<input type='hidden' name='item_name' value='" + item_name + "'>"
-	html = html + "<input type='hidden' name='quantity' value='" + quantity + "'>"
+	html = html + "<input type='hidden' name='Selected Plan' value='" + companyPlan + "'>"
+	//html = html + "<input type='hidden' name='quantity' value='" + quantity + "'>"
 	html = html + "<input type='hidden' name='amount' value='" + amount + "'>"
 
 	html = html + " <input type='submit' value='Proceed to PayPal'></form></body></html>"
@@ -81,17 +85,34 @@ func (c *PaymentController)Home() {
 
 }
 func (c *PaymentController)PaymentSuccess() {
-	w := c.Ctx.ResponseWriter
-	// This is where you would probably want to thank the user for their order
-	// or what have you.  The order information at this point is in POST
-	// variables.  However, you don't want to "process" the order until you
-	// get validation from the IPN.  That's where you would have the code to
-	// email an admin, update the database with payment status, activate a
-	// membership, etc.
-
-	html := "<html><body><h1>Thank you! Payment accepted!</h1></body></html>"
-	w.Write([]byte(fmt.Sprintf(html)))
+	//w := c.Ctx.ResponseWriter
+	//// This is where you would probably want to thank the user for their order
+	//// or what have you.  The order information at this point is in POST
+	//// variables.  However, you don't want to "process" the order until you
+	//// get validation from the IPN.  That's where you would have the code to
+	//// email an admin, update the database with payment status, activate a
+	//// membership, etc.
+	//
+	//html := "<html><body><h1>Thank you! Payment accepted!</h1></body></html>"
+	//w.Write([]byte(fmt.Sprintf(html)))
+	r := c.Ctx.Request
+	w :=c.Ctx.ResponseWriter
+	sessionValues, _ := SessionForPlan(w,r)
+	companyTeamName := sessionValues.CompanyTeamName
+	//NumberOfUsers :=sessionValues.NumberOfUsers
+	viewModel :=viewmodels.PaymentViewModel{}
+	viewModel.CompanyTeamName=companyTeamName
+	//viewModel.NumberOfUsers =NumberOfUsers
+	c.Data["vm"] = viewModel
+	c.TplName = "template/paymentSucessOfWeb.html"
 	}
+
+
+
+
+
+
+
 
 func (c *PaymentController)PurchaseSuccess() {
 	w := c.Ctx.ResponseWriter

@@ -114,7 +114,7 @@ $().ready(function() {
              $('#limitModel').modal('hide');
              var numberOfUsers  = document.getElementById("noOfUsers").value;
              var paymentPrice =numberOfUsers*5;
-             var formData = formData+"&payment="+paymentPrice;
+             var formData = formData+"&payment="+paymentPrice+"&noOfUsers="+numberOfUsers;
 //             window.location = '/'+selectedCompanyPlan+'/payment'
              $.ajax({
                 url:'/'+ selectedCompanyPlan + '/payment',

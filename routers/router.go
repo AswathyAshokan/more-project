@@ -150,6 +150,8 @@ func init() {
 	beegae.Router("/:companyPlan/paymentsuccess" ,&controllers.PaymentController{},"*:PaymentSuccess" )
 	beegae.Router("/appPurchaseSuccess", &controllers.PaymentController{}, "*:AppPurchaseSuccess")
 	beegae.Router("/:companyTeamName/:companyPlan/ipn" ,&controllers.PaymentController{},"*:IPN")
+	beegae.Router("/paymentSuccessPage" ,&controllers.PaymentController{},"*:PaymentSuccess")
+
 
 	//user log detail section
 

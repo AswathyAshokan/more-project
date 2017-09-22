@@ -204,8 +204,9 @@ $(function () {
         var selectArrayForGroup = vm.GroupMembersAndUserToEdit;
         $("#userOrGroup").val(selectArrayForGroup);
         if (selectArrayForGroup.length !=0){
-            for ( var i=0;i<selectArrayForGroup.length;i++){
+            
                 for (var j=0;j<vm.WorkLocationForUser.length;j++){
+                    for ( var i=0;i<selectArrayForGroup.length;i++){
                                 if (vm.WorkLocationForUser[j][2] ==selectArrayForGroup[i]){
                                     var utcTime = vm.WorkLocationForUser[j][0];
                                     var dateFromDb = parseInt(utcTime);
@@ -593,8 +594,9 @@ $().ready(function() {
                     if (selectedUserArray.length !=0){
                         if (vm.WorkLocationForUser !=null){
                         taskWorkLocation=[];
-                        for ( var i=0;i<selectedUserArray.length;i++){
+                       
                             for (var j=0;j<vm.WorkLocationForUser.length;j++){
+                                 for ( var i=0;i<selectedUserArray.length;i++){
                                 if (vm.WorkLocationForUser[j][2] ==selectedUserArray[i]){
                                     var utcTime = vm.WorkLocationForUser[j][0];
                                     var dateFromDb = parseInt(utcTime);
@@ -940,9 +942,10 @@ $().ready(function() {
                  if (vm.WorkLocationForUser !=null){
                 console.log("ad1");
                 taskWorkLocation=[];
-                for ( var i=0;i<selectedUserArray.length;i++){
+                
                     console.log("ad2");
                     for (var j=0;j<vm.WorkLocationForUser.length;j++){
+                        for ( var i=0;i<selectedUserArray.length;i++){
                         console.log("ad3");
                         if (vm.WorkLocationForUser[j][2] ==selectedUserArray[i]){
                             console.log("ad3");
