@@ -423,18 +423,20 @@ func (c *TaskController)AddNewTask() {
 		dataValue := reflect.ValueOf(workLocation)
 		for _, key := range dataValue.MapKeys() {
 			if workLocation[key.String()].Settings.Status ==helpers.StatusActive&&workLocation[key.String()].Info.CompanyTeamName==companyTeamName{
-				var workLocationSlice []string
+
 				locationArray = append(locationArray,workLocation[key.String()].Info.WorkLocation)
 
 				dataUserWorkValue :=reflect.ValueOf(workLocation[key.String()].Info.UsersAndGroupsInWorkLocation.User)
 				for _, workKey := range dataUserWorkValue.MapKeys() {
+					var workLocationSlice []string
 					workStartDate := strconv.FormatInt(workLocation[key.String()].Info.StartDate, 10)
 					workLocationSlice =append(workLocationSlice,workStartDate)
 					workEndDate :=strconv.FormatInt(workLocation[key.String()].Info.EndDate, 10)
 					workLocationSlice =append(workLocationSlice,workEndDate)
+					log.Println("user keyyyyyy",workKey.String())
 					workLocationSlice =append(workLocationSlice,workKey.String())
 					viewModel.WorkLocationForUser =append(viewModel.WorkLocationForUser,workLocationSlice)
-					workLocationSlice =workLocationSlice[:0]
+
 				}
 			}
 		}
@@ -1363,17 +1365,18 @@ func (c *TaskController)LoadEditTask() {
 		dataValueForWorkLocation := reflect.ValueOf(workLocation)
 		for _, key := range dataValueForWorkLocation.MapKeys() {
 			if workLocation[key.String()].Settings.Status ==helpers.StatusActive&&workLocation[key.String()].Info.CompanyTeamName==companyTeamName{
-				var workLocationSlice []string
+
 
 				dataUserWorkValue :=reflect.ValueOf(workLocation[key.String()].Info.UsersAndGroupsInWorkLocation.User)
 				for _, workKey := range dataUserWorkValue.MapKeys() {
+					var workLocationSlice []string
 					workStartDate := strconv.FormatInt(workLocation[key.String()].Info.StartDate, 10)
 					workLocationSlice =append(workLocationSlice,workStartDate)
 					workEndDate :=strconv.FormatInt(workLocation[key.String()].Info.EndDate, 10)
 					workLocationSlice =append(workLocationSlice,workEndDate)
 					workLocationSlice =append(workLocationSlice,workKey.String())
 					viewModel.WorkLocationForUser =append(viewModel.WorkLocationForUser,workLocationSlice)
-					workLocationSlice =workLocationSlice[:0]
+
 				}
 			}
 		}

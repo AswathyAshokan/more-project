@@ -4,7 +4,6 @@
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/TaskController.go" afterPath="$PROJECT_DIR$/controllers/TaskController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-task.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-task.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -74,8 +73,8 @@
       <file leaf-file-name="TaskController.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="439" column="17" lean-forward="false" selection-start-line="439" selection-start-column="17" selection-end-line="439" selection-end-column="17" />
+            <state relative-caret-position="385">
+              <caret line="1381" column="17" lean-forward="true" selection-start-line="1381" selection-start-column="17" selection-end-line="1381" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -796,13 +795,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00286" summary="1/06/2013:28:   work location">
-      <created>1505105166311</created>
-      <option name="number" value="00286" />
-      <option name="presentableId" value="LOCAL-00286" />
-      <option name="project" value="LOCAL" />
-      <updated>1505105166311</updated>
-    </task>
     <task id="LOCAL-00287" summary="1/06/2013:28:   work location">
       <created>1505105944485</created>
       <option name="number" value="00287" />
@@ -1139,7 +1131,14 @@
       <option name="project" value="LOCAL" />
       <updated>1506072972151</updated>
     </task>
-    <option name="localTasksCounter" value="335" />
+    <task id="LOCAL-00335" summary="1/06/2013:28:   work location">
+      <created>1506074153960</created>
+      <option name="number" value="00335" />
+      <option name="presentableId" value="LOCAL-00335" />
+      <option name="project" value="LOCAL" />
+      <updated>1506074153961</updated>
+    </task>
+    <option name="localTasksCounter" value="336" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1651,8 +1650,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="439" column="17" lean-forward="false" selection-start-line="439" selection-start-column="17" selection-end-line="439" selection-end-column="17" />
+        <state relative-caret-position="385">
+          <caret line="1381" column="17" lean-forward="true" selection-start-line="1381" selection-start-column="17" selection-end-line="1381" selection-end-column="17" />
           <folding />
         </state>
       </provider>
