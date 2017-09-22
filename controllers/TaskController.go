@@ -422,7 +422,7 @@ func (c *TaskController)AddNewTask() {
 		workLocation,_ := models.GetAllWorkLocationDetails(c.AppEngineCtx,companyTeamName)
 		dataValue := reflect.ValueOf(workLocation)
 		for _, key := range dataValue.MapKeys() {
-			if workLocation[key.String()].Settings.Status ==helpers.StatusActive{
+			if workLocation[key.String()].Settings.Status ==helpers.StatusActive&&workLocation[key.String()].Info.CompanyTeamName==companyTeamName{
 				var workLocationSlice []string
 				locationArray = append(locationArray,workLocation[key.String()].Info.WorkLocation)
 
@@ -1307,24 +1307,7 @@ func (c *TaskController)LoadEditTask() {
 						log.Println(helpers.ServerConnectionError)
 					}
 
-					workLocation,_ := models.GetAllWorkLocationDetails(c.AppEngineCtx,companyTeamName)
-					dataValueForWorkLocation := reflect.ValueOf(workLocation)
-					for _, key := range dataValueForWorkLocation.MapKeys() {
-						if workLocation[key.String()].Settings.Status ==helpers.StatusActive{
-							var workLocationSlice []string
 
-							dataUserWorkValue :=reflect.ValueOf(workLocation[key.String()].Info.UsersAndGroupsInWorkLocation.User)
-							for _, workKey := range dataUserWorkValue.MapKeys() {
-								workStartDate := strconv.FormatInt(workLocation[key.String()].Info.StartDate, 10)
-								workLocationSlice =append(workLocationSlice,workStartDate)
-								workEndDate :=strconv.FormatInt(workLocation[key.String()].Info.EndDate, 10)
-								workLocationSlice =append(workLocationSlice,workEndDate)
-								workLocationSlice =append(workLocationSlice,workKey.String())
-								viewModel.WorkLocationForUser =append(viewModel.WorkLocationForUser,workLocationSlice)
-								workLocationSlice =workLocationSlice[:0]
-							}
-						}
-					}
 
 						viewModel.Key = activeJobKey
 						viewModel.PageType = helpers.SelectPageForEdit
@@ -1365,9 +1348,7 @@ func (c *TaskController)LoadEditTask() {
 						viewModel.AdminFirstName = storedSession.AdminFirstName
 						viewModel.AdminLastName = storedSession.AdminLastName
 						viewModel.ProfilePicture =storedSession.ProfilePicture
-						c.Data["vm"] = viewModel
-						c.Layout = "layout/layout.html"
-						c.TplName = "template/add-task.html"
+
 
 					case false:
 						log.Println(helpers.ServerConnectionError)
@@ -1377,6 +1358,28 @@ func (c *TaskController)LoadEditTask() {
 			case false:
 				log.Println(helpers.ServerConnectionError)
 			}
+
+		workLocation,_ := models.GetAllWorkLocationDetails(c.AppEngineCtx,companyTeamName)
+		dataValueForWorkLocation := reflect.ValueOf(workLocation)
+		for _, key := range dataValueForWorkLocation.MapKeys() {
+			if workLocation[key.String()].Settings.Status ==helpers.StatusActive&&workLocation[key.String()].Info.CompanyTeamName==companyTeamName{
+				var workLocationSlice []string
+
+				dataUserWorkValue :=reflect.ValueOf(workLocation[key.String()].Info.UsersAndGroupsInWorkLocation.User)
+				for _, workKey := range dataUserWorkValue.MapKeys() {
+					workStartDate := strconv.FormatInt(workLocation[key.String()].Info.StartDate, 10)
+					workLocationSlice =append(workLocationSlice,workStartDate)
+					workEndDate :=strconv.FormatInt(workLocation[key.String()].Info.EndDate, 10)
+					workLocationSlice =append(workLocationSlice,workEndDate)
+					workLocationSlice =append(workLocationSlice,workKey.String())
+					viewModel.WorkLocationForUser =append(viewModel.WorkLocationForUser,workLocationSlice)
+					workLocationSlice =workLocationSlice[:0]
+				}
+			}
+		}
+		c.Data["vm"] = viewModel
+		c.Layout = "layout/layout.html"
+		c.TplName = "template/add-task.html"
 
 	}
 
