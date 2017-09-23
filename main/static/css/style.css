@@ -3243,7 +3243,8 @@ input.sprites-callender { background-position: right 4px top -20px; cursor: poin
 .notification-wrp { position: relative; }
 .notification-wrp .not-list-wrp { position: absolute; background-color: #fafafa; border: 2px solid #ddd; color: #666; width: 500px; top: 42px; left: 50%; margin-left: -225px; display: none; }
 .notification-wrp .not-list-wrp::after { right: 50%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; border-bottom-color: #fafafa; border-width: 15px; top: -13px; -webkit-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%); margin-right: -5px; }
-.notification-wrp .not-list-wrp h5 { border-bottom: 2px solid #ddd; padding: 0 15px 15px; margin-top: 15px; margin-bottom: 0; }
+.notification-wrp .not-list-wrp h5 { border-bottom: 2px solid #ddd; padding: 0 15px 15px; margin-top: 15px; margin-bottom: 0; display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-pack: justify; -webkit-justify-content: space-between; -ms-flex-pack: justify; justify-content: space-between; -webkit-box-align: center; -webkit-align-items: center; -ms-flex-align: center; align-items: center; }
+.notification-wrp .not-list-wrp h5 button { background-color: #ddd !important; border-radius: 5px; }
 .notification-wrp .not-list-wrp ul { max-height: 340px; overflow-y: auto; }
 .notification-wrp .not-list-wrp ul li { display: block; padding: 10px; margin: 0; }
 .notification-wrp .not-list-wrp ul li:not(:last-child) { border-bottom: 2px solid #ddd; }

@@ -5,7 +5,7 @@ document.getElementById("leave").className += " active";
  var companyTeamName = vm.CompanyTeamName;
 var DynamicNotification ="";
     if (vm.NotificationNumber !=0){
-        document.getElementById("number").textContent=vm.NotificationArray.length;
+        document.getElementById("number").textContent=vm.NotificationNumber;
     }else{
         document.getElementById("number").textContent="";
     }
@@ -213,16 +213,34 @@ $(function(){
             });
     });
     
-      myNotification= function () {
+     //notification
+    var notificationSorted =[[]];
+    function sortByCol(arr, colIndex){
+    notificationSorted=arr.sort(sortFunction);
+    function sortFunction(a, b) {
+        a = a[colIndex]
+        b = b[colIndex]
+        return (a === b) ? 0 : (a < b) ? -1 : 1
+    }
+}
+
+    
+     myNotification= function () {
+         if (vm.NotificationArray !=null){
         console.log("hiiii");
+         sortByCol(vm.NotificationArray, 6);
+         console.log("jjjjj",notificationSorted);
+         var reverseSorted =[[]];
+         reverseSorted=notificationSorted.reverse();
+
         document.getElementById("notificationDiv").innerHTML = "";
         var DynamicTaskListing="";
-        if (vm.NotificationArray !=null){
-            DynamicTaskListing ="<h5>"+"Notifications"+"</h5>"+"<ul>";
-        for(var i=0;i<vm.NotificationArray.length;i++){
+        if (reverseSorted !=null){
+            DynamicTaskListing ="<h5>"+"Notifications"+ "<button class='no-button-style' method='post' onclick='clearNotification()'>"+"clear all"+"</button>"+"</h5>"+"<ul>";
+        for(var i=0;i<reverseSorted.length;i++){
             console.log("sp1");
-            var timeDifference =moment(new Date(new Date(vm.NotificationArray[i][6]*1000)), "YYYYMMDD").fromNow();
-            DynamicTaskListing += "<li>"+"User"+" "+vm.NotificationArray[i][2]+" "+vm.NotificationArray[i][3]+"  "+"delay to reach location"+" "+vm.NotificationArray[i][4]+" "+"for task"+" "+vm.NotificationArray[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
+            var timeDifference =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
+            DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"delay to reach location"+" "+reverseSorted[i][4]+" "+"for task"+" "+reverseSorted[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
             
             
         }
@@ -241,12 +259,18 @@ $(function(){
                 }
             }); 
         }else{
+             document.getElementById("notificationDiv").innerHTML = "";
             DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
-            $("#notificationDiv").prepend(DynamicTaskListing);
+                        $("#notificationDiv").prepend(DynamicTaskListing);
             
         }
         
+        }else{
+             document.getElementById("notificationDiv").innerHTML = "";
+            DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
+            $("#notificationDiv").prepend(DynamicTaskListing);
         }
+}
      
      
      
@@ -257,6 +281,8 @@ $(function(){
                 type: 'post',
                 success : function(response) {
                     if (response == "true" ) {
+                        DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
+                        $("#notificationDiv").prepend(DynamicTaskListing);
                     } else {
                     }
                 },
@@ -269,6 +295,7 @@ $(function(){
          
      }
     
+     
     
     $('#fromDate').change(function () {
         selectFromDate = $('#fromDate').val();

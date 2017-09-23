@@ -81,6 +81,7 @@ func DeleteAllNotifications(ctx context.Context,companyTeamName string)(bool) {
 	dB, err := GetFirebaseClient(ctx,"")
 	//err = dB.Child("Notifications/UserDelay/"+ companyTeamName).Value(&notificationValue)
 	err = dB.Child("Notifications/UserDelay/"+ companyTeamName).Remove()
+	log.Println("deleted sucessfully")
 
 	//notificationOfUser := reflect.ValueOf(notificationValue)
 	//for _, notificationUserKey := range notificationOfUser.MapKeys() {

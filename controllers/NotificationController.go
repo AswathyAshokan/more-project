@@ -29,7 +29,7 @@ func (c *NotificationController) NotificationUpdate() {
 }
 
 func (c *NotificationController) NotificationDelete() {
-	log.Println("notificationnnnnnnnnnnnnnnnnnnnnnnnnn")
+	log.Println("deleteeeeeeee")
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	w := c.Ctx.ResponseWriter
 	dbStatus:= models.DeleteAllNotifications(c.AppEngineCtx,companyTeamName)

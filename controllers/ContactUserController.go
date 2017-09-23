@@ -467,9 +467,9 @@ func (c *ContactUserController)CheckPhoneNumberAdd(){
 	isPhoneNumberUsed := models.CheckPhoneNumberIsUsed(c.AppEngineCtx, phoneNumber,companyTeamName)
 	switch isPhoneNumberUsed{
 	case true:
-		w.Write([]byte("false"))
-	case false:
 		w.Write([]byte("true"))
+	case false:
+		w.Write([]byte("false"))
 	}
 }
 func (c *ContactUserController)CheckEmailAddressAdd(){
@@ -480,9 +480,9 @@ func (c *ContactUserController)CheckEmailAddressAdd(){
 	isEmailAddressUsed := models.CheckEmailAddressIsUsed(c.AppEngineCtx, emailAddress,companyTeamName)
 	switch isEmailAddressUsed{
 	case true:
-		w.Write([]byte("false"))
-	case false:
 		w.Write([]byte("true"))
+	case false:
+		w.Write([]byte("false"))
 	}
 }
 
