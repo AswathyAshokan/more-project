@@ -50,50 +50,46 @@ document.getElementById("imageId").src=vm.ProfilePicture;
     
      myNotification= function () {
          if (vm.NotificationArray !=null){
-        console.log("hiiii");
-         sortByCol(vm.NotificationArray, 6);
-         console.log("jjjjj",notificationSorted);
-         var reverseSorted =[[]];
-         reverseSorted=notificationSorted.reverse();
-
-        document.getElementById("notificationDiv").innerHTML = "";
-        var DynamicTaskListing="";
-        if (reverseSorted !=null){
-            DynamicTaskListing ="<h5>"+"Notifications"+ "<button class='no-button-style' method='post' onclick='clearNotification()'>"+"clear all"+"</button>"+"</h5>"+"<ul>";
-        for(var i=0;i<reverseSorted.length;i++){
-            console.log("sp1");
-            var timeDifference =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
-            DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"delay to reach location"+" "+reverseSorted[i][4]+" "+"for task"+" "+reverseSorted[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
-            
-            
-        }
-            $("#notificationDiv").prepend(DynamicTaskListing+"</ul>");
-            document.getElementById("number").textContent="";
-            $.ajax({
-                url:'/'+ companyTeamName + '/notification/update',
-                type: 'post',
-                success : function(response) {
-                    if (response == "true" ) {
-                    } else {
-                    }
-                },
-                error: function (request,status, error) {
-                    console.log(error);
-                }
-            }); 
-        }else{
+             console.log("hiiii");
+             sortByCol(vm.NotificationArray, 6);
+             console.log("jjjjj",notificationSorted);
+             var reverseSorted =[[]];
+             reverseSorted=notificationSorted.reverse();
              document.getElementById("notificationDiv").innerHTML = "";
-            DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
-                        $("#notificationDiv").prepend(DynamicTaskListing);
-            
-        }
-        
-        }else{
+             var DynamicTaskListing="";
+             if (reverseSorted !=null){
+                 DynamicTaskListing ="<h5>"+"Notifications"+ "<button class='no-button-style' method='post' onclick='clearNotification()'>"+"clear all"+"</button>"+"</h5>"+"<ul>";
+                 for(var i=0;i<reverseSorted.length;i++){
+                     console.log("sp1");
+                     var timeDifference =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
+                     DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"delay to reach location"+" "+reverseSorted[i][4]+" "+"for task"+" "+reverseSorted[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
+                 }
+                 console.log("li",DynamicTaskListing);
+                 $("#notificationDiv").prepend(DynamicTaskListing+"</ul>");
+                 document.getElementById("number").textContent="";
+                 $.ajax({
+                     url:'/'+ companyTeamName + '/notification/update',
+                     type: 'post',
+                     success : function(response) {
+                         if (response == "true" ) {
+                         } else {
+                         }
+                     },
+                     error: function (request,status, error) {
+                         console.log(error);
+                     }
+                 }); 
+             }else{
+                 document.getElementById("notificationDiv").innerHTML = "";
+                 DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
+                 $("#notificationDiv").prepend(DynamicTaskListing);
+             }
+         }else{
              document.getElementById("notificationDiv").innerHTML = "";
-            DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
-            $("#notificationDiv").prepend(DynamicTaskListing);
-        }
-}
+             DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
+             $("#notificationDiv").prepend(DynamicTaskListing);
+         }
+     }
      
      
      

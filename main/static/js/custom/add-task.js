@@ -402,7 +402,7 @@ $("#btnAddForExposure").bind("click", function () {
     });
 function GetDynamicTextBoxForExposure(value) {
     return ' <label for="workExplosureText" class="">Break Time</label>'+
-        '<input type="text"    placeholder="12:00" id="breakTime" name="breakTime" size="5">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00"  id="workTime" name="workTime" size="5" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg"  class="delete-exposure" />'
+        '<input type="text" class="form-control break-duration"   placeholder="12:00" id="breakTime" name="breakTime" size="5">'+ '<label>'+'After'+'</label>'+'<input type="text" class="form-control break-duration-after"   placeholder="12:00"  id="workTime" name="workTime" size="5" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg"  class="delete-exposure" />'
 }
 
 //function to load add task
@@ -429,6 +429,32 @@ $().ready(function() {
             div.style.display ='none'
         }
     });
+    
+    
+    $(document).on("keypress",".break-duration", function(){
+         var value=$(this).val();
+        if(value.length==2){
+        value=value+":";
+        }
+        if(value.length>=5){
+            
+            return false;
+        }
+        $(this).val(value)   
+    });
+     $(document).on("keypress",".break-duration-after", function(){
+         var value=$(this).val();
+        if(value.length==2){
+        value=value+":";
+        }
+         if(value.length>=5){
+            
+            return false;
+        }
+        $(this).val(value)   
+    });
+    
+
     
    
     
