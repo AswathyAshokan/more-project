@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/duress.html" afterPath="$PROJECT_DIR$/main/views/template/duress.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/ByPassController.go" afterPath="$PROJECT_DIR$/controllers/ByPassController.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/ContactUserModel.go" afterPath="$PROJECT_DIR$/models/ContactUserModel.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -40,19 +41,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ByPassController.go" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ByPassController.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="360">
-              <caret line="33" column="61" lean-forward="false" selection-start-line="33" selection-start-column="61" selection-end-line="33" selection-end-column="61" />
+              <caret line="33" column="63" lean-forward="false" selection-start-line="33" selection-start-column="63" selection-end-line="33" selection-end-column="63" />
               <folding>
-                <marker date="1506166751442" expanded="true" signature="1035:1075" ph="..." />
+                <marker date="1506167698355" expanded="true" signature="1037:1077" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="duress.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="duress.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/views/template/duress.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="278">
@@ -85,8 +86,8 @@
       <file leaf-file-name="ContactUserController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/ContactUserController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="502" column="59" lean-forward="false" selection-start-line="502" selection-start-column="59" selection-end-line="502" selection-end-column="59" />
+            <state relative-caret-position="421">
+              <caret line="502" column="52" lean-forward="false" selection-start-line="502" selection-start-column="52" selection-end-line="502" selection-end-column="52" />
               <folding>
                 <element signature="e#51#193#0" expanded="true" />
               </folding>
@@ -97,8 +98,8 @@
       <file leaf-file-name="ContactUserModel.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/ContactUserModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="458">
-              <caret line="297" column="1" lean-forward="false" selection-start-line="280" selection-start-column="0" selection-end-line="297" selection-end-column="1" />
+            <state relative-caret-position="188">
+              <caret line="291" column="35" lean-forward="true" selection-start-line="291" selection-start-column="35" selection-end-line="291" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -192,7 +193,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/controllers/RegisterController.go" />
         <option value="$PROJECT_DIR$/viewmodels/DashBoardViewModel.go" />
         <option value="$PROJECT_DIR$/viewmodels/ContactUserViewModel.go" />
         <option value="$PROJECT_DIR$/viewmodels/CustomerViewModel.go" />
@@ -241,8 +241,9 @@
         <option value="$PROJECT_DIR$/models/FitToWorkModel.go" />
         <option value="$PROJECT_DIR$/controllers/FitToWorkController.go" />
         <option value="$PROJECT_DIR$/routers/router.go" />
-        <option value="$PROJECT_DIR$/controllers/ByPassController.go" />
         <option value="$PROJECT_DIR$/main/views/template/duress.html" />
+        <option value="$PROJECT_DIR$/models/ContactUserModel.go" />
+        <option value="$PROJECT_DIR$/controllers/ByPassController.go" />
       </list>
     </option>
   </component>
@@ -911,13 +912,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00299" summary="1/06/2013:28:   work location">
-      <created>1505299034673</created>
-      <option name="number" value="00299" />
-      <option name="presentableId" value="LOCAL-00299" />
-      <option name="project" value="LOCAL" />
-      <updated>1505299034673</updated>
-    </task>
     <task id="LOCAL-00300" summary="1/06/2013:28:   work location">
       <created>1505543894303</created>
       <option name="number" value="00300" />
@@ -1254,7 +1248,14 @@
       <option name="project" value="LOCAL" />
       <updated>1506166790453</updated>
     </task>
-    <option name="localTasksCounter" value="348" />
+    <task id="LOCAL-00348" summary="1/06/2013:28:   work location">
+      <created>1506167264608</created>
+      <option name="number" value="00348" />
+      <option name="presentableId" value="LOCAL-00348" />
+      <option name="project" value="LOCAL" />
+      <updated>1506167264608</updated>
+    </task>
+    <option name="localTasksCounter" value="349" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1739,24 +1740,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/ContactUserController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="502" column="59" lean-forward="false" selection-start-line="502" selection-start-column="59" selection-end-line="502" selection-end-column="59" />
-          <folding>
-            <element signature="e#51#193#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/ContactUserModel.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="458">
-          <caret line="297" column="1" lean-forward="false" selection-start-line="280" selection-start-column="0" selection-end-line="297" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/FitToWorkModel.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="134">
@@ -1781,21 +1764,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="33" column="61" lean-forward="false" selection-start-line="33" selection-start-column="61" selection-end-line="33" selection-end-column="61" />
-          <folding>
-            <marker date="1506166751442" expanded="true" signature="1035:1075" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/views/template/duress.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="278">
           <caret line="137" column="0" lean-forward="true" selection-start-line="137" selection-start-column="0" selection-end-line="137" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/ContactUserController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="421">
+          <caret line="502" column="52" lean-forward="false" selection-start-line="502" selection-start-column="52" selection-end-line="502" selection-end-column="52" />
+          <folding>
+            <element signature="e#51#193#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/ContactUserModel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="291" column="35" lean-forward="true" selection-start-line="291" selection-start-column="35" selection-end-line="291" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="33" column="63" lean-forward="false" selection-start-line="33" selection-start-column="63" selection-end-line="33" selection-end-column="63" />
+          <folding>
+            <marker date="1506167698355" expanded="true" signature="1037:1077" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
