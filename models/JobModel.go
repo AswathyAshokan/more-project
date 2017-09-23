@@ -191,10 +191,11 @@ func CheckJobNameIsUsed(ctx context.Context, jobName string,companyTeamName stri
 	if err != nil {
 		log.Println("No Db Connection!")
 	}
+	log.Println("comapnu",companyTeamName);
 	err = dB.Child("Jobs").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&job)
 	jobDetails := reflect.ValueOf(job)
 	for _, jobKey:=range jobDetails.MapKeys() {
-		if job[jobKey.String()].Info.JobName == jobName&& job[jobKey.String()].Settings.Status ==helpers.StatusActive{
+		if job[jobKey.String()].Info.JobName == jobName&& job[jobKey.String()].Settings.Status ==helpers.StatusActive&&job[jobKey.String()].Info.CompanyTeamName==companyTeamName{
 			log.Println("ggg1")
 			return true
 			break
@@ -209,10 +210,11 @@ func CheckJobNumberIsUsed(ctx context.Context, jobNumber string,companyTeamName 
 	if err != nil {
 		log.Println("No Db Connection!")
 	}
+	log.Println("comapnu",companyTeamName);
 	err = dB.Child("Jobs").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&job)
 	jobDetails := reflect.ValueOf(job)
 	for _, jobKey:=range jobDetails.MapKeys() {
-		if job[jobKey.String()].Info.JobNumber == jobNumber&& job[jobKey.String()].Settings.Status ==helpers.StatusActive{
+		if job[jobKey.String()].Info.JobNumber == jobNumber&& job[jobKey.String()].Settings.Status ==helpers.StatusActive&&job[jobKey.String()].Info.CompanyTeamName==companyTeamName{
 			log.Println("ggg1")
 			return true
 			break

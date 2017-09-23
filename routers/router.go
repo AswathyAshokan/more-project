@@ -133,6 +133,8 @@ func init() {
 	beegae.Router("/:companyTeamName/fitToWork/:fitToWorkId/delete", &controllers.FitToWorkController{}, "*:DeleteFitToWork")
 	beegae.Router("/:companyTeamName/isFitToWorkNameUsed/:fitWorkName", &controllers.FitToWorkController{},"*:CheckFitToWork")
 	beegae.Router("/:companyTeamName/fitToWork/:fitToWorkId/deletionOfFitToWorkIfUsedForTask", &controllers.FitToWorkController{},"*:DeleteFitToWorkInTask")
+	beegae.Router("/:companyTeamName/isFitToWorkNameUsedEdit/:fitWorkName/:editFitToWork", &controllers.FitToWorkController{},"*:CheckFitToWorkEdit")
+
 
 
 	//View sections

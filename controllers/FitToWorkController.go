@@ -308,6 +308,31 @@ func (c *FitToWorkController) CheckFitToWork(){
 		w.Write([]byte("true"))
 	}
 }
+
+func (c *FitToWorkController)CheckFitToWorkEdit(){
+	log.Println("iam im dangetsr situation in email validation")
+	w := c.Ctx.ResponseWriter
+	fitWorkName := c.Ctx.Input.Param(":fitWorkName")
+	log.Println("email",fitWorkName)
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	//pageType := c.Ctx.Input.Param(":type")
+	oldFit := c.Ctx.Input.Param(":editFitToWork")
+	if strings.Compare(oldFit, fitWorkName) == 0 {
+		log.Println("iam in true condion")
+		w.Write([]byte("true"))
+	} else {
+		isFitUsedUsed := models.CheckFitWorkNameIsUsed(c.AppEngineCtx, fitWorkName,companyTeamName)
+		switch isFitUsedUsed{
+		case true:
+			w.Write([]byte("false"))
+		case false:
+			w.Write([]byte("true"))
+		}
+
+	}
+
+}
+
 func (c *FitToWorkController)DeleteFitToWorkInTask() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
