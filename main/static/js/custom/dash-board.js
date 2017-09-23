@@ -355,7 +355,7 @@ console.log("company name",vm);
                    
                     LoadBarChart(totalNoUsers,tempStart,pendingTaskCount,completedTaskCount,localToday);
                      var previousDay = document.getElementById('previousDay');
-                    previousDay.style.visibility = 'visible';
+                    previousDay.style.visibility = 'hidden';
                 }
                 else{
                     console.log("Server Problem");
@@ -373,7 +373,7 @@ console.log("company name",vm);
         d.setDate(d.getDate() - 1);
         console.log("yesterDay nnnnnn",d)
         var nextDay = document.getElementById('nextDay');
-        nextDay.style.visibility = 'visible';
+        nextDay.style.visibility = 'hidden';
         var dd = d.getDate();
         var mm = d.getMonth()+1; //January is 0!
         var yyyy = d.getFullYear();
@@ -546,7 +546,7 @@ console.log("company name",vm);
         }
         LoadBarChart(totalUsers,tempStart,pendingTaskCount,completedTaskCount,localToday);
          var previousDay = document.getElementById('previousDay');
-        previousDay.style.visibility = 'visible';
+        previousDay.style.visibility = 'hidden';
         var previousDay = document.getElementById('nextDay');
         previousDay.style.visibility = 'hidden';
     }
