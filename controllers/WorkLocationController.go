@@ -344,10 +344,13 @@ func (c *WorkLocationcontroller) LoadWorkLocation() {
 
 
 func (c *WorkLocationcontroller) EditWorkLocation() {
+
+	log.Println("inside  edittttttt");
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	workLocationId := c.Ctx.Input.Param(":worklocationid")
+	log.Println("outsideeeeee",workLocationId)
 	storedSession := ReadSession(w, r, companyTeamName)
 	companyUsers :=models.Company{}
 	var keySliceForGroupAndUser []string
