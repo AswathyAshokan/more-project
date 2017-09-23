@@ -1,10 +1,18 @@
 console.log(vm);
+
+$(function(){
+    console.log("number",vm.NotificationNumber);
 if (vm.NotificationNumber !=0){
+    console.log("kkk");
     document.getElementById("number").textContent=vm.NotificationNumber;
 }else{
     document.getElementById("number").textContent="";
 }
-$(function(){
+    document.getElementById("username").textContent=vm.AdminFirstName;
+    document.getElementById("imageId").src=vm.ProfilePicture;
+    if (vm.ProfilePicture ==""){
+        document.getElementById("imageId").src="/static/images/default.png"
+    }
     var unixFromDate = 0;
     var unixToDate = 0;
     var mainArray = [];   
