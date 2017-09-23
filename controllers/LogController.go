@@ -120,7 +120,7 @@ func (c *LogController)LoadLogDetails() {
 						var tempGenerealLogoutSlice []string
 						LogData := models.GetSpecificLogValues(c.AppEngineCtx,key.String())
 						log.Println("LogData",LogData)
-						if(LogData.UserName !=""){
+						if LogData.UserName !="" {
 							tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.UserName)
 							tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.Type)
 							tempGeneralLogSlice = append(tempGeneralLogSlice,strconv.FormatInt(int64(LogData.LogTime), 10))

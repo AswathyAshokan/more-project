@@ -329,48 +329,48 @@ if (vm.NotificationNumber !=0){
                   });
               });
         });
-        if(vm.GeneralLogValues != null) {
-        console.log("vm.GeneralLogValues ########",vm.GeneralLogValues);
-        //$('#log-details').dataTable().fnDestroy();
-        for( i=0;i<vm.GeneralLogValues.length;i++){
-            console.log("hghghghg",vm.GeneralLogValues[i]);
-            var utcTime = vm.GeneralLogValues[i][2];
-            var dateFromDb = parseInt(utcTime)
-            var d = new Date(dateFromDb * 1000);
-            var dd = d.getDate();
-            var mm = d.getMonth() + 1; //January is 0!
-            var yyyy = d.getFullYear();
-            var HH = d.getHours();
-            var min = d.getMinutes();
-            var sec = d.getSeconds();
-            if (dd < 10) {
-                dd = '0' + dd;
-            }
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
-            if (HH < 10) {
-                HH = '0' + HH;
-            }
-            if (min < 10) {
-                min = '0' + min;
-            }
-            if (sec < 10) {
-                sec = '0' + sec;
-            }
-            var localTime = (HH + ':' + min);
-            var localDate = (mm + '/' + dd + '/' + yyyy);
-            /*lattitude = vm.GeneralLogValues[i][3];
-            longitude= vm.GeneralLogValues[i][4];*/
-            vm.GeneralLogValues[i][2]= localDate;
-            vm.GeneralLogValues[i][3] = localTime;
-            
-            /*console.log("lattitude  in general log:",lattitude);
-            console.log("longitude n general log:",longitude);*/
-            
-        }
-        createGeneralDataArray(vm.GeneralLogValues, vm.GeneralKey);
-    }
+//        if(vm.GeneralLogValues != null) {
+//        console.log("vm.GeneralLogValues ########",vm.GeneralLogValues);
+//        //$('#log-details').dataTable().fnDestroy();
+//        for( i=0;i<vm.GeneralLogValues.length;i++){
+//            console.log("hghghghg",vm.GeneralLogValues[i]);
+//            var utcTime = vm.GeneralLogValues[i][2];
+//            var dateFromDb = parseInt(utcTime)
+//            var d = new Date(dateFromDb * 1000);
+//            var dd = d.getDate();
+//            var mm = d.getMonth() + 1; //January is 0!
+//            var yyyy = d.getFullYear();
+//            var HH = d.getHours();
+//            var min = d.getMinutes();
+//            var sec = d.getSeconds();
+//            if (dd < 10) {
+//                dd = '0' + dd;
+//            }
+//            if (mm < 10) {
+//                mm = '0' + mm;
+//            }
+//            if (HH < 10) {
+//                HH = '0' + HH;
+//            }
+//            if (min < 10) {
+//                min = '0' + min;
+//            }
+//            if (sec < 10) {
+//                sec = '0' + sec;
+//            }
+//            var localTime = (HH + ':' + min);
+//            var localDate = (mm + '/' + dd + '/' + yyyy);
+//            /*lattitude = vm.GeneralLogValues[i][3];
+//            longitude= vm.GeneralLogValues[i][4];*/
+//            vm.GeneralLogValues[i][2]= localDate;
+//            vm.GeneralLogValues[i][3] = localTime;
+//            
+//            /*console.log("lattitude  in general log:",lattitude);
+//            console.log("longitude n general log:",longitude);*/
+//            
+//        }
+//        createGeneralDataArray(vm.GeneralLogValues, vm.GeneralKey);
+//    }
     });
     
     if( vm.WorkLocationValues !=null){
