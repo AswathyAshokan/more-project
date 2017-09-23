@@ -3502,8 +3502,11 @@ td .drp-tbl-wrp:not(:last-child) { margin-bottom: 20px; }
 .task-graph .tsk-lst-wrapper .tsk-lst p { background-color: #f9f9f9; border-bottom: 1px solid #ddd; margin: 0; padding: 10px 10px; font-size: 12px; }
 .task-graph .tsk-lst-wrapper .tsk-lst p:nth-child(even) { background-color: #fff; }
 .task-graph .tsk-lst-wrapper .tsk-lst span { padding: 10px; display: block; text-align: center; color: #29a0ff; }
-.task-graph .graph-ed { position: relative; }
+.task-graph .graph-ed { padding-left: 30px; position: relative; }
 .task-graph .graph-ed h5 { padding-right: 15px; position: absolute; width: 100%; text-align: right; }
+.task-graph .graph-ed .jqplot-axis.jqplot-yaxis { left: -12px !important; }
+.task-graph .graph-ed .grpah-btn { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-pack: justify; -webkit-justify-content: space-between; -ms-flex-pack: justify; justify-content: space-between; padding-top: 5px; }
+.task-graph .graph-ed .grpah-btn button { color: #43b0fd !important; }
 
 /*==============================================================
 					    Timer

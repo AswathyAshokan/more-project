@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html>
+
+<html lang="en">
     <head>
 	<meta charset="UTF-8">
 	<title>Dashboard</title>
@@ -18,10 +18,21 @@
     <script src="/static/js/select2.min.js"></script>
     <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
     <script src="/static/js/radial-progress-bar.js"></script>
-    <script src="/static/js/barChart.jquery.js"></script>
+    <!--<script src="/static/js/barChart.jquery.js"></script>-->
+        
+    <link rel="stylesheet" type="text/css" href="css/jquery.jqplot.css" />
+        
     <link rel="stylesheet" href="/static/css/style.css">
     <script src="/static/js/jquery.canvasjs.min.js"></script>
         <script src="/static/js/moment.js"></script>
+        
+        <script type="text/javascript" src="/static/js/jquery.jqplot.min.js"></script>
+<script type="text/javascript" src="/static/js/plugins/jqplot.barRenderer.min.js"></script>
+<!-- <script type="text/javascript" src="../plugins/jqplot.pieRenderer.min.js"></script> -->
+<script type="text/javascript" src="/static/js/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+<script type="text/javascript" src="/static/js/plugins/jqplot.pointLabels.min.js"></script>
+<script type="text/javascript" src="/static/js/plugins/jqplot.canvasTextRenderer.js"></script>
+<script type="text/javascript" src="/static/js/plugins/jqplot.canvasAxisLabelRenderer.js"></script>
         
     </head>
 <body>
@@ -145,10 +156,17 @@
                                 </div>
                             </div>
                             <div class="col-sm-6 graph-ed">
-                                <h5 style="">Task Status and Users</h5>
+<!--                                <h5 style="">Task Status and Users</h5>-->
                                 <!-- <img src="images/grapg.png" alt=""> -->
                                 <!-- <div id="chart"></div> -->
-                                <div id="chartContainer" style="height: 379px; width: 100%;" class="clearfix"></div>
+<!--                                <div id="chartContainer" style="height: 379px; width: 100%;" class="clearfix"></div>-->
+                                <div id="chart1" style="height: 420px; " class="clearfix"></div>
+									<!-- <div id="chart1" style="height:400px;width:300px; "></div> -->
+									<div class="grpah-btn" >
+										<button class="no-button-style" id="previousDay" name ="previousDay" style="visibility:hidden;"onclick="getPreviousDayValues(event)">Previous</button>
+										<span id="today" name="today"></span>
+										<button class="no-button-style" id="nextDay" style="visibility: hidden;"onclick="LoadNextDayValues(event)" name ="nextDay" >Next</button>
+									</div>
                             </div>
                         </div>
                     </div>
@@ -435,67 +453,65 @@
 		    </ul>
 		</footer>
 	    </div>
-	</section>
+        </section>
+    </section>
 
 
-
-
-
-	
-
-<!--
-	<script>
-
-		$(document).ready(function() {
-		      
-		     jQuery("#pie1").radialPieChart("init", {
-				  'font-size': 13,
-				  'fill': 25,
-				  "size": 150,
-				  'text-color': "transparent",
-				  // "background": "#29a0ff",
-				  'data': [
-				    {'color': "#29a0ff", 'perc': 78},
-				    {'color': "#6abdff", 'perc': 30}
-				  ]
-				});
-
-		     jQuery("#pie2").radialPieChart("init", {
-				  'font-size': 13,
-				  'fill': 25,
-				  "size": 150,
-				  'text-color': "transparent",
-				  'data': [
-				    {'color': "#5b93c2", 'perc': 20},
-				    {'color': "#06599e", 'perc': 30},
-				    {'color': "#8fb4d3", 'perc': 50}
-				  ]
-				});
-
-
-
-		  } );
-	</script>
-
-	<script>
-
-			$(document).ready(function(){
-
-				$('#chart').barChart({
-					height : 379,
-					bars : [
-						{ 
-							name : 'Dataset 1',
-							values : [['user1',40],['user2',30],['user3',10],['user4',100]] 
-						}
-					]
-				});
-
-			});
-
-		</script>
--->
-        <script>
+   <!-- <script>
+    
+    
+    $(document).ready(function(){
+        $.jqplot.config.enablePlugins = true;
+        var s1 = [21, 14, 7];
+        var ticks = ['total users', 'started users', 'pending users'];
+        plot1 = $.jqplot('chart1', [s1], {
+        // Only animate if we're not using excanvas (not in IE 7 or IE 8)..
+        animate: !$.jqplot.use_excanvas,
+        seriesDefaults:{
+                renderer:$.jqplot.BarRenderer,
+                rendererOptions: {barMargin: 0 , varyBarColor : true},
+                pointLabels: { show: true }
+        },
+            title:{text:"Task Status and Users"},
+            grid: {
+                background: 'transparent',      // CSS color spec for background color of grid.
+                drawBorder:false,
+                drawGridlines:false,
+                shadow:false
+            },
+            axes: {
+                xaxis: {
+                    renderer: $.jqplot.CategoryAxisRenderer,
+                    ticks: ticks,
+                    tickOptions : {
+							          //  showGridline : false
+                    }
+                },
+                yaxis: {
+                    tickOptions : {
+                        //  showGridline : false
+                    },
+                    //  label:'Status',
+                    labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+                }
+            },
+            seriesColors: [ "#000", "#ccc", "red"],
+            highlighter: { show: false }
+        });
+        $('#chart1').bind('jqplotDataClick',
+                          function (ev, seriesIndex, pointIndex, data) {
+            $('#info1').html('series: '+seriesIndex+', point: '+pointIndex+', data: '+data);
+        }
+				);
+		});
+    
+    </script>
+    -->
+    
+    
+    
+    
+    <script>
         $('.notification-btn').on('click', function() {
            $(this).parent('.notification-wrp').toggleClass('show-notification');
            });

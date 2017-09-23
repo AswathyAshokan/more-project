@@ -336,8 +336,8 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 		}
 		var barChart [][] string
 		var allPendinUserArray  [][]string
-		var allRejectedUserArray [][]string
-		var allAcceptdUserArray	 [][]string
+		//var allRejectedUserArray [][]string
+		//var allAcceptdUserArray	 [][]string
 		var  allCompletedUserArray [][]string
 		var keysValues [] string
 		var tempArray []string
@@ -369,7 +369,7 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 
 								for _, userkey := range dataValueOfUser.MapKeys() {
 									keysValues = append(keysValues,userkey.String())
-									var acceptedUsers []string
+									//var acceptedUsers []string
 									var UserDetailsForStartTask []string
 									var UserDetailsForCompleted []string
 
@@ -383,8 +383,10 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 
 
 											if logUserDetail[logKey.String()].LogDescription == "Task Started" {
+												log.Println("iam in fourth if")
 												UserDetailsForStartTask = append(UserDetailsForStartTask, logUserDetail[logKey.String()].LogDescription)
 												UserDetailsForStartTask = append(UserDetailsForStartTask,strconv.FormatInt(int64(logUserDetail[logKey.String()].LogTime), 10) )
+												UserDetailsForStartTask = append(UserDetailsForStartTask,logUserDetail[logKey.String()].UserID)
 												barChart = append(barChart,UserDetailsForStartTask)
 												UserDetailsForStartTask = UserDetailsForStartTask[:0]
 											} else if logUserDetail[logKey.String()].LogDescription == helpers.StatusCompleted {
@@ -395,14 +397,14 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 												UserDetailsForCompleted = append(UserDetailsForCompleted, userkey.String())
 												allCompletedUserArray = append(allCompletedUserArray,UserDetailsForCompleted)
 												UserDetailsForCompleted = UserDetailsForCompleted [:0]
-											} else if(logUserDetail[logKey.String()].LogDescription == helpers.StatusAccepted){
+											} /*else if(logUserDetail[logKey.String()].LogDescription == helpers.StatusAccepted){
 												acceptedUsers = append(acceptedUsers,logUserDetail[logKey.String()].LogDescription)
 												acceptedUsers = append(acceptedUsers,strconv.FormatInt(int64(logUserDetail[logKey.String()].LogTime), 10))
 												acceptedUsers = append(acceptedUsers,userkey.String())
 												allAcceptdUserArray = append(allAcceptdUserArray,acceptedUsers)
 												//barChart = append(barChart,acceptedUsers)
 												acceptedUsers = acceptedUsers[:0]
-											}
+											}*/
 										}
 
 
@@ -418,19 +420,21 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 					}
 					for _, userkey := range dataValueOfUser.MapKeys() {
 						if taskDetail.UsersAndGroups.User[userkey.String()].Status != helpers.UserStatusDeleted {
-							var rejectedUsers []string
-							var UserDetailsForPendingTask []string
-							if taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus == helpers.StatusPending {
-								UserDetailsForPendingTask = append(UserDetailsForPendingTask, taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus)
-								UserDetailsForPendingTask = append(UserDetailsForPendingTask, userkey.String())
-								allPendinUserArray = append(allPendinUserArray,UserDetailsForPendingTask)
-								//barChart = append(barChart,UserDetailsForPendingTask)
-								UserDetailsForPendingTask = UserDetailsForPendingTask [:0]
-							} else  if taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus == helpers.UserResponseRejected{
-								rejectedUsers = append(rejectedUsers,taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus)
-								rejectedUsers = append(rejectedUsers, userkey.String())
-								allRejectedUserArray = append(allRejectedUserArray,rejectedUsers)
-								rejectedUsers = rejectedUsers[:0]
+							if taskDetail.Info.TaskName == taskName {
+								//var rejectedUsers []string
+								var UserDetailsForPendingTask []string
+								if taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus == helpers.StatusPending {
+									UserDetailsForPendingTask = append(UserDetailsForPendingTask, taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus)
+									UserDetailsForPendingTask = append(UserDetailsForPendingTask, userkey.String())
+									allPendinUserArray = append(allPendinUserArray, UserDetailsForPendingTask)
+									//barChart = append(barChart,UserDetailsForPendingTask)
+									UserDetailsForPendingTask = UserDetailsForPendingTask [:0]
+								} /*else if taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus == helpers.UserResponseRejected {
+									rejectedUsers = append(rejectedUsers, taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus)
+									rejectedUsers = append(rejectedUsers, userkey.String())
+									allRejectedUserArray = append(allRejectedUserArray, rejectedUsers)
+									rejectedUsers = rejectedUsers[:0]
+								}*/
 							}
 						}
 
@@ -460,8 +464,10 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 			}
 		}
 		 totalUsers :=  len(tempArray)
-		log.Println("total",len(tempArray))
-		slices := []interface{}{"true",barChart,allCompletedUserArray,allAcceptdUserArray,allPendinUserArray,allRejectedUserArray,starEndDateArray,totalUsers}
+		log.Println("pending users",allPendinUserArray)
+		log.Println("barChart",barChart)
+		log.Println("allCompletedUserArray",allCompletedUserArray)
+		slices := []interface{}{"true",barChart,allCompletedUserArray,allPendinUserArray,starEndDateArray,totalUsers}
 		sliceToClient, _ := json.Marshal(slices)
 		log.Println("sliceToClient",sliceToClient)
 		w.Write(sliceToClient)

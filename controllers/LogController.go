@@ -63,7 +63,7 @@ func (c *LogController)LoadLogDetails() {
 				tempValueSlice = append(tempValueSlice,longitudeInString)
 				viewModel.Values = append(viewModel.Values, tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]
-				//userId = append(userId,logUserDetail[key.String()].UserID)
+				userId = append(userId,logUserDetail[key.String()].UserID)
 
 			} else {
 				//var buffer bytes.Buffer
@@ -83,7 +83,7 @@ func (c *LogController)LoadLogDetails() {
 
 
 			}
-			//userId = append(userId,logUserDetail[key.String()].UserID)
+			userId = append(userId,logUserDetail[key.String()].UserID)
 
 		}
 
@@ -95,7 +95,7 @@ func (c *LogController)LoadLogDetails() {
 			dataValue := reflect.ValueOf(generalLogData)
 			for _, key := range dataValue.MapKeys() {
 				log.Println("key ?????",key.String())
-				userId = append(userId,key.String())
+				//userId = append(userId,key.String())
 				var tempArray []string
 				for i:=0;i<len(userId);i++{
 
