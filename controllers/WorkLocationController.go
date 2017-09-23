@@ -372,8 +372,8 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 		dailyEndTime := c.GetString("dailyEndTimeString")
 		dailyStartTime := c.GetString("dailyStartTimeString")
 		groupKeySliceForWorkLocation :=strings.Split(groupKeySliceForWorkLocationString, ",")
-		userIdArray := c.GetStrings("selectedUserNames")
-		log.Println("selected users array",userIdArray)
+		tempUserIdArrayForEdit := c.GetStrings("selectedUserNames")
+		log.Println("selected users array",tempUserIdArrayForEdit)
 		//latitude := c.GetString("latitudeId")
 		latitude := c.GetString("latitudeId")
 		longitude := c.GetString("longitudeId")
@@ -385,15 +385,39 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 		startDateInt , err := strconv.ParseInt(startDate, 10, 64)
 		endDateInt, err := strconv.ParseInt(endDate, 10, 64)
 		layout := "01/02/2006 15:04"
+		log.Println("cpp1")
 		startDateInUnix, err := time.Parse(layout, dailyStartTime)
 		if err != nil {
+			log.Println("cpp2")
 			log.Println(err)
 		}
 		//task.Info.StartDate = startDate.UTC().Unix()
 		endDateInUnix, err := time.Parse(layout, dailyEndTime)
 		if err != nil {
+			log.Println("cpp3")
 			log.Println(err)
 		}
+		log.Println("cpp")
+
+		var userIdArray []string
+		for i:=0;i<len(tempUserIdArrayForEdit);i++{
+
+			exists := false
+			for v := 0; v < i; v++ {
+				if tempUserIdArrayForEdit[v] == tempUserIdArrayForEdit[i] {
+					exists = true
+					break
+				}
+			}
+			// If no previous element exists, append this one.
+			if !exists {
+				userIdArray = append(userIdArray, tempUserIdArrayForEdit[i])
+			}
+		}
+
+
+		log.Println("userIdArray",userIdArray)
+
 		//task.Info.EndDate = endDate.Unix()
 		log.Println("w3")
 		var groupKeySlice	[]string

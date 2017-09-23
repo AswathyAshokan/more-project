@@ -12,11 +12,11 @@ console.log("company name",vm);
     var TotalNoUsers;
     var today;
     var allData = [[]];
-
+      
       function LoadBarChart(total,start,pending,complete,todayVal){
            document.getElementById('today').innerHTML = todayVal;
           $.jqplot.config.enablePlugins = true;
-
+          
           var s1 = [total, start, pending, complete];
             var ticks = ['total', 'started', 'pending','completed' ];
             plot1 = $.jqplot('chart1', [s1], {
@@ -57,15 +57,15 @@ console.log("company name",vm);
                         function (ev, seriesIndex, pointIndex, data) {$('#info1').html('series: '+seriesIndex+', point: '+pointIndex+', data: '+data);
             });
       }
-
-
+      
+      
     if (vm.NotificationNumber !=0){
-        document.getElementById("number").textContent=vm.NotificationNumber;
+        document.getElementById("number").textContent=vm.NotificationArray.length;
     }else{
         document.getElementById("number").textContent="";
     }
     
-
+    
       var companyTeamName =vm.CompanyTeamName
     if(vm.CompanyPlan == 'family' ){
         var parent = document.getElementById("menuItems");
@@ -162,100 +162,39 @@ console.log("company name",vm);
         });
     }
       var subArray = [];
-    myNotification= function () {
-    window.onload = function () {
-        CanvasJS.addColorSet("colors",
-                             [
-            "#857198"
-        ]);
-        var chart = new CanvasJS.Chart("chartContainer", {
-            height: 435,
-            backgroundColor: "transparent",
-            colorSet: "colors",
-            axisY:{
-                title: "Status",
-                titleFontSize: 14,
-                lineThickness: 1,
-                gridThickness: 0,
-                labelFontSize: 14,
-                },
-                axisX:{
-                    title: "Users",
-                    titleFontSize: 14,
-                    lineThickness: 1,
-                    labelFontSize: 14,
-                    },
-            data: [{
-                type: "column",
-                dataPoints: [
-                    { y: 22, label: "User 1" },
-                    { y: 31, label: "User 2" },
-                    { y: 52, label: "User 3" },
-                    { y: 60, label: "User 4" },
-                ]
-            }]
-        });
-        chart.render();
-        $(".canvasjs-chart-credit").hide();
-    }
-    var subArray = [];
-    //notification
-    //notification
-    var notificationSorted =[[]];
-    function sortByCol(arr, colIndex){
-    notificationSorted=arr.sort(sortFunction);
-    function sortFunction(a, b) {
-        a = a[colIndex]
-        b = b[colIndex]
-        return (a === b) ? 0 : (a < b) ? -1 : 1
-    }
-}
-
-
-     myNotification= function () {
-         if (vm.NotificationArray !=null){
-        console.log("hiiii");
-         sortByCol(vm.NotificationArray, 6);
-         console.log("jjjjj",notificationSorted);
-         var reverseSorted =[[]];
-         reverseSorted=notificationSorted.reverse();
-
-        document.getElementById("notificationDiv").innerHTML = "";
-        var DynamicTaskListing="";
-        if (reverseSorted !=null){
-            DynamicTaskListing ="<h5>"+"Notifications"+ "<button class='no-button-style' method='post' onclick='clearNotification()'>"+"clear all"+"</button>"+"</h5>"+"<ul>";
-        for(var i=0;i<reverseSorted.length;i++){
-            console.log("sp1");
-            var timeDifference =moment(new Date(new Date(vm.NotificationArray[i][6]*1000)), "YYYYMMDD").fromNow();
-            DynamicTaskListing += "<li>"+"User"+" "+vm.NotificationArray[i][2]+" "+vm.NotificationArray[i][3]+"  "+"delay to reach location"+" "+vm.NotificationArray[i][4]+" "+"for task"+" "+vm.NotificationArray[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
-            
-            
-        }
-            $("#notificationDiv").prepend(DynamicTaskListing+"</ul>");
-            document.getElementById("number").textContent="";
-            $.ajax({
-                url:'/'+ companyTeamName + '/notification/update',
-                type: 'post',
-                success : function(response) {
-                    if (response == "true" ) {
-                    } else {
-                    }
-                },
-                error: function (request,status, error) {
-                    console.log(error);
-                }
-            }); 
-        }else{
-            DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
-            $("#notificationDiv").prepend(DynamicTaskListing);
-            
-        }
-        
-        }
+      myNotification= function () {
+          console.log("hiiii");
+          document.getElementById("notificationDiv").innerHTML = "";
+          var DynamicTaskListing="";
+          if (vm.NotificationArray !=null){
+              DynamicTaskListing ="<h5>"+"Notifications"+"</h5>"+"<ul>";
+              for(var i=0;i<vm.NotificationArray.length;i++){
+                  console.log("sp1");
+                  var timeDifference =moment(new Date(new Date(vm.NotificationArray[i][6]*1000)), "YYYYMMDD").fromNow();
+                  DynamicTaskListing += "<li>"+"User"+" "+vm.NotificationArray[i][2]+" "+vm.NotificationArray[i][3]+"  "+"delay to reach location"+" "+vm.NotificationArray[i][4]+" "+"for task"+" "+vm.NotificationArray[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
+              }
+              $("#notificationDiv").prepend(DynamicTaskListing+"</ul>");
+              document.getElementById("number").textContent="";
+              $.ajax({
+                  url:'/'+ companyTeamName + '/notification/update',
+                  type: 'post',
+                  success : function(response) {
+                      if (response == "true" ) {
+                      } else {
+                      }
+                  },
+                  error: function (request,status, error) {
+                      console.log(error);
+                  }
+              }); 
+          }else{
+              DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
+              $("#notificationDiv").prepend(DynamicTaskListing);
+          }
+      }
      
      
-     
-     clearNotification= function () {
+      clearNotification= function () {
           document.getElementById("notificationDiv").innerHTML = "";
           $.ajax({
                 url:'/'+ companyTeamName + '/notification/delete',
@@ -268,10 +207,8 @@ console.log("company name",vm);
                 error: function (request,status, error) {
                     console.log(error);
                 }
-            });
-     }
-
-
+            }); 
+      }
     
    getTaskDetails = function(){
         $("#taskListing").html("");
@@ -341,12 +278,12 @@ console.log("company name",vm);
                     var currentDay = dd;
                     var currentYear = yyyy;
                     var localToday = (mm + '/' + dd + '/' + yyyy);
-
+                    
                     console.log("todayDate",localToday);
                     //for filtaring details of task started User
                     var startTaskArray = jsonData[1];
                     var startTaskCount = 0;
-                    //var tempArray = [];
+                    var tempArray = [];
                     if (startTaskArray !=null){
                         for (i = 0;i<startTaskArray.length;i++){
                             console.log("inner loop of ",startTaskArray[i][2]);
@@ -354,7 +291,7 @@ console.log("company name",vm);
                             if(returnValues =="true"){
                                 startTaskCount =startTaskCount+1;
                             }*/
-
+                            
                            // tempArray.push()
                             var startTaskDate = startTaskArray[i][1];
                             var startTaskDateFromDb = parseInt(startTaskDate)
@@ -369,15 +306,19 @@ console.log("company name",vm);
                                 mm = '0' + mm;
                             }
                             if (mm == CurrentMonth && currentDay == dd && currentYear == yyyy ){
-
-                               startTaskCount = startTaskCount+1;
+                                tempArray.push(startTaskArray[i][2])
+                               //startTaskCount = startTaskCount+1;
                             }
-                            console.log("startTaskCount 111",startTaskCount)
+                            //console.log("startTaskCount 111",tempArray)
                         }
                     }
-
+                    var uniqueArry = Array.from(new Set(tempArray));
+                    console.log("uniqueArry",uniqueArry);
+                    startTaskCount = uniqueArry.length;
+                    
+                    
                     //for filtering of Completed task
-
+                    
                     var completedTask = jsonData[2];
                     var completedTaskCount = 0;
                     if (completedTask !=null){
@@ -400,84 +341,165 @@ console.log("company name",vm);
                             console.log("completedTaskCount",completedTaskCount)
                         }
                     }
-                    
-                    //for filtaring details of task accepted User
-                    var startTaskArray = jsonData[1];
-                    var startTaskCount = 0;
-                    if (startTaskArray.length !=null){
-                        for (i = 0;i<startTaskArray.length;i++){
-                            console.log("inner loop of ",startTaskArray[i][3]);
-                            var startTaskDate = startTaskArray[i][1];
-                            var startTaskDateFromDb = parseInt(startTaskDate)
-                            var d = new Date(startTaskDateFromDb * 1000);
-                            var dd = d.getDate();
-                            var mm = d.getMonth() + 1; //January is 0!
-                            var yyyy = d.getFullYear();
-                            if (dd < 10) {
-                                dd = '0' + dd;
-                            }
-                            if (mm < 10) {
-                                mm = '0' + mm;
-                            }
-                            if (mm == CurrentMonth && currentDay == dd && currentYear == yyyy ){
-                               startTaskCount = startTaskCount+1;
-                            }
-                            
-                            
-                        }
-                    }
-                    
-                    //for filtering of Completed task
-                    
-                    var completedTask = jsonData[2];
-                    var completedTaskCount = 0;
-                    if (completedTask.length !=null){
-                        for (i = 0;i<completedTask.length;i++){
-                            console.log("inner loop of ",completedTask[i][3]);
-                            var completedTaskDate = completedTask[i][1];
-                            var completedTaskDateFromDb = parseInt(completedTaskDate)
-                            var d = new Date(completedTaskDateFromDb * 1000);
-                            var dd = d.getDate();
-                            var mm = d.getMonth() + 1; //January is 0!
-                            var yyyy = d.getFullYear();
-                            if (dd < 10) {
-                                dd = '0' + dd;
-                            }
-                            if (mm < 10) {
-                                mm = '0' + mm;
-                            }
-                            if (mm == CurrentMonth && currentDay == dd && currentYear == yyyy ){
-                               completedTaskCount = completedTaskCount+1;
-                            }
-                        }
-                    }
                     //for filtering of pending Task
-                    var pendingTask = jsonData[4];
+                    var pendingTask = jsonData[3];
                     var pendingTaskCount = 0;
-                    if (pendingTask.length !=null){
+                    if (pendingTask !=null){
                         pendingTaskCount = pendingTask.length;
                     }
-                    
-                    //for fitering of rejected Users
-                    var rejectedUsers = jsonData[5];
-                    var rejectedTaskCount = 0;
-                    if(rejectedUsers.length !=null){
-                        rejectedTaskCount = rejectedUsers.length;
+                    if(startTaskCount>completedTaskCount){
+                        tempStart = startTaskCount - completedTaskCount;
+                    } else{
+                        tempStart = completedTaskCount -startTaskCount;
                     }
-                    
-                    persentageOfAcceptedUser = (acceptedCount/TotalNoUsers)*100;
-                    persentageOfRejectedUsers = (rejectedTaskCount/TotalNoUsers)*100;
-                    PersentageOfStartedUser = (startTaskCount/TotalNoUsers)*100;
-                    PersentageOfCompletedUsers = (completedTaskCount/TotalNoUsers)*100;
-                    persentageOfPendingUsers = (pendingTaskCount/TotalNoUsers)*100;
-                    console.log("persentageOfAcceptedUser",persentageOfAcceptedUser);
-                    console.log("persentageOfRejectedUsers",persentageOfRejectedUsers);
-                    console.log("PersentageOfStartedUser",PersentageOfStartedUser);
-                    console.log("persentageOfPendingUsers",persentageOfPendingUsers);
-                    console.log("PersentageOfCompletedUsers",PersentageOfCompletedUsers);
+                   
+                    LoadBarChart(totalNoUsers,tempStart,pendingTaskCount,completedTaskCount,localToday);
+                     var previousDay = document.getElementById('previousDay');
+                    previousDay.style.visibility = 'visible';
                 }
                 else{
                     console.log("Server Problem");
+                }
+            },
+            error: function (request,status, error) {
+            }
+        });
+       
+    }
+    
+    getPreviousDayValues = function(Event){
+        console.log("today   in @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",allData);
+        var d = new Date();
+        d.setDate(d.getDate() - 1);
+        console.log("yesterDay nnnnnn",d)
+        var nextDay = document.getElementById('nextDay');
+        nextDay.style.visibility = 'visible';
+        var dd = d.getDate();
+        var mm = d.getMonth()+1; //January is 0!
+        var yyyy = d.getFullYear();
+        if(dd<10) {
+            dd = '0'+dd
+        } 
+
+        if(mm<10) {
+            mm = '0'+mm
+        }
+        var CurrentMonth = mm;
+        var currentDay = dd;
+        var currentYear = yyyy;
+        var localToday = (mm + '/' + dd + '/' + yyyy);
+       // for(var i=0;i<allData.length;i++){
+        var totalUsers = allData[5]
+        /*for(var k=0;k<allData[i].length;k++){*/
+        var startTaskArray = allData[1];
+        var startTaskCount = 0;
+
+        if (startTaskArray !=null){
+           for (i = 0;i<startTaskArray.length;i++){
+                console.log("inner loop of ",startTaskArray[i]);
+                 /*var returnValues = checkStartedUser(startTaskArray[i][3]);
+                if(returnValues =="true"){
+                    startTaskCount =startTaskCount+1;
+                }*/
+
+               // tempArray.push()
+                var startTaskDate = startTaskArray[i][1];
+                var startTaskDateFromDb = parseInt(startTaskDate)
+                var d = new Date(startTaskDateFromDb * 1000);
+                var dd = d.getDate();
+                var mm = d.getMonth() + 1; //January is 0!
+                var yyyy = d.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd;
+                }
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+                if (mm == CurrentMonth && currentDay == dd && currentYear == yyyy ){
+
+                   startTaskCount = startTaskCount+1;
+                }
+                console.log("startTaskCount 111",startTaskCount)
+           }
+        }
+            
+            var completedTask = allData[2];
+            var completedTaskCount = 0;
+            if (completedTask !=null){
+                for (i = 0;i<completedTask.length;i++){
+                    var completedTaskDate = completedTask[i][1];
+                    var completedTaskDateFromDb = parseInt(completedTaskDate)
+                    var d = new Date(completedTaskDateFromDb * 1000);
+                    var dd = d.getDate();
+                    var mm = d.getMonth() + 1; //January is 0!
+                    var yyyy = d.getFullYear();
+                    if (dd < 10) {
+                        dd = '0' + dd;
+                    }
+                    if (mm < 10) {
+                        mm = '0' + mm;
+                    }
+                    if (mm == CurrentMonth && currentDay == dd && currentYear == yyyy ){
+                       completedTaskCount = completedTaskCount+1;
+                    }
+                    console.log("completedTaskCount",completedTaskCount)
+                }
+            }
+            var pendingTask = allData[3];
+            var pendingTaskCount = 0;
+            if (pendingTask !=null){
+                pendingTaskCount = pendingTask.length;
+            }
+            if(startTaskCount>completedTaskCount){
+                tempStart = startTaskCount - completedTaskCount;
+            } else{
+                tempStart = completedTaskCount -startTaskCount;
+            }
+        LoadBarChart(totalUsers,tempStart,pendingTaskCount,completedTaskCount,localToday);
+    }
+    
+    
+    LoadNextDayValues = function(Event){
+        console.log("today   in @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",allData);
+        var today= new Date();
+        today = new Date();
+        console.log("today   $$$$$$$$$$$$$",today);
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10) {
+            dd = '0'+dd
+        } 
+
+        if(mm<10) {
+            mm = '0'+mm
+        }
+        var CurrentMonth = mm;
+        var currentDay = dd;
+        var currentYear = yyyy;
+        var localToday = (mm + '/' + dd + '/' + yyyy);
+        var totalUsers = allData[5]
+            /*for(var k=0;k<allData[i].length;k++){*/
+        var startTaskArray = allData[1];
+        var startTaskCount = 0;
+
+        if (startTaskArray !=null){
+           for (i = 0;i<startTaskArray.length;i++){
+                console.log("inner loop of ",startTaskArray[i]);
+                 /*var returnValues = checkStartedUser(startTaskArray[i][3]);
+                if(returnValues =="true"){
+                    startTaskCount =startTaskCount+1;
+                }*/
+
+               // tempArray.push()
+                var startTaskDate = startTaskArray[i][1];
+                var startTaskDateFromDb = parseInt(startTaskDate)
+                var d = new Date(startTaskDateFromDb * 1000);
+                var dd = d.getDate();
+                var mm = d.getMonth() + 1; //January is 0!
+                var yyyy = d.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd;
                 }
                 if (mm < 10) {
                     mm = '0' + mm;
@@ -528,7 +550,7 @@ console.log("company name",vm);
         var previousDay = document.getElementById('nextDay');
         previousDay.style.visibility = 'hidden';
     }
-
     
     
-});
+    
+  });
