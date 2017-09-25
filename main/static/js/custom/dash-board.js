@@ -1,4 +1,4 @@
-console.log("company name",vm);
+onsole.log("company name",vm);
   $(document).ready(function(){
     
     //for notification
@@ -16,7 +16,9 @@ console.log("company name",vm);
       function LoadBarChart(total,start,pending,complete,todayVal){
            document.getElementById('today').innerHTML = todayVal;
           $.jqplot.config.enablePlugins = true;
-          
+          s1 =[0,0,0,0]
+          var plot1 = $.jqplot('chart1', [s1]);
+          plot1.destroy();
           var s1 = [total, start, pending, complete];
             var ticks = ['total', 'started', 'pending','completed' ];
             plot1 = $.jqplot('chart1', [s1], {
@@ -390,7 +392,7 @@ console.log("company name",vm);
                    
                     LoadBarChart(totalNoUsers,tempStart,pendingTaskCount,completedTaskCount,localToday);
                      var previousDay = document.getElementById('previousDay');
-                    previousDay.style.visibility = 'hidden';
+                    previousDay.style.visibility = 'visible';
                 }
                 else{
                     console.log("Server Problem");
@@ -408,7 +410,7 @@ console.log("company name",vm);
         d.setDate(d.getDate() - 1);
         console.log("yesterDay nnnnnn",d)
         var nextDay = document.getElementById('nextDay');
-        nextDay.style.visibility = 'hidden';
+        nextDay.style.visibility = 'visible';
         var dd = d.getDate();
         var mm = d.getMonth()+1; //January is 0!
         var yyyy = d.getFullYear();
@@ -495,7 +497,6 @@ console.log("company name",vm);
     
     
     LoadNextDayValues = function(Event){
-        console.log("today   in @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",allData);
         var today= new Date();
         today = new Date();
         console.log("today   $$$$$$$$$$$$$",today);
@@ -581,9 +582,9 @@ console.log("company name",vm);
         }
         LoadBarChart(totalUsers,tempStart,pendingTaskCount,completedTaskCount,localToday);
          var previousDay = document.getElementById('previousDay');
-        previousDay.style.visibility = 'hidden';
+        previousDay.style.visibility = 'visible';
         var previousDay = document.getElementById('nextDay');
-        previousDay.style.visibility = 'hidden';
+        previousDay.style.visibility = 'visible';
     }
     
     

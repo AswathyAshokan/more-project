@@ -998,19 +998,36 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 
 
 	for _, key := range userData.MapKeys() {
+
+		log.Println("updation of task",newUserArray)
 		userKey :=key.String()
 		err = dB.Child("/Users/"+userKey+"/Tasks/"+taskId).Value(&userTaskDetailOfOriginal)
+		log.Println("task id",taskId)
+		log.Println("user id",userKey)
+
+		log.Println("task value",userTaskDetailOfOriginal)
+		log.Println("task user value",userTaskDetailOfOriginal.TaskName)
+		log.Println("task user value",userTaskDetailOfOriginal.Status)
 		if len(userTaskDetailOfOriginal.Status) !=0{
 			if(userTaskDetailOfOriginal.Status =="Open"||userTaskDetailOfOriginal.Status=="Completed"){
+				log.Println("user key",userKey)
+				log.Println("inside 1")
 				userTaskDetail.Status =userTaskDetailOfOriginal.Status
+				log.Println("st1",userTaskDetail.Status)
 			}else{
+				log.Println("inside2")
+				log.Println("user key",userKey)
 				userTaskDetail.Status =helpers.StatusPending
+				log.Println("st2",userTaskDetail.Status)
+
+
+
 			}
-
-
-
 		}else{
+			log.Println("inside 3")
+			log.Println("user key",userKey)
 			userTaskDetail.Status =helpers.StatusPending
+			log.Println("st3",userTaskDetail.Status)
 		}
 		userTaskDetail.CompanyId = companyId
 		userTaskDetail.CustomerName = m.Customer.CustomerName
@@ -1021,10 +1038,44 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userTaskDetail.DateOfCreation =taskValues.Settings.DateOfCreation
 		userTaskDetail.Id=taskId
 		if taskValues.UsersAndGroups.User[userKey].UserTaskStatus !=helpers.StatusCompleted{
+			log.Println("kkkkkkkk")
 			err = dB.Child("/Users/"+userKey+"/Tasks/"+taskId).Update(&userTaskDetail)
 		}
 
 	}
+
+
+
+	//insertion on user for new users
+	for i :=0;i<len(uniqueUserKey);i++{
+		log.Println("updation of task")
+		userTaskDetail.Status =helpers.StatusPending
+		userTaskDetail.CompanyId = companyId
+		userTaskDetail.CustomerName = m.Customer.CustomerName
+		userTaskDetail.EndDate = m.Info.EndDate
+		userTaskDetail.JobName = m.Job.JobName
+		userTaskDetail.TaskName = m.Info.TaskName
+		userTaskDetail.StartDate = m.Info.StartDate
+		userTaskDetail.DateOfCreation =taskValues.Settings.DateOfCreation
+		userTaskDetail.Id=taskId
+		err = dB.Child("/Users/"+uniqueUserKey[i]+"/Tasks/"+taskId).Update(&userTaskDetail)
+
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	//deleted user status
 	for i :=0;i<len(EleminatedArray);i++{
 		err = dB.Child("/Users/"+EleminatedArray[i]+"/Tasks/"+taskId).Value(&userTaskDetailOfDeleted)

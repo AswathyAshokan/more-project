@@ -182,16 +182,19 @@ $(function () {
     //function to setting jobna me when loaded add and continue button
     if (vm.JobNameFormUrl.length !=0){
         document.getElementById("jobName").value = vm.JobNameFormUrl;
-        for (var i = 0; i < vm.ContactUser.length; i++) {
-            for (var j=0; j<vm.ContactUser[i].length ;j++){
-                for ( var k=0;k<vm.ContactUser[i][j].CustomerName.length;k++){
-                    if (vm.ContactUser[i][j].CustomerName[k] ==vm.CustomerNameFormUrl){
-                        contactName.push(vm.ContactUser[i][j].ContactName);
-                        contactId.push(vm.ContactUser[i][j].ContactId);
+        if (vm.ContactUser !=null){
+            for (var i = 0; i < vm.ContactUser.length; i++) {
+                for (var j=0; j<vm.ContactUser[i].length ;j++){
+                    for ( var k=0;k<vm.ContactUser[i][j].CustomerName.length;k++){
+                        if (vm.ContactUser[i][j].CustomerName[k] ==vm.CustomerNameFormUrl){
+                            contactName.push(vm.ContactUser[i][j].ContactName);
+                            contactId.push(vm.ContactUser[i][j].ContactId);
+                        }
                     }
                 }
             }
         }
+        
         function removeOptions(selectbox)
         {
             var i;
@@ -214,6 +217,32 @@ $(function () {
         document.getElementById("saveAndContinue").disabled = true;
         document.title = 'Edit Task'
         console.log("log",vm.Log);
+        
+        if(vm.FitToWorkCheck =="EachTime") {
+            document.getElementById("fitToWorkCheck").checked = true;
+        }
+        console.log("ffff",vm.BreakTime[0]);
+        console.log("ggg",vm.WorkTime[0]);
+        if(vm.WorkTime.length !=0){
+            document.getElementById("workExplosure").checked = true;
+            var div = document.getElementById('work');
+            div.style.visibility = 'visible';
+            div.style.display ='inline';
+            document.getElementById("workTime").value =vm.WorkTime[0];
+            document.getElementById("breakTime").value =vm.BreakTime[0];
+            var DynamicExposureTextBox ="";
+            for (var i=1; i<vm.WorkTime.length; i++){
+                DynamicExposureTextBox+=        '<div class="exposureId"> <label for="workExplosureText" class="">Break Time</label>'+
+                    '<input type="text"    placeholder="12:00"  id="breakTime" name="breakTime" class="form-control break-duration"  size="5" value="'+ vm.BreakTime[i] +'">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00"  id="workTime" name="workTime"  class="form-control break-duration-after" size="5" value="'+ vm.WorkTime[i] +'" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="20" height="20" style= "float:right; margin-top:0em; margin-right:0em;"  class="delete-exposure" /></div>';
+            }
+            $("#exposureTextBoxAppend").append(DynamicExposureTextBox);
+        }
+         var fitToWorkName = vm.FitToWorkName;
+        console.log("selected fit to work",fitToWorkName);
+        fitWork =vm.FitToWorkName;
+        if (fitToWorkName.length !=0){
+            $('#TaskFitToWork option:contains(' + fitToWorkName + ')').prop({selected: true});
+        }
         var element = document.getElementById('logInMinutes');
         element.value = vm.Log;
         document.getElementById("jobName").value = vm.JobName;
@@ -223,11 +252,7 @@ $(function () {
         document.getElementById("endDate").value = vm.EndDate;
         document.getElementById("taskDescription").value = vm.TaskDescription;
         document.getElementById("taskLocation").value =vm.TaskLocation;
-        var fitToWorkName = vm.FitToWorkName;
-        fitWork =vm.FitToWorkName;
-        if (fitToWorkName.length !=0){
-            $('#TaskFitToWork option:contains(' + fitToWorkName + ')').prop({selected: true});
-        }
+       
         var selectArrayForGroup = vm.GroupMembersAndUserToEdit;
         $("#userOrGroup").val(selectArrayForGroup);
         if (selectArrayForGroup.length !=0){
@@ -327,16 +352,19 @@ $(function () {
             document.getElementById("loginType2").checked = true;
         }
         loginTypeForEdit = vm.LoginType;
-        for (var i = 0; i < vm.ContactUser.length; i++) {
-            for (var j=0; j<vm.ContactUser[i].length ;j++){
-                for ( var k=0;k<vm.ContactUser[i][j].CustomerName.length;k++){
-                    if (vm.ContactUser[i][j].CustomerName[k] ==vm.CustomerNameToEdit){
-                        contactName.push(vm.ContactUser[i][j].ContactName);
-                        contactId.push(vm.ContactUser[i][j].ContactId);
+        if (vm.ContactUser !=null){
+            for (var i = 0; i < vm.ContactUser.length; i++) {
+                for (var j=0; j<vm.ContactUser[i].length ;j++){
+                    for ( var k=0;k<vm.ContactUser[i][j].CustomerName.length;k++){
+                        if (vm.ContactUser[i][j].CustomerName[k] ==vm.CustomerNameToEdit){
+                            contactName.push(vm.ContactUser[i][j].ContactName);
+                            contactId.push(vm.ContactUser[i][j].ContactId);
+                        }
                     }
                 }
             }
         }
+        
         var sel = document.getElementById('contactId');
         for(var i = 0; i < contactName.length; i++) {
             var opt = document.createElement('option');
@@ -366,25 +394,7 @@ $(function () {
             $(this).closest("div").remove();
         });
         minUserForTaskEdit = vm.UsersToEdit.length;
-        if(vm.FitToWorkCheck =="EachTime") {
-            document.getElementById("fitToWorkCheck").checked = true;
-        }
-        console.log("ffff",vm.BreakTime[0]);
-        console.log("ggg",vm.WorkTime[0]);
-        if(vm.WorkTime.length !=0){
-            document.getElementById("workExplosure").checked = true;
-            var div = document.getElementById('work');
-            div.style.visibility = 'visible';
-            div.style.display ='inline';
-            document.getElementById("workTime").value =vm.WorkTime[0];
-            document.getElementById("breakTime").value =vm.BreakTime[0];
-            var DynamicExposureTextBox ="";
-            for (var i=1; i<vm.WorkTime.length; i++){
-                DynamicExposureTextBox+=        '<div class="exposureId"> <label for="workExplosureText" class="">Break Time</label>'+
-                    '<input type="text"    placeholder="12:00"  id="breakTime" name="breakTime" size="5" value="'+ vm.BreakTime[i] +'">'+ '<label>'+'After'+'</label>'+'<input type="text"    placeholder="12:00"  id="workTime" name="workTime" size="5" value="'+ vm.WorkTime[i] +'" >'+'<img  id="exposureDelete" src="/static/images/exposureCancel.jpg" width="20" height="20" style= "float:right; margin-top:0em; margin-right:0em;"  class="delete-exposure" /></div>';
-            }
-            $("#exposureTextBoxAppend").append(DynamicExposureTextBox);
-        }
+        
     }
 });
 
