@@ -5,9 +5,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/ByPassController.go" afterPath="$PROJECT_DIR$/controllers/ByPassController.go" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-task.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-task.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-worklocation.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-worklocation.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/dash-board.js" afterPath="$PROJECT_DIR$/main/static/js/custom/dash-board.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/paymentSucessOfWeb.html" afterPath="$PROJECT_DIR$/main/views/template/paymentSucessOfWeb.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/TaskModel.go" afterPath="$PROJECT_DIR$/models/TaskModel.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -32,13 +31,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ByPassController.go" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ByPassController.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="468">
-              <caret line="33" column="56" lean-forward="false" selection-start-line="33" selection-start-column="56" selection-end-line="33" selection-end-column="56" />
+              <caret line="33" column="64" lean-forward="false" selection-start-line="33" selection-start-column="64" selection-end-line="33" selection-end-column="64" />
               <folding>
-                <marker date="1506315911767" expanded="true" signature="1039:1079" ph="..." />
+                <marker date="1506324755467" expanded="true" signature="1047:1087" ph="..." />
               </folding>
             </state>
           </provider>
@@ -54,11 +53,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TaskModel.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TaskModel.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
-              <caret line="1045" column="0" lean-forward="true" selection-start-line="1045" selection-start-column="0" selection-end-line="1045" selection-end-column="0" />
+            <state relative-caret-position="257">
+              <caret line="1046" column="0" lean-forward="true" selection-start-line="1046" selection-start-column="0" selection-end-line="1046" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -243,8 +242,8 @@
         <option value="$PROJECT_DIR$/routers/router.go" />
         <option value="$PROJECT_DIR$/main/views/template/duress.html" />
         <option value="$PROJECT_DIR$/models/ContactUserModel.go" />
-        <option value="$PROJECT_DIR$/controllers/ByPassController.go" />
         <option value="$PROJECT_DIR$/models/TaskModel.go" />
+        <option value="$PROJECT_DIR$/controllers/ByPassController.go" />
       </list>
     </option>
   </component>
@@ -799,13 +798,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00301" summary="1/06/2013:28:   work location">
-      <created>1505555186846</created>
-      <option name="number" value="00301" />
-      <option name="presentableId" value="LOCAL-00301" />
-      <option name="project" value="LOCAL" />
-      <updated>1505555186846</updated>
-    </task>
     <task id="LOCAL-00302" summary="1/06/2013:28:   work location">
       <created>1505562964420</created>
       <option name="number" value="00302" />
@@ -1142,7 +1134,14 @@
       <option name="project" value="LOCAL" />
       <updated>1506167794944</updated>
     </task>
-    <option name="localTasksCounter" value="350" />
+    <task id="LOCAL-00350" summary="1/06/2013:28:   work location">
+      <created>1506323126103</created>
+      <option name="number" value="00350" />
+      <option name="presentableId" value="LOCAL-00350" />
+      <option name="project" value="LOCAL" />
+      <updated>1506323126104</updated>
+    </task>
+    <option name="localTasksCounter" value="351" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1485,6 +1484,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="324">
           <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1616,21 +1616,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
+    <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="33" column="56" lean-forward="false" selection-start-line="33" selection-start-column="56" selection-end-line="33" selection-end-column="56" />
-          <folding>
-            <marker date="1506315911767" expanded="true" signature="1039:1079" ph="..." />
-          </folding>
+        <state relative-caret-position="257">
+          <caret line="1046" column="0" lean-forward="true" selection-start-line="1046" selection-start-column="0" selection-end-line="1046" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/TaskModel.go">
+    <entry file="file://$PROJECT_DIR$/controllers/ByPassController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="1045" column="0" lean-forward="true" selection-start-line="1045" selection-start-column="0" selection-end-line="1045" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="468">
+          <caret line="33" column="64" lean-forward="false" selection-start-line="33" selection-start-column="64" selection-end-line="33" selection-end-column="64" />
+          <folding>
+            <marker date="1506324755467" expanded="true" signature="1047:1087" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -1,4 +1,4 @@
-onsole.log("company name",vm);
+console.log("company name",vm);
   $(document).ready(function(){
     
     //for notification
@@ -12,6 +12,7 @@ onsole.log("company name",vm);
     var TotalNoUsers;
     var today;
     var allData = [[]];
+    var  dateIncrementDate =0;
       
       function LoadBarChart(total,start,pending,complete,todayVal){
            document.getElementById('today').innerHTML = todayVal;
@@ -391,8 +392,25 @@ onsole.log("company name",vm);
                     }
                    
                     LoadBarChart(totalNoUsers,tempStart,pendingTaskCount,completedTaskCount,localToday);
-                     var previousDay = document.getElementById('previousDay');
-                    previousDay.style.visibility = 'visible';
+                    if(allData[4]!=null){
+                        var startTaskDate = allData[4][0];
+                        var startTaskDateUnix = parseInt(startTaskDate);
+                        var d = new Date(startTaskDateUnix * 1000);
+                        var dd = d.getDate();
+                        var mm = d.getMonth() + 1; //January is 0!
+                        var yyyy = d.getFullYear();
+                        if (dd < 10) {
+                            dd = '0' + dd;
+                        }
+                        if (mm < 10) {
+                            mm = '0' + mm;
+                        }
+                        var LocalTaskStartDate = (mm+'/'+dd+'/'+yyyy);
+                    }
+                    if(localToday !=LocalTaskStartDate){
+                        var previousDay = document.getElementById('previousDay');
+                        previousDay.style.visibility = 'visible';
+                    }
                 }
                 else{
                     console.log("Server Problem");
@@ -405,9 +423,9 @@ onsole.log("company name",vm);
     }
     
     getPreviousDayValues = function(Event){
-        console.log("today   in @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",allData);
         var d = new Date();
-        d.setDate(d.getDate() - 1);
+        dateIncrementDate = dateIncrementDate+1;
+        d.setDate(d.getDate() - dateIncrementDate);
         console.log("yesterDay nnnnnn",d)
         var nextDay = document.getElementById('nextDay');
         nextDay.style.visibility = 'visible';
@@ -425,12 +443,60 @@ onsole.log("company name",vm);
         var currentDay = dd;
         var currentYear = yyyy;
         var localToday = (mm + '/' + dd + '/' + yyyy);
+        
+        if(allData[4]!=null){
+            var startTaskDate = allData[4][0];
+            var startTaskDateUnix = parseInt(startTaskDate);
+            var d = new Date(startTaskDateUnix * 1000);
+            var dd = d.getDate();
+            var mm = d.getMonth() + 1; //January is 0!
+            var yyyy = d.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            var LocalTaskStartDate = (mm+'/'+dd+'/'+yyyy);
+            
+        }
+        console.log("LocalTaskStartDate",LocalTaskStartDate);
+        console.log("localToday",localToday);
+        
+        if (LocalTaskStartDate ==localToday ){
+            console.log("we are in if success condition");
+           var previousDay = document.getElementById('previousDay');
+            previousDay.style.visibility = 'hidden';
+        }
+        
+        if(allData[4]!=null){
+            var endTaskDate = allData[4][1];
+            var endTaskDateUnix = parseInt(endTaskDate);
+            var d = new Date(endTaskDateUnix * 1000);
+            var dd = d.getDate();
+            var mm = d.getMonth() + 1; //January is 0!
+            var yyyy = d.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            var LocalTaskEndDate = (mm+'/'+dd+'/'+yyyy);
+        }
+        if(LocalTaskEndDate == localToday ){
+            console.log("iam  here at lasrt");
+            var previousDay = document.getElementById('nextDay');
+            previousDay.style.visibility = 'hidden';
+        }
+        
+        
        // for(var i=0;i<allData.length;i++){
         var totalUsers = allData[5]
         /*for(var k=0;k<allData[i].length;k++){*/
         var startTaskArray = allData[1];
         var startTaskCount = 0;
-
+        
         if (startTaskArray !=null){
            for (i = 0;i<startTaskArray.length;i++){
                 console.log("inner loop of ",startTaskArray[i]);
@@ -583,8 +649,32 @@ onsole.log("company name",vm);
         LoadBarChart(totalUsers,tempStart,pendingTaskCount,completedTaskCount,localToday);
          var previousDay = document.getElementById('previousDay');
         previousDay.style.visibility = 'visible';
-        var previousDay = document.getElementById('nextDay');
-        previousDay.style.visibility = 'visible';
+        
+        
+        if(allData[4]!=null){
+            var endTaskDate = allData[4][1];
+            var endTaskDateUnix = parseInt(endTaskDate);
+            var d = new Date(endTaskDateUnix * 1000);
+            var dd = d.getDate();
+            var mm = d.getMonth() + 1; //January is 0!
+            var yyyy = d.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            var LocalTaskEndDate = (mm+'/'+dd+'/'+yyyy);
+            
+        }
+        if(LocalTaskEndDate == localToday ){
+            var previousDay = document.getElementById('nextDay');
+            previousDay.style.visibility = 'hidden';
+        }
+        
+        
+        
+       
     }
     
     

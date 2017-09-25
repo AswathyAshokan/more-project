@@ -313,14 +313,11 @@ $(function () {
                                     var workEndDate = (mm + '/' + dd + '/' + yyyy);
                                     var StartDateOfTask = $('#startDate').val();
                                     var EndDateOfTask = $('#endDate').val();
-                                    var workStartDate1 = workStartDate.split("/");
-                                    var workEndDate1 = workEndDate.split("/");
-                                    var StartDateOfTask1 = StartDateOfTask.split("/");
-                                    var EndDateOfTask1 = EndDateOfTask.split("/");
-                                    var from = new Date(workStartDate1[2], parseInt(workStartDate1[1])-1, workStartDate1[0]);  // -1 because months are from 0 to 11
-                                    var to   = new Date(workEndDate1[2], parseInt(workEndDate1[1])-1, workEndDate1[0]);
-                                    var StartDateOfTaskCheck = new Date(StartDateOfTask1[2], parseInt(StartDateOfTask1[1])-1, StartDateOfTask1[0]);
-                                    var EndDateOfTaskCheck = new Date(EndDateOfTask1[2], parseInt(EndDateOfTask1[1])-1, EndDateOfTask1[0]);
+                                    
+                                    var from = Date.parse(workStartDate);
+                                    var to   = Date.parse(workEndDate);
+                                    var StartDateOfTaskCheck = Date.parse(StartDateOfTask );
+                                    var EndDateOfTaskCheck = Date.parse(EndDateOfTask );
                                     console.log("from",from);
                                     console.log("to",to);
                                     console.log("StartDateOfTaskCheck",StartDateOfTaskCheck);
@@ -715,14 +712,23 @@ $().ready(function() {
                                     var workEndDate = (mm + '/' + dd + '/' + yyyy);
                                     var StartDateOfTask = $('#startDate').val();
                                     var EndDateOfTask = $('#endDate').val();
-                                    var workStartDate1 = workStartDate.split("/");
-                                    var workEndDate1 = workEndDate.split("/");
-                                    var StartDateOfTask1 = StartDateOfTask.split("/");
-                                    var EndDateOfTask1 = EndDateOfTask.split("/");
-                                    var from = new Date(workStartDate1[2], parseInt(workStartDate1[1])-1, workStartDate1[0]);  // -1 because months are from 0 to 11
-                                    var to   = new Date(workEndDate1[2], parseInt(workEndDate1[1])-1, workEndDate1[0]);
-                                    var StartDateOfTaskCheck = new Date(StartDateOfTask1[2], parseInt(StartDateOfTask1[1])-1, StartDateOfTask1[0]);
-                                    var EndDateOfTaskCheck = new Date(EndDateOfTask1[2], parseInt(EndDateOfTask1[1])-1, EndDateOfTask1[0]);
+                                    
+                                    var from = Date.parse(workStartDate);
+                                    var to   = Date.parse(workEndDate);
+                                    var StartDateOfTaskCheck = Date.parse(StartDateOfTask );
+                                    var EndDateOfTaskCheck = Date.parse(EndDateOfTask );
+                                    
+                                    
+                                    
+                                    
+//                                    var workStartDate1 = workStartDate.split("/");
+//                                    var workEndDate1 = workEndDate.split("/");
+//                                    var StartDateOfTask1 = StartDateOfTask.split("/");
+//                                    var EndDateOfTask1 = EndDateOfTask.split("/");
+//                                    var from = new Date(workStartDate1[2], parseInt(workStartDate1[1])-1, workStartDate1[0]);  // -1 because months are from 0 to 11
+//                                    var to   = new Date(workEndDate1[2], parseInt(workEndDate1[1])-1, workEndDate1[0]);
+//                                    var StartDateOfTaskCheck = new Date(StartDateOfTask1[2], parseInt(StartDateOfTask1[1])-1, StartDateOfTask1[0]);
+//                                    var EndDateOfTaskCheck = new Date(EndDateOfTask1[2], parseInt(EndDateOfTask1[1])-1, EndDateOfTask1[0]);
                                     if (StartDateOfTaskCheck >= from && StartDateOfTaskCheck <= to && EndDateOfTaskCheck >= from && EndDateOfTaskCheck <= to){
                                         console.log("condition is true")
                                         taskWorkLocation.push("true")
@@ -1067,14 +1073,11 @@ $().ready(function() {
                             var workEndDate = (mm + '/' + dd + '/' + yyyy);
                             var StartDateOfTask = $('#startDate').val();
                             var EndDateOfTask = $('#endDate').val();
-                            var workStartDate1 = workStartDate.split("/");
-                            var workEndDate1 = workEndDate.split("/");
-                            var StartDateOfTask1 = StartDateOfTask.split("/");
-                            var EndDateOfTask1 = EndDateOfTask.split("/");
-                            var from = new Date(workStartDate1[2], parseInt(workStartDate1[1])-1, workStartDate1[0]);  // -1 because months are from 0 to 11
-                            var to   = new Date(workEndDate1[2], parseInt(workEndDate1[1])-1, workEndDate1[0]);
-                            var StartDateOfTaskCheck = new Date(StartDateOfTask1[2], parseInt(StartDateOfTask1[1])-1, StartDateOfTask1[0]);
-                            var EndDateOfTaskCheck = new Date(EndDateOfTask1[2], parseInt(EndDateOfTask1[1])-1, EndDateOfTask1[0]);
+                            
+                            var from = Date.parse(workStartDate);
+                            var to   = Date.parse(workEndDate);
+                            var StartDateOfTaskCheck = Date.parse(StartDateOfTask );
+                            var EndDateOfTaskCheck = Date.parse(EndDateOfTask );
                             if (StartDateOfTaskCheck >= from && StartDateOfTaskCheck <= to && EndDateOfTaskCheck >= from && EndDateOfTaskCheck <= to){
                                 console.log("condition is true")
                                 taskWorkLocation.push("true")

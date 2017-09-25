@@ -236,6 +236,7 @@ document.getElementById("imageId").src=vm.ProfilePicture;
         },
         submitHandler: function(){//to pass all data of a form serial
             if(vm.PageType == "edit"){
+                
                 if(vm.DateValues != null){
                     if (vm.UsersKey.length !=0){
                         taskWorkLocation=[];
@@ -267,6 +268,7 @@ document.getElementById("imageId").src=vm.ProfilePicture;
                                         sec = '0' + sec;
                                     }
                                     var workStartDateFromDb = (mm + '/' + dd + '/' + yyyy);
+                                    console.log("work start date from db",workStartDateFromDb);
                                     var utcTime =vm.DateValues[x][2];
                                     var dateFromDb = parseInt(utcTime)
                                     var d = new Date(dateFromDb * 1000);
@@ -292,24 +294,28 @@ document.getElementById("imageId").src=vm.ProfilePicture;
                                         sec = '0' + sec;
                                     }
                                     var workEndDateFromDb = (mm + '/' + dd + '/' + yyyy);
+                                    console.log("work end date from db",workEndDateFromDb);
                                     var StartDateOfTask = document.getElementById("startDate").value ;
+                                    console.log("start date from work form",StartDateOfTask);
                                     var EndDateOfTask = document.getElementById("endDate").value;
-                                    var workStartDate1 = workStartDateFromDb.split("/");
-                                    var workEndDate1 = workEndDateFromDb.split("/");
-                                    var StartDateOfTask1 = StartDateOfTask.split("/");
-                                    var EndDateOfTask1 = EndDateOfTask.split("/");
-                                    var from = new Date(workStartDate1[2], parseInt(workStartDate1[1])-1, workStartDate1[0]);  // -1 because months are from 0 to 11
-                                    var to   = new Date(workEndDate1[2], parseInt(workEndDate1[1])-1, workEndDate1[0]);
-                                    var StartDateOfTaskCheck = new Date(StartDateOfTask1[2], parseInt(StartDateOfTask1[1])-1, StartDateOfTask1[0]);
-                                    var EndDateOfTaskCheck = new Date(EndDateOfTask1[2], parseInt(EndDateOfTask1[1])-1, EndDateOfTask1[0]);
+                                    console.log("end date from work form",EndDateOfTask);
+                                    
+                                    var from = Date.parse(workStartDateFromDb);
+                                    var to   = Date.parse(workEndDateFromDb);
+                                    var StartDateOfTaskCheck = Date.parse(StartDateOfTask );
+                                    var EndDateOfTaskCheck = Date.parse(EndDateOfTask );
+                                    
                                     if (StartDateOfTaskCheck >= from && StartDateOfTaskCheck <= to && EndDateOfTaskCheck >= from && EndDateOfTaskCheck <= to){
+                                         
                                         condition="false";
+                                        console.log("condition",condition);
                                         taskWorkLocation.push("true");
                                         console.log("i am in success of ifff");
                                     } else{
                                         condition="true";
+                                        console.log("condition",condition);
                                         console.log("iam in else part");
-                                        break;
+                                       
                                     }
                                 }/*else{
                                  //idArray.push(selectedUserArray[y]);
@@ -415,14 +421,10 @@ document.getElementById("imageId").src=vm.ProfilePicture;
                                     var EndDateOfTask = document.getElementById("endDate").value;
                                     console.log("start date from task",StartDateOfTask);
                                     console.log("end date from task",EndDateOfTask);
-                                    var workStartDate1 = workStartDateFromDb.split("/");
-                                    var workEndDate1 = workEndDateFromDb.split("/");
-                                    var StartDateOfTask1 = StartDateOfTask.split("/");
-                                    var EndDateOfTask1 = EndDateOfTask.split("/");
-                                    var from = new Date(workStartDate1[2], parseInt(workStartDate1[1])-1, workStartDate1[0]);  // -1 because months are from 0 to 11
-                                        var to   = new Date(workEndDate1[2], parseInt(workEndDate1[1])-1, workEndDate1[0]);
-                                        var StartDateOfTaskCheck = new Date(StartDateOfTask1[2], parseInt(StartDateOfTask1[1])-1, StartDateOfTask1[0]);
-                                        var EndDateOfTaskCheck = new Date(EndDateOfTask1[2], parseInt(EndDateOfTask1[1])-1, EndDateOfTask1[0]);
+                                    var from = Date.parse(workStartDateFromDb);
+                                    var to   = Date.parse(workEndDateFromDb);
+                                    var StartDateOfTaskCheck = Date.parse(StartDateOfTask );
+                                    var EndDateOfTaskCheck = Date.parse(EndDateOfTask );
                                         if (StartDateOfTaskCheck >= from && StartDateOfTaskCheck <= to && EndDateOfTaskCheck >= from && EndDateOfTaskCheck <= to){
 //                                    if (StartDateOfTaskCheck <= from && StartDateOfTaskCheck >= to && EndDateOfTaskCheck <= from && EndDateOfTaskCheck >= to){
                                             condition="true";
