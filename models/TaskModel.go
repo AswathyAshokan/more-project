@@ -302,10 +302,10 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 	//setting task id to contact
 	ContactTask :=TasksContact{}
 	ContactTask.TaskContactStatus =helpers.StatusActive
-	 for i:=0;i<len(ContactId);i++{
-		 err = dB.Child("/Contacts/"+ ContactId[i]+"/Tasks/"+taskUniqueID).Set(ContactTask)
+	for i:=0;i<len(ContactId);i++{
+		err = dB.Child("/Contacts/"+ ContactId[i]+"/Tasks/"+taskUniqueID).Set(ContactTask)
 
-	 }
+	}
 	if err!=nil{
 		log.Println("Insertion error:",err)
 		return false
@@ -638,7 +638,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 
 
 
-//for i:=0;i<len(tempUserKeySlice);i++{
+	//for i:=0;i<len(tempUserKeySlice);i++{
 	//	tempUserKeyForOldTask = append(tempUserKeyForOldTask,tempUserKeySlice[i])
 	//}
 
