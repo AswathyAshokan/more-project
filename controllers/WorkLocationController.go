@@ -366,6 +366,7 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 	WorkLocation := models.WorkLocation{}
 	viewModelForEdit :=viewmodels.EditWorkLocation{}
 	if r.Method == "POST" {
+		log.Println("inside    adddddddddddddd")
 		groupKeySliceForWorkLocationString := c.GetString("groupArrayElement")
 		UserOrGroupNameArray :=c.GetStrings("userAndGroupName")
 		taskLocation := c.GetString("taskLocation")

@@ -1,7 +1,8 @@
 console.log("viwe model value",vm);
 console.log("end time",vm.DailyEndTime);
+var companyTeamName = vm.CompanyTeamName;
 $(function(){
-    var companyTeamName = vm.CompanyTeamName;
+    
      var DynamicNotification ="";
     if (vm.NotificationNumber !=0){
         document.getElementById("number").textContent=vm.NotificationNumber;
