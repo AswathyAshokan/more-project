@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="1/06/2013:28:   work location">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/GOPATH__passporte_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/GOPATH__passporte_2.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/ByPassController.go" afterPath="$PROJECT_DIR$/controllers/ByPassController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/DashBoardController.go" afterPath="$PROJECT_DIR$/controllers/DashBoardController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-worklocation.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-worklocation.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/add-workLocation.html" afterPath="$PROJECT_DIR$/main/views/template/add-workLocation.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/WorkLocationModel.go" afterPath="$PROJECT_DIR$/models/WorkLocationModel.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -48,18 +43,18 @@
       <file leaf-file-name="add-workLocation.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main/views/template/add-workLocation.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="73" column="8" lean-forward="false" selection-start-line="73" selection-start-column="8" selection-end-line="73" selection-end-column="8" />
+            <state relative-caret-position="294">
+              <caret line="81" column="9" lean-forward="false" selection-start-line="81" selection-start-column="9" selection-end-line="81" selection-end-column="9" />
               <folding>
-                <marker date="1506407095109" expanded="false" signature="3462:3517" ph="..." />
-                <marker date="1506407095109" expanded="false" signature="3616:3622" ph=" " />
-                <marker date="1506407095109" expanded="false" signature="7436:7477" ph="..." />
-                <marker date="1506407095109" expanded="false" signature="9309:9328" ph="..." />
-                <marker date="1506407095109" expanded="false" signature="10433:10452" ph="..." />
-                <marker date="1506407095109" expanded="false" signature="22636:22643" ph="×" />
-                <marker date="1506407095109" expanded="false" signature="25986:25993" ph="×" />
-                <marker date="1506407095109" expanded="false" signature="29339:29346" ph="×" />
-                <marker date="1506407095109" expanded="false" signature="32540:32547" ph="×" />
+                <element signature="n#style#0;n#img#0;n#i#0;n#button#0;n#div#0;n#div#1;n#header#0;n#div#0;n#section#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="e#3621#3627#0" expanded="true" />
+                <marker date="1506407456278" expanded="false" signature="7394:7435" ph="..." />
+                <marker date="1506407456278" expanded="false" signature="9267:9286" ph="..." />
+                <marker date="1506407456278" expanded="false" signature="10391:10410" ph="..." />
+                <marker date="1506407456278" expanded="false" signature="22594:22601" ph="×" />
+                <marker date="1506407456278" expanded="false" signature="25944:25951" ph="×" />
+                <marker date="1506407456278" expanded="false" signature="29297:29304" ph="×" />
+                <marker date="1506407456278" expanded="false" signature="32498:32505" ph="×" />
               </folding>
             </state>
           </provider>
@@ -821,13 +816,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00303" summary="1/06/2013:28:   work location">
-      <created>1505715354233</created>
-      <option name="number" value="00303" />
-      <option name="presentableId" value="LOCAL-00303" />
-      <option name="project" value="LOCAL" />
-      <updated>1505715354242</updated>
-    </task>
     <task id="LOCAL-00304" summary="1/06/2013:28:   work location">
       <created>1505720418298</created>
       <option name="number" value="00304" />
@@ -1164,7 +1152,14 @@
       <option name="project" value="LOCAL" />
       <updated>1506331281675</updated>
     </task>
-    <option name="localTasksCounter" value="352" />
+    <task id="LOCAL-00352" summary="1/06/2013:28:   work location">
+      <created>1506407303951</created>
+      <option name="number" value="00352" />
+      <option name="presentableId" value="LOCAL-00352" />
+      <option name="project" value="LOCAL" />
+      <updated>1506407303951</updated>
+    </task>
+    <option name="localTasksCounter" value="353" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1174,7 +1169,7 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3277311" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3277311" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1659,18 +1654,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main/views/template/add-workLocation.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="73" column="8" lean-forward="false" selection-start-line="73" selection-start-column="8" selection-end-line="73" selection-end-column="8" />
+        <state relative-caret-position="294">
+          <caret line="81" column="9" lean-forward="false" selection-start-line="81" selection-start-column="9" selection-end-line="81" selection-end-column="9" />
           <folding>
-            <marker date="1506407095109" expanded="false" signature="3462:3517" ph="..." />
-            <marker date="1506407095109" expanded="false" signature="3616:3622" ph=" " />
-            <marker date="1506407095109" expanded="false" signature="7436:7477" ph="..." />
-            <marker date="1506407095109" expanded="false" signature="9309:9328" ph="..." />
-            <marker date="1506407095109" expanded="false" signature="10433:10452" ph="..." />
-            <marker date="1506407095109" expanded="false" signature="22636:22643" ph="×" />
-            <marker date="1506407095109" expanded="false" signature="25986:25993" ph="×" />
-            <marker date="1506407095109" expanded="false" signature="29339:29346" ph="×" />
-            <marker date="1506407095109" expanded="false" signature="32540:32547" ph="×" />
+            <element signature="n#style#0;n#img#0;n#i#0;n#button#0;n#div#0;n#div#1;n#header#0;n#div#0;n#section#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#3621#3627#0" expanded="true" />
+            <marker date="1506407456278" expanded="false" signature="7394:7435" ph="..." />
+            <marker date="1506407456278" expanded="false" signature="9267:9286" ph="..." />
+            <marker date="1506407456278" expanded="false" signature="10391:10410" ph="..." />
+            <marker date="1506407456278" expanded="false" signature="22594:22601" ph="×" />
+            <marker date="1506407456278" expanded="false" signature="25944:25951" ph="×" />
+            <marker date="1506407456278" expanded="false" signature="29297:29304" ph="×" />
+            <marker date="1506407456278" expanded="false" signature="32498:32505" ph="×" />
           </folding>
         </state>
       </provider>
