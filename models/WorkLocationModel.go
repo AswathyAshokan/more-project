@@ -148,6 +148,10 @@ func IsWorkAssignedToUser(ctx context.Context ,companyTeamName string )( map[str
 
 func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId string,companyTeamName string) (bool){
 	workLocationValues := WorkLocationSettings{}
+	//workLocationInfoData := WorkLocationInfo{}
+	oldUserData  := UsersAndGroupsInWork{}
+	var keySlice []string
+	workLocationData := WorkLocationInUser{}
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println(err)
@@ -158,17 +162,18 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 		log.Fatal(err)
 		return false
 	}
-	var keySlice []string
-	var UserKeySlice []string
-	OldUserWorkLocation :=  WorkLocationInUser{}
-	workLocationForUpdation :=map[string]Users{}
-	err = db.Child("Users").Value(&workLocationForUpdation)
-	workLocationData := WorkLocationInUser{}
-	userValues :=reflect.ValueOf(workLocationForUpdation)
+	err = db.Child("/WorkLocation/"+workLocationId+"/Info/UsersAndGroupsInWorkLocation").Value(&oldUserData)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+	userValues :=reflect.ValueOf(oldUserData.User)
 	for _,eachUserKey := range userValues.MapKeys() {
 		keySlice = append(keySlice,eachUserKey.String())
 
 	}
+	var UserKeySlice []string
+	OldUserWorkLocation :=  WorkLocationInUser{}
 	userDataForEditing := reflect.ValueOf(m.Info.UsersAndGroupsInWorkLocation.User)
 	for _, key := range userDataForEditing.MapKeys() {
 		UserKeySlice = append(UserKeySlice, key.String())
@@ -212,24 +217,14 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 		}
 
 	}
-
-	log.Println("worklocation values in model oid users",OldUserWorkLocation)
 	m.Settings.DateOfCreation = workLocationValues.DateOfCreation
 	m.Settings.Status = workLocationValues.Status
-
-	userData := reflect.ValueOf(m.Info.UsersAndGroupsInWorkLocation.User)
-	log.Println("edited values",m)
-	for _, key := range userData.MapKeys() {
-		log.Println("idddd",key)
-	}
 	err = db.Child("/WorkLocation/"+workLocationId).Set(m)
 
 	if err != nil {
 		log.Println(err)
 		return false
 	}
-
-
 	return  true
 }
 func DeleteWorkLog(ctx context.Context,workLocationId string) (bool) {
@@ -264,7 +259,6 @@ func DeleteWorkLog(ctx context.Context,workLocationId string) (bool) {
 		//log.Println("workLocationFromUser",workLocationFromUser)
 		dataValueOfUserWorkLocation := reflect.ValueOf(workLocationFromUser)
 		for _, k := range dataValueOfUserWorkLocation.MapKeys() {
-			log.Println("keys of work log",k)
 			if k.String() == workLocationId{
 				err = db.Child("Users/"+key.String()+"/WorkLocation/"+k.String()).Value(&WorkLocationOfSpecifiedUser)
 				UpdatewOrKLocationFromUser.EndDate =WorkLocationOfSpecifiedUser.EndDate

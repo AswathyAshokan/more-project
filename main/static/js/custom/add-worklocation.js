@@ -1,36 +1,14 @@
 console.log("viwe model value",vm);
 console.log("end time",vm.DailyEndTime);
-
-
-
-$().ready(function() {
+$(function(){
     var companyTeamName = vm.CompanyTeamName;
- var selectedUserArray = [];
-var startDateInUnix;
-var endDateInUnix;
-var dailyStartTimeUnix;
-var dailyEndTimeUnix;
-var taskWorkLocation = [];
-var taskLocationCondition="";
-var  startDateString ;
-var count =0;
-var returnString;
-var dbString;
-var idArray = [];
-var uniqueIdArray = [];
-var condition ="";
-var conditionArray =[];
-var editConditionArry = [];
-var countInEdit = 0;
-var condintionInEdit ="";
-
-var DynamicNotification ="";
+     var DynamicNotification ="";
     if (vm.NotificationNumber !=0){
         document.getElementById("number").textContent=vm.NotificationNumber;
     }else{
         document.getElementById("number").textContent="";
     }
-document.getElementById("imageId").src=vm.ProfilePicture;
+    document.getElementById("imageId").src=vm.ProfilePicture;
     if (vm.ProfilePicture ==""){
         document.getElementById("imageId").src="/static/images/default.png"
     }
@@ -39,83 +17,104 @@ document.getElementById("imageId").src=vm.ProfilePicture;
     //notification
     var notificationSorted =[[]];
     function sortByCol(arr, colIndex){
-    notificationSorted=arr.sort(sortFunction);
-    function sortFunction(a, b) {
-        a = a[colIndex]
-        b = b[colIndex]
-        return (a === b) ? 0 : (a < b) ? -1 : 1
+        notificationSorted=arr.sort(sortFunction);
+        function sortFunction(a, b) {
+            a = a[colIndex]
+            b = b[colIndex]
+            return (a === b) ? 0 : (a < b) ? -1 : 1
+        }
     }
-}
-
-    
-     myNotification= function () {
-         if (vm.NotificationArray !=null){
-             console.log("hiiii");
-             sortByCol(vm.NotificationArray, 6);
-             console.log("jjjjj",notificationSorted);
-             var reverseSorted =[[]];
-             reverseSorted=notificationSorted.reverse();
-             document.getElementById("notificationDiv").innerHTML = "";
-             var DynamicTaskListing="";
-             if (reverseSorted !=null){
-                 DynamicTaskListing ="<h5>"+"Notifications"+ "<button class='no-button-style' method='post' onclick='clearNotification()'>"+"clear all"+"</button>"+"</h5>"+"<ul>";
-                 for(var i=0;i<reverseSorted.length;i++){
-                     console.log("sp1");
-                     var timeDifference =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
-                     DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"delay to reach location"+" "+reverseSorted[i][4]+" "+"for task"+" "+reverseSorted[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
-                 }
-                 console.log("li",DynamicTaskListing);
-                 $("#notificationDiv").prepend(DynamicTaskListing+"</ul>");
-                 document.getElementById("number").textContent="";
-                 $.ajax({
-                     url:'/'+ companyTeamName + '/notification/update',
-                     type: 'post',
-                     success : function(response) {
-                         if (response == "true" ) {
-                         } else {
-                         }
-                     },
-                     error: function (request,status, error) {
-                         console.log(error);
-                     }
-                 }); 
-             }else{
-                 document.getElementById("notificationDiv").innerHTML = "";
-                 DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
-                 $("#notificationDiv").prepend(DynamicTaskListing);
-             }
-         }else{
-             document.getElementById("notificationDiv").innerHTML = "";
-             DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
-             $("#notificationDiv").prepend(DynamicTaskListing);
-         }
-     }
-     
-     
-     
-     clearNotification= function () {
-          document.getElementById("notificationDiv").innerHTML = "";
-          $.ajax({
-                url:'/'+ companyTeamName + '/notification/delete',
-                type: 'post',
-                success : function(response) {
-                    if (response == "true" ) {
-                        DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
-                        $("#notificationDiv").prepend(DynamicTaskListing);
-                    } else {
-                    }
-                },
-                error: function (request,status, error) {
-                    console.log(error);
+    myNotification= function () {
+        if (vm.NotificationArray !=null){
+            console.log("hiiii");
+            sortByCol(vm.NotificationArray, 6);
+            console.log("jjjjj",notificationSorted);
+            var reverseSorted =[[]];
+            reverseSorted=notificationSorted.reverse();
+            document.getElementById("notificationDiv").innerHTML = "";
+            var DynamicTaskListing="";
+            if (reverseSorted !=null){
+                DynamicTaskListing ="<h5>"+"Notifications"+ "<button class='no-button-style' method='post' onclick='clearNotification()'>"+"clear all"+"</button>"+"</h5>"+"<ul>";
+                for(var i=0;i<reverseSorted.length;i++){
+                    console.log("sp1");
+                    var timeDifference =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
+                    DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"delay to reach location"+" "+reverseSorted[i][4]+" "+"for task"+" "+reverseSorted[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
                 }
-            }); 
-     }
+                console.log("li",DynamicTaskListing);
+                $("#notificationDiv").append(DynamicTaskListing+"</ul>");
+                document.getElementById("number").textContent="";
+                $.ajax({
+                    url:'/'+ companyTeamName + '/notification/update',
+                    type: 'post',
+                    success : function(response) {
+                        if (response == "true" ) {
+                        } else {
+                        }
+                    },
+                    error: function (request,status, error) {
+                        console.log(error);
+                    }
+                }); 
+            }else{
+                document.getElementById("notificationDiv").innerHTML = "";
+                DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
+                $("#notificationDiv").prepend(DynamicTaskListing);
+            }
+        }else{
+            document.getElementById("notificationDiv").innerHTML = "";
+            DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
+            $("#notificationDiv").prepend(DynamicTaskListing);
+        }
+    }
+    clearNotification= function () {
+        document.getElementById("notificationDiv").innerHTML = "";
+        $.ajax({
+            url:'/'+ companyTeamName + '/notification/delete',
+            type: 'post',
+            success : function(response) {
+                if (response == "true" ) {
+                    DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
+                    $("#notificationDiv").prepend(DynamicTaskListing);
+                } else {
+                }
+            },
+            error: function (request,status, error) {
+                console.log(error);
+            }
+        }); 
+    }
+}); 
+
+
+
+$().ready(function() {
     
+    var selectedUserArray = [];
+    var startDateInUnix;
+    var endDateInUnix;
+    var dailyStartTimeUnix;
+    var dailyEndTimeUnix;
+    var taskWorkLocation = [];
+    var taskLocationCondition="";
+    var  startDateString ;
+    var count =0;
+    var returnString;
+    var dbString;
+    var idArray = [];
+    var uniqueIdArray = [];
+    var condition ="";
+    var conditionArray =[];
+    var editConditionArry = [];
+    var countInEdit = 0;
+    var condintionInEdit ="";
+    var localDate="";
+    var localEndDate="";
+   
      
     
     
     function checkUserId(userId) {
-       if(vm.DateValues !=null){
+        if(vm.DateValues !=null){
            for(var j=0 ;j<vm.DateValues.length;j++ ){
            if(vm.DateValues[j][0] !=userId ){
                console.log("in if func")
@@ -146,7 +145,7 @@ document.getElementById("imageId").src=vm.ProfilePicture;
        if (mm < 10) {
            mm = '0' + mm;
        }
-       var localDate = (mm + '/' + dd + '/' + yyyy);
+        localDate = (mm + '/' + dd + '/' + yyyy);
        
        endDateInUnix = vm.EndDate
        var endDateFromDb = parseInt(endDateInUnix)
@@ -159,7 +158,7 @@ document.getElementById("imageId").src=vm.ProfilePicture;
        if (endmm < 10) {
            endmm = '0' + endmm;
        }
-       var localEndDate = (endmm + '/' + enda + '/' + endyyyy);
+        localEndDate = (endmm + '/' + enda + '/' + endyyyy);
        
         document.getElementById("taskLocation").value = vm.WorkLocation;
         document.getElementById("startDate").value = localDate;
@@ -236,7 +235,10 @@ document.getElementById("imageId").src=vm.ProfilePicture;
         },
         submitHandler: function(){//to pass all data of a form serial
             if(vm.PageType == "edit"){
-                
+                var startDateFromBox =document.getElementById("startDate").value;
+                var EndDateFromBox = document.getElementById("endDate").value;
+                if (localDate==startDateFromBox &&localEndDate == EndDateFromBox &&selectedUserArray.length ==0){
+                    console.log("inside111");
                 if(vm.DateValues != null){
                     if (vm.UsersKey.length !=0){
                         taskWorkLocation=[];
@@ -312,6 +314,10 @@ document.getElementById("imageId").src=vm.ProfilePicture;
                                         taskWorkLocation.push("true");
                                         console.log("i am in success of ifff");
                                     } else{
+//                                        if (EndDateOfTaskCheck>to){
+//                                             taskWorkLocation.push("true");
+//                                            break;
+//                                        }
                                         condition="true";
                                         console.log("condition",condition);
                                         console.log("iam in else part");
@@ -355,10 +361,281 @@ document.getElementById("imageId").src=vm.ProfilePicture;
                      taskLocationCondition="false"
                  }
             }
+            }else{
+                console.log("llllllll");
+                console.log("selected arrayyyy",selectedUserArray.length);
+                if (selectedUserArray.length !=0){
+                    console.log("jjjj1");
+                   if(vm.DateValues != null){
+                    if (selectedUserArray.length !=0){
+                        taskWorkLocation=[];
+                        for ( var x=0;x<vm.DateValues.length;x++){
+                            for( var y=0;y<selectedUserArray.length;y++){
+                                if (vm.DateValues[x][0] == selectedUserArray[y]){
+                                    var utcTime = vm.DateValues[x][1];
+                                    var dateFromDb = parseInt(utcTime);
+                                    var d = new Date(dateFromDb * 1000);
+                                    var dd = d.getDate();
+                                    var mm = d.getMonth() + 1; //January is 0!
+                                    var yyyy = d.getFullYear();
+                                    var HH = d.getHours();
+                                    var min = d.getMinutes();
+                                    var sec = d.getSeconds();
+                                    if (dd < 10) {
+                                        dd = '0' + dd;
+                                    }
+                                    if (mm < 10) {
+                                        mm = '0' + mm;
+                                    }
+                                    if (HH < 10) {
+                                        HH = '0' + HH;
+                                    }
+                                    if (min < 10) {
+                                        min = '0' + min;
+                                    }
+                                    if (sec < 10) {
+                                        sec = '0' + sec;
+                                    }
+                                    var workStartDateFromDb = (mm + '/' + dd + '/' + yyyy);
+                                    console.log("work start date from db",workStartDateFromDb);
+                                    var utcTime =vm.DateValues[x][2];
+                                    var dateFromDb = parseInt(utcTime)
+                                    var d = new Date(dateFromDb * 1000);
+                                    var dd = d.getDate();
+                                    var mm = d.getMonth() + 1; //January is 0!
+                                    var yyyy = d.getFullYear();
+                                    var HH = d.getHours();
+                                    var min = d.getMinutes();
+                                    var sec = d.getSeconds();
+                                    if (dd < 10) {
+                                        dd = '0' + dd;
+                                    }
+                                    if (mm < 10) {
+                                        mm = '0' + mm;
+                                    }
+                                    if (HH < 10) {
+                                        HH = '0' + HH;
+                                    }
+                                    if (min < 10) {
+                                        min = '0' + min;
+                                    }
+                                    if (sec < 10) {
+                                        sec = '0' + sec;
+                                    }
+                                    var workEndDateFromDb = (mm + '/' + dd + '/' + yyyy);
+                                    console.log("work end date from db",workEndDateFromDb);
+                                    var StartDateOfTask = document.getElementById("startDate").value ;
+                                    console.log("start date from work form",StartDateOfTask);
+                                    var EndDateOfTask = document.getElementById("endDate").value;
+                                    console.log("end date from work form",EndDateOfTask);
+                                    
+                                    var from = Date.parse(workStartDateFromDb);
+                                    var to   = Date.parse(workEndDateFromDb);
+                                    var StartDateOfTaskCheck = Date.parse(StartDateOfTask );
+                                    var EndDateOfTaskCheck = Date.parse(EndDateOfTask );
+                                    
+                                    if (StartDateOfTaskCheck >= from && StartDateOfTaskCheck <= to && EndDateOfTaskCheck >= from && EndDateOfTaskCheck <= to){
+                                         
+                                        condition="false";
+                                        console.log("condition",condition);
+                                        taskWorkLocation.push("true");
+                                        console.log("i am in success of ifff");
+                                    } else{
+//                                        if (EndDateOfTaskCheck>to){
+//                                             taskWorkLocation.push("true");
+//                                            break;
+//                                        }
+                                        condition="true";
+                                        console.log("condition",condition);
+                                        console.log("iam in else part");
+                                       
+                                    }
+                                }/*else{
+                                 //idArray.push(selectedUserArray[y]);
+                            }*/
+                            }
+                        }
+                    }
+                }else{
+                    for( var z=0;z<selectedUserArray.length;z++){
+                        taskWorkLocation.push("true");
+                    }
+                }
                 
+                var selecetUserArrayLength = selectedUserArray.length;
+                if (selecetUserArrayLength.length !=0){
+                    for(var i=0;i<selecetUserArrayLength;i++){
+                var returnValues = checkUserId(selectedUserArray[i]);
+                if(returnValues =="true"){
+                    idArray.push(selectedUserArray[i]);
+                }
+                }
+                }
+                    for(var i=0;i<idArray.length;i++){
+                    taskWorkLocation.push("true");
+                }
+            
+            console.log("final taskLocation",taskWorkLocation);
+                    console.log("oooooooooooooooooooooooop")
+            if (selectedUserArray.length !=0){
+                if (taskWorkLocation.length ==selectedUserArray.length&&taskWorkLocation.length >0){
+                    taskLocationCondition="true"
+                }else{
+                    taskLocationCondition="false"
+                } 
+            }
+                }else{
+                    console.log("kkkiudddd")
+                     if(vm.DateValues != null){
+                    if (vm.UsersKey.length !=0){
+                        taskWorkLocation=[];
+                        for ( var x=0;x<vm.DateValues.length;x++){
+                            for( var y=0;y<vm.UsersKey.length;y++){
+                                if (vm.DateValues[x][0] == vm.UsersKey[y]){
+                                    var utcTime = vm.DateValues[x][1];
+                                    var dateFromDb = parseInt(utcTime);
+                                    var d = new Date(dateFromDb * 1000);
+                                    var dd = d.getDate();
+                                    var mm = d.getMonth() + 1; //January is 0!
+                                    var yyyy = d.getFullYear();
+                                    var HH = d.getHours();
+                                    var min = d.getMinutes();
+                                    var sec = d.getSeconds();
+                                    if (dd < 10) {
+                                        dd = '0' + dd;
+                                    }
+                                    if (mm < 10) {
+                                        mm = '0' + mm;
+                                    }
+                                    if (HH < 10) {
+                                        HH = '0' + HH;
+                                    }
+                                    if (min < 10) {
+                                        min = '0' + min;
+                                    }
+                                    if (sec < 10) {
+                                        sec = '0' + sec;
+                                    }
+                                    var workStartDateFromDb = (mm + '/' + dd + '/' + yyyy);
+                                    console.log("work start from db",workStartDateFromDb);
+                                    var utcTime =vm.DateValues[x][2];
+                                    var dateFromDb = parseInt(utcTime)
+                                    var d = new Date(dateFromDb * 1000);
+                                    var dd = d.getDate();
+                                    var mm = d.getMonth() + 1; //January is 0!
+                                    var yyyy = d.getFullYear();
+                                    var HH = d.getHours();
+                                    var min = d.getMinutes();
+                                    var sec = d.getSeconds();
+                                    if (dd < 10) {
+                                        dd = '0' + dd;
+                                    }
+                                    if (mm < 10) {
+                                        mm = '0' + mm;
+                                    }
+                                    if (HH < 10) {
+                                        HH = '0' + HH;
+                                    }
+                                    if (min < 10) {
+                                        min = '0' + min;
+                                    }
+                                    if (sec < 10) {
+                                        sec = '0' + sec;
+                                    }
+                                    var workEndDateFromDb = (mm + '/' + dd + '/' + yyyy);
+                                    console.log("work end from db",workEndDateFromDb);
+                                    var StartDateOfTask = document.getElementById("startDate").value ;
+                                    var EndDateOfTask = document.getElementById("endDate").value;
+                                    console.log("start date from task",StartDateOfTask);
+                                    console.log("end date from task",EndDateOfTask);
+                                    var from = Date.parse(workStartDateFromDb);
+                                    var to   = Date.parse(workEndDateFromDb);
+                                    var StartDateOfTaskCheck = Date.parse(StartDateOfTask );
+                                    var EndDateOfTaskCheck = Date.parse(EndDateOfTask );
+                                        if (StartDateOfTaskCheck >= from && StartDateOfTaskCheck <= to && EndDateOfTaskCheck >= from && EndDateOfTaskCheck <= to){
+//                                    if (StartDateOfTaskCheck <= from && StartDateOfTaskCheck >= to && EndDateOfTaskCheck <= from && EndDateOfTaskCheck >= to){
+                                            condition="true";
+                                            console.log("i am in success of ifff");
+                                            break;
+
+                                        } else{
+                                            condition="false";
+                                            conditionArray.push("false");
+                                            console.log("iam in else part");
+                                        }
+                                }/*else{
+                                 //idArray.push(selectedUserArray[y]);
+                            }*/
+                            }
+                        }
+                    }
+                }else{
+                    for( var z=0;z<selectedUserArray.length;z++){
+                        taskWorkLocation.push("true");
+                    }
+                }
+                console.log("condition array",conditionArray);
+                if(vm.DateValues != null){
+                    if (vm.UsersKey.length !=0){
+                         for ( var x=0;x<vm.DateValues.length;x++){
+                            for( var y=0;y<vm.UsersKey.length;y++){
+                                if (vm.DateValues[x][0] == vm.UsersKey[y]){
+                                count=count+1;
+
+                            }
+                            }
+                        }
+                    }
+                }
+                 var conditionInLoop ="";
+                console.log("count",count);
+                if(count !=0){
+                    if (conditionArray !=null){
+                        if (conditionArray.length ==count){
+                            console.log("in here1");
+                            for(var i=0;i<conditionArray.length;i++){
+                                 conditionInLoop="true";
+                                
+                            }
+                        } 
+                    }
+                }
                 
-                
+              
+                if (conditionInLoop=="true"){
+                    taskWorkLocation.push("true");
+                }
+                console.log("gggggggggggggg");
+                console.log("task 562",taskWorkLocation);
+                var selecetUserArrayLength = selectedUserArray.length;
+                for(var i=0;i<selecetUserArrayLength;i++){
+                var returnValues = checkUserId(selectedUserArray[i]);
+                if(returnValues =="true"){
+                    idArray.push(selectedUserArray[i]);
+                }
+                }
+                for(var i=0;i<idArray.length;i++){
+                    taskWorkLocation.push("true");
+                }
+            }
+            console.log("final taskLocation",taskWorkLocation);
+            if (selectedUserArray.length !=0){
+                if (taskWorkLocation.length ==selectedUserArray.length&&taskWorkLocation.length >0){
+                    taskLocationCondition="true"
+                }else{
+                    taskLocationCondition="false"
+                } 
+            }else{
+                if (taskWorkLocation.length ==vm.UsersKey.length&&taskWorkLocation.length >0){
+                    taskLocationCondition="true"
+                }else{
+                    taskLocationCondition="false"
+                } 
+            }
+             console.log("our condition.........",taskLocationCondition);   
+            }
             } else{
+                console.log("kkksssssssssssssssssss");
                 if(vm.DateValues != null){
                     if (selectedUserArray.length !=0){
                         taskWorkLocation=[];
@@ -487,7 +764,7 @@ document.getElementById("imageId").src=vm.ProfilePicture;
                 for(var i=0;i<idArray.length;i++){
                     taskWorkLocation.push("true");
                 }
-            }
+           
             console.log("final taskLocation",taskWorkLocation);
             if (selectedUserArray.length !=0){
                 if (taskWorkLocation.length ==selectedUserArray.length&&taskWorkLocation.length >0){
@@ -495,6 +772,7 @@ document.getElementById("imageId").src=vm.ProfilePicture;
                 }else{
                     taskLocationCondition="false"
                 } 
+            }
             }
             var starDateString = document.getElementById('startDate').value;
             var endDateString = document.getElementById('endDate').value;

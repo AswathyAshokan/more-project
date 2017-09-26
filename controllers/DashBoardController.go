@@ -36,7 +36,7 @@ func (c *DashBoardController)LoadDashBoard() {
 	storedSession := ReadSession(w, r, companyTeamName)
 	companyTask :=models.TaskIdInfo{}
 	task := models.Tasks{}
-	 notificationCount :=0;
+	notificationCount :=0;
 	//section for getting total task completion and pending details
 	dbStatus, companyTaskDetails := companyTask.RetrieveTaskFromCompany(c.AppEngineCtx,companyTeamName)
 	var jobKeySlice []string
@@ -110,9 +110,9 @@ func (c *DashBoardController)LoadDashBoard() {
 
 								for _, logKey := range logValue.MapKeys() {
 									for i :=0;i<len(userKeySlice);i++{
-										 if logUserDetail[logKey.String()].UserID ==userKeySlice[i] && k==logUserDetail[logKey.String()].TaskID&&logUserDetail[logKey.String()].LogDescription=="Work Started"{
+										if logUserDetail[logKey.String()].UserID ==userKeySlice[i] && k==logUserDetail[logKey.String()].TaskID&&logUserDetail[logKey.String()].LogDescription=="Work Started"{
 
-										 }
+										}
 									}
 								}
 							case false:
@@ -128,21 +128,21 @@ func (c *DashBoardController)LoadDashBoard() {
 							}
 
 							log.Println("total status",totalUserStatus)
-						for i:=0;i<len(userStatus);i++{
+							for i:=0;i<len(userStatus);i++{
 
 
-							if userStatus[i] == "Pending" {
-								pending++
+								if userStatus[i] == "Pending" {
+									pending++
 
-							}else{
-								completed++
+								}else{
+									completed++
+								}
 							}
-						}
-						completedTaskPercentage := float32(completed)/float32(len(userStatus))*100
-						pendingTaskPercentage  := float32(pending)/ float32(len(userStatus))*100
-						taskSettings :=models.TaskSetting{}
-						taskSettings.UpdateTaskStatus(c.AppEngineCtx, k,totalUserStatus,completedTaskPercentage,pendingTaskPercentage)
-						log.Println(dbStatus)
+							completedTaskPercentage := float32(completed)/float32(len(userStatus))*100
+							pendingTaskPercentage  := float32(pending)/ float32(len(userStatus))*100
+							taskSettings :=models.TaskSetting{}
+							taskSettings.UpdateTaskStatus(c.AppEngineCtx, k,totalUserStatus,completedTaskPercentage,pendingTaskPercentage)
+							log.Println(dbStatus)
 						}
 
 					case false:
@@ -280,19 +280,19 @@ func (c *DashBoardController)LoadDashBoard() {
 			case true:
 				notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
 				for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-						var NotificationArray []string
+					var NotificationArray []string
 					if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
 						notificationCount=notificationCount+1;
 					}
-						NotificationArray =append(NotificationArray,notificationUserKey.String())
-						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-						NotificationArray =append(NotificationArray,date)
-						viewModel.NotificationArray=append(viewModel.NotificationArray,NotificationArray)
+					NotificationArray =append(NotificationArray,notificationUserKey.String())
+					NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
+					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
+					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
+					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
+					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
+					date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
+					NotificationArray =append(NotificationArray,date)
+					viewModel.NotificationArray=append(viewModel.NotificationArray,NotificationArray)
 
 				}
 			case false:
@@ -440,9 +440,9 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 
 					}
 
-					/*slices := []interface{}{"true"}
-					sliceToClient, _ := json.Marshal(slices)
-					log.Println("sliceToClient",sliceToClient)*/
+				/*slices := []interface{}{"true"}
+				sliceToClient, _ := json.Marshal(slices)
+				log.Println("sliceToClient",sliceToClient)*/
 
 				case false:
 					log.Println("iam in error cobdition of inner loop")
@@ -463,7 +463,7 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 				tempArray = append(tempArray, keysValues[i])
 			}
 		}
-		 totalUsers :=  len(tempArray)
+		totalUsers :=  len(tempArray)
 		log.Println("pending users",allPendinUserArray)
 		log.Println("barChart",barChart)
 		log.Println("allCompletedUserArray",allCompletedUserArray)
