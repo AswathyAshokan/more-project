@@ -521,7 +521,6 @@ $().ready(function() {
     //getting instructions of fit to work
     getInstructions =function(){
         var doc = document.getElementById("TaskFitToWork");
-        
         if(doc.length !=0){
             fitWork =doc.options[doc.selectedIndex].value;
         }
@@ -870,7 +869,7 @@ $().ready(function() {
                                       }else {
                                           fitToWorkCheck ="OnceADay";
                                       }
-                                      var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask +"&endDateFromJs="+ endDateOfTask+"&fitToWorkCheck="+ fitToWorkCheck+"&exposureBreakTime="+ exposureSlice+"&exposureWorkTime="+ exposureWorkSlice+"&fitToWorkName="+ fitWork+"&dateOfCreation="+datum;
+                                      var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask +"&endDateFromJs="+ endDateOfTask+"&fitToWorkCheck="+ fitToWorkCheck+"&exposureBreakTime="+ exposureSlice+"&exposureWorkTime="+ exposureWorkSlice+"&fitToWorFfitkName="+ fitWork+"&dateOfCreation="+datum;
                                       var selectedContactNames = [];
 
                //get the user's name corresponding to  keys selected from dropdownlist

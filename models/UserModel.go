@@ -13,11 +13,16 @@ type Users struct {
 	Task			map[string]UserNotification
 	Invitations		map[string]UserInvitations
 	WorkLocation		map[string]WorkLocationInUser
+	Group                   UserGroup
 	//Invitations        map[string]UserInvitations
 
 }
 
-
+type UserGroup struct {
+	groupId 	string
+	GroupName  	string
+	CompanyId	string
+}
 
 type ConsentReceiptDetails struct {
 	UserResponse		string

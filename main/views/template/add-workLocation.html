@@ -138,13 +138,13 @@
 									 <div class="col-sm-6">
 										
 										 <div class="callender-wrapper">
-											 <span class="err-wrp" style="margin-right: 15px;" >
+											 <span class="err-wrp" style="margin-right: 15px;width: 50%;" >
                                                   <label for="ex1" class="">Daily Start Date</label>
 												 <input type="text" id="startDate" class="datepicker form-control sprites-callender" name="startDate">
 												 <!--<span class="err err-cl">required</span>-->
 											 </span>
                                             <!-- <label for="ex1" class="">End Date</label>-->
-                                             <span class="err-wrp">
+                                             <span class="err-wrp"  style="width: 50%;">
                                                   <label for="ex1" class="">Daily End Date</label>
 												 <input  type="text" id="endDate" class="datepicker form-control sprites-callender" name="endDate">
 												<!-- <span class="err err-cl">required</span>-->
@@ -159,35 +159,99 @@
 										 
 										 <div class="callender-wrapper">
 											 
-                                             <span class="err-wrp" style="margin-right: 15px;">
+                                             <span class="err-wrp" style="/* margin-right: 20px; */width: 50%;padding-right: 15px;">
                                                  <label for="ex1" class="">Daily Start Time</label>
 												 <!-- <input type="text" class="form-control time" name="name" value="" placeholder="12:00" data-timepicker> -->
-												 <input type="text" class="form-control time"  value="" placeholder="12:00" id="dailyStartTime" name="dailyStartTime">
+												 <input type="text" class="form-control time"  value="" placeholder="12:00" id="dailyStartTime" name="dailyStartTime" style="max-width: 100%;margin-left: 0;">
 												 <!--<span class="err">required</span>-->
 											 </span>
                                              
 											 <!-- <input class="form-control time" id="ex2" type="text"> -->
-											 <span class="err-wrp">
+											 <span class="err-wrp" style="width: 50%;padding-left: 15px;">
                                                  <label for="ex1" class="">Daily End Time</label>
 												 <!-- <input type="text" class="form-control time" name="name" value="" placeholder="12:00" data-timepicker> -->
-												 <input type="text" class="form-control time" value="" placeholder="12:00" id="dailyEndTime" name="dailyEndTime">
+												 <input type="text" class="form-control time" value="" placeholder="12:00" id="dailyEndTime" name="dailyEndTime" style="max-width: 100%;margin-left: 0;">
 												<!-- <span class="err">required</span>-->
 											 </span>
 										 </div>
 									 </div>
 
 									 </div>
+                               <div class="form-group clearfix">
+                                   <div class="col-sm-6" id="fitToWorkDiv">
+                                       <label for="fitToWork" class="" >Fit To Work Declaration</label>
+                                      <select class="form-control sprites-arrow-down" id="WorkLocationFitToWork" name="WorkLocationFitToWork" onchange="getInstructions();" >
+                                    <option selected disabled value="">Select Fit To Work</option>
+                                    {{range $key, $val := .vm.FitToWorkArray}}
+                                    <option  id="{{index $.vm.FitToWorkKey $key}}" value="{{$val}}" >{{$val}} </option>
+                                    {{end}}
+                                </select>
+                                   </div>
+                                   <div class="col-sm-3">
+                                        <label for="log" class="" id="log">Log In Minutes</label>
+                                        <select class="form-control sprites-arrow-down valid" id="logInMinutes" name="logInMinutes" aria-invalid="false" style="padding-left: 10px;">
+                                            <option selected="" disabled="" value="">Select Log In Minutes </option>
+                                            <option id="5" value="5">5</option>
+                                            <option id="20" value="20">20 </option>
+                                            <option id="30" value="30">30 </option>
+                                        </select>
+                                    </div>
+                                   <div class="col-sm-3" style="">
+                                       <label for="ex1" class="">Login Type</label>
+                                        <div class="callender-wrapper" style="">
+                                            <div class="radio-inline-wrapper" style="min-width: 120px;">
+                                                <label class="radio-inline">
+                                                    <input class="radio-inline" type="radio" name="loginType" id="loginType1" value="NFC" style=""> <p1 id="nfcbutton" style="vertical-align: middle;">NFC</p1>
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input class="radio-inline" type="radio" name="loginType" id="loginType2" value="GPS" style="">
+                                                    <p1 id="gpsbutton" style="vertical-align: middle;">GPS</p1>
+                                                </label>
+                                            </div>
+                                            <div id="nfcTagId"  id ="nfcTagId" style="visibility: hidden; display:none; inline;width: 100%;">
+                                            <input type="text" class="form-control time" placeholder="Nfc tag id" name="nfcTagForTask" id="nfcTagForTask" style="max-width: 100%;margin-left: 0;">
+                                            </div>
+                                        </div>
+                                   </div>
 
-                                   <div class="align-left col-sm-12">
+
+                            <div class="wrp-plus"></div>
+                        </div>
+                               <div class="checkbox  terms-link" style="width: 100%;background: none;width: 100%;background: none;margin-bottom: 25px;padding-left: 15px;">
+                                   <label><p><input type="checkbox" id="fitToWorkCheck" name="fitToWorkCheck">&nbsp;&nbsp;&nbsp;Fit To Work Declaration Each Time User Re-enter into Task.</p> </label>
+                               </div> 
+                             <div id="ExplosureDiv" class="checkbox  terms-link" style="width: 100%;background: none;width: 100%;background: none;margin-bottom: 25px;padding-left: 15px;">
+                             <label for="workExplosure" id="workExplosureLabel">
+                                 <input type="checkbox" id="workExplosure" name="workExplosure">&nbsp;&nbsp;&nbsp;Exposure.
+                             </label>
+                              </div>
+                             <div class="col-sm-6" id ="work" style="visibility: hidden; display:none;"  id="exposureId" data-tip="Break Time 20 min After 4 hrs Work">
+                                 <div id="exposureTextBoxAppend" class="task-add1"  >
+                                     <div class="exposureId plus" style="padding-right: 17px;" >
+                                     <label for="workExplosureText" class="">Break Time</label>
+                                         <input type="text" class="form-control"  data-timepicker placeholder="12:00"   name="breakTime" size="5" id="breakTime" ><label>After</label>
+                                         <input type="text"   class="form-control"  placeholder="12:00"   name="workTime" size="5" id="workTime" data-timepicker>
+                                         <span class="add-decl"  >+</span>
+                                     </div>
+                                 </div>
+                               </div>
+                               <div class="align-left col-sm-12">
+                                   <button class="btn btn-primary" id="saveButton">Save</button>
+                                   <button class="btn btn-success" type="button" id="cancel">Cancel</button>
+                               </div>
+                          
+                       </div>
+
+                                  <!-- <div class="align-left col-sm-12">
                                       <button class="btn btn-primary" id="saveButton">Save</button>
 						    	<button class="btn btn-success" type="button" id="cancel">Cancel</button>
-                                   </div>
+                                   </div>-->
                                
                            </div>
-                       </div>
+                       
                    </form>
                </div>
-                </div>
+                
                 <script> 
                     var defaultLatitude = "54.9682059";
                     var defaultLongitude = "-1.6121358";

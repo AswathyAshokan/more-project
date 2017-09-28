@@ -91,6 +91,7 @@ func(m *EmailInvitation) CheckEmailIdInDb(ctx context.Context,companyID string)b
 
 func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string,adminName string)bool {
 	userDetails := map[string]Users{}
+	CompanyDataForProfile :=CompanyDataForProfile{}
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println(err)
@@ -104,6 +105,7 @@ func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string,admi
 	}
 	invitationDataString := strings.Split(invitationData.String(),"/")
 	invitationUniqueID := invitationDataString[len(invitationDataString)-2]
+	log.Println("invitationUniqueID",invitationUniqueID)
 	invitation := CompanyInvitations{}
 	invitation.FirstName = m.Info.FirstName
 	invitation.LastName = m.Info.LastName
@@ -130,11 +132,15 @@ func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string,admi
 		userInvitationDetail.CompanyName =m.Info.CompanyName
 		userInvitationDetail.Date =m.Settings.DateOfCreation
 		userInvitationDetail.IsDeleted =false
+		CompanyDataForProfile.UserType =  m.Info.UserType
+		CompanyDataForProfile.Status = helpers.StatusPending
 		err = db.Child("/Users/"+userKey.String()+"/Settings/Notifications/Invitations/"+invitationUniqueID).Set(userInvitationDetail)
 		if err!=nil{
 			log.Println("Insertion error:",err)
 			return false
 		}
+		log.Println("CompanyDataForProfile",CompanyDataForProfile)
+		err = db.Child("/PublicUserProfile/"+userKey.String()+"/Company/"+companyID).Set(CompanyDataForProfile)
 	}
  return true
 }
@@ -267,6 +273,7 @@ func(m *CompanyInvitations) UpdateInviteUserById(ctx context.Context,InviteUserI
 	updateInvitation :=EmailInvitation{}
 	value := CompanyInvitations{}
 	userMap := map[string]Users{}
+	CompanyDataForProfile :=CompanyDataForProfile{}
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Fatal(err)
@@ -314,6 +321,7 @@ func(m *CompanyInvitations) UpdateInviteUserById(ctx context.Context,InviteUserI
 		return false
 	}
 	err = db.Child("Users").OrderBy("Info/Email").EqualTo(value.Email).Value(&userMap)
+
 	dataValue := reflect.ValueOf(userMap)
 	for _, key := range dataValue.MapKeys() {
 		UserCompany := UsersCompany{}
@@ -323,7 +331,10 @@ func(m *CompanyInvitations) UpdateInviteUserById(ctx context.Context,InviteUserI
 		UpdatedUserCompany.CompanyName = UserCompany.CompanyName
 		UpdatedUserCompany.DateOfJoin = UserCompany.DateOfJoin
 		UpdatedUserCompany.UserType = m.UserType
+		CompanyDataForProfile.UserType = m.UserType
+		CompanyDataForProfile.Status = UserCompany.Status
 		err = db.Child("Users/" + key.String() + "/Company/" + companyTeamName).Set(&UpdatedUserCompany)
+		err = db.Child("/PublicUserProfile/"+key.String()+"/Company/"+companyTeamName).Set(CompanyDataForProfile)
 	}
 	return true
 

@@ -15,6 +15,9 @@ type AddLocationViewModel struct {
 	DateValues   			[][]string
 	NotificationArray		[][]string
 	NotificationNumber       	int
+	FitToWorkArray			[]string
+	FitToWorkKey			[]string
+	FitToWorkForTask		[][]TaskFitToWork
 
 }
 type LoadWorkLocationViewModel struct {

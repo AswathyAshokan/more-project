@@ -127,8 +127,10 @@ $(function(){
 /*---------------------------Initial data table calling---------------------------------------------------*/
     var tempArry = [];
     if(vm.Values != null) {
+        if(vm.Users !=null){
         for( i=0;i<vm.Values.length;i++){
             for( j=0;j<vm.Users.length;j++){
+                if(vm.Users[j] !=null){
                 for(k=0;k<vm.Users[j].length;k++){
                     console.log("vm.Users[j][k].Name",vm.Users[j][k].Name);
                     if(vm.Values[i][1] == vm.Users[j][k].UserKey){
@@ -141,11 +143,13 @@ $(function(){
                     }
                 }
             }
+            }
             console.log("tempArry");
             vm.Values[i][1] = tempArry;
             tempArry = [];
         }
         createDataArray(vm.Values, vm.Keys);
+    }
     }
     dataTableManipulate(); 
  /*--------------------------Ending Initial data table calling---------------------------------------------*/

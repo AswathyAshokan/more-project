@@ -32,10 +32,16 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 	groupMap := make(map[string]models.WorkLocationGroup)
 	var keySliceForGroup [] string
 	var MemberNameArray [] string
+	var notificationCount = 0
 	group := models.Group{}
 	userName :=models.WorkLocationUser{}
 	WorkLocation := models.WorkLocation{}
 	if r.Method == "POST" {
+		exposureTask := c.GetString("exposureBreakTime")
+		exposureWorkTime := c.GetString("exposureWorkTime")
+		log.Println("exposureTask",exposureTask)
+		log.Println("exposureWorkTime",exposureWorkTime)
+		fitToWorkName :=c.GetString("fitToWorkName")
 		groupKeySliceForWorkLocationString := c.GetString("groupArrayElement")
 		UserOrGroupNameArray :=c.GetStrings("userAndGroupName")
 		taskLocation := c.GetString("taskLocation")
@@ -49,7 +55,12 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		endDate := c.GetString("endDateTimeStamp")
 		startDateInt , err := strconv.ParseInt(startDate, 10, 64)
 		endDateInt, err := strconv.ParseInt(endDate, 10, 64)
-		//today := time.Now()
+		loginType := c.GetString("loginType")
+		log.Println("loginType",loginType)
+		logInMinutes :=c.GetString("logInMinutes")
+		logInMinutesInString, err := strconv.ParseInt(logInMinutes, 10, 64)
+		WorkLocationBreakTimeSlice :=strings.Split(exposureTask, ",")
+		WorkLocationTimeSlice :=strings.Split(exposureWorkTime, ",")
 
 
 		layout := "01/02/2006 15:04"
@@ -63,11 +74,17 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 			log.Println(err)
 		}
 		//task.Info.EndDate = endDate.Unix()
-		log.Println("userIdArray",userIdArray)
-		log.Println("groupKeySliceForWorkLocation",groupKeySliceForWorkLocation)
+
+		tempFitToWorkCheck :=c.GetString("fitToWorkCheck")
+		log.Println("tempFitToWorkCheck",tempFitToWorkCheck)
+		if tempFitToWorkCheck =="on" {
+			WorkLocation.Settings.FitToWorkDisplayStatus ="EachTime"
+		} else {
+			WorkLocation.Settings.FitToWorkDisplayStatus = "OnceADay"
+		}
+
 		var groupKeySlice	[]string
 		for j:=0;j<len(userIdArray);j++ {
-			log.Println("w4")
 			tempName := UserOrGroupNameArray[j]
 			userOrGroupRegExp := regexp.MustCompile(`\((.*?)\)`)
 			userOrGroupSelection := userOrGroupRegExp.FindStringSubmatch(tempName)
@@ -89,6 +106,9 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 				WorkLocation.Info.DailyEndDate =endDateInUnix.Unix()
 				WorkLocation.Settings.DateOfCreation = time.Now().Unix()
 				WorkLocation.Settings.Status = helpers.StatusActive
+				WorkLocation.Info.LoginType = loginType
+				WorkLocation.Info.LogTimeInMinutes = logInMinutesInString
+				log.Println("loginType",loginType)
 				log.Println("userMap[tempId]", userMap)
 
 			}
@@ -126,7 +146,9 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		if groupKeySliceForWorkLocation[0] !="" {
 			WorkLocation.Info.UsersAndGroupsInWorkLocation.Group = groupMap
 		}
-		dbStatus :=WorkLocation.AddWorkLocationToDb(c.AppEngineCtx,companyTeamName)
+
+
+		dbStatus :=WorkLocation.AddWorkLocationToDb(c.AppEngineCtx,companyTeamName,fitToWorkName,WorkLocationBreakTimeSlice,WorkLocationTimeSlice)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -134,8 +156,8 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 			w.Write([]byte("false"))
 		}
 	}else {
-		usersDetail :=models.Users{}
-		dbStatus ,testUser:= companyUsers.GetUsersForDropdownFromCompany(c.AppEngineCtx,companyTeamName)
+		usersDetail := models.Users{}
+		dbStatus, testUser := companyUsers.GetUsersForDropdownFromCompany(c.AppEngineCtx, companyTeamName)
 		switch dbStatus {
 		case true:
 			dataValue := reflect.ValueOf(testUser)
@@ -154,31 +176,30 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 					}
 				}
 			}
-			allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx,companyTeamName)
+			allGroups, dbStatus := models.GetAllGroupDetails(c.AppEngineCtx, companyTeamName)
 			switch dbStatus {
 			case true:
 				dataValue := reflect.ValueOf(allGroups)
 				for _, key := range dataValue.MapKeys() {
-					if allGroups[key.String()].Settings.Status =="Active"{
+					if allGroups[key.String()].Settings.Status == "Active" {
 						var memberSlice []string
 
 						keySliceForGroupAndUser = append(keySliceForGroupAndUser, key.String())
-						workLocationViewmodel.GroupNameArray = append(workLocationViewmodel.GroupNameArray, allGroups[key.String()].Info.GroupName+" (Group)")
+						workLocationViewmodel.GroupNameArray = append(workLocationViewmodel.GroupNameArray, allGroups[key.String()].Info.GroupName + " (Group)")
 
 						// For selecting members while selecting a group in dropdown
 						memberSlice = append(memberSlice, key.String())
 						groupDataValue := reflect.ValueOf(allGroups[key.String()].Members)
-						for _, memberKey := range groupDataValue.MapKeys()  {
+						for _, memberKey := range groupDataValue.MapKeys() {
 							memberSlice = append(memberSlice, memberKey.String())
 						}
 						workLocationViewmodel.GroupMembers = append(workLocationViewmodel.GroupMembers, memberSlice)
-						log.Println("iam in trouble",workLocationViewmodel.GroupMembers)
+						log.Println("iam in trouble", workLocationViewmodel.GroupMembers)
 
 					}
 
-
 				}
-				workLocationViewmodel.UserAndGroupKey=keySliceForGroupAndUser
+				workLocationViewmodel.UserAndGroupKey = keySliceForGroupAndUser
 			case false:
 				log.Println(helpers.ServerConnectionError)
 			}
@@ -186,70 +207,114 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 			log.Println(helpers.ServerConnectionError)
 		}
 
-	}
-	workLocationValues := models.IsWorkAssignedToUser(c.AppEngineCtx,companyTeamName)
-	log.Println("allWorkLocationData",workLocationValues)
-	dataValue := reflect.ValueOf(workLocationValues)
+		workLocationValues := models.IsWorkAssignedToUser(c.AppEngineCtx, companyTeamName)
+		log.Println("allWorkLocationData", workLocationValues)
+		dataValue := reflect.ValueOf(workLocationValues)
 
-	for _, key := range dataValue.MapKeys() {
-		log.Println("alredy key",key.String())
-		if workLocationValues[key.String()].Settings.Status != helpers.StatusInActive{
-			userDataValues :=  reflect.ValueOf(workLocationValues[key.String()].Info.UsersAndGroupsInWorkLocation.User)
-			for _,userKey :=range userDataValues.MapKeys(){
-				var tempUserArray []string
-				log.Println("alredy strat",workLocationValues[key.String()].Info.StartDate)
-				log.Println("alredy end",workLocationValues[key.String()].Info.EndDate )
-				startDateFromDbInInt:= strconv.FormatInt(int64(workLocationValues[key.String()].Info.StartDate), 10)
-				endDateFromDbInInt:=strconv.FormatInt(workLocationValues[key.String()].Info.EndDate, 10)
-				tempUserArray = append(tempUserArray,userKey.String())
-				tempUserArray = append(tempUserArray, startDateFromDbInInt)
-				tempUserArray = append(tempUserArray, endDateFromDbInInt)
-				workLocationViewmodel.DateValues = append(workLocationViewmodel.DateValues,tempUserArray)
-			}
-		}
-
-	}
-	dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-	var notificationCount=0
-	switch dbStatus {
-	case true:
-
-		notificationOfUser := reflect.ValueOf(notificationValue)
-		for _, notificationUserKey := range notificationOfUser.MapKeys() {
-			dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-			switch dbStatus {
-			case true:
-				notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-				for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-					var NotificationArray []string
-					if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-						notificationCount=notificationCount+1;
-					}
-					NotificationArray =append(NotificationArray,notificationUserKey.String())
-					NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-					date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-					NotificationArray =append(NotificationArray,date)
-					workLocationViewmodel.NotificationArray=append(workLocationViewmodel.NotificationArray,NotificationArray)
-
+		for _, key := range dataValue.MapKeys() {
+			log.Println("alredy key", key.String())
+			if workLocationValues[key.String()].Settings.Status != helpers.StatusInActive {
+				userDataValues := reflect.ValueOf(workLocationValues[key.String()].Info.UsersAndGroupsInWorkLocation.User)
+				for _, userKey := range userDataValues.MapKeys() {
+					var tempUserArray []string
+					log.Println("alredy strat", workLocationValues[key.String()].Info.StartDate)
+					log.Println("alredy end", workLocationValues[key.String()].Info.EndDate)
+					startDateFromDbInInt := strconv.FormatInt(int64(workLocationValues[key.String()].Info.StartDate), 10)
+					endDateFromDbInInt := strconv.FormatInt(workLocationValues[key.String()].Info.EndDate, 10)
+					tempUserArray = append(tempUserArray, userKey.String())
+					tempUserArray = append(tempUserArray, startDateFromDbInInt)
+					tempUserArray = append(tempUserArray, endDateFromDbInInt)
+					workLocationViewmodel.DateValues = append(workLocationViewmodel.DateValues, tempUserArray)
 				}
-			case false:
 			}
+
 		}
-	case false:
+		dbStatus, notificationValue := models.GetAllNotifications(c.AppEngineCtx, companyTeamName)
+
+		switch dbStatus {
+		case true:
+
+			notificationOfUser := reflect.ValueOf(notificationValue)
+			for _, notificationUserKey := range notificationOfUser.MapKeys() {
+				dbStatus, notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx, companyTeamName, notificationUserKey.String())
+				switch dbStatus {
+				case true:
+					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
+					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
+						var NotificationArray []string
+						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead == false {
+							notificationCount = notificationCount + 1;
+						}
+						NotificationArray = append(NotificationArray, notificationUserKey.String())
+						NotificationArray = append(NotificationArray, notificationUserKeyForSpecific.String())
+						NotificationArray = append(NotificationArray, notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
+						NotificationArray = append(NotificationArray, notificationUserValue[notificationUserKeyForSpecific.String()].Message)
+						NotificationArray = append(NotificationArray, notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
+						NotificationArray = append(NotificationArray, notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
+						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
+						NotificationArray = append(NotificationArray, date)
+						workLocationViewmodel.NotificationArray = append(workLocationViewmodel.NotificationArray, NotificationArray)
+
+					}
+				case false:
+				}
+			}
+		case false:
+		}
+
+
+		//getting fit to work
+		var keySliceForFitToWork        []string
+		var tempKeySliceFitToWork        []string
+		var tempInstructionKeySlice        []string
+		var instructionDescription        []string
+		var fitToWorkStructSlice        []viewmodels.TaskFitToWork
+		var tempfitToWorkStructSlice        [][]viewmodels.TaskFitToWork
+		var fitToWorkStruct viewmodels.TaskFitToWork
+		fitToWorkById := models.GetSelectedCompanyName(c.AppEngineCtx, companyTeamName)
+		switch dbStatus {
+		case true:
+			fitToWorkDataValues := reflect.ValueOf(fitToWorkById)
+			for _, fitToWorkKey := range fitToWorkDataValues.MapKeys() {
+				tempKeySliceFitToWork = append(tempKeySliceFitToWork, fitToWorkKey.String())
+			}
+			for _, eachKey := range tempKeySliceFitToWork {
+				if fitToWorkById[eachKey].Settings.Status == helpers.StatusActive {
+					keySliceForFitToWork = append(keySliceForFitToWork, eachKey)
+					workLocationViewmodel.FitToWorkArray = append(workLocationViewmodel.FitToWorkArray, fitToWorkById[eachKey].FitToWorkName)
+					getInstructions := models.GetAllInstructionsOfFitToWorkById(c.AppEngineCtx, companyTeamName, eachKey)
+					fitToWorkInstructionValues := reflect.ValueOf(getInstructions)
+					for _, fitToWorkInstructionKey := range fitToWorkInstructionValues.MapKeys() {
+						tempInstructionKeySlice = append(tempInstructionKeySlice, fitToWorkInstructionKey.String())
+					}
+
+					for _, eachInstructionKey := range tempInstructionKeySlice {
+						instructionDescription = append(instructionDescription, getInstructions[eachInstructionKey].Description)
+
+					}
+					fitToWorkStruct.FitToWorkName = fitToWorkById[eachKey].FitToWorkName
+					fitToWorkStruct.Instruction = instructionDescription
+					fitToWorkStruct.InstructionKey = tempInstructionKeySlice
+					fitToWorkStructSlice = append(fitToWorkStructSlice, fitToWorkStruct)
+				}
+			}
+			workLocationViewmodel.FitToWorkKey = keySliceForFitToWork
+			tempfitToWorkStructSlice = append(tempfitToWorkStructSlice, fitToWorkStructSlice)
+			workLocationViewmodel.FitToWorkForTask = tempfitToWorkStructSlice
+		case false:
+			log.Println(helpers.ServerConnectionError)
+		}
+
+		workLocationViewmodel.NotificationNumber = notificationCount
+		log.Println("tempUserArray", workLocationViewmodel.DateValues)
+		workLocationViewmodel.AdminFirstName = storedSession.AdminFirstName
+		workLocationViewmodel.AdminLastName = storedSession.AdminLastName
+		workLocationViewmodel.ProfilePicture = storedSession.ProfilePicture
+		workLocationViewmodel.CompanyTeamName = storedSession.CompanyTeamName
+		/*c.Layout = "layout/layout.html"*/
+		c.Data["vm"] = workLocationViewmodel
+		c.TplName = "template/add-workLocation.html"
 	}
-	workLocationViewmodel.NotificationNumber=notificationCount
-	log.Println("tempUserArray",workLocationViewmodel.DateValues)
-	workLocationViewmodel.AdminFirstName = storedSession.AdminFirstName
-	workLocationViewmodel.AdminLastName = storedSession.AdminLastName
-	workLocationViewmodel.ProfilePicture =storedSession.ProfilePicture
-	workLocationViewmodel.CompanyTeamName = companyTeamName
-	/*c.Layout = "layout/layout.html"*/
-	c.Data["vm"] = workLocationViewmodel
-	c.TplName = "template/add-workLocation.html"
 }
 
 func (c *WorkLocationcontroller) LoadWorkLocation() {

@@ -8,14 +8,16 @@ import (
 	"reflect"
 	"github.com/kjk/betterguid"
 	"time"
-
 )
+
+
 type WorkLocation struct {
 	Info 		WorkLocationInfo
 	Settings 	WorkLocationSettings
+	FitToWork	FitToWorkForkWorkLocation
 }
 type WorkLocationInfo struct {
-
+	LoginType        		string
 	CompanyTeamName			string
 	WorkLocation       		string
 	Latitude			string
@@ -25,9 +27,43 @@ type WorkLocationInfo struct {
 	DailyStartDate                  int64
 	DailyEndDate			int64
 	UsersAndGroupsInWorkLocation	UsersAndGroupsInWork
+	LogTimeInMinutes 		int64
+	WorkLocationExposure		map[string]WorkExposure
+}
+type WorkExposure struct {
+	BreakDurationInMinutes  string
+	BreakStartTimeInMinutes string
+	Status                  string
+	DateOfCreation          int64
+
+}
+
+type FitToWorkForkWorkLocation struct {
+	FitToWorkInstruction    map[string]WorkLocationFitToWork
+	Settings		WorkFitToWorkSettings
+	Info			WOrkFitToWorkInfo
+
+}
+
+type WOrkFitToWorkInfo struct {
+	FitToWorkName  		string
+	FitToWorkId 		string
+}
+type  WorkFitToWorkSettings struct {
+
+	Status			string
+
+}
+type WorkLocationFitToWork struct {
+	Description    string
+	Status         string
+	DateOfCreation int64
+
+
 }
 
 type WorkLocationSettings struct {
+	FitToWorkDisplayStatus	string
 	DateOfCreation  	int64
 	Status         	 	string
 }
@@ -50,49 +86,122 @@ type  GroupMemberNameInWorkLocation struct {
 }
 
 
-func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName string) (bool){
+func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName string,fitToWorksName string,WorkBreakSlice []string,TaskWorkTimeSlice []string) (bool){
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println(err)
 	}
-	log.Println("db",db)
-	startDateInt := m.Info.StartDate
-	endDateInt := m.Info.EndDate
-	starta := time.Unix(startDateInt, 0).UTC()
-	log.Println("utc time in golang",starta)
-	enda := time.Unix(endDateInt, 0).UTC()
-	log.Println("utc enda",enda)
 	workLocationUniqueID := betterguid.New()
 	userData := reflect.ValueOf(m.Info.UsersAndGroupsInWorkLocation.User)
 	for _, key := range userData.MapKeys() {
-		log.Println("w15")
-		if m.Info.UsersAndGroupsInWorkLocation.User[key.String()].Status!=helpers.UserStatusDeleted{
+		if m.Info.UsersAndGroupsInWorkLocation.User[key.String()].Status!=helpers.UserStatusDeleted {
 
-		}
-
-		workLocationData := WorkLocationInUser{}
-		workLocationData.CompanyId = companyTeamName
-		workLocationData.DateOfCreation = m.Settings.DateOfCreation
-		workLocationData.WorkLocationForTask = m.Info.WorkLocation
-		workLocationData.StartDate =m.Info.StartDate
-		workLocationData.EndDate =m.Info.EndDate
-		workLocationData.DailyStartDate = m.Info.DailyStartDate
-		workLocationData.DailyEndDate = m.Info.DailyEndDate
-		workLocationData.Latitude =m.Info.Latitude
-		workLocationData.Longitude =m.Info.Longitude
-		workLocationData.Status = helpers.StatusPending
-		userKey := key.String()
-		err = db.Child("/Users/"+userKey+"/WorkLocation/"+workLocationUniqueID).Set(workLocationData)
-		if err!=nil{
-			log.Println("w16")
-			log.Println("Insertion error:",err)
-			return false
+			workLocationData := WorkLocationInUser{}
+			workLocationData.CompanyId = companyTeamName
+			workLocationData.DateOfCreation = m.Settings.DateOfCreation
+			workLocationData.WorkLocationForTask = m.Info.WorkLocation
+			workLocationData.StartDate = m.Info.StartDate
+			workLocationData.EndDate = m.Info.EndDate
+			workLocationData.DailyStartDate = m.Info.DailyStartDate
+			workLocationData.DailyEndDate = m.Info.DailyEndDate
+			workLocationData.Latitude = m.Info.Latitude
+			workLocationData.Longitude = m.Info.Longitude
+			workLocationData.Status = helpers.StatusPending
+			userKey := key.String()
+			err = db.Child("/Users/" + userKey + "/WorkLocation/" + workLocationUniqueID).Set(workLocationData)
+			if err != nil {
+				log.Println("w16")
+				log.Println("Insertion error:", err)
+				return false
+			}
 		}
 	}
-	err = db.Child("WorkLocation/"+workLocationUniqueID).Set(m)
+	if len(fitToWorksName) !=0{
+		FitToWorkForSetting :=WorkFitToWorkSettings{}
+		FitToWorkForInfo  :=WOrkFitToWorkInfo{}
+		var tempKeySlice []string
+		var fitToWOrkKey string
+		instructionOfFitWork :=map[string]WorkLocationFitToWork{}
+		fitToWork :=map[string]FitToWork{}
+		db,err :=GetFirebaseClient(ctx,"")
+		if err!=nil{
+			log.Println("Connection error:",err)
+		}
+		err = db.Child("FitToWork/"+ companyTeamName).Value(&fitToWork)
+		fitToWorkDataValues := reflect.ValueOf(fitToWork)
+		for _, fitToWorkKey := range fitToWorkDataValues.MapKeys() {
+			tempKeySlice = append(tempKeySlice, fitToWorkKey.String())
+		}
+		FitToWorkForSetting.Status =helpers.StatusActive
+		err = db.Child("WorkLocation/"+workLocationUniqueID+"/FitToWork/Settings").Set(FitToWorkForSetting)
+		for _, eachKey := range tempKeySlice {
+			log.Println(reflect.TypeOf(fitToWork[eachKey].FitToWorkName))
+			log.Println(reflect.TypeOf(fitToWorksName))
+			string1 :=fitToWork[eachKey].FitToWorkName
+			string2 :=fitToWorksName
+			if Compare(string1,string2) ==0 {
+				fitToWOrkKey =eachKey
+				err = db.Child("FitToWork/"+companyTeamName+"/"+eachKey+"/Instructions").Value(&instructionOfFitWork)
+				err = db.Child("WorkLocation/"+workLocationUniqueID+"/FitToWork/FitToWorkInstruction").Set(instructionOfFitWork)
+
+			}
+
+		}
+		FitToWorkForSetting.Status =helpers.StatusActive
+		err = db.Child("WorkLocation/"+workLocationUniqueID+"/FitToWork/Settings").Set(FitToWorkForSetting)
+		FitToWorkForInfo.FitToWorkName =fitToWorksName
+		FitToWorkForInfo.FitToWorkId =fitToWOrkKey
+		err = db.Child("WorkLocation/"+workLocationUniqueID+"/FitToWork/Info").Set(FitToWorkForInfo)
+	}
+
+
+	// for adding work break to database
+
+	ExposureMap := make(map[string]WorkExposure)
+	ExposureTask :=WorkExposure{}
+	if WorkBreakSlice[0] !=""{
+
+		for i := 0; i < len(WorkBreakSlice); i++ {
+
+			ExposureTask.BreakDurationInMinutes =WorkBreakSlice[i]
+			ExposureTask.BreakStartTimeInMinutes =TaskWorkTimeSlice[i]
+			ExposureTask.DateOfCreation =time.Now().Unix()
+			ExposureTask.Status = helpers.StatusActive
+			id := betterguid.New()
+			ExposureMap[id] = ExposureTask
+			err = db.Child("WorkLocation/"+workLocationUniqueID+"/WorkExposure/").Set(ExposureMap)
+
+		}
+	}
+
+
+	WorkLocationInfoData := WorkLocationInfo{}
+	WorkLocationInfoData.LogTimeInMinutes = m.Info.LogTimeInMinutes
+	WorkLocationInfoData.LoginType = m.Info.LoginType
+	WorkLocationInfoData.CompanyTeamName = m.Info.CompanyTeamName
+	WorkLocationInfoData.DailyEndDate = m.Info.DailyEndDate
+	WorkLocationInfoData.DailyStartDate = m.Info.DailyEndDate
+	WorkLocationInfoData.EndDate = m.Info.EndDate
+	WorkLocationInfoData.Latitude = m.Info.Latitude
+	WorkLocationInfoData.Longitude = m.Info.Longitude
+	WorkLocationInfoData.Latitude = m.Info.Latitude
+	WorkLocationInfoData.StartDate = m.Info.StartDate
+	WorkLocationInfoData.UsersAndGroupsInWorkLocation = m.Info.UsersAndGroupsInWorkLocation
+	WorkLocationInfoData.WorkLocation = m.Info.WorkLocation
+	err = db.Child("WorkLocation/"+workLocationUniqueID+"/Info").Set(WorkLocationInfoData)
 
 	if err != nil {
 		log.Println("w14")
+		log.Println(err)
+		return false
+	}
+	WorkLocationSettingsData := WorkLocationSettings{}
+	WorkLocationSettingsData.DateOfCreation = m.Settings.DateOfCreation
+	WorkLocationSettingsData.FitToWorkDisplayStatus = m.Settings.FitToWorkDisplayStatus
+	WorkLocationSettingsData.Status = m.Settings.Status
+	err = db.Child("WorkLocation/"+workLocationUniqueID+"/Settings").Set(WorkLocationSettingsData)
+
+	if err != nil {
 		log.Println(err)
 		return false
 	}

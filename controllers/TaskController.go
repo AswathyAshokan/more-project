@@ -49,6 +49,7 @@ func (c *TaskController)AddNewTask() {
 		startDateString := c.GetString("startDateFomJs")
 		endDateString :=c.GetString("endDateFromJs")
 		fitToWorkName :=c.GetString("fitToWorkName")
+		log.Println("fitToWorkName",fitToWorkName)
 		layout := "01/02/2006 15:04"
 		startDate, err := time.Parse(layout, startDateString)
 		if err != nil {

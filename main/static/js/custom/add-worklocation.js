@@ -1,12 +1,20 @@
 console.log("viwe model value",vm);
+var fitToWorkFromDynamicTextBox = []; // contains all fit to work
+var fitToWorkFromDynamicTextBoxValue =[];
+var fitToWorkCheck ="";
+var fitWork= "";
+var companyTeamName = vm.CompanyTeamName;
+$(function(){
+
+    var DynamicNotification ="";
 console.log("end time",vm.DailyEndTime);
 var companyTeamName = vm.CompanyTeamName;
 $(function(){
-    
+
      var DynamicNotification ="";
     if (vm.NotificationNumber !=0){
         document.getElementById("number").textContent=vm.NotificationNumber;
-    }else{
+    } else{
         document.getElementById("number").textContent="";
     }
     document.getElementById("imageId").src=vm.ProfilePicture;
@@ -55,7 +63,7 @@ $(function(){
                     error: function (request,status, error) {
                         console.log(error);
                     }
-                }); 
+                });
             }else{
                 document.getElementById("notificationDiv").innerHTML = "";
                 DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
@@ -82,14 +90,14 @@ $(function(){
             error: function (request,status, error) {
                 console.log(error);
             }
-        }); 
+        });
     }
-}); 
+});
 
 
 
 $().ready(function() {
-    
+
     var selectedUserArray = [];
     var startDateInUnix;
     var endDateInUnix;
@@ -110,10 +118,163 @@ $().ready(function() {
     var condintionInEdit ="";
     var localDate="";
     var localEndDate="";
-   
+
      
     
-    
+        notificationSorted=arr.sort(sortFunction);
+        function sortFunction(a, b) {
+            a = a[colIndex]
+            b = b[colIndex]
+            return (a === b) ? 0 : (a < b) ? -1 : 1
+        }
+    }
+    myNotification= function () {
+        if (vm.NotificationArray !=null){
+            sortByCol(vm.NotificationArray, 6);
+            var reverseSorted =[[]];
+            reverseSorted=notificationSorted.reverse();
+            document.getElementById("notificationDiv").innerHTML = "";
+            var DynamicTaskListing="";
+            if (reverseSorted !=null){
+                DynamicTaskListing ="<h5>"+"Notifications"+ "<button class='no-button-style' method='post' onclick='clearNotification()'>"+"clear all"+"</button>"+"</h5>"+"<ul>";
+                for(var i=0;i<reverseSorted.length;i++){
+                    var timeDifference =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
+                    DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"delay to reach location"+" "+reverseSorted[i][4]+" "+"for task"+" "+reverseSorted[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
+                }
+                $("#notificationDiv").append(DynamicTaskListing+"</ul>");
+                document.getElementById("number").textContent="";
+                $.ajax({
+                    url:'/'+ companyTeamName + '/notification/update',
+                    type: 'post',
+                    success : function(response) {
+                        if (response == "true" ) {
+                        } else {
+                        }
+                    },
+                    error: function (request,status, error) {
+                        console.log(error);
+                    }
+                });
+            }else{
+                document.getElementById("notificationDiv").innerHTML = "";
+                DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
+                $("#notificationDiv").prepend(DynamicTaskListing);
+            }
+
+        } else {
+            document.getElementById("notificationDiv").innerHTML = "";
+            DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
+            $("#notificationDiv").prepend(DynamicTaskListing);
+        }
+    }
+    clearNotification= function () {
+        document.getElementById("notificationDiv").innerHTML = "";
+        $.ajax({
+            url:'/'+ companyTeamName + '/notification/delete',
+            type: 'post',
+            success : function(response) {
+                if (response == "true" ) {
+                    DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
+                    $("#notificationDiv").prepend(DynamicTaskListing);
+                } else {
+                }
+            },
+            error: function (request,status, error) {
+                console.log(error);
+            }
+        });
+    }
+});
+
+
+
+$().ready(function() {
+     var loginTypeRadio = "";
+    var selectedUserArray = [];
+    var startDateInUnix;
+    var endDateInUnix;
+    var dailyStartTimeUnix;
+    var dailyEndTimeUnix;
+    var taskWorkLocation = [];
+    var taskLocationCondition="";
+    var  startDateString ;
+    var count =0;
+    var returnString;
+    var dbString;
+    var idArray = [];
+    var uniqueIdArray = [];
+    var condition ="";
+    var conditionArray =[];
+    var editConditionArry = [];
+    var countInEdit = 0;
+    var condintionInEdit ="";
+    var localDate="";
+    var localEndDate="";
+    var exposureSlice =[];
+    var exposureTimeArray =[];
+    var exposureWorkSlice =[];
+    var exposureWorkTimeArray =[];
+    var exposureHour ="";
+    var exposureMinute ="";
+    var TotalBreakTime ="";
+    var exposureWorkHour ="";
+    var exposureWorkMinute ="";
+    var TotalWorkTime ="";
+
+
+
+
+
+
+    function  addleveldata(){
+       var repeat = "<div class='exposureId plus wrp-plus' style='padding-right: 17px;' >"+"<label for='workExplosureText'>Break Time</label>"+"<input type='text' class='form-control break-duration'  data-timepicker placeholder='12:00'   name='breakTime'size='5' id='breakTime' >"+"<label>After</label>"+ "<input type='text'  class='form-control break-duration-after'  placeholder='12:00'   name='workTime' size='5' id='workTime' data-timepicker>"+
+        "<span class='add-decl'  >+</span>"+"</div>"
+       $( "#exposureTextBoxAppend" ).prepend( repeat );
+   }
+    $(document).on('click', '.add-decl', function () {
+       if ($(this).closest('.plus').is(':last-child')) {
+           addleveldata();
+       }
+       else {
+           $(this).closest('.plus').remove();
+       }
+    });
+
+
+    $(document).on("keypress",".break-duration", function(){
+        console.log("damn my ........faith");
+        var value=$(this).val();
+        if(value.length==2){
+        value=value+":";
+        }
+        if(value.length>=5){
+
+            return false;
+        }
+        $(this).val(value)
+    });
+     $(document).on("keypress",".break-duration-after", function(){
+         console.log("damn my ........faith11");
+         var value=$(this).val();
+        if(value.length==2){
+        value=value+":";
+        }
+         if(value.length>=5){
+
+            return false;
+        }
+        $(this).val(value)
+    });
+
+
+    getInstructions =function(){
+        //var doc =$('#WorkLocationFitToWork').find('option:selected').val()
+        var doc = document.getElementById("WorkLocationFitToWork");
+        if(doc.length !=0){
+            fitWork =doc.options[doc.selectedIndex].text;;
+        }
+    }
+
     function checkUserId(userId) {
         if(vm.DateValues !=null){
            for(var j=0 ;j<vm.DateValues.length;j++ ){
@@ -130,7 +291,32 @@ $().ready(function() {
            return returnString
        }
    }
-    if(vm.PageType == "edit"){ 
+
+    $('#workExplosure').click(function () {
+      if ($(this).is(":checked")) {
+          var div = document.getElementById('work');
+          div.style.visibility = 'visible';
+          div.style.display ='inline';
+      }else {
+          var div = document.getElementById('work');
+          div.style.visibility = 'hidden';
+          div.style.display ='none';
+      }
+  });
+    // get loginType details
+    $("input[type='radio']").change(function(){
+        loginTypeRadio = $('.radio-inline:checked').val();
+        if (loginTypeRadio =="NFC"){
+            var div = document.getElementById('nfcTagId');
+            div.style.visibility = 'visible';
+            div.style.display ='inline';
+        }else{
+            var div = document.getElementById('nfcTagId');
+            div.style.visibility = 'hidden';
+            div.style.display ='none'
+        }
+    });
+    if(vm.PageType == "edit"){
         var selectArray =[];
        selectArray = vm.UsersKey;
        $("#usersAndGroupId").val(selectArray);
@@ -177,13 +363,12 @@ $().ready(function() {
         console.log("selectedUserArray",selectedUserArray);
     }
     
-    
+    //get selceted user or group members name and id
     var selectedGroupArray = [];
     var groupKeyArray = [];
     $("#usersAndGroupId").on('change', function(evt, params) {
         var tempArray = $(this).val();
         var clickedOption = "";
-        console.log("array length",tempArray);
         if (selectedUserArray.length < tempArray.length) { // for selection
             for (var i = 0; i < tempArray.length; i++) {
                 if (selectedUserArray.indexOf(tempArray[i]) == -1) {
@@ -217,10 +402,9 @@ $().ready(function() {
             }
             selectedUserArray = tempArray;
         }
-        console.log("group array",groupKeyArray);
-        console.log("user array",selectedUserArray);
     });
     
+
     $("#workLocationForm").validate({
         rules: {
            // usersAndGroupId:"required",
@@ -228,11 +412,15 @@ $().ready(function() {
             startDate:"required",
             endDate:"required",
             dailyStartTime:"required",
-            dailyEndTime:"required"
+            dailyEndTime:"required",
+            loginType : "required",
+            logInMinutes :"required"
         },
         messages: {
             usersAndGroupId: "Please select user or group",
             taskLocation:"please fill this column",
+            loginType:"slecet login type",
+            logInMinutes : "select a log in minutes"
         },
         submitHandler: function(){//to pass all data of a form serial
             if(vm.PageType == "edit"){
@@ -302,14 +490,14 @@ $().ready(function() {
                                     console.log("start date from work form",StartDateOfTask);
                                     var EndDateOfTask = document.getElementById("endDate").value;
                                     console.log("end date from work form",EndDateOfTask);
-                                    
+
                                     var from = Date.parse(workStartDateFromDb);
                                     var to   = Date.parse(workEndDateFromDb);
                                     var StartDateOfTaskCheck = Date.parse(StartDateOfTask );
                                     var EndDateOfTaskCheck = Date.parse(EndDateOfTask );
-                                    
+
                                     if (StartDateOfTaskCheck >= from && StartDateOfTaskCheck <= to && EndDateOfTaskCheck >= from && EndDateOfTaskCheck <= to){
-                                         
+
                                         condition="false";
                                         console.log("condition",condition);
                                         taskWorkLocation.push("true");
@@ -322,7 +510,7 @@ $().ready(function() {
                                         condition="true";
                                         console.log("condition",condition);
                                         console.log("iam in else part");
-                                       
+
                                     }
                                 }/*else{
                                  //idArray.push(selectedUserArray[y]);
@@ -335,7 +523,7 @@ $().ready(function() {
                         taskWorkLocation.push("true");
                     }
                 }
-                
+
                 var selecetUserArrayLength = selectedUserArray.length;
                 if (selecetUserArrayLength.length !=0){
                     for(var i=0;i<selecetUserArrayLength;i++){
@@ -345,7 +533,7 @@ $().ready(function() {
                 }
                 }
                 }
-                
+
                 for(var i=0;i<idArray.length;i++){
                     taskWorkLocation.push("true");
                 }
@@ -354,7 +542,7 @@ $().ready(function() {
                     taskLocationCondition="true"
                 }else{
                     taskLocationCondition="false"
-                } 
+                }
             }else{
                  if (taskWorkLocation.length ==vm.UsersKey.length &&taskWorkLocation.length >0){
                      taskLocationCondition="true"
@@ -429,14 +617,14 @@ $().ready(function() {
                                     console.log("start date from work form",StartDateOfTask);
                                     var EndDateOfTask = document.getElementById("endDate").value;
                                     console.log("end date from work form",EndDateOfTask);
-                                    
+
                                     var from = Date.parse(workStartDateFromDb);
                                     var to   = Date.parse(workEndDateFromDb);
                                     var StartDateOfTaskCheck = Date.parse(StartDateOfTask );
                                     var EndDateOfTaskCheck = Date.parse(EndDateOfTask );
-                                    
+
                                     if (StartDateOfTaskCheck >= from && StartDateOfTaskCheck <= to && EndDateOfTaskCheck >= from && EndDateOfTaskCheck <= to){
-                                         
+
                                         condition="false";
                                         console.log("condition",condition);
                                         taskWorkLocation.push("true");
@@ -449,7 +637,7 @@ $().ready(function() {
                                         condition="true";
                                         console.log("condition",condition);
                                         console.log("iam in else part");
-                                       
+
                                     }
                                 }/*else{
                                  //idArray.push(selectedUserArray[y]);
@@ -462,7 +650,7 @@ $().ready(function() {
                         taskWorkLocation.push("true");
                     }
                 }
-                
+
                 var selecetUserArrayLength = selectedUserArray.length;
                 if (selecetUserArrayLength.length !=0){
                     for(var i=0;i<selecetUserArrayLength;i++){
@@ -475,7 +663,7 @@ $().ready(function() {
                     for(var i=0;i<idArray.length;i++){
                     taskWorkLocation.push("true");
                 }
-            
+
             console.log("final taskLocation",taskWorkLocation);
                     console.log("oooooooooooooooooooooooop")
             if (selectedUserArray.length !=0){
@@ -483,7 +671,7 @@ $().ready(function() {
                     taskLocationCondition="true"
                 }else{
                     taskLocationCondition="false"
-                } 
+                }
             }
                 }else{
                     console.log("kkkiudddd")
@@ -596,13 +784,13 @@ $().ready(function() {
                             console.log("in here1");
                             for(var i=0;i<conditionArray.length;i++){
                                  conditionInLoop="true";
-                                
+
                             }
-                        } 
+                        }
                     }
                 }
-                
-              
+
+
                 if (conditionInLoop=="true"){
                     taskWorkLocation.push("true");
                 }
@@ -625,15 +813,15 @@ $().ready(function() {
                     taskLocationCondition="true"
                 }else{
                     taskLocationCondition="false"
-                } 
+                }
             }else{
                 if (taskWorkLocation.length ==vm.UsersKey.length&&taskWorkLocation.length >0){
                     taskLocationCondition="true"
                 }else{
                     taskLocationCondition="false"
-                } 
+                }
             }
-             console.log("our condition.........",taskLocationCondition);   
+             console.log("our condition.........",taskLocationCondition);
             }
             } else{
                 console.log("kkksssssssssssssssssss");
@@ -714,39 +902,35 @@ $().ready(function() {
                                             conditionArray.push("false");
                                             console.log("iam in else part");
                                         }
-                                }/*else{
-                                 //idArray.push(selectedUserArray[y]);
-                            }*/
+                                }
                             }
                         }
                     }
-                }else{
+                } else {
                     for( var z=0;z<selectedUserArray.length;z++){
                         taskWorkLocation.push("true");
                     }
                 }
-                console.log("condition array",conditionArray);
+
                 if(vm.DateValues != null){
                     if (selectedUserArray.length !=0){
                          for ( var x=0;x<vm.DateValues.length;x++){
                             for( var y=0;y<selectedUserArray.length;y++){
                                 if (vm.DateValues[x][0] == selectedUserArray[y]){
                                 count=count+1;
-
-                            }
+                                }
                             }
                         }
                     }
                 }
-                 var conditionInLoop ="";
-                console.log("count",count);
+
+                var conditionInLoop ="";
                 if(count !=0){
                     if (conditionArray !=null){
                         if (conditionArray.length ==count){
                             console.log("in here1");
                             for(var i=0;i<conditionArray.length;i++){
-                                 conditionInLoop="true";
-                                
+                                conditionInLoop="true";
                             }
                         } 
                     }
@@ -754,7 +938,7 @@ $().ready(function() {
                 if (conditionInLoop=="true"){
                     taskWorkLocation.push("true");
                 }
-                console.log("task 562",taskWorkLocation);
+
                 var selecetUserArrayLength = selectedUserArray.length;
                 for(var i=0;i<selecetUserArrayLength;i++){
                 var returnValues = checkUserId(selectedUserArray[i]);
@@ -765,7 +949,7 @@ $().ready(function() {
                 for(var i=0;i<idArray.length;i++){
                     taskWorkLocation.push("true");
                 }
-           
+
             console.log("final taskLocation",taskWorkLocation);
             if (selectedUserArray.length !=0){
                 if (taskWorkLocation.length ==selectedUserArray.length&&taskWorkLocation.length >0){
@@ -773,7 +957,6 @@ $().ready(function() {
                 }else{
                     taskLocationCondition="false"
                 } 
-            }
             }
             var starDateString = document.getElementById('startDate').value;
             var endDateString = document.getElementById('endDate').value;
@@ -806,6 +989,15 @@ $().ready(function() {
                 return addZero(d.getMonth()+1)+"/"+ addZero(d.getDate()) + "/" + d.getFullYear() + " " + 
             addZero(d.getHours()) + ":" + addZero(d.getMinutes());
             }
+           // check check box of fit to work
+            var chkPassport = document.getElementById("fitToWorkCheck");
+            if (chkPassport.checked) {
+                fitToWorkCheck ="EachTime";
+            }else {
+                fitToWorkCheck ="OnceADay";
+            }
+
+
             startDateString = startDateInDate;
             var date = new Date(Date.parse(startDateString));
             var startDateOfWork = formatDate(date);
@@ -814,7 +1006,7 @@ $().ready(function() {
             var endDateOfWork = formatDate(endDateData);
             var formData = $("#workLocationForm").serialize();
             //get the user's name corresponding to  keys selected from dropdownlist 
-            formData = formData+"&startDateTimeStamp="+startdatum+"&endDateTimeStamp="+endDatum +"&dailyStartTimeString="+startDateOfWork+"&dailyEndTimeString="+endDateOfWork;
+            formData = formData+"&startDateTimeStamp="+startdatum+"&endDateTimeStamp="+endDatum +"&dailyStartTimeString="+startDateOfWork+"&dailyEndTimeString="+endDateOfWork+"&fitToWorkCheck="+fitToWorkCheck +"&fitToWorkName="+fitWork+ "&loginType=" + loginTypeRadio+"&exposureBreakTime="+ exposureSlice+"&exposureWorkTime="+ exposureWorkSlice;
             
             var selectedUserAndGroupName = [];
               $("#usersAndGroupId option:selected").each(function () {
@@ -824,19 +1016,20 @@ $().ready(function() {
                       selectedUserAndGroupName.push( selectedUserName);
                   }
               });
-              for(i = 0; i < selectedUserAndGroupName.length; i++) {
-                  formData = formData+"&userAndGroupName="+selectedUserAndGroupName[i];
-              }
+
+            for(i = 0; i < selectedUserAndGroupName.length; i++) {
+                formData = formData+"&userAndGroupName="+selectedUserAndGroupName[i];
+            }
+
             for(i = 0; i < groupKeyArray.length; i++) {
                 formData = formData+"&groupArrayElement="+groupKeyArray[i];
             }
+
            // formData = formData+"&selectedUserNames="+selectedUserArray
             for(i = 0; i < selectedUserArray.length; i++) {
                 formData = formData+"&selectedUserNames="+selectedUserArray[i];
             }
             //for checking worklocation for a user is unique
-            console.log("vm.DateValues",vm.DateValues);
-            console.log("selectedUserArray",selectedUserArray);
             
             if(taskLocationCondition=="true"){
                 var ConcatinatedUser ;

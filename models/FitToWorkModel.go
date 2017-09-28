@@ -21,6 +21,7 @@ type TaskFitToWorks struct {
 	DateOfCreation int64
 
 }
+
 type FitToWorkSettings struct{
 	Status	string
 }

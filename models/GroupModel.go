@@ -6,6 +6,7 @@ import (
 	"log"
 	"app/passporte/helpers"
 	"reflect"
+	"github.com/kjk/betterguid"
 )
 type Group struct {
 	Info 		GroupInfo
@@ -40,12 +41,31 @@ func(m *Group) AddGroupToDb(ctx context.Context) (bool){
 	if err != nil {
 		log.Println(err)
 	}
-	_,err = db.Child("Group").Push(m)
-
+	UserGroup :=UserGroup{}
+	groupUniqueID := betterguid.New()
+	err = db.Child("Group/"+groupUniqueID).Set(m)
 	if err != nil {
 		log.Println(err)
 		return false
 	}
+	/*UserGroup.CompanyId = m.Info.CompanyTeamName
+	UserGroup.DateOfCreation = m.Settings.DateOfCreation
+	UserGroup.GroupName = m.Info.GroupName
+	UserGroup.GroupStatus = m.Settings.Status*/
+	UserGroup.GroupName = m.Info.GroupName
+	UserGroup.CompanyId = m.Info.CompanyTeamName
+	dataValue := reflect.ValueOf(m.Members)
+	UserGroup.groupId = groupUniqueID
+	for _, key := range dataValue.MapKeys() {
+
+		err = db.Child("/Users/" + key.String() + "/Group/" + groupUniqueID).Set(UserGroup)
+		if err != nil {
+			log.Println("w16")
+			log.Println("Insertion error:", err)
+			return false
+		}
+	}
+
 	return  true
 }
 
