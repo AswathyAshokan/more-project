@@ -8,6 +8,7 @@ import (
 	"reflect"
 	"github.com/kjk/betterguid"
 	"time"
+	"math/rand"
 )
 
 
@@ -29,6 +30,7 @@ type WorkLocationInfo struct {
 	UsersAndGroupsInWorkLocation	UsersAndGroupsInWork
 	LogTimeInMinutes 		int64
 	WorkLocationExposure		map[string]WorkExposure
+	NFCTagID			string
 }
 type WorkExposure struct {
 	BreakDurationInMinutes  string
@@ -86,7 +88,7 @@ type  GroupMemberNameInWorkLocation struct {
 }
 
 
-func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName string,fitToWorksName string,WorkBreakSlice []string,TaskWorkTimeSlice []string) (bool){
+func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName string,fitToWorksName string,WorkBreakSlice []string,TaskWorkTimeSlice []string,companyName string) (bool){
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println(err)
@@ -106,6 +108,7 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 			workLocationData.DailyEndDate = m.Info.DailyEndDate
 			workLocationData.Latitude = m.Info.Latitude
 			workLocationData.Longitude = m.Info.Longitude
+			workLocationData.CompanyName = companyName
 			workLocationData.Status = helpers.StatusPending
 			userKey := key.String()
 			err = db.Child("/Users/" + userKey + "/WorkLocation/" + workLocationUniqueID).Set(workLocationData)
@@ -114,8 +117,25 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 				log.Println("Insertion error:", err)
 				return false
 			}
+			notifyId := betterguid.New()
+			userNotificationDetail :=WorkLocationNotification{}
+			userNotificationDetail.Date =time.Now().Unix()
+			userNotificationDetail.IsRead =false
+			userNotificationDetail.IsViewed =false
+			userNotificationDetail.WorkLocationId=workLocationUniqueID
+			userNotificationDetail.Category ="WorkLocation"
+			userNotificationDetail.Status ="New"
+			userNotificationDetail.IsDeleted =false
+			err = db.Child("/Users/"+key.String()+"/Settings/Notifications/WorkLocationNotification/"+notifyId).Set(userNotificationDetail)
+			if err!=nil{
+				log.Println("Insertion error:",err)
+				return false
+			}
 		}
 	}
+
+
+
 	if len(fitToWorksName) !=0{
 		FitToWorkForSetting :=WorkFitToWorkSettings{}
 		FitToWorkForInfo  :=WOrkFitToWorkInfo{}
@@ -180,12 +200,13 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 	WorkLocationInfoData.LoginType = m.Info.LoginType
 	WorkLocationInfoData.CompanyTeamName = m.Info.CompanyTeamName
 	WorkLocationInfoData.DailyEndDate = m.Info.DailyEndDate
-	WorkLocationInfoData.DailyStartDate = m.Info.DailyEndDate
+	WorkLocationInfoData.DailyStartDate = m.Info.DailyStartDate
 	WorkLocationInfoData.EndDate = m.Info.EndDate
 	WorkLocationInfoData.Latitude = m.Info.Latitude
 	WorkLocationInfoData.Longitude = m.Info.Longitude
 	WorkLocationInfoData.Latitude = m.Info.Latitude
 	WorkLocationInfoData.StartDate = m.Info.StartDate
+	WorkLocationInfoData.NFCTagID = m.Info.NFCTagID
 	WorkLocationInfoData.UsersAndGroupsInWorkLocation = m.Info.UsersAndGroupsInWorkLocation
 	WorkLocationInfoData.WorkLocation = m.Info.WorkLocation
 	err = db.Child("WorkLocation/"+workLocationUniqueID+"/Info").Set(WorkLocationInfoData)
@@ -255,7 +276,21 @@ func IsWorkAssignedToUser(ctx context.Context ,companyTeamName string )( map[str
 }
 
 
-func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId string,companyTeamName string) (bool){
+func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId string,companyTeamName string,fitToWorksName string,WorkBreakSlice []string,TaskWorkTimeSlice []string,companyName string) (bool){
+
+
+
+	notifyUpdatedId := betterguid.New()
+	var r *rand.Rand
+	r = rand.New(rand.NewSource(time.Now().UnixNano()))
+	const chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+	result := make([]byte, 2)
+	for i := range result {
+		result[i] = chars[r.Intn(len(chars))]
+	}
+	generatedString :=string(result)
+	newGeneratedKey:=notifyUpdatedId[0:len(notifyUpdatedId)-2]+generatedString
+
 	workLocationValues := WorkLocationSettings{}
 	//workLocationInfoData := WorkLocationInfo{}
 	oldUserData  := UsersAndGroupsInWork{}
@@ -265,7 +300,6 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 	if err != nil {
 		log.Println(err)
 	}
-
 	err = db.Child("/WorkLocation/"+workLocationId+"/Settings").Value(&workLocationValues)
 	if err != nil {
 		log.Fatal(err)
@@ -302,8 +336,21 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 				workLocationData.DateOfCreation = m.Settings.DateOfCreation
 				workLocationData.Status = OldUserWorkLocation.Status
 				workLocationData.DateOfCreation = OldUserWorkLocation.DateOfCreation
+				workLocationData.CompanyName = companyName
 
-
+				userNotificationDetail :=WorkLocationNotification{}
+				userNotificationDetail.Date =time.Now().Unix()
+				userNotificationDetail.IsRead =false
+				userNotificationDetail.IsViewed =false
+				userNotificationDetail.WorkLocationId=workLocationId
+				userNotificationDetail.Category ="WorkLocation"
+				userNotificationDetail.Status ="Updated"
+				userNotificationDetail.IsDeleted =false
+				err = db.Child("/Users/"+keySlice[i]+"/Settings/Notifications/WorkLocationNotification/"+newGeneratedKey).Set(userNotificationDetail)
+				if err!=nil{
+					log.Println("Insertion error:",err)
+					return false
+				}
 			} else {
 				workLocationData.CompanyId = companyTeamName
 				workLocationData.WorkLocationForTask = m.Info.WorkLocation
@@ -315,6 +362,7 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 				workLocationData.Longitude =m.Info.Longitude
 				workLocationData.Status = helpers.StatusPending
 				workLocationData.DateOfCreation = m.Settings.DateOfCreation
+				workLocationData.CompanyName = companyName
 
 			}
 			err = db.Child("/Users/"+UserKeySlice[j]+"/WorkLocation/"+workLocationId).Set(workLocationData)
@@ -326,16 +374,158 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 		}
 
 	}
+
 	m.Settings.DateOfCreation = workLocationValues.DateOfCreation
 	m.Settings.Status = workLocationValues.Status
-	err = db.Child("/WorkLocation/"+workLocationId).Set(m)
 
+	if len(fitToWorksName) !=0{
+
+		FitToWorkForSetting :=WorkFitToWorkSettings{}
+		FitToWorkForInfo  :=WOrkFitToWorkInfo{}
+		var tempKeySlice []string
+		var fitToWOrkKey string
+		instructionOfFitWork :=map[string]WorkLocationFitToWork{}
+		fitToWork :=map[string]FitToWork{}
+		db,err :=GetFirebaseClient(ctx,"")
+		if err!=nil{
+			log.Println("Connection error:",err)
+		}
+		err = db.Child("FitToWork/"+ companyTeamName).Value(&fitToWork)
+		fitToWorkDataValues := reflect.ValueOf(fitToWork)
+		for _, fitToWorkKey := range fitToWorkDataValues.MapKeys() {
+			tempKeySlice = append(tempKeySlice, fitToWorkKey.String())
+		}
+		FitToWorkForSetting.Status =helpers.StatusActive
+		err = db.Child("WorkLocation/"+workLocationId+"/FitToWork/Settings").Set(FitToWorkForSetting)
+		for _, eachKey := range tempKeySlice {
+			log.Println(reflect.TypeOf(fitToWork[eachKey].FitToWorkName))
+			log.Println(reflect.TypeOf(fitToWorksName))
+			string1 :=fitToWork[eachKey].FitToWorkName
+			string2 :=fitToWorksName
+			if Compare(string1,string2) ==0 {
+				fitToWOrkKey =eachKey
+				err = db.Child("FitToWork/"+companyTeamName+"/"+eachKey+"/Instructions").Value(&instructionOfFitWork)
+				err = db.Child("WorkLocation/"+workLocationId+"/FitToWork/FitToWorkInstruction").Set(instructionOfFitWork)
+
+			}
+
+		}
+		FitToWorkForSetting.Status =helpers.StatusActive
+		err = db.Child("WorkLocation/"+workLocationId+"/FitToWork/Settings").Set(FitToWorkForSetting)
+		FitToWorkForInfo.FitToWorkName =fitToWorksName
+		FitToWorkForInfo.FitToWorkId =fitToWOrkKey
+		err = db.Child("WorkLocation/"+workLocationId+"/FitToWork/Info").Set(FitToWorkForInfo)
+	}
+
+
+	// for adding work break to database
+	log.Println("op8")
+	ExposureMap := make(map[string]WorkExposure)
+	ExposureTask :=WorkExposure{}
+	if WorkBreakSlice[0] !=""{
+
+		for i := 0; i < len(WorkBreakSlice); i++ {
+
+			ExposureTask.BreakDurationInMinutes =WorkBreakSlice[i]
+			ExposureTask.BreakStartTimeInMinutes =TaskWorkTimeSlice[i]
+			ExposureTask.DateOfCreation =time.Now().Unix()
+			ExposureTask.Status = helpers.StatusActive
+			id := betterguid.New()
+			ExposureMap[id] = ExposureTask
+			err = db.Child("WorkLocation/"+workLocationId+"/WorkExposure/").Set(ExposureMap)
+
+		}
+	}
+
+	log.Println("op8")
+	WorkLocationInfoData := WorkLocationInfo{}
+	WorkLocationInfoData.LogTimeInMinutes = m.Info.LogTimeInMinutes
+	WorkLocationInfoData.LoginType = m.Info.LoginType
+	WorkLocationInfoData.CompanyTeamName = m.Info.CompanyTeamName
+	WorkLocationInfoData.DailyEndDate = m.Info.DailyEndDate
+	WorkLocationInfoData.DailyStartDate = m.Info.DailyStartDate
+	WorkLocationInfoData.EndDate = m.Info.EndDate
+	WorkLocationInfoData.Latitude = m.Info.Latitude
+	WorkLocationInfoData.Longitude = m.Info.Longitude
+	WorkLocationInfoData.Latitude = m.Info.Latitude
+	WorkLocationInfoData.StartDate = m.Info.StartDate
+	WorkLocationInfoData.NFCTagID = m.Info.NFCTagID
+	WorkLocationInfoData.UsersAndGroupsInWorkLocation = m.Info.UsersAndGroupsInWorkLocation
+	WorkLocationInfoData.WorkLocation = m.Info.WorkLocation
+	err = db.Child("WorkLocation/"+workLocationId+"/Info").Set(WorkLocationInfoData)
+
+	if err != nil {
+		log.Println("w14")
+		log.Println(err)
+		return false
+	}
+	log.Println("op9")
+	WorkLocationSettingsData := WorkLocationSettings{}
+	WorkLocationSettingsData.DateOfCreation = m.Settings.DateOfCreation
+	WorkLocationSettingsData.FitToWorkDisplayStatus = m.Settings.FitToWorkDisplayStatus
+	WorkLocationSettingsData.Status = m.Settings.Status
+	err = db.Child("WorkLocation/"+workLocationId+"/Settings").Set(WorkLocationSettingsData)
+	log.Println("op10")
 	if err != nil {
 		log.Println(err)
 		return false
 	}
+	//get newly selected users
+	newUser := make([]string, 0)
+	s_one :=  UserKeySlice
+	s_two :=  keySlice
+	for _, s := range s_one {
+		if !inslice(s, s_two) {
+			newUser = append(newUser, s)
+		}
+	}
+
+	//get removed users
+
+	var removedUsers  []string
+	for _, s := range keySlice {
+		if !inslice(s, UserKeySlice) {
+			removedUsers = append(removedUsers, s)
+		}
+	}
+	for i:=0; i<len(removedUsers);i++{
+		log.Println("iam in removed section")
+		userNotificationDetail :=WorkLocationNotification{}
+		userNotificationDetail.Date =time.Now().Unix()
+		userNotificationDetail.IsRead =false
+		userNotificationDetail.IsViewed =false
+		userNotificationDetail.WorkLocationId=workLocationId
+		userNotificationDetail.Category ="WorkLocation"
+		userNotificationDetail.Status ="Removed"
+		userNotificationDetail.IsDeleted =false
+		err = db.Child("/Users/"+removedUsers[i]+"/Settings/Notifications/WorkLocationNotification/"+newGeneratedKey).Set(userNotificationDetail)
+		if err!=nil{
+			log.Println("Insertion error:",err)
+			return false
+		}
+	}
+
+	for i:=0; i<len(newUser);i++{
+		log.Println("iam in new dded section")
+		userNotificationDetail :=WorkLocationNotification{}
+		userNotificationDetail.Date =time.Now().Unix()
+		userNotificationDetail.IsRead =false
+		userNotificationDetail.IsViewed =false
+		userNotificationDetail.WorkLocationId=workLocationId
+		userNotificationDetail.Category ="WorkLocation"
+		userNotificationDetail.Status ="New"
+		userNotificationDetail.IsDeleted =false
+		err = db.Child("/Users/"+newUser[i]+"/Settings/Notifications/WorkLocationNotification/"+newGeneratedKey).Set(userNotificationDetail)
+		if err!=nil{
+			log.Println("Insertion error:",err)
+			return false
+		}
+	}
 	return  true
+
 }
+
+
 func DeleteWorkLog(ctx context.Context,workLocationId string) (bool) {
 	workLocationValues := WorkLocationSettings{}
 	deleteWorkLocation := WorkLocationSettings{}
@@ -390,6 +580,18 @@ func DeleteWorkLog(ctx context.Context,workLocationId string) (bool) {
 
 	return true
 
+}
+
+
+func GetWorkLocationBreakDetailById(ctx context.Context, workLocationId string)( bool,map[string]WorkExposure) {
+	breakDetail := map[string]WorkExposure{}
+	dB, err := GetFirebaseClient(ctx, "")
+	err = dB.Child("WorkLocation/" + workLocationId + "/WorkExposure/").Value(&breakDetail)
+	if err != nil {
+		log.Fatal(err)
+		return false, breakDetail
+	}
+	return true, breakDetail
 }
 
 

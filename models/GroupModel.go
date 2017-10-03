@@ -104,6 +104,7 @@ func (n *Group)DeleteGroup(ctx context.Context, groupKey string) bool{
 		log.Fatal(err)
 		return  false
 	}
+
 	return  true
 
 }
@@ -161,8 +162,23 @@ func(m *Group) GetGroupDetailsById(ctx context.Context,groupKey string) (Group,b
 //Update the group details after editing
 func(m *Group) UpdateGroupDetails(ctx context.Context,groupKey string) (bool) {
 
+	UserGroup :=UserGroup{}
+	oldMembers := map[string]GroupMembers{}
 	groupStatusDetails := GroupSettings{}
 	db,err :=GetFirebaseClient(ctx,"")
+
+	err = db.Child("/Group/"+ groupKey +"/Members/").Value(&oldMembers)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	var oldKeySlice []string
+	OldUserKey := reflect.ValueOf(oldMembers)
+	for _, oldKey := range OldUserKey.MapKeys(){
+		oldKeySlice = append(oldKeySlice,oldKey.String())
+	}
+
+
 	err = db.Child("/Group/"+groupKey+"/Settings").Value(&groupStatusDetails)
 	if err != nil {
 		log.Fatal(err)
@@ -171,8 +187,66 @@ func(m *Group) UpdateGroupDetails(ctx context.Context,groupKey string) (bool) {
 	m.Settings.DateOfCreation = groupStatusDetails.DateOfCreation
 	m.Settings.Status = groupStatusDetails.Status
 	err = db.Child("/Group/"+ groupKey).Update(&m)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	var newKeySlice []string
+	memberData := reflect.ValueOf(m.Members)
+	for _, key := range memberData.MapKeys(){
+		newKeySlice = append(newKeySlice,key.String())
 
+	}
+	log.Println("newKeySlice",newKeySlice)
+	log.Println("oldKeySlice",oldKeySlice)
 
+	// enter group values into user in case of new users
+	newUser := make([]string, 0)
+	s_one := newKeySlice
+	s_two := oldKeySlice
+	for _, s := range s_one {
+		if !inslice(s, s_two) {
+			newUser = append(newUser, s)
+		}
+	}
+	log.Println("result",newUser)
+	UserGroup.CompanyId = m.Info.CompanyTeamName
+	UserGroup.GroupName = m.Info.GroupName
+	for i := 0;i<len(newUser);i++ {
+		err = db.Child("/Users/" +newUser[i] + "/Group/" + groupKey).Set(UserGroup)
+		if err != nil {
+			log.Println("w16")
+			log.Println("Insertion error:", err)
+			return false
+		}
+	}
+
+	//delete GroupDetails from User when delete old user in updation
+
+	oldUser := make([]string,0)
+	for _,s := range oldKeySlice{
+		if !inslice(s, newKeySlice) {
+			oldUser = append(oldUser, s)
+		}
+	}
+	for i := 0;i<len(oldUser);i++ {
+		err = db.Child("/Users/" +oldUser[i] + "/Group/" + groupKey).Remove()
+		if err != nil {
+			log.Println("w16")
+			log.Println("Insertion error:", err)
+			return false
+		}
+	}
+
+	/*for i := 0;i<len(newKeySlice);i++{
+		for j := 0;j<len(oldKeySlice); j++ {
+			if newKeySlice[i] != oldKeySlice[j]{
+				log.Println("newKeySlice[i]",newKeySlice[i])
+				//err = db.Child("Users/"+newKeySlice[i]+"/Group/"+groupKey).Remove()
+			}
+		}
+
+	}*/
 	//.....update in task
 
 
@@ -206,6 +280,15 @@ func(m *Group) UpdateGroupDetails(ctx context.Context,groupKey string) (bool) {
 
 }
 
+func inslice(n string, h []string) bool {
+	for _, v := range h {
+		if v == n {
+			return true
+		}
+	}
+	return false
+}
+
 //check group name is already exist
 func IsGroupNameUsed(ctx context.Context,groupName string)(bool) {
 	groupDetails := map[string]Group{}
@@ -232,7 +315,7 @@ func IsGroupNameUsed(ctx context.Context,groupName string)(bool) {
 	return true
 }
 func (m *Group) DeleteGroupFromDB(ctx context.Context, groupId string,TaskSlice []string)(bool)  {
-
+	GroupMembers := map[string]GroupMembers{}
 	groupDetailForUpdate :=TasksGroup{}
 	dB, err := GetFirebaseClient(ctx,"")
 
@@ -260,6 +343,18 @@ func (m *Group) DeleteGroupFromDB(ctx context.Context, groupId string,TaskSlice 
 		log.Fatal(err)
 		return  false
 	}
+
+	err = db.Child("/Group/"+ groupId +"/Members/").Value(&GroupMembers)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+
+	memberData := reflect.ValueOf(GroupMembers)
+	for _, key := range memberData.MapKeys(){
+		err = db.Child("Users/"+key.String()+"/Group/"+groupId).Remove()
+	}
+
 	//taskGroupDetail :=TaskGroup{}
 	//taskGroupForUpdate :=TaskGroup{}
 	//for i:=0;i<len(TaskSlice);i++ {
@@ -297,6 +392,7 @@ func (m *TasksGroup) IsGroupUsedForTask( ctx context.Context, groupId string)(bo
 func(m *Group) DeleteGroupFromDBForNonTask(ctx context.Context,groupId string) bool{
 	groupSettingsUpdation := GroupSettings{}
 	groupDeletion := GroupSettings{}
+	GroupMembers := map[string]GroupMembers{}
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("/Group/"+ groupId+"/Settings").Value(&groupSettingsUpdation)
 	if err != nil {
@@ -309,6 +405,18 @@ func(m *Group) DeleteGroupFromDBForNonTask(ctx context.Context,groupId string) b
 	if err != nil {
 		log.Fatal(err)
 		return  false
+	}
+
+	err = db.Child("/Group/"+ groupId +"/Members/").Value(&GroupMembers)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+
+	memberData := reflect.ValueOf(GroupMembers)
+	log.Println("memberData",memberData)
+	for _, key := range memberData.MapKeys(){
+		err = db.Child("Users/"+key.String()+"/Group/"+groupId).Remove()
 	}
 	return  true
 }

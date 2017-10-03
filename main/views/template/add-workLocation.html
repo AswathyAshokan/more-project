@@ -180,7 +180,7 @@
                                <div class="form-group clearfix">
                                    <div class="col-sm-6" id="fitToWorkDiv">
                                        <label for="fitToWork" class="" >Fit To Work Declaration</label>
-                                      <select class="form-control sprites-arrow-down" id="WorkLocationFitToWork" name="WorkLocationFitToWork" onchange="getInstructions();" >
+                                      <select class="form-control sprites-arrow-down" id="WorkLocationFitToWork" name="WorkLocationFitToWork" >
                                     <option selected disabled value="">Select Fit To Work</option>
                                     {{range $key, $val := .vm.FitToWorkArray}}
                                     <option  id="{{index $.vm.FitToWorkKey $key}}" value="{{$val}}" >{{$val}} </option>
@@ -229,8 +229,8 @@
                                  <div id="exposureTextBoxAppend" class="task-add1"  >
                                      <div class="exposureId plus" style="padding-right: 17px;" >
                                      <label for="workExplosureText" class="">Break Time</label>
-                                         <input type="text" class="form-control"  data-timepicker placeholder="12:00"   name="breakTime" size="5" id="breakTime" ><label>After</label>
-                                         <input type="text"   class="form-control"  placeholder="12:00"   name="workTime" size="5" id="workTime" data-timepicker>
+                                         <input type="text" class="form-control break-duration"  data-timepicker placeholder="12:00"   name="breakTime" size="5" id="breakTime" ><label>After</label>
+                                         <input type="text"   class="form-control  break-duration-after"  placeholder="12:00"   name="workTime" size="5" id="workTime" data-timepicker>
                                          <span class="add-decl"  >+</span>
                                      </div>
                                  </div>
@@ -408,6 +408,7 @@
                     });
                 </script>
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFl3U2s0vqjaN-6rvAaOA8Ts1cfDss_KM&libraries=geometry,places&callback=initialize"></script>
+            </div>
             </div>
         </section>
         <div class="modal fade plans-modal" id="family" role="dialog" >

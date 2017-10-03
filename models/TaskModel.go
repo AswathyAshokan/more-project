@@ -419,9 +419,6 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 
 	}
 
-
-
-
 	taskDeletion.DateOfCreation =taskUpdate.DateOfCreation
 	err = dB.Child("/Tasks/"+ taskId+"/Settings").Update(&taskDeletion)
 	err = dB.Child("/Tasks/"+ taskId).Value(&taskDetailForUser)
@@ -589,17 +586,14 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	//generating unique id
 	//userDataDetails := reflect.ValueOf(m.UsersAndGroups.User)
 	notifyUpdatedId := betterguid.New()
-	log.Println("idddddddddddd",notifyUpdatedId)
 	var r *rand.Rand
 	r = rand.New(rand.NewSource(time.Now().UnixNano()))
-
 	const chars = "abcdefghijklmnopqrstuvwxyz0123456789"
 	result := make([]byte, 2)
 	for i := range result {
 		result[i] = chars[r.Intn(len(chars))]
 	}
 	generatedString :=string(result)
-	log.Println("genertedstring",generatedString)
 	newGeneratedKey:=notifyUpdatedId[0:len(notifyUpdatedId)-2]+generatedString
 	log.Println("newly gener",newGeneratedKey)
 

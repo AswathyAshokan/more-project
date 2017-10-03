@@ -240,9 +240,12 @@ $(function () {
          var fitToWorkName = vm.FitToWorkName;
         console.log("selected fit to work",fitToWorkName);
         fitWork =vm.FitToWorkName;
-        if (fitToWorkName.length !=0){
+        if(fitToWorkName !=null){
+           if (fitToWorkName.length !=0){
             $('#TaskFitToWork option:contains(' + fitToWorkName + ')').prop({selected: true});
+        } 
         }
+        
         var element = document.getElementById('logInMinutes');
         element.value = vm.Log;
         document.getElementById("jobName").value = vm.JobName;

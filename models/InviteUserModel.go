@@ -91,7 +91,7 @@ func(m *EmailInvitation) CheckEmailIdInDb(ctx context.Context,companyID string)b
 
 func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string,adminName string)bool {
 	userDetails := map[string]Users{}
-	CompanyDataForProfile :=CompanyDataForProfile{}
+	//CompanyDataForProfile :=CompanyDataForProfile{}
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println(err)
@@ -132,15 +132,15 @@ func(m *EmailInvitation) AddInviteToDb(ctx context.Context,companyID string,admi
 		userInvitationDetail.CompanyName =m.Info.CompanyName
 		userInvitationDetail.Date =m.Settings.DateOfCreation
 		userInvitationDetail.IsDeleted =false
-		CompanyDataForProfile.UserType =  m.Info.UserType
-		CompanyDataForProfile.Status = helpers.StatusPending
+		//CompanyDataForProfile.UserType =  m.Info.UserType
+		//CompanyDataForProfile.Status = helpers.StatusPending
 		err = db.Child("/Users/"+userKey.String()+"/Settings/Notifications/Invitations/"+invitationUniqueID).Set(userInvitationDetail)
 		if err!=nil{
 			log.Println("Insertion error:",err)
 			return false
 		}
-		log.Println("CompanyDataForProfile",CompanyDataForProfile)
-		err = db.Child("/PublicUserProfile/"+userKey.String()+"/Company/"+companyID).Set(CompanyDataForProfile)
+		//log.Println("CompanyDataForProfile",CompanyDataForProfile)
+		//err = db.Child("/PublicUserProfile/"+userKey.String()+"/Company/"+companyID).Set(CompanyDataForProfile)
 	}
  return true
 }
@@ -423,8 +423,6 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 		updateCompantDeatilsFromExperation := CompanyData{}
 		dataValue := reflect.ValueOf(workLocationValues)
 		for _, key := range dataValue.MapKeys() {
-			log.Println("key.String()",key.String())
-			log.Println("k",k)
 			err = db.Child("/WorkLocation/"+key.String()+"/Info/UsersAndGroupsInWorkLocation/User/"+k).Value(&WorkLocationUseruu)
 			updateUserStatus.FullName = WorkLocationUseruu.FullName
 			updateUserStatus.Status = helpers.UserStatusDeleted
@@ -435,7 +433,6 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 		log.Println("eachExpiry",eachExpiry)
 		eachDataValues := reflect.ValueOf(eachExpiry)
 		for _, expirationKey := range eachDataValues.MapKeys() {
-			log.Println("expirationKey.String()",expirationKey.String())
 			err = db.Child("/Expirations/"+k+"/"+expirationKey.String()+"/Company/"+companyTeamName).Value(&CompanyDetailsOfExpiration)
 			log.Println("iam in experation model",CompanyDetailsOfExpiration.CompanyName,CompanyDetailsOfExpiration.CompanyStatus)
 			updateCompantDeatilsFromExperation.CompanyName = CompanyDetailsOfExpiration.CompanyName
@@ -475,17 +472,26 @@ func DeleteInviteUserById(ctx context.Context,InviteUserId string,companyTeamNam
 					tempGroupKeys = append(tempGroupKeys,eachGroupKey)
 				}
 			}
-
-		 for i:=0;i<len(tempGroupKeys);i++{
-			 updateMemberDetails.Status = helpers.UserStatusDeleted
-			 updateMemberDetails.MemberName = groupMembersDetails.MemberName
-			 err = db.Child("/Group/"+ tempGroupKeys[i]+"/Members/"+deletedKey).Update(&updateMemberDetails)
+		var groupKeySlice []string
+		for i:=0;i<len(tempGroupKeys);i++{
+			updateMemberDetails.Status = helpers.UserStatusDeleted
+			updateMemberDetails.MemberName = groupMembersDetails.MemberName
+			err = db.Child("/Group/"+ tempGroupKeys[i]+"/Members/"+deletedKey).Update(&updateMemberDetails)
 			 if err != nil {
 				 log.Fatal(err)
 				 return  false
 			 }
+			 UserGroup :=UserGroup{}
+			 err = db.Child("Users/"+deletedKey+"/Group/"+tempGroupKeys[i]).Value(&UserGroup)
+			if UserGroup.CompanyId == companyTeamName{
+				groupKeySlice = append(groupKeySlice,tempGroupKeys[i])
+			}
 
 		 }
+		log.Println("groupKeySlice !!!!!!!!",groupKeySlice)
+		for j:=0;j<len(groupKeySlice);j++{
+			err = db.Child("Users/"+deletedKey+"/Group/"+groupKeySlice[j]).Remove()
+		}
 		err = db.Child("Users/"+k+"/Company/"+companyTeamName).Value(&companyInUsers)
 		if err != nil {
 			log.Fatal(err)

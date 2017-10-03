@@ -1,6 +1,35 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <script src="/static/js/custom/worklocation-details.js"></script>
+<link rel="stylesheet" type="text/css"href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"/>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+
+
+
+<style>
+    .details-control{
+        position: relative;
+    }
+    .odd .details-control{
+        background: url('/static/images/open.png') no-repeat center center;
+        cursor: pointer;
+    }
+    .odd.shown .details-control{
+        background: url('/static/images/close.png') no-repeat center center;
+    }
+    .even .details-control{
+        background: url('/static/images/open.png') no-repeat center center;
+        cursor: pointer;
+    }
+    .even.shown .details-control{
+        background: url('/static/images/close.png') no-repeat center center;
+    }
+    .dropdown-tbl table thead th {
+        border-bottom: 1px solid #dddddd;
+    }
+</style>
+
 
 <div class="col-md-12 main-content-wrapper padding-50-each">
 	<div class="clearfix">
@@ -10,8 +39,11 @@
 				<table class="table table-striped table-bordered   dt-responsive nowrap" id="workLocation-table">
                     <thead>
                         <tr>
+                            <th style="background: none;cursor: initial;"></th>
                             <th width="15%">Work Location</th>
                             <th width="25%">Users/Group</th>
+                            <th>Start Date </th>
+                            <th>End Date </th>
                             <th></th>
                         </tr>
                     </thead>

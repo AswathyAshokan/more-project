@@ -3,17 +3,18 @@
 package models
 
 type Users struct {
-	Info			UserInfo
-	NextOfKin		NextOfKin
-	Settings		UserSettings
-	SocialNetworks		UserSocialNetworks
-	Tasks			map[string]UserTasks
-	Company          	map[string]UsersCompany
-	ConsentReceipts         map[string]ConsentReceiptDetails
-	Task			map[string]UserNotification
-	Invitations		map[string]UserInvitations
-	WorkLocation		map[string]WorkLocationInUser
-	Group                   UserGroup
+	Info				UserInfo
+	NextOfKin			NextOfKin
+	Settings			UserSettings
+	SocialNetworks			UserSocialNetworks
+	Tasks				map[string]UserTasks
+	Company          		map[string]UsersCompany
+	ConsentReceipts         	map[string]ConsentReceiptDetails
+	Task				map[string]UserNotification
+	WorkLocationNotification 	map[string]WorkLocationNotification
+	Invitations			map[string]UserInvitations
+	WorkLocation			map[string]WorkLocationInUser
+	Group                   	UserGroup
 	//Invitations        map[string]UserInvitations
 
 }
@@ -75,6 +76,7 @@ type UserSocialNetworks struct {
 	SkypeId			string
 }
 
+
 type UserTasks struct {
 	CompanyId		string
 	CustomerName		string
@@ -97,6 +99,17 @@ type WorkLocationInUser struct {
 	Latitude		string
 	Longitude		string
 	Status 			string
+	CompanyName		string
+}
+
+type  WorkLocationNotification struct {
+	WorkLocationId 	string
+	Date 		int64
+	IsRead		bool
+	IsViewed	bool
+	Category	string
+	Status 		string
+	IsDeleted 	bool
 }
 type UserNotification struct {
 	TaskId		string

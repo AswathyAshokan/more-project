@@ -21,10 +21,11 @@ type AddLocationViewModel struct {
 
 }
 type LoadWorkLocationViewModel struct {
+	InnerContent            	[]WorkLocationStruct
 	Values            		[][]string
 	Keys              		[]string
 	Users 				[][]WorkLocationUsers
-
+	ExposureArray			[][]WorkExposure
 	CompanyPlan			string
 	AdminFirstName			string
 	AdminLastName			string
@@ -32,6 +33,25 @@ type LoadWorkLocationViewModel struct {
 	CompanyTeamName			string
 	NotificationArray		[][]string
 	NotificationNumber       	int
+	MinUserAndLoginTypeArray	[][]string
+
+}
+
+
+type WorkExposure struct {
+	BreakMinute  	string
+	WorkingHour	string
+	TaskId 		string
+}
+
+
+type WorkLocationStruct struct {
+	Description   		string
+	AcceptedUsers 		[]string
+	RejectedUsers 		[]string
+	PendingUsers  		[]string
+	InstructionKey  	string
+
 
 }
 type WorkLocationUsers struct {
@@ -61,5 +81,18 @@ type EditWorkLocation struct {
 	LongitudeForEditing	string
 	DateValues		[][]string
 	NotificationArray	[][]string
-	NotificationNumber       int
+	NotificationNumber      int
+	FitToWorkArray		[]string
+	FitToWorkKey		[]string
+	FitToWorkForTask	[][]TaskFitToWork
+	FitToWork		[]string
+	WorkBreak		[]string
+	NFCTagId		string
+	FitToWorkCheck		string
+	LoginType		string
+	BreakTime		[]string
+	WorkTime		[]string
+	LogInMin		int64
+	FitToWorkName		string
+
 }

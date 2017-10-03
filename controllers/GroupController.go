@@ -251,7 +251,7 @@ func (c *GroupController) DeleteGroup() {
 	ReadSession(w, r, companyTeamName)
 	groupId :=c.Ctx.Input.Param(":groupId")
 	group := models.Group{}
-	dbStatus :=group.DeleteGroup(c.AppEngineCtx, groupId)
+	dbStatus :=group.DeleteGroupFromDBForNonTask(c.AppEngineCtx, groupId)
 	switch dbStatus {
 	case true:
 		w.Write([]byte("true"))

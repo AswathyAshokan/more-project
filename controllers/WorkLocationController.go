@@ -9,6 +9,7 @@ import (
 	"time"
 	"strings"
 	"strconv"
+	"fmt"
 )
 
 type WorkLocationcontroller struct {
@@ -61,6 +62,7 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		logInMinutesInString, err := strconv.ParseInt(logInMinutes, 10, 64)
 		WorkLocationBreakTimeSlice :=strings.Split(exposureTask, ",")
 		WorkLocationTimeSlice :=strings.Split(exposureWorkTime, ",")
+		WorkLocation.Info.NFCTagID =c.GetString("nfcTagForTask")
 
 
 		layout := "01/02/2006 15:04"
@@ -147,8 +149,8 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 			WorkLocation.Info.UsersAndGroupsInWorkLocation.Group = groupMap
 		}
 
-
-		dbStatus :=WorkLocation.AddWorkLocationToDb(c.AppEngineCtx,companyTeamName,fitToWorkName,WorkLocationBreakTimeSlice,WorkLocationTimeSlice)
+		companyName := storedSession.CompanyName
+		dbStatus :=WorkLocation.AddWorkLocationToDb(c.AppEngineCtx,companyTeamName,fitToWorkName,WorkLocationBreakTimeSlice,WorkLocationTimeSlice,companyName)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -325,6 +327,7 @@ func (c *WorkLocationcontroller) LoadWorkLocation() {
 	workLocation,dbStatus:= models.GetAllWorkLocationDetails(c.AppEngineCtx,companyTeamName)
 	viewModel := viewmodels.LoadWorkLocationViewModel{}
 	var workLocationUserSlice [][]viewmodels.WorkLocationUsers
+	var workLocationExposureSlice [][]viewmodels.WorkExposure
 	var KeyValues []string
 	switch dbStatus {
 	case true:
@@ -335,9 +338,9 @@ func (c *WorkLocationcontroller) LoadWorkLocation() {
 		}
 		for _, k := range keySlice {
 			var tempValueSlice []string
-
-
+			var minUserArray  []string
 			if workLocation[k].Settings.Status != helpers.StatusInActive{
+				log.Println("workLocation[k].Info",workLocation[k].Info)
 				userDataValues :=  reflect.ValueOf(workLocation[k].Info.UsersAndGroupsInWorkLocation.User)
 				var userStructSlice []viewmodels.WorkLocationUsers
 				for _,userKey :=range userDataValues.MapKeys(){
@@ -351,13 +354,45 @@ func (c *WorkLocationcontroller) LoadWorkLocation() {
 				}
 				workLocationUserSlice = append(workLocationUserSlice,userStructSlice)
 				log.Println("work location user slice",userStructSlice)
+				tempValueSlice = append(tempValueSlice,"")
 				tempValueSlice =append(tempValueSlice,workLocation[k].Info.WorkLocation)
+				tempValueSlice = append(tempValueSlice,strconv.FormatInt(int64(workLocation[k].Info.StartDate),10))
+				tempValueSlice = append(tempValueSlice,strconv.FormatInt(int64(workLocation[k].Info.EndDate),10))
 				tempValueSlice =append(tempValueSlice,k)
 				KeyValues = append(KeyValues,k)
 				viewModel.Values=append(viewModel.Values,tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]
+
+				minUserArray = append(minUserArray,workLocation[k].Info.LoginType)
+				LogTimeInMinutes := strconv.FormatInt(workLocation[k].Info.LogTimeInMinutes, 10)
+				minUserArray = append(minUserArray,LogTimeInMinutes)
+				minUserArray =append(minUserArray,workLocation[k].FitToWork.Info.FitToWorkName)
+				minUserArray = append(minUserArray,k)
+				viewModel.MinUserAndLoginTypeArray =append(viewModel.MinUserAndLoginTypeArray,minUserArray)
+				minUserArray =minUserArray[:0]
+				dbStatus, taskExposureDetails := models.GetWorkLocationBreakDetailById(c.AppEngineCtx,k)
+				switch dbStatus {
+				case true:
+					exposureValue := reflect.ValueOf(taskExposureDetails)
+					var exposureStructSlice []viewmodels.WorkExposure
+					for _, key := range exposureValue.MapKeys() {
+
+						var exposureStruct viewmodels.WorkExposure
+						exposureStruct.BreakMinute =taskExposureDetails[key.String()].BreakDurationInMinutes
+						exposureStruct.WorkingHour =taskExposureDetails[key.String()].BreakStartTimeInMinutes
+						exposureStruct.TaskId =k
+						exposureStructSlice =append(exposureStructSlice,exposureStruct)
+
+					}
+					workLocationExposureSlice = append(workLocationExposureSlice, exposureStructSlice)
+				case false:
+				}
+				viewModel.ExposureArray =workLocationExposureSlice
+
 			}
 		}
+
+		log.Println("viewModel.ExposureArray",viewModel.MinUserAndLoginTypeArray)
 		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
 		var notificationCount=0
 		switch dbStatus {
@@ -415,10 +450,10 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	workLocationId := c.Ctx.Input.Param(":worklocationid")
-	log.Println("outsideeeeee",workLocationId)
 	storedSession := ReadSession(w, r, companyTeamName)
 	companyUsers :=models.Company{}
 	var keySliceForGroupAndUser []string
+	//workLocationViewmodel := viewmodels.AddLocationViewModel{}
 	userMap := make(map[string]models.WorkLocationUser)
 	groupNameAndDetails := models.WorkLocationGroup{}
 	groupMemberNameForTask :=models.GroupMemberNameInWorkLocation{}
@@ -426,74 +461,85 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 	groupMap := make(map[string]models.WorkLocationGroup)
 	var keySliceForGroup [] string
 	var MemberNameArray [] string
+	var notificationCount = 0
 	group := models.Group{}
+	viewModelForEdit :=viewmodels.EditWorkLocation{}
+	usersDetail :=models.Users{}
 	userName :=models.WorkLocationUser{}
 	WorkLocation := models.WorkLocation{}
-	viewModelForEdit :=viewmodels.EditWorkLocation{}
 	if r.Method == "POST" {
-		log.Println("inside    adddddddddddddd")
+		exposureTask := c.GetString("exposureBreakTime")
+		exposureWorkTime := c.GetString("exposureWorkTime")
+		log.Println("exposureTask",exposureTask)
+		log.Println("exposureWorkTime",exposureWorkTime)
+		fitToWorkName :=c.GetString("fitToWorkName")
 		groupKeySliceForWorkLocationString := c.GetString("groupArrayElement")
 		UserOrGroupNameArray :=c.GetStrings("userAndGroupName")
 		taskLocation := c.GetString("taskLocation")
 		dailyEndTime := c.GetString("dailyEndTimeString")
 		dailyStartTime := c.GetString("dailyStartTimeString")
 		groupKeySliceForWorkLocation :=strings.Split(groupKeySliceForWorkLocationString, ",")
-		tempUserIdArrayForEdit := c.GetStrings("selectedUserNames")
-		log.Println("selected users array",tempUserIdArrayForEdit)
-		//latitude := c.GetString("latitudeId")
+		userIdArray := c.GetStrings("selectedUserNames")
 		latitude := c.GetString("latitudeId")
 		longitude := c.GetString("longitudeId")
-		log.Println("longitude",longitude,latitude)
 		startDate := c.GetString("startDateTimeStamp")
 		endDate := c.GetString("endDateTimeStamp")
-		oldUserId := c.GetStrings("oldUsers")
-		log.Println("oldUserId",oldUserId)
 		startDateInt , err := strconv.ParseInt(startDate, 10, 64)
 		endDateInt, err := strconv.ParseInt(endDate, 10, 64)
+		loginType := c.GetString("loginType")
+		log.Println("loginType",loginType)
+		logInMinutes :=c.GetString("logInMinutes")
+		logInMinutesInString, err := strconv.ParseInt(logInMinutes, 10, 64)
+		WorkLocationBreakTimeSlice :=strings.Split(exposureTask, ",")
+		WorkLocationTimeSlice :=strings.Split(exposureWorkTime, ",")
+		WorkLocation.Info.NFCTagID =c.GetString("nfcTagForTask")
+		log.Println("WorkLocation.Info.NFCTagID",WorkLocation.Info.NFCTagID)
+
+
 		layout := "01/02/2006 15:04"
-		log.Println("cpp1")
 		startDateInUnix, err := time.Parse(layout, dailyStartTime)
 		if err != nil {
-			log.Println("cpp2")
 			log.Println(err)
 		}
 		//task.Info.StartDate = startDate.UTC().Unix()
 		endDateInUnix, err := time.Parse(layout, dailyEndTime)
 		if err != nil {
-			log.Println("cpp3")
 			log.Println(err)
 		}
-		log.Println("cpp")
+		//task.Info.EndDate = endDate.Unix()
 
-		var userIdArray []string
-		for i:=0;i<len(tempUserIdArrayForEdit);i++{
+		tempFitToWorkCheck :=c.GetString("fitToWorkCheck")
+		log.Println("tempFitToWorkCheck",tempFitToWorkCheck)
+		if tempFitToWorkCheck =="on" {
+			WorkLocation.Settings.FitToWorkDisplayStatus ="EachTime"
+		} else {
+			WorkLocation.Settings.FitToWorkDisplayStatus = "OnceADay"
+		}
+		log.Println("userIdArray",userIdArray)
+
+		var tempArray []string
+		for i:=0;i<len(userIdArray);i++{
 
 			exists := false
 			for v := 0; v < i; v++ {
-				if tempUserIdArrayForEdit[v] == tempUserIdArrayForEdit[i] {
+				if userIdArray[v] == userIdArray[i] {
 					exists = true
 					break
 				}
 			}
 			// If no previous element exists, append this one.
 			if !exists {
-				userIdArray = append(userIdArray, tempUserIdArrayForEdit[i])
+				tempArray = append(tempArray, userIdArray[i])
 			}
 		}
 
-
-		log.Println("userIdArray",userIdArray)
-
-		//task.Info.EndDate = endDate.Unix()
-		log.Println("w3")
 		var groupKeySlice	[]string
-		for j:=0;j<len(userIdArray);j++ {
-			log.Println("w4")
+		for j:=0;j<len(tempArray);j++ {
+			log.Println("iam in inner loop")
 			tempName := UserOrGroupNameArray[j]
 			userOrGroupRegExp := regexp.MustCompile(`\((.*?)\)`)
 			userOrGroupSelection := userOrGroupRegExp.FindStringSubmatch(tempName)
 			if (userOrGroupSelection[1]) == "User" {
-				log.Println("cp1")
 				tempName = tempName[:len(tempName) - 7]
 				userName.FullName = tempName
 				userName.Status = helpers.StatusActive
@@ -509,9 +555,11 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 				WorkLocation.Info.EndDate =endDateInt
 				WorkLocation.Info.DailyStartDate = startDateInUnix.Unix()
 				WorkLocation.Info.DailyEndDate =endDateInUnix.Unix()
-
 				WorkLocation.Settings.DateOfCreation = time.Now().Unix()
 				WorkLocation.Settings.Status = helpers.StatusActive
+				WorkLocation.Info.LoginType = loginType
+				WorkLocation.Info.LogTimeInMinutes = logInMinutesInString
+				log.Println("loginType",loginType)
 				log.Println("userMap[tempId]", userMap)
 
 			}
@@ -524,9 +572,10 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 						groupNameAndDetails.GroupName = groupDetails.Info.GroupName
 						memberData := reflect.ValueOf(groupDetails.Members)
 						for _, key := range memberData.MapKeys() {
-							keySliceForGroup = append(keySliceForGroup, key.String())
+
 							log.Println("status",groupDetails.Members[key.String()].Status)
 							if groupDetails.Members[key.String()].Status != helpers.UserStatusDeleted{
+								keySliceForGroup = append(keySliceForGroup, key.String())
 								MemberNameArray = append(MemberNameArray, groupDetails.Members[key.String()].MemberName)
 								break
 							}
@@ -543,14 +592,18 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 					groupKeySlice = append(groupKeySlice, string(groupKeySliceForWorkLocation[i]))
 				}
 			}
-			//uniqueWorkLocation := models.IsWorkAssignedToUser(c.AppEngineCtx,startDate,endDate,tempName)
 		}
-
+		log.Println("uu1")
 		WorkLocation.Info.UsersAndGroupsInWorkLocation.User = userMap
+		log.Println("uu2",WorkLocation.Info.UsersAndGroupsInWorkLocation.User)
 		if groupKeySliceForWorkLocation[0] !="" {
+			log.Println("uu2")
 			WorkLocation.Info.UsersAndGroupsInWorkLocation.Group = groupMap
+			log.Println("uu3",WorkLocation.Info.UsersAndGroupsInWorkLocation.Group )
 		}
-		dbStatus :=WorkLocation.EditWorkLocationToDb(c.AppEngineCtx,workLocationId,companyTeamName)
+		log.Println("op1")
+		companyName :=storedSession.CompanyName
+		dbStatus :=WorkLocation.EditWorkLocationToDb(c.AppEngineCtx,workLocationId,companyTeamName,fitToWorkName,WorkLocationBreakTimeSlice,WorkLocationTimeSlice,companyName)
 		switch dbStatus {
 		case true:
 			w.Write([]byte("true"))
@@ -558,7 +611,7 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 			w.Write([]byte("false"))
 		}
 	} else{
-		usersDetail :=models.Users{}
+
 		dbStatus ,testUser:= companyUsers.GetUsersForDropdownFromCompany(c.AppEngineCtx,companyTeamName)
 
 		switch dbStatus {
@@ -626,7 +679,9 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 			startTimeOfWorkLocation := startTime.String()[11:16]
 			endTime := time.Unix(workLocation.Info.DailyEndDate,0)
 			endTimeOfWorkLocation := endTime.String()[11:16]
-
+			log.Println("endTimeOfWorkLocation",endTimeOfWorkLocation)
+			log.Println("startTimeOfWorkLocation",startTimeOfWorkLocation)
+			viewModelForEdit.FitToWorkCheck = workLocation.Settings.FitToWorkDisplayStatus
 			viewModelForEdit.LatitudeForEditing = workLocation.Info.Latitude
 			viewModelForEdit.LongitudeForEditing = workLocation.Info.Longitude
 			viewModelForEdit.WorkLocation = workLocation.Info.WorkLocation
@@ -634,6 +689,10 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 			viewModelForEdit.DailyEndTime = endTimeOfWorkLocation
 			viewModelForEdit.StartDate = workLocation.Info.StartDate
 			viewModelForEdit.EndDate = workLocation.Info.EndDate
+			viewModelForEdit.LoginType = workLocation.Info.LoginType
+			viewModelForEdit.LogInMin = workLocation.Info.LogTimeInMinutes
+			viewModelForEdit.FitToWorkName = workLocation.FitToWork.Info.FitToWorkName
+			viewModelForEdit.NFCTagId = workLocation.Info.NFCTagID
 
 		case false:
 			log.Println(helpers.ServerConnectionError)
@@ -665,7 +724,7 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 
 	}
 	dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-	var notificationCount=0
+	//var notificationCount =0
 	switch dbStatus {
 	case true:
 
@@ -696,13 +755,131 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 		}
 	case false:
 	}
+
+
+
+	var keySliceForFitToWork        []string
+	var tempKeySliceFitToWork        []string
+	var tempInstructionKeySlice        []string
+	var instructionDescription        []string
+	var fitToWorkStructSlice        []viewmodels.TaskFitToWork
+	var tempfitToWorkStructSlice        [][]viewmodels.TaskFitToWork
+	var fitToWorkStruct viewmodels.TaskFitToWork
+	fitToWorkById := models.GetSelectedCompanyName(c.AppEngineCtx, companyTeamName)
+	switch dbStatus {
+	case true:
+		fitToWorkDataValues := reflect.ValueOf(fitToWorkById)
+		for _, fitToWorkKey := range fitToWorkDataValues.MapKeys() {
+			tempKeySliceFitToWork = append(tempKeySliceFitToWork, fitToWorkKey.String())
+		}
+		for _, eachKey := range tempKeySliceFitToWork {
+			if fitToWorkById[eachKey].Settings.Status == helpers.StatusActive {
+				keySliceForFitToWork = append(keySliceForFitToWork, eachKey)
+				viewModelForEdit.FitToWorkArray = append(viewModelForEdit.FitToWorkArray, fitToWorkById[eachKey].FitToWorkName)
+				getInstructions := models.GetAllInstructionsOfFitToWorkById(c.AppEngineCtx, companyTeamName, eachKey)
+				fitToWorkInstructionValues := reflect.ValueOf(getInstructions)
+				for _, fitToWorkInstructionKey := range fitToWorkInstructionValues.MapKeys() {
+					tempInstructionKeySlice = append(tempInstructionKeySlice, fitToWorkInstructionKey.String())
+				}
+
+				for _, eachInstructionKey := range tempInstructionKeySlice {
+					instructionDescription = append(instructionDescription, getInstructions[eachInstructionKey].Description)
+
+				}
+				fitToWorkStruct.FitToWorkName = fitToWorkById[eachKey].FitToWorkName
+				fitToWorkStruct.Instruction = instructionDescription
+				fitToWorkStruct.InstructionKey = tempInstructionKeySlice
+				fitToWorkStructSlice = append(fitToWorkStructSlice, fitToWorkStruct)
+			}
+		}
+		viewModelForEdit.FitToWorkKey = keySliceForFitToWork
+		tempfitToWorkStructSlice = append(tempfitToWorkStructSlice, fitToWorkStructSlice)
+		viewModelForEdit.FitToWorkForTask = tempfitToWorkStructSlice
+	case false:
+		log.Println(helpers.ServerConnectionError)
+	}
+
+	//var fitToWorkSlice			[]string
+	var WorkTime                            []string
+	var BreakTime				[]string
+	dbStatus, WorkBreak := models.GetWorkLocationBreakDetailById(c.AppEngineCtx, workLocationId)
+	switch dbStatus {
+	case true:
+		workValue := reflect.ValueOf(WorkBreak)
+		for _, key := range workValue.MapKeys() {
+			breakHourInInt, err := strconv.Atoi(WorkBreak[key.String()].BreakDurationInMinutes)
+			//workHourInInt, err := strconv.Atoi(taskWorkBreak[key.String()].WorkTime)
+			if err != nil {
+				// handle error
+				log.Println(err)
+
+			}
+			var breakHours = breakHourInInt/60
+			var breakMinutes =breakHourInInt %60
+			var breakHourInString =string(breakHours)
+			var breakMinutesInString =string(breakMinutes)
+			var prependBreakHours =""
+			var prependBreakMinutes =""
+			if len(breakHourInString) ==1 {
+
+				prependBreakHours = fmt.Sprintf("%02d", breakHours)
+			} else {
+				prependBreakHours = string(breakHours)
+			}
+			if len(breakMinutesInString) ==1 {
+
+				prependBreakMinutes = fmt.Sprintf("%02d", breakMinutes)
+			} else {
+				prependBreakMinutes = string(breakMinutes)
+			}
+			breakTimeForTask :=prependBreakHours+":"+prependBreakMinutes
+			BreakTime = append(BreakTime,breakTimeForTask)
+
+			workHourInInt, err := strconv.Atoi(WorkBreak[key.String()].BreakStartTimeInMinutes)
+			//workHourInInt, err := strconv.Atoi(taskWorkBreak[key.String()].WorkTime)
+			if err != nil {
+				// handle error
+				log.Println(err)
+
+			}
+			var workHours = workHourInInt/60
+			var workMinutes =workHourInInt %60
+			var workHourInString =string(workHours)
+			var workMinutesInString =string(workMinutes)
+			var prependWorkHours =""
+			var prependWorkMinutes =""
+			if len(workHourInString) ==1 {
+
+				prependWorkHours = fmt.Sprintf("%02d", workHours)
+			} else {
+				prependWorkHours = string(workHours)
+			}
+			if len(workMinutesInString) ==1 {
+
+				prependWorkMinutes = fmt.Sprintf("%02d", workMinutes)
+			} else {
+				prependWorkMinutes = string(workMinutes)
+			}
+			workTimeForTask :=prependWorkHours+":"+prependWorkMinutes
+
+			WorkTime = append(WorkTime,workTimeForTask)
+
+		}
+	case false:
+		log.Println(helpers.ServerConnectionError)
+	}
+
+	viewModelForEdit.BreakTime =BreakTime
+	viewModelForEdit.WorkTime = WorkTime
 	viewModelForEdit.NotificationNumber=notificationCount
 	viewModelForEdit.CompanyTeamName = storedSession.CompanyTeamName
 	viewModelForEdit.CompanyPlan = storedSession.CompanyPlan
 	viewModelForEdit.AdminFirstName =storedSession.AdminFirstName
 	viewModelForEdit.AdminLastName =storedSession.AdminLastName
 	viewModelForEdit.ProfilePicture =storedSession.ProfilePicture
-	log.Println("viewModelForEdit",viewModelForEdit)
+	log.Println("viewModelForEdit break time",viewModelForEdit.BreakTime)
+	log.Println("WorkTime",WorkTime)
+
 	c.Data["vm"] = viewModelForEdit
 	c.TplName = "template/add-workLocation.html"
 

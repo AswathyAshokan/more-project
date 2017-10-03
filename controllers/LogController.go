@@ -111,15 +111,12 @@ func (c *LogController)LoadLogDetails() {
 						tempArray = append(tempArray, userId[i])
 					}
 				}
-				log.Println("tempArray ",tempArray)
 				for k :=0;k<len(tempArray);k++{
 					if tempArray[k] == key.String(){
-						log.Println("key.String() 111111",key.String())
 						generalKeySlice = append(generalKeySlice,key.String())
 						var tempGeneralLogSlice []string
 						var tempGenerealLogoutSlice []string
 						LogData := models.GetSpecificLogValues(c.AppEngineCtx,key.String())
-						log.Println("LogData",LogData)
 						if LogData.UserName !="" {
 							tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.UserName)
 							tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.Type)
@@ -131,15 +128,12 @@ func (c *LogController)LoadLogDetails() {
 							tempGeneralLogSlice = append(tempGeneralLogSlice,lastLoginLongitude)
 							tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.UserID)
 							tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.LogDescription)
-							log.Println("work log each person",tempGeneralLogSlice)
 							viewModel.GeneralLogValues = append(viewModel.GeneralLogValues,tempGeneralLogSlice)
-							log.Println("viewModel.GeneralLogValues $$$$$$$",viewModel.GeneralLogValues)
 						}
 
 
 
 						LogoutData := models.GetSpecificLogoutValues(c.AppEngineCtx,key.String())
-						log.Println("LogoutData",LogoutData)
 						if LogoutData.UserName !=""{
 							tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.UserName)
 							tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.Type)
@@ -151,9 +145,7 @@ func (c *LogController)LoadLogDetails() {
 							tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,lastLogoutLongitude)
 							tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.UserID)
 							tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.LogDescription)
-							log.Println("work logout each person",tempGenerealLogoutSlice)
 							viewModel.GeneralLogValues = append(viewModel.GeneralLogValues,tempGenerealLogoutSlice)
-							log.Println("viewModel.GeneralLogValues******",viewModel.GeneralLogValues)
 						}
 
 						//tempGenerealLogoutSlice = tempGenerealLogoutSlice[:0]
