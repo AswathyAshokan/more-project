@@ -110,6 +110,8 @@ type  WorkLocationNotification struct {
 	Category	string
 	Status 		string
 	IsDeleted 	bool
+	CompanyName	string
+	WorkLocation    string
 }
 type UserNotification struct {
 	TaskId		string

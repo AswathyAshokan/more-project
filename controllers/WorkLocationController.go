@@ -718,6 +718,7 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 				tempUserArray = append(tempUserArray,userKey.String())
 				tempUserArray = append(tempUserArray, startDateFromDbInInt)
 				tempUserArray = append(tempUserArray, endDateFromDbInInt)
+				tempUserArray = append(tempUserArray, key.String())
 				viewModelForEdit.DateValues = append(viewModelForEdit.DateValues,tempUserArray)
 			}
 		}

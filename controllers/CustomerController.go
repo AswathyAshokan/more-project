@@ -81,12 +81,20 @@ func (c *CustomerController) AddCustomer() {
 			}
 		case false:
 		}
-
-
 		addViewModel.NotificationNumber =notificationCount
 
 
-		log.Println("cp12")
+		//get notification for admin when  documents of users is expired
+		dbStatus,expiryNotification := models.GetAllNotificationsOfExpiration(c.AppEngineCtx,companyTeamName)
+		switch dbStatus {
+		case true:
+			addViewModel.DocumentExpiryNotification = expiryNotification
+		case false:
+
+		}
+
+
+		log.Println("view model add",addViewModel.DocumentExpiryNotification)
 		addViewModel.CompanyTeamName = storedSession.CompanyTeamName
 		addViewModel.CompanyPlan   =  storedSession.CompanyPlan
 		addViewModel.AdminLastName =storedSession.AdminLastName

@@ -10,8 +10,19 @@ type Expirations struct {
 }
 
 type CompanyData struct {
-	CompanyName  	string
-	CompanyStatus  string
+	CompanyName  		string
+	CompanyStatus  		string
+	NotificationShedules	map[string]ExpiryNotification
+
+}
+type ExpiryNotification struct {
+	Category		string
+	ExpiryId		string
+	IsDeleted 		bool
+	IsRead			bool
+	IsViewed		bool
+	LocalDate		string
+	NotificationDate	int64
 
 }
 type ExpirationInfo struct {
