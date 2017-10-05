@@ -267,7 +267,8 @@ func IsWorkAssignedToUser(ctx context.Context ,companyTeamName string )( map[str
 	if err != nil {
 		log.Println(err)
 	}
-	err = db.Child("WorkLocation").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&workLocationValues)
+	err = db.Child("WorkLocation").Value(&workLocationValues)
+	log.Println("opopopopopopoppopp",workLocationValues)
 	if err != nil {
 		log.Println("error connection")
 		//.log.Fatal(err)
