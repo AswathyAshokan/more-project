@@ -90,41 +90,7 @@ func (c *InviteUserController) AddInvitation() {
 	} else {
 		//limitValues := 4
 
-		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-		var notificationCount=0
-		switch dbStatus {
-		case true:
 
-			notificationOfUser := reflect.ValueOf(notificationValue)
-			for _, notificationUserKey := range notificationOfUser.MapKeys() {
-				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-				switch dbStatus {
-				case true:
-					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-						var NotificationArray []string
-						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-							notificationCount=notificationCount+1;
-						}
-						NotificationArray =append(NotificationArray,notificationUserKey.String())
-						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-						NotificationArray =append(NotificationArray,date)
-						addViewModel.NotificationArray=append(addViewModel.NotificationArray,NotificationArray)
-
-					}
-				case false:
-				}
-			}
-		case false:
-		}
-
-
-		addViewModel.NotificationNumber=notificationCount
 
 		companyPlan := storedSession.CompanyPlan
 		log.Println("plan",companyPlan)
@@ -252,7 +218,6 @@ func (c *InviteUserController) InvitationDetails() {
 	}
 
 
-	inviteUserViewModel.NotificationNumber=notificationCount
 
 	inviteUserViewModel.CompanyTeamName = storedSession.CompanyTeamName
 	inviteUserViewModel.CompanyPlan = storedSession.CompanyPlan
@@ -314,40 +279,7 @@ func (c *InviteUserController) EditInvitation() {
 		log.Println("all", editViewResult)
 		switch DbStatus {
 		case true:
-			dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-			var notificationCount=0
-			switch dbStatus {
-			case true:
 
-				notificationOfUser := reflect.ValueOf(notificationValue)
-				for _, notificationUserKey := range notificationOfUser.MapKeys() {
-					dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-					switch dbStatus {
-					case true:
-						notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-						for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-							var NotificationArray []string
-							if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-								notificationCount=notificationCount+1;
-							}
-							NotificationArray =append(NotificationArray,notificationUserKey.String())
-							NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-							NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-							NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-							NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-							NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-							date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-							NotificationArray =append(NotificationArray,date)
-							invitationViewModel.NotificationArray=append(invitationViewModel.NotificationArray,NotificationArray)
-
-						}
-					case false:
-					}
-				}
-			case false:
-			}
-
-			invitationViewModel.NotificationNumber=notificationCount
 
 			if editViewResult.UserResponse !=helpers.UserStatusDeleted{
 				invitationViewModel.FirstName = editViewResult.FirstName

@@ -284,7 +284,7 @@ func CheckPhoneNumberIsUsed(ctx context.Context, phoneNumber string,companyTeamN
 	if err != nil {
 		log.Println("No Db Connection!")
 	}
-	err = dB.Child("Contacts").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&contact)
+	err = dB.Child("Contacts").Value(&contact)
 	contactDetails := reflect.ValueOf(contact)
 	for _, contactKey:=range contactDetails.MapKeys() {
 		if contact[contactKey.String()].Info.PhoneNumber == phoneNumber&& contact[contactKey.String()].Settings.Status ==helpers.StatusActive&&contact[contactKey.String()].Info.CompanyTeamName==companyTeamName{
@@ -300,14 +300,16 @@ func CheckPhoneNumberIsUsed(ctx context.Context, phoneNumber string,companyTeamN
 
 func CheckEmailAddressIsUsed(ctx context.Context, emailAddress string,companyTeamName string)bool{
 	contact := map[string]ContactUser{}
+	log.Println("email address")
 	dB, err := GetFirebaseClient(ctx, "")
 	if err != nil {
 		log.Println("No Db Connection!")
 	}
-	err = dB.Child("Contacts").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&contact)
+	err = dB.Child("Contacts").Value(&contact)
 	contactDetails := reflect.ValueOf(contact)
 	for _, contactKey:=range contactDetails.MapKeys() {
-		if contact[contactKey.String()].Info.Email == emailAddress && contact[contactKey.String()].Settings.Status== helpers.StatusActive&&contact[contactKey.String()].Info.CompanyTeamName==companyTeamName{
+		if contact[contactKey.String()].Info.Email == emailAddress &&  contact[contactKey.String()].Settings.Status == helpers.StatusActive && contact[contactKey.String()].Info.CompanyTeamName==companyTeamName{
+			log.Println("condition true");
 			return true
 			break
 		}

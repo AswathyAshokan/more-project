@@ -89,6 +89,7 @@ func (m *LeaveRequests) AcceptLeaveRequestById( ctx context.Context,leaveId stri
 	err = dB.Child("/LeaveRequests/"+userId+"/"+leaveId+"/Company/"+companyTeamName).Value(&updateDetailStruct)
 	leaveDetailStruct.UserType=updateDetailStruct.UserType
 	leaveDetailStruct.Status ="Accepted"
+	leaveDetailStruct.CompanyName =companyName
 	//leaveDetailOfUser.Settings.Status ="Accepted"
 	err = dB.Child("/LeaveRequests/"+ userId+"/"+leaveId+"/Info").Set(&leaveDetailOfUser)
 	err = dB.Child("/LeaveRequests/"+ userId+"/"+leaveId+"/Settings").Set(&leaveSettings)
@@ -120,10 +121,10 @@ func (m *LeaveRequests) RejectLeaveRequestById( ctx context.Context,leaveId stri
 	leaveDetailOfUser.StartDate =leaveDetail.Info.StartDate
 	leaveDetailOfUser.UserName =leaveDetail.Info.UserName
 	leaveSettings.DateOfCreation =leaveDetail.Settings.DateOfCreation
+	err = dB.Child("/LeaveRequests/"+userId+"/"+leaveId+"/Company/"+companyTeamName).Value(&updateDetailStruct)
 	leaveDetailStruct.Status ="Rejected"
 	leaveDetailStruct.CompanyName =companyName
-	err = dB.Child("/LeaveRequests/"+userId+"/"+leaveId+"/Company/"+companyTeamName).Value(&updateDetailStruct)
-	leaveDetailStruct.UserType=leaveDetailStruct.UserType
+	leaveDetailStruct.UserType=updateDetailStruct.UserType
 	err = dB.Child("/LeaveRequests/"+ userId+"/"+leaveId+"/Info").Set(&leaveDetailOfUser)
 	err = dB.Child("/LeaveRequests/"+ userId+"/"+leaveId+"/Settings").Set(&leaveSettings)
 	err = dB.Child("/LeaveRequests/"+ userId+"/"+leaveId+"/Company/"+companyTeamName).Set(&leaveDetailStruct)

@@ -1,0 +1,59 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User details new</title>
+    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+    <script src="/static/js/custom/company-fileUpload.js"></script>
+
+    </head>
+    <body>
+        <div class="col-md-12 main-content-wrapper padding-50-each">
+            <div class="clearfix">
+                <h1 class="h4">User Uploads</h1>
+                <div class="personal-details margin-top-20" id="container1">
+<!--                    <form class="clearfix max-form-width" enctype="multipart/form-data" id="CompanyFileUpload" action="#">-->
+<!--
+                        <div class="form-group clearfix upload-section" id="container">
+                            <div class="creat-folder">
+                                <input class="form-control" id="folderName" type="text" placeholder="Folder Name">
+                                <button class="btn btn-primary margin-left-15" onClick="addFolder();">Create folder</button>
+                            </div>
+                            <div class="folder">
+                                <span class="folder-name">
+                                    <span></span>
+                                </span>
+                                <div class="file-name">
+                                    <input class="form-control" id="fileName" type="text" placeholder="File Name">
+                                    <button class="btn btn-primary margin-left-15"  >Upload file  <input type="file" onchange="displayFile('folderName','fileName');"></button>
+                                    <span id="fileName"></span>
+                                </div>
+                                <label  class="margin-left-15"></label>
+                                <button class="fa fa-plus-circle no-button-style" onclick="addFile();"></button>
+                            </div>
+                        </div>
+-->
+<!--                    </form>-->
+                </div>
+            </div>
+        </div>
+        
+        <span class="btn btn-primary btn-new" style="height: 30px;
+    position: relative; 
+    " onclick='saveUpdateNew();' >Save</span>
+        
+         <div class="modal fade" id="noDocument" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>No Documents Uploaded</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+</div>
+    </body>
+</html>

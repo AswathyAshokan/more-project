@@ -25,6 +25,7 @@ type TimeSheetViewModel struct {
 	WorkTimeSheeetDetails		[][]string
 	NotificationArray		[][]string
 	NotificationNumber      	 int
+	NotificationArrayForLeave	[][]string
 
 
 

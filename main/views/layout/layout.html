@@ -32,6 +32,7 @@ Date:01/02/2017-->
 
 		    <div class="right-menu">
 		        <ul>
+<!--
                     <li class="notification-wrp">
                            <button class="no-button-style notification-btn"  id="notificationId" onclick="myNotification()" method="post">
                                <i class="fa fa-bell" aria-hidden="true"></i>
@@ -42,6 +43,7 @@ Date:01/02/2017-->
                              
                            </div>
                        </li>
+-->
 		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">About</a></li>
 		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Contact</a></li>
 		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Licence</a></li>
@@ -53,6 +55,9 @@ Date:01/02/2017-->
 		                <span class="caret"></span></button>
                     <ul class="dropdown-menu">
 		                <li><a href='/{{.vm.CompanyTeamName}}/editProfile'>Edit Profile</a></li>
+                        <li><a href='/{{.vm.CompanyTeamName}}/companyProfile'>Company Profile</a></li>
+                         <li><a href='/{{.vm.CompanyTeamName}}/companyFileUpload'>Company File Upload</a></li>
+                        
 		                <li  ><a href="#" data-toggle="modal" id="planChange" >Package</a></li>
 		                <li><a href="/logout">Logout</a></li>
 		            </ul>
@@ -378,11 +383,13 @@ Date:01/02/2017-->
 	</section>
     
     
+<!--
     <script>
         $('.notification-btn').on('click', function() {
            $(this).parent('.notification-wrp').toggleClass('show-notification');
            });
     </script>
+-->
 
 
 </body>

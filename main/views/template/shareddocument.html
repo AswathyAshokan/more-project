@@ -31,7 +31,7 @@
 		      <div class="right-menu">
 		        <ul>
 		            <ul>
-                        <li class="notification-wrp">
+                        <!--<li class="notification-wrp">
                            <button class="no-button-style notification-btn"  id="notificationId" onclick="myNotification()" method="post">
                                <i class="fa fa-bell" aria-hidden="true"></i>
                                <span class="badge" id="number"></span>
@@ -39,7 +39,7 @@
 
                            <div class="not-list-wrp" id="notificationDiv">
                             </div>
-                       </li>
+                       </li>-->
 		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">About</a></li>
 		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Contact</a></li>
 		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Licence</a></li>
@@ -52,6 +52,8 @@
 		                <span class="caret"></span></button>
                     <ul class="dropdown-menu">
 		                <li><a href='/{{.vm.CompanyTeamName}}/editProfile'>Edit Profile</a></li>
+                        <li><a href='/{{.vm.CompanyTeamName}}/companyProfile'>Company Profile</a></li>
+                         <li><a href='/{{.vm.CompanyTeamName}}/companyFileUpload'>Company File Upload</a></li>
 		                <li  ><a href="#" data-toggle="modal" id="planChange" >Package</a></li>
 		                <li><a href="/logout">Logout</a></li>
 		            </ul>
@@ -421,11 +423,11 @@
 		</footer>
 	    </div>
 	</section>
-    <script>
+    <!--<script>
         $('.notification-btn').on('click', function() {
            $(this).parent('.notification-wrp').toggleClass('show-notification');
            });
-    </script>
+    </script>-->
 
     </body>
 </html>

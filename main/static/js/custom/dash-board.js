@@ -167,86 +167,299 @@ console.log("company name",vm);
       var subArray = [];
        //notification
    //notification
-    var notificationSorted =[[]];
-    function sortByCol(arr, colIndex){
-    notificationSorted=arr.sort(sortFunction);
-    function sortFunction(a, b) {
-        a = a[colIndex]
-        b = b[colIndex]
-        return (a === b) ? 0 : (a < b) ? -1 : 1
-    }
-}
-
+    var DynamicNotification ="";
     
-     myNotification= function () {
-         if (vm.NotificationArray !=null){
-        console.log("hiiii");
-         sortByCol(vm.NotificationArray, 6);
-         console.log("jjjjj",notificationSorted);
-         var reverseSorted =[[]];
-         reverseSorted=notificationSorted.reverse();
-
-        document.getElementById("notificationDiv").innerHTML = "";
-        var DynamicTaskListing="";
-        if (reverseSorted !=null){
-            DynamicTaskListing ="<h5>"+"Notifications"+ "<button class='no-button-style' method='post' onclick='clearNotification()'>"+"clear all"+"</button>"+"</h5>"+"<ul>";
-        for(var i=0;i<reverseSorted.length;i++){
-            console.log("sp1");
-            var timeDifference =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
-            DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"delay to reach location"+" "+reverseSorted[i][4]+" "+"for task"+" "+reverseSorted[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
-            
-            
-        }
-            $("#notificationDiv").prepend(DynamicTaskListing+"</ul>");
-            document.getElementById("number").textContent="";
-            $.ajax({
-                url:'/'+ companyTeamName + '/notification/update',
-                type: 'post',
-                success : function(response) {
-                    if (response == "true" ) {
-                    } else {
-                    }
-                },
-                error: function (request,status, error) {
-                    console.log(error);
+    var expirycount =0;
+    var documentNotifyArry =  vm.DocumentExpiryNotification;
+    if( vm.DocumentExpiryNotification!=null){
+        for(i = 0;i<vm.DocumentExpiryNotification.length;i++){
+                console.log("haiiiii");
+                console.log("document values",documentNotifyArry[i]);
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+                var yyyy = today.getFullYear();
+                if(dd<10) {
+                    dd = '0'+dd;
+                } 
+                if(mm<10) {
+                    mm = '0'+mm;
                 }
-            }); 
-        }else{
-             document.getElementById("notificationDiv").innerHTML = "";
-            DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
-                        $("#notificationDiv").prepend(DynamicTaskListing);
-            
+                
+                var tempArray = [];
+                
+                var CurrentMonth = mm;
+                var currentDay = dd;
+                var currentYear = yyyy;
+                var localToday = (mm + '/' + dd + '/' + yyyy);
+                var dateParts = documentNotifyArry[i][3].split("/");
+                var dateFromDb = (dateParts[1]+'/'+ dateParts[0]+'/'+ dateParts[2]);
+                if(CurrentMonth ==dateParts[1] && currentDay ==dateParts[0] &&currentYear ==  dateParts[2]){
+                    if(documentNotifyArry[i][2] == "false"){
+                       expirycount = expirycount+1;
+                    }
+            }
         }
         
+    }
+    console.log("count",vm.NotificationNumber+expirycount);
+    vm.NotificationNumber = vm.NotificationNumber+expirycount;
+    if (vm.NotificationNumber !=0){
+        document.getElementById("number").textContent=vm.NotificationNumber;
+    }else{
+        document.getElementById("number").textContent="";
+    }
+    
+
+var formDataClear = [[]];
+var allIdArray = [[]];
+var allExpiryId = [[]];
+var allUserId = [[]];
+    
+    var notificationSorted =[[]];
+    function sortByCol(arr, colIndex){
+        notificationSorted=arr.sort(sortFunction);
+        function sortFunction(a, b) {
+            a = a[colIndex]
+            b = b[colIndex]
+            return (a === b) ? 0 : (a < b) ? -1 : 1
+        }
+    }
+    
+    myNotification= function () {
+        if (vm.NotificationArray !=null){
+            sortByCol(vm.NotificationArray, 6);
+            var reverseSorted =[[]];
+            reverseSorted=notificationSorted.reverse();
+            document.getElementById("notificationDiv").innerHTML = "";
+            var DynamicTaskListing="";
+            if (reverseSorted !=null){
+                DynamicTaskListing ="<h5>"+"Notifications"+ "<button class='no-button-style' method='post' onclick='clearNotification()'>"+"clear all"+"</button>"+"</h5>"+"<ul>";
+                for(var i=0;i<reverseSorted.length;i++){
+                    if(reverseSorted[i].length != 0){
+                        if (reverseSorted[i][5]==""){
+                             console.log("cpp1");
+                            console.log("iam in first");
+                            var utcTime =reverseSorted[i][3];
+                            var dateFromDb = parseInt(utcTime);
+                            var d = new Date(dateFromDb * 1000);
+                            var dd = d.getDate();
+                            var mm = d.getMonth() + 1; //January is 0!
+                            var yyyy = d.getFullYear();
+                            var HH = d.getHours();
+                            var min = d.getMinutes();
+                            var sec = d.getSeconds();
+                            if (dd < 10) {
+                                dd = '0' + dd;
+                            }
+                            if (mm < 10) {
+                                mm = '0' + mm;
+                            }
+                            if (HH < 10) {
+                                HH = '0' + HH;
+                            }
+                            if (min < 10) {
+                                min = '0' + min;
+                            }
+                            if (sec < 10) {
+                                sec = '0' + sec;
+                            }
+                            var startDate = (mm + '/' + dd + '/' + yyyy);
+                            var utcTime =reverseSorted[i][4];
+                            var dateFromDb = parseInt(utcTime);
+                            var d = new Date(dateFromDb * 1000);
+                            var dd = d.getDate();
+                            var mm = d.getMonth() + 1; //January is 0!
+                            var yyyy = d.getFullYear();
+                            var HH = d.getHours();
+                            var min = d.getMinutes();
+                            var sec = d.getSeconds();
+                            if (dd < 10) {
+                                dd = '0' + dd;
+                            }
+                            if (mm < 10) {
+                                mm = '0' + mm;
+                            }
+                            if (HH < 10) {
+                                HH = '0' + HH;
+                            }
+                            if (min < 10) {
+                                min = '0' + min;
+                            }
+                            if (sec < 10) {
+                                sec = '0' + sec;
+                            }
+                                var endDate = (mm + '/' + dd + '/' + yyyy);
+                                var timeDifferenceForLeave =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
+                                 DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+"Applied Leave For "+"  "+reverseSorted[i][7]+" "+"Days"+" "+"From"+" "+startDate+" "+"to"+" "+endDate+" <span>"+timeDifferenceForLeave+"</span>"+"</li>";
+                        } else if (reverseSorted[i][5] =="Expiry111@@&&EEE"){
+                            console.log("cpp2");
+                            var utcTime =reverseSorted[i][7];
+                            var dateFromDb = parseInt(utcTime);
+                            var d = new Date(dateFromDb * 1000);
+                            var dd = d.getDate();
+                            var mm = d.getMonth() + 1; //January is 0!
+                            var yyyy = d.getFullYear();
+                            var HH = d.getHours();
+                            var min = d.getMinutes();
+                            var sec = d.getSeconds();
+                            if (dd < 10) {
+                                dd = '0' + dd;
+                            }
+                            if (mm < 10) {
+                                mm = '0' + mm;
+                            }
+                            var expiryDate = (mm + '/' + dd + '/' + yyyy);
+                            var currentDate = reverseSorted[i][3].split("/");
+                            console.log("currentDate[1]",currentDate[1]);
+                            console.log("mm",mm);
+                            console.log("currentDate[0]",currentDate[0]);
+                            console.log("dd",dd);
+                            console.log("currentDate[2]",currentDate[2]);
+                            console.log("yyyy",reverseSorted[i][3]);
+                           
+                            if(currentDate[0] == mm && currentDate[1] ==dd && currentDate[2] == yyyy  ){
+                                
+                                var timeDifferenceForLeave =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
+                                DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][0]+"'s"+" "+reverseSorted[i][4]+ " "+ "expired"+" "+"("+ expiryDate+")"+"<span>"+timeDifferenceForLeave+"</span>"+"</li>";
+                                
+                            } else{
+                               
+                                var timeDifferenceForLeave =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
+                                DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][0]+"'s"+reverseSorted[i][4]+ " "+ "will be expired on" +" "+expiryDate+
+                                    "<span>"+timeDifferenceForLeave+"</span>"+"</li>";
+                            }
+                        
+                        } else if(reverseSorted[i][5] == "WorkLocationt!@#$%&*YTREFFDD"){
+                             console.log("cpp3");
+                            var timeDifference =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
+                            DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"delay to reach work location"+" "+reverseSorted[i][4]+" <span>"+timeDifference+"</span>"+"</li>";
+                            
+                            
+                        }else{
+                            
+                             console.log("cpp5");
+                            var timeDifference =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
+                            DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"delay to reach location"+" "+reverseSorted[i][4]+" "+"for task"+" "+reverseSorted[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
+                        }
+                    }
+                    
+                }
+                $("#notificationDiv").prepend(DynamicTaskListing+"</ul>");
+                document.getElementById("number").textContent="";
+                $.ajax({
+                    url:'/'+ companyTeamName + '/notification/update',
+                    type: 'post',
+                    data:formDataClear,
+                    success : function(response) {
+                        if (response == "true" ) {
+                        } else {
+                        }
+                    },
+                    error: function (request,status, error) {
+                        console.log(error);
+                    }
+                }); 
+            }else{
+                document.getElementById("notificationDiv").innerHTML = "";
+                DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
+                $("#notificationDiv").prepend(DynamicTaskListing);
+            }
         }else{
-             document.getElementById("notificationDiv").innerHTML = "";
+            document.getElementById("notificationDiv").innerHTML = "";
             DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
             $("#notificationDiv").prepend(DynamicTaskListing);
         }
-}
-     
-     
-     
-     clearNotification= function () {
-          document.getElementById("notificationDiv").innerHTML = "";
-          $.ajax({
-                url:'/'+ companyTeamName + '/notification/delete',
-                type: 'post',
-                success : function(response) {
-                    if (response == "true" ) {
-                        DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
-                        $("#notificationDiv").prepend(DynamicTaskListing);
-                    } else {
-                    }
-                },
-                error: function (request,status, error) {
-                    console.log(error);
+    }
+    clearNotification= function () {
+        document.getElementById("notificationDiv").innerHTML = "";
+        $.ajax({
+            url:'/'+ companyTeamName + '/notification/delete',
+            type: 'post',
+            data :formDataClear,
+            success : function(response) {
+                if (response == "true" ) {
+                    DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
+                    $("#notificationDiv").prepend(DynamicTaskListing);
+                } else {
                 }
-            }); 
-         
-         
-         
-     }
+            },
+            error: function (request,status, error) {
+                console.log(error);
+            }
+        }); 
+    }
+    
+    
+    //this is for notification of expiredDetails
+    var allexpiryNotification = [[]];
+    var tempIdArry =[];
+    var chechNotification;
+    var documentNotifyArry =  vm.DocumentExpiryNotification;
+        if( vm.DocumentExpiryNotification!=null){
+            for(i = 0;i<vm.DocumentExpiryNotification.length;i++){
+                console.log("haiiiii");
+                console.log("document values",documentNotifyArry[i]);
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+                var yyyy = today.getFullYear();
+                if(dd<10) {
+                    dd = '0'+dd;
+                } 
+                if(mm<10) {
+                    mm = '0'+mm;
+                }
+                
+                var tempArray = [];
+                
+                var CurrentMonth = mm;
+                var currentDay = dd;
+                var currentYear = yyyy;
+                var localToday = (mm + '/' + dd + '/' + yyyy);
+                var dateParts = documentNotifyArry[i][3].split("/");
+                var dateFromDb = (dateParts[1]+'/'+ dateParts[0]+'/'+ dateParts[2]);
+                if(CurrentMonth ==dateParts[1] && currentDay ==dateParts[0] &&currentYear ==  dateParts[2]){
+                    
+                    chechNotification = documentNotifyArry[i][0]+"111@@&&EEE";
+                    tempArray.push(documentNotifyArry[i][5]);
+                    tempArray.push(documentNotifyArry[i][1]);
+                    tempArray.push(documentNotifyArry[i][2]);
+                    tempArray.push(localToday);
+                    tempArray.push(documentNotifyArry[i][6]);
+                    tempArray.push(chechNotification);
+                    tempArray.push(documentNotifyArry[i][4]);
+                    tempArray.push(documentNotifyArry[i][7]);
+                    tempArray.push(documentNotifyArry[i][8]);
+                    allexpiryNotification.push(tempArray);
+                    if(vm.NotificationArray !=null){
+                        console.log("oh my goddddddddd");
+                        vm.NotificationArray.push(tempArray);
+                    }
+                    tempArray = [];
+                    allIdArray.push(documentNotifyArry[i][8]);
+                    allExpiryId.push(documentNotifyArry[i][1]);
+                    allUserId.push(documentNotifyArry[i][9]);
+                }
+                
+                
+            }
+           if(vm.NotificationArray == null) {
+               vm.NotificationArray = allexpiryNotification;
+               allexpiryNotification = [[]];
+           }
+            
+        }
+    for(var i = 0; i<allIdArray.length;i++){
+        formDataClear = formDataClear+"&DeletedId="+allIdArray[i];
+    }
+    for(var i = 0; i<allExpiryId.length;i++){
+        formDataClear = formDataClear+"&DeletedExpiryId="+allExpiryId[i];
+    }
+    for(var i = 0; i<allUserId.length;i++){
+        formDataClear = formDataClear+"&DeletedUserId="+allUserId[i];
+    }
+    
     
    getTaskDetails = function(){
         $("#taskListing").html("");

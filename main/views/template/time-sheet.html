@@ -33,23 +33,15 @@
 		      <div class="right-menu">
 		        <ul>
 		            <ul>
-                        <li class="notification-wrp">
+                       <!-- <li class="notification-wrp">
                            <button class="no-button-style notification-btn"  id="notificationId" onclick="myNotification()" method="post">
                                <i class="fa fa-bell" aria-hidden="true"></i>
                                <span class="badge" id="number"></span>
                            </button>
 
                            <div class="not-list-wrp" id="notificationDiv">
-<!--                               <h5>Notifications</h5>-->
-<!--                               <ul>-->
-<!--
-                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
-                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
-                                   <li>User Ajin 1 hours 21 minutes delay to reach location "Chalakudy, Kerala, India" for task Task 1 <span>11 hours ago</span></li>
--->
-<!--                               </ul>-->
-                           </div>
-                       </li>
+                            </div>
+                       </li>-->
 		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">About</a></li>
 		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Contact</a></li>
 		            <li><a href="/{{.vm.CompanyTeamName}}/PendingWorks">Licence</a></li>
@@ -63,6 +55,7 @@
                     <ul class="dropdown-menu">
 		                <li><a href='/{{.vm.CompanyTeamName}}/editProfile'>Edit Profile</a></li>
 		                <li  ><a href="#" data-toggle="modal" id="planChange" >Package</a></li>
+                        <li><a href='/{{.vm.CompanyTeamName}}/companyProfile'>Company Profile</a></li>
 		                <li><a href="/logout">Logout</a></li>
 		            </ul>
 		        </div>
@@ -129,6 +122,7 @@
                                          <th>Leave</th>
                                          <th>Late Hours</th>
                                          <th>Extra Hours</th>
+<!--                                         <th>Date</th>-->
                                      </tr>
                                  </thead>
                                  <tbody>
@@ -446,12 +440,12 @@
 		  } );
 	</script>
 -->
-    <script>
+    <!--<script>
         $('.notification-btn').on('click', function() {
            $(this).parent('.notification-wrp').toggleClass('show-notification');
            });
     </script>
-
+-->
 	
 </body>
 </html>

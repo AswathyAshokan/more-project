@@ -9,7 +9,7 @@ import (
 	"app/passporte/helpers"
 	"reflect"
 	"log"
-	"strconv"
+
 )
 
 type FitToWorkController struct {
@@ -28,7 +28,8 @@ func (c *FitToWorkController)AddNewFitToWork() {
 	fitToWorkView.ProfilePicture = storedSession.ProfilePicture
 	fitToWorkData := models.FitToWork{}
 	if r.Method == "POST" {
-		fitToWorkData.FitToWorkName = c.GetString("fitWorkName")
+		FitToWorkName := c.GetString("fitWorkName")
+		fitToWorkData.FitToWorkName= strings.TrimSpace(FitToWorkName)
 		fitToWorkData.Settings.Status =helpers.StatusActive
 		instructions := c.GetString("instructionsForUser")
 		instructionsFromUser := strings.Split(instructions, "/@@,")
@@ -46,43 +47,6 @@ func (c *FitToWorkController)AddNewFitToWork() {
 			w.Write([]byte("false"))
 		}
 	} else {
-		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-		var notificationCount=0
-		switch dbStatus {
-		case true:
-
-			notificationOfUser := reflect.ValueOf(notificationValue)
-			for _, notificationUserKey := range notificationOfUser.MapKeys() {
-				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-				switch dbStatus {
-				case true:
-					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-						var NotificationArray []string
-						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-							notificationCount=notificationCount+1;
-						}
-						NotificationArray =append(NotificationArray,notificationUserKey.String())
-						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-						NotificationArray =append(NotificationArray,date)
-						fitToWorkView.NotificationArray=append(fitToWorkView.NotificationArray,NotificationArray)
-
-					}
-				case false:
-				}
-			}
-		case false:
-		}
-
-		fitToWorkView.NotificationNumber=notificationCount
-
-
-
 		c.Data["vm"] = fitToWorkView
 		c.Layout = "layout/layout.html"
 		c.TplName = "template/add-fit-work.html"
@@ -140,41 +104,8 @@ func (c* FitToWorkController)LoadFitToWork(){
 				}
 			}
 		}
-		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-		var notificationCount=0
-		switch dbStatus {
-		case true:
-
-			notificationOfUser := reflect.ValueOf(notificationValue)
-			for _, notificationUserKey := range notificationOfUser.MapKeys() {
-				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-				switch dbStatus {
-				case true:
-					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-						var NotificationArray []string
-						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-							notificationCount=notificationCount+1;
-						}
-						NotificationArray =append(NotificationArray,notificationUserKey.String())
-						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-						NotificationArray =append(NotificationArray,date)
-						fitToWorkViewModel.NotificationArray=append(fitToWorkViewModel.NotificationArray,NotificationArray)
-
-					}
-				case false:
-				}
-			}
-		case false:
-		}
 
 
-		fitToWorkViewModel.NotificationNumber=notificationCount
 		fitToWorkViewModel.Keys = keySlice
 		fitToWorkViewModel.CompanyTeamName = storedSession.CompanyTeamName
 		fitToWorkViewModel.CompanyPlan = storedSession.CompanyPlan
@@ -200,7 +131,9 @@ func (c *FitToWorkController) EditFitToWork() {
 	fitToWorkView :=viewmodels.EditFitToWork{}
 	if r.Method == "POST" {
 
-		fitToWorkData.FitToWorkName = c.GetString("fitWorkName")
+
+		FitToWorkName := c.GetString("fitWorkName")
+		fitToWorkData.FitToWorkName= strings.TrimSpace(FitToWorkName)
 		fitToWorkData.Settings.Status =helpers.StatusActive
 		instructions := c.GetString("instructionsForUser")
 		instructionsFromUser := strings.Split(instructions, "/@@,")
@@ -219,41 +152,6 @@ func (c *FitToWorkController) EditFitToWork() {
 		}
 
 	}else {
-		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-		var notificationCount=0
-		switch dbStatus {
-		case true:
-
-			notificationOfUser := reflect.ValueOf(notificationValue)
-			for _, notificationUserKey := range notificationOfUser.MapKeys() {
-				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-				switch dbStatus {
-				case true:
-					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-						var NotificationArray []string
-						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-							notificationCount=notificationCount+1;
-						}
-						NotificationArray =append(NotificationArray,notificationUserKey.String())
-						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-						NotificationArray =append(NotificationArray,date)
-						fitToWorkView.NotificationArray=append(fitToWorkView.NotificationArray,NotificationArray)
-
-					}
-				case false:
-				}
-			}
-		case false:
-		}
-
-
-		fitToWorkView.NotificationNumber=notificationCount
 		var Instructions []string
 		fitToWorkDetails :=models.GetEachFitToWorkByCompanyId(c.AppEngineCtx, fitToWorkId,companyTeamName)
 		allInstructions := models.GetAllInstructionsFromFitToWork(c.AppEngineCtx,fitToWorkId,companyTeamName)

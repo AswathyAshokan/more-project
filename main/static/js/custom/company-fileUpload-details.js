@@ -1,7 +1,13 @@
 console.log(vm);
-
+var companyTeamName = vm.CompanyTeamName;
 $(function(){
-    
+    console.log("number",vm.NotificationNumber);
+    if (vm.NotificationNumber !=0){
+        console.log("kkk");
+        document.getElementById("number").textContent=vm.NotificationNumber;
+    }else{
+        document.getElementById("number").textContent="";
+    }
     document.getElementById("username").textContent=vm.AdminFirstName;
     document.getElementById("imageId").src=vm.ProfilePicture;
     if (vm.ProfilePicture ==""){
@@ -16,7 +22,8 @@ $(function(){
     var selectFromDate;
     var actualFromDate;
     var completeTable =[];
-    function createDataArray(values, keys){
+     function createDataArray(values, keys){
+         console.log("inside",values);
         var subArray = [];
         for(i = 0; i < values.length; i++) {
             for(var propertyName in values[i]) {
@@ -26,132 +33,89 @@ $(function(){
             mainArray.push(subArray);
             subArray = [];
         }
+          console.log("main array",mainArray);
     }
-    completeTable = mainArray;
-    $('#refreshButton').click(function(e) {
-        $('#shareddocument-table').dataTable().fnDestroy();
-        $('#fromDate').datepicker('setDate', null);
-        $('#toDate').datepicker('setDate', null);
-        dataTableManipulate(completeTable);
-     });
-    function listSharedDocumentByDate(unixFromDate,unixToDate){
-        var tempArray = [];
-        var expiryDate =0;
-        var unixExpiryDate = 0;
-        console.log("unixFromDate",unixFromDate);
-        console.log("unixToDate",unixToDate);
-        for (i =0;i<vm.Values.length;i++){
-            console.log("vm.Values[i][1]",vm.Values[i][1]);
-            expiryDate = new Date(vm.Values[i][1]);
-            unixExpiryDate = Date.parse(expiryDate)/1000;
-            console.log("unixExpiryDate",unixExpiryDate);
-            if(unixFromDate <= unixExpiryDate && unixToDate == 0){
-                tempArray.push(mainArray[i]);
-            
-            } else if(unixFromDate ==0 && unixToDate >=unixExpiryDate){
-                tempArray.push(mainArray[i]);
-            
-            }else if(unixFromDate <= unixExpiryDate && unixToDate >=unixExpiryDate ){
-                tempArray.push(mainArray[i]);
-            
-            }
-            $('#shareddocument-table').dataTable().fnDestroy();
-            dataTableManipulate(tempArray);
-        }
-    }
-   
     function dataTableManipulate(dataArray){
-       table =  $("#shareddocument-table").DataTable({
+        console.log("manipulate");
+       table =  $("#company-document-table").DataTable({
            data: dataArray,
            "columnDefs": [{
                "targets": -1,
-               "width": "3%",
+               "width": "13%",
                "data": null,
-               "defaultContent": '<span class="dwnl-btn"><i class="fa fa-download fa-lg" aria-hidden="true" id="view"></i></span>'
+               "defaultContent": '<div class="edit-wrapper"><span class="icn"><span class="dwnl-btn"><i class="fa fa-download fa-lg" aria-hidden="true" id="view"></i>'+" "+'</span><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
            }],
-           "searching": false,
-           "paging": true,
-           "info": false,
-           "lengthChange":false
+       
        });
-       $('#tbl_details_length').after($('.datepic-top'));
+         var item = $('<span>+</span>');
+        item.click(function() {
+            console.log("teamname",companyTeamName)
+            window.location ="/" + companyTeamName + "/companyFileUpload/add";
+        });
+        $('.table-wrapper .dataTables_filter').append(item);
+
    }
+    
+    /*Add a plus symbol in webpage for add new groups*/
+       
+    
 
 /*----------------------------------Initialize Datatable--------------------------------------------------*/
-    if(vm.Values != null) {
-        for( i=0;i<vm.Values.length;i++){
-            var utcTime = vm.Values[i][1];
-            var dateFromDb = parseInt(utcTime)
-            var d = new Date(dateFromDb * 1000);
-            var dd = d.getDate();
-            var mm = d.getMonth() + 1; //January is 0!
-            var yyyy = d.getFullYear();
-            if (dd < 10) {
-                dd = '0' + dd;
-            }
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
-            var localDate = (mm + '/' + dd + '/' + yyyy);
-            vm.Values[i][1]= localDate;
-        }
+   if(vm.Values != null) {
         createDataArray(vm.Values, vm.Keys);
     }
     dataTableManipulate(mainArray);
-
 /*--------------------------------Download-------------------------------------------------------------*/
 
-    $('#shareddocument-table tbody').on( 'click', '#view', function () {
+    $('#company-document-table tbody').on( 'click', '#view', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        if(data[3] !=""){
-            window.location =   data[3];
+        if(data[1] !=""){
+            window.location =   data[1];
         } else{
-            $("#myModal").modal();
+            $("#noDocument").modal();
         }
         
         return false;
     });
 /*------------------------------------------------------------------------------------------------------*/
-
-    $('#fromDate').change(function () {
-         selectFromDate = $('#fromDate').val();
-        console.log("selectFromDate",selectFromDate);
-        var fromYear = selectFromDate.substring(6, 10);
-        var fromDay = selectFromDate.substring(3, 5);
-        var fromMonth = selectFromDate.substring(0, 2);
-        $('#toDate').datepicker("option", "minDate", new Date(fromYear, fromMonth-1, fromDay));
-        actualFromDate = new Date(selectFromDate);
-        actualFromDate.setHours(0);
-        actualFromDate.setMinutes(0);
-        actualFromDate.setSeconds(0);
-        unixFromDate = Date.parse(actualFromDate)/1000;
-        console.log("unixFromDate",unixFromDate);
-        listSharedDocumentByDate(unixFromDate,unixToDate);
-    });
+//click on delete button
+      $('#company-document-table tbody').on( 'click', '#delete', function () {
+           $("#myModal").modal();
+          console.log("indide delete");
+         var data = table.row( $(this).parents('tr') ).data();
+         var  documentId = data[2];
+          $("#confirm").click(function(){
+          $.ajax({
+              type: "POST",
+              url: '/' + companyTeamName +'/companyFileUpload/'+ documentId + '/delete',
+              data: '',
+              success: function(feedback){
+                  console.log(feedback);
+                  if(feedback=="true"){  
+                      window.location ="/" + companyTeamName + "/companyFileUpload";
+                      
+                      
+                  }
+                  else {
+                  }
+              }
+          });
+          });
+      });
+      
+    //click on edit button 
     
-    $('#toDate').change(function () {
-        selectedToDate = $('#toDate').val();
-        console.log("selectedToDate",selectedToDate);
-        var year = selectedToDate.substring(6, 10);
-        var day = selectedToDate.substring(3, 5);
-        var month = selectedToDate.substring(0, 2);
-        $('#fromDate').datepicker("option", "maxDate", new Date(year, month-1, day));
-        actualToDate = new Date(selectedToDate);
-        actualToDate.setHours(23);
-        actualToDate.setMinutes(59);
-        actualToDate.setSeconds(59);
-        unixToDate = Date.parse(actualToDate)/1000;
-        console.log("unixToDate",unixToDate);
-        listSharedDocumentByDate(unixFromDate,unixToDate);
-    });
+     $('#company-document-table tbody').on( 'click', '#edit', function () {
+          console.log("indide edit");
+         var data = table.row( $(this).parents('tr') ).data();
+         var  documentId = data[2];
+         window.location = "/" + companyTeamName + "/companyFileUpload/"+documentId+"/edit";
+         return false;
+     });
+    console.log(vm);
 });
     
-    
- 
 $(document).ready(function() {
-    
-    //checking plans
-    
     if(vm.CompanyPlan == 'family' ){
         var parent = document.getElementById("menuItems");
         var contact = document.getElementById("contact");
@@ -222,6 +186,10 @@ $(document).ready(function() {
     }else if (vm.CompanyPlan == "businessPlus") {
         $('#planChange').attr('data-target','#business-plus');
     }
+    
 } );
+
+    
+    
 
 

@@ -16,6 +16,9 @@ type Notification struct {
 	TaskLocation	string
 	TaskName	string
 	UserName	string
+	Category	string
+	WorkLocation	string
+	WorkId 		string
 }
 
 func GetAllNotifications(ctx context.Context,companyTeamName string)(bool,map[string]Notification) {
@@ -39,12 +42,21 @@ func GetAllNotificationsOfUser(ctx context.Context,companyTeamName string,userKe
 	return true, notificationValue
 }
 
-func UpdateAllNotifications(ctx context.Context,companyTeamName string)(bool) {
+func UpdateAllNotifications(ctx context.Context,companyTeamName string,UpdateIdArray []string,expiryId []string,userId []string)(bool) {
+
+	upDateReadStatus := ExpiryNotification{}
+	oldReadStatus :=map[string]ExpiryNotification{}
+	expiryDetails := map[string]Expirations{}
+	//CompanyUsers := map[string]CompanyUsers{}
 	notificationValue := map[string]Notification{}
 	notificationBeforeUpdate := map[string]Notification{}
 	notificationUpdate :=Notification{}
 	notificationUpdateSuccess :=Notification{}
 	dB, err := GetFirebaseClient(ctx,"")
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
 	err = dB.Child("Notifications/UserDelay/"+ companyTeamName).Value(&notificationValue)
 	notificationOfUser := reflect.ValueOf(notificationValue)
 	for _, notificationUserKey := range notificationOfUser.MapKeys() {
@@ -52,30 +64,79 @@ func UpdateAllNotifications(ctx context.Context,companyTeamName string)(bool) {
 		notifications := reflect.ValueOf(notificationBeforeUpdate)
 		for _, notificationKey := range notifications.MapKeys() {
 			err = dB.Child("Notifications/UserDelay/"+ companyTeamName+"/"+notificationUserKey.String()+"/"+notificationKey.String()).Value(&notificationUpdate)
-			notificationUpdateSuccess.Date=notificationUpdate.Date
-			notificationUpdateSuccess.TaskName=notificationUpdate.TaskName
-			notificationUpdateSuccess.TaskLocation=notificationUpdate.TaskLocation
-			notificationUpdateSuccess.IsRead=true
-			notificationUpdateSuccess.IsSentMail=notificationUpdate.IsSentMail
-			notificationUpdateSuccess.Message=notificationUpdate.Message
-			notificationUpdateSuccess.UserName=notificationUpdate.UserName
-			notificationUpdateSuccess.TaskId=notificationUpdate.TaskId
-			log.Println("loollllll",notificationUpdateSuccess);
+			if notificationUpdate.Category =="WorkLocation"{
+				notificationUpdateSuccess.Date=notificationUpdate.Date
+				notificationUpdateSuccess.TaskName=notificationUpdate.WorkLocation
+				notificationUpdateSuccess.TaskLocation=notificationUpdate.WorkId
+				notificationUpdateSuccess.IsRead=true
+				notificationUpdateSuccess.IsSentMail=notificationUpdate.IsSentMail
+				notificationUpdateSuccess.Message=notificationUpdate.Message
+				notificationUpdateSuccess.UserName=notificationUpdate.UserName
+				notificationUpdateSuccess.Category = notificationUpdate.Category
+			} else {
+				notificationUpdateSuccess.Date=notificationUpdate.Date
+				notificationUpdateSuccess.TaskName=notificationUpdate.TaskName
+				notificationUpdateSuccess.TaskLocation=notificationUpdate.TaskLocation
+				notificationUpdateSuccess.IsRead=true
+				notificationUpdateSuccess.IsSentMail=notificationUpdate.IsSentMail
+				notificationUpdateSuccess.Message=notificationUpdate.Message
+				notificationUpdateSuccess.UserName=notificationUpdate.UserName
+				notificationUpdateSuccess.TaskId=notificationUpdate.TaskId
+				notificationUpdateSuccess.Category = notificationUpdate.Category
+			}
 			err = dB.Child("Notifications/UserDelay/"+ companyTeamName+"/"+notificationUserKey.String()+"/"+notificationKey.String()).Set(notificationUpdateSuccess)
 
 
 		}
 	}
-	if err != nil {
-		log.Fatal(err)
-		return false
+
+	for i :=0;i<len(userId);i++{
+		err = dB.Child("/Expirations/" + userId[i]).Value(&expiryDetails)
+		log.Println("expiryDetails",expiryDetails)
+		for j:=0;j<len(expiryId);j++{
+			err = dB.Child("/Expirations/"+userId[i]+"/"+expiryId[j]+"/Company/"+companyTeamName+"/NotificationShedules/").Value(&oldReadStatus)
+			log.Println("oldReadStatus",oldReadStatus)
+			log.Println("UpdateIdArray",UpdateIdArray)
+			eachExpirationValues := reflect.ValueOf(oldReadStatus)
+			for k:=0;k<len(UpdateIdArray);k++{
+				for _, eachkey := range eachExpirationValues.MapKeys() {
+					if UpdateIdArray[k] == eachkey.String(){
+						upDateReadStatus.NotificationDate = oldReadStatus[UpdateIdArray[k]].NotificationDate
+						upDateReadStatus.Category = oldReadStatus[UpdateIdArray[k]].Category
+						upDateReadStatus.ExpiryId = oldReadStatus[UpdateIdArray[k]].ExpiryId
+						upDateReadStatus.IsDeleted = oldReadStatus[UpdateIdArray[k]].IsDeleted
+						upDateReadStatus.IsRead = true
+						upDateReadStatus.LocalDate = oldReadStatus[UpdateIdArray[k]].LocalDate
+						upDateReadStatus.IsViewed = oldReadStatus[UpdateIdArray[k]].IsViewed
+						err = dB.Child("/Expirations/" + userId[i] + "/" + expiryId[j] + "/Company/" + companyTeamName + "/NotificationShedules/" +UpdateIdArray[k]).Set(upDateReadStatus)
+						for i, v := range UpdateIdArray {
+							if v == UpdateIdArray[k]  {
+								UpdateIdArray =UpdateIdArray[:i+copy(UpdateIdArray[i:], UpdateIdArray[i+1:])]
+								break
+							}
+						}
+
+
+					}
+				}
+
+			}
+
+
+
+		}
+
 	}
+
 	return true
 }
 
 
 
-func DeleteAllNotifications(ctx context.Context,companyTeamName string)(bool) {
+func DeleteAllNotifications(ctx context.Context,companyTeamName string,UpdateIdArray []string,expiryId []string,userId []string)(bool) {
+
+	oldReadStatus :=map[string]ExpiryNotification{}
+	expiryDetails := map[string]Expirations{}
 	dB, err := GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Fatal(err)
@@ -87,6 +148,30 @@ func DeleteAllNotifications(ctx context.Context,companyTeamName string)(bool) {
 	if err != nil {
 		log.Fatal(err)
 		return false
+	}
+
+	for i :=0;i<len(userId);i++{
+		err = dB.Child("/Expirations/" + userId[i]).Value(&expiryDetails)
+		log.Println("expiryDetails",expiryDetails)
+		for j:=0;j<len(expiryId);j++{
+			err = dB.Child("/Expirations/"+userId[i]+"/"+expiryId[j]+"/Company/"+companyTeamName+"/NotificationShedules/").Value(&oldReadStatus)
+			log.Println("oldReadStatus",oldReadStatus)
+			log.Println("UpdateIdArray",UpdateIdArray)
+			eachExpirationValues := reflect.ValueOf(oldReadStatus)
+			for k:=0;k<len(UpdateIdArray);k++{
+				for _, eachkey := range eachExpirationValues.MapKeys() {
+					if UpdateIdArray[k] == eachkey.String(){
+						err = dB.Child("/Expirations/" + userId[i] + "/" + expiryId[j] + "/Company/" + companyTeamName + "/NotificationShedules/" +UpdateIdArray[k]).Remove()
+						for i, v := range UpdateIdArray {
+							if v == UpdateIdArray[k]  {
+								UpdateIdArray =UpdateIdArray[:i+copy(UpdateIdArray[i:], UpdateIdArray[i+1:])]
+								break
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 	return true
 }
@@ -121,11 +206,15 @@ func GetAllNotificationsOfExpiration(ctx context.Context,companyTeamName string)
 		expiryDataValues := reflect.ValueOf(expiryDetails)
 
 		for _, k := range expiryDataValues.MapKeys() {
-			err = db.Child("Users/"+keySlice[i]+"/Info/FullName").Value(&fullName)
-			err = db.Child("/Expirations/"+keySlice[i]+"/"+k.String()+"/Info").Value(&typeOfExpiryData)
+
 			err = db.Child("/Expirations/"+keySlice[i]+"/"+k.String()+"/Company/"+companyTeamName+"/NotificationShedules/").Value(&expiryNotification)
 			eachExpirationValues := reflect.ValueOf(expiryNotification)
 			for _, eachkey := range eachExpirationValues.MapKeys() {
+
+				err = db.Child("Users/"+keySlice[i]+"/Info/FullName").Value(&fullName)
+				err = db.Child("/Expirations/"+keySlice[i]+"/"+k.String()+"/Info").Value(&typeOfExpiryData)
+
+
 				var expiryNotificationArray []string
 				expiryNotificationArray = append(expiryNotificationArray, expiryNotification[eachkey.String()].Category)
 				expiryNotificationArray = append(expiryNotificationArray, expiryNotification[eachkey.String()].ExpiryId)
@@ -136,16 +225,51 @@ func GetAllNotificationsOfExpiration(ctx context.Context,companyTeamName string)
 				expiryNotificationArray = append(expiryNotificationArray, unixDate)
 				expiryNotificationArray = append(expiryNotificationArray,fullName)
 				expiryNotificationArray = append(expiryNotificationArray,typeOfExpiryData.Type)
+				expiryDate :=  strconv.FormatInt(int64(typeOfExpiryData.ExpirationDate), 10)
+				expiryNotificationArray= append(expiryNotificationArray,expiryDate)
+				expiryNotificationArray = append(expiryNotificationArray,eachkey.String())
+				expiryNotificationArray = append(expiryNotificationArray,keySlice[i])
+				//tempArray = append(tempArray,expiryNotificationArray)
+				//expiryNotificationArray = expiryNotificationArray[:0]
+				var condition=""
+				if len(tempArray) == 0{
 
-				tempArray = append(tempArray,expiryNotificationArray)
-				expiryNotificationArray = expiryNotificationArray[:0]
+					tempArray = append(tempArray,expiryNotificationArray)
+					condition ="true"
+				}else {
+					for i :=0;i<len(tempArray);i++{
+						//log.Println("tempArray[i]",tempArray[i])
+						for j:=0;j<len(tempArray[i]);j++{
+							log.Println("date1",tempArray[i][4])
+							log.Println("date2",unixDate)
+
+							if tempArray[i][4] ==unixDate{
+								condition ="true"
+								//tempArray = append(tempArray,expiryNotificationArray)
+								//break
+								//log.Println("tempArray[i]",tempArray[i][4])
+							}
+
+
+
+
+						}
+					}
+				}
+				log.Println("hhhhhhhhhhhhhh",condition)
+				if condition ==""{
+					tempArray = append(tempArray,expiryNotificationArray)
+				}
+
+				//expiryNotificationArray = expiryNotificationArray[:0]
 			}
 
 		}
 
 
-		log.Println("nnnnnnn",expiryNotification)
+		log.Println("nnnnnnn",tempArray)
 
 	}
 	return true,tempArray
 }
+

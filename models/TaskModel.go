@@ -169,6 +169,29 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 	}
 
 
+	//...........................................................
+	userData := reflect.ValueOf(m.UsersAndGroups.User)
+	for _, key := range userData.MapKeys() {
+		log.Println("inside task in user")
+		userTaskDetail := UserTasks{}
+		userTaskDetail.DateOfCreation = m.Settings.DateOfCreation
+		userTaskDetail.TaskName = m.Info.TaskName
+		userTaskDetail.CustomerName = m.Customer.CustomerName
+		userTaskDetail.EndDate = m.Info.EndDate
+		userTaskDetail.StartDate =m.Info.StartDate
+		userTaskDetail.JobName = m.Job.JobName
+		userTaskDetail.Status = helpers.StatusPending
+		userTaskDetail.CompanyId = companyId
+		userKey :=key.String()
+		err = dB.Child("/Users/"+userKey+"/Tasks/"+taskUniqueID).Set(userTaskDetail)
+		if err!=nil{
+			log.Println("Insertion error:",err)
+			return false
+		}
+
+	}
+
+
 	//setting number of task in job
 	jobDetail := map[string]Job {}
 
@@ -249,43 +272,24 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 
 	ExposureMap := make(map[string]TaskExposure)
 	ExposureTask :=TaskExposure{}
-	if WorkBreakSlice[0] !=""{
+	if len(WorkBreakSlice) !=0{
+		if WorkBreakSlice[0] !=""{
 
-		for i := 0; i < len(WorkBreakSlice); i++ {
+			for i := 0; i < len(WorkBreakSlice); i++ {
 
-			ExposureTask.BreakDurationInMinutes =WorkBreakSlice[i]
-			ExposureTask.BreakStartTimeInMinutes =TaskWorkTimeSlice[i]
-			ExposureTask.DateOfCreation =time.Now().Unix()
-			ExposureTask.Status = helpers.StatusActive
-			id := betterguid.New()
-			ExposureMap[id] = ExposureTask
-			err = dB.Child("/Tasks/"+taskUniqueID+"/WorkExposure/").Set(ExposureMap)
+				ExposureTask.BreakDurationInMinutes =WorkBreakSlice[i]
+				ExposureTask.BreakStartTimeInMinutes =TaskWorkTimeSlice[i]
+				ExposureTask.DateOfCreation =time.Now().Unix()
+				ExposureTask.Status = helpers.StatusActive
+				id := betterguid.New()
+				ExposureMap[id] = ExposureTask
+				err = dB.Child("/Tasks/"+taskUniqueID+"/WorkExposure/").Set(ExposureMap)
 
-		}
-	}
-
-	//...........................................................
-	userData := reflect.ValueOf(m.UsersAndGroups.User)
-	for _, key := range userData.MapKeys() {
-		userTaskDetail := UserTasks{}
-		userTaskDetail.DateOfCreation = m.Settings.DateOfCreation
-		userTaskDetail.TaskName = m.Info.TaskName
-		userTaskDetail.CustomerName = m.Customer.CustomerName
-		userTaskDetail.EndDate = m.Info.EndDate
-		userTaskDetail.StartDate =m.Info.StartDate
-		userTaskDetail.JobName = m.Job.JobName
-		userTaskDetail.Status = helpers.StatusPending
-		userTaskDetail.CompanyId = companyId
-		userKey :=key.String()
-		err = dB.Child("/Users/"+userKey+"/Tasks/"+taskUniqueID).Set(userTaskDetail)
-		if err!=nil{
-			log.Println("Insertion error:",err)
-			return false
+			}
 		}
 
 	}
-
-
+	log.Println("l1")
 
 	//setting task Id to company
 	TaskIdForCompany :=TaskIdInfo{}
@@ -310,6 +314,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 		log.Println("Insertion error:",err)
 		return false
 	}
+	log.Println("k1")
 	//setting task id to customer
 	CustomerTask :=TasksCustomer{}
 	CustomerTask.TasksCustomerStatus =helpers.StatusActive
@@ -337,7 +342,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 	}
 
 
-
+	log.Println("k5")
 	//setting task id to Job
 
 
@@ -349,10 +354,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 	}
 
 
-	if err!=nil{
-		log.Println("Insertion error:",err)
-		return false
-	}
+
 
 	return true
 }

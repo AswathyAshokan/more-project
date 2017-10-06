@@ -9,7 +9,7 @@ import (
 	"app/passporte/helpers"
 	"time"
 	"strings"
-	"strconv"
+
 )
 
 type CustomerController struct {
@@ -27,7 +27,8 @@ func (c *CustomerController) AddCustomer() {
 	storedSession := ReadSession(w, r, companyTeamName)
 	if r.Method == "POST" {
 		customer := models.Customers{}
-		customer.Info.CustomerName = c.GetString("customername")
+		CustomerName := c.GetString("customername")
+		customer.Info.CustomerName = strings.TrimSpace(CustomerName)
 		customer.Info.ContactPerson = c.GetString("contactperson")
 		customer.Info.Country = c.GetString("country")
 		customer.Info.Address = c.GetString("address")
@@ -48,53 +49,7 @@ func (c *CustomerController) AddCustomer() {
 
 	} else {
 		addViewModel := viewmodels.AddCustomerViewModel{}
-
-		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-		var notificationCount=0
-		switch dbStatus {
-		case true:
-
-			notificationOfUser := reflect.ValueOf(notificationValue)
-			for _, notificationUserKey := range notificationOfUser.MapKeys() {
-				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-				switch dbStatus {
-				case true:
-					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-						var NotificationArray []string
-						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-							notificationCount=notificationCount+1;
-						}
-						NotificationArray =append(NotificationArray,notificationUserKey.String())
-						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-						NotificationArray =append(NotificationArray,date)
-						addViewModel.NotificationArray=append(addViewModel.NotificationArray,NotificationArray)
-
-					}
-				case false:
-				}
-			}
-		case false:
-		}
-		addViewModel.NotificationNumber =notificationCount
-
-
-		//get notification for admin when  documents of users is expired
-		dbStatus,expiryNotification := models.GetAllNotificationsOfExpiration(c.AppEngineCtx,companyTeamName)
-		switch dbStatus {
-		case true:
-			addViewModel.DocumentExpiryNotification = expiryNotification
-		case false:
-
-		}
-
-
-		log.Println("view model add",addViewModel.DocumentExpiryNotification)
+		log.Println("cp12")
 		addViewModel.CompanyTeamName = storedSession.CompanyTeamName
 		addViewModel.CompanyPlan   =  storedSession.CompanyPlan
 		addViewModel.AdminLastName =storedSession.AdminLastName
@@ -143,40 +98,7 @@ func (c *CustomerController) CustomerDetails() {
 	case false:
 		log.Println(helpers.ServerConnectionError)
 	}
-	dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-	var notificationCount=0
-	switch dbStatus {
-	case true:
 
-		notificationOfUser := reflect.ValueOf(notificationValue)
-		for _, notificationUserKey := range notificationOfUser.MapKeys() {
-			dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-			switch dbStatus {
-			case true:
-				notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-				for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-					var NotificationArray []string
-					if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-						notificationCount=notificationCount+1;
-					}
-					NotificationArray =append(NotificationArray,notificationUserKey.String())
-					NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-					date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-					NotificationArray =append(NotificationArray,date)
-					customerViewModel.NotificationArray=append(customerViewModel.NotificationArray,NotificationArray)
-
-				}
-			case false:
-			}
-		}
-	case false:
-	}
-
-	customerViewModel.NotificationNumber =notificationCount
 
 	customerViewModel.CompanyTeamName = storedSession.CompanyTeamName
 	customerViewModel.CompanyPlan = storedSession.CompanyPlan
@@ -189,22 +111,6 @@ func (c *CustomerController) CustomerDetails() {
 	c.TplName = "template/customer-details.html"
 }
 
-// delete each customer using customer id
-//func (c *CustomerController) DeleteCustomer() {
-//	r := c.Ctx.Request
-//	w := c.Ctx.ResponseWriter
-//	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
-//	ReadSession(w, r, companyTeamName)
-//	customerKey :=c.Ctx.Input.Param(":customerid")
-//	customer := models.Customers{}
-//	dbStatus :=customer.DeleteCustomerById(c.AppEngineCtx, customerKey)
-//	switch dbStatus {
-//	case true:
-//		w.Write([]byte("true"))
-//	case false:
-//		w.Write([]byte("false"))
-//	}
-//}
 
 //edit profile of each users using customer id
 func (c *CustomerController) EditCustomer() {
@@ -216,7 +122,8 @@ func (c *CustomerController) EditCustomer() {
 	customerId := c.Ctx.Input.Param(":customerid")
 	log.Println("customerId",customerId)
 	if r.Method == "POST" {
-		customer.Info.CustomerName = c.GetString("customername")
+		CustomerName := c.GetString("customername")
+		customer.Info.CustomerName = strings.TrimSpace(CustomerName)
 		customer.Info.Address = c.GetString("address")
 		customer.Info.ContactPerson = c.GetString("contactperson")
 		customer.Info.Country = c.GetString("country")
@@ -253,40 +160,6 @@ func (c *CustomerController) EditCustomer() {
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
-		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-		var notificationCount=0
-		switch dbStatus {
-		case true:
-
-			notificationOfUser := reflect.ValueOf(notificationValue)
-			for _, notificationUserKey := range notificationOfUser.MapKeys() {
-				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-				switch dbStatus {
-				case true:
-					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-						var NotificationArray []string
-						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-							notificationCount=notificationCount+1;
-						}
-						NotificationArray =append(NotificationArray,notificationUserKey.String())
-						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-						NotificationArray =append(NotificationArray,date)
-						customerViewModel.NotificationArray=append(customerViewModel.NotificationArray,NotificationArray)
-
-					}
-				case false:
-				}
-			}
-		case false:
-		}
-		customerViewModel.NotificationNumber =notificationCount
-
 		customerViewModel.CompanyTeamName = storedSession.CompanyTeamName
 		customerViewModel.CompanyPlan = storedSession.CompanyPlan
 		customerViewModel.AdminLastName =storedSession.AdminLastName
@@ -428,7 +301,7 @@ func (c *CustomerController) DeleteCustomerFromJob() {
 			w.Write([]byte("false"))
 		}
 	}
-	}
+}
 
 
 

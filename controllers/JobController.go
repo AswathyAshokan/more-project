@@ -43,8 +43,10 @@ func (c *JobController)AddNewJob() {
 		}
 		job.Info.OrderDate = orderDateInUnix.UTC().Unix()
 		job.Customer.CustomerStatus =helpers.StatusActive
-		job.Info.JobName = c.GetString("jobName")
-		job.Info.JobNumber = c.GetString("jobNumber")
+		jobName := c.GetString("jobName")
+		job.Info.JobName= strings.TrimSpace(jobName)
+		jobNumber := c.GetString("jobNumber")
+		job.Info.JobNumber = strings.TrimSpace(jobNumber)
 		job.Info.NumberOfTask = 0
 		job.Settings.DateOfCreation = time.Now().UnixNano() / int64(time.Millisecond)
 		job.Settings.Status = helpers.StatusActive
@@ -59,39 +61,8 @@ func (c *JobController)AddNewJob() {
 	}else {
 
 
-		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-		var notificationCount=0
-		switch dbStatus {
-		case true:
 
-			notificationOfUser := reflect.ValueOf(notificationValue)
-			for _, notificationUserKey := range notificationOfUser.MapKeys() {
-				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-				switch dbStatus {
-				case true:
-					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-						var NotificationArray []string
-						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-							notificationCount=notificationCount+1;
-						}
-						NotificationArray =append(NotificationArray,notificationUserKey.String())
-						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-						NotificationArray =append(NotificationArray,date)
-						viewModel.NotificationArray=append(viewModel.NotificationArray,NotificationArray)
 
-					}
-				case false:
-				}
-			}
-		case false:
-		}
-		viewModel.NotificationNumber=notificationCount
 		//Getting all customer details
 		customers ,dbStatus:=models.GetAllCustomerDetails(c.AppEngineCtx,companyTeamName)
 		var keySlice []string
@@ -197,44 +168,8 @@ func (c *JobController)LoadJobDetail() {
 			viewModel.CustomerMatch ="false"
 			viewModel.SelectedCustomer ="false"
 		}
-		//if  len(viewModel.SelectedCustomer) ==0{
-		//	log.Println("dfdgfdgdgd")
-		//	viewModel.SelectedCustomer = "No Customer"
-		//
-		//}
-		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-		var notificationCount=0
-		switch dbStatus {
-		case true:
 
-			notificationOfUser := reflect.ValueOf(notificationValue)
-			for _, notificationUserKey := range notificationOfUser.MapKeys() {
-				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-				switch dbStatus {
-				case true:
-					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-						var NotificationArray []string
-						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-							notificationCount=notificationCount+1;
-						}
-						NotificationArray =append(NotificationArray,notificationUserKey.String())
-						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-						NotificationArray =append(NotificationArray,date)
-						viewModel.NotificationArray=append(viewModel.NotificationArray,NotificationArray)
 
-					}
-				case false:
-				}
-			}
-		case false:
-		}
-		viewModel.NotificationNumber=notificationCount
 		viewModel.AdminFirstName = storedSession.AdminFirstName
 		viewModel.AdminLastName = storedSession.AdminLastName
 		viewModel.ProfilePicture =storedSession.ProfilePicture
@@ -294,57 +229,29 @@ func (c *JobController)LoadEditJob() {
 			log.Println(err)
 		}
 		job.Info.OrderDate = orderDateInUnix.UTC().Unix()
-		job.Info.JobName = c.GetString("jobName")
-		job.Info.JobNumber = c.GetString("jobNumber")
+
+		jobName := c.GetString("jobName")
+		job.Info.JobName= strings.TrimSpace(jobName)
+		jobNumber := c.GetString("jobNumber")
+		job.Info.JobNumber = strings.TrimSpace(jobNumber)
 		job.Settings.DateOfCreation = time.Now().UnixNano() / int64(time.Millisecond)
 		job.Settings.Status = helpers.StatusActive
 		job.Info.CompanyTeamName = storedSession.CompanyTeamName
 		dbStatus := job.UpdateJobToDB(c.AppEngineCtx,jobId)
 		switch dbStatus {
 
-			case true:
-				w.Write([]byte("true"))
+		case true:
+			w.Write([]byte("true"))
 
-			case false:
-				w.Write([]byte("false"))
+		case false:
+			w.Write([]byte("false"))
 		}
 
 	} else {
 		jobId := c.Ctx.Input.Param(":jobId")
 		viewModel := viewmodels.JobViewModel{}
-		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-		var notificationCount=0
-		switch dbStatus {
-		case true:
 
-			notificationOfUser := reflect.ValueOf(notificationValue)
-			for _, notificationUserKey := range notificationOfUser.MapKeys() {
-				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-				switch dbStatus {
-				case true:
-					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-						var NotificationArray []string
-						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-							notificationCount=notificationCount+1;
-						}
-						NotificationArray =append(NotificationArray,notificationUserKey.String())
-						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-						NotificationArray =append(NotificationArray,date)
-						viewModel.NotificationArray=append(viewModel.NotificationArray,NotificationArray)
 
-					}
-				case false:
-				}
-			}
-		case false:
-		}
-		viewModel.NotificationNumber=notificationCount
 		var activeJobKey []string
 		job := models.Job{}
 		dbStatus, jobDetail := job.GetJobDetailById(c.AppEngineCtx, jobId)
@@ -368,8 +275,6 @@ func (c *JobController)LoadEditJob() {
 					}
 
 				}
-				viewModel.NotificationNumber=notificationCount
-
 				viewModel.Keys = activeJobKey
 				viewModel.PageType = helpers.SelectPageForEdit
 				viewModel.CustomerName = jobDetail.Customer.CustomerName

@@ -12,7 +12,7 @@ import (
 	"reflect"
 	"app/passporte/helpers"
 	"strings"
-	"strconv"
+
 )
 
 type ContactUserController struct {
@@ -31,8 +31,10 @@ func (c *ContactUserController)AddNewContact() {
 		user.Info.Name= c.GetString("name")
 		user.Info.State = c.GetString("state")
 		user.Info.ZipCode = c.GetString("zipcode")
-		user.Info.Email = c.GetString("emailAddress")
-		user.Info.PhoneNumber= c.GetString("phoneNumber")
+		emailAddress := c.GetString("emailAddress")
+		user.Info.Email= strings.TrimSpace(emailAddress)
+		phoneNumber := c.GetString("phoneNumber")
+		user.Info.PhoneNumber = strings.TrimSpace(phoneNumber)
 		user.Info.Address = c.GetString("address")
 		user.Info.Country = c.GetString("country")
 		tempCustomerName := c.GetStrings("customerName")
@@ -58,43 +60,6 @@ func (c *ContactUserController)AddNewContact() {
 			w.Write([]byte("false"))
 		}
 	}else {
-
-		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-		var notificationCount=0
-		switch dbStatus {
-		case true:
-
-			notificationOfUser := reflect.ValueOf(notificationValue)
-			for _, notificationUserKey := range notificationOfUser.MapKeys() {
-				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-				switch dbStatus {
-				case true:
-					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-						var NotificationArray []string
-						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-							notificationCount=notificationCount+1;
-						}
-						NotificationArray =append(NotificationArray,notificationUserKey.String())
-						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-						NotificationArray =append(NotificationArray,date)
-						viewModel.NotificationArray=append(viewModel.NotificationArray,NotificationArray)
-
-					}
-				case false:
-				}
-			}
-		case false:
-		}
-
-
-
-
 		customers ,dbStatus:=models.GetAllCustomerDetails(c.AppEngineCtx,companyTeamName)
 		var keySlice []string
 		dataValue := reflect.ValueOf(customers)
@@ -116,7 +81,6 @@ func (c *ContactUserController)AddNewContact() {
 		case false:
 			log.Println(helpers.ServerConnectionError)
 		}
-		viewModel.NotificationNumber=notificationCount
 
 
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
@@ -167,40 +131,9 @@ func (c *ContactUserController)DisplayContactDetails() {
 				tempValueSlice = tempValueSlice[:0]
 			}
 		}
-		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-		var notificationCount=0
-		switch dbStatus {
-		case true:
 
-			notificationOfUser := reflect.ValueOf(notificationValue)
-			for _, notificationUserKey := range notificationOfUser.MapKeys() {
-				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-				switch dbStatus {
-				case true:
-					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-						var NotificationArray []string
-						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-							notificationCount=notificationCount+1;
-						}
-						NotificationArray =append(NotificationArray,notificationUserKey.String())
-						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-						NotificationArray =append(NotificationArray,date)
-						viewModel.NotificationArray=append(viewModel.NotificationArray,NotificationArray)
 
-					}
-				case false:
-				}
-			}
-		case false:
-		}
 
-		viewModel.NotificationNumber=notificationCount
 
 		viewModel.Keys = activeContactKey
 
@@ -281,8 +214,10 @@ func (c *ContactUserController)LoadEditContact() {
 		user.Info.Name= c.GetString("name")
 		user.Info.State = c.GetString("state")
 		user.Info.ZipCode = c.GetString("zipcode")
-		user.Info.Email = c.GetString("emailAddress")
-		user.Info.PhoneNumber= c.GetString("phoneNumber")
+		emailAddress := c.GetString("emailAddress")
+		user.Info.Email= strings.TrimSpace(emailAddress)
+		phoneNumber := c.GetString("phoneNumber")
+		user.Info.PhoneNumber = strings.TrimSpace(phoneNumber)
 		user.Info.Country = c.GetString("country")
 		user.Info.Address = c.GetString("address")
 		tempCustomerName := c.GetStrings("customerName")
@@ -310,44 +245,6 @@ func (c *ContactUserController)LoadEditContact() {
 	} else {
 		contact :=models.ContactUser{}
 		viewModel := viewmodels.ContactUserViewModel{}
-		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-		var notificationCount=0
-		switch dbStatus {
-		case true:
-
-			notificationOfUser := reflect.ValueOf(notificationValue)
-			for _, notificationUserKey := range notificationOfUser.MapKeys() {
-				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-				switch dbStatus {
-				case true:
-					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-						var NotificationArray []string
-						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-							notificationCount=notificationCount+1;
-						}
-						NotificationArray =append(NotificationArray,notificationUserKey.String())
-						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-						NotificationArray =append(NotificationArray,date)
-						viewModel.NotificationArray=append(viewModel.NotificationArray,NotificationArray)
-
-					}
-				case false:
-				}
-			}
-		case false:
-		}
-		viewModel.NotificationNumber=notificationCount
-
-
-
-
-
 		contactId := c.Ctx.Input.Param(":contactId")
 
 		customers ,dbStatusCustomer:=models.GetAllCustomerDetails(c.AppEngineCtx,companyTeamName)
@@ -374,7 +271,7 @@ func (c *ContactUserController)LoadEditContact() {
 			log.Println(helpers.ServerConnectionError)
 		}
 
-		dbStatus,contact = contact.RetrieveContactIdFromDB(c.AppEngineCtx, contactId)
+		dbStatus,contact := contact.RetrieveContactIdFromDB(c.AppEngineCtx, contactId)
 		switch dbStatus {
 		case true:
 			viewModel.PageType = helpers.SelectPageForEdit
@@ -465,6 +362,7 @@ func (c *ContactUserController)CheckPhoneNumberAdd(){
 	log.Println("phone number",phoneNumber)
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	isPhoneNumberUsed := models.CheckPhoneNumberIsUsed(c.AppEngineCtx, phoneNumber,companyTeamName)
+	log.Println("g1",isPhoneNumberUsed)
 	switch isPhoneNumberUsed{
 	case true:
 		w.Write([]byte("false"))
@@ -477,7 +375,9 @@ func (c *ContactUserController)CheckEmailAddressAdd(){
 	emailAddress := c.GetString("emailAddress")
 	log.Println("email",emailAddress)
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+
 	isEmailAddressUsed := models.CheckEmailAddressIsUsed(c.AppEngineCtx, emailAddress,companyTeamName)
+	log.Println("g4",isEmailAddressUsed)
 	switch isEmailAddressUsed{
 	case true:
 		w.Write([]byte("false"))
@@ -539,7 +439,6 @@ func (c *ContactUserController)CheckPhoneNumber(){
 	}
 
 }
-
 
 
 

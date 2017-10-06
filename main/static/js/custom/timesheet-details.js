@@ -5,12 +5,9 @@
 
 console.log(vm);
 $(function(){ 
+   var companyTeamName= vm.CompanyTeamName;
     //checking plans
-    if (vm.NotificationNumber !=0){
-    document.getElementById("number").textContent=vm.NotificationNumber;
-}else{
-    document.getElementById("number").textContent="";
-}
+    
 
     if(vm.CompanyPlan == 'family' ){
         var parent = document.getElementById("menuItems");
@@ -45,7 +42,7 @@ $(function(){
     document.getElementById("username").textContent=vm.AdminFirstName;
     document.getElementById("imageId").src=vm.ProfilePicture;
     if (vm.ProfilePicture ==""){
-        document.getElementById("imageId").src="/static/images/default.png"
+        document.getElementById("imageId").src="/static/images/default.png";
     }
     if(vm.CompanyPlan == "family")
     {
@@ -65,87 +62,6 @@ $(function(){
     var taskArrayWithDate =[];
     var workArrayWithDate =[];
     var table = "";
-    
-   //notification
-    var notificationSorted =[[]];
-    function sortByCol(arr, colIndex){
-    notificationSorted=arr.sort(sortFunction);
-    function sortFunction(a, b) {
-        a = a[colIndex]
-        b = b[colIndex]
-        return (a === b) ? 0 : (a < b) ? -1 : 1
-    }
-}
-
-    
-     myNotification= function () {
-         if (vm.NotificationArray !=null){
-        console.log("hiiii");
-         sortByCol(vm.NotificationArray, 6);
-         console.log("jjjjj",notificationSorted);
-         var reverseSorted =[[]];
-         reverseSorted=notificationSorted.reverse();
-
-        document.getElementById("notificationDiv").innerHTML = "";
-        var DynamicTaskListing="";
-        if (reverseSorted !=null){
-            DynamicTaskListing ="<h5>"+"Notifications"+ "<button class='no-button-style' method='post' onclick='clearNotification()'>"+"clear all"+"</button>"+"</h5>"+"<ul>";
-        for(var i=0;i<reverseSorted.length;i++){
-            console.log("sp1");
-            var timeDifference =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
-            DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"delay to reach location"+" "+reverseSorted[i][4]+" "+"for task"+" "+reverseSorted[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
-            
-            
-        }
-            $("#notificationDiv").prepend(DynamicTaskListing+"</ul>");
-            document.getElementById("number").textContent="";
-            $.ajax({
-                url:'/'+ companyTeamName + '/notification/update',
-                type: 'post',
-                success : function(response) {
-                    if (response == "true" ) {
-                    } else {
-                    }
-                },
-                error: function (request,status, error) {
-                    console.log(error);
-                }
-            }); 
-        }else{
-             document.getElementById("notificationDiv").innerHTML = "";
-            DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
-                        $("#notificationDiv").prepend(DynamicTaskListing);
-            
-        }
-        
-        }else{
-             document.getElementById("notificationDiv").innerHTML = "";
-            DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
-            $("#notificationDiv").prepend(DynamicTaskListing);
-        }
-}
-     
-     
-     
-     clearNotification= function () {
-          document.getElementById("notificationDiv").innerHTML = "";
-          $.ajax({
-                url:'/'+ companyTeamName + '/notification/delete',
-                type: 'post',
-                success : function(response) {
-                    if (response == "true" ) {
-                        DynamicTaskListing ="<h5>"+" No New Notifications"+"</h5>";
-                        $("#notificationDiv").prepend(DynamicTaskListing);
-                    } else {
-                    }
-                },
-                error: function (request,status, error) {
-                    console.log(error);
-                }
-            }); 
-     }
-    
-     
     
     if (vm.TaskTimeSheetDetail != null){
         for(var i=0;i<vm.TaskTimeSheetDetail.length;i++){
@@ -510,6 +426,7 @@ $(function(){
                  timeSlice.push(extraHours);
                  console.log("total late hours",lateHours);
                  console.log("total extra hours",extraHours);
+//                 timeSlice.push(taskStartDateFromLog);
                  timeSlice.push(vm.TaskTimeSheetDetail[i][10]);
                  timeSlice.push(vm.TaskTimeSheetDetail[i][11]);
                  timeSlice.push(taskStartDateFromLog);
@@ -729,6 +646,7 @@ $(function(){
                 console.log("work late hours",lateHours);
                 workSlice.push(lateHours);
                 workSlice.push(extraHours);
+//                workSlice.push(workStartDateFromLog);
                 workSlice.push(vm.WorkTimeSheeetDetails[i][8]);
                 workSlice.push(workStartDateFromLog);
                 workValues.push(workSlice);
@@ -780,6 +698,8 @@ $(function(){
             subArray = [];
         }
     }
+    
+    console.log("main array",mainArray);
     function dataTableManipulate(mainArray){
         table =  $("#timeSheet_details").DataTable({
             data: mainArray,
@@ -857,6 +777,7 @@ $(function(){
                         }
                     }
                 }
+                console.log("final array date filter",FinalArrayForDateFilter);
                 var TaskTimeSheetRealArray =[[]];
                 for (var i=1;i<FinalArrayForDateFilter.length;i++){
                     var TaskValues =[];
@@ -894,8 +815,9 @@ $(function(){
                         }
                         sumExtraHours=extrahrs+':'+extramins;
                     }
-                    TaskValues.push(sumExtraHours);
+                    
                     TaskValues.push(sumLateHours);
+                    TaskValues.push(sumExtraHours);
                     TaskTimeSheetRealArray.push(TaskValues);
                 }
                 $('#timeSheet_details').dataTable().fnDestroy();
@@ -904,7 +826,8 @@ $(function(){
                 }
                 dataTableManipulate(taskArrayWithDate);
             }
-            if(document.getElementById('workDetail').clicked == true){
+            if(document.getElementById('workDetail').clicked == true){ 
+                var WorkValues =[];
                 for (var k=0;k<workMainArray.length;k++){
                     if (workMainArray[k].length !=0){
                         var d1 = fromDateValue.split("/");
@@ -964,8 +887,8 @@ $(function(){
                         }
                         sumExtraHours=extrahrs+':'+extramins;
                     }
-                    WorkValues.push(sumExtraHours);
                     WorkValues.push(sumLateHours);
+                    WorkValues.push(sumExtraHours);
                     WorkTimeSheetRealArray.push(WorkValues);
                 }
                 $('#timeSheet_details').dataTable().fnDestroy();

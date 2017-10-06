@@ -146,7 +146,7 @@
 							</div>
                         </div>
                         <div class="form-group clearfix">
-                            <div class="col-sm-6">
+                            <div class="col-sm-6" style="display:none">
 								<label for="log" class="" id="log">Log In Minutes</label>
 								<select class="form-control sprites-arrow-down" id="logInMinutes" name="logInMinutes">
                                     <option selected disabled value="">Select Log In Minutes </option>
@@ -194,7 +194,7 @@
                         <div class="form-group clearfix">
                             <div class="col-sm-6" id="fitToWorkDiv">
                                 <label for="fitToWork" class="" >Fit To Work Declaration</label>
-                                <select class="form-control sprites-arrow-down" id="TaskFitToWork" name="TaskFitToWork" onchange="getInstructions();" >
+                                <select class="form-control sprites-arrow-down" id="TaskFitToWork" name="TaskFitToWork" onchange="getInstructions(this.value);" >
                                     <option selected disabled value="">Select Fit To Work</option>
                                     {{range $key, $val := .vm.FitToWorkArray}}
                                     <option  id="{{index $.vm.FitToWorkKey $key}}" value="{{$val}}" >{{$val}} </option>
@@ -217,7 +217,7 @@
                             </div>
                             <div class="wrp-plus"></div>
                         </div>
-                         <div class="col-sm-6" >
+                         <div class="col-sm-6" style="display:none">
                              <label><p><input type="checkbox" id="fitToWorkCheck" name="fitToWorkCheck">&nbsp;&nbsp;&nbsp;Fit To Work Declaration Each Time User Re-enter into Task.</p> </label>
                              <div id="ExplosureDiv">
                              <label for="workExplosure" id="workExplosureLabel">
@@ -297,6 +297,8 @@
 <script src="/static/js/select2.min.js"></script>
 <script src="/static/js/custom.js" type="text/javascript" charset="utf-8"></script>
 <!--<link rel="stylesheet" type="text/css" href="/static/css/jquery.timeentry.css">-->
+
+    <link rel="stylesheet" href="/static/css/custom/custom.css">
 
 
 <script> 

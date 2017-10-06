@@ -71,39 +71,8 @@ func (c *SharedDocumentController) LoadSharedDocuments() {
 				log.Println(helpers.ServerConnectionError)
 			}
 		}
-	dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-	var notificationCount=0
-	switch dbStatus {
-	case true:
 
-		notificationOfUser := reflect.ValueOf(notificationValue)
-		for _, notificationUserKey := range notificationOfUser.MapKeys() {
-			dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-			switch dbStatus {
-			case true:
-				notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-				for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-					var NotificationArray []string
-					if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-						notificationCount=notificationCount+1;
-					}
-					NotificationArray =append(NotificationArray,notificationUserKey.String())
-					NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-					date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-					NotificationArray =append(NotificationArray,date)
-					documentsViewModels.NotificationArray=append(documentsViewModels.NotificationArray,NotificationArray)
 
-				}
-			case false:
-			}
-		}
-	case false:
-	}
-	documentsViewModels.NotificationNumber=notificationCount
 		documentsViewModels.Keys = expiryKeySlice
 		documentsViewModels.CompanyTeamName = storedSession.CompanyTeamName
 		documentsViewModels.CompanyPlan = storedSession.CompanyPlan
@@ -141,39 +110,8 @@ func (c *SharedDocumentController) LoadSharedDocumentsAllSharedDocuments() {
 		log.Println(helpers.ServerConnectionError)
 	}*/
 
-	dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-	var notificationCount=0
-	switch dbStatus {
-	case true:
 
-		notificationOfUser := reflect.ValueOf(notificationValue)
-		for _, notificationUserKey := range notificationOfUser.MapKeys() {
-			dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-			switch dbStatus {
-			case true:
-				notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-				for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-					var NotificationArray []string
-					if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-						notificationCount=notificationCount+1;
-					}
-					NotificationArray =append(NotificationArray,notificationUserKey.String())
-					NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-					date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-					NotificationArray =append(NotificationArray,date)
-					documentsViewModels.NotificationArray=append(documentsViewModels.NotificationArray,NotificationArray)
 
-				}
-			case false:
-			}
-		}
-	case false:
-	}
-	documentsViewModels.NotificationNumber=notificationCount
 	documentsViewModels.Values = AllSharedDocument
 	documentsViewModels.Keys = expiryKeySlice
 	documentsViewModels.CompanyTeamName = storedSession.CompanyTeamName

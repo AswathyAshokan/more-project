@@ -36,7 +36,7 @@ func (c *DashBoardController)LoadDashBoard() {
 	storedSession := ReadSession(w, r, companyTeamName)
 	companyTask :=models.TaskIdInfo{}
 	task := models.Tasks{}
-	notificationCount :=0;
+
 	//section for getting total task completion and pending details
 	dbStatus, companyTaskDetails := companyTask.RetrieveTaskFromCompany(c.AppEngineCtx,companyTeamName)
 	var jobKeySlice []string
@@ -269,30 +269,50 @@ func (c *DashBoardController)LoadDashBoard() {
 	}
 
 	dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-
+	log.Println("hghghghghghghghfydtdftyftyfyt",notificationValue)
+	var notificationCount=0
 	switch dbStatus {
 	case true:
-
 		notificationOfUser := reflect.ValueOf(notificationValue)
 		for _, notificationUserKey := range notificationOfUser.MapKeys() {
 			dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
+			log.Println("notificationUserValue",notificationUserValue)
 			switch dbStatus {
 			case true:
 				notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
 				for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
 					var NotificationArray []string
+					var workLocationDelayArray []string
 					if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
 						notificationCount=notificationCount+1;
 					}
-					NotificationArray =append(NotificationArray,notificationUserKey.String())
-					NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-					date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-					NotificationArray =append(NotificationArray,date)
-					viewModel.NotificationArray=append(viewModel.NotificationArray,NotificationArray)
+
+					if notificationUserValue[notificationUserKeyForSpecific.String()].Category =="WorkLocation"{
+						log.Println("iam in ffffff condition")
+
+						workLocationDelayArray =append(workLocationDelayArray,notificationUserKey.String())
+						workLocationDelayArray = append(workLocationDelayArray,notificationUserKeyForSpecific.String())
+						workLocationDelayArray = append(workLocationDelayArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
+						workLocationDelayArray =append(workLocationDelayArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
+						workLocationDelayArray =append(workLocationDelayArray,notificationUserValue[notificationUserKeyForSpecific.String()].WorkLocation)
+						tempCategory := "WorkLocation"+"t!@#$%&*YTREFFDD"
+						workLocationDelayArray =append(workLocationDelayArray,tempCategory)
+						tempDate := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
+						workLocationDelayArray =append(workLocationDelayArray,tempDate)
+						log.Println("workLocationDelayArray",workLocationDelayArray)
+						viewModel.NotificationArray=append(viewModel.NotificationArray,workLocationDelayArray)
+					} else {
+						NotificationArray =append(NotificationArray,notificationUserKey.String())
+						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
+						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
+						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
+						NotificationArray =append(NotificationArray,date)
+						log.Println("NotificationArray",NotificationArray)
+						viewModel.NotificationArray=append(viewModel.NotificationArray,NotificationArray)
+					}
 
 				}
 			case false:
@@ -300,7 +320,18 @@ func (c *DashBoardController)LoadDashBoard() {
 		}
 	case false:
 	}
+	log.Println("notificationCount",notificationCount)
+	viewModel.NotificationNumber =notificationCount
 
+
+	//get notification for admin when  documents of users is expired
+	dbStatus,expiryNotification := models.GetAllNotificationsOfExpiration(c.AppEngineCtx,companyTeamName)
+	switch dbStatus {
+	case true:
+		viewModel.DocumentExpiryNotification = expiryNotification
+	case false:
+
+	}
 	log.Println("nottttttttttt",viewModel.NotificationArray)
 	viewModel.NotificationNumber =notificationCount
 	viewModel.Key = activeJobKey

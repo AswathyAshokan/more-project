@@ -16,8 +16,13 @@ type NotificationController struct {
 func (c *NotificationController) NotificationUpdate() {
 	log.Println("notificationnnnnnnnnnnnnnnnnnnnnnnnnn")
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	UpdateIdArray := c.GetStrings("DeletedId")
+	expiryId := c.GetStrings("DeletedExpiryId")
+	userId := c.GetStrings("DeletedUserId")
+	log.Println("uuuitititit",expiryId)
+	log.Println("userid",userId)
 	w := c.Ctx.ResponseWriter
-	dbStatus:= models.UpdateAllNotifications(c.AppEngineCtx,companyTeamName)
+	dbStatus:= models.UpdateAllNotifications(c.AppEngineCtx,companyTeamName,UpdateIdArray,expiryId,userId)
 	switch dbStatus {
 	case true:
 		w.Write([]byte("true"))
@@ -30,9 +35,13 @@ func (c *NotificationController) NotificationUpdate() {
 
 func (c *NotificationController) NotificationDelete() {
 	log.Println("deleteeeeeeee")
+	UpdateIdArray := c.GetStrings("DeletedId")
+	expiryId := c.GetStrings("DeletedExpiryId")
+	userId := c.GetStrings("DeletedUserId")
+	log.Println("deletedArray ##%uyyuu",UpdateIdArray)
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	w := c.Ctx.ResponseWriter
-	dbStatus:= models.DeleteAllNotifications(c.AppEngineCtx,companyTeamName)
+	dbStatus:= models.DeleteAllNotifications(c.AppEngineCtx,companyTeamName,UpdateIdArray,expiryId,userId)
 	switch dbStatus {
 	case true:
 		w.Write([]byte("true"))

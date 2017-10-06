@@ -31,7 +31,7 @@ type ConsentReceiptDetails struct {
 
 }
 type UserInfo struct {
-
+	Address			string
 	City      		string
 	Country     		string
 	DateOfBirth		int64

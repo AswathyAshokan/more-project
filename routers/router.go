@@ -135,6 +135,15 @@ func init() {
 	beegae.Router("/:companyTeamName/fitToWork/:fitToWorkId/deletionOfFitToWorkIfUsedForTask", &controllers.FitToWorkController{},"*:DeleteFitToWorkInTask")
 	beegae.Router("/:companyTeamName/isFitToWorkNameUsedEdit/:fitWorkName/:editFitToWork", &controllers.FitToWorkController{},"*:CheckFitToWorkEdit")
 
+	//company details
+	beegae.Router("/:companyTeamName/companyProfile", &controllers.CompanyProfileController{},"*:CompanyProfileDetails")
+	beegae.Router("/:companyTeamName/companyFileUpload/add", &controllers.CompanyFileUploadController{},"*:CompanyFileUpload")
+	beegae.Router("/:companyTeamName/companyFileUpload", &controllers.CompanyFileUploadController{},"*:CompanyFileUploadDetail")
+	beegae.Router("/:companyTeamName/companyFileUpload/:documentId/delete", &controllers.CompanyFileUploadController{},"*:CompanyFileUploadDelete")
+	beegae.Router("/:companyTeamName/companyFileUpload/:documentId/edit", &controllers.CompanyFileUploadController{},"*:CompanyFileUploadEdit")
+	beegae.Router("/:companyTeamName/:documentId/companyFileUpload/EditWithoutChange", &controllers.CompanyFileUploadController{},"*:CompanyFileUploadEditWithOutChange")
+
+
 
 
 	//View sections

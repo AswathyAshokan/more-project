@@ -30,6 +30,8 @@ func (c *TaskController)AddNewTask() {
 	jobNameInTask :=c.Ctx.Input.Param(":jobName")
 	customerNameInTask :=c.Ctx.Input.Param(":customerName")
 	log.Println("customer",customerNameInTask)
+	var TaskBreakTimeSlice []string
+	var TaskWorkTimeSlice []string
 
 	if r.Method == "POST" {
 		task:=models.Tasks{}
@@ -48,6 +50,8 @@ func (c *TaskController)AddNewTask() {
 		task.Info.TaskLocation =c.GetString("taskLocation")
 		startDateString := c.GetString("startDateFomJs")
 		endDateString :=c.GetString("endDateFromJs")
+		log.Println("start date",endDateString)
+		log.Println("start date",startDateString)
 		fitToWorkName :=c.GetString("fitToWorkName")
 		log.Println("fitToWorkName",fitToWorkName)
 		layout := "01/02/2006 15:04"
@@ -90,15 +94,17 @@ func (c *TaskController)AddNewTask() {
 		task.Settings.DateOfCreation =dateOfCreation
 		task.Settings.Status = helpers.StatusActive
 		task.Settings.TaskStatus =helpers.StatusPending
-		TaskBreakTimeSlice :=strings.Split(exposureTask, ",")
-		TaskWorkTimeSlice :=strings.Split(exposureWorkTime, ",")
-
+		if  len(exposureTask)!=0{
+			TaskBreakTimeSlice =strings.Split(exposureTask, ",")
+			TaskWorkTimeSlice =strings.Split(exposureWorkTime, ",")
+		}
 		tempFitToWorkCheck :=c.GetString("fitToWorkCheck")
 		if tempFitToWorkCheck =="on" {
 			task.Settings.FitToWorkDisplayStatus ="EachTime"
 		} else {
 			task.Settings.FitToWorkDisplayStatus = "OnceADay"
 		}
+		log.Println("sp1")
 		task.Info.CompanyTeamName = storedSession.CompanyTeamName
 		task.Info.CompanyName =storedSession.CompanyName
 		companyId :=storedSession.CompanyId
@@ -110,8 +116,10 @@ func (c *TaskController)AddNewTask() {
 		var keySliceForGroup [] string
 		var MemberNameArray [] string
 		var groupKeySlice	[]string
+		log.Println("sp2")
 		groupMemberMap := make(map[string]models.GroupMemberName)
 		groupMemberNameForTask :=models.GroupMemberName{}
+		log.Println("uuuuuu",UserOrGroupIdArray);
 		for i := 0; i < len(UserOrGroupIdArray); i++ {
 			tempName := UserOrGroupNameArray[i]
 			tempId := UserOrGroupIdArray[i]
@@ -156,7 +164,7 @@ func (c *TaskController)AddNewTask() {
 
 			}
 		}
-
+		log.Println("sp3")
 
 		task.UsersAndGroups.User = userMap
 		if groupKeySliceForTask[0] !=""{
@@ -181,11 +189,12 @@ func (c *TaskController)AddNewTask() {
 		}
 		task.Contacts = contactMap
 
-
+		log.Println("sp4")
 		//Add data to task DB
 		dbStatus :=task.AddTaskToDB(c.AppEngineCtx,companyId, TaskBreakTimeSlice,TaskWorkTimeSlice,tempContactId,groupKeySlice,jobIdForTask,customerIdForTask,fitToWorkName)
 		switch dbStatus {
 		case true:
+			log.Println("vvvvvvvvvvv");
 
 			w.Write([]byte("true"))
 		case false:
@@ -195,39 +204,8 @@ func (c *TaskController)AddNewTask() {
 	}else {
 		viewModel  := viewmodels.AddTaskViewModel{}
 
-		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-		var notificationCount=0
-		switch dbStatus {
-		case true:
 
-			notificationOfUser := reflect.ValueOf(notificationValue)
-			for _, notificationUserKey := range notificationOfUser.MapKeys() {
-				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-				switch dbStatus {
-				case true:
-					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-						var NotificationArray []string
-						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-							notificationCount=notificationCount+1;
-						}
-						NotificationArray =append(NotificationArray,notificationUserKey.String())
-						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-						NotificationArray =append(NotificationArray,date)
-						viewModel.NotificationArray=append(viewModel.NotificationArray,NotificationArray)
 
-					}
-				case false:
-				}
-			}
-		case false:
-		}
-		viewModel.NotificationNumber=notificationCount
 		companyUsers :=models.Company{}
 		var keySlice []string
 		var activeJobKey []string
@@ -711,39 +689,6 @@ func (c *TaskController)LoadTaskDetail() {
 
 		viewModel.UserArray = taskUserSlice
 
-		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-		var notificationCount=0
-		switch dbStatus {
-		case true:
-
-			notificationOfUser := reflect.ValueOf(notificationValue)
-			for _, notificationUserKey := range notificationOfUser.MapKeys() {
-				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-				switch dbStatus {
-				case true:
-					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-						var NotificationArray []string
-						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-							notificationCount=notificationCount+1;
-						}
-						NotificationArray =append(NotificationArray,notificationUserKey.String())
-						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-						NotificationArray =append(NotificationArray,date)
-						viewModel.NotificationArray=append(viewModel.NotificationArray,NotificationArray)
-
-					}
-				case false:
-				}
-			}
-		case false:
-		}
-		viewModel.NotificationNumber=notificationCount
 		//taskKeyCount =taskKeyCount+1
 		viewModel.Keys = taskKey
 		viewModel.CompanyTeamName = storedSession.CompanyTeamName
@@ -816,6 +761,8 @@ func (c *TaskController)LoadEditTask() {
 		log.Println("hgfdfhgd",fitToWorkName)
 		startDateString := c.GetString("startDateFomJs")
 		endDateString :=c.GetString("endDateFromJs")
+		log.Println("start date",endDateString)
+		log.Println("start date",startDateString)
 		layout := "01/02/2006 15:04"
 		startDate, err := time.Parse(layout, startDateString)
 		if err != nil {
@@ -974,42 +921,6 @@ func (c *TaskController)LoadEditTask() {
 		var taskcontactSlice [][]viewmodels.TaskContact
 		viewModel.CustomerNameFormUrl=""
 		viewModel.JobNameFormUrl=""
-
-		dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-		var notificationCount=0
-		switch dbStatus {
-		case true:
-
-			notificationOfUser := reflect.ValueOf(notificationValue)
-			for _, notificationUserKey := range notificationOfUser.MapKeys() {
-				dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-				switch dbStatus {
-				case true:
-					notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-					for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-						var NotificationArray []string
-						if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-							notificationCount=notificationCount+1;
-						}
-						NotificationArray =append(NotificationArray,notificationUserKey.String())
-						NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-						NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-						date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-						NotificationArray =append(NotificationArray,date)
-						viewModel.NotificationArray=append(viewModel.NotificationArray,NotificationArray)
-
-					}
-				case false:
-				}
-			}
-		case false:
-		}
-		viewModel.NotificationNumber=notificationCount
-
-
 		dbStatus, contacts := models.GetAllContact(c.AppEngineCtx,companyTeamName)
 		switch dbStatus {
 		case true:
