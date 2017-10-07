@@ -51,5 +51,4 @@ type AddCustomerViewModel struct {
 	ProfilePicture		string
 	NotificationArray	[][]string
 	NotificationNumber       int
-	DocumentExpiryNotification [][]string
 }

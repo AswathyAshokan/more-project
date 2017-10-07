@@ -531,7 +531,7 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 		workLocationData.DailyEndDate = m.Info.DailyEndDate
 		workLocationData.Latitude =m.Info.Latitude
 		workLocationData.Longitude =m.Info.Longitude
-		workLocationData.Status ="Removed"
+		workLocationData.Status =helpers.StatusInActive
 		workLocationData.DateOfCreation = m.Settings.DateOfCreation
 		workLocationData.CompanyName = companyName
 
