@@ -283,14 +283,12 @@ $().ready(function() {
            endDate:"required",
            dailyStartTime:"required",
            dailyEndTime:"required",
-           loginType : "required",
-           logInMinutes :"required"
+           loginType : "required"
        },
        messages: {
            usersAndGroupId: "Please select user or group",
            taskLocation:"please fill this column",
-           loginType:"slecet login type",
-           logInMinutes : "select a log in minutes"
+           loginType:"select login type"
        },
         submitHandler: function(){//to pass all data of a form serial
             
@@ -720,6 +718,7 @@ $().ready(function() {
                 }
             }else{
                 $("#myModalForUniqueTest").modal();
+                $("#saveButton").attr('disabled', false);
 //                $("#cancelForCheckUnique").click(function(){
 //                    window.location = '/'+companyTeamName+'/worklocation/add';
 //                });

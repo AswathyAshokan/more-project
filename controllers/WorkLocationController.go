@@ -209,7 +209,7 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 			log.Println(helpers.ServerConnectionError)
 		}
 
-		workLocationValues := models.IsWorkAssignedToUser(c.AppEngineCtx, companyTeamName)
+		/*workLocationValues := models.IsWorkAssignedToUser(c.AppEngineCtx, companyTeamName)
 		log.Println("allWorkLocationData", workLocationValues)
 		dataValue := reflect.ValueOf(workLocationValues)
 
@@ -230,7 +230,7 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 				}
 			}
 
-		}
+		}*/
 		//getting fit to work
 		var keySliceForFitToWork        []string
 		var tempKeySliceFitToWork        []string
@@ -239,8 +239,8 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		var fitToWorkStructSlice        []viewmodels.TaskFitToWork
 		var tempfitToWorkStructSlice        [][]viewmodels.TaskFitToWork
 		var fitToWorkStruct viewmodels.TaskFitToWork
-		fitToWorkById := models.GetSelectedCompanyName(c.AppEngineCtx, companyTeamName)
-		switch dbStatus {
+		Status,fitToWorkById := models.GetSelectedCompanyName(c.AppEngineCtx, companyTeamName)
+		switch Status {
 		case true:
 			fitToWorkDataValues := reflect.ValueOf(fitToWorkById)
 			for _, fitToWorkKey := range fitToWorkDataValues.MapKeys() {
@@ -659,41 +659,6 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 		}
 
 	}
-	dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-	var notificationCount =0
-	switch dbStatus {
-	case true:
-
-		notificationOfUser := reflect.ValueOf(notificationValue)
-		for _, notificationUserKey := range notificationOfUser.MapKeys() {
-			dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-			switch dbStatus {
-			case true:
-				notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
-				for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
-					var NotificationArray []string
-					if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
-						notificationCount=notificationCount+1;
-					}
-					NotificationArray =append(NotificationArray,notificationUserKey.String())
-					NotificationArray =append(NotificationArray,notificationUserKeyForSpecific.String())
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Message)
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskLocation)
-					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
-					date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
-					NotificationArray =append(NotificationArray,date)
-					viewModelForEdit.NotificationArray=append(viewModelForEdit.NotificationArray,NotificationArray)
-
-				}
-			case false:
-			}
-		}
-	case false:
-	}
-
-
-
 	var keySliceForFitToWork        []string
 	var tempKeySliceFitToWork        []string
 	var tempInstructionKeySlice        []string
@@ -701,8 +666,8 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 	var fitToWorkStructSlice        []viewmodels.TaskFitToWork
 	var tempfitToWorkStructSlice        [][]viewmodels.TaskFitToWork
 	var fitToWorkStruct viewmodels.TaskFitToWork
-	fitToWorkById := models.GetSelectedCompanyName(c.AppEngineCtx, companyTeamName)
-	switch dbStatus {
+	status,fitToWorkById := models.GetSelectedCompanyName(c.AppEngineCtx, companyTeamName)
+	switch status {
 	case true:
 		fitToWorkDataValues := reflect.ValueOf(fitToWorkById)
 		for _, fitToWorkKey := range fitToWorkDataValues.MapKeys() {
@@ -807,7 +772,7 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 
 	viewModelForEdit.BreakTime =BreakTime
 	viewModelForEdit.WorkTime = WorkTime
-	viewModelForEdit.NotificationNumber=notificationCount
+	//viewModelForEdit.NotificationNumber=notificationCount
 	viewModelForEdit.CompanyTeamName = storedSession.CompanyTeamName
 	viewModelForEdit.CompanyPlan = storedSession.CompanyPlan
 	viewModelForEdit.AdminFirstName =storedSession.AdminFirstName

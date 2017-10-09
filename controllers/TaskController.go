@@ -245,7 +245,7 @@ func (c *TaskController)AddNewTask() {
 		var fitToWorkStructSlice []viewmodels.TaskFitToWork
 		var tempfitToWorkStructSlice [][]viewmodels.TaskFitToWork
 		var fitToWorkStruct viewmodels.TaskFitToWork
-		fitToWorkById := models.GetSelectedCompanyName(c.AppEngineCtx, companyTeamName)
+		dbStatus,fitToWorkById := models.GetSelectedCompanyName(c.AppEngineCtx, companyTeamName)
 		switch dbStatus {
 		case true:
 			fitToWorkDataValues := reflect.ValueOf(fitToWorkById)
@@ -398,7 +398,7 @@ func (c *TaskController)AddNewTask() {
 
 		}
 		var locationArray []string
-		workLocation,_ := models.GetAllWorkLocationDetails(c.AppEngineCtx,companyTeamName)
+		workLocation:= models.IsWorkAssignedToUser(c.AppEngineCtx,companyTeamName)
 		dataValue := reflect.ValueOf(workLocation)
 		for _, key := range dataValue.MapKeys() {
 			if workLocation[key.String()].Settings.Status ==helpers.StatusActive&&workLocation[key.String()].Info.CompanyTeamName==companyTeamName{
@@ -1082,7 +1082,7 @@ func (c *TaskController)LoadEditTask() {
 					var fitToWorkStructSlice []viewmodels.TaskFitToWork
 					var tempfitToWorkStructSlice [][]viewmodels.TaskFitToWork
 					var fitToWorkStruct viewmodels.TaskFitToWork
-					fitToWorkById := models.GetSelectedCompanyName(c.AppEngineCtx, companyTeamName)
+					dbStatus,fitToWorkById := models.GetSelectedCompanyName(c.AppEngineCtx, companyTeamName)
 					switch dbStatus {
 					case true:
 						fitToWorkDataValues := reflect.ValueOf(fitToWorkById)
@@ -1119,7 +1119,7 @@ func (c *TaskController)LoadEditTask() {
 
 
 					//Selecting group name which is to be edited...
-					dbStatus,_ := task.GetTaskDetailById(c.AppEngineCtx, taskId)
+					dbStatus,_ = task.GetTaskDetailById(c.AppEngineCtx, taskId)
 					switch dbStatus {
 					case true:
 						//selecting user name to edit
@@ -1273,7 +1273,7 @@ func (c *TaskController)LoadEditTask() {
 				log.Println(helpers.ServerConnectionError)
 			}
 
-		workLocation,_ := models.GetAllWorkLocationDetails(c.AppEngineCtx,companyTeamName)
+		workLocation := models.IsWorkAssignedToUser(c.AppEngineCtx,companyTeamName)
 		dataValueForWorkLocation := reflect.ValueOf(workLocation)
 		for _, key := range dataValueForWorkLocation.MapKeys() {
 			if workLocation[key.String()].Settings.Status ==helpers.StatusActive&&workLocation[key.String()].Info.CompanyTeamName==companyTeamName{

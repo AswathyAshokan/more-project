@@ -68,14 +68,14 @@ func GetAllFitToWorkDetails(ctx context.Context) (bool,map[string]FitToWork){
 	}
 	return true, fitToWorkValue
 }
-func GetSelectedCompanyName(ctx context.Context, fitToWorkId string)(map[string]FitToWork){
+func GetSelectedCompanyName(ctx context.Context, fitToWorkId string)(bool,map[string]FitToWork){
 	fitToWork :=map[string]FitToWork{}
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("FitToWork/"+ fitToWorkId).Value(&fitToWork)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return fitToWork
+	return true,fitToWork
 
 }
 func GetAllInstructionsOfFitToWorkById(ctx context.Context,companyTeamName string, fitToWorkId string)(map[string]TaskFitToWorks)  {

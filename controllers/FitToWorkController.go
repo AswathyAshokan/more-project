@@ -72,7 +72,7 @@ func (c* FitToWorkController)LoadFitToWork(){
 		for _, k :=range keySlice {
 			if k == companyTeamName {
 
-				fitToWorkById := models.GetSelectedCompanyName(c.AppEngineCtx, k)
+				_,fitToWorkById := models.GetSelectedCompanyName(c.AppEngineCtx, k)
 				fitToWorkDataValues := reflect.ValueOf(fitToWorkById)
 				for _, fitToWorkKey := range fitToWorkDataValues.MapKeys() {
 					tempKeySlice = append(tempKeySlice, fitToWorkKey.String())
