@@ -5,7 +5,7 @@ import (
 	"log"
 	"golang.org/x/net/context"
 	"reflect"
-	"strings"
+	//"strings"
 	"app/passporte/helpers"
 	"time"
 	"github.com/kjk/betterguid"
@@ -135,15 +135,10 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 
 	}*/
 	log.Println("information",m)
-	taskData, err := dB.Child("Tasks").Push(m)
-	if err!=nil{
-		log.Println("Insertion error:",err)
-		return false
-	}
-	log.Println("last inserted data",taskData)
+
 	//For inserting task details to User
-	taskDataString := strings.Split(taskData.String(),"/")
-	taskUniqueID := taskDataString[len(taskDataString)-2]
+	//taskDataString := strings.Split(taskData.String(),"/")
+	taskUniqueID := betterguid.New()
 	//for adding fit to work to database
 
 	//setting notification  task in user
@@ -191,6 +186,12 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 		}
 
 	}
+	 err = dB.Child("Tasks/"+taskUniqueID).Set(m)
+	if err!=nil{
+		log.Println("Insertion error:",err)
+		return false
+	}
+	//log.Println("last inserted data",taskData)
 
 
 	//setting number of task in job
