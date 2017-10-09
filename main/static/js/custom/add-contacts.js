@@ -36,7 +36,7 @@ $(function () {
                   remote:{
                       
 //                      url: "/isPhoneNumberUsed/" + phoneNumber,
-                      url: "/isPhoneNumberUsed/" + phoneNumber+ "/" +vm.PageType+ "/" + vm.PhoneNumber,
+                      url: "/"+ companyTeamName+"/isPhoneNumberUsed/" + phoneNumber+ "/" +vm.PageType+ "/" + vm.PhoneNumber,
                       type: "post"
                   }
               },
@@ -45,7 +45,7 @@ $(function () {
                   email: true,
                   remote:{
 //                      url: "/isemailAddressUsed/" + emailAddress,
-               url: "/isemailAddressUsed/" + emailAddress+ "/" + vm.PageType + "/" + vm.Email,
+               url: "/"+ companyTeamName+"/isemailAddressUsed/" + emailAddress+ "/" + vm.PageType + "/" + vm.Email,
                       type: "post"
                   }
               },
@@ -117,7 +117,7 @@ $(function () {
                   required: true,
                   remote:{
                       
-                      url: "/isPhoneNumberUsed/" + phoneNumber,
+                      url: "/"+ companyTeamName+"/isPhoneNumberUsed/" + phoneNumber,
 //                      url: "/isPhoneNumberUsed/" + phoneNumber+ "/" +vm.PageType+ "/" + vm.PhoneNumber,
                       type: "post"
                   }
@@ -126,7 +126,7 @@ $(function () {
                   required: true,
                   email: true,
                   remote:{
-                      url: "/isemailAddressUsed/" + emailAddress,
+                      url: "/"+ companyTeamName+"/isemailAddressUsed/" + emailAddress,
 //               url: "/isemailAddressUsed/" + emailAddress+ "/" + vm.PageType + "/" + vm.Email,
                       type: "post"
                   }

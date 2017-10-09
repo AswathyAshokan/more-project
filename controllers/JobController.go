@@ -335,6 +335,7 @@ func (c *JobController)CheckJobName(){
 	jobName := c.GetString("jobName")
 	log.Println("phone number",jobName)
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	log.Println("company team name",companyTeamName)
 	isJobNameUsed := models.CheckJobNameIsUsed(c.AppEngineCtx, jobName,companyTeamName)
 	switch isJobNameUsed{
 	case true:

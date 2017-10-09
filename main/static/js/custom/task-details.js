@@ -222,10 +222,10 @@ $(function(){
                     minUser +='<td>Login type </td>';
                     minUser +='<td>'+minUserArray[i][1]+'</td>';
                     minUser +='</tr>';
-                    minUser +='<tr>';
-                    minUser +='<td>Log Time In Minutes </td>';
-                    minUser +='<td>'+minUserArray[i][2]+'</td>';
-                    minUser +='</tr>';
+//                    minUser +='<tr>';
+//                    minUser +='<td>Log Time In Minutes </td>';
+//                    minUser +='<td>'+minUserArray[i][2]+'</td>';
+//                    minUser +='</tr>';
                     minUser +='<tr>';
                     minUser +='<td>Fit To WorkName </td>';
                     minUser +='<td>'+minUserArray[i][3]+'</td>';
@@ -239,30 +239,30 @@ $(function(){
             minUser +="</div>";
             
             //exposure
-            var exposure   ='<div class="pull-left dropdown-tbl" style="">';
-            exposure += "<table cellpadding='5' cellspacing='0' style='border: 1px solid #dddddd !important;'>";
-            exposure += '<th>Exposure Details</th>';
-            exposure += "<tr>";
-            for (var i = 0; i < ExposureArray.length; i++) {
-                 
-                if(ExposureArray[i] != null && ExposureArray[i][0].TaskId == taskID ) {
-                    console.log("task id exposure",ExposureArray[i][0].TaskId );
-                    console.log ("ggg",taskID);
-                     
-                    for (var j=0; j<ExposureArray[i].length ;j++){
-                        var Breakhours = Math.trunc(ExposureArray[i][j].BreakMinute/60);
-                        var Breakminutes = ExposureArray[i][j].BreakMinute % 60;
-                        var Workhours = Math.trunc(ExposureArray[i][j].WorkingHour/60);
-                        var Workminutes = ExposureArray[i][j].WorkingHour % 60;
-                        exposure += "<td>"+Breakhours +":"+ Breakminutes+" Minutes Break After"+Workhours +":"+ Workminutes+"Hours"+"</td>";
-                        exposure += "</tr>";
-                    }
-                }
-            }
-            exposure += "</table  >";
-            exposure +="</div>";
+//            var exposure   ='<div class="pull-left dropdown-tbl" style="">';
+//            exposure += "<table cellpadding='5' cellspacing='0' style='border: 1px solid #dddddd !important;'>";
+//            exposure += '<th>Exposure Details</th>';
+//            exposure += "<tr>";
+//            for (var i = 0; i < ExposureArray.length; i++) {
+//                 
+//                if(ExposureArray[i] != null && ExposureArray[i][0].TaskId == taskID ) {
+//                    console.log("task id exposure",ExposureArray[i][0].TaskId );
+//                    console.log ("ggg",taskID);
+//                     
+//                    for (var j=0; j<ExposureArray[i].length ;j++){
+//                        var Breakhours = Math.trunc(ExposureArray[i][j].BreakMinute/60);
+//                        var Breakminutes = ExposureArray[i][j].BreakMinute % 60;
+//                        var Workhours = Math.trunc(ExposureArray[i][j].WorkingHour/60);
+//                        var Workminutes = ExposureArray[i][j].WorkingHour % 60;
+//                        exposure += "<td>"+Breakhours +":"+ Breakminutes+" Minutes Break After"+Workhours +":"+ Workminutes+"Hours"+"</td>";
+//                        exposure += "</tr>";
+//                    }
+//                }
+//            }
+//            exposure += "</table  >";
+//            exposure +="</div>";
             
-            return result+minUser+exposure;
+            return result+minUser;
         }
     //..................data table calling.......................
     if(vm.Values != null) {

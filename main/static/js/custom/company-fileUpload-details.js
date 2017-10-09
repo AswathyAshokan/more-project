@@ -1,13 +1,7 @@
 console.log(vm);
 var companyTeamName = vm.CompanyTeamName;
 $(function(){
-    console.log("number",vm.NotificationNumber);
-    if (vm.NotificationNumber !=0){
-        console.log("kkk");
-        document.getElementById("number").textContent=vm.NotificationNumber;
-    }else{
-        document.getElementById("number").textContent="";
-    }
+   
     document.getElementById("username").textContent=vm.AdminFirstName;
     document.getElementById("imageId").src=vm.ProfilePicture;
     if (vm.ProfilePicture ==""){

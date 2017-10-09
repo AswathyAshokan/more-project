@@ -117,53 +117,53 @@ console.log("company name",vm);
     }else if (vm.CompanyPlan == "businessPlus") {
         $('#planChange').attr('data-target','#business-plus');
     }
-    if(vm.CompletedTask ==0 &&vm.PendingTask ==0){
-        jQuery("#pie1").radialPieChart("init", {
-            'font-size': 13,
-            'fill': 25,
-            "size": 150,
-            'text-color': "transparent",
-            'data': [
-                {'color': "#363433", 'perc': 100}
-            ]
-        });
-    }else {
-        jQuery("#pie1").radialPieChart("init", {
-            'font-size': 13,
-            'fill': 25,
-            "size": 150,
-            'text-color': "transparent",
-            'data': [
-                {'color': "#29a0ff", 'perc': vm.CompletedTask},
-                {'color': "#6abdff", 'perc': vm.PendingTask}
-            ]
-        });
-    }
-    if(vm.PendingUsers ==0 && vm.AcceptedUsers ==0 && vm.RejectedUsers ==0){
-        jQuery("#pie2").radialPieChart("init", {
-            'font-size': 13,
-            'fill': 25,
-            "size": 150,
-            'text-color': "transparent",
-            'data': [
-                {'color': "#363433", 'perc': 100 }
-                
-            ]
-        });
-        
-    }else {
-        jQuery("#pie2").radialPieChart("init", {
-            'font-size': 13,
-            'fill': 25,
-            "size": 150,
-            'text-color': "transparent",
-            'data': [
-                {'color': "#5b93c2", 'perc': vm.PendingUsers },
-                {'color': "#06599e", 'perc': vm.AcceptedUsers},
-                {'color': "#8fb4d3", 'perc':vm.RejectedUsers}
-            ]
-        });
-    }
+  if(vm.CompletedTask ==0 &&vm.PendingTask ==0){
+       jQuery("#pie1").radialPieChart("init", {
+           'font-size': 13,
+           'fill': 25,
+           "size": 150,
+           'text-color': "transparent",
+           'data': [
+               {'color': "#363433 ", 'perc': 100}
+           ]
+       });
+   }else {
+       jQuery("#pie1").radialPieChart("init", {
+           'font-size': 13,
+           'fill': 25,
+           "size": 150,
+           'text-color': "transparent",
+           'data': [
+               {'color': "#29a0ff ", 'perc': vm.CompletedTask},
+               {'color': " #008000 ", 'perc': vm.PendingTask}
+           ]
+       });
+   }
+   if(vm.PendingUsers ==0 && vm.AcceptedUsers ==0 && vm.RejectedUsers ==0){
+       jQuery("#pie2").radialPieChart("init", {
+           'font-size': 13,
+           'fill': 25,
+           "size": 150,
+           'text-color': "transparent",
+           'data': [
+               {'color': "#363433 ", 'perc': 100 }
+               
+           ]
+       });
+       
+   }else {
+       jQuery("#pie2").radialPieChart("init", {
+           'font-size': 13,
+           'fill': 25,
+           "size": 150,
+           'text-color': "transparent",
+           'data': [
+               {'color': "#5b93c2 ", 'perc': vm.PendingUsers },
+               {'color': "#06599e ", 'perc': vm.AcceptedUsers},
+               {'color': "#696969 ", 'perc':vm.RejectedUsers}
+           ]
+       });
+   }
       var subArray = [];
        //notification
    //notification
@@ -620,10 +620,10 @@ var allUserId = [[]];
                         }
                         var LocalTaskStartDate = (mm+'/'+dd+'/'+yyyy);
                     }
-                    if(localToday !=LocalTaskStartDate){
+                    /*if(localToday !=LocalTaskStartDate){
                         var previousDay = document.getElementById('previousDay');
                         previousDay.style.visibility = 'visible';
-                    }
+                    }*/
                 }
                 else{
                     console.log("Server Problem");
@@ -640,8 +640,8 @@ var allUserId = [[]];
         dateIncrementDate = dateIncrementDate+1;
         d.setDate(d.getDate() - dateIncrementDate);
         console.log("yesterDay nnnnnn",d)
-        var nextDay = document.getElementById('nextDay');
-        nextDay.style.visibility = 'visible';
+        /*var nextDay = document.getElementById('nextDay');
+        nextDay.style.visibility = 'visible';*/
         var dd = d.getDate();
         var mm = d.getMonth()+1; //January is 0!
         var yyyy = d.getFullYear();
@@ -676,11 +676,11 @@ var allUserId = [[]];
         console.log("LocalTaskStartDate",LocalTaskStartDate);
         console.log("localToday",localToday);
         
-        if (LocalTaskStartDate ==localToday ){
+        /*if (LocalTaskStartDate ==localToday ){
             console.log("we are in if success condition");
            var previousDay = document.getElementById('previousDay');
             previousDay.style.visibility = 'hidden';
-        }
+        }*/
         
         if(allData[4]!=null){
             var endTaskDate = allData[4][1];
@@ -697,11 +697,11 @@ var allUserId = [[]];
             }
             var LocalTaskEndDate = (mm+'/'+dd+'/'+yyyy);
         }
-        if(LocalTaskEndDate == localToday ){
+        /*if(LocalTaskEndDate == localToday ){
             console.log("iam  here at lasrt");
             var previousDay = document.getElementById('nextDay');
             previousDay.style.visibility = 'hidden';
-        }
+        }*/
         
         
        // for(var i=0;i<allData.length;i++){
@@ -860,8 +860,8 @@ var allUserId = [[]];
             tempStart = completedTaskCount -startTaskCount;
         }
         LoadBarChart(totalUsers,tempStart,pendingTaskCount,completedTaskCount,localToday);
-         var previousDay = document.getElementById('previousDay');
-        previousDay.style.visibility = 'visible';
+         /*var previousDay = document.getElementById('previousDay');
+        previousDay.style.visibility = 'visible';*/
         
         
         if(allData[4]!=null){
@@ -880,10 +880,10 @@ var allUserId = [[]];
             var LocalTaskEndDate = (mm+'/'+dd+'/'+yyyy);
             
         }
-        if(LocalTaskEndDate == localToday ){
+        /*if(LocalTaskEndDate == localToday ){
             var previousDay = document.getElementById('nextDay');
             previousDay.style.visibility = 'hidden';
-        }
+        }*/
         
         
         

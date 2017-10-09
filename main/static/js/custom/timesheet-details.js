@@ -749,6 +749,7 @@ $(function(){
         toDateValue = $('#toDate').val();
         fromDateValue = $('#fromDate').val();
         if (toDateValue.length !=0 && fromDateValue.length !=0){
+             $('#timeSheet_details').dataTable().fnDestroy();
             var FinalArrayForDateFilter =[[]];
             var  ArrayForDateFilter =[];
             var FinalArrayForDateFilterOfTask =[[]];

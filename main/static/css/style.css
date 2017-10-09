@@ -3491,10 +3491,12 @@ td .drp-tbl-wrp:not(:last-child) { margin-bottom: 20px; }
 .piechart-wrapper .piechart .range span:not(:last-child) { padding-bottom: 15px; }
 .piechart-wrapper .piechart .range span:before { content: ""; display: inline-block; height: 10px; width: 10px; background-color: green; -webkit-box-shadow: 0 0 0 1px #fff, 0 0 0 1.5px #9ea8ab; box-shadow: 0 0 0 1px #fff, 0 0 0 1.5px #9ea8ab; margin-right: 10px; }
 .piechart-wrapper .piechart .range span.range-completed:before { background-color: #29a0ff; }
-.piechart-wrapper .piechart .range span.range-pending:before { background-color: #6abdff; }
+.piechart-wrapper .piechart .range span.range-pending:before { background-color: #008000; }
 .piechart-wrapper .piechart .range span.range-invited:before { background-color: #5b93c2; }
 .piechart-wrapper .piechart .range span.range-accepted:before { background-color: #06599e; }
-.piechart-wrapper .piechart .range span.range-rejected:before { background-color: #8fb4d3; }
+.piechart-wrapper .piechart .range span.range-rejected:before { background-color: #696969; }
+.piechart-wrapper .piechart .range span.range-empty:before { background-color: #000000; }
+
 
 .task-graph-wrapper { margin-top: 25px; }
 .task-graph-wrapper select { width: 160px; padding-left: 10px; font-size: 11px; }
@@ -3573,6 +3575,11 @@ td .drp-tbl-wrp:not(:last-child) { margin-bottom: 20px; }
 }
 }
 
+.company-date{
+    width: 20.5%;
+    margin-left: 27px;
+    margin-bottom: 8px;
+}
 
 /*==============================================================
 

@@ -320,6 +320,47 @@ func (c *DashBoardController)LoadDashBoard() {
 		}
 	case false:
 	}
+
+	dbStatus,notificationForLeaveValue := models.GetAllNotificationsForLeave(c.AppEngineCtx,companyTeamName)
+
+	switch dbStatus {
+	case true:
+
+		notificationOfUserForLeave := reflect.ValueOf(notificationForLeaveValue)
+		for _, notificationUserKey := range notificationOfUserForLeave.MapKeys() {
+			dbStatus,notificationUserValue := models.GetAllNotificationsOfUserForLeave(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
+			switch dbStatus {
+			case true:
+				notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
+				for _, notificationUserKeyForSpecific := range notificationOfUserForSpecific.MapKeys() {
+					var NotificationArrayForLeave []string
+					if notificationUserValue[notificationUserKeyForSpecific.String()].IsRead ==false{
+						notificationCount=notificationCount+1;
+					}
+					NotificationArrayForLeave =append(NotificationArrayForLeave,notificationUserKey.String())
+					NotificationArrayForLeave =append(NotificationArrayForLeave,notificationUserKeyForSpecific.String())
+					NotificationArrayForLeave =append(NotificationArrayForLeave,notificationUserValue[notificationUserKeyForSpecific.String()].UserName)
+					startDate := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].StartDate, 10)
+					NotificationArrayForLeave =append(NotificationArrayForLeave,startDate)
+					endDate := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].EndDate, 10)
+					NotificationArrayForLeave =append(NotificationArrayForLeave,endDate)
+					NotificationArrayForLeave =append(NotificationArrayForLeave,"")
+					logTime := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].LogTime, 10)
+					NotificationArrayForLeave =append(NotificationArrayForLeave,logTime)
+					NumberOfDays := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].NumberOfDays, 10)
+					NotificationArrayForLeave =append(NotificationArrayForLeave,NumberOfDays)
+					viewModel.NotificationArray=append(viewModel.NotificationArray,NotificationArrayForLeave)
+
+				}
+			case false:
+			}
+		}
+	case false:
+	}
+
+
+
+
 	log.Println("notificationCount",notificationCount)
 	viewModel.NotificationNumber =notificationCount
 

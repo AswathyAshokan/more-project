@@ -96,10 +96,10 @@ func init() {
 	beegae.Router("/:companyTeamName/contact/:contactId/RemoveTask", &controllers.ContactUserController{}, "*:RemoveContactFromTask")
 	beegae.Router("/:companyTeamName/contact/:contactId/deletionOfContact", &controllers.ContactUserController{}, "*:DeleteContactIfNotInTask")
 
-	beegae.Router("/isPhoneNumberUsed/:phoneNumber", &controllers.ContactUserController{},"*:CheckPhoneNumberAdd")
-	beegae.Router("/isemailAddressUsed/:emailAddress", &controllers.ContactUserController{},"*:CheckEmailAddressAdd")
-	beegae.Router("/isPhoneNumberUsed/:phoneNumber/:type/:oldNumber", &controllers.ContactUserController{},"*:CheckPhoneNumber")
-	beegae.Router("/isemailAddressUsed/:emailAddress/:type/:oldEmail", &controllers.ContactUserController{},"*:CheckEmailAddress")
+	beegae.Router("/:companyTeamName/isPhoneNumberUsed/:phoneNumber", &controllers.ContactUserController{},"*:CheckPhoneNumberAdd")
+	beegae.Router("/:companyTeamName/isemailAddressUsed/:emailAddress", &controllers.ContactUserController{},"*:CheckEmailAddressAdd")
+	beegae.Router("/:companyTeamName/isPhoneNumberUsed/:phoneNumber/:type/:oldNumber", &controllers.ContactUserController{},"*:CheckPhoneNumber")
+	beegae.Router("/:companyTeamName/isemailAddressUsed/:emailAddress/:type/:oldEmail", &controllers.ContactUserController{},"*:CheckEmailAddress")
 
 
 
@@ -107,10 +107,10 @@ func init() {
 	beegae.Router("/:companyTeamName/job", &controllers.JobController{},"*:LoadJobDetail")
 	beegae.Router("/:companyTeamName/job/:jobId/edit", &controllers.JobController{},"*:LoadEditJob")
 	beegae.Router("/:companyTeamName/job/:jobId/delete", &controllers.JobController{},"*:LoadDeleteJob")
-	beegae.Router("/isJobNameUsed/:jobName", &controllers.JobController{},"*:CheckJobName")
-	beegae.Router("/isJobNumberUsed/:jobNumber", &controllers.JobController{},"*:CheckJobNumber")
-	beegae.Router("/isJobNameUsed/:jobName/:type/:oldjobName", &controllers.JobController{},"*:CheckJobNameOnEdit")
-	beegae.Router("/isJobNumberUsed/:jobNumber/:type/:oldjobNumber", &controllers.JobController{},"*:CheckJobNumberOnEdit")
+	beegae.Router("/:companyTeamName/isJobNameUsed/:jobName", &controllers.JobController{},"*:CheckJobName")
+	beegae.Router("/:companyTeamName/isJobNumberUsed/:jobNumber", &controllers.JobController{},"*:CheckJobNumber")
+	beegae.Router("/:companyTeamName/isJobNameUsed/:jobName/:type/:oldjobName", &controllers.JobController{},"*:CheckJobNameOnEdit")
+	beegae.Router("/:companyTeamName/isJobNumberUsed/:jobNumber/:type/:oldjobNumber", &controllers.JobController{},"*:CheckJobNumberOnEdit")
 
 	beegae.Router("/:companyTeamName/job/:jobId/RemoveTask", &controllers.JobController{}, "*:RemoveJobFromTask")
 	beegae.Router("/:companyTeamName/job/:jobId/deletionOfJob", &controllers.JobController{}, "*:DeleteJobIfNotInTask")

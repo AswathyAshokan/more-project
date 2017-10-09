@@ -3,6 +3,7 @@
 
 document.getElementById("job").className += " active";
 var companyTeamName = vm.CompanyTeamName;
+console.log("company team namwe",companyTeamName);
 
 $().ready(function() {
     var pageType = vm.PageType;
@@ -23,7 +24,7 @@ $().ready(function() {
             jobName: {
                 required: true,
                 remote:{
-                    url: "/isJobNameUsed/" + jobName+ "/" +vm.PageType+ "/" + vm.JobName,
+                    url: "/"+companyTeamName+"/isJobNameUsed/" + jobName+ "/" +vm.PageType+ "/" + vm.JobName,
                     type: "post"
                 }
             },
@@ -31,7 +32,7 @@ $().ready(function() {
             jobNumber: {
                 required: true,
                 remote:{
-                    url: "/isJobNumberUsed/" + jobNumber+ "/" +vm.PageType+ "/" + vm.JobNumber,
+                    url: "/"+companyTeamName+"/isJobNumberUsed/" + jobNumber+ "/" +vm.PageType+ "/" + vm.JobNumber,
                     type: "post"
                 }
             }
@@ -84,7 +85,7 @@ $().ready(function() {
             jobName: {
                 required: true,
                 remote:{
-                    url: "/isJobNameUsed/" + jobName,
+                    url: "/"+companyTeamName+"/isJobNameUsed/"+  jobName,
                     type: "post"
                 }
             },
@@ -92,7 +93,7 @@ $().ready(function() {
             jobNumber: {
                 required: true,
                 remote:{
-                    url: "/isJobNumberUsed/" + jobNumber,
+                    url: "/"+companyTeamName+"/isJobNumberUsed/" + jobNumber,
                     type: "post"
                 }
             }

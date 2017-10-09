@@ -640,7 +640,7 @@ $().ready(function() {
                                     var to   = Date.parse(workEndDate);
                                     var StartDateOfTaskCheck = Date.parse(StartDateOfTask );
                                     var EndDateOfTaskCheck = Date.parse(EndDateOfTask );
-                                   if (StartDateOfTaskCheck >= from && StartDateOfTaskCheck <= to && EndDateOfTaskCheck >= from && EndDateOfTaskCheck <= to ){
+                                   if((StartDateOfTaskCheck>=from && StartDateOfTaskCheck<=to) || (EndDateOfTaskCheck>=from && EndDateOfTaskCheck<=to)){
                                         console.log("condition is true")
                                         taskWorkLocation.push("true")
                                     }
@@ -991,7 +991,7 @@ $().ready(function() {
                             var to   = Date.parse(workEndDate);
                             var StartDateOfTaskCheck = Date.parse(StartDateOfTask );
                             var EndDateOfTaskCheck = Date.parse(EndDateOfTask );
-                             if (StartDateOfTaskCheck >= from && StartDateOfTaskCheck <= to && EndDateOfTaskCheck >= from && EndDateOfTaskCheck <= to ){
+                            if((StartDateOfTaskCheck>=from && StartDateOfTaskCheck<=to) || (EndDateOfTaskCheck>=from && EndDateOfTaskCheck<=to)){
                                 console.log("condition is true")
                                 taskWorkLocation.push("true")
                             }

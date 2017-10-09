@@ -140,6 +140,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 		log.Println("Insertion error:",err)
 		return false
 	}
+	log.Println("last inserted data",taskData)
 	//For inserting task details to User
 	taskDataString := strings.Split(taskData.String(),"/")
 	taskUniqueID := taskDataString[len(taskDataString)-2]

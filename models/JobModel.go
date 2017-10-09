@@ -191,7 +191,7 @@ func CheckJobNameIsUsed(ctx context.Context, jobName string,companyTeamName stri
 	if err != nil {
 		log.Println("No Db Connection!")
 	}
-	log.Println("comapnu",companyTeamName);
+	log.Println("comapny",companyTeamName);
 	err = dB.Child("Jobs").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&job)
 	jobDetails := reflect.ValueOf(job)
 	for _, jobKey:=range jobDetails.MapKeys() {

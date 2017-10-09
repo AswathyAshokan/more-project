@@ -57,6 +57,7 @@ func(m *Group) AddGroupToDb(ctx context.Context) (bool){
 	dataValue := reflect.ValueOf(m.Members)
 	UserGroup.groupId = groupUniqueID
 	for _, key := range dataValue.MapKeys() {
+		log.Println("inside1")
 
 		err = db.Child("/Users/" + key.String() + "/Group/" + groupUniqueID).Set(UserGroup)
 		if err != nil {

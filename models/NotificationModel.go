@@ -21,6 +21,17 @@ type Notification struct {
 	WorkId 		string
 }
 
+type NotificationForLeave struct {
+	EndDate        int64
+	IsRead        bool
+	LogTime        int64
+	NumberOfDays    int64
+	StartDate    int64
+	UserName    string
+
+}
+
+
 func GetAllNotifications(ctx context.Context,companyTeamName string)(bool,map[string]Notification) {
 	notificationValue := map[string]Notification{}
 	dB, err := GetFirebaseClient(ctx,"")
@@ -52,6 +63,15 @@ func UpdateAllNotifications(ctx context.Context,companyTeamName string,UpdateIdA
 	notificationBeforeUpdate := map[string]Notification{}
 	notificationUpdate :=Notification{}
 	notificationUpdateSuccess :=Notification{}
+
+
+
+	notificationValueForLeave := map[string]NotificationForLeave{}
+	notificationBeforeUpdateForLeave := map[string]NotificationForLeave{}
+	notificationUpdateForLeave :=NotificationForLeave{}
+	notificationUpdateSuccessForLeave :=NotificationForLeave{}
+
+
 	dB, err := GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Fatal(err)
@@ -89,6 +109,29 @@ func UpdateAllNotifications(ctx context.Context,companyTeamName string,UpdateIdA
 
 		}
 	}
+
+
+
+
+	err = dB.Child("Notifications/LeaveRequests/"+ companyTeamName).Value(&notificationValueForLeave)
+	notificationOfUserForLeave := reflect.ValueOf(notificationValueForLeave)
+	for _, notificationUserKey := range notificationOfUserForLeave.MapKeys() {
+		err = dB.Child("Notifications/LeaveRequests/"+ companyTeamName+"/"+notificationUserKey.String()).Value(&notificationBeforeUpdateForLeave)
+		notifications := reflect.ValueOf(notificationBeforeUpdateForLeave)
+		for _, notificationKey := range notifications.MapKeys() {
+			err = dB.Child("Notifications/LeaveRequests/"+ companyTeamName+"/"+notificationUserKey.String()+"/"+notificationKey.String()).Value(&notificationUpdateForLeave)
+			notificationUpdateSuccessForLeave.NumberOfDays=notificationUpdateForLeave.NumberOfDays
+			notificationUpdateSuccessForLeave.LogTime=notificationUpdateForLeave.LogTime
+			notificationUpdateSuccessForLeave.EndDate=notificationUpdateForLeave.EndDate
+			notificationUpdateSuccessForLeave.IsRead=true
+			notificationUpdateSuccessForLeave.StartDate=notificationUpdateForLeave.StartDate
+			notificationUpdateSuccessForLeave.UserName=notificationUpdateForLeave.UserName
+			err = dB.Child("Notifications/LeaveRequests/"+ companyTeamName+"/"+notificationUserKey.String()+"/"+notificationKey.String()).Set(notificationUpdateSuccessForLeave)
+
+
+		}
+	}
+
 
 	for i :=0;i<len(userId);i++{
 		err = dB.Child("/Expirations/" + userId[i]).Value(&expiryDetails)
@@ -144,6 +187,7 @@ func DeleteAllNotifications(ctx context.Context,companyTeamName string,UpdateIdA
 	}
 	//err = dB.Child("Notifications/UserDelay/"+ companyTeamName).Value(&notificationValue)
 	err = dB.Child("Notifications/UserDelay/"+ companyTeamName).Remove()
+	err = dB.Child("Notifications/LeaveRequests/"+ companyTeamName).Remove()
 	log.Println("deleted sucessfully")
 	if err != nil {
 		log.Fatal(err)
@@ -271,5 +315,30 @@ func GetAllNotificationsOfExpiration(ctx context.Context,companyTeamName string)
 
 	}
 	return true,tempArray
+}
+
+
+//notification for leave
+
+func GetAllNotificationsForLeave(ctx context.Context,companyTeamName string)(bool,map[string]NotificationForLeave) {
+	notificationValue := map[string]NotificationForLeave{}
+	dB, err := GetFirebaseClient(ctx,"")
+	err = dB.Child("Notifications/LeaveRequests/"+ companyTeamName).Value(&notificationValue)
+	if err != nil {
+		log.Fatal(err)
+		return false, notificationValue
+	}
+	return true, notificationValue
+}
+
+func GetAllNotificationsOfUserForLeave(ctx context.Context,companyTeamName string,userKey string)(bool,map[string]NotificationForLeave) {
+	notificationValue := map[string]NotificationForLeave{}
+	dB, err := GetFirebaseClient(ctx,"")
+	err = dB.Child("Notifications/LeaveRequests/"+ companyTeamName+"/"+userKey).Value(&notificationValue)
+	if err != nil {
+		log.Fatal(err)
+		return false, notificationValue
+	}
+	return true, notificationValue
 }
 

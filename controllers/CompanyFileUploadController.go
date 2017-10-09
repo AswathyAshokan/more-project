@@ -221,7 +221,7 @@ func (c *CompanyFileUploadController) CompanyFileUploadDetail() {
 		dataValue := reflect.ValueOf(companyFileDetails)
 		for _, companyDocId := range dataValue.MapKeys() {
 			var tempValueSlice []string
-			tempValueSlice = append(tempValueSlice, companyFileDetails[companyDocId.String()].Info.FileName+" ("+companyFileDetails[companyDocId.String()].Info.FolderName+")")
+			tempValueSlice = append(tempValueSlice, companyFileDetails[companyDocId.String()].Info.FileName) // ("+companyFileDetails[companyDocId.String()].Info.FolderName+")")
 			tempValueSlice =append(tempValueSlice,companyFileDetails[companyDocId.String()].Info.DocumentUrl)
 			//tempValueSlice =append(tempValueSlice,companyDocId.String())
 			companyViewModel.Values = append(companyViewModel.Values, tempValueSlice)

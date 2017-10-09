@@ -284,7 +284,7 @@ func CheckPhoneNumberIsUsed(ctx context.Context, phoneNumber string,companyTeamN
 	if err != nil {
 		log.Println("No Db Connection!")
 	}
-	err = dB.Child("Contacts").Value(&contact)
+	err = dB.Child("Contacts").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&contact)
 	contactDetails := reflect.ValueOf(contact)
 	for _, contactKey:=range contactDetails.MapKeys() {
 		if contact[contactKey.String()].Info.PhoneNumber == phoneNumber&& contact[contactKey.String()].Settings.Status ==helpers.StatusActive&&contact[contactKey.String()].Info.CompanyTeamName==companyTeamName{
@@ -305,7 +305,7 @@ func CheckEmailAddressIsUsed(ctx context.Context, emailAddress string,companyTea
 	if err != nil {
 		log.Println("No Db Connection!")
 	}
-	err = dB.Child("Contacts").Value(&contact)
+	err = dB.Child("Contacts").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&contact)
 	contactDetails := reflect.ValueOf(contact)
 	for _, contactKey:=range contactDetails.MapKeys() {
 		if contact[contactKey.String()].Info.Email == emailAddress &&  contact[contactKey.String()].Settings.Status == helpers.StatusActive && contact[contactKey.String()].Info.CompanyTeamName==companyTeamName{
