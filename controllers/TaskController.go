@@ -401,7 +401,7 @@ func (c *TaskController)AddNewTask() {
 		workLocation:= models.IsWorkAssignedToUser(c.AppEngineCtx,companyTeamName)
 		dataValue := reflect.ValueOf(workLocation)
 		for _, key := range dataValue.MapKeys() {
-			if workLocation[key.String()].Settings.Status ==helpers.StatusActive&&workLocation[key.String()].Info.CompanyTeamName==companyTeamName{
+			if workLocation[key.String()].Settings.Status ==helpers.StatusActive{
 
 				locationArray = append(locationArray,workLocation[key.String()].Info.WorkLocation)
 
@@ -1276,7 +1276,7 @@ func (c *TaskController)LoadEditTask() {
 		workLocation := models.IsWorkAssignedToUser(c.AppEngineCtx,companyTeamName)
 		dataValueForWorkLocation := reflect.ValueOf(workLocation)
 		for _, key := range dataValueForWorkLocation.MapKeys() {
-			if workLocation[key.String()].Settings.Status ==helpers.StatusActive&&workLocation[key.String()].Info.CompanyTeamName==companyTeamName{
+			if workLocation[key.String()].Settings.Status ==helpers.StatusActive{
 
 
 				dataUserWorkValue :=reflect.ValueOf(workLocation[key.String()].Info.UsersAndGroupsInWorkLocation.User)

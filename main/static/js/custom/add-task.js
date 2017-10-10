@@ -97,28 +97,9 @@ $(function () {
         document.getElementById("jobName").value = vm.JobNameFormUrl;
         if (vm.JobNameFormUrl =="unDefined"){
              document.getElementById("jobName").value ="Select a Job";
-            if (vm.ContactUser !=null){
-            for (var i = 0; i < vm.ContactUser.length; i++) {
-                for (var j=0; j<vm.ContactUser[i].length ;j++){
-                    for ( var k=0;k<vm.ContactUser[i][j].CustomerName.length;k++){
-                        if (vm.ContactUser[i][j].CustomerName[k] ==vm.CustomerNameToEdit){
-                            contactName.push(vm.ContactUser[i][j].ContactName);
-                            contactId.push(vm.ContactUser[i][j].ContactId);
-                        }
-                    }
-                }
-            }
+            
         }
-        
-        var sel = document.getElementById('contactId');
-        for(var i = 0; i < contactName.length; i++) {
-            var opt = document.createElement('option');
-            opt.innerHTML = contactName[i];
-            opt.value = contactId[i];
-            sel.appendChild(opt);
-        }
-        }else{
-            if (vm.ContactUser !=null){
+        if (vm.ContactUser !=null){
                 for (var i = 0; i < vm.ContactUser.length; i++) {
                     for (var j=0; j<vm.ContactUser[i].length ;j++){
                         for ( var k=0;k<vm.ContactUser[i][j].CustomerName.length;k++){
@@ -139,7 +120,20 @@ $(function () {
                 opt.value = contactId[i];
                 sel.appendChild(opt);
             }
+        
+        if ($("#jobName option:selected").val()== "Select a Job"){
+            console.log("kkkkkkk");
+            var sel = document.getElementById('contactId');
+            for(var i = 0; i < vm.ContactNameArray.length; i++) {
+                var opt = document.createElement('option');
+                opt.innerHTML = vm.ContactNameArray[i];
+                opt.value = vm.ContactKey[i];
+                sel.appendChild(opt);
+            }
         }
+        
+        
+        
         function removeOptions(selectbox)
         {
             var i;
@@ -417,9 +411,11 @@ $().ready(function() {
         contactId = [];
         var job = $("#jobName option:selected").val() + " (";
         jobNameWithUrl =$("#jobName option:selected").val();
-       
+        
         var jobAndCustomer = $("#jobName option:selected").text();
         var tempName = jobAndCustomer.replace(job, '');
+        console.log("mmm111",tempName);
+        
         customerName = tempName.replace(')', '');
         customerNameWithUrl =tempName.replace(')', '');
        for (var i = 0; i < vm.ContactUser.length; i++) {
@@ -441,7 +437,8 @@ $().ready(function() {
             opt.value = contactId[i];
             sel.appendChild(opt);
         }
-        if ($("#jobName option:selected").val()== ""){
+        if ($("#jobName option:selected").val()== "Select a Job"){
+            console.log("kkkkkkk");
             var sel = document.getElementById('contactId');
             for(var i = 0; i < vm.ContactNameArray.length; i++) {
                 var opt = document.createElement('option');
@@ -452,6 +449,29 @@ $().ready(function() {
         }
         var jobDropdownId = document.getElementById("jobName");
         jobId = jobDropdownId.options[jobDropdownId.selectedIndex].id;
+        
+//        if(tempName =="Select a Job"){
+//             if (vm.ContactUser !=null){
+//            for (var i = 0; i < vm.ContactUser.length; i++) {
+//                for (var j=0; j<vm.ContactUser[i].length ;j++){
+//                    for ( var k=0;k<vm.ContactUser[i][j].CustomerName.length;k++){
+//                        if (vm.ContactUser[i][j].CustomerName[k] ==vm.CustomerNameToEdit){
+//                            contactName.push(vm.ContactUser[i][j].ContactName);
+//                            contactId.push(vm.ContactUser[i][j].ContactId);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        
+//        var sel = document.getElementById('contactId');
+//        for(var i = 0; i < contactName.length; i++) {
+//            var opt = document.createElement('option');
+//            opt.innerHTML = contactName[i];
+//            opt.value = contactId[i];
+//            sel.appendChild(opt);
+//        }
+//        }
     }
     function removeOptions(selectbox)
     {
