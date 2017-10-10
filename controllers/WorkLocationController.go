@@ -209,7 +209,7 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 			log.Println(helpers.ServerConnectionError)
 		}
 
-		/*workLocationValues := models.IsWorkAssignedToUser(c.AppEngineCtx, companyTeamName)
+		workLocationValues := models.IsWorkAssignedToUser(c.AppEngineCtx, companyTeamName)
 		log.Println("allWorkLocationData", workLocationValues)
 		dataValue := reflect.ValueOf(workLocationValues)
 
@@ -230,7 +230,7 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 				}
 			}
 
-		}*/
+		}
 		//getting fit to work
 		var keySliceForFitToWork        []string
 		var tempKeySliceFitToWork        []string
@@ -239,8 +239,8 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		var fitToWorkStructSlice        []viewmodels.TaskFitToWork
 		var tempfitToWorkStructSlice        [][]viewmodels.TaskFitToWork
 		var fitToWorkStruct viewmodels.TaskFitToWork
-		Status,fitToWorkById := models.GetSelectedCompanyName(c.AppEngineCtx, companyTeamName)
-		switch Status {
+		dbStatus,fitToWorkById := models.GetSelectedCompanyName(c.AppEngineCtx, companyTeamName)
+		switch dbStatus {
 		case true:
 			fitToWorkDataValues := reflect.ValueOf(fitToWorkById)
 			for _, fitToWorkKey := range fitToWorkDataValues.MapKeys() {
@@ -609,6 +609,10 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 			for _,userKey :=range userDataValues.MapKeys(){
 				viewModelForEdit.UserNameToEdit = append(viewModelForEdit.UserNameToEdit,workLocation.Info.UsersAndGroupsInWorkLocation.User[userKey.String()].FullName)
 				viewModelForEdit.UsersKey = append(viewModelForEdit.UsersKey,userKey.String())
+				//userWOrkLocationData := models.GetWorkLocationDataFromUsers(c.AppEngineCtx,workLocationId,userKey.String())
+				//log.Println("user work location Dta for get ststus of each users",userWOrkLocationData)
+
+
 			}
 			startTime := time.Unix(workLocation.Info.DailyStartDate, 0)
 			startTimeOfWorkLocation := startTime.String()[11:16]
@@ -659,6 +663,10 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 		}
 
 	}
+
+
+
+
 	var keySliceForFitToWork        []string
 	var tempKeySliceFitToWork        []string
 	var tempInstructionKeySlice        []string
@@ -666,8 +674,8 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 	var fitToWorkStructSlice        []viewmodels.TaskFitToWork
 	var tempfitToWorkStructSlice        [][]viewmodels.TaskFitToWork
 	var fitToWorkStruct viewmodels.TaskFitToWork
-	status,fitToWorkById := models.GetSelectedCompanyName(c.AppEngineCtx, companyTeamName)
-	switch status {
+	dbStatus,fitToWorkById := models.GetSelectedCompanyName(c.AppEngineCtx, companyTeamName)
+	switch dbStatus {
 	case true:
 		fitToWorkDataValues := reflect.ValueOf(fitToWorkById)
 		for _, fitToWorkKey := range fitToWorkDataValues.MapKeys() {
@@ -772,7 +780,7 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 
 	viewModelForEdit.BreakTime =BreakTime
 	viewModelForEdit.WorkTime = WorkTime
-	//viewModelForEdit.NotificationNumber=notificationCount
+	//viewModelForEdit.NotificationNumber=notificationCoun
 	viewModelForEdit.CompanyTeamName = storedSession.CompanyTeamName
 	viewModelForEdit.CompanyPlan = storedSession.CompanyPlan
 	viewModelForEdit.AdminFirstName =storedSession.AdminFirstName

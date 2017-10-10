@@ -1086,7 +1086,7 @@ $().ready(function() {
                                       var taskId=vm.TaskId;
                                       var jobnew = $("#jobName option:selected").val()
                                       if ($("#jobName ")[0].selectedIndex <= 0) {
-                                          document.getElementById('jobName').innerHTML = "";
+                                          document.getElementById('jobName').innerHTML = " Select a Job";
                                       }
                                       //get all values of fit to work
                                       

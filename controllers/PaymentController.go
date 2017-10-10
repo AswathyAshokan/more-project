@@ -60,6 +60,10 @@ func (c *PaymentController)Home() {
 	log.Println("company plan",companyPlan)
 	amount := c.Ctx.Input.Param(":paymentPrice")
 	noOfUsers :=c.Ctx.Input.Param(":NumberOfUsers")
+	sessionForPayment := SessionForPayment{}
+	sessionForPayment.NumberOfUsers=noOfUsers
+	SetSessionForPayment(w, sessionForPayment)
+
 	//sessionValues.NumberOfUsers = noOfUsers
 	companyName :=sessionValues.CompanyName
 	html := "<html><body><h1>You will be directed to PayPal now to pay USD " + amount + " to SocketLoop!</h1>"

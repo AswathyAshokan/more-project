@@ -42,8 +42,9 @@ $(function(){
         var fileUpload ="fileUploads";
         var spanId="mainSpan";
         var fileSpan ="fileSpan";
+        var statusBar ="statusBar"
         $("#container1").append("<div class='form-group clearfix upload-section' id='container'>"+"<div class='creat-folder' style='display:none;'>"+"<input class='form-control' id='folderName' type='text' placeholder='Folder Name' >"+"<button class='btn btn-primary margin-left-15' onClick='addFolder();'>Create folder</button>"+"<span id="+spanId+" style='position: absolute;margin-top: 25px;'></span>"+"</div>"+
-     " <div class='folder'>" +"<span class='folder-name'>"+"<span></span>"+"</span>"+"<div class='file-name'>"+"<input class='form-control' id='fileName' type='text' placeholder='File Name'>"+"<button class='btn btn-primary margin-left-15'>Upload file  <input type='file'name='filename' id="+fileUpload+" onchange='displayFile("+folderNameReal+","+fileNameReal+","+fileUpload+","+spanId+","+fileSpan+");' >"+"</button>"+"</div>"+"<label  class='margin-left-15'></label>"+"<button class='fa fa-plus-circle no-button-style' onclick='addFile("+folderNameReal+","+spanId+");'>"+"</button>"+"<span id="+fileSpan+" style='position: absolute;margin-top: 25px;'></span>"+"</div>"+"</div>"); 
+     " <div class='folder'>" +"<span class='folder-name'>"+"<span></span>"+"</span>"+"<div class='file-name'>"+"<input class='form-control' id='fileName' type='text' placeholder='File Name'>"+"<button class='btn btn-primary margin-left-15'>Upload file  <input type='file'name='filename' id="+fileUpload+" onchange='displayFile("+folderNameReal+","+fileNameReal+","+fileUpload+","+spanId+","+fileSpan+","+statusBar+");' >"+"</button>"+"</div>"+"<label  class='margin-left-15'></label>"+"<button class='fa fa-plus-circle no-button-style' onclick='addFile("+folderNameReal+","+spanId+");'>"+"</button>"+"<span id="+fileSpan+" style='position: absolute;margin-top: 25px;'></span>"+"<div id='myProgress'>"+"<div id="+statusBar+" style='height: 15px; background-color: #4CAF50; width:0%;'>"+"</div>"+"</div>"+"</div>"+"</div>"); 
     }
     
     
@@ -163,7 +164,7 @@ $().ready(function() {
     
 
     //file upload
-     displayFile=function(textboxId,fileTextBox,fileName,folderSpan,fileSpan) {
+     displayFile=function(textboxId,fileTextBox,fileName,folderSpan,fileSpan,statusBarId) {
          console.log("display file");
          console.log("text1",textboxId.id);
          console.log("text2",fileTextBox.id);
@@ -176,6 +177,7 @@ $().ready(function() {
          var uploadedfile=fileName.id;
          var folderSpanId=folderSpan.id;
          var fileSpanId =fileSpan.id;
+         var statusBarId =statusBarId.id;
         file = $('#'+uploadedfile).prop('files')[0];
 //         file    = document.querySelector('input[type=file]').files[0];
          var reader  = new FileReader();
@@ -205,6 +207,18 @@ $().ready(function() {
          uploadDocumentOriginal.on('state_changed', function(snapshot){
              var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
              console.log('Upload is ' + progress + '% done');
+             var elem = document.getElementById(statusBarId); 
+             var width = 1;
+             var id = setInterval(frame, 10);
+             function frame() {
+                 if (width >= 100) {
+                     clearInterval(id);
+                 } else {
+                     width++; 
+                     elem.style.width = progress + '%';
+                 }
+             }
+            
          }, function(error) {
              // Handle unsuccessful uploads
          }, function() {
@@ -303,8 +317,9 @@ $().ready(function() {
         var folderNewName =folderName.id;
         var spanFolderName =folderSpanId.id;
         var spanFileId="span"+fileNameCount;
+        var statusBar ="status"+fileNameCount;
         $("#container").append(
-     " <div class='folder'>" +"<span class='folder-name'>"+"<span></span>"+"</span>"+"<div class='file-name'>"+"<input class='form-control' id="+fileNewName+" type='text' placeholder='File Name'>"+"<button class='btn btn-primary margin-left-15'>Upload file  <input type='file' id="+uploadedFile+" onchange='displayFile("+folderNewName+","+fileNewName+","+uploadedFile+","+spanFolderName+","+spanFileId+");' >"+"</button>"+"<span id="+spanFileId+" style='position: absolute;margin-top: 25px;'></span>"+"</div>"+"<label  class='margin-left-15'></label>"); 
+     " <div class='folder'>" +"<span class='folder-name'>"+"<span></span>"+"</span>"+"<div class='file-name'>"+"<input class='form-control' id="+fileNewName+" type='text' placeholder='File Name'>"+"<button class='btn btn-primary margin-left-15'>Upload file  <input type='file' id="+uploadedFile+" onchange='displayFile("+folderNewName+","+fileNewName+","+uploadedFile+","+spanFolderName+","+spanFileId+","+statusBar+");' >"+"</button>"+"<span id="+spanFileId+" style='position: absolute;margin-top: 25px;'></span>"+"<div id='myProgress'>"+"<div id="+statusBar+" style='height: 15px; background-color: #4CAF50; width:0%;'>"+"</div>"+"</div>"+"<label  class='margin-left-15'></label>"); 
         
     }  
    addFileDup= function (id,folderName,folderSpan){
@@ -318,8 +333,9 @@ $().ready(function() {
        var uploadedFile='upload'+fileCount;
        var folderSpanId=folderSpan.id;
        var fileSpanId ='spanNewi'+fileCount;
+       var statusBar='statusbari'+fileCount;
          $("#"+name).append(
-     " <div class='folder'>" +"<span class='folder-name'>"+"<span></span>"+"</span>"+"<div class='file-name'>"+"<input class='form-control' id="+fileId+" type='text' placeholder='File Name'>"+"<button class='btn btn-primary margin-left-15'>Upload file<input type='file' id="+uploadedFile+" onchange='displayFile("+uplodedFolder+","+fileId+","+uploadedFile+","+folderSpanId+","+fileSpanId+");'></button>"+"<span id="+fileSpanId+" style='position: absolute;margin-top: 25px;'></span>"+"</div>"+"<label  class='margin-left-15'></label>"); 
+     " <div class='folder'>" +"<span class='folder-name'>"+"<span></span>"+"</span>"+"<div class='file-name'>"+"<input class='form-control' id="+fileId+" type='text' placeholder='File Name'>"+"<button class='btn btn-primary margin-left-15'>Upload file<input type='file' id="+uploadedFile+" onchange='displayFile("+uplodedFolder+","+fileId+","+uploadedFile+","+folderSpanId+","+fileSpanId+","+statusBar+");'></button>"+"<span id="+fileSpanId+" style='position: absolute;margin-top: 25px;'></span>"+"<div id='myProgress'>"+"<div id="+statusBar+" style='height: 15px; background-color: #4CAF50; width:0%;'>"+"</div>"+"</div>"+"<label  class='margin-left-15'></label>"); 
    }  
    
    addFolder= function (){

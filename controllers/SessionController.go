@@ -32,6 +32,9 @@ type SessionForAdminValues  struct {
 	SuperAdminFullName	string
 	SuperAdminEmail		string
 }
+type SessionForPayment struct{
+	NumberOfUsers		string
+}
 
 var cookieToken = securecookie.New(securecookie.GenerateRandomKey(64), securecookie.GenerateRandomKey(32))
 
@@ -137,6 +140,64 @@ func SessionForPlan(w http.ResponseWriter, r *http.Request) (SessionValues, bool
 
 			// session for SuperAdmin :
 /*-------------------------------------------------------------------------------------*/
+//session for payment
+
+
+var cookieTokenForPayment = securecookie.New(securecookie.GenerateRandomKey(64), securecookie.GenerateRandomKey(32))
+
+func SetSessionForPayment(w http.ResponseWriter,sessionForPayment SessionForPayment )  {
+	valueOfPayment := make(map[string]string)
+	valueOfPayment["noofUsers"] = sessionForPayment.NumberOfUsers
+	if encoded, err := cookieTokenForPayment.Encode("sessionForPayment",valueOfPayment);err == nil{
+		cookie := &http.Cookie{
+			Name:  "sessionForPayment",
+			Value: encoded,
+			Path:  "/",
+		}
+		http.SetCookie(w,cookie)
+		log.Println("Session is Set!")
+	}
+}
+//read payment Session
+
+func ReadSessionForPayment (w http.ResponseWriter, r *http.Request) (SessionForPayment) {
+	sessionValues := SessionForPayment{}
+	if cookie, err := r.Cookie("sessionForPayment"); err == nil {
+		value := make(map[string]string)
+		if err = cookieTokenForPayment.Decode("sessionForPayment", cookie.Value, &value); err == nil {
+			sessionValues.NumberOfUsers = value["noofUsers"]
+			log.Println("sessionValues")
+		} else {
+			ClearSessionForPayment(w)
+			http.Redirect(w, r, "/login", 302)
+			log.Println("Access Denied! You are not logged in!")
+		}
+	} else {
+		http.Redirect(w, r, "/", 302)
+		log.Println("Access Denied! You are not logged in!")
+	}
+	return sessionValues
+}
+
+func ClearSessionForPayment(w http.ResponseWriter) {
+	cookie := &http.Cookie{
+		Name:   "sessionForPayment",
+		Value:  "",
+		//Path:   "/",
+		MaxAge: -1,
+	}
+	http.SetCookie(w, cookie)
+	log.Println("Logged out Successfully!")
+	log.Println("The value in session after Logout:", cookie.Value)
+
+}
+
+
+
+
+
+
+
 
 var cookieTokenForSuperAdmin = securecookie.New(securecookie.GenerateRandomKey(64), securecookie.GenerateRandomKey(32))
 

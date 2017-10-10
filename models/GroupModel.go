@@ -6,7 +6,7 @@ import (
 	"log"
 	"app/passporte/helpers"
 	"reflect"
-	"github.com/kjk/betterguid"
+	"strings"
 )
 type Group struct {
 	Info 		GroupInfo
@@ -42,12 +42,14 @@ func(m *Group) AddGroupToDb(ctx context.Context) (bool){
 		log.Println(err)
 	}
 	UserGroup :=UserGroup{}
-	groupUniqueID := betterguid.New()
-	err = db.Child("Group/"+groupUniqueID).Set(m)
+	groupData,err := db.Child("Group").Push(m)
 	if err != nil {
 		log.Println(err)
 		return false
 	}
+
+	groupDataString := strings.Split(groupData.String(),"/")
+	groupUniqueID := groupDataString[len(groupDataString)-2]
 	/*UserGroup.CompanyId = m.Info.CompanyTeamName
 	UserGroup.DateOfCreation = m.Settings.DateOfCreation
 	UserGroup.GroupName = m.Info.GroupName
@@ -57,7 +59,6 @@ func(m *Group) AddGroupToDb(ctx context.Context) (bool){
 	dataValue := reflect.ValueOf(m.Members)
 	UserGroup.groupId = groupUniqueID
 	for _, key := range dataValue.MapKeys() {
-		log.Println("inside1")
 
 		err = db.Child("/Users/" + key.String() + "/Group/" + groupUniqueID).Set(UserGroup)
 		if err != nil {
@@ -187,7 +188,7 @@ func(m *Group) UpdateGroupDetails(ctx context.Context,groupKey string) (bool) {
 	}
 	m.Settings.DateOfCreation = groupStatusDetails.DateOfCreation
 	m.Settings.Status = groupStatusDetails.Status
-	err = db.Child("/Group/"+ groupKey).Update(&m)
+	err = db.Child("/Group/"+ groupKey).Set(&m)
 	if err != nil {
 		log.Fatal(err)
 		return  false
@@ -214,6 +215,7 @@ func(m *Group) UpdateGroupDetails(ctx context.Context,groupKey string) (bool) {
 	UserGroup.CompanyId = m.Info.CompanyTeamName
 	UserGroup.GroupName = m.Info.GroupName
 	for i := 0;i<len(newUser);i++ {
+		log.Println("new usersss",newUser[i])
 		err = db.Child("/Users/" +newUser[i] + "/Group/" + groupKey).Set(UserGroup)
 		if err != nil {
 			log.Println("w16")
@@ -231,7 +233,9 @@ func(m *Group) UpdateGroupDetails(ctx context.Context,groupKey string) (bool) {
 		}
 	}
 	for i := 0;i<len(oldUser);i++ {
+		log.Println("old usersssss",oldUser[i])
 		err = db.Child("/Users/" +oldUser[i] + "/Group/" + groupKey).Remove()
+		err = db.Child("/Users/"+oldUser[i] +"/Settings/Notifications/GroupChat/"+groupKey).Remove()
 		if err != nil {
 			log.Println("w16")
 			log.Println("Insertion error:", err)
@@ -326,7 +330,7 @@ func (m *Group) DeleteGroupFromDB(ctx context.Context, groupId string,TaskSlice 
 	groupDetailForUpdate.TasksGroupStatus =helpers.StatusInActive
 	for i:=0;i<len(TaskSlice);i++{
 		log.Println(TaskSlice[i])
-		err = dB.Child("/Group/"+ groupId+"/Tasks/"+TaskSlice[i]).Update(&groupDetailForUpdate)
+		err = dB.Child("/Group/"+ groupId+"/Tasks/"+TaskSlice[i]).Set(&groupDetailForUpdate)
 
 	}
 	groupSettingsUpdation := GroupSettings{}
@@ -354,6 +358,7 @@ func (m *Group) DeleteGroupFromDB(ctx context.Context, groupId string,TaskSlice 
 	memberData := reflect.ValueOf(GroupMembers)
 	for _, key := range memberData.MapKeys(){
 		err = db.Child("Users/"+key.String()+"/Group/"+groupId).Remove()
+		err = db.Child("/Users/"+key.String()+"/Settings/Notifications/GroupChat/"+groupId).Remove()
 	}
 
 	//taskGroupDetail :=TaskGroup{}
@@ -418,6 +423,8 @@ func(m *Group) DeleteGroupFromDBForNonTask(ctx context.Context,groupId string) b
 	log.Println("memberData",memberData)
 	for _, key := range memberData.MapKeys(){
 		err = db.Child("Users/"+key.String()+"/Group/"+groupId).Remove()
+		err = db.Child("/Users/"+key.String()+"/Settings/Notifications/GroupChat/"+groupId).Remove()
+
 	}
 	return  true
 }

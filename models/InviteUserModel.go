@@ -9,6 +9,7 @@ import (
 
 	"app/passporte/helpers"
 	"strconv"
+
 )
 type Invitation struct {
  	Email map[string]EmailInvitation
@@ -189,6 +190,7 @@ func UpdateNoOfLimitedUser(ctx context.Context,companyId string,newLimitValues i
 	updateLimitValue.UserID = limitValue.UserID
 	updateLimitValue.Status = limitValue.Status
 	err =db.Child("/Company/"+companyId+"/Settings/").Update(&updateLimitValue)
+
 	return newValues
 
 

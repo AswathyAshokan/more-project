@@ -14,7 +14,7 @@ type Users struct {
 	WorkLocationNotification 	map[string]WorkLocationNotification
 	Invitations			map[string]UserInvitations
 	WorkLocation			map[string]WorkLocationInUser
-	Group                   	UserGroup
+	Group                   	map[string]UserGroup
 	//Invitations        map[string]UserInvitations
 
 }

@@ -430,13 +430,12 @@ func (c *InviteUserController) AddInvitationByUpgradationOfPlan() {
 	} else {
 		newLimitValues,_:= strconv.Atoi(numberOfUsers)
 		companyPlan := storedSession.CompanyPlan
-
-
-
-
-
-		if companyPlan == helpers.PlanBusiness {
+		limitedValueOfUsers :=  strconv.Itoa(newLimitValues)
+		storedSessionForPayment := ReadSessionForPayment(w, r)
+		log.Println("number of userssssssssssssss",storedSessionForPayment.NumberOfUsers)
+		if companyPlan == helpers.PlanBusiness && limitedValueOfUsers==storedSessionForPayment.NumberOfUsers {
 			updatedNoOfUsers := models.UpdateNoOfLimitedUser(c.AppEngineCtx, companyTeamName,newLimitValues)
+			ClearSessionForPayment(w)
 			info, _ ,dbStatus := models.GetAllInviteUsersDetails(c.AppEngineCtx, companyTeamName)
 			switch dbStatus {
 			case true:

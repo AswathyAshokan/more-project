@@ -260,6 +260,27 @@ func GetAllWorkLocationDetailsByWorkId(ctx context.Context,workLocationId string
 
 }
 
+func GetWorkLocationDataFromUsers(ctx context.Context,workLocationId string,usersId string)(WorkLocationInUser)  {
+	usersWorkLocation := WorkLocationInUser{}
+	db,err :=GetFirebaseClient(ctx,"")
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println("workLoaction id",workLocationId)
+	err = db.Child("/Users/"+usersId+"/WorkLocation/"+workLocationId).Value(&usersWorkLocation)
+	if err != nil {
+		log.Fatal(err)
+		return usersWorkLocation
+	}
+	log.Println("workLocation User data form modal",usersWorkLocation)
+	return usersWorkLocation
+
+}
+
+
+
+
+
 
 func IsWorkAssignedToUser(ctx context.Context ,companyTeamName string )( map[string]WorkLocation)  {
 	workLocationValues := map[string]WorkLocation{}
@@ -317,19 +338,22 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 		keySlice = append(keySlice,eachUserKey.String())
 
 	}
+
 	var UserKeySlice []string
 	OldUserWorkLocation :=  WorkLocationInUser{}
 	userDataForEditing := reflect.ValueOf(m.Info.UsersAndGroupsInWorkLocation.User)
 	for _, key := range userDataForEditing.MapKeys() {
 		UserKeySlice = append(UserKeySlice, key.String())
 	}
+
 	for i:=0;i<len(keySlice);i++{
 
-		err = db.Child("/Users/" + keySlice[i] + "/WorkLocation/" + workLocationId).Value(&OldUserWorkLocation)
+
 		for j:=0;j<len(UserKeySlice);j++{
 			log.Println("keySlice[i]",keySlice[i])
 			log.Println("UserKeySlice[j]",UserKeySlice[j])
 			if keySlice[i]==UserKeySlice[j] {
+				err = db.Child("/Users/" + keySlice[i] + "/WorkLocation/" + workLocationId).Value(&OldUserWorkLocation)
 				log.Println("kkkkkkkkkkk inside if")
 				workLocationData.CompanyId = companyTeamName
 				workLocationData.WorkLocationForTask = m.Info.WorkLocation
