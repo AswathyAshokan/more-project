@@ -95,11 +95,13 @@ $(function () {
     //function to setting jobna me when loaded add and continue button
     if (vm.JobNameFormUrl.length !=0){
         document.getElementById("jobName").value = vm.JobNameFormUrl;
-        if (vm.ContactUser !=null){
+        if (vm.JobNameFormUrl =="unDefined"){
+             document.getElementById("jobName").value ="Select a Job";
+            if (vm.ContactUser !=null){
             for (var i = 0; i < vm.ContactUser.length; i++) {
                 for (var j=0; j<vm.ContactUser[i].length ;j++){
                     for ( var k=0;k<vm.ContactUser[i][j].CustomerName.length;k++){
-                        if (vm.ContactUser[i][j].CustomerName[k] ==vm.CustomerNameFormUrl){
+                        if (vm.ContactUser[i][j].CustomerName[k] ==vm.CustomerNameToEdit){
                             contactName.push(vm.ContactUser[i][j].ContactName);
                             contactId.push(vm.ContactUser[i][j].ContactId);
                         }
@@ -108,6 +110,36 @@ $(function () {
             }
         }
         
+        var sel = document.getElementById('contactId');
+        for(var i = 0; i < contactName.length; i++) {
+            var opt = document.createElement('option');
+            opt.innerHTML = contactName[i];
+            opt.value = contactId[i];
+            sel.appendChild(opt);
+        }
+        }else{
+            if (vm.ContactUser !=null){
+                for (var i = 0; i < vm.ContactUser.length; i++) {
+                    for (var j=0; j<vm.ContactUser[i].length ;j++){
+                        for ( var k=0;k<vm.ContactUser[i][j].CustomerName.length;k++){
+                            if (vm.ContactUser[i][j].CustomerName[k] ==vm.CustomerNameFormUrl){
+                                contactName.push(vm.ContactUser[i][j].ContactName);
+                                contactId.push(vm.ContactUser[i][j].ContactId);
+                            }
+                        }
+                    }
+                }
+            }
+            console.log("contact name",contactName)
+            removeOptions(document.getElementById("contactId"));
+            var sel = document.getElementById('contactId');
+            for(var i = 0; i < contactName.length; i++) {
+                var opt = document.createElement('option');
+                opt.innerHTML = contactName[i];
+                opt.value = contactId[i];
+                sel.appendChild(opt);
+            }
+        }
         function removeOptions(selectbox)
         {
             var i;
@@ -116,15 +148,7 @@ $(function () {
                 selectbox.remove(i);
             }
         }
-        console.log("contact name",contactName)
-        removeOptions(document.getElementById("contactId"));
-        var sel = document.getElementById('contactId');
-        for(var i = 0; i < contactName.length; i++) {
-            var opt = document.createElement('option');
-            opt.innerHTML = contactName[i];
-            opt.value = contactId[i];
-            sel.appendChild(opt);
-        }
+       
     }
     if (pageType == "edit") {
         document.getElementById("saveAndContinue").disabled = true;
@@ -1086,7 +1110,7 @@ $().ready(function() {
                                       var taskId=vm.TaskId;
                                       var jobnew = $("#jobName option:selected").val()
                                       if ($("#jobName ")[0].selectedIndex <= 0) {
-                                          document.getElementById('jobName').innerHTML = " Select a Job";
+                                          document.getElementById('jobName').innerHTML = "";
                                       }
                                       //get all values of fit to work
                                       

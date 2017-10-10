@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/add-workLocation.html" afterPath="$PROJECT_DIR$/main/views/template/add-workLocation.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/DashBoardController.go" afterPath="$PROJECT_DIR$/controllers/DashBoardController.go" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-task.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-task.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/views/template/add-task.html" afterPath="$PROJECT_DIR$/main/views/template/add-task.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -38,24 +40,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WorkLocationController.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="WorkLocationController.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/WorkLocationController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="808" column="19" lean-forward="true" selection-start-line="808" selection-start-column="19" selection-end-line="808" selection-end-column="19" />
+            <state relative-caret-position="425">
+              <caret line="811" column="1" lean-forward="true" selection-start-line="811" selection-start-column="1" selection-end-line="811" selection-end-column="1" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="InviteUserController.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/controllers/InviteUserController.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="433" column="70" lean-forward="true" selection-start-line="433" selection-start-column="16" selection-end-line="433" selection-end-column="70" />
-              <folding>
-                <element signature="e#44#207#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -96,6 +86,18 @@
             <state relative-caret-position="4230">
               <caret line="433" column="0" lean-forward="true" selection-start-line="433" selection-start-column="0" selection-end-line="433" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DashBoardController.go" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/controllers/DashBoardController.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="402" column="9" lean-forward="false" selection-start-line="402" selection-start-column="9" selection-end-line="402" selection-end-column="9" />
+              <folding>
+                <element signature="e#20#254#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -228,7 +230,6 @@
         <option value="$PROJECT_DIR$/models/FitToWorkModel.go" />
         <option value="$PROJECT_DIR$/controllers/TaskController.go" />
         <option value="$PROJECT_DIR$/models/NotificationModel.go" />
-        <option value="$PROJECT_DIR$/controllers/DashBoardController.go" />
         <option value="$PROJECT_DIR$/controllers/PaymentController.go" />
         <option value="$PROJECT_DIR$/models/InviteUserModel.go" />
         <option value="$PROJECT_DIR$/controllers/SessionController.go" />
@@ -239,6 +240,7 @@
         <option value="$PROJECT_DIR$/controllers/GroupController.go" />
         <option value="$PROJECT_DIR$/models/WorkLocationModel.go" />
         <option value="$PROJECT_DIR$/controllers/WorkLocationController.go" />
+        <option value="$PROJECT_DIR$/controllers/DashBoardController.go" />
       </list>
     </option>
   </component>
@@ -793,13 +795,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00310" summary="1/06/2013:28:   work location">
-      <created>1505795755901</created>
-      <option name="number" value="00310" />
-      <option name="presentableId" value="LOCAL-00310" />
-      <option name="project" value="LOCAL" />
-      <updated>1505795755904</updated>
-    </task>
     <task id="LOCAL-00311" summary="1/06/2013:28:   work location">
       <created>1505803817625</created>
       <option name="number" value="00311" />
@@ -1136,7 +1131,14 @@
       <option name="project" value="LOCAL" />
       <updated>1507619029168</updated>
     </task>
-    <option name="localTasksCounter" value="359" />
+    <task id="LOCAL-00359" summary="1/06/2013:28:   work location">
+      <created>1507619702682</created>
+      <option name="number" value="00359" />
+      <option name="presentableId" value="LOCAL-00359" />
+      <option name="project" value="LOCAL" />
+      <updated>1507619702683</updated>
+    </task>
+    <option name="localTasksCounter" value="360" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1542,16 +1544,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/DashBoardController.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="29">
-          <caret line="320" column="34" lean-forward="false" selection-start-line="320" selection-start-column="34" selection-end-line="320" selection-end-column="34" />
-          <folding>
-            <element signature="e#20#254#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/controllers/LogController.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2538">
@@ -1652,9 +1644,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/WorkLocationController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="808" column="19" lean-forward="true" selection-start-line="808" selection-start-column="19" selection-end-line="808" selection-end-column="19" />
+        <state relative-caret-position="425">
+          <caret line="811" column="1" lean-forward="true" selection-start-line="811" selection-start-column="1" selection-end-line="811" selection-end-column="1" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/DashBoardController.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="402" column="9" lean-forward="false" selection-start-line="402" selection-start-column="9" selection-end-line="402" selection-end-column="9" />
+          <folding>
+            <element signature="e#20#254#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

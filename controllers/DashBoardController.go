@@ -394,13 +394,13 @@ func (c *DashBoardController)LoadDashBoard() {
 
 
 	//get notification for admin when  documents of users is expired
-	/*dbStatus,expiryNotification := models.GetAllNotificationsOfExpiration(c.AppEngineCtx,companyTeamName)
+	dbStatus,expiryNotification := models.GetAllNotificationsOfExpiration(c.AppEngineCtx,companyTeamName)
 	switch dbStatus {
 	case true:
 		viewModel.DocumentExpiryNotification = expiryNotification
 	case false:
 
-	}*/
+	}
 	log.Println("nottttttttttt",viewModel.NotificationArray)
 	viewModel.NotificationNumber = totalCount
 	viewModel.Key = activeJobKey
