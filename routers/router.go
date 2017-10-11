@@ -122,6 +122,9 @@ func init() {
 	beegae.Router("/:companyTeamName/task/:taskId/delete", &controllers.TaskController{},"*:LoadDeleteTask")
 	beegae.Router("/:companyTeamName/task/:taskId/taskStatus", &controllers.TaskController{},"*:LoadTaskStatus")
 	beegae.Router("/:companyTeamName/task/add/:jobName/:customerName", &controllers.TaskController{},"*:AddNewTask")
+	beegae.Router("/:companyTeamName/task/:taskId/taskDeleteStatus", &controllers.TaskController{},"*:LoadTaskDeleteStatus")
+
+
 
 
 	beegae.Router("/:companyTeamName/leave", &controllers.LeaveController{},"*:LoadUserLeave")

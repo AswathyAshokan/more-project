@@ -1321,3 +1321,30 @@ func (m *Tasks) TaskStatusChck(ctx context.Context, taskId string,companyId stri
 
 	return false
 }
+
+func (m *Tasks) TaskDeleteStatusChck(ctx context.Context, taskId string,companyId string)(bool) {
+	taskDetail := Tasks{}
+	var condition =""
+	dB, err := GetFirebaseClient(ctx,"")
+	err = dB.Child("Tasks/"+ taskId).Value(&taskDetail)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+	userData := reflect.ValueOf(taskDetail.UsersAndGroups.User)
+	for _, key := range userData.MapKeys() {
+		if taskDetail.UsersAndGroups.User[key.String()].UserTaskStatus=="Open"{
+			condition="true"
+			break
+		}else{
+			condition="false"
+		}
+
+	}
+	if condition == "true" {
+		return true
+
+	}
+
+	return false
+}

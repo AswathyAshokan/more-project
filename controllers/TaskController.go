@@ -1317,3 +1317,21 @@ func (c *TaskController)LoadTaskStatus() {
 		w.Write([]byte("false"))
 	}
 }
+
+func (c *TaskController)LoadTaskDeleteStatus() {
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	storedSession := ReadSession(w, r, companyTeamName)
+	ReadSession(w, r, companyTeamName)
+	companyId :=storedSession.CompanyId
+	taskId :=c.Ctx.Input.Param(":taskId")
+	task := models.Tasks{}
+	dbStatus := task.TaskDeleteStatusChck(c.AppEngineCtx, taskId,companyId)
+	switch dbStatus {
+	case true:
+		w.Write([]byte("true"))
+	case false :
+		w.Write([]byte("false"))
+	}
+}

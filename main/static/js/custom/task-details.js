@@ -303,38 +303,46 @@ $(function(){
 //................deleting.........................
     $('#task-details tbody').on( 'click', '#delete', function () {
         console.log("delete");
-        $("#myModal").modal();
+       
         var data = table.row( $(this).parents('tr') ).data();
         var key = data[6];
-        
-        $("#confirm").click(function(){
-            $.ajax({
+         $.ajax({
                 type: "POST",
-                url: '/'  +   companyTeamName + '/task/' + key + '/delete',
+                url: '/'  +   companyTeamName + '/task/' + key + '/taskDeleteStatus',
                 data: '',
                 success: function(data){
-                    console.log("dddd",data);
                     if(data=="true"){
-                        $('#task-details').dataTable().fnDestroy();
-                        var index = "";
-                        
-                        for(var i = 0; i < mainArray.length; i++) {
-                           index = mainArray[i].indexOf(key);
-                           if(index != -1) {
-                               console.log("inside delete");
-                               break;
-                           }
-                        }
-//                        mainArray.splice(i, 1);
-//                        dataTableManipulate(mainArray);   
-                         window.location = '/' + companyTeamName + '/task';
+                           $("#myTaskDeleteStatus").modal();
                     }
                     else {
-                        console.log("Removing Failed!");
+                        $("#myModal").modal();
+                          $("#confirm").click(function(){
+                              $.ajax({
+                                  type: "POST",
+                                  url: '/'  +   companyTeamName + '/task/' + key + '/delete',
+                                  data: '',
+                                  success: function(data){
+                                      console.log("dddd",data);
+                                      if(data=="true"){
+                                          $('#task-details').dataTable().fnDestroy();
+                                          var index = "";
+                                          for(var i = 0; i < mainArray.length; i++) {
+                                              index = mainArray[i].indexOf(key);
+                                              if(index != -1) {
+                                                  console.log("inside delete");
+                                                  break;
+                                              }
+                                          }
+                                          window.location = '/' + companyTeamName + '/task';
+                                      }
+                                      else {
+                                          console.log("Removing Failed!");
+                                      }
+                                  }
+                              });
+                          });
                     }
                 }
-            });
-        });
+         });
     });
-    
 });
