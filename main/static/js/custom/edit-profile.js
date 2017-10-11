@@ -59,6 +59,8 @@ $().ready(function() {
     if (vm.ProfilePicture.length !=0){
         document.getElementById('imageUploads').style.backgroundImage = "url(" + vm.ProfilePicture + ")"; 
     }
+    var x = document.getElementById("imageUpload");
+    x.style.display = "none";
 //    if(document.getElementById("fileButton").value == "") {
 //        console.log("not clickeddddd");
 //        originalUploaded=true;
@@ -69,36 +71,7 @@ $().ready(function() {
     document.getElementById("phoneNumber").value = vm.PhoneNo;
     
     
-      myNotification= function () {
-        console.log("hiiii");
-        document.getElementById("notificationDiv").innerHTML = "";
-        var DynamicTaskListing="";
-        if (vm.NotificationArray !=null){
-            DynamicTaskListing ="<h5>"+"Notifications"+"</h5>"+"<ul>";
-        for(var i=0;i<vm.NotificationArray.length;i++){
-            console.log("sp1");
-            var timeDifference =moment(new Date(new Date(vm.NotificationArray[i][6]*1000)), "YYYYMMDD").fromNow();
-            DynamicTaskListing += "<li>"+"User"+" "+vm.NotificationArray[i][2]+" "+vm.NotificationArray[i][3]+"  "+"delay to reach location"+" "+vm.NotificationArray[i][4]+" "+"for task"+" "+vm.NotificationArray[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
-            
-            
-        }
-            $("#notificationDiv").prepend(DynamicTaskListing+"</ul>");
-            document.getElementById("number").textContent="";
-            $.ajax({
-                url:'/'+ companyTeamName + '/notification/update',
-                type: 'post',
-                success : function(response) {
-                    if (response == "true" ) {
-                    } else {
-                    }
-                },
-                error: function (request,status, error) {
-                    console.log(error);
-                }
-            }); 
-        }
-        
-        }
+    
     //to check the plan and load modal according to plan
     if(vm.CompanyPlan == "family")
         {
@@ -112,7 +85,9 @@ $().ready(function() {
         }
     //function for editing form
    $('#edit-txt').on('click', function() {
-        var btntxt = $("#edit-txt").text();
+       var btntxt = $("#edit-txt").text();
+       var x = document.getElementById("imageUpload");
+       x.style.display = "block"
         if (btntxt == 'Edit') {
             $(".edit-account input").prop( "disabled", false );
             $(".edit-account input").toggleClass("dis-txt");	
@@ -212,7 +187,10 @@ $().ready(function() {
      $('#updateAdminPassword').on('click', function() {
         $("#adminPasswordChangeModal").validate({
             rules: {
-                newPassword:"required",
+                newPassword:{
+                            required: true,
+                            minlength: 8,
+                        },
                 confirmpassword:{
                     equalTo : "#newPassword"
                 } ,
@@ -229,7 +207,10 @@ $().ready(function() {
                      required: "Please enter Old Password ",
                      remote: "The password entered is not correct !!!"
                  },
-                newPassword: "Please enter New Password",
+                newPassword:{
+                            required: "Please enter New Password!",
+                            minlength: "Password atleast have 8 characters!"
+                        },
                 confirmpassword:"Retype password is incorrect"
             },
             submitHandler: function(){//to pass all data of a form serial

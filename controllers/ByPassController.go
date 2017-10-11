@@ -15,8 +15,8 @@ func (c *ByPassController)ByPass() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	login := models.Login{}
-	login.Email = "mytriph@gmail.com"
-	login.Password = []byte("12345678")
+	login.Email = "mytrip@gmail.com"
+	login.Password = []byte("1234")
 	log.Println(login)
 	loginStatus, adminDetails, companyDetails, adminId := login.CheckLogin(c.AppEngineCtx)
 	switch loginStatus{

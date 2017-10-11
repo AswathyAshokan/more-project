@@ -226,6 +226,7 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 					tempUserArray = append(tempUserArray, userKey.String())
 					tempUserArray = append(tempUserArray, startDateFromDbInInt)
 					tempUserArray = append(tempUserArray, endDateFromDbInInt)
+					tempUserArray = append(tempUserArray,workLocationValues[key.String()].Info.UsersAndGroupsInWorkLocation.User[userKey.String()].FullName)
 					workLocationViewmodel.DateValues = append(workLocationViewmodel.DateValues, tempUserArray)
 				}
 			}

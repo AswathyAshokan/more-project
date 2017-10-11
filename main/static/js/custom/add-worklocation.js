@@ -319,11 +319,8 @@ $().ready(function() {
                exposureWorkSlice.push(TotalWorkTime);
            }
        });
+             var existingWorkLocationUserId =[];
             if(vm.PageType == "edit"){
-                
-                
-                
-                
                 console.log("selected",selectedUserArray);
                  var currentWorkLocationId =vm.WorkLogId 
                  var WorklocationCondition=false;
@@ -425,7 +422,7 @@ $().ready(function() {
                                    //then WorklocationCondition=false;
                                 }
                             }
-                               else{
+                            else{
                                     console.log("dateExist",false)
 //                                    WorklocationCondition++;
 //                                   if (WorklocationCondition==1){
@@ -450,8 +447,8 @@ $().ready(function() {
                     taskLocationCondition="false";
                 } 
             } else{
-                 var count =0;
-                console.log("kkksssssssssssssssssss");
+                var count =0;
+                console.log("kkksssssssssssssssssss",selectedUserArray);
                 if(vm.DateValues != null){
                     if (selectedUserArray.length !=0){
                         taskWorkLocation=[];
@@ -518,17 +515,16 @@ $().ready(function() {
                                     var to   = Date.parse(workEndDateFromDb);
                                     var StartDateOfTaskCheck = Date.parse(StartDateOfTask );
                                     var EndDateOfTaskCheck = Date.parse(EndDateOfTask );
-                                       if((StartDateOfTaskCheck>=from && StartDateOfTaskCheck<=to) || (EndDateOfTaskCheck>=from && EndDateOfTaskCheck<=to)){
-//                                    if (StartDateOfTaskCheck <= from && StartDateOfTaskCheck >= to && EndDateOfTaskCheck <= from && EndDateOfTaskCheck >= to){
-                                            condition="true";
-                                            console.log("i am in success of ifff");
-                                            break;
-
-                                        } else{
-                                            condition="false";
-                                            conditionArray.push("false");
-                                            console.log("iam in else part");
-                                        }
+                                    if((StartDateOfTaskCheck>=from && StartDateOfTaskCheck<=to) || (EndDateOfTaskCheck>=from && EndDateOfTaskCheck<=to)){
+                                        condition="true";
+                                        console.log("i am in success of ifff");
+                                        break;
+                                    } else{
+                                        condition="false";
+                                        conditionArray.push("false");
+                                        existingWorkLocationUserId.push(vm.DateValues[x][3]);
+                                        console.log("iam in else part");
+                                    }
                                 }/*else{
                                  //idArray.push(selectedUserArray[y]);
                             }*/
@@ -540,6 +536,7 @@ $().ready(function() {
                         taskWorkLocation.push("true");
                     }
                 }
+                console.log("lllllllllioioioioioii",existingWorkLocationUserId);
                 console.log("condition array",conditionArray);
                 if(vm.DateValues != null){
                     if (selectedUserArray.length !=0){
@@ -572,15 +569,18 @@ $().ready(function() {
                 console.log("task 562",taskWorkLocation);
                 var selecetUserArrayLength = selectedUserArray.length;
                 for(var i=0;i<selecetUserArrayLength;i++){
-                var returnValues = checkUserId(selectedUserArray[i]);
-                if(returnValues =="true"){
-                    idArray.push(selectedUserArray[i]);
-                }
+                    var returnValues = checkUserId(selectedUserArray[i]);
+                    if(returnValues =="true"){
+                        idArray.push(selectedUserArray[i]);
+                    } else{
+                         existingWorkLocationUserId.push(selectedUserArray[i]);
+                        
+                    }
                 }
                 for(var i=0;i<idArray.length;i++){
                     taskWorkLocation.push("true");
                 }
-           
+           console.log("hai existingWorkLocationUserId @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ ",existingWorkLocationUserId);
             console.log("final taskLocation",taskWorkLocation);
             if (selectedUserArray.length !=0){
                 if (taskWorkLocation.length ==selectedUserArray.length&&taskWorkLocation.length >0){
@@ -717,6 +717,9 @@ $().ready(function() {
                     return false;
                 }
             }else{
+                console.log("hai existingWorkLocationUserId ########## ",existingWorkLocationUserId);
+                var uniqueItems = Array.from(new Set(existingWorkLocationUserId));
+                console.log("after filtering of existing unique user id ",uniqueItems);
                 $("#myModalForUniqueTest").modal();
                 $("#saveButton").attr('disabled', false);
 //                $("#cancelForCheckUnique").click(function(){
