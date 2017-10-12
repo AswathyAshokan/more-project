@@ -203,13 +203,16 @@ func (c *DashBoardController)LoadDashBoard() {
 			log.Println(helpers.ServerConnectionError)
 		}
 		for _, inviteUserKey := range inviteKey {
-			if info[inviteUserKey].UserResponse == "Accepted"{
-				acceptedUser++
-			} else if info[inviteUserKey].UserResponse == "Pending"{
-				pendingUser++
-			}else {
-				rejectedUser++
+			if info[inviteUserKey].UserResponse !=helpers.UserStatusDeleted &&info[inviteUserKey].Status !=helpers.UserStatusDeleted{
+				if info[inviteUserKey].UserResponse == "Accepted"{
+					acceptedUser++
+				} else if info[inviteUserKey].UserResponse == "Pending"{
+					pendingUser++
+				}else {
+					rejectedUser++
+				}
 			}
+
 		}
 		acceptedUsersPercentageForViewModel := float32(acceptedUser)/float32(len(inviteKey))*100
 		rejectedUsersPercentageForViewModel  := float32(pendingUser)/ float32(len(inviteKey))*100

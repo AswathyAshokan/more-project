@@ -580,6 +580,7 @@ $().ready(function() {
 //        alert("lllll",fitWork);
 //   });
     $("#saveButton").click(function() {
+        console.log("inside save button");
             $("#taskDoneForm").validate({
                 rules: {
                     taskName : "required",
@@ -622,11 +623,15 @@ $().ready(function() {
                 },
                 submitHandler: function() {
                     if (selectedUserArray.length !=0){
+                        console.log("l1");
+                        console.log("selectedUserArray",selectedUserArray)
                         if (vm.WorkLocationForUser !=null){
+                            console.log("l2");
                         taskWorkLocation=[];
                             for ( var i=0;i<selectedUserArray.length;i++){
                                 for (var j=0;j<vm.WorkLocationForUser.length;j++){
                                 if (vm.WorkLocationForUser[j][2] ==selectedUserArray[i]){
+                                    console.log("l3");
                                     var utcTime = vm.WorkLocationForUser[j][0];
                                     var dateFromDb = parseInt(utcTime);
                                     var d = new Date(dateFromDb * 1000);
@@ -769,6 +774,7 @@ $().ready(function() {
                         if( mapLatitude.length  !=0)
                         {
                             if(taskLocationCondition=="true"){
+                                console.log("jjjjjjjjjjjjjjj33");
                                        $("#saveButton").attr('disabled', true);
                                       var taskId=vm.TaskId;
                                       var jobnew = $("#jobName option:selected").val()
@@ -876,6 +882,7 @@ $().ready(function() {
                                               }
                                           });
                                       } else {
+                                          console.log("k12");
                                           $.ajax({
                                               url:'/'+ companyTeamName + '/task/add',
                                               type: 'post',
@@ -921,8 +928,11 @@ $().ready(function() {
     });
    /* $("#saveAndContinue").click(function() {*/
     $(document).on("click",'#saveAndContinue',function(){
-         $('#saveAndContinue').attr('type', 'submit');
+         $('#okButton').attr('type','button');
         $('#saveButton').attr('type', 'button');
+        $('#saveAndContinue').attr('type', 'submit');
+       
+        
         console.log("inside save and continue");
 
          $("#taskDoneForm").validate({
@@ -1044,7 +1054,7 @@ $().ready(function() {
                 }
                  }
             }
-            console.log("work location array",taskWorkLocation);
+            console.log("work location array bbb",taskWorkLocation);
             if (selectedUserArray.length !=0){
                 if (taskWorkLocation.length ==selectedUserArray.length&&taskWorkLocation.length >0){
                     taskLocationCondition="true"
@@ -1126,6 +1136,7 @@ $().ready(function() {
                         if( mapLatitude.length  !=0)
                         {
                             if(taskLocationCondition=="true"){
+                                console.log("7771");
                                        $("#saveAndContinue").attr('disabled', true);
                                       var taskId=vm.TaskId;
                                       var jobnew = $("#jobName option:selected").val()
@@ -1212,10 +1223,10 @@ $().ready(function() {
                                       for(i = 0; i < selectedUserAndGroupName.length; i++) {
                                           formData = formData+"&userAndGroupName="+selectedUserAndGroupName[i];
                                       }
-                                        if (jobNameWithUrl.length ==0){
+                                        if (jobNameWithUrl.length ==0||jobNameWithUrl=="Select a Job"){
                                             jobNameWithUrl="unDefined"
                                         }
-                                        if (customerNameWithUrl.length ==0){
+                                        if (customerNameWithUrl.length ==0||jobNameWithUrl=="Select a Job"){
                                             customerNameWithUrl ="unDefined"
                                         }
                                     console.log("seleceeeeeee",selectedUserAndGroupName)
@@ -1238,6 +1249,7 @@ $().ready(function() {
                                               }
                                           });
                                       } else {
+                                          console.log("hhhhhhhhh");
                                           $.ajax({
                                               url:'/'+ companyTeamName + '/task/add/'+jobNameWithUrl+'/'+customerNameWithUrl,
                                               type: 'post',
