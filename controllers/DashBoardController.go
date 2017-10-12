@@ -189,6 +189,7 @@ func (c *DashBoardController)LoadDashBoard() {
 	acceptedUser :=0
 	rejectedUser :=0
 	pendingUser :=0
+	var ActiveKey []string
 	dbStatus,info := companyInvitaion.InviteUserFromCompany(c.AppEngineCtx,companyTeamName)
 	var inviteKey []string
 	if len(info) !=0{
@@ -204,9 +205,11 @@ func (c *DashBoardController)LoadDashBoard() {
 		}
 		for _, inviteUserKey := range inviteKey {
 			if info[inviteUserKey].UserResponse !=helpers.UserStatusDeleted &&info[inviteUserKey].Status !=helpers.UserStatusDeleted{
+				ActiveKey=append(ActiveKey,inviteUserKey)
 				if info[inviteUserKey].UserResponse == "Accepted"{
 					acceptedUser++
 				} else if info[inviteUserKey].UserResponse == "Pending"{
+					log.Println("pending")
 					pendingUser++
 				}else {
 					rejectedUser++
@@ -214,9 +217,9 @@ func (c *DashBoardController)LoadDashBoard() {
 			}
 
 		}
-		acceptedUsersPercentageForViewModel := float32(acceptedUser)/float32(len(inviteKey))*100
-		rejectedUsersPercentageForViewModel  := float32(pendingUser)/ float32(len(inviteKey))*100
-		pendingUsersPercentageForViewModel  := float32(rejectedUser)/ float32(len(inviteKey))*100
+		acceptedUsersPercentageForViewModel := float32(acceptedUser)/float32(len(ActiveKey))*100
+		rejectedUsersPercentageForViewModel  := float32(rejectedUser)/ float32(len(ActiveKey))*100
+		pendingUsersPercentageForViewModel  := float32(pendingUser)/ float32(len(ActiveKey))*100
 		viewModel.AcceptedUsers =acceptedUsersPercentageForViewModel
 		viewModel.RejectedUsers =rejectedUsersPercentageForViewModel
 		viewModel.PendingUsers =pendingUsersPercentageForViewModel
