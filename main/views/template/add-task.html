@@ -146,6 +146,7 @@
 							</div>
                         </div>
                         <div class="form-group clearfix">
+<!--
                             <div class="col-sm-6" style="display:none">
 								<label for="log" class="" id="log">Log In Minutes</label>
 								<select class="form-control sprites-arrow-down" id="logInMinutes" name="logInMinutes">
@@ -155,6 +156,7 @@
 									<option id="30" value="30">30 </option>
                                 </select>
 							</div>
+-->
                             <div class="col-sm-6" id="minmumUserDiv">
 								<label for="users" class="" id="minUsersLabel">Min. No. of Users to Start Task</label>
 								<select class="form-control sprites-arrow-down" id="minUsers" name="minUsers">
@@ -167,9 +169,6 @@
                                     
 								</select>
 							</div>
-							
-						</div>
-                        <div class="form-group clearfix">
                             <div class="col-sm-6">
 								<label for="userOrGroup" class="">Users/Group<div class="minUserValidationError" id="minUserValidationError"></div></label>
 
@@ -180,6 +179,10 @@
 								</select>
 
 							</div>
+							
+						</div>
+                        <div class="form-group clearfix">
+
                             <div class="col-sm-6" id="contactDiv">
 								<label for="contacts" class="" id="contactIdLabel">Contacts</label>
 
@@ -190,8 +193,6 @@
                                 </select>
 
 							</div>
-                        </div>
-                        <div class="form-group clearfix">
                             <div class="col-sm-6" id="fitToWorkDiv">
                                 <label for="fitToWork" class="" >Fit To Work Declaration</label>
                                 <select class="form-control sprites-arrow-down" id="TaskFitToWork" name="TaskFitToWork" onchange="getInstructions(this.value);" >
@@ -215,10 +216,36 @@
 						</div>
 -->
                             </div>
+                        </div>
+<!--
+                        <div class="form-group clearfix">
+                            <div class="col-sm-6" id="fitToWorkDiv">
+                                <label for="fitToWork" class="" >Fit To Work Declaration</label>
+                                <select class="form-control sprites-arrow-down" id="TaskFitToWork" name="TaskFitToWork" onchange="getInstructions(this.value);" >
+                                    <option selected disabled value="">Select Fit To Work</option>
+                                    {{range $key, $val := .vm.FitToWorkArray}}
+                                    <option  id="{{index $.vm.FitToWorkKey $key}}" value="{{$val}}" >{{$val}} </option>
+                                    {{end}}
+                                </select>
+                                
+
+                        <div class="form-group clearfix">
+							<div class="col-sm-6" id="TextBoxContainer">
+                                <div class="plus" id="fitToWorkAdd" >
+                                    <input class="form-control" id="addFitToWorkValue" type="text"  name="addFitToWorkValue"> 
+                                    <img  id="btnAdd" src="/static/images/fitToWork.png" width="20" height="20" style= "float:right; margin-top:-2em; margin-right:-2em;"  />
+                                    
+                                </div>
+                                onclick="initialize();"
+                            </div>
+						</div>
+                            </div>
                             <div class="wrp-plus"></div>
                         </div>
-                         <div class="col-sm-6" style="display:none">
+-->
+                         <div class="col-sm-6" >
                              <label><p><input type="checkbox" id="fitToWorkCheck" name="fitToWorkCheck">&nbsp;&nbsp;&nbsp;Fit To Work Declaration Each Time User Re-enter into Task.</p> </label>
+<!--
                              <div id="ExplosureDiv">
                              <label for="workExplosure" id="workExplosureLabel">
                                  <input type="checkbox" id="workExplosure" name="workExplosure">&nbsp;&nbsp;&nbsp;Exposure.
@@ -236,6 +263,7 @@
                                         
                                 </div>
 							</div>
+-->
                         </div>
                         <div class="mapValidationError" id="mapValidationError"></div>
                         <div class="loginTypeValidationError" id="loginTypeValidationError"></div>

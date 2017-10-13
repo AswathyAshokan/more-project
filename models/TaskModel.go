@@ -1333,7 +1333,7 @@ func (m *Tasks) TaskDeleteStatusChck(ctx context.Context, taskId string,companyI
 	}
 	userData := reflect.ValueOf(taskDetail.UsersAndGroups.User)
 	for _, key := range userData.MapKeys() {
-		if taskDetail.UsersAndGroups.User[key.String()].UserTaskStatus=="Open"{
+		if taskDetail.UsersAndGroups.User[key.String()].UserTaskStatus=="Open" &&taskDetail.UsersAndGroups.User[key.String()].Status==helpers.StatusActive{
 			condition="true"
 			break
 		}else{

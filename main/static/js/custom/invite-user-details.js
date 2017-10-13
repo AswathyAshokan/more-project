@@ -1,5 +1,4 @@
 
-
 //Below line is for adding active class to layout side menu..
 console.log(vm);
 document.getElementById("user").className += " active";
@@ -99,7 +98,9 @@ $(function(){
                             data: '',
                             success: function(feedback){
                                 if(feedback=="true"){
-                                    $('#inviteuser-table').dataTable().fnDestroy(); 
+                                      window.location = "/" + companyTeamName +"/invite";
+                                   /* $('#inviteuser-table').dataTable().fnDestroy(); 
+                                    $('.table-wrapper .dataTables_filter').prepend($('#sharedDoc'));
                                     var index = "";
                                     for(var i = 0; i < mainArray.length; i++) {
                                     index = mainArray[i].indexOf(key);
@@ -109,7 +110,7 @@ $(function(){
                                     }
                                 }
                                 mainArray.splice(i, 1);
-                                dataTableManipulate()
+                                dataTableManipulate()*/
                                 }
                                 else {
                                 }
@@ -141,6 +142,7 @@ $(function(){
                                 }
                                 else {
                                 }
+                                  //window.location = "/" + companyTeamName +"/invite";
                             }
                         });
                     });

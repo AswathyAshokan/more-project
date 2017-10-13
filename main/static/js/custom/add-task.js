@@ -627,7 +627,7 @@ $().ready(function() {
                         console.log("selectedUserArray",selectedUserArray)
                         if (vm.WorkLocationForUser !=null){
                             console.log("l2");
-                        taskWorkLocation=[];
+                            taskWorkLocation=[];
                             for ( var i=0;i<selectedUserArray.length;i++){
                                 for (var j=0;j<vm.WorkLocationForUser.length;j++){
                                 if (vm.WorkLocationForUser[j][2] ==selectedUserArray[i]){

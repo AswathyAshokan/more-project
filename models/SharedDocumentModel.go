@@ -4,7 +4,7 @@ import (
 	"log"
 	"golang.org/x/net/context"
 	"reflect"
-	"app/passporte/helpers"
+	//"app/passporte/helpers"
 	"strconv"
 
 )
@@ -85,58 +85,61 @@ func GetAllSharedDocumentsByCompany(ctx context.Context,companyTeamname string )
 	//companyData :=map[string]Company{}
 	var KeySlice []string
 	var AllSharedfile [][]string
-	expiryDetails := map[string]Expirations{}
-	CompanyDetails := map[string]CompanyData{}
+	//expiryDetails := map[string]Expirations{}
+	//CompanyDetails := map[string]CompanyData{}
 	eachExpiry :=map[string]Expirations{}
 	selectedExpiry := Expirations{}
 	var fullName string
+	usersInCompany :=map[string] CompanyUsers{}
 	/*var userKey []string
 	var documentKey []string*/
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil{
 		log.Fatal(err)
 	}
-	err = db.Child("Expirations").Value(&expiryDetails)
-	dataValue := reflect.ValueOf(expiryDetails)
+	err = db.Child("/Company/"+companyTeamname+"/Users/").Value(&usersInCompany)
+	log.Println("company usersssss",usersInCompany)
+	//err = db.Child("Expirations").Value(&expiryDetails)
+	dataValue := reflect.ValueOf(usersInCompany)
 	for _, key := range dataValue.MapKeys() {
-		log.Println("kety out ",key)
+		log.Println("kety out ",key.String())
 
 		err = db.Child("/Expirations/"+key.String()).Value(&eachExpiry)
 		log.Println("eachExpiry",eachExpiry)
 		eachDataValues := reflect.ValueOf(eachExpiry)
 		for _, k := range eachDataValues.MapKeys() {
-			err = db.Child("/Expirations/"+key.String()+"/"+k.String()+"/Company").Value(&CompanyDetails)
+			//err = db.Child("/Expirations/"+key.String()+"/"+k.String()+"/Company").Value(&CompanyDetails)
 			/*if CompanyDetails.CompanyName !=""&&CompanyDetails.CompanyStatus !=""{
 				userKey = append(userKey,key.String())
 				documentKey = append(documentKey,k.String())
 			}*/
-			companyDataValues := reflect.ValueOf(CompanyDetails)
+			/*companyDataValues := reflect.ValueOf(CompanyDetails)
 			for _, companykey := range companyDataValues.MapKeys() {
 
-				if CompanyDetails[companykey.String()].CompanyStatus != helpers.UserStatusDeleted{
-					log.Println("test 1")
-					if companykey.String() == companyTeamname{
-						log.Println("companyTeamname",companyTeamname,companykey.String())
-						//err = db.Child("/Expirations/"+key.String()+"/"+k.String()).Value(&selectedExpiry)
-						if eachExpiry[k.String()].Info.Mode =="Public" {
-							err = db.Child("Users/"+key.String()+"/Info/FullName").Value(&fullName)
-							var tempSlice	[]string
-							KeySlice = append(KeySlice,k.String())
-							tempSlice = append(tempSlice, eachExpiry[k.String()].Info.Description)
-							expirationDate := strconv.FormatInt(int64(eachExpiry[k.String()].Info.ExpirationDate), 10)
-							tempSlice = append(tempSlice, expirationDate)
-							tempSlice = append(tempSlice, fullName)
-							tempSlice = append(tempSlice, eachExpiry[k.String()].Info.DocumentId)
-							log.Println("tempSlice",tempSlice)
-							AllSharedfile = append(AllSharedfile, tempSlice)
-							tempSlice = tempSlice[:0]
-						}
-
-					}
-				}
+				if CompanyDetails[companykey.String()].CompanyStatus != helpers.UserStatusDeleted{*/
+			log.Println("test 1")
+			//if companykey.String() == companyTeamname{
+			//log.Println("companyTeamname",companyTeamname,companykey.String())
+			//err = db.Child("/Expirations/"+key.String()+"/"+k.String()).Value(&selectedExpiry)
+			if eachExpiry[k.String()].Info.Mode =="Public" {
+				err = db.Child("Users/"+key.String()+"/Info/FullName").Value(&fullName)
+				var tempSlice	[]string
+				KeySlice = append(KeySlice,k.String())
+				tempSlice = append(tempSlice, eachExpiry[k.String()].Info.Description)
+				expirationDate := strconv.FormatInt(int64(eachExpiry[k.String()].Info.ExpirationDate), 10)
+				tempSlice = append(tempSlice, expirationDate)
+				tempSlice = append(tempSlice, fullName)
+				tempSlice = append(tempSlice, eachExpiry[k.String()].Info.DocumentId)
+				log.Println("tempSlice",tempSlice)
+				AllSharedfile = append(AllSharedfile, tempSlice)
+				tempSlice = tempSlice[:0]
 			}
+
+			/*}*/
+			/*}*/
 		}
 	}
+	/*}*/
 	/*log.Println("userKey",userKey)*/
 
 
