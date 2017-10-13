@@ -34,10 +34,19 @@ $(function(){
                 "data": null,
                 "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
             }]
+        }); 
+        
+/*Add a plus symbol in webpage for add new groups*/
+        var item = $('<span>+</span>');
+        item.click(function() {
+            window.location ='/' + companyTeamName + '/worklocation/add';
         });
         
-        
-        $('#workLocation-table tbody').on('click', 'td.details-control', function () {
+        $('.table-wrapper .dataTables_filter').append(item);
+    }
+/*---------------------------Initial data table calling---------------------------------------------------*/
+    
+     $('#workLocation-table tbody').on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');
         var row = table.row( tr );
  
@@ -52,9 +61,8 @@ $(function(){
             tr.addClass('shown');
         }
     } );
-        
-        
-        function format (data,minUserArray ) {
+    
+      function format (data,minUserArray ) {
             
              var workLocationID  = data[5];
             var minUser ='<div class="pull-left dropdown-tbl"  style="padding-right: 50px;">';
@@ -108,17 +116,10 @@ $(function(){
             return minUser+exposure;
          }
         
-        
-        
-/*Add a plus symbol in webpage for add new groups*/
-        var item = $('<span>+</span>');
-        item.click(function() {
-            window.location ='/' + companyTeamName + '/worklocation/add';
-        });
-        
-        $('.table-wrapper .dataTables_filter').append(item);
-    }
-/*---------------------------Initial data table calling---------------------------------------------------*/
+    
+    
+    
+    
     var tempArry = [];
     if(vm.Values != null) {
         if(vm.Users !=null){
