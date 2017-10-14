@@ -32,6 +32,10 @@ $(function(){
         $('#shareddocument-table').dataTable().fnDestroy();
         $('#fromDate').datepicker('setDate', null);
         $('#toDate').datepicker('setDate', null);
+        $('#fromDate').datepicker('option', { minDate:null,maxDate: null });
+        $('#toDate').datepicker('option', { minDate:null,maxDate: null });
+        
+        
         dataTableManipulate(completeTable);
      });
     function listSharedDocumentByDate(unixFromDate,unixToDate){
