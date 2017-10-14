@@ -477,8 +477,7 @@ var allUserId = [[]];
         }
         var DynamicTaskListing ="";
         for (var i=0; i<subArray.length; i++){
-            DynamicTaskListing+='<p onclick="FunctionToChangeBarChart(event)">'+subArray[i]+'</p>';
-        }
+DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event) " style="cursor:pointer;" class="active" >'+subArray[i]+'</p>';        }
         $("#taskListing").append(DynamicTaskListing);
         subArray = [];
     }
@@ -492,8 +491,7 @@ var allUserId = [[]];
     }
     var DynamicTaskListing ="";
     for (var i=0; i<subArray.length; i++){
-        DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event) " style="    cursor:pointer;">'+subArray[i]+'</p>';
-    }
+DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event) " style="cursor:pointer;" class="active" >'+subArray[i]+'</p>';    }
     $("#taskListing").prepend(DynamicTaskListing);
     
     FunctionToChangeBarChart = function(event){

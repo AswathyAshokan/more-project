@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="96e6a254-e849-46ef-b82f-09dd4384a429" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/TaskController.go" afterPath="$PROJECT_DIR$/controllers/TaskController.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-consentreceipt.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-consentreceipt.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/add-worklocation.js" afterPath="$PROJECT_DIR$/main/static/js/custom/add-worklocation.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/static/js/custom/dash-board.js" afterPath="$PROJECT_DIR$/main/static/js/custom/dash-board.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,8 +21,8 @@
       <file leaf-file-name="TaskController.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="1296" column="9" lean-forward="true" selection-start-line="1296" selection-start-column="9" selection-end-line="1296" selection-end-column="9" />
+            <state relative-caret-position="317">
+              <caret line="1290" column="25" lean-forward="true" selection-start-line="1290" selection-start-column="25" selection-end-line="1290" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -797,13 +795,6 @@
       <option name="presentableId" value="Default" />
       <updated>1484129342947</updated>
     </task>
-    <task id="LOCAL-00321" summary="1/06/2013:28:   work location">
-      <created>1505892798347</created>
-      <option name="number" value="00321" />
-      <option name="presentableId" value="LOCAL-00321" />
-      <option name="project" value="LOCAL" />
-      <updated>1505892798347</updated>
-    </task>
     <task id="LOCAL-00322" summary="1/06/2013:28:   work location">
       <created>1505893332042</created>
       <option name="number" value="00322" />
@@ -1140,7 +1131,14 @@
       <option name="project" value="LOCAL" />
       <updated>1507955807264</updated>
     </task>
-    <option name="localTasksCounter" value="370" />
+    <task id="LOCAL-00370" summary="1/06/2013:28:   work location">
+      <created>1507963973095</created>
+      <option name="number" value="00370" />
+      <option name="presentableId" value="LOCAL-00370" />
+      <option name="project" value="LOCAL" />
+      <updated>1507963973095</updated>
+    </task>
+    <option name="localTasksCounter" value="371" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1633,8 +1631,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/controllers/TaskController.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="1296" column="9" lean-forward="true" selection-start-line="1296" selection-start-column="9" selection-end-line="1296" selection-end-column="9" />
+        <state relative-caret-position="317">
+          <caret line="1290" column="25" lean-forward="true" selection-start-line="1290" selection-start-column="25" selection-end-line="1290" selection-end-column="25" />
           <folding />
         </state>
       </provider>
