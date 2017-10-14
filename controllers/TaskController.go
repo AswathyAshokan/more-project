@@ -1277,8 +1277,6 @@ func (c *TaskController)LoadEditTask() {
 		dataValueForWorkLocation := reflect.ValueOf(workLocation)
 		for _, key := range dataValueForWorkLocation.MapKeys() {
 			if workLocation[key.String()].Settings.Status ==helpers.StatusActive{
-
-
 				dataUserWorkValue :=reflect.ValueOf(workLocation[key.String()].Info.UsersAndGroupsInWorkLocation.User)
 				for _, workKey := range dataUserWorkValue.MapKeys() {
 					var workLocationSlice []string

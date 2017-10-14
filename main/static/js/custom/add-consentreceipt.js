@@ -22,13 +22,17 @@ $().ready(function() {
         document.getElementById("addConsentValue").value = vm.InstructionArrayToEdit[0];
         document.getElementById("consentHead").innerHTML = "Edit Consent Receipt";//for display heading of each webpage
         $("#selectedUserIds").val(selectArray);
-        var dynamicTextBox= "";
         for (var i = 1; i < vm.InstructionArrayToEdit.length; i++) {
-            console.log("cp1");
-            dynamicTextBox+= '<div class="plus"><input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + vm.InstructionArrayToEdit[i] + '" />&nbsp';
+                console.log("cp1");
+                var dynamicTextBox = "<div class='plus'>"+"<input class='form-control'  name = 'DynamicTextBox'  id=  'DynamicTextBox'  type='text' value = " + vm.InstructionArrayToEdit[i] + ">" + "<span class='add-decl'>+</span>" + "</div>";
+             $( ".wrp-plus" ).append( dynamicTextBox );
+            }
         }
-        $( "#TextBoxContainer" ).append( dynamicTextBox );
-    }
+        
+        
+   
+       /* $( "#TextBoxContainer" ).append( dynamicTextBox );
+    }*/
     $("#addConsentForm").validate({
         rules: {
             recieptName:"required",

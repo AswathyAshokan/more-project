@@ -30,7 +30,7 @@ $().ready(function() {
    var idArray = [];
    var uniqueIdArray = [];
    var condition ="";
-   var conditionArray =[];
+  
    var editConditionArry = [];
    var countInEdit = 0;
    var condintionInEdit ="";
@@ -334,9 +334,6 @@ $().ready(function() {
                         if(selectedUserArray[i]==vm.DateValues[j][0]){
                             
                             if(currentWorkLocationId!=vm.DateValues[j][3]){
-                               
-                                
-                                
                                 var utcTime = vm.DateValues[j][1];
                                     var dateFromDb = parseInt(utcTime);
                                     var d = new Date(dateFromDb * 1000);
@@ -448,6 +445,7 @@ $().ready(function() {
                 } 
             } else{
                 var count =0;
+                var conditionArray =[];
                 console.log("kkksssssssssssssssssss",selectedUserArray);
                 if(vm.DateValues != null){
                     if (selectedUserArray.length !=0){
@@ -580,7 +578,7 @@ $().ready(function() {
                 for(var i=0;i<idArray.length;i++){
                     taskWorkLocation.push("true");
                 }
-           console.log("hai existingWorkLocationUserId @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ ",existingWorkLocationUserId);
+//           console.log("hai existingWorkLocationUserId @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ ",existingWorkLocationUserId);
             console.log("final taskLocation",taskWorkLocation);
             if (selectedUserArray.length !=0){
                 if (taskWorkLocation.length ==selectedUserArray.length&&taskWorkLocation.length >0){
@@ -592,7 +590,7 @@ $().ready(function() {
             }
             
             
-            
+            console.log("enter restricted or not",taskLocationCondition)
            var nfcTagId =  document.getElementById("nfcTagForTask").value;
            var starDateString = document.getElementById('startDate').value;
            var endDateString = document.getElementById('endDate').value;
