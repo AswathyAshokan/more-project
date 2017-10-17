@@ -280,6 +280,25 @@ func (m *Company)UpdateCompanyTeamName(ctx context.Context) (bool) {
 }
 
 
+func AddEmailToDb(ctx context.Context,emailId string,generatedKey string) (bool) {
+	log.Println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
+
+	db,err :=GetFirebaseClient(ctx,"")
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+	formattedEmail := strings.Replace(emailId, ".", "_", -1)
+	InsertedData,err := db.Child("ForgotPasswordKey").Child(formattedEmail).Push(generatedKey)
+	log.Println("kkkkk",InsertedData)
+	if err != nil {
+		log.Println(err)
+		return  false
+	}
+	return true
+}
+
+
 func IsEnteredAdminPasswordCorrect(ctx context.Context ,adminId string,enteredOldPassword []byte) (bool){
 	admin :=Admins{}
 	dB,err :=GetFirebaseClient(ctx,"")

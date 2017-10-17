@@ -272,6 +272,8 @@ func (c *RegisterController)CheckingEmailId(){
 		//	b[i] = letterBytes[rand.Intn(len(letterBytes))]
 		//}
 
+		dbStatusOfEmail :=models.AddEmailToDb(c.AppEngineCtx, emailId,string(result))
+		log.Println("status",dbStatusOfEmail)
 		body :="Dear member, we received a request for password change .this is your automatic genereted key "+string(result)
 		//+"Go to site to set your new password. The key will be active for 10 minutes"
 

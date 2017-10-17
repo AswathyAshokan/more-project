@@ -76,6 +76,7 @@ func (c *SharedDocumentController) LoadSharedDocuments() {
 		documentsViewModels.Keys = expiryKeySlice
 		documentsViewModels.CompanyTeamName = storedSession.CompanyTeamName
 		documentsViewModels.CompanyPlan = storedSession.CompanyPlan
+		documentsViewModels.ProfilePicture =storedSession.ProfilePicture
 		c.Data["vm"] = documentsViewModels
 		c.TplName = "template/shareddocument.html"
 
@@ -116,6 +117,7 @@ func (c *SharedDocumentController) LoadSharedDocumentsAllSharedDocuments() {
 	documentsViewModels.Keys = expiryKeySlice
 	documentsViewModels.CompanyTeamName = storedSession.CompanyTeamName
 	documentsViewModels.CompanyPlan = storedSession.CompanyPlan
+	documentsViewModels.ProfilePicture =storedSession.ProfilePicture
 	c.Data["vm"] = documentsViewModels
 	c.TplName = "template/shareddocument.html"
 }
