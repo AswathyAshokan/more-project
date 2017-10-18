@@ -111,6 +111,9 @@ func(m *FitToWork) UpdateFitToWorkToDb(ctx context.Context,instructionSlice []st
 	instructionMap := make(map[string]TaskFitToWorks)
 	InstructionForFitToWork := TaskFitToWorks{}
 	instructionMapForTask :=make(map[string]TaskFitToWork)
+	instructionMapForWork :=make(map[string]WorkLocationFitToWork)
+	InstructionForFitToWorkOnWork :=WorkLocationFitToWork{}
+
 	InstructionForFitToWorkOnTask :=TaskFitToWork{}
 	if instructionSlice[0] !="" {
 		for i := 0; i < len(instructionSlice); i++ {
@@ -121,8 +124,12 @@ func(m *FitToWork) UpdateFitToWorkToDb(ctx context.Context,instructionSlice []st
 			InstructionForFitToWorkOnTask.Status = helpers.StatusActive
 			InstructionForFitToWorkOnTask.DateOfCreation = (time.Now().UnixNano() / 1000000)
 			InstructionForFitToWorkOnTask.Description = instructionSlice[i]
+			InstructionForFitToWorkOnWork.Status =helpers.StatusActive
+			InstructionForFitToWorkOnWork.DateOfCreation =(time.Now().UnixNano() / 1000000)
+			InstructionForFitToWorkOnWork.Description =instructionSlice[i]
 			instructionMap[id] = InstructionForFitToWork
 			instructionMapForTask[id] =InstructionForFitToWorkOnTask
+			instructionMapForWork[id]=InstructionForFitToWorkOnWork
 			err = db.Child("/FitToWork/" + companyTeamName + "/" + fitToWorkId + "/Instructions/").Set(instructionMap)
 			if err != nil {
 				log.Println(err)
@@ -144,6 +151,26 @@ func(m *FitToWork) UpdateFitToWorkToDb(ctx context.Context,instructionSlice []st
 		}
 	}
 
+
+	//updation indide work location
+
+
+
+	fitToWorkUpdateForWork :=FitToWorkForkWorkLocation{}
+	workValue := map[string]WorkLocation{}
+	fitToWorkUpdateForWork.Settings.Status =m.Settings.Status
+	fitToWorkUpdateForWork.Info.FitToWorkName =m.FitToWorkName
+	fitToWorkUpdateForWork.Info.FitToWorkId =fitToWorkId
+	fitToWorkUpdateForWork.FitToWorkInstruction =instructionMapForWork
+	err = db.Child("WorkLocation").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&workValue)
+	dataValueOfFitToWorkForWork := reflect.ValueOf(workValue)
+	for _, workKeys:=range dataValueOfFitToWorkForWork.MapKeys(){
+		log.Println("in1")
+		if workValue[workKeys.String()].Settings.Status ==helpers.StatusActive&& workValue[workKeys.String()].FitToWork.Info.FitToWorkId ==fitToWorkId{
+			log.Println("in2")
+			err = db.Child("/WorkLocation/"+workKeys.String()+"/FitToWork").Set(fitToWorkUpdateForWork)
+		}
+	}
 	return true
 }
 func GetEachFitToWorkByCompanyId(ctx context.Context, fitToWorkId string,companyTeamName string)(FitToWork){

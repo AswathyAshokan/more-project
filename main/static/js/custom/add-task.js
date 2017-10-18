@@ -880,6 +880,7 @@ $().ready(function() {
                                                       window.location ='/'  +  companyTeamName  + '/task';
                                                   } else {
                                                       $("#saveAndContinue").attr('disabled', false);
+                                                      window.location = "/"  +  companyTeamName +  "/task/add";
                                                   }
                                               },
                                               error: function (request,status, error) {
@@ -898,6 +899,7 @@ $().ready(function() {
                                                       window.location = '/' + companyTeamName + '/task/add/'+jobNameWithUrl+'/'+customerNameWithUrl;
                                                   } else {
                                                       $("#saveAndContinue").attr('disabled', false);
+                                                      window.location = "/"  +  companyTeamName +  "/task/add";
                                                   }
                                               },
                                               error: function (request,status, error) {
@@ -1007,6 +1009,7 @@ $().ready(function() {
                                                       window.location ='/'  +  companyTeamName  + '/task';
                                                   } else {
                                                       $("#saveButton").attr('disabled', false);
+                                                      window.location = "/"  +  companyTeamName +  "/task/add";
                                                   }
                                               },
                                               error: function (request,status, error) {
@@ -1026,6 +1029,7 @@ $().ready(function() {
                                                       window.location = '/' + companyTeamName + '/task';
                                                   } else {
                                                       $("#saveButton").attr('disabled', false);
+                                                      window.location = "/"  +  companyTeamName +  "/task/add";
                                                   }
                                               },
                                               error: function (request,status, error) {
@@ -1373,6 +1377,7 @@ $().ready(function() {
                                                       window.location ='/'  +  companyTeamName  + '/task';
                                                   } else {
                                                       $("#saveAndContinue").attr('disabled', false);
+                                                      window.location = "/"  +  companyTeamName +  "/task/add";
                                                   }
                                               },
                                               error: function (request,status, error) {
@@ -1391,6 +1396,7 @@ $().ready(function() {
                                                       window.location = '/' + companyTeamName + '/task/add/'+jobNameWithUrl+'/'+customerNameWithUrl;
                                                   } else {
                                                       $("#saveAndContinue").attr('disabled', false);
+                                                      window.location = "/"  +  companyTeamName +  "/task/add";
                                                   }
                                               },
                                               error: function (request,status, error) {

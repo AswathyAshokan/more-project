@@ -119,7 +119,7 @@ $().ready(function() {
              unixDateTime = Date.parse(datetime)/1000;
              var tempFileName = file.name.replace(/\s/g, '');
              var uploadDocumentOriginal =
-             firebase.storage().ref().child('CompanyDocuments/'+value+'/'+fileValue+'/'+tempFileName+unixDateTime).put(file);
+             firebase.storage().ref().child('CompanyDocuments/'+value+'/'+fileValue+'/'+unixDateTime+tempFileName).put(file);
          uploadDocumentOriginal.on('state_changed', function(snapshot){
              var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
              console.log('Upload is ' + progress + '% done');
@@ -206,7 +206,7 @@ $().ready(function() {
          unixDateTime = Date.parse(datetime)/1000;
          var tempFileName = file.name.replace(/\s/g, '');
          var uploadDocumentOriginal =
-             firebase.storage().ref().child('CompanyDocuments/'+value+'/'+fileValue+'/'+tempFileName+unixDateTime).put(file);
+             firebase.storage().ref().child('CompanyDocuments/'+value+'/'+fileValue+'/'+unixDateTime+tempFileName).put(file);
          uploadDocumentOriginal.on('state_changed', function(snapshot){
              var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
              console.log('Upload is ' + progress + '% done');

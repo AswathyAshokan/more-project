@@ -135,6 +135,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 
 	}*/
 	log.Println("information",m)
+	var UserInsertionCount []string
 
 	//For inserting task details to User
 	//taskDataString := strings.Split(taskData.String(),"/")
@@ -169,6 +170,7 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 	userData := reflect.ValueOf(m.UsersAndGroups.User)
 	for _, key := range userData.MapKeys() {
 		log.Println("inside task in user")
+		log.Println("user key",key.String())
 		userTaskDetail := UserTasks{}
 		userTaskDetail.DateOfCreation = m.Settings.DateOfCreation
 		userTaskDetail.TaskName = m.Info.TaskName
@@ -180,13 +182,20 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 		userTaskDetail.CompanyId = companyId
 		userKey :=key.String()
 		err = dB.Child("/Users/"+userKey+"/Tasks/"+taskUniqueID).Set(userTaskDetail)
+		UserInsertionCount=append(UserInsertionCount,"true")
+
 		if err!=nil{
 			log.Println("Insertion error:",err)
 			return false
 		}
 
 	}
-	 err = dB.Child("Tasks/"+taskUniqueID).Set(m)
+	if len(m.UsersAndGroups.User)==len(UserInsertionCount) && len(m.Info.CompanyTeamName )!=0{
+		err = dB.Child("Tasks/"+taskUniqueID).Set(m)
+	}else{
+		return false
+	}
+
 	if err!=nil{
 		log.Println("Insertion error:",err)
 		return false
