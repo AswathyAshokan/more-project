@@ -78,9 +78,9 @@ console.log("company name",vm);
                             formatter: $.jqplot.euroFormatter
                              
                         },
-                         labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
-                         min: 0,
-                         max: [total]+ 1,
+                        labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
+                        min: 0,
+                        tickInterval: 1,
                        
                     }
                 },
@@ -344,16 +344,19 @@ var allUserId = [[]];
                             }
                         
                         } else if(reverseSorted[i][5] == "WorkLocationt!@#$%&*YTREFFDD"){
-                             console.log("cpp3");
                             var timeDifference =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
-                            DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"delay to reach work location"+" "+reverseSorted[i][4]+" <span>"+timeDifference+"</span>"+"</li>";
-                            
-                            
+                            if(reverseSorted[i][8] == "After" ){
+                               DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"reached work location within  "+" "+reverseSorted[i][4]+" <span>"+timeDifference+"</span>"+"</li>"; 
+                            } else{
+                                DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"delayed to reach work location"+" "+reverseSorted[i][4]+" <span>"+timeDifference+"</span>"+"</li>";
+                            }
                         }else{
-                            
-                             console.log("cpp5");
                             var timeDifference =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
-                            DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"delay to reach location"+" "+reverseSorted[i][4]+" "+"for task"+" "+reverseSorted[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
+                             if(reverseSorted[i][7] == "After" ){
+                                 DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"reached  task location within"+" "+reverseSorted[i][4]+" "+"for task"+" "+reverseSorted[i][4]+" <span>"+timeDifference+"</span>"+"</li>";
+                            } else{
+                                DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+" delayed reach  task location "+" "+reverseSorted[i][4]+" "+"for task"+" "+reverseSorted[i][4]+" <span>"+timeDifference+"</span>"+"</li>";
+                            }
                         }
                     }
                     

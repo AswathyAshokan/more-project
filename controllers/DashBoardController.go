@@ -277,14 +277,12 @@ func (c *DashBoardController)LoadDashBoard() {
 	var notificationCountForWork = 0
 	var notificationCountForLeave = 0
 	dbStatus,notificationValue := models.GetAllNotifications(c.AppEngineCtx,companyTeamName)
-	log.Println("hghghghghghghghfydtdftyftyfyt",notificationValue)
-
 	switch dbStatus {
 	case true:
 		notificationOfUser := reflect.ValueOf(notificationValue)
 		for _, notificationUserKey := range notificationOfUser.MapKeys() {
 			dbStatus,notificationUserValue := models.GetAllNotificationsOfUser(c.AppEngineCtx,companyTeamName,notificationUserKey.String())
-			log.Println("notificationUserValue",notificationUserValue)
+			//log.Println("notificationUserValue",notificationUserValue)
 			switch dbStatus {
 			case true:
 				notificationOfUserForSpecific := reflect.ValueOf(notificationUserValue)
@@ -302,7 +300,8 @@ func (c *DashBoardController)LoadDashBoard() {
 					NotificationArray =append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].TaskName)
 					date := strconv.FormatInt(notificationUserValue[notificationUserKeyForSpecific.String()].Date, 10)
 					NotificationArray =append(NotificationArray,date)
-					log.Println("NotificationArray",NotificationArray)
+					NotificationArray = append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Mode)
+					//log.Println("NotificationArray",NotificationArray)
 					viewModel.NotificationArray=append(viewModel.NotificationArray,NotificationArray)
 
 
@@ -322,7 +321,7 @@ func (c *DashBoardController)LoadDashBoard() {
 		allNotificationOfWorkLOcation :=  reflect.ValueOf(workNotification)
 		for _, notificationKey := range allNotificationOfWorkLOcation.MapKeys() {
 			status, notification := models.GetAllNotificationsOfWorkLOcation(c.AppEngineCtx, companyTeamName, notificationKey.String())
-			log.Println("notificationUserValue", notification)
+			//log.Println("notificationUserValue", notification)
 			switch status {
 			case true:
 
@@ -344,7 +343,8 @@ func (c *DashBoardController)LoadDashBoard() {
 					date := strconv.FormatInt(notification[eachKeyOfWorkNotification.String()].Date, 10)
 					tempNitificationArray = append(tempNitificationArray, date)
 					tempNitificationArray = append(tempNitificationArray, notification[eachKeyOfWorkNotification.String()].WorkId)
-					log.Println("NotificationArray", tempNitificationArray)
+					tempNitificationArray = append(tempNitificationArray, notification[eachKeyOfWorkNotification.String()].Mode)
+					//log.Println("NotificationArray", tempNitificationArray)
 					viewModel.NotificationArray = append(viewModel.NotificationArray, tempNitificationArray)
 
 				}

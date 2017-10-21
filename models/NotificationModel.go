@@ -17,6 +17,7 @@ type NotificationForTask struct {
 	TaskName	string
 	UserName	string
 	Category	string
+	Mode		string
 
 }
 type NotificationForWorkLocation struct {
@@ -28,6 +29,7 @@ type NotificationForWorkLocation struct {
 	WorkId 		string
 	UserName	string
 	IsRead		bool
+	Mode  		string
 
 }
 
@@ -129,6 +131,7 @@ func UpdateAllNotifications(ctx context.Context,companyTeamName string,UpdateIdA
 			updatedWorkNotification.WorkId=workNotificationUpdateSuccess.WorkId
 			updatedWorkNotification.WorkLocation=workNotificationUpdateSuccess.WorkLocation
 			updatedWorkNotification.IsRead=true
+			updatedNotification.Mode = workNotificationUpdateSuccess.Mode
 			updatedWorkNotification.IsSentMail=workNotificationUpdateSuccess.IsSentMail
 			updatedWorkNotification.Message=workNotificationUpdateSuccess.Message
 			updatedWorkNotification.UserName=workNotificationUpdateSuccess.UserName
@@ -156,6 +159,7 @@ func UpdateAllNotifications(ctx context.Context,companyTeamName string,UpdateIdA
 			updatedNotification.TaskId = oldTaskNotificationStruct.TaskId
 			updatedNotification.IsRead=true
 			updatedNotification.IsSentMail=oldTaskNotificationStruct.IsSentMail
+			updatedNotification.Mode = oldTaskNotificationStruct.Mode
 			updatedNotification.Message=oldTaskNotificationStruct.Message
 			updatedNotification.UserName=oldTaskNotificationStruct.UserName
 			updatedNotification.Category = oldTaskNotificationStruct.Category
