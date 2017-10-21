@@ -430,7 +430,13 @@ func (c *TaskController)AddNewTask() {
 		viewModel.ProfilePicture =storedSession.ProfilePicture
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
-		c.TplName = "template/add-task.html"
+
+		if viewModel.CompanyPlan =="family" || viewModel.CompanyPlan =="campus"{
+			c.TplName = "template/add-task-on-plan.html"
+		}else{
+			c.TplName = "template/add-task.html"
+		}
+
 	}
 
 }
@@ -1292,7 +1298,11 @@ func (c *TaskController)LoadEditTask() {
 		}
 		c.Data["vm"] = viewModel
 		c.Layout = "layout/layout.html"
-		c.TplName = "template/add-task.html"
+		if viewModel.CompanyPlan =="family" || viewModel.CompanyPlan =="campus"{
+			c.TplName = "template/add-task-on-plan.html"
+		}else{
+			c.TplName = "template/add-task.html"
+		}
 
 	}
 

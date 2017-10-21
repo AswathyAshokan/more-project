@@ -7,6 +7,10 @@ console.log("company team namwe",companyTeamName);
 
 $().ready(function() {
     var pageType = vm.PageType;
+//     if(vm.CompanyPlan == 'family' || vm.CompanyPlan == 'campus'){
+//         console.log ("inside11");
+//         $("#customerDivHide *").attr("disabled", "disabled").off('click');
+//     }
     if(pageType == "edit") {
        var selectArray =vm.CustomerId;
         console.log("customer",selectArray);

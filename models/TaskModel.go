@@ -130,71 +130,77 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 		log.Println("Connection error:",err)
 	}
 
-	/*for i :=0; i<len(m.FitToWork.Info); i++ {
 
-
-	}*/
 	log.Println("information",m)
 	var UserInsertionCount []string
+	var UserNotificationCount []string
+
 
 	//For inserting task details to User
 	//taskDataString := strings.Split(taskData.String(),"/")
 	taskUniqueID := betterguid.New()
 	//for adding fit to work to database
+	 if len(m.Info.CompanyTeamName )!=0 {
+		 err = dB.Child("Tasks/"+taskUniqueID).Set(m)
 
+	 }
 	//setting notification  task in user
-	userDataDetails := reflect.ValueOf(m.UsersAndGroups.User)
-	notifyId := betterguid.New()
-	for _, key := range userDataDetails.MapKeys() {
-		log.Println("inside  notificationnnnn")
-		userNotificationDetail :=UserNotification{}
-		userNotificationDetail.Date =time.Now().Unix()
-		userNotificationDetail.IsRead =false
-		userNotificationDetail.IsViewed =false
-		userNotificationDetail.TaskId =taskUniqueID
-		userNotificationDetail.TaskName =m.Info.TaskName
-		userNotificationDetail.Category ="Tasks"
-		userNotificationDetail.Status ="New"
-		userNotificationDetail.IsDeleted =false
-		err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+notifyId).Set(userNotificationDetail)
-		if err!=nil{
-			log.Println("Insertion error:",err)
-			return false
+	if len(m.Info.CompanyTeamName )!=0 {
+		userDataDetails := reflect.ValueOf(m.UsersAndGroups.User)
+		notifyId := betterguid.New()
+		for _, key := range userDataDetails.MapKeys() {
+			log.Println("inside  notificationnnnn")
+			userNotificationDetail := UserNotification{}
+			userNotificationDetail.Date = time.Now().Unix()
+			userNotificationDetail.IsRead = false
+			userNotificationDetail.IsViewed = false
+			userNotificationDetail.TaskId = taskUniqueID
+			userNotificationDetail.TaskName = m.Info.TaskName
+			userNotificationDetail.Category = "Tasks"
+			userNotificationDetail.Status = "New"
+			userNotificationDetail.IsDeleted = false
+			err = dB.Child("/Users/" + key.String() + "/Settings/Notifications/Tasks/" + notifyId).Set(userNotificationDetail)
+			UserNotificationCount = append(UserNotificationCount, "true")
+			if err != nil {
+				log.Println("Insertion error:", err)
+				return false
+			}
 		}
-
-
 	}
 
 
 	//...........................................................
-	userData := reflect.ValueOf(m.UsersAndGroups.User)
-	for _, key := range userData.MapKeys() {
-		log.Println("inside task in user")
-		log.Println("user key",key.String())
-		userTaskDetail := UserTasks{}
-		userTaskDetail.DateOfCreation = m.Settings.DateOfCreation
-		userTaskDetail.TaskName = m.Info.TaskName
-		userTaskDetail.CustomerName = m.Customer.CustomerName
-		userTaskDetail.EndDate = m.Info.EndDate
-		userTaskDetail.StartDate =m.Info.StartDate
-		userTaskDetail.JobName = m.Job.JobName
-		userTaskDetail.Status = helpers.StatusPending
-		userTaskDetail.CompanyId = companyId
-		userKey :=key.String()
-		err = dB.Child("/Users/"+userKey+"/Tasks/"+taskUniqueID).Set(userTaskDetail)
-		UserInsertionCount=append(UserInsertionCount,"true")
+	if len(m.Info.CompanyTeamName )!=0 {
+		userData := reflect.ValueOf(m.UsersAndGroups.User)
+		for _, key := range userData.MapKeys() {
+			log.Println("inside task in user")
+			log.Println("user key", key.String())
+			userTaskDetail := UserTasks{}
+			userTaskDetail.DateOfCreation = m.Settings.DateOfCreation
+			userTaskDetail.TaskName = m.Info.TaskName
+			userTaskDetail.CustomerName = m.Customer.CustomerName
+			userTaskDetail.EndDate = m.Info.EndDate
+			userTaskDetail.StartDate = m.Info.StartDate
+			userTaskDetail.JobName = m.Job.JobName
+			userTaskDetail.Status = helpers.StatusPending
+			userTaskDetail.CompanyId = companyId
+			userKey := key.String()
+			err = dB.Child("/Users/" + userKey + "/Tasks/" + taskUniqueID).Set(userTaskDetail)
+			UserInsertionCount = append(UserInsertionCount, "true")
+			log.Println("indideeeeeeeee our testttttttttttttttttttttttttttttttttttttttttt")
 
-		if err!=nil{
-			log.Println("Insertion error:",err)
-			return false
+			if err != nil {
+				log.Println("Insertion error:", err)
+				return false
+			}
+
 		}
-
 	}
-	if len(m.UsersAndGroups.User)==len(UserInsertionCount) && len(m.Info.CompanyTeamName )!=0{
-		err = dB.Child("Tasks/"+taskUniqueID).Set(m)
-	}else{
-		return false
-	}
+	//if len(m.UsersAndGroups.User)==len(UserInsertionCount) && len(m.Info.CompanyTeamName )!=0{
+	//	err = dB.Child("Tasks/"+taskUniqueID).Set(m)
+	//}else{
+	//	return false
+	//}
 
 	if err!=nil{
 		log.Println("Insertion error:",err)
@@ -363,10 +369,38 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 		log.Println("Insertion error:",err)
 		return false
 	}
+	if len(m.UsersAndGroups.User) !=len(UserInsertionCount) && len(m.Info.CompanyTeamName )!=0{
+		log.Println("danger111111")
+		userDataForTest := reflect.ValueOf(m.UsersAndGroups.User)
+		userTaskDetailForTest := UserTasks{}
+		userDetailsDupilcate :=UserTasks{}
+		userNotificationDetail :=UserNotification{}
+		notifyId := betterguid.New()
+		userNotificationDetail.Date =time.Now().Unix()
+		userNotificationDetail.IsRead =false
+		userNotificationDetail.IsViewed =false
+		userNotificationDetail.TaskId =taskUniqueID
+		userNotificationDetail.TaskName =m.Info.TaskName
+		userNotificationDetail.Category ="Tasks"
+		userNotificationDetail.Status ="New"
+		userNotificationDetail.IsDeleted =false
+		for _, userKeyForTest := range userDataForTest.MapKeys() {
+			err = dB.Child("/Users/"+userKeyForTest.String()+"/Tasks/"+taskUniqueID).Value(&userTaskDetailForTest)
+			if len(userTaskDetailForTest.TaskName) ==0{
+				userDetailsDupilcate.DateOfCreation = m.Settings.DateOfCreation
+				userDetailsDupilcate.TaskName = m.Info.TaskName
+				userDetailsDupilcate.CustomerName = m.Customer.CustomerName
+				userDetailsDupilcate.EndDate = m.Info.EndDate
+				userDetailsDupilcate.StartDate =m.Info.StartDate
+				userDetailsDupilcate.JobName = m.Job.JobName
+				userDetailsDupilcate.Status = helpers.StatusPending
+				userDetailsDupilcate.CompanyId = companyId
+				err = dB.Child("/Users/"+userKeyForTest.String()+"/Tasks/"+taskUniqueID).Set(userDetailsDupilcate)
+				err = dB.Child("/Users/"+userKeyForTest.String()+"/Settings/Notifications/Tasks/"+notifyId).Set(userNotificationDetail)
 
-
-
-
+			}
+		}
+	}
 	return true
 }
 

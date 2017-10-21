@@ -43,28 +43,12 @@ if(vm.GroupMembers == null) {
 
 $(function () {
     if(vm.CompanyPlan == "family"){
-        document.getElementById("jobNamelabel").style.display = "none";
-        document.getElementById("workExplosureLabel").style.display = "none";
-        document.getElementById("minUsersLabel").style.display = "none";
-        document.getElementById("nfcbutton").style.display = "none";
-        //document.getElementById("contactIdLabel").style.display = "none";
-        document.getElementById("minUsers").style.display = "none";
-        document.getElementById("loginType1").style.display = "none";
-        document.getElementById("jobName").style.display = "none";
-        $("#contactDiv").hide();
+        var rbtn = document.getElementById('loginType1');
+        rbtn.style.display = 'none';
+         var rbtnfc = document.getElementById('nfcbutton');
+        rbtnfc.style.display = 'none';
     } else if(vm.CompanyPlan == "campus"){
-        
-        document.getElementById("jobNamelabel").style.display = "none";
-        document.getElementById("workExplosureLabel").style.display = "none";
-        document.getElementById("minUsersLabel").style.display = "none";
-        document.getElementById("minUsers").style.display = "none";
-        document.getElementById("jobName").style.display = "none";
-        document.getElementById("contactIdLabel").style.display = "none";
-         $("#contactDiv").hide();
     }else{
-         document.getElementById("minUsers").style.display = "block";
-         document.getElementById("jobName").style.display = "block";
-          $("#contactDiv").show();
     }
      $( "#startDate" ).datepicker({ minDate: 0});
     $('#startDate').change(function () {

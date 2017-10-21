@@ -96,6 +96,11 @@
                            
                         </ul>
                     </nav>
+                    <div class="lines-wrapper">
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
                 </div>
                 <div class="col-md-12 main-content-wrapper padding-50-each">
                <div class="clearfix">
@@ -693,7 +698,12 @@
                 </div>
             </div>
 </div>
-
+<script>
+        $('.lines-wrapper').on('click', function() {
+            $(this).toggleClass('opn');
+            $(this).parent('.main-menu-wrapper').toggleClass('show-menu');
+        });
+    </script>
 
 </body>
 </html>

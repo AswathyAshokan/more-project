@@ -111,7 +111,7 @@
 							</div>
                             
                             <div class="col-sm-6">
-                                <label for="ex1" class="">Login Type</label>
+                                <label  class="">Login Type</label>
                                 <div class="callender-wrapper">
                                     <div class="radio-inline-wrapper">
                                         
@@ -158,7 +158,7 @@
 							</div>
 -->
                             <div class="col-sm-6" id="minmumUserDiv">
-								<label for="users" class="" id="minUsersLabel">Min. No. of Users to Start Task</label>
+								<label  class="" id="minUsersLabel">Min. No. of Users to Start Task</label>
 								<select class="form-control sprites-arrow-down" id="minUsers" name="minUsers">
                                    <option selected disabled value="">Select Min. No. of Users </option>
 									<option id="1" value="1">1</option>
@@ -184,7 +184,7 @@
                         <div class="form-group clearfix">
 
                             <div class="col-sm-6" id="contactDiv">
-								<label for="contacts" class="" id="contactIdLabel">Contacts</label>
+								<label  class="" id="contactIdLabel">Contacts</label>
 
 								<select class="form-control sprites-arrow-down multiple-drop" id="contactId" multiple="multiple" name="contactId" >
                                     {{range $key, $val := .vm.ContactNameArray}}
@@ -194,7 +194,7 @@
 
 							</div>
                             <div class="col-sm-6" id="fitToWorkDiv">
-                                <label for="fitToWork" class="" >Fit To Work Declaration</label>
+                                <label  class="" >Fit To Work Declaration</label>
                                 <select class="form-control sprites-arrow-down" id="TaskFitToWork" name="TaskFitToWork" onchange="getInstructions(this.value);" >
                                     <option selected disabled value="">Select Fit To Work</option>
                                     {{range $key, $val := .vm.FitToWorkArray}}

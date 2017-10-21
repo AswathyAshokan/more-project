@@ -142,16 +142,25 @@ $(function(){
         
 
         //function to show expanded row
-        $('.table-wrapper .dataTables_filter').prepend(jobDropdown).prepend(customerDropdown).append(addItem);
+        
+         if(vm.CompanyPlan == 'business' ){
+            $('.table-wrapper .dataTables_filter').prepend(jobDropdown).prepend(customerDropdown).append(addItem);
+         }else{
+             $('.table-wrapper .dataTables_filter').append(addItem);
+         }
+        
        
         //......................................................
         customerArray = vm.UniqueCustomerNames;
         var newcustomerArray = new Array();
-        for (var i = 0; i < customerArray.length; i++) {
+        if (customerArray !=null){
+            for (var i = 0; i < customerArray.length; i++) {
             if (customerArray[i]) {
                 newcustomerArray.push(customerArray[i]);
             }
         }
+        }
+        
         for(i = 0; i < newcustomerArray.length; i++){
             $("#customerDropdown").append("<option>"+newcustomerArray[i]+"</option>");
         }

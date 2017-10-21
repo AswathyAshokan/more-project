@@ -486,24 +486,24 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 
 										if userkey.String() == logUserDetail[logKey.String()].UserID {
 											log.Println("iam in third if")
+											if k == logUserDetail[logKey.String()].TaskID {
 
+												if logUserDetail[logKey.String()].LogDescription == "Task Started" {
+													log.Println("iam in fourth if")
+													UserDetailsForStartTask = append(UserDetailsForStartTask, logUserDetail[logKey.String()].LogDescription)
+													UserDetailsForStartTask = append(UserDetailsForStartTask, strconv.FormatInt(int64(logUserDetail[logKey.String()].LogTime), 10))
+													UserDetailsForStartTask = append(UserDetailsForStartTask, logUserDetail[logKey.String()].UserID)
+													barChart = append(barChart, UserDetailsForStartTask)
+													UserDetailsForStartTask = UserDetailsForStartTask[:0]
+												} else if logUserDetail[logKey.String()].LogDescription == helpers.StatusCompleted {
 
-											if logUserDetail[logKey.String()].LogDescription == "Task Started" {
-												log.Println("iam in fourth if")
-												UserDetailsForStartTask = append(UserDetailsForStartTask, logUserDetail[logKey.String()].LogDescription)
-												UserDetailsForStartTask = append(UserDetailsForStartTask,strconv.FormatInt(int64(logUserDetail[logKey.String()].LogTime), 10) )
-												UserDetailsForStartTask = append(UserDetailsForStartTask,logUserDetail[logKey.String()].UserID)
-												barChart = append(barChart,UserDetailsForStartTask)
-												UserDetailsForStartTask = UserDetailsForStartTask[:0]
-											} else if logUserDetail[logKey.String()].LogDescription == helpers.StatusCompleted {
-
-												//UserDetailsForCompleted = append(UserDetailsForCompleted, taskDetail.UsersAndGroups.User[userkey.String()].FullName)
-												UserDetailsForCompleted = append(UserDetailsForCompleted, logUserDetail[logKey.String()].LogDescription)
-												UserDetailsForCompleted = append(UserDetailsForCompleted,strconv.FormatInt(int64(logUserDetail[logKey.String()].LogTime), 10))
-												UserDetailsForCompleted = append(UserDetailsForCompleted, userkey.String())
-												allCompletedUserArray = append(allCompletedUserArray,UserDetailsForCompleted)
-												UserDetailsForCompleted = UserDetailsForCompleted [:0]
-											} /*else if(logUserDetail[logKey.String()].LogDescription == helpers.StatusAccepted){
+													//UserDetailsForCompleted = append(UserDetailsForCompleted, taskDetail.UsersAndGroups.User[userkey.String()].FullName)
+													UserDetailsForCompleted = append(UserDetailsForCompleted, logUserDetail[logKey.String()].LogDescription)
+													UserDetailsForCompleted = append(UserDetailsForCompleted, strconv.FormatInt(int64(logUserDetail[logKey.String()].LogTime), 10))
+													UserDetailsForCompleted = append(UserDetailsForCompleted, userkey.String())
+													allCompletedUserArray = append(allCompletedUserArray, UserDetailsForCompleted)
+													UserDetailsForCompleted = UserDetailsForCompleted [:0]
+												} /*else if(logUserDetail[logKey.String()].LogDescription == helpers.StatusAccepted){
 												acceptedUsers = append(acceptedUsers,logUserDetail[logKey.String()].LogDescription)
 												acceptedUsers = append(acceptedUsers,strconv.FormatInt(int64(logUserDetail[logKey.String()].LogTime), 10))
 												acceptedUsers = append(acceptedUsers,userkey.String())
@@ -511,6 +511,7 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 												//barChart = append(barChart,acceptedUsers)
 												acceptedUsers = acceptedUsers[:0]
 											}*/
+											}
 										}
 
 

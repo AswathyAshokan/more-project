@@ -95,6 +95,11 @@ Date:01/02/2017-->
                         
                     </ul>
                 </nav>
+                <div class="lines-wrapper">
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
             </div>
             <script type="text/javascript">
                 console.log("Hi");
@@ -383,13 +388,14 @@ Date:01/02/2017-->
 	</section>
     
     
-<!--
+
     <script>
-        $('.notification-btn').on('click', function() {
-           $(this).parent('.notification-wrp').toggleClass('show-notification');
-           });
+        $('.lines-wrapper').on('click', function() {
+            $(this).toggleClass('opn');
+            $(this).parent('.main-menu-wrapper').toggleClass('show-menu');
+        });
     </script>
--->
+
 
 
 </body>

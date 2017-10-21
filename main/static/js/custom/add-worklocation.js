@@ -14,8 +14,28 @@ $(function(){
 });
 
 $().ready(function() {
-    
-   var loginTypeRadio = "";
+     if(vm.CompanyPlan == 'family' ){
+         $("#contact").remove();
+         $("#crm").remove();
+         $("#leave").remove();
+         $("#fitToWork").remove();
+         $("#time-sheet").remove();
+         $("#consent").remove();
+         $("#job").remove();
+         var rbtn = document.getElementById('loginType1');
+        rbtn.style.display = 'none';
+         var rbtnfc = document.getElementById('nfcbutton');
+        rbtnfc.style.display = 'none';
+   } else if(vm.CompanyPlan == 'campus'){
+       $("#contact").remove();
+       $("#crm").remove();
+       $("#leave").remove();
+       $("#fitToWork").remove();
+       $("#time-sheet").remove();
+       $("#consent").remove();
+       $("#job").remove();
+    }
+    var loginTypeRadio = "";
    var selectedUserArray = [];
    var startDateInUnix;
    var endDateInUnix;
@@ -730,64 +750,8 @@ $().ready(function() {
      $("#cancel").click(function() {
             window.location = '/'+companyTeamName+'/worklocation';
     });
+    document.getElementById("WorkLocation").className += " active";
     
-    
-    
-    if(vm.CompanyPlan == 'family' ){
-        var parent = document.getElementById("menuItems");
-        var contact = document.getElementById("contact");
-        var job = document.getElementById("job");
-        var crm = document.getElementById("crm");
-        var leave = document.getElementById("leave");
-        var timesheet  = document.getElementById("time-sheet");
-        var consent = document.getElementById("consent");
-        var workLocation = document.getElementById("workLocation");
-        var leave = document.getElementById("leave");
-        var log =  document.getElementById("log");
-        var timesheet =document.getElementById("time-sheet");
-        var fitToWork = document.getElementById("fitToWork");
-        var dashBoard = document.getElementById("dashBoard");
-        parent.removeChild(workLocation);
-        parent.removeChild(timesheet);
-        parent.removeChild(consent);
-        parent.removeChild(leave);
-        parent.removeChild(contact);
-        parent.removeChild(job);
-        parent.removeChild(crm);
-        parent.removeChild(leave);
-        parent.removeChild(log);
-        parent.removeChild(timesheet);
-        parent.removeChild(fitToWork);
-        parent.removeChild(dashBoard);
-        
-        
-    } else if(vm.CompanyPlan == 'campus'){
-        var parent = document.getElementById("menuItems");
-        var contact = document.getElementById("contact");
-        var job = document.getElementById("job");
-        var crm = document.getElementById("crm");
-        var leave = document.getElementById("leave");
-        var timesheet  = document.getElementById("time-sheet");
-        var consent = document.getElementById("consent");
-        var workLocation = document.getElementById("workLocation");
-        var leave = document.getElementById("leave");
-        var log =  document.getElementById("log");
-        var timesheet =document.getElementById("time-sheet");
-        var fitToWork = document.getElementById("fitToWork");
-        var dashBoard = document.getElementById("dashBoard");
-        parent.removeChild(workLocation);
-        parent.removeChild(timesheet);
-        parent.removeChild(consent);
-        parent.removeChild(leave);
-        parent.removeChild(contact);
-        parent.removeChild(job);
-        parent.removeChild(crm);
-        parent.removeChild(leave);
-        parent.removeChild(log);
-        parent.removeChild(timesheet);
-        parent.removeChild(fitToWork);
-        parent.removeChild(dashBoard);
-     }
     document.getElementById("username").textContent=vm.AdminFirstName;
     document.getElementById("imageId").src=vm.ProfilePicture;
     if (vm.ProfilePicture ==""){

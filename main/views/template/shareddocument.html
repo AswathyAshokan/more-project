@@ -93,6 +93,11 @@
                         
                     </ul>
                 </nav>
+                <div class="lines-wrapper">
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
             </div>
 
 
@@ -424,11 +429,12 @@
 		</footer>
 	    </div>
 	</section>
-    <!--<script>
-        $('.notification-btn').on('click', function() {
-           $(this).parent('.notification-wrp').toggleClass('show-notification');
-           });
-    </script>-->
+    <script>
+        $('.lines-wrapper').on('click', function() {
+            $(this).toggleClass('opn');
+            $(this).parent('.main-menu-wrapper').toggleClass('show-menu');
+        });
+    </script>
 
     </body>
 </html>

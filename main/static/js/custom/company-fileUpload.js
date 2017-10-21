@@ -193,6 +193,8 @@ $().ready(function() {
          value =document.getElementById(folderId).value;
          value="test";
          fileValue =document.getElementById(fileId).value;
+         console.log("value length",value.length);
+         console.log("fileee length",fileValue.length);
          document.getElementById(folderId).required = true;
          document.getElementById(fileId).required = true;
          if (value.length !=0 &&fileValue.length !=0 ){

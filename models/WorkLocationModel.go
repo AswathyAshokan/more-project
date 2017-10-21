@@ -94,6 +94,7 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 		log.Println(err)
 	}
 	workLocationUniqueID := betterguid.New()
+	var userWorkLocation []string
 	userData := reflect.ValueOf(m.Info.UsersAndGroupsInWorkLocation.User)
 	for _, key := range userData.MapKeys() {
 		if m.Info.UsersAndGroupsInWorkLocation.User[key.String()].Status!=helpers.UserStatusDeleted {
@@ -133,6 +134,10 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 				log.Println("Insertion error:",err)
 				return false
 			}
+
+			userWorkLocation=append(userWorkLocation,"true")
+
+
 		}
 	}
 
@@ -229,6 +234,47 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 		return false
 	}
 
+
+	if len(m.Info.UsersAndGroupsInWorkLocation.User) !=len(userWorkLocation) {
+		log.Println("danger111111")
+		workLocationData := WorkLocationInUser{}
+		notifyId := betterguid.New()
+		userNotificationDetail := WorkLocationNotification{}
+		userNotificationDetail.Date = time.Now().Unix()
+		userNotificationDetail.IsRead = false
+		userNotificationDetail.IsViewed = false
+		userNotificationDetail.WorkLocationId = workLocationUniqueID
+		userNotificationDetail.Category = "WorkLocation"
+		userNotificationDetail.Status = "New"
+		userNotificationDetail.CompanyName = companyName
+		userNotificationDetail.WorkLocation = m.Info.WorkLocation
+		userNotificationDetail.IsDeleted = false
+		userData := reflect.ValueOf(m.Info.UsersAndGroupsInWorkLocation.User)
+		for _, userKey := range userData.MapKeys() {
+			if m.Info.UsersAndGroupsInWorkLocation.User[userKey.String()].Status != helpers.UserStatusDeleted {
+				err = db.Child("/Users/" + userKey.String() + "/WorkLocation/" + workLocationUniqueID).Value(&workLocationData)
+				if len(workLocationData.WorkLocationForTask) == 0 {
+					workLocationUpdateData := WorkLocationInUser{}
+					workLocationUpdateData.CompanyId = companyTeamName
+					workLocationUpdateData.DateOfCreation = m.Settings.DateOfCreation
+					workLocationUpdateData.WorkLocationForTask = m.Info.WorkLocation
+					workLocationUpdateData.StartDate = m.Info.StartDate
+					workLocationUpdateData.EndDate = m.Info.EndDate
+					workLocationUpdateData.DailyStartDate = m.Info.DailyStartDate
+					workLocationUpdateData.DailyEndDate = m.Info.DailyEndDate
+					workLocationUpdateData.Latitude = m.Info.Latitude
+					workLocationUpdateData.Longitude = m.Info.Longitude
+					workLocationUpdateData.CompanyName = companyName
+					workLocationUpdateData.Status = helpers.StatusPending
+					err = db.Child("/Users/" + userKey.String() + "/WorkLocation/" + workLocationUniqueID).Set(workLocationUpdateData)
+					err = db.Child("/Users/" + userKey.String() + "/Settings/Notifications/WorkLocationNotification/" + notifyId).Set(userNotificationDetail)
+
+
+				}
+			}
+		}
+
+	}
 	return  true
 }
 

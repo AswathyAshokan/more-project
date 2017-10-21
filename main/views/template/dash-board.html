@@ -75,8 +75,8 @@
 		                <span class="caret"></span></button>
                     <ul class="dropdown-menu">
 		                <li><a href='/{{.vm.CompanyTeamName}}/editProfile'>Edit Profile</a></li>
-                        <li><a href='/{{.vm.CompanyTeamName}}/companyProfile'>Company Profile</a></li>
-                         <li><a href='/{{.vm.CompanyTeamName}}/companyFileUpload'>Company Policies</a></li>
+                        <li id="companyProfile"><a href='/{{.vm.CompanyTeamName}}/companyProfile'>Company Profile</a></li>
+                         <li  id="companyUpload"><a href='/{{.vm.CompanyTeamName}}/companyFileUpload'>Company Policies</a></li>
 		                <li  ><a href="#" data-toggle="modal" id="planChange" >Package</a></li>
 		                <li><a href="/logout">Logout</a></li>
 		            </ul>
@@ -114,6 +114,11 @@
                          
                     </ul>
                 </nav>
+                <div class="lines-wrapper">
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
             </div>
             <div class="col-md-12 main-content-wrapper padding-50-each">
                 <div class="clearfix dashboard">
@@ -510,7 +515,12 @@
     </script>
     -->
     
-    
+    <script>
+        $('.lines-wrapper').on('click', function() {
+            $(this).toggleClass('opn');
+            $(this).parent('.main-menu-wrapper').toggleClass('show-menu');
+        });
+    </script>
     
     
     <script>

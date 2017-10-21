@@ -4,40 +4,23 @@ $(document).ready(function() {
     
     //checking plans
     
-    if(vm.CompanyPlan == 'family' ){
-        var parent = document.getElementById("menuItems");
-        var contact = document.getElementById("contact");
-        var job = document.getElementById("job");
-        var crm = document.getElementById("crm");
-        var leave = document.getElementById("leave");
-        var timesheet  = document.getElementById("time-sheet");
-        var consent = document.getElementById("consent");
-        var workLocation = document.getElementById("workLocation");
-        parent.removeChild(workLocation);
-        parent.removeChild(timesheet);
-        parent.removeChild(consent);
-        parent.removeChild(leave);
-        parent.removeChild(contact);
-        parent.removeChild(job);
-        parent.removeChild(crm);
-        
-    } else if(vm.CompanyPlan == 'campus'){
-            var parent = document.getElementById("menuItems");
-            var contact = document.getElementById("contact");
-            var job = document.getElementById("job");
-            var crm = document.getElementById("crm");
-            var leave = document.getElementById("leave");
-            var timesheet  = document.getElementById("time-sheet");
-            var consent = document.getElementById("consent");
-            var workLocation = document.getElementById("workLocation");
-            parent.removeChild(workLocation);
-            parent.removeChild(timesheet);
-            parent.removeChild(consent);
-            parent.removeChild(leave);
-            parent.removeChild(contact);
-            parent.removeChild(job);
-            parent.removeChild(crm);
-     }
+     if(vm.CompanyPlan == 'family' ){
+         $("#contact").remove();
+         $("#crm").remove();
+         $("#leave").remove();
+         $("#fitToWork").remove();
+         $("#time-sheet").remove();
+         $("#consent").remove();
+         $("#job").remove();
+     } else if(vm.CompanyPlan == 'campus'){
+         $("#contact").remove();
+         $("#crm").remove();
+         $("#leave").remove();
+         $("#fitToWork").remove();
+         $("#time-sheet").remove();
+         $("#consent").remove();
+         $("#job").remove();
+    }
     document.getElementById("username").textContent=vm.AdminFirstName;
     document.getElementById("imageId").src=vm.ProfilePicture;
     if (vm.ProfilePicture ==""){

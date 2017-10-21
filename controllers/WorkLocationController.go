@@ -280,9 +280,15 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		workLocationViewmodel.AdminLastName = storedSession.AdminLastName
 		workLocationViewmodel.ProfilePicture = storedSession.ProfilePicture
 		workLocationViewmodel.CompanyTeamName = storedSession.CompanyTeamName
+		workLocationViewmodel.CompanyPlan = storedSession.CompanyPlan
 		/*c.Layout = "layout/layout.html"*/
 		c.Data["vm"] = workLocationViewmodel
-		c.TplName = "template/add-workLocation.html"
+		if workLocationViewmodel.CompanyPlan =="family" || workLocationViewmodel.CompanyPlan =="campus"{
+			c.TplName = "template/add-workLocation-on-plan.html"
+		}else{
+			c.TplName = "template/add-workLocation.html"
+		}
+
 	}
 }
 
@@ -791,7 +797,11 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 	log.Println("WorkTime",WorkTime)
 
 	c.Data["vm"] = viewModelForEdit
-	c.TplName = "template/add-workLocation.html"
+	if viewModelForEdit.CompanyPlan =="family" || viewModelForEdit.CompanyPlan =="campus"{
+		c.TplName = "template/add-workLocation-on-plan.html"
+	}else{
+		c.TplName = "template/add-workLocation.html"
+	}
 
 }
 

@@ -1,29 +1,54 @@
 console.log("company name",vm);
   $(document).ready(function(){
-    
+    document.getElementById("dashBoard").className += " active";
+
     //for notification
-    var PersentageOfStartedUser;
-    var PersentageOfCompletedUsers;
-    var persentageOfPendingUsers;
-    var persentageOfStartedUserOnly;
-    var tempStart;
-    var returnString;
-    var DynamicNotification ="";
-    var TotalNoUsers;
-    var today;
-    var allData = [[]];
-    var  dateIncrementDate =0;
+      var PersentageOfStartedUser;
+      var PersentageOfCompletedUsers;
+      var persentageOfPendingUsers;
+      var persentageOfStartedUserOnly;
+      var tempStart;
+      var returnString;
+      var DynamicNotification ="";
+      var TotalNoUsers;
+      var today;
+      var allData = [[]];
+      var  dateIncrementDate =0;
+      var subArray = [];
+      
+      //set default value on job 
+      var temp="All"; 
+      $("#jobName").val(temp);
+      //select all in drop down
+       if (vm.TaskDetailArray !=null){
+         for(i = 0; i < vm.TaskDetailArray.length; i++) {
+             subArray.push(vm.TaskDetailArray[i][1]);
+            
+        }  
+       }
+      var DynamicTaskListing ="";
+      for (var i=0; i<subArray.length; i++){
+          DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event) " style="cursor:pointer;" class="active" >'+subArray[i]+'</p>';  
+          $("#taskListing").append(DynamicTaskListing);
+      }
+          //end
+      
+      
       
       function LoadBarChart(total,start,pending,complete,todayVal){
            document.getElementById('today').innerHTML = todayVal;
           $.jqplot.config.enablePlugins = true;
           s1 =[0,0,0,0]
+          var  max_count = total ; 
           var plot1 = $.jqplot('chart1', [s1]);
           plot1.destroy();
+          
+          console.log('vvv', max_count);
           var s1 = [total, start, pending, complete];
             var ticks = ['total', 'started', 'pending','completed' ];
             plot1 = $.jqplot('chart1', [s1], {
                 // Only animate if we're not using excanvas (not in IE 7 or IE 8)..
+                
                 animate: !$.jqplot.use_excanvas,
                 seriesDefaults:{
                     renderer:$.jqplot.BarRenderer,
@@ -41,16 +66,22 @@ console.log("company name",vm);
                     xaxis: {
                         renderer: $.jqplot.CategoryAxisRenderer,
                         ticks: ticks,
+                        
                         tickOptions : {
+                              
                                           //  showGridline : false
                         }
                     },
                     yaxis: {
                         tickOptions : {
-                            //  showGridline : false
+                            formatString:'%d',
+                            formatter: $.jqplot.euroFormatter
+                             
                         },
-                        //  label:'Status',
-                        labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+                         labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
+                         min: 0,
+                         max: [total]+ 1,
+                       
                     }
                 },
                 seriesColors: [ "#000", "#ccc", "red","green"],
@@ -70,39 +101,21 @@ console.log("company name",vm);
     
     
       var companyTeamName =vm.CompanyTeamName
-    if(vm.CompanyPlan == 'family' ){
-        var parent = document.getElementById("menuItems");
-        var contact = document.getElementById("contact");
-        var job = document.getElementById("job");
-        var crm = document.getElementById("crm");
-        var leave = document.getElementById("leave");
-        var time  = document.getElementById("time-sheet");
-        var consent = document.getElementById("consent");
-         var workLocation = document.getElementById("workLocation")
-         parent.removeChild(workLocation);
-        parent.removeChild(time);
-        parent.removeChild(consent);
-        parent.removeChild(leave);
-        parent.removeChild(contact);
-        parent.removeChild(job);
-        parent.removeChild(crm);
-    } else if(vm.CompanyPlan == 'campus'){
-            var campusParent = document.getElementById("menuItems");
-            var contact = document.getElementById("contact");
-            var job = document.getElementById("job");
-            var crm = document.getElementById("crm");
-            var leave = document.getElementById("leave");
-            var time  = document.getElementById("time-sheet");
-            var consent = document.getElementById("consent")
-            var workLocation = document.getElementById("workLocation")
-            parent.removeChild(workLocation);
-            campusParent.removeChild(time);
-            campusParent.removeChild(consent);
-            campusParent.removeChild(leave);
-            campusParent.removeChild(contact);
-            campusParent.removeChild(job);
-            campusParent.removeChild(crm);
-     }
+   if(vm.CompanyPlan == 'family' ){
+       $("#contact").remove();
+       $("#crm").remove();
+       $("#leave").remove();
+       $("#fitToWork").remove();
+       $("#time-sheet").remove();
+       $("#consent").remove();
+   } else if(vm.CompanyPlan == 'campus'){
+       $("#contact").remove();
+       $("#crm").remove();
+       $("#leave").remove();
+       $("#fitToWork").remove();
+       $("#time-sheet").remove();
+       $("#consent").remove();
+    }
     document.getElementById("username").textContent=vm.AdminFirstName;
     document.getElementById("imageId").src=vm.ProfilePicture;
     if (vm.ProfilePicture ==""){
@@ -164,7 +177,7 @@ console.log("company name",vm);
            ]
        });
    }
-      var subArray = [];
+      
        //notification
    //notification
     var DynamicNotification ="";
@@ -464,17 +477,23 @@ var allUserId = [[]];
    getTaskDetails = function(){
         $("#taskListing").html("");
         var job = $("#jobName option:selected").val() ;
-        for(i = 0; i < vm.TaskDetailArray.length; i++) {
+       if (vm.TaskDetailArray !=null){
+          for(i = 0; i < vm.TaskDetailArray.length; i++) {
             if (vm.TaskDetailArray[i][0]==job) {
                 subArray.push(vm.TaskDetailArray[i][1]);
             }
-        }
+        } 
+       }
+        
         //select all in drop down
-        for(i = 0; i < vm.TaskDetailArray.length; i++) {
+       if (vm.TaskDetailArray !=null){
+         for(i = 0; i < vm.TaskDetailArray.length; i++) {
             if (job =="All") {
                 subArray.push(vm.TaskDetailArray[i][1]);
             }
-        }
+        }  
+       }
+        
         var DynamicTaskListing ="";
         for (var i=0; i<subArray.length; i++){
 DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event) " style="cursor:pointer;" class="active" >'+subArray[i]+'</p>';        }
@@ -483,11 +502,14 @@ DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event) " style="curso
     }
     var selectAJob = $("#jobName option:selected").val() ;
     console.log("default job",selectAJob);
-    for(i = 0; i < vm.TaskDetailArray.length; i++) {
+      if (vm.TaskDetailArray !=null){
+           for(i = 0; i < vm.TaskDetailArray.length; i++) {
         if (selectAJob =="SelectAJob") {
             subArray = [];
 //            subArray.push(vm.TaskDetailArray[i][1]);
         }
+      }
+   
     }
     var DynamicTaskListing ="";
     for (var i=0; i<subArray.length; i++){
@@ -764,11 +786,12 @@ DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event) " style="curso
             if (pendingTask !=null){
                 pendingTaskCount = pendingTask.length;
             }
-            if(startTaskCount>completedTaskCount){
+            if(startTaskCount>completedTaskCount){LoadBarChart
                 tempStart = startTaskCount - completedTaskCount;
             } else{
                 tempStart = completedTaskCount -startTaskCount;
             }
+        
         LoadBarChart(totalUsers,tempStart,pendingTaskCount,completedTaskCount,localToday);
     }
     

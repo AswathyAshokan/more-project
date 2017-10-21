@@ -3,11 +3,13 @@
 console.log(vm.SelectedCustomer);
 document.getElementById("job").className += " active";
 var companyTeamName = vm.CompanyTeamName;
+var companyPlan =vm.CompanyPlan;
 
 $(function(){  
     var table = "";
     var mainArray = [];  
     var tempViewArray =[];
+    
     
     /*Function for Customer selection dropdown*/
     customerFilter = function(){
@@ -61,9 +63,16 @@ $(function(){
     function dataTableManipulate(dataArray){
         console.log("gerrds",dataArray)
         table =  $("#job-details").DataTable({
+            
+//            initComplete: function(settings, json){
+//                var api = new $.fn.dataTable.Api(settings);
+//                if(companyPlan == 'family' || companyPlan == 'campus'){
+//                    api.columns([0]).visible(false);
+//                }
+//            },
             data: dataArray,
             "columnDefs": [{
-                       "targets": -1,
+                        "targets": -1,
                        "width": "5%",
                        "data": null,
                        "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-eye" aria-hidden="true" id="view"></i><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
@@ -77,15 +86,15 @@ $(function(){
         addItem.click(function() {
             window.location = "/" + companyTeamName + "/job/add";
         });
-        
         $('.table-wrapper .dataTables_filter').prepend(dropdownItem).append(addItem);
         
-        var customerArray = vm.UniqueCustomerNames;
         
-        for(i = 0; i < customerArray.length; i++){
+        var customerArray = vm.UniqueCustomerNames;
+        if (customerArray !=null){
+             for(i = 0; i < customerArray.length; i++){
             $("#customerDropdown").append("<option>"+customerArray[i]+"</option>");
         }
-        
+        }
     }    
     
     /*---------------------------Initial data table calling---------------------------------------------------*/

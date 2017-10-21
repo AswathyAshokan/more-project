@@ -42,12 +42,14 @@ func(m *Group) AddGroupToDb(ctx context.Context) (bool){
 		log.Println(err)
 	}
 	UserGroup :=UserGroup{}
+
 	groupData,err := db.Child("Group").Push(m)
 	if err != nil {
 		log.Println(err)
 		return false
 	}
-
+	log.Println("sucess fullly",groupData)
+	var UserGroupKey []string
 	groupDataString := strings.Split(groupData.String(),"/")
 	groupUniqueID := groupDataString[len(groupDataString)-2]
 	/*UserGroup.CompanyId = m.Info.CompanyTeamName
@@ -56,16 +58,33 @@ func(m *Group) AddGroupToDb(ctx context.Context) (bool){
 	UserGroup.GroupStatus = m.Settings.Status*/
 	UserGroup.GroupName = m.Info.GroupName
 	UserGroup.CompanyId = m.Info.CompanyTeamName
+
+
 	dataValue := reflect.ValueOf(m.Members)
 	UserGroup.groupId = groupUniqueID
 	for _, key := range dataValue.MapKeys() {
 
 		err = db.Child("/Users/" + key.String() + "/Group/" + groupUniqueID).Set(UserGroup)
+		UserGroupKey=append(UserGroupKey,"true")
 		if err != nil {
 			log.Println("w16")
 			log.Println("Insertion error:", err)
 			return false
 		}
+	}
+
+	if len(UserGroupKey) !=len(m.Members){
+		log.Println("danger111111")
+		dataValue := reflect.ValueOf(m.Members)
+		for _, key := range dataValue.MapKeys() {
+			err = db.Child("/Users/" + key.String() + "/Group/" + groupUniqueID).Value(&UserGroup)
+			if len(UserGroup.GroupName) ==0{
+				err = db.Child("/Users/" + key.String() + "/Group/" + groupUniqueID).Set(UserGroup)
+			}
+
+
+		}
+
 	}
 
 	return  true
