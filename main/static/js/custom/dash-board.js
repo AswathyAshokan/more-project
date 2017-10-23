@@ -27,10 +27,13 @@ console.log("company name",vm);
         }  
        }
       var DynamicTaskListing ="";
+      console.log("sub array",subArray);
       for (var i=0; i<subArray.length; i++){
-          DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event) " style="cursor:pointer;" class="active" >'+subArray[i]+'</p>';  
-          $("#taskListing").append(DynamicTaskListing);
+          DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event) " style="cursor:pointer;" class="active" >'+subArray[i]+'</p>'; 
+          console.log("jjjjjjj",DynamicTaskListing)
+         
       }
+       $("#taskListing").append(DynamicTaskListing);
           //end
       
       
@@ -55,7 +58,7 @@ console.log("company name",vm);
                     rendererOptions: {barMargin: 0 , varyBarColor : true},
                     pointLabels: { show: true }
                 },
-                title:{text:"Task Status and Users"},
+                title:{text:"Daily Task Status Report"},
                 grid: {
                     background: 'transparent',      // CSS color spec for background color of grid.
                     drawBorder:false,
@@ -514,10 +517,10 @@ DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event) " style="curso
       }
    
     }
-    var DynamicTaskListing ="";
-    for (var i=0; i<subArray.length; i++){
-DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event) " style="cursor:pointer;" class="active" >'+subArray[i]+'</p>';    }
-    $("#taskListing").prepend(DynamicTaskListing);
+//    var DynamicTaskListing ="";
+//    for (var i=0; i<subArray.length; i++){
+//DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event) " style="cursor:pointer;" class="active" >'+subArray[i]+'</p>';    }
+//    $("#taskListing").prepend(DynamicTaskListing);
     
     FunctionToChangeBarChart = function(event){
         var TaskName = $(event.target).text();

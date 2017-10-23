@@ -127,11 +127,12 @@ func UpdateAllNotifications(ctx context.Context,companyTeamName string,UpdateIdA
 		notifications := reflect.ValueOf(eachOldWorkLOcation)
 		for _, notificationKey := range notifications.MapKeys() {
 			err = dB.Child("/Notifications/UserDelay/WorkLocation/"+ companyTeamName+"/"+notificationUserKey.String()+"/"+notificationKey.String()).Value(&workNotificationUpdateSuccess)
+			log.Println("***********************************",workNotificationUpdateSuccess.Mode)
 			updatedWorkNotification.Date=workNotificationUpdateSuccess.Date
 			updatedWorkNotification.WorkId=workNotificationUpdateSuccess.WorkId
 			updatedWorkNotification.WorkLocation=workNotificationUpdateSuccess.WorkLocation
 			updatedWorkNotification.IsRead=true
-			updatedNotification.Mode = workNotificationUpdateSuccess.Mode
+			updatedWorkNotification.Mode = workNotificationUpdateSuccess.Mode
 			updatedWorkNotification.IsSentMail=workNotificationUpdateSuccess.IsSentMail
 			updatedWorkNotification.Message=workNotificationUpdateSuccess.Message
 			updatedWorkNotification.UserName=workNotificationUpdateSuccess.UserName

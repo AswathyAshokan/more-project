@@ -1080,7 +1080,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userTaskDetail.Id=taskId
 		if taskValues.UsersAndGroups.User[userKey].UserTaskStatus !=helpers.StatusCompleted{
 			log.Println("kkkkkkkk")
-			err = dB.Child("/Users/"+userKey+"/Tasks/"+taskId).Update(&userTaskDetail)
+			err = dB.Child("/Users/"+userKey+"/Tasks/"+taskId).Set(userTaskDetail)
 		}
 
 	}
@@ -1090,6 +1090,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	//insertion on user for new users
 	for i :=0;i<len(uniqueUserKey);i++{
 		log.Println("updation of task")
+		log.Println("unique user key",uniqueUserKey[i])
 		userTaskDetail.Status =helpers.StatusPending
 		userTaskDetail.CompanyId = companyId
 		userTaskDetail.CustomerName = m.Customer.CustomerName
@@ -1099,24 +1100,10 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userTaskDetail.StartDate = m.Info.StartDate
 		userTaskDetail.DateOfCreation =taskValues.Settings.DateOfCreation
 		userTaskDetail.Id=taskId
-		err = dB.Child("/Users/"+uniqueUserKey[i]+"/Tasks/"+taskId).Update(&userTaskDetail)
+		err = dB.Child("/Users/"+uniqueUserKey[i]+"/Tasks/"+taskId).Set(userTaskDetail)
 
 
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	//deleted user status
 	for i :=0;i<len(EleminatedArray);i++{
 		err = dB.Child("/Users/"+EleminatedArray[i]+"/Tasks/"+taskId).Value(&userTaskDetailOfDeleted)
@@ -1130,7 +1117,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userTaskDetailDeleted.Status =helpers.StatusInActive
 		userTaskDetailDeleted.Id =taskId
 		if taskValues.UsersAndGroups.User[EleminatedArray[i]].UserTaskStatus !=helpers.StatusCompleted{
-			err = dB.Child("/Users/"+EleminatedArray[i]+"/Tasks/"+taskId).Update(&userTaskDetailDeleted)
+			err = dB.Child("/Users/"+EleminatedArray[i]+"/Tasks/"+taskId).Set(userTaskDetailDeleted)
 
 		}
 

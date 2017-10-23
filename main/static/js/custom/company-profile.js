@@ -1,5 +1,4 @@
 
-
 //Below line is for adding active class to layout side menu..
 console.log(vm);
 document.getElementById("user").className += " active";
@@ -56,7 +55,7 @@ $(function(){
        function format ( userDetailsArray, data,nextOfKin ) {
            var userID  = data[4];
            var defaultImage ="/static/images/defaultImage.png";
-           var result   ='<div class="user-info">';
+           var result   ='<div class="user-info col-sm-7">';
            for (var i = 0; i < userDetailsArray.length; i++) {
                 if(userDetailsArray[i] != null && userDetailsArray[i][8] == userID) {
                     
@@ -91,9 +90,9 @@ $(function(){
                 }
            }
            result += '</div>';
-           var minUser ='<div class="pull-right dropdown-tbl" style="margin-top:-132px;">';
-           minUser +="<table cellpadding='5' cellspacing='0' style='border: 1px solid #dddddd !important;'>";
-           minUser += '<th> Next Of Kin Details</th>';
+           var minUser ='<div class="col-sm-5 dropdown-tbl">';
+           minUser +="<table cellpadding='5' cellspacing='0' style='border: 1px solid #dddddd !important;' class='pull-right'>";
+           minUser += '<th colspan="2"> Next Of Kin Details</th>';
            for (var i = 0; i < nextOfKin.length; i++) {
                 if(nextOfKin != null && nextOfKin[i][4] == userID ) {
                     minUser +='<tr>';
