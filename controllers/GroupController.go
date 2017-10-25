@@ -147,7 +147,7 @@ func (c *GroupController) GroupDetails() {
 			if allGroups[groupKey].Settings.Status != helpers.UserStatusDeleted && count!=0{
 				tempValueSlice = append(tempValueSlice, allGroups[groupKey].Info.GroupName)
 				tempValueSlice = append(tempValueSlice, strconv.Itoa(count))
-				tempValueSlice = append(tempValueSlice, tempUserNames)
+				tempValueSlice = append(tempValueSlice, " "+tempUserNames+ " ")
 				tempValueSlice = append(tempValueSlice,groupKey)
 				groupViewModel.Values = append(groupViewModel.Values, tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]

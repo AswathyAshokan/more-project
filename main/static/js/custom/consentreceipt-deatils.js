@@ -1,6 +1,7 @@
 document.getElementById("consent").className += " active";
 var companyTeamName = vm.CompanyTeamName;
 
+
 /*Function for creating Data Array for data table*/
 $(function(){ 
     var mainArray = []; 

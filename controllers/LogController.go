@@ -15,6 +15,7 @@ import (
 type LogController struct {
 	BaseController
 }
+
 func (c *LogController)LoadLogDetails() {
 	viewModel := viewmodels.WorkLogViewModel{}
 	r := c.Ctx.Request
@@ -86,6 +87,8 @@ func (c *LogController)LoadLogDetails() {
 			userId = append(userId,logUserDetail[key.String()].UserID)
 
 		}
+		companyUser :=models.GetCompanyUsers(c.AppEngineCtx,companyTeamName)
+		log.Println("company Users",companyUser)
 
 		var generalKeySlice []string
 		logStatus,generalLogData := models.GetGeneralLogDataByUserId(c.AppEngineCtx)
@@ -96,23 +99,9 @@ func (c *LogController)LoadLogDetails() {
 			for _, key := range dataValue.MapKeys() {
 				log.Println("key ?????",key.String())
 				//userId = append(userId,key.String())
-				var tempArray []string
-				for i:=0;i<len(userId);i++{
 
-					exists := false
-					for v := 0; v < i; v++ {
-						if userId[v] == userId[i] {
-							exists = true
-							break
-						}
-					}
-					// If no previous element exists, append this one.
-					if !exists {
-						tempArray = append(tempArray, userId[i])
-					}
-				}
-				for k :=0;k<len(tempArray);k++{
-					if tempArray[k] == key.String(){
+				for k :=0;k<len(companyUser);k++{
+					if companyUser[k] == key.String(){
 						generalKeySlice = append(generalKeySlice,key.String())
 						var tempGeneralLogSlice []string
 						var tempGenerealLogoutSlice []string

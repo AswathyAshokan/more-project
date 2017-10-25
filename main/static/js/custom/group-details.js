@@ -1,5 +1,4 @@
 
-
 //Below line is for adding active class to layout side menu..
 document.getElementById("group").className += " active";
 var companyTeamName = vm.CompanyTeamName;
@@ -24,12 +23,19 @@ $(function(){
     function dataTableManipulate(){
         table =  $("#group-table").DataTable({
             data: mainArray,
-            "columnDefs": [{
-                       "targets": -1,
-                       "width": "5%",
-                       "data": null,
-                       "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
-            }]
+            "columnDefs": [
+                {
+                    "targets": 2,
+                    render : function(data, type, row) {
+                        return '<div class="over-length">'+data+'</div>'
+                    } 
+                },
+                {
+                    "targets": -1,
+                    "width": "5%",
+                    "data": null,
+                    "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
+                }]
         });
 /*Add a plus symbol in webpage for add new groups*/
         var item = $('<span>+</span>');

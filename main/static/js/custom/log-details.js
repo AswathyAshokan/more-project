@@ -99,6 +99,10 @@ $(function(){
         $('#log-details').dataTable().fnDestroy();
         $('#fromDate').datepicker('setDate', null);
         $('#toDate').datepicker('setDate', null);
+        $('#uselogLi').addClass("active");
+        $('#activitylogLi').removeClass("active");
+        $('#fromDate').datepicker('option', { minDate:null,maxDate: null });
+        $('#toDate').datepicker('option', { minDate:null,maxDate: null });
         dataTableManipulate(completeTable);
     });
     
@@ -112,6 +116,7 @@ $(function(){
     
     function listLogDetails(unixFromDate,unixToDate){
         var tempArray = [];
+        var workArray =[];
         var startDate =0;
         var unixStartDate = 0;
         for (i =0;i<vm.Values.length;i++){
@@ -123,15 +128,69 @@ $(function(){
                 tempArray.push(mainArray[i]);
            }
             $('#log-details').dataTable().fnDestroy();
-            dataTableManipulate(tempArray);
+            
         }
+        
+        
+         for (i =0;i<generalMainArray.length;i++){
+            startDate = new Date(generalMainArray[i][2]);
+            console.log("date from date",generalMainArray[i][2]);
+            unixStartDate = Date.parse(startDate)/1000;
+           if( (unixFromDate <= unixStartDate && unixStartDate <= unixToDate) || (unixFromDate <= unixStartDate && unixStartDate <= unixToDate) || (unixFromDate >= startDate && unixStartDate >= unixToDate)) {
+               
+                workArray.push(generalMainArray[i]);
+           }
+         }
+        console.log("rrrrr",workArray);
+        if(document.getElementById('userlog').clicked != true)
+            {
+                console.log("k11");
+                $('#activitylogLi').addClass("active");
+                $('#uselogLi').removeClass("active");
+                 $('#log-details').dataTable().fnDestroy();
+                dataTableManipulate(workArray);
+            }
+        
+        if(document.getElementById('activitylog').clicked != true)
+            {
+                console.log("k222");
+                $('#uselogLi').addClass("active");
+                $('#activitylogLi').removeClass("active");
+                 $('#log-details').dataTable().fnDestroy();
+                dataTableManipulate(tempArray);
+            }
+        
     } 
+//    $("#userlog").on('click',function(){
+//        selectFromDate = $('#fromDate').val();
+//        selectedToDate = $('#toDate').val();
+//    });
+    
+    
     
     
     $("#userlog").on('click',function(){
         completeTable = mainArray;
+        var tempArray = [];
         $('#log-details').dataTable().fnDestroy();
-        dataTableManipulate(completeTable);
+        toDateValue = $('#toDate').val();
+        fromDateValue = $('#fromDate').val();
+        if (toDateValue.length ==0 && fromDateValue.length ==0){
+            dataTableManipulate(completeTable);
+        }else{
+            var d1 = fromDateValue.split("/");
+            var d2 = toDateValue.split("/");
+            for (i =0;i<vm.Values.length;i++){
+                 var c = vm.Values[i][2].split("/");
+                 var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);
+                 var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
+                 var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+                 if (check >= from && check <= to){
+                     tempArray.push(mainArray[i]);
+                 }
+             }
+            dataTableManipulate(tempArray);
+        }
         $('#log-details').on( 'click', '#btnShow', function () {
             var data = table.row( $(this).parents('tr') ).data();
               lattitude = data[5];
@@ -179,7 +238,7 @@ $(function(){
         actualFromDate.setMinutes(0);
         actualFromDate.setSeconds(0);
         unixFromDate = Date.parse(actualFromDate)/1000;
-        listLogDetails(unixFromDate,unixToDate);
+//        listLogDetails(unixFromDate,unixToDate);
     });
     
     $('#toDate').change(function () {
@@ -193,7 +252,7 @@ $(function(){
         actualToDate.setMinutes(59);
         actualToDate.setSeconds(59);
         unixToDate = Date.parse(actualToDate)/1000;
-        listLogDetails(unixFromDate,unixToDate);
+//        listLogDetails(unixFromDate,unixToDate);
     });
         
         
@@ -203,11 +262,29 @@ $(function(){
     
     $("#activitylog").on( 'click', function () {
         console.log("generalMainArray",generalMainArray);
-         tableData = generalMainArray
+         tableData = generalMainArray;
         $('#log-details').dataTable().fnDestroy();
-        generaldataTableManipulate(tableData);
+        toDateValue = $('#toDate').val();
+        fromDateValue = $('#fromDate').val();
+        if (toDateValue.length ==0 && fromDateValue.length ==0){
+           generaldataTableManipulate(tableData);
+        }else{
+            var workArray=[];
+            var d1 = fromDateValue.split("/");
+            var d2 = toDateValue.split("/");
+           for (i =0;i<generalMainArray.length;i++){
+                 var c = generalMainArray[i][2].split("/");
+                 var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);
+                 var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
+                 var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+                 if (check >= from && check <= to){
+                     workArray.push(generalMainArray[i]);
+                 }
+             }
+            generaldataTableManipulate(workArray);
+        }
         $('#log-details').on( 'click', '#btnShow', function () {
-              var data = table.row( $(this).parents('tr') ).data();
+            var data = table.row( $(this).parents('tr') ).data();
               lattitude = data[4];
               longitude = data[5];
               console.log("data",data);
@@ -238,48 +315,6 @@ $(function(){
                   });
               });
         });
-//        if(vm.GeneralLogValues != null) {
-//        console.log("vm.GeneralLogValues ########",vm.GeneralLogValues);
-//        //$('#log-details').dataTable().fnDestroy();
-//        for( i=0;i<vm.GeneralLogValues.length;i++){
-//            console.log("hghghghg",vm.GeneralLogValues[i]);
-//            var utcTime = vm.GeneralLogValues[i][2];
-//            var dateFromDb = parseInt(utcTime)
-//            var d = new Date(dateFromDb * 1000);
-//            var dd = d.getDate();
-//            var mm = d.getMonth() + 1; //January is 0!
-//            var yyyy = d.getFullYear();
-//            var HH = d.getHours();
-//            var min = d.getMinutes();
-//            var sec = d.getSeconds();
-//            if (dd < 10) {
-//                dd = '0' + dd;
-//            }
-//            if (mm < 10) {
-//                mm = '0' + mm;
-//            }
-//            if (HH < 10) {
-//                HH = '0' + HH;
-//            }
-//            if (min < 10) {
-//                min = '0' + min;
-//            }
-//            if (sec < 10) {
-//                sec = '0' + sec;
-//            }
-//            var localTime = (HH + ':' + min);
-//            var localDate = (mm + '/' + dd + '/' + yyyy);
-//            /*lattitude = vm.GeneralLogValues[i][3];
-//            longitude= vm.GeneralLogValues[i][4];*/
-//            vm.GeneralLogValues[i][2]= localDate;
-//            vm.GeneralLogValues[i][3] = localTime;
-//            
-//            /*console.log("lattitude  in general log:",lattitude);
-//            console.log("longitude n general log:",longitude);*/
-//            
-//        }
-//        createGeneralDataArray(vm.GeneralLogValues, vm.GeneralKey);
-//    }
     });
     
     if( vm.WorkLocationValues !=null){
@@ -448,7 +483,31 @@ $(function(){
         actualFromDate.setMinutes(0);
         actualFromDate.setSeconds(0);
         unixFromDate = Date.parse(actualFromDate)/1000;
-        listLogDetails(unixFromDate,unixToDate);
+//        listLogDetails(unixFromDate,unixToDate);
+        console.log("insiiii");
+        var toDateValue = $('#toDate').val();
+        var fromDateValue = $('#fromDate').val();
+        if (toDateValue.length !=0 && fromDateValue.length !=0){
+            $('#log-details').dataTable().fnDestroy();
+            console.log("k2");
+            $('#uselogLi').addClass("active");
+            $('#activitylogLi').removeClass("active");
+            var userArray=[];
+            var d1 = fromDateValue.split("/");
+            var d2 = toDateValue.split("/");
+            for (i =0;i<vm.Values.length;i++){
+                var c = vm.Values[i][2].split("/");
+                var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);
+                var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
+                var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+                if (check >= from && check <= to){
+                    userArray.push(mainArray[i]);
+                }
+            }
+            dataTableManipulate(tempArray);
+          
+            }
+
     });
     
     $('#toDate').change(function () {
@@ -462,8 +521,36 @@ $(function(){
         actualToDate.setMinutes(59);
         actualToDate.setSeconds(59);
         unixToDate = Date.parse(actualToDate)/1000;
-        listLogDetails(unixFromDate,unixToDate);
+//        listLogDetails(unixFromDate,unixToDate);
+        var toDateValue = $('#toDate').val();
+        var fromDateValue = $('#fromDate').val();
+        if (toDateValue.length !=0 && fromDateValue.length !=0){
+            $('#log-details').dataTable().fnDestroy();
+            console.log("k3");
+            $('#uselogLi').addClass("active");
+            $('#activitylogLi').removeClass("active");
+            var userArray=[];
+            var d1 = fromDateValue.split("/");
+            var d2 = toDateValue.split("/");
+            for (i =0;i<vm.Values.length;i++){
+                var c = vm.Values[i][2].split("/");
+                var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);
+                var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
+                var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+                if (check >= from && check <= to){
+                    userArray.push(mainArray[i]);
+                }
+            }
+            console.log("user array",userArray);
+            dataTableManipulate(userArray);
+        }
     });
+    
+    
+    
+    
+    
+    
     
     //checking plans
     

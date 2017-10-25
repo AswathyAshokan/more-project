@@ -474,7 +474,7 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 								log.Println("in first loop")
 
 								for _, userkey := range dataValueOfUser.MapKeys() {
-									keysValues = append(keysValues,userkey.String())
+
 									//var acceptedUsers []string
 									var UserDetailsForStartTask []string
 									var UserDetailsForCompleted []string
@@ -487,6 +487,7 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 										if userkey.String() == logUserDetail[logKey.String()].UserID {
 											log.Println("iam in third if")
 											if k == logUserDetail[logKey.String()].TaskID {
+												keysValues = append(keysValues,userkey.String())
 
 												if logUserDetail[logKey.String()].LogDescription == "Task Started" {
 													log.Println("iam in fourth if")

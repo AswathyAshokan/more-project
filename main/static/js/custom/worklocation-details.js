@@ -29,24 +29,22 @@ $(function(){
                     "order": [[1, 'asc']]
                 },
                 {
+                    "targets": 2,
+                    render : function(data, type, row) {
+                        return '<div class="over-length">'+data+'</div>'
+                    } 
+                },
+                
+                {
                 "targets": -1,
                 "width": "10%",
                 "data": null,
                 "defaultContent": '<div class="edit-wrapper"><span class="icn"><i class="fa fa-pencil-square-o" aria-hidden="true" id="edit"></i><i class="fa fa-trash-o" aria-hidden="true" id="delete"></i></span></div>'
             }]
-        }); 
-        
-/*Add a plus symbol in webpage for add new groups*/
-        var item = $('<span>+</span>');
-        item.click(function() {
-            window.location ='/' + companyTeamName + '/worklocation/add';
         });
         
-        $('.table-wrapper .dataTables_filter').append(item);
-    }
-/*---------------------------Initial data table calling---------------------------------------------------*/
-    
-     $('#workLocation-table tbody').on('click', 'td.details-control', function () {
+        
+        $('#workLocation-table tbody').on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');
         var row = table.row( tr );
  
@@ -61,8 +59,9 @@ $(function(){
             tr.addClass('shown');
         }
     } );
-    
-      function format (data,minUserArray ) {
+        
+        
+        function format (data,minUserArray ) {
             
              var workLocationID  = data[5];
             var minUser ='<div class="pull-left dropdown-tbl"  style="padding-right: 50px;">';
@@ -116,10 +115,17 @@ $(function(){
             return minUser+exposure;
          }
         
-    
-    
-    
-    
+        
+        
+/*Add a plus symbol in webpage for add new groups*/
+        var item = $('<span>+</span>');
+        item.click(function() {
+            window.location ='/' + companyTeamName + '/worklocation/add';
+        });
+        
+        $('.table-wrapper .dataTables_filter').append(item);
+    }
+/*---------------------------Initial data table calling---------------------------------------------------*/
     var tempArry = [];
     if(vm.Values != null) {
         if(vm.Users !=null){
@@ -134,7 +140,7 @@ $(function(){
                             console.log("kkk",vm.Values[j][0])
                             vm.Values[i][1] = vm.Values[i][1];
                         }
-                        tempArry.push(vm.Users[j][k].Name);
+                       tempArry.push( " "+vm.Users[j][k].Name+" ");
                     }
                 }
                 }

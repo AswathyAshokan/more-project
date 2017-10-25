@@ -106,7 +106,7 @@
                  <div class="clearfix">
                      <h1 class="h4">Log</h1>
                      <div class="personal-details margin-top-20">
-                         <div class="table-wrapper">
+                         <div class="table-wrapper table-responsive">
                              <div class="datepic-top" id="dp1">
                                  <div class="callender-wrapper">
                                      <input type="text" id="fromDate" class="datepicker form-control sprites-callender" readonly='true'>
@@ -118,8 +118,8 @@
                              <ul class="nav nav-tabs tab-logs">
                                  
                                  
-								<li class="active"><a data-toggle="tab" href="#tab1"> <button class="no-button-style" id="userlog">Task Logs</button></a></li>
-								<li><a data-toggle="tab" href="#tab2"><button class="no-button-style"  id="activitylog">Work logs</button></a></li>
+								<li class="active" id="uselogLi"><a data-toggle="tab" href="#tab1"> <button class="no-button-style" id="userlog">Task Logs</button></a></li>
+								<li id="activitylogLi"><a data-toggle="tab" href="#tab2"><button class="no-button-style"  id="activitylog">Work logs</button></a></li>
                                  
 							
                                  
@@ -128,7 +128,7 @@
                                  <!--<li class="active"><a data-toggle="tab" href="/{{.vm.CompanyTeamName}}/workLog">User Logs</a></li>
 								<li><a data-toggle="tab" href="/{{.vm.CompanyTeamName}}/activityworkLog">Activity logs</a></li>-->
 							</ul>
-                             <table class="table table-striped table-bordered   dt-responsive nowrap table-responsive" id="log-details">
+                             <table class="table table-striped table-bordered   dt-responsive nowrap " id="log-details">
                                  <thead>
                                      <tr>
                                          <th>User Name</th>

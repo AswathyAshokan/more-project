@@ -470,8 +470,8 @@ $().ready(function() {
                 if(vm.DateValues != null){
                     if (selectedUserArray.length !=0){
                         taskWorkLocation=[];
-                        for ( var x=0;x<vm.DateValues.length;x++){
-                            for( var y=0;y<selectedUserArray.length;y++){
+                        for( var y=0;y<selectedUserArray.length;y++){
+                            for ( var x=0;x<vm.DateValues.length;x++){
                                 if (vm.DateValues[x][0] == selectedUserArray[y]){
                                     var utcTime = vm.DateValues[x][1];
                                     var dateFromDb = parseInt(utcTime);
@@ -533,6 +533,7 @@ $().ready(function() {
                                     var to   = Date.parse(workEndDateFromDb);
                                     var StartDateOfTaskCheck = Date.parse(StartDateOfTask );
                                     var EndDateOfTaskCheck = Date.parse(EndDateOfTask );
+                                    console.log("hhhhhh2");
                                     if((StartDateOfTaskCheck>=from && StartDateOfTaskCheck<=to) || (EndDateOfTaskCheck>=from && EndDateOfTaskCheck<=to)){
                                         condition="true";
                                         console.log("i am in success of ifff");
@@ -556,11 +557,12 @@ $().ready(function() {
                 }
                 console.log("lllllllllioioioioioii",existingWorkLocationUserId);
                 console.log("condition array",conditionArray);
+                console.log("condition array length",conditionArray.length);
                 if(vm.DateValues != null){
                     if (selectedUserArray.length !=0){
+                        for( var y=0;y<selectedUserArray.length;y++){
                          for ( var x=0;x<vm.DateValues.length;x++){
-                            for( var y=0;y<selectedUserArray.length;y++){
-                                if (vm.DateValues[x][0] == selectedUserArray[y]){
+                             if (vm.DateValues[x][0] == selectedUserArray[y]){
                                 count=count+1;
 
                             }
@@ -597,6 +599,16 @@ $().ready(function() {
                 }
                 for(var i=0;i<idArray.length;i++){
                     taskWorkLocation.push("true");
+                }
+                if(count !=0){
+                    if (conditionArray !=null){
+                        if (conditionArray.length ==count &&taskWorkLocation.length !=selectedUserArray.length){
+                            var taskWorkLocation=[];
+                            for (var i=0;i<selectedUserArray.length;i++){
+                                taskWorkLocation.push("true");
+                            }
+                        }
+                    }
                 }
 //           console.log("hai existingWorkLocationUserId @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ ",existingWorkLocationUserId);
             console.log("final taskLocation",taskWorkLocation);
@@ -738,8 +750,14 @@ $().ready(function() {
                 console.log("hai existingWorkLocationUserId ########## ",existingWorkLocationUserId);
                 var uniqueItems = Array.from(new Set(existingWorkLocationUserId));
                 console.log("after filtering of existing unique user id ",uniqueItems);
-                $("#myModalForUniqueTest").modal();
-                $("#saveButton").attr('disabled', false);
+               $("#myModalForUniqueTest").modal({
+                   backdrop: 'static',
+                   keyboard: false
+               });
+               
+               $("#cancelForCheckUnique").click(function(){
+                   window.location = '/'+companyTeamName+'/worklocation/add';
+               });
 //                $("#cancelForCheckUnique").click(function(){
 //                    window.location = '/'+companyTeamName+'/worklocation/add';
 //                });
