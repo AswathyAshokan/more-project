@@ -26,6 +26,12 @@ $(function(){
         table =  $("#customer-table").DataTable({
             data: mainArray,
             "columnDefs": [{
+                    "targets": 2,
+                    render : function(data, type, row) {
+                        return '<div class="over-length">'+data+'</div>'
+                    } 
+                },
+                {
                 "targets": -1,
                 "width": "10%",
                 "data": null,

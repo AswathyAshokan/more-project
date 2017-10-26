@@ -6,7 +6,7 @@ import (
 	"app/passporte/models"
 	"app/passporte/viewmodels"
 	"log"
-	"strconv"
+	"time"
 )
 
 type CustomerManagementController struct {
@@ -50,10 +50,11 @@ func (c *CustomerManagementController) CustomerManagement() {
 				case false:
 					log.Println(helpers.ServerConnectionError)
 				}
-				tempTym :=strconv.FormatInt(allCompanyData[k].Settings.DateOfCreation,10)
-				i, _ := strconv.ParseInt(tempTym, 10, 64)
-				log.Println("hhh",i)
-				tempValueSlice = append(tempValueSlice, strconv.FormatInt(allCompanyData[k].Settings.DateOfCreation,10))
+				//tempTym :=strconv.FormatInt(allCompanyData[k].Settings.DateOfCreation,10)
+				//i, _ := strconv.ParseInt(tempTym, 10, 64)
+				//log.Println("hhh",i)
+				startDate := time.Unix(allCompanyData[k].Settings.DateOfCreation, 0).Format("2006/01/02")
+				tempValueSlice = append(tempValueSlice, startDate)
 				tempValueSlice = append(tempValueSlice,allCompanyData[k].Plan)
 				customerManagementViewModel.Values = append(customerManagementViewModel.Values,tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]
@@ -75,6 +76,7 @@ func (c *CustomerManagementController) CustomerManagement() {
 
 func (c *CustomerManagementController)LoadDeleteCustomerManagement() {
 	w := c.Ctx.ResponseWriter
+	log.Println("delete inside")
 	customerManagementId :=c.Ctx.Input.Param(":customermanagementid")
 	dbStatus:= models.DeleteCustomerManagementData(c.AppEngineCtx,customerManagementId)
 	switch dbStatus {

@@ -28,6 +28,18 @@ func (c *PlanController) PlanDetails() {
 	c.TplName = "template/plan.html"
 }
 
+func (c *PlanController) PlanChange() {
+	planViewModel := viewmodels.Plan{}
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	sessionValues, sessionStatus := SessionForPlan(w,r)
+	planViewModel.SessionFlag = sessionStatus
+	planViewModel.CompanyPlan = sessionValues.CompanyPlan
+	planViewModel.CompanyTeamName =sessionValues.CompanyTeamName
+	c.Data["vm"] = planViewModel
+	c.TplName = "template/planForUpdate.html"
+}
+
 //For update company plan with newly selected company plan
 func (c *PlanController) PlanUpdate() {
 	log.Println("haiiiii")

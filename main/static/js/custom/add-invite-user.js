@@ -52,6 +52,8 @@ $().ready(function() {
              $('#limitModel').modal('hide');
              var numberOfUsers  = document.getElementById("noOfUsers").value;
              var paymentPrice =numberOfUsers*5;
+             console.log("ooooo",numberOfUsers);
+             console.log("iiiii",paymentPrice);
 //             var formData = formData+"&payment="+paymentPrice+"&noOfUsers="+numberOfUsers;
              window.location = '/'+selectedCompanyPlan+'/payment/'+paymentPrice+'/'+numberOfUsers;
 //             $.ajax({

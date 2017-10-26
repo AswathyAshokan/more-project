@@ -60,6 +60,8 @@ func (c *PaymentController)Home() {
 	log.Println("company plan",companyPlan)
 	amount := c.Ctx.Input.Param(":paymentPrice")
 	noOfUsers :=c.Ctx.Input.Param(":NumberOfUsers")
+	log.Println("amount",amount)
+	log.Println("users",noOfUsers)
 	sessionForPayment := SessionForPayment{}
 	sessionForPayment.NumberOfUsers=noOfUsers
 	SetSessionForPayment(w, sessionForPayment)

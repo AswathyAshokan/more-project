@@ -138,8 +138,18 @@ func (c *DashBoardController)LoadDashBoard() {
 									completed++
 								}
 							}
-							completedTaskPercentage := float32(completed)/float32(len(userStatus))*100
-							pendingTaskPercentage  := float32(pending)/ float32(len(userStatus))*100
+							var completedTaskPercentage float32
+							var pendingTaskPercentage float32
+
+							if completed !=0{
+								completedTaskPercentage = float32(completed)/float32(len(userStatus))*100
+							}
+							if pending !=0{
+								pendingTaskPercentage  = float32(pending)/ float32(len(userStatus))*100
+
+							}
+							//completedTaskPercentage := float32(completed)/float32(len(userStatus))*100
+
 							taskSettings :=models.TaskSetting{}
 							taskSettings.UpdateTaskStatus(c.AppEngineCtx, k,totalUserStatus,completedTaskPercentage,pendingTaskPercentage)
 							log.Println(dbStatus)

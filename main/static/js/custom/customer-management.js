@@ -55,7 +55,7 @@ $(function(){
     $('#customerManagement-table tbody').on( 'click', '#delete', function () {
         $("#myModal").modal();
         var data = table.row( $(this).parents('tr') ).data();
-        var key = data[7];
+        var key = data[6];
         console.log(data, key);
         $("#confirm").click(function(){
             $.ajax({

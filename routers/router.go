@@ -64,6 +64,9 @@ func init() {
 	beegae.Router("/:companyTeamName/invite/:inviteuserid/deletionOfUser", &controllers.InviteUserController{}, "*:DeleteUserIfNotInTask")
 	/*beegae.Router("/:companyTeamName/invite/:inviteuserid/ChangeInactiveToactive", &controllers.InviteUserController{}, "*:UpdateStatusWhenResponsePending")*/
 	beegae.Router("/plan", &controllers.PlanController{}, "*:PlanDetails")
+	beegae.Router("/plan/change", &controllers.PlanController{}, "*:PlanChange")
+
+
 	beegae.Router("/plan/update", &controllers.PlanController{}, "*:PlanUpdate")
 
 	/*beegae.Router("/superadmin", &controllers.SuperAdminController{}, "*:AddSuperAdmin")*/

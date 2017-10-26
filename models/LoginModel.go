@@ -7,6 +7,7 @@ import (
 	"log"
 	"reflect"
 	"golang.org/x/crypto/bcrypt"
+	"app/passporte/helpers"
 )
 
 type Login struct{
@@ -35,8 +36,12 @@ func(m *Login)CheckLogin(ctx context.Context)(bool, Admins, Company, string){
 		adminDetails = admins[key.String()]
 		adminId = key.String()
 	}
+	err = dB.Child("/Company/"+adminDetails.Company.CompanyId).Value(&companyDetails);
+	if companyDetails.Settings.Status==helpers.StatusInActive{
+		return false, adminDetails, companyDetails, adminId
+	}
 
-	if err := dB.Child("/Company/"+adminDetails.Company.CompanyId).Value(&companyDetails); err !=nil{
+	if  err !=nil{
 		log.Println(err)
 		return false, adminDetails, companyDetails, adminId
 	}

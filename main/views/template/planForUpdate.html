@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Plans</title>
+    <script type="text/javascript">
+        var vm = {{.vm}};
+    </script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<section class="header">
+    <div class="container-fluid">
+        <header>
+            <div class="logo">
+                <img src="/static/images/logo.png" alt="" class="img-responsive" onmouseover="" style="cursor: pointer;" onclick="redirect();">
+            </div>
+        </header>
+    </div>
+</section>
+<section class="content-section clearfix register">
+    <div class="container-fluid no-gutter-xs padding-50-each">
+        <div class="padding-15">
+            <div class="clearfix">
+                <h1 class="h4">Plans</h1>
+                <div class="plans margin-top-20">
+                    <div class="plan-wrapper col-md-3 col-sm-3 " id="familyDiv">
+                        <div class="plan-inner-wrapper">
+                            <div class="plan-header bg-red">
+                                <h3>Family</h3>
+                                <span class="bg-light-red">Free</span>
+                            </div>
+                            <div class="plan-body">
+                                <span>No. of Users (Unlimited)</span>
+                                <span>Schedule and Task Management</span>
+                                <span>GPS Tracking</span>
+                                <span>Log</span>
+                                <span>Duress Function</span>
+                                <span>Messaging </span>
+                                <span>Notifications</span>
+                            </div>
+                            <div class="plan-footer bg-light-red">
+                                <h4 class="selectPlanButton" style="cursor: pointer;" id="family" onClick="reply_click(this.id);">Choose Plan</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="plan-wrapper col-md-3 col-sm-3" id="campusDiv">
+                        <div class="plan-inner-wrapper">
+                            <div class="plan-header bg-green">
+                                <h3>Campus</h3>
+                                <span class="bg-light-green">Free</span>
+                            </div>
+                            <div class="plan-body">
+                                <span>No. of Users (Unlimited)</span>
+                                <span>Schedule and Task Management</span>
+                                <span>GPS Tracking</span>
+                                <span>Log</span>
+                                <span>Duress Function</span>
+                                <span>Messaging </span>
+                                <span>Notifications</span>
+                                <span>P-Tag</span>
+                            </div>
+                            <div class="plan-footer bg-light-green">
+                                <h4 class="selectPlanButton" style="cursor: pointer;" id="campus"  onClick="reply_click(this.id);">Choose Plan</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div  class="plan-wrapper col-md-3 col-sm-3" id="businessDiv">
+                        <div class="plan-inner-wrapper">
+                            <div class="plan-header bg-blue">
+                                <h3>Business</h3>
+                                <span class="bg-light-blue">Free for 4 users</span>
+                            </div>
+                            <div class="plan-body">
+                                <span>No. of Users (Unlimited)</span>
+                                <span>Schedule and Task Management</span>
+                                <span>GPS Tracking</span>
+                                <span>Log</span>
+                                <span>Duress Function</span>
+                                <span>Messaging </span>
+                                <span>Notifications and Alerts</span>
+                                <span>P-Tag</span>
+                                <span>CRM</span>
+                                <span>Time Management</span>
+                                <span>Pre-start Meetings</span>
+                                <span>Expiries</span>
+                                <span>Exposure</span>
+                            </div>
+                            <div class="plan-footer bg-light-blue">
+                                <h4 class="selectPlanButton" style="cursor: pointer;" id ="business" onClick="reply_click(this.id);" >Choose Plan</h4>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade limit" id="plan-confirm" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>If you are a register user <a href="/login">Login</a> here or if you are an new user <a href="/register">Register</a> here</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="footer">
+    <div class="container-fluid">
+        <footer>
+            <div class="footer-logo">
+                <img src="/static/images/logo-footer.png" alt="" class="img-responsive">
+            </div>
+            <ul>
+                <li>Copyright <span>Passporte</span> Limited</li>
+                <li>All Rights Reserved</li>
+            </ul>
+        </footer>
+    </div>
+</section>
+<script src="/static/js/jquery-3.1.0.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/js/custom/planUpdate.js"></script>
+</body>
+</html>

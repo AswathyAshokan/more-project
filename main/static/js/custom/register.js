@@ -13,6 +13,15 @@ $(function(){
          vm.CountryName.sort();
      }
     }*/
+    
+    redirect=function(){
+        window.location = '/';
+    }
+    
+    
+    
+    
+    
    
 /*---------------------for display heading of each webpage----------------------*/
    $('#planType').on('change', function() {

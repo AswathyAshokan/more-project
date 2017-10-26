@@ -46,6 +46,7 @@ func GetAdminDetailsById(ctx context.Context,adminKeyFromCompany []string) (bool
 // Delete selected record from database
 
 func DeleteCustomerManagementData(ctx context.Context,customerManagementId string)(bool){
+	log.Println("hhhhh");
 	companyDataFromCompany := Company{}
 	companyDataFromAdmin := map[string]Admins{}
 	tempCompanyData := Admins{}
@@ -93,6 +94,7 @@ func DeleteCustomerManagementData(ctx context.Context,customerManagementId strin
 			log.Fatal(err)
 			return  false
 		}
+		log.Println("hhhhh2");
 	}
 	return true
 

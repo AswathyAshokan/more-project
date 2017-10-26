@@ -349,16 +349,16 @@ var allUserId = [[]];
                         } else if(reverseSorted[i][5] == "WorkLocationt!@#$%&*YTREFFDD"){
                             var timeDifference =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
                             if(reverseSorted[i][8] == "After" ){
-                               DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"reached work location within  "+" "+reverseSorted[i][4]+" <span>"+timeDifference+"</span>"+"</li>"; 
+                               DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+" will be reaching within"+" "+reverseSorted[i][3]+"  "+"at work location "+" "+reverseSorted[i][4]+" <span>"+timeDifference+"</span>"+"</li>"; 
                             } else{
-                                DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"delayed to reach work location"+" "+reverseSorted[i][4]+" <span>"+timeDifference+"</span>"+"</li>";
+                                DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+"will be delayed "+reverseSorted[i][3]+"  "+"to reach at work location"+" "+reverseSorted[i][4]+" <span>"+timeDifference+"</span>"+"</li>";
                             }
                         }else{
                             var timeDifference =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
                              if(reverseSorted[i][7] == "After" ){
-                                 DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"reached  task location within"+" "+reverseSorted[i][4]+" "+"for task"+" "+reverseSorted[i][4]+" <span>"+timeDifference+"</span>"+"</li>";
+                                 DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+" will be reaching within"+" "+reverseSorted[i][3]+"  "+" at task location"+" "+reverseSorted[i][4]+" "+"for the task"+" "+reverseSorted[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
                             } else{
-                                DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+" delayed reach  task location "+" "+reverseSorted[i][4]+" "+"for task"+" "+reverseSorted[i][4]+" <span>"+timeDifference+"</span>"+"</li>";
+                                DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+"will be delayed"+" "+reverseSorted[i][3]+"  "+" to reach the task location "+" "+reverseSorted[i][4]+" "+"for the task"+" "+reverseSorted[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
                             }
                         }
                     }

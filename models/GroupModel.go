@@ -41,7 +41,9 @@ func(m *Group) AddGroupToDb(ctx context.Context) (bool){
 	if err != nil {
 		log.Println(err)
 	}
-	UserGroup :=UserGroup{}
+	UserOrGroup :=UserGroup{}
+	UserStatus :=UserGroup{}
+	UserOrGroupForUpdate :=UserGroup{}
 
 	groupData,err := db.Child("Group").Push(m)
 	if err != nil {
@@ -56,15 +58,17 @@ func(m *Group) AddGroupToDb(ctx context.Context) (bool){
 	UserGroup.DateOfCreation = m.Settings.DateOfCreation
 	UserGroup.GroupName = m.Info.GroupName
 	UserGroup.GroupStatus = m.Settings.Status*/
-	UserGroup.GroupName = m.Info.GroupName
-	UserGroup.CompanyId = m.Info.CompanyTeamName
-
+	UserOrGroup.GroupName = m.Info.GroupName
+	UserOrGroup.CompanyId = m.Info.CompanyTeamName
+	UserOrGroupForUpdate.GroupName=m.Info.GroupName
+	UserOrGroupForUpdate.CompanyId = m.Info.CompanyTeamName
+	UserOrGroupForUpdate.groupId=groupUniqueID
 
 	dataValue := reflect.ValueOf(m.Members)
-	UserGroup.groupId = groupUniqueID
+	UserOrGroup.groupId = groupUniqueID
 	for _, key := range dataValue.MapKeys() {
 
-		err = db.Child("/Users/" + key.String() + "/Group/" + groupUniqueID).Set(UserGroup)
+		err = db.Child("/Users/" + key.String() + "/Group/" + groupUniqueID).Set(UserOrGroup)
 		UserGroupKey=append(UserGroupKey,"true")
 		if err != nil {
 			log.Println("w16")
@@ -77,9 +81,9 @@ func(m *Group) AddGroupToDb(ctx context.Context) (bool){
 		log.Println("danger111111")
 		dataValue := reflect.ValueOf(m.Members)
 		for _, key := range dataValue.MapKeys() {
-			err = db.Child("/Users/" + key.String() + "/Group/" + groupUniqueID).Value(&UserGroup)
-			if len(UserGroup.GroupName) ==0{
-				err = db.Child("/Users/" + key.String() + "/Group/" + groupUniqueID).Set(UserGroup)
+			err = db.Child("/Users/" + key.String() + "/Group/" + groupUniqueID).Value(&UserStatus)
+			if len(UserStatus.GroupName) ==0{
+				err = db.Child("/Users/" + key.String() + "/Group/" + groupUniqueID).Set(UserOrGroupForUpdate)
 			}
 
 
@@ -183,7 +187,9 @@ func(m *Group) GetGroupDetailsById(ctx context.Context,groupKey string) (Group,b
 //Update the group details after editing
 func(m *Group) UpdateGroupDetails(ctx context.Context,groupKey string) (bool) {
 
-	UserGroup :=UserGroup{}
+	UserOrGroup :=UserGroup{}
+	UserStatus :=UserGroup{}
+	UserForUpdate :=UserGroup{}
 	oldMembers := map[string]GroupMembers{}
 	groupStatusDetails := GroupSettings{}
 	db,err :=GetFirebaseClient(ctx,"")
@@ -231,11 +237,17 @@ func(m *Group) UpdateGroupDetails(ctx context.Context,groupKey string) (bool) {
 		}
 	}
 	log.Println("result",newUser)
-	UserGroup.CompanyId = m.Info.CompanyTeamName
-	UserGroup.GroupName = m.Info.GroupName
+	UserOrGroup.CompanyId = m.Info.CompanyTeamName
+	UserOrGroup.GroupName = m.Info.GroupName
+	UserForUpdate.groupId=groupKey
+	UserForUpdate.CompanyId=m.Info.CompanyTeamName
+	UserForUpdate.GroupName =m.Info.GroupName
+
+	var NewUserUpdateCount []string
 	for i := 0;i<len(newUser);i++ {
 		log.Println("new usersss",newUser[i])
-		err = db.Child("/Users/" +newUser[i] + "/Group/" + groupKey).Set(UserGroup)
+		err = db.Child("/Users/" +newUser[i] + "/Group/" + groupKey).Set(UserOrGroup)
+		NewUserUpdateCount=append(NewUserUpdateCount,"true")
 		if err != nil {
 			log.Println("w16")
 			log.Println("Insertion error:", err)
@@ -251,15 +263,22 @@ func(m *Group) UpdateGroupDetails(ctx context.Context,groupKey string) (bool) {
 			oldUser = append(oldUser, s)
 		}
 	}
+	var OldUserUpdateCount []string
 	for i := 0;i<len(oldUser);i++ {
 		log.Println("old usersssss",oldUser[i])
 		err = db.Child("/Users/" +oldUser[i] + "/Group/" + groupKey).Remove()
+		if err != nil {
+			log.Println("w16")
+			log.Println("Insertion error:", err)
+			return false
+		}
 		err = db.Child("/Users/"+oldUser[i] +"/Settings/Notifications/GroupChat/"+groupKey).Remove()
 		if err != nil {
 			log.Println("w16")
 			log.Println("Insertion error:", err)
 			return false
 		}
+		OldUserUpdateCount=append(OldUserUpdateCount,"true")
 	}
 
 	/*for i := 0;i<len(newKeySlice);i++{
@@ -299,6 +318,40 @@ func(m *Group) UpdateGroupDetails(ctx context.Context,groupKey string) (bool) {
 	if err != nil {
 		log.Fatal(err)
 		return  false
+	}
+
+
+
+	//in case of missing users
+
+
+	if len(NewUserUpdateCount)!=len(newUser){
+		for i :=0;i<len(newUser);i++{
+
+			err = db.Child("/Users/" +newUser[i] + "/Group/" + groupKey).Value(&UserStatus)
+			if len(UserStatus.GroupName )==0&&len(UserStatus.CompanyId )==0{
+				err = db.Child("/Users/" +newUser[i] + "/Group/" + groupKey).Set(UserForUpdate)
+			}
+
+		}
+	}
+
+	if len(OldUserUpdateCount)!=len(oldUser){
+		for i:=0;i<len(oldUser);i++{
+			err = db.Child("/Users/" +oldUser[i] + "/Group/" + groupKey).Remove()
+			if err != nil {
+				log.Println("w16")
+				log.Println("Insertion error:", err)
+				return false
+			}
+			err = db.Child("/Users/"+oldUser[i] +"/Settings/Notifications/GroupChat/"+groupKey).Remove()
+			if err != nil {
+				log.Println("w16")
+				log.Println("Insertion error:", err)
+				return false
+			}
+
+		}
 	}
 	return true
 
