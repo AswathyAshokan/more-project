@@ -821,3 +821,20 @@ func (c *WorkLocationcontroller) DeleteWorkLocation() {
 		w.Write([]byte("false"))
 	}
 }
+
+func (c *WorkLocationcontroller)LoadWorkLocationDeleteStatus(){
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	workLocationId := c.Ctx.Input.Param(":workLocationId")
+	storedSession := ReadSession(w, r, companyTeamName)
+	log.Println(storedSession)
+	dbStatus := models.WorkLocationDeleteStatusCheck(c.AppEngineCtx,workLocationId,companyTeamName)
+	switch dbStatus {
+	case true:
+		w.Write([]byte("true"))
+	case false:
+		w.Write([]byte("false"))
+	}
+
+}

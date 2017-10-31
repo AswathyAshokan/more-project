@@ -94,7 +94,19 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 		log.Println(err)
 	}
 	workLocationUniqueID := betterguid.New()
-	var userWorkLocation []string
+	var r *rand.Rand
+	r = rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	const chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+	result := make([]byte, 3)
+	for i := range result {
+		result[i] = chars[r.Intn(len(chars))]
+	}
+	generatedString :=string(result)
+	log.Println("genertedstring",generatedString)
+	newGeneratedKey:=workLocationUniqueID[0:len(workLocationUniqueID)-1]+generatedString
+	log.Println("newly gener",newGeneratedKey)
+	workLocationUniqueID =newGeneratedKey
 	userData := reflect.ValueOf(m.Info.UsersAndGroupsInWorkLocation.User)
 	for _, key := range userData.MapKeys() {
 		if m.Info.UsersAndGroupsInWorkLocation.User[key.String()].Status!=helpers.UserStatusDeleted {
@@ -134,10 +146,6 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 				log.Println("Insertion error:",err)
 				return false
 			}
-
-			userWorkLocation=append(userWorkLocation,"true")
-
-
 		}
 	}
 
@@ -234,47 +242,6 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 		return false
 	}
 
-
-	if len(m.Info.UsersAndGroupsInWorkLocation.User) !=len(userWorkLocation) {
-		log.Println("danger111111")
-		workLocationData := WorkLocationInUser{}
-		notifyId := betterguid.New()
-		userNotificationDetail := WorkLocationNotification{}
-		userNotificationDetail.Date = time.Now().Unix()
-		userNotificationDetail.IsRead = false
-		userNotificationDetail.IsViewed = false
-		userNotificationDetail.WorkLocationId = workLocationUniqueID
-		userNotificationDetail.Category = "WorkLocation"
-		userNotificationDetail.Status = "New"
-		userNotificationDetail.CompanyName = companyName
-		userNotificationDetail.WorkLocation = m.Info.WorkLocation
-		userNotificationDetail.IsDeleted = false
-		userData := reflect.ValueOf(m.Info.UsersAndGroupsInWorkLocation.User)
-		for _, userKey := range userData.MapKeys() {
-			if m.Info.UsersAndGroupsInWorkLocation.User[userKey.String()].Status != helpers.UserStatusDeleted {
-				err = db.Child("/Users/" + userKey.String() + "/WorkLocation/" + workLocationUniqueID).Value(&workLocationData)
-				if len(workLocationData.WorkLocationForTask) == 0 {
-					workLocationUpdateData := WorkLocationInUser{}
-					workLocationUpdateData.CompanyId = companyTeamName
-					workLocationUpdateData.DateOfCreation = m.Settings.DateOfCreation
-					workLocationUpdateData.WorkLocationForTask = m.Info.WorkLocation
-					workLocationUpdateData.StartDate = m.Info.StartDate
-					workLocationUpdateData.EndDate = m.Info.EndDate
-					workLocationUpdateData.DailyStartDate = m.Info.DailyStartDate
-					workLocationUpdateData.DailyEndDate = m.Info.DailyEndDate
-					workLocationUpdateData.Latitude = m.Info.Latitude
-					workLocationUpdateData.Longitude = m.Info.Longitude
-					workLocationUpdateData.CompanyName = companyName
-					workLocationUpdateData.Status = helpers.StatusPending
-					err = db.Child("/Users/" + userKey.String() + "/WorkLocation/" + workLocationUniqueID).Set(workLocationUpdateData)
-					err = db.Child("/Users/" + userKey.String() + "/Settings/Notifications/WorkLocationNotification/" + notifyId).Set(userNotificationDetail)
-
-
-				}
-			}
-		}
-
-	}
 	return  true
 }
 
@@ -353,7 +320,7 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 	var r *rand.Rand
 	r = rand.New(rand.NewSource(time.Now().UnixNano()))
 	const chars = "abcdefghijklmnopqrstuvwxyz0123456789"
-	result := make([]byte, 2)
+	result := make([]byte, 4)
 	for i := range result {
 		result[i] = chars[r.Intn(len(chars))]
 	}
@@ -720,6 +687,44 @@ func GetWorkLocationBreakDetailById(ctx context.Context, workLocationId string)(
 	}
 	return true, breakDetail
 }
+
+func  WorkLocationDeleteStatusCheck(ctx context.Context, workId string,companyId string)(bool) {
+	usersOfWorkLocation := UsersAndGroupsInWork{}
+	var condition =""
+	var keySlice []string
+	workDataFromUsers := WorkLocationInUser{}
+	dB, err := GetFirebaseClient(ctx,"")
+	err = dB.Child("WorkLocation/"+ workId+"/Info/UsersAndGroupsInWorkLocation").Value(&usersOfWorkLocation)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+	log.Println("jjjjj",usersOfWorkLocation.User)
+	userData := reflect.ValueOf(usersOfWorkLocation.User)
+	for _, key := range userData.MapKeys() {
+		if usersOfWorkLocation.User[key.String()].Status != helpers.UserStatusDeleted{
+			keySlice= append(keySlice,key.String())
+		}
+	}
+	for i := 0;i<len(keySlice);i++{
+		err = dB.Child("/Users/"+keySlice[i]+"/WorkLocation/"+workId).Value(&workDataFromUsers)
+		if workDataFromUsers.Status == "Open"{
+			condition="true"
+			break
+		}else {
+			condition="false"
+		}
+	}
+	log.Println("conditoion array",condition)
+
+	if condition == "true" {
+		return true
+
+	}
+	return false
+}
+
+
 
 
 

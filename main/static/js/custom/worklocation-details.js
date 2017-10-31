@@ -194,39 +194,54 @@ $(function(){
         return false;
     });
     
-    $('#workLocation-table tbody').on( 'click', '#delete', function () {
-         $("#myGroupModal").modal();
-        var data = table.row( $(this).parents('tr') ).data();
-        console.log("full data",data);
-        console.log("data id",data[5]);
-        var workLocationId = data[5];
-        $("#confirm").click(function(){
-            $.ajax({
-                type: "POST",
-                url: '/' + companyTeamName +'/worklocation/'+ workLocationId + '/delete',
-                data:'',
-                success: function(response){
-                    if(response=="true"){
-                        $('#workLocation-table').dataTable().fnDestroy();
-                        var index = "";
-                        
-                        for(var i = 0; i < mainArray.length; i++) {
-                           index = mainArray[i].indexOf(workLocationId);
-                           if(index != -1) {
-                               console.log("dddd", i);
-                             break;
-                           }
-                        }
-                        mainArray.splice(i, 1);
-                        dataTableManipulate() 
-                    }
-                    else {
-                        console.log("Removing Failed!");
-                    }
-                }
+$('#workLocation-table tbody').on( 'click', '#delete', function () {
+       
+       var data = table.row( $(this).parents('tr') ).data();
+       console.log("full data",data);
+       console.log("data id",data[5]);
+       var workLocationId = data[5];
+        $.ajax({
+             type: "POST",
+            url: '/' + companyTeamName +'/worklocation/'+ workLocationId + '/checkbeforedelete',
+            data: '',
+            success: function(data){
+                console.log("response from database........",data)
+                if(data=="true"){
+                    $("#myWorkLocatinDeleteStatus").modal();
+                }else{
+                   
+                    $("#myGroupModal").modal();
+                    $("#confirm").click(function(){
+                       $.ajax({
+                           type: "POST",
+                           url: '/' + companyTeamName +'/worklocation/'+ workLocationId + '/delete',
+                           data:'',
+                           success: function(response){
+                               if(response=="true"){
+                                   $('#workLocation-table').dataTable().fnDestroy();
+                                   var index = "";
 
-            });
+                                   for(var i = 0; i < mainArray.length; i++) {
+                                      index = mainArray[i].indexOf(workLocationId);
+                                      if(index != -1) {
+                                          console.log("dddd", i);
+                                        break;
+                                      }
+                                   }
+                                   mainArray.splice(i, 1);
+                                   dataTableManipulate()
+                               }
+                               else {
+                                   console.log("Removing Failed!");
+                               }
+                           }
+
+                       });
+                   });
+                }
+            }
         });
-    });
+                   
+   });
 });
 

@@ -139,6 +139,21 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 	//For inserting task details to User
 	//taskDataString := strings.Split(taskData.String(),"/")
 	taskUniqueID := betterguid.New()
+	var r *rand.Rand
+	r = rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	const chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+	result := make([]byte, 3)
+	for i := range result {
+		result[i] = chars[r.Intn(len(chars))]
+	}
+	generatedString :=string(result)
+	log.Println("genertedstring",generatedString)
+	newGeneratedKey:=taskUniqueID[0:len(taskUniqueID)-1]+generatedString
+	log.Println("newly gener",newGeneratedKey)
+	taskUniqueID=newGeneratedKey
+
+
 	//for adding fit to work to database
 	if len(m.Info.CompanyTeamName )!=0 {
 		err = dB.Child("Tasks/"+taskUniqueID).Set(m)
@@ -147,7 +162,22 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 	//setting notification  task in user
 	if len(m.Info.CompanyTeamName )!=0 {
 		userDataDetails := reflect.ValueOf(m.UsersAndGroups.User)
+
 		notifyId := betterguid.New()
+		var r *rand.Rand
+		r = rand.New(rand.NewSource(time.Now().UnixNano()))
+
+		const chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+		result := make([]byte, 3)
+		for i := range result {
+			result[i] = chars[r.Intn(len(chars))]
+		}
+		generatedString :=string(result)
+		log.Println("genertedstring",generatedString)
+		newGeneratedKey:=notifyId[0:len(notifyId)-1]+generatedString
+		log.Println("newly gener",newGeneratedKey)
+
+		notifyId =newGeneratedKey
 		for _, key := range userDataDetails.MapKeys() {
 			log.Println("inside  notificationnnnn")
 			userNotificationDetail := UserNotification{}
@@ -508,7 +538,7 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 	r = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	const chars = "abcdefghijklmnopqrstuvwxyz0123456789"
-	result := make([]byte, 1)
+	result := make([]byte, 3)
 	for i := range result {
 		result[i] = chars[r.Intn(len(chars))]
 	}
@@ -639,7 +669,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 	var r *rand.Rand
 	r = rand.New(rand.NewSource(time.Now().UnixNano()))
 	const chars = "abcdefghijklmnopqrstuvwxyz0123456789"
-	result := make([]byte, 2)
+	result := make([]byte, 4)
 	for i := range result {
 		result[i] = chars[r.Intn(len(chars))]
 	}

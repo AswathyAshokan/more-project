@@ -6,7 +6,9 @@ import (
 	"log"
 	"app/passporte/helpers"
 	"reflect"
-	"strings"
+	"github.com/kjk/betterguid"
+	"time"
+	"math/rand"
 )
 type Group struct {
 	Info 		GroupInfo
@@ -45,15 +47,33 @@ func(m *Group) AddGroupToDb(ctx context.Context) (bool){
 	UserStatus :=UserGroup{}
 	UserOrGroupForUpdate :=UserGroup{}
 
-	groupData,err := db.Child("Group").Push(m)
+	groupUniqueID := betterguid.New()
+	var r *rand.Rand
+	r = rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	const chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+	result := make([]byte, 3)
+	for i := range result {
+		result[i] = chars[r.Intn(len(chars))]
+	}
+	generatedString :=string(result)
+	log.Println("genertedstring",generatedString)
+	newGeneratedKey:=groupUniqueID[0:len(groupUniqueID)-1]+generatedString
+	log.Println("newly gener",newGeneratedKey)
+	groupUniqueID =newGeneratedKey
+
+
+
+
+	err = db.Child("Group/"+groupUniqueID).Set(m)
 	if err != nil {
 		log.Println(err)
 		return false
 	}
-	log.Println("sucess fullly",groupData)
+
 	var UserGroupKey []string
-	groupDataString := strings.Split(groupData.String(),"/")
-	groupUniqueID := groupDataString[len(groupDataString)-2]
+
+
 	/*UserGroup.CompanyId = m.Info.CompanyTeamName
 	UserGroup.DateOfCreation = m.Settings.DateOfCreation
 	UserGroup.GroupName = m.Info.GroupName

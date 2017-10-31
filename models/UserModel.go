@@ -23,6 +23,7 @@ type UserGroup struct {
 
 	GroupName  	string
 	CompanyId	string
+	groupId		string
 }
 
 type ConsentReceiptDetails struct {

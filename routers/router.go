@@ -87,6 +87,7 @@ func init() {
 	beegae.Router("/:companyTeamName/worklocation/:worklocationid/edit", &controllers.WorkLocationcontroller{}, "*:EditWorkLocation")
 	beegae.Router("/:companyTeamName/worklocation/:workLocationId/delete", &controllers.WorkLocationcontroller{}, "*:DeleteWorkLocation")
 	beegae.Router("/:companyTeamName/worklocation", &controllers.WorkLocationcontroller{}, "*:LoadWorkLocation")
+	beegae.Router("/:companyTeamName/worklocation/:workLocationId/checkbeforedelete", &controllers.WorkLocationcontroller{},"*:LoadWorkLocationDeleteStatus")
 
 	beegae.Router("/listCountry",&controllers.CountryController{},"*:ListCountries")
 
