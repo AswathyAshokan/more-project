@@ -20,7 +20,7 @@ type PaymentController struct {
 //        loop the array for name and values in the form hidden fields below.
 
 var currency_code = "USD"
-var business = "aswathyashok85-buyer@gmail.com"                                 //PayPal account to receive money
+var business = "aswathyashok85@gmail.com"                                 //PayPal account to receive money
 var image_url = "https://d1ohg4ss876yi2.cloudfront.net/logo35x35.png" // image on top of PayPal
 
 // change socketloop.com:8080 to your domain name
