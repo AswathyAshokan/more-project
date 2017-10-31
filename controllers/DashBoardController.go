@@ -66,7 +66,7 @@ func (c *DashBoardController)LoadDashBoard() {
 							var userKeySlice []string
 							pending :=0
 							completed :=0
-							log.Println("hhhhhh",taskDetail.Info.TaskName)
+
 							dataValue := reflect.ValueOf(taskDetail.UsersAndGroups.User)
 							for _, key := range dataValue.MapKeys() {
 								userKeySlice = append(userKeySlice, key.String())
@@ -148,8 +148,6 @@ func (c *DashBoardController)LoadDashBoard() {
 								pendingTaskPercentage  = float32(pending)/ float32(len(userStatus))*100
 
 							}
-							//completedTaskPercentage := float32(completed)/float32(len(userStatus))*100
-
 							taskSettings :=models.TaskSetting{}
 							taskSettings.UpdateTaskStatus(c.AppEngineCtx, k,totalUserStatus,completedTaskPercentage,pendingTaskPercentage)
 							log.Println(dbStatus)
@@ -405,7 +403,7 @@ func (c *DashBoardController)LoadDashBoard() {
 
 
 	var totalCount = notificationCountForLeave+notificationCountForWork+notificationCountForTask
-	log.Println("notificationCount",totalCount)
+	//log.Println("notificationCount",totalCount)
 	//viewModel.NotificationNumber =totalCount
 
 
@@ -417,7 +415,7 @@ func (c *DashBoardController)LoadDashBoard() {
 	case false:
 
 	}
-	log.Println("nottttttttttt",viewModel.NotificationArray)
+	//log.Println("nottttttttttt",viewModel.NotificationArray)
 	viewModel.NotificationNumber = totalCount
 	viewModel.Key = activeJobKey
 	viewModel.JobArrayLength =len(activeJobKey)
@@ -452,16 +450,21 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 		}
 		var barChart [][] string
 		var allPendinUserArray  [][]string
-		//var allRejectedUserArray [][]string
-		//var allAcceptdUserArray	 [][]string
+		var allRejectedUserArray [][]string
+		var allAcceptdUserArray	 [][]string
 		var  allCompletedUserArray [][]string
-		var keysValues [] string
-		var tempArray []string
+		//var keysValues [] string
+		//var tempArray []string
 		var starEndDateArray [] string
+		userCount := 0;
+		UserPendingCount :=0;
+		userRejecteCount :=0;
 		for _, k := range keySlice {
-			log.Println("sp3")
+			//log.Println("sp3")
 			//var tempSLiceForBarChart []string
 			if companyTaskDetails[k].Status == helpers.StatusActive {
+
+
 				Status, taskDetail := task.GetTaskDetailById(c.AppEngineCtx, k)
 				switch Status {
 				case true:
@@ -477,27 +480,19 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 							//log.Println("starEndDateArray",starEndDateArray)
 
 							_, logUserDetail := logDetails.GetLogDetailOfUser(c.AppEngineCtx, companyTeamName)
-							log.Println("logUserDetail", logUserDetail)
-
 							logValue := reflect.ValueOf(logUserDetail)
 							for _, logKey := range logValue.MapKeys() {
 								log.Println("in first loop")
-
 								for _, userkey := range dataValueOfUser.MapKeys() {
 
-									//var acceptedUsers []string
+									var acceptedUsers []string
 									var UserDetailsForStartTask []string
 									var UserDetailsForCompleted []string
-
-
-									log.Println("in second loop")
 									if taskDetail.UsersAndGroups.User[userkey.String()].Status != helpers.UserStatusDeleted {
-										log.Println("iam in second if")
-
 										if userkey.String() == logUserDetail[logKey.String()].UserID {
-											log.Println("iam in third if")
-											if k == logUserDetail[logKey.String()].TaskID {
-												keysValues = append(keysValues,userkey.String())
+											log.Println("oororororororoororro")
+											if k == logUserDetail[logKey.String()].TaskID{
+												//keysValues = append(keysValues,userkey.String())
 
 												if logUserDetail[logKey.String()].LogDescription == "Task Started" {
 													log.Println("iam in fourth if")
@@ -514,14 +509,14 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 													UserDetailsForCompleted = append(UserDetailsForCompleted, userkey.String())
 													allCompletedUserArray = append(allCompletedUserArray, UserDetailsForCompleted)
 													UserDetailsForCompleted = UserDetailsForCompleted [:0]
-												} /*else if(logUserDetail[logKey.String()].LogDescription == helpers.StatusAccepted){
-												acceptedUsers = append(acceptedUsers,logUserDetail[logKey.String()].LogDescription)
-												acceptedUsers = append(acceptedUsers,strconv.FormatInt(int64(logUserDetail[logKey.String()].LogTime), 10))
-												acceptedUsers = append(acceptedUsers,userkey.String())
-												allAcceptdUserArray = append(allAcceptdUserArray,acceptedUsers)
-												//barChart = append(barChart,acceptedUsers)
-												acceptedUsers = acceptedUsers[:0]
-											}*/
+												} else if (logUserDetail[logKey.String()].LogDescription == helpers.StatusAccepted) {
+													acceptedUsers = append(acceptedUsers, logUserDetail[logKey.String()].LogDescription)
+													acceptedUsers = append(acceptedUsers, strconv.FormatInt(int64(logUserDetail[logKey.String()].LogTime), 10))
+													acceptedUsers = append(acceptedUsers, userkey.String())
+													allAcceptdUserArray = append(allAcceptdUserArray, acceptedUsers)
+													//barChart = append(barChart,acceptedUsers)
+													acceptedUsers = acceptedUsers[:0]
+												}
 											}
 										}
 
@@ -536,23 +531,27 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 
 						}
 					}
+
 					for _, userkey := range dataValueOfUser.MapKeys() {
 						if taskDetail.UsersAndGroups.User[userkey.String()].Status != helpers.UserStatusDeleted {
 							if taskDetail.Info.TaskName == taskName {
-								//var rejectedUsers []string
+
+								var rejectedUsers []string
 								var UserDetailsForPendingTask []string
 								if taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus == helpers.StatusPending {
+									UserPendingCount= UserPendingCount+1
 									UserDetailsForPendingTask = append(UserDetailsForPendingTask, taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus)
 									UserDetailsForPendingTask = append(UserDetailsForPendingTask, userkey.String())
 									allPendinUserArray = append(allPendinUserArray, UserDetailsForPendingTask)
 									//barChart = append(barChart,UserDetailsForPendingTask)
 									UserDetailsForPendingTask = UserDetailsForPendingTask [:0]
-								} /*else if taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus == helpers.UserResponseRejected {
+								} else if taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus == helpers.UserResponseRejected {
+									userRejecteCount = userRejecteCount+1
 									rejectedUsers = append(rejectedUsers, taskDetail.UsersAndGroups.User[userkey.String()].UserTaskStatus)
 									rejectedUsers = append(rejectedUsers, userkey.String())
 									allRejectedUserArray = append(allRejectedUserArray, rejectedUsers)
 									rejectedUsers = rejectedUsers[:0]
-								}*/
+								}
 							}
 						}
 
@@ -565,9 +564,22 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 				case false:
 					log.Println("iam in error cobdition of inner loop")
 				}
+
+				countDataValue := reflect.ValueOf(taskDetail.UsersAndGroups.User)
+				for _, userKeyCount := range countDataValue.MapKeys() {
+					if taskDetail.UsersAndGroups.User[userKeyCount.String()].Status == helpers.StatusActive{
+						if taskDetail.Info.TaskName == taskName {
+							userCount = userCount + 1
+						}
+					}
+
+
+				}
+
+
 			}
 		}
-		for i:=0;i<len(keysValues);i++{
+		/*for i:=0;i<len(keysValues);i++{
 
 			exists := false
 			for v := 0; v < i; v++ {
@@ -580,12 +592,12 @@ func (c *DashBoardController)LoadBarChartForDashBord() {
 			if !exists {
 				tempArray = append(tempArray, keysValues[i])
 			}
-		}
-		totalUsers :=  len(tempArray)
-		log.Println("pending users",allPendinUserArray)
-		log.Println("barChart",barChart)
-		log.Println("allCompletedUserArray",allCompletedUserArray)
-		slices := []interface{}{"true",barChart,allCompletedUserArray,allPendinUserArray,starEndDateArray,totalUsers}
+		}*/
+		totalUsers := userCount
+		log.Println("total number of users",totalUsers)
+		log.Println("pending",UserPendingCount)
+		log.Println("userRejecteCount",userRejecteCount)
+		slices := []interface{}{"true",barChart,allCompletedUserArray,UserPendingCount,starEndDateArray,totalUsers,userRejecteCount,allAcceptdUserArray}
 		sliceToClient, _ := json.Marshal(slices)
 		log.Println("sliceToClient",sliceToClient)
 		w.Write(sliceToClient)

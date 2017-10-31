@@ -3152,11 +3152,15 @@ option[default] { display: none; }
   form label { font-family: 'Montserrat', sans-serif !important; font-weight: 500 !important; }
   .main-menu-wrapper { overflow: hidden; }
   .main-menu-wrapper .main-menu.admin-layout { width: 236px; position: absolute; left: 0; top: 0; bottom: 0; overflow-y: scroll; } }
-.over-length { max-width: 100%; display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-flex-flow: row wrap; -ms-flex-flow: row wrap; flex-flow: row wrap; white-space: normal; text-align: justify; }
+.over-length { max-width: 100%; display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-flex-flow: row wrap; -ms-flex-flow: row wrap; flex-flow: row wrap; white-space: normal; text-align: start; }
+
+.min-150 { min-width: 150px; }
 
 body { font-family: mont_light; background-color: #fafafa; }
 
 h1.h4 { font-family: mont_regular; }
+
+button, select, input, textarea { outline: none; }
 
 .max-form-width { max-width: 800px; }
 
@@ -3191,6 +3195,8 @@ form label { font-weight: normal; font-family: mont_regular; font-size: 13px; }
 form.no-bg-border { border: none; background: none; padding: 0; }
 
 .bg-border { border: 1px solid #cccccc; background-color: #fff; padding: 15px 0; }
+
+.table-striped tr.shown + tr { background-color: #fff; }
 
 [class*="sprites-"] { padding-left: 30px; }
 
@@ -3284,6 +3290,7 @@ input.sprites-callender { background-position: right 4px top -20px; cursor: poin
 .main-content-wrapper { padding-left: 220px; }
 @media (max-width: 991px) { .main-content-wrapper { padding: 0; padding-top: 30px; } }
 
+.main-menu { width: 220px; }
 .main-menu ul { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-flex-flow: column; -ms-flex-flow: column; flex-flow: column; color: #ced2d5; padding-top: 120px; padding-bottom: 60px; }
 .main-menu ul li { position: relative; }
 .main-menu ul li a { position: relative; padding: 15px 12px; padding-left: 65px; }
@@ -3495,7 +3502,7 @@ td .drp-tbl-wrp:not(:last-child) { margin-bottom: 20px; }
 .piechart-wrapper .piechart .range span.range-invited:before { background-color: #5b93c2; }
 .piechart-wrapper .piechart .range span.range-accepted:before { background-color: #06599e; }
 .piechart-wrapper .piechart .range span.range-rejected:before { background-color: #696969; }
-.piechart-wrapper .piechart .range span.range-empty:before { background-color: #000000; }
+.piechart-wrapper .piechart .range span.range-empty:before { background-color: #1D201F; }
 
 
 .task-graph-wrapper { margin-top: 25px; }
@@ -3503,7 +3510,7 @@ td .drp-tbl-wrp:not(:last-child) { margin-bottom: 20px; }
 
 .task-graph { margin-top: 10px; }
 .task-graph .tsk-lst-wrapper { border: 1px solid #ddd; overflow: hidden; padding: 0; }
-.task-graph .tsk-lst-wrapper h4 { background-color: #fff; margin: 0; padding: 10px 10px; border-bottom: 1px solid #ddd; font-size: 14px; }
+.task-graph .tsk-lst-wrapper h4 { background-color: #fff; margin: 0; padding: 10px 10px; border-bottom: 2px solid #ccc; font-size: 17px; }
 .task-graph .tsk-lst-wrapper .tsk-lst { overflow-y: scroll; max-height: 379px; margin-right: -15px; }
 .task-graph .tsk-lst-wrapper .tsk-lst p { background-color: #f9f9f9; border-bottom: 1px solid #ddd; margin: 0; padding: 10px 10px; font-size: 12px; }
 .task-graph .tsk-lst-wrapper .tsk-lst p:nth-child(even) { background-color: #fff; }
@@ -3513,6 +3520,10 @@ td .drp-tbl-wrp:not(:last-child) { margin-bottom: 20px; }
 .task-graph .graph-ed .jqplot-axis.jqplot-yaxis { left: -12px !important; }
 .task-graph .graph-ed .grpah-btn { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-pack: justify; -webkit-justify-content: space-between; -ms-flex-pack: justify; justify-content: space-between; padding-top: 5px; }
 .task-graph .graph-ed .grpah-btn button { color: #43b0fd !important; }
+
+.bar-names { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-flex-flow: row wrap; -ms-flex-flow: row wrap; flex-flow: row wrap; -webkit-justify-content: space-around; -ms-flex-pack: distribute; justify-content: space-around; }
+.bar-names div:not(:first-child) { margin-left: 8px; }
+.bar-names div span:first-child { display: inline-block; width: 10px; height: 10px; vertical-align: middle; margin-right: 4px; border: 1px solid #3f3333; }
 
 /*==============================================================
 					    Timer
@@ -3552,7 +3563,8 @@ td .drp-tbl-wrp:not(:last-child) { margin-bottom: 20px; }
 					         User details
 =================================================================*/
 .user-info { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-align: center; -webkit-align-items: center; -ms-flex-align: center; align-items: center; }
-.user-info .info-img { width: 100px; height: 100px; background-size: cover; background-position: center center; border-radius: 50%; margin-right: 23px; }
+.user-info .info-img { min-width: 100px; width: 100px; height: 100px; background-image: url(../images/max.png); background-size: cover; background-position: center center; border-radius: 50%; margin-right: 23px; }
+.user-info p { white-space: normal; }
 
 /*==============================================================
 					         User upload
@@ -3567,24 +3579,6 @@ td .drp-tbl-wrp:not(:last-child) { margin-bottom: 20px; }
 .upload-section .folder .file-name button input, .upload-section .folder-inner .file-name button input { position: absolute; background-color: red; top: 0; width: 100%; height: 30px; left: 0; opacity: 0; }
 .upload-section .folder button.fa, .upload-section .folder-inner button.fa { font-size: 28px; margin-left: 10px; }
 .upload-section .folder-inner { margin-top: 2px; margin-left: 63px; margin-bottom: 8px; }
-
-
-@media only screen and (min-width: 998px){
-.btn-new {
-    margin-left: 248px;
-}
-}
-
-.company-date{
-    width: 20.5%;
-    margin-left: 27px;
-    margin-bottom: 8px;
-}
-#myProgress {
-    width:20%;
-    background-color: #ddd;
-    margin-left: 17px;
-}
 
 /*==============================================================
 

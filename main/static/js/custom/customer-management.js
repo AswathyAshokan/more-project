@@ -64,18 +64,20 @@ $(function(){
                 data: '',
                 success: function(data){
                     if(data=="true"){
-                        $('#customerManagement-table').dataTable().fnDestroy();
-                        var index = "";
-                        for(var i = 0; i < mainArray.length; i++) {
-                            index = mainArray[i].indexOf(key);
-                            if(index != -1) {
-                                console.log("dddd", i);
-                                break;
-                            }
-                        }
-                        mainArray.splice(i, 1);
-                        console.log(mainArray);
-                        dataTableManipulate(); 
+//                        $('#customerManagement-table').dataTable().fnDestroy();
+//                        var index = "";
+//                        for(var i = 0; i < mainArray.length; i++) {
+//                            index = mainArray[i].indexOf(key);
+//                            if(index != -1) {
+//                                console.log("dddd", i);
+//                                break;
+//                            }
+//                        }
+//                        mainArray.splice(i, 1);
+//                        console.log(mainArray);
+//                        dataTableManipulate(); 
+                        
+                        window.location='/customer-management';
                     }
                     else {
                         console.log("Removing Failed!");

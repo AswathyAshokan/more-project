@@ -163,19 +163,46 @@
                                 <div class="tsk-lst" id="taskListing" name="taskListing">
                                 </div>
                             </div>
-                            <div class="col-sm-6 graph-ed">
-<!--                                <h5 style="">Task Status and Users</h5>-->
-                                <!-- <img src="images/grapg.png" alt=""> -->
-                                <!-- <div id="chart"></div> -->
-<!--                                <div id="chartContainer" style="height: 379px; width: 100%;" class="clearfix"></div>-->
-                                <div id="chart1" style="height: 420px; " class="clearfix"></div>
-									<!-- <div id="chart1" style="height:400px;width:300px; "></div> -->
-									<div class="grpah-btn" >
-										<button class="no-button-style" id="previousDay" name ="previousDay" style="visibility:hidden;"onclick="getPreviousDayValues(event)">Previous</button>
-										<span id="today" name="today"></span>
-										<button class="no-button-style" id="nextDay" style="visibility: hidden;"onclick="LoadNextDayValues(event)" name ="nextDay" >Next</button>
-									</div>
-                            </div>
+                            <div class="col-sm-6 graph-ed" style="visibility:hidden;" id="barchartId">
+                               <h5 style="margin-top: 66px;margin-left: -137px">Daily task status report of <span id="spanfortask"></span></h5>
+                               <div class="bar-names" >
+                                        <div>
+                                            <span style="background-color: #000;"></span><span>total</span>
+                                        </div>
+                                        <div>
+                                            <span style="background-color: blue;"></span><span>started</span>
+                                        </div>
+                                        <div>
+                                            <span style="background-color: red;"></span><span>pending</span>
+                                        </div>
+                                        <div>
+                                            <span style="background-color: yellow;"></span><span>completed</span>
+                                        </div>
+                                        <div>
+                                            <span style="background-color: green;"></span><span>accepted</span>
+                                        </div>
+                                        <div>
+                                            <span style="background-color: violet;"></span><span>rejected</span>
+                                        </div>
+                                    </div>
+                                    <!--<div id="chart1" style="height: 420px; " class="clearfix"></div>
+                                     <div id="chart1" style="height:400px;width:300px; "></div>
+                                    <div class="grpah-btn">
+                                        <button class="no-button-style">Previous</button>
+                                        <span>22/05/2017</span>
+                                        <button class="no-button-style">Next</button>
+                                    </div>-->
+                            <!--</div>-->
+
+                               
+                               <div id="chart1" style="height: 420px; " class="clearfix"></div>
+                                    <!-- <div id="chart1" style="height:400px;width:300px; "></div> -->
+                                    <div class="grpah-btn" >
+                                        <button class="no-button-style" id="previousDay" name ="previousDay" style="visibility:hidden;"onclick="getPreviousDayValues(event)">Previous</button>
+                                        <span id="today" name="today"></span>
+                                        <button class="no-button-style" id="nextDay" style="visibility: hidden;"onclick="LoadNextDayValues(event)" name ="nextDay" >Next</button>
+                                    </div>
+                           </div>
                         </div>
                     </div>
                 </div>

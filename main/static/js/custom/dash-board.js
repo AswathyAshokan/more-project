@@ -38,62 +38,60 @@ console.log("company name",vm);
       
       
       
-      function LoadBarChart(total,start,pending,complete,todayVal){
-           document.getElementById('today').innerHTML = todayVal;
-          $.jqplot.config.enablePlugins = true;
-          s1 =[0,0,0,0]
-          var  max_count = total ; 
-          var plot1 = $.jqplot('chart1', [s1]);
-          plot1.destroy();
-          
-          console.log('vvv', max_count);
-          var s1 = [total, start, pending, complete];
-            var ticks = ['total', 'started', 'pending','completed' ];
-            plot1 = $.jqplot('chart1', [s1], {
-                // Only animate if we're not using excanvas (not in IE 7 or IE 8)..
-                
-                animate: !$.jqplot.use_excanvas,
-                seriesDefaults:{
-                    renderer:$.jqplot.BarRenderer,
-                    rendererOptions: {barMargin: 0 , varyBarColor : true},
-                    pointLabels: { show: true }
-                },
-                title:{text:"Daily Task Status Report"},
-                grid: {
-                    background: 'transparent',      // CSS color spec for background color of grid.
-                    drawBorder:false,
-                    drawGridlines:false,
-                    shadow:false
-                },
-                axes: {
-                    xaxis: {
-                        renderer: $.jqplot.CategoryAxisRenderer,
-                        ticks: ticks,
-                        
-                        tickOptions : {
-                              
-                                          //  showGridline : false
-                        }
-                    },
-                    yaxis: {
-                        tickOptions : {
-                            formatString:'%d',
-                            formatter: $.jqplot.euroFormatter
-                             
-                        },
-                        labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
-                        min: 0,
-                        tickInterval: 1,
-                       
-                    }
-                },
-                seriesColors: [ "#000", "#ccc", "red","green"],
-                highlighter: { show: false }
-            });
-            $('#chart1').bind('jqplotDataClick',
-                        function (ev, seriesIndex, pointIndex, data) {$('#info1').html('series: '+seriesIndex+', point: '+pointIndex+', data: '+data);
-            });
-      }
+     function LoadBarChart(total,start,pending,complete,todayVal,rejected,acutalAccepted,TaskName){
+         console.log("rrrrrrrr",pending)
+         document.getElementById('spanfortask').innerHTML = TaskName
+          barchartId.style.visibility = 'visible';
+         document.getElementById('today').innerHTML = todayVal;
+         $.jqplot.config.enablePlugins = true;
+         s1 =[0,0,0,0,0,0]
+         var plot1 = $.jqplot('chart1', [s1]);
+         plot1.destroy();
+         var s1 = [total, start, pending, complete,acutalAccepted,rejected];
+         //var s1 = [10, 20, 15, 29,22];
+           var ticks = ['', '', '','','','' ];
+           plot1 = $.jqplot('chart1', [s1], {
+               // Only animate if we're not using excanvas (not in IE 7 or IE :sunglasses:..
+               animate: !$.jqplot.use_excanvas,
+               seriesDefaults:{
+                   renderer:$.jqplot.BarRenderer,
+                   rendererOptions: {barMargin: 0 , varyBarColor : true},
+                   pointLabels: { show: true }
+               },
+              /* title:{text:"Daily Task Staus Details"},*/
+               grid: {
+                   background: 'transparent',      // CSS color spec for background color of grid.
+                   drawBorder:false,
+                   drawGridlines:false,
+                   shadow:false
+               },
+               axes: {
+                   xaxis: {
+                       renderer: $.jqplot.CategoryAxisRenderer,
+                       ticks: ticks,
+                       tickOptions : {
+                                       // formatString: '%.1f'
+                       }
+                   },
+                   yaxis: {
+                      tickOptions : {
+                          formatString:'%d',
+                          formatter: $.jqplot.euroFormatter
+                         
+                      },
+                      labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
+                      min: 0,
+                      tickInterval: 5,
+                   
+                  }
+               },
+                seriesColors: [ "#000", "blue", "red","yellow","green","violet"],
+               highlighter: { show: false }
+           });
+           $('#chart1').bind('jqplotDataClick',
+                       function (ev, seriesIndex, pointIndex, data) {$('#info1').html('series: '+seriesIndex+', point: '+pointIndex+', data: '+data);
+           });
+     }
       
       
     if (vm.NotificationNumber !=0){
@@ -481,7 +479,11 @@ var allUserId = [[]];
     
     
    getTaskDetails = function(){
-        $("#taskListing").html("");
+       
+       $("#taskListing").empty();
+       console.log("kkkkkkeee");
+        var DynamicTaskListing ="";
+       subArray=[];
         var job = $("#jobName option:selected").val() ;
        if (vm.TaskDetailArray !=null){
           for(i = 0; i < vm.TaskDetailArray.length; i++) {
@@ -500,7 +502,7 @@ var allUserId = [[]];
         }  
        }
         
-        var DynamicTaskListing ="";
+       
         for (var i=0; i<subArray.length; i++){
 DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event) " style="cursor:pointer;" class="active" >'+subArray[i]+'</p>';        }
         $("#taskListing").append(DynamicTaskListing);
@@ -521,8 +523,7 @@ DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event) " style="curso
 //    for (var i=0; i<subArray.length; i++){
 //DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event) " style="cursor:pointer;" class="active" >'+subArray[i]+'</p>';    }
 //    $("#taskListing").prepend(DynamicTaskListing);
-    
-    FunctionToChangeBarChart = function(event){
+ FunctionToChangeBarChart = function(event){
         var TaskName = $(event.target).text();
         console.log($(event.target).text());
         var formData = formData+"&TaskName="+TaskName;
@@ -538,9 +539,9 @@ DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event) " style="curso
                 allData = jsonData
                 console.log("allData",allData)
                 if(jsonData[0] == "true"){
-                    totalNoUsers = jsonData[5];
+                    var totalNoUsers = jsonData[5];
                     today = new Date();
-                    console.log("today   $$$$$$$$$$$$$",today);
+                    console.log("today   $$$$$$$$$$$$$ total users",totalNoUsers);
                     var dd = today.getDate();
                     var mm = today.getMonth()+1; //January is 0!
                     var yyyy = today.getFullYear();
@@ -619,18 +620,68 @@ DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event) " style="curso
                         }
                     }
                     //for filtering of pending Task
-                    var pendingTask = jsonData[3];
-                    var pendingTaskCount = 0;
+                    var pendingTaskCount = jsonData[3];
+                    /*var pendingTaskCount = 0;
                     if (pendingTask !=null){
                         pendingTaskCount = pendingTask.length;
+                    }*/
+                    
+                    var rejectedTaskCount = jsonData[6];
+                    /*var rejectedTaskCount = 0;
+                    if (rejectedTaskArray !=null){
+                         rejectedTaskCount = rejectedTaskArray.length;
+                    }*/
+                    
+                    var acceptedTaskArray = jsonData[7];
+                    var acceptedTaskCount = 0;
+                    if (acceptedTaskArray !=null){
+                        for (i = 0;i<acceptedTaskArray.length;i++){
+                            var acceptedTaskDate = acceptedTaskArray[i][1];
+                            var acceptedTaskDateFromDb = parseInt(acceptedTaskDate)
+                            var d = new Date(acceptedTaskDateFromDb * 1000);
+                            var dd = d.getDate();
+                            var mm = d.getMonth() + 1; //January is 0!
+                            var yyyy = d.getFullYear();
+                            if (dd < 10) {
+                                dd = '0' + dd;
+                            }
+                            if (mm < 10) {
+                                mm = '0' + mm;
+                            }
+                            if (mm == CurrentMonth && currentDay == dd && currentYear == yyyy ){
+                               acceptedTaskCount = acceptedTaskCount+1;
+                            }
+                        }
+                    
                     }
+                    
+                    
                     if(startTaskCount>completedTaskCount){
                         tempStart = startTaskCount - completedTaskCount;
                     } else{
                         tempStart = completedTaskCount -startTaskCount;
                     }
+                    
+                    var acutalAccepted = acceptedTaskCount -startTaskCount;
+                    
                    
-                    LoadBarChart(totalNoUsers,tempStart,pendingTaskCount,completedTaskCount,localToday);
+                    
+                    /* for a actual start users*/
+                      var acualTask;
+                    if(tempStart>acceptedTaskCount){
+                        acualTask = tempStart - acceptedTaskCount;
+                    } else{
+                        acualTask =  acceptedTaskCount-tempStart;
+                    }
+                    console.log("actual task",acualTask);
+                    console.log("tempStart",tempStart);
+                    console.log("pendingTaskCount",pendingTaskCount);
+                    console.log("completedTaskCount",completedTaskCount);
+                    console.log("rejectedTaskCount",rejectedTaskCount);
+                    
+                    
+                    
+                    LoadBarChart(totalNoUsers,startTaskCount,pendingTaskCount,completedTaskCount,localToday,rejectedTaskCount,acceptedTaskCount,TaskName);
                     if(allData[4]!=null){
                         var startTaskDate = allData[4][0];
                         var startTaskDateUnix = parseInt(startTaskDate);

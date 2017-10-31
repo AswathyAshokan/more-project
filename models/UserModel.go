@@ -20,7 +20,7 @@ type Users struct {
 }
 
 type UserGroup struct {
-	groupId 	string
+
 	GroupName  	string
 	CompanyId	string
 }
@@ -69,6 +69,10 @@ type UserSettings struct {
 	ThumbProfilePicture	string
 	LastLatitude		float64
 	LastLongitude		float64
+	DeviceId		string
+	Payment			string
+	UniqueID		string
+
 }
 
 type UserSocialNetworks struct {

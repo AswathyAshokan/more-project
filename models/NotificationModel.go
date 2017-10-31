@@ -96,15 +96,16 @@ func UpdateAllNotifications(ctx context.Context,companyTeamName string,UpdateIdA
 	upDateReadStatus := ExpiryNotification{}
 	oldReadStatus :=map[string]ExpiryNotification{}
 	expiryDetails := map[string]Expirations{}
-	workNotificationUpdateSuccess :=NotificationForWorkLocation{}
+
 	oldWorkLocationNotificationValues := map[string]NotificationForWorkLocation{}
-	eachOldWorkLOcation := map[string]NotificationForWorkLocation{}
-	updatedWorkNotification := NotificationForWorkLocation{}
+
+
+	updateTaskNotification :=NotificationForTask{}
 
 	taskNoificationValues := map[string]NotificationForTask {}
-	oldTaskNotification :=map[string]NotificationForTask {}
-	updatedNotification := NotificationForTask {}
-	oldTaskNotificationStruct := NotificationForTask {}
+
+	//updatedNotification := NotificationForTask {}
+
 
 
 
@@ -114,60 +115,36 @@ func UpdateAllNotifications(ctx context.Context,companyTeamName string,UpdateIdA
 	notificationUpdateForLeave :=NotificationForLeave{}
 	notificationUpdateSuccessForLeave :=NotificationForLeave{}
 
-
 	dB, err := GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Fatal(err)
 		return false
 	}
-	err = dB.Child("/Notifications/UserDelay/WorkLocation/"+ companyTeamName).Value(&oldWorkLocationNotificationValues)
-	notificationOfUser := reflect.ValueOf(oldWorkLocationNotificationValues)
-	for _, notificationUserKey := range notificationOfUser.MapKeys() {
-		err = dB.Child("/Notifications/UserDelay/WorkLocation/"+ companyTeamName+"/"+notificationUserKey.String()).Value(&eachOldWorkLOcation)
-		notifications := reflect.ValueOf(eachOldWorkLOcation)
-		for _, notificationKey := range notifications.MapKeys() {
-			err = dB.Child("/Notifications/UserDelay/WorkLocation/"+ companyTeamName+"/"+notificationUserKey.String()+"/"+notificationKey.String()).Value(&workNotificationUpdateSuccess)
-			log.Println("***********************************",workNotificationUpdateSuccess.Mode)
-			updatedWorkNotification.Date=workNotificationUpdateSuccess.Date
-			updatedWorkNotification.WorkId=workNotificationUpdateSuccess.WorkId
-			updatedWorkNotification.WorkLocation=workNotificationUpdateSuccess.WorkLocation
-			updatedWorkNotification.IsRead=true
-			updatedWorkNotification.Mode = workNotificationUpdateSuccess.Mode
-			updatedWorkNotification.IsSentMail=workNotificationUpdateSuccess.IsSentMail
-			updatedWorkNotification.Message=workNotificationUpdateSuccess.Message
-			updatedWorkNotification.UserName=workNotificationUpdateSuccess.UserName
-			updatedWorkNotification.Category = workNotificationUpdateSuccess.Category
-
-			err = dB.Child("/Notifications/UserDelay/WorkLocation/"+ companyTeamName+"/"+notificationUserKey.String()+"/"+notificationKey.String()).Set(updatedWorkNotification)
-
-
-		}
-	}
-
-
-
 	err = dB.Child("/Notifications/UserDelay/TaskLocation/"+ companyTeamName).Value(&taskNoificationValues)
 	notificationOfUserTask := reflect.ValueOf(taskNoificationValues)
 	for _, taskUserKey := range notificationOfUserTask.MapKeys() {
+		log.Println("ll1",taskUserKey.String())
+		oldTaskNotification :=map[string]NotificationForTask {}
 		err = dB.Child("/Notifications/UserDelay/TaskLocation/"+ companyTeamName+"/"+taskUserKey.String()).Value(&oldTaskNotification)
 		log.Println("lklklkll4",oldTaskNotification)
 		notifications := reflect.ValueOf(oldTaskNotification)
 		for _, notificationKey := range notifications.MapKeys() {
+			oldTaskNotificationStruct := NotificationForTask {}
 			err = dB.Child("/Notifications/UserDelay/TaskLocation/"+ companyTeamName+"/"+taskUserKey.String()+"/"+notificationKey.String()).Value(&oldTaskNotificationStruct)
-			updatedNotification.Date=oldTaskNotificationStruct.Date
-			updatedNotification.TaskName=oldTaskNotificationStruct.TaskName
-			updatedNotification.TaskLocation=oldTaskNotificationStruct.TaskLocation
-			updatedNotification.TaskId = oldTaskNotificationStruct.TaskId
-			updatedNotification.IsRead=true
-			updatedNotification.IsSentMail=oldTaskNotificationStruct.IsSentMail
-			updatedNotification.Mode = oldTaskNotificationStruct.Mode
-			updatedNotification.Message=oldTaskNotificationStruct.Message
-			updatedNotification.UserName=oldTaskNotificationStruct.UserName
-			updatedNotification.Category = oldTaskNotificationStruct.Category
-			err = dB.Child("/Notifications/UserDelay/TaskLocation/"+ companyTeamName+"/"+taskUserKey.String()+"/"+notificationKey.String()).Set(updatedNotification)
+			if !(oldTaskNotificationStruct.IsRead){
+				updateTaskNotification.Date=oldTaskNotificationStruct.Date
+				updateTaskNotification.TaskName=oldTaskNotificationStruct.TaskName
+				updateTaskNotification.TaskLocation=oldTaskNotificationStruct.TaskLocation
+				updateTaskNotification.TaskId = oldTaskNotificationStruct.TaskId
+				updateTaskNotification.IsRead=true
+				updateTaskNotification.IsSentMail=oldTaskNotificationStruct.IsSentMail
+				updateTaskNotification.Mode = oldTaskNotificationStruct.Mode
+				updateTaskNotification.Message=oldTaskNotificationStruct.Message
+				updateTaskNotification.UserName=oldTaskNotificationStruct.UserName
+				updateTaskNotification.Category = oldTaskNotificationStruct.Category
+				err = dB.Child("Notifications/UserDelay/TaskLocation/"+ companyTeamName+"/"+taskUserKey.String()+"/"+notificationKey.String()).Set(updateTaskNotification)
 
-
-
+			}
 		}
 	}
 
@@ -189,8 +166,6 @@ func UpdateAllNotifications(ctx context.Context,companyTeamName string,UpdateIdA
 
 		}
 	}
-
-
 	for i :=0;i<len(userId);i++{
 		err = dB.Child("/Expirations/" + userId[i]).Value(&expiryDetails)
 		log.Println("expiryDetails",expiryDetails)
@@ -228,6 +203,41 @@ func UpdateAllNotifications(ctx context.Context,companyTeamName string,UpdateIdA
 		}
 
 	}
+
+
+	err = dB.Child("/Notifications/UserDelay/WorkLocation/"+ companyTeamName).Value(&oldWorkLocationNotificationValues)
+	notificationOfUser := reflect.ValueOf(oldWorkLocationNotificationValues)
+	for _, notificationUserKey := range notificationOfUser.MapKeys() {
+		log.Println("keysss ",notificationUserKey)
+		eachOldWorkLOcation := map[string]NotificationForWorkLocation{}
+		err = dB.Child("/Notifications/UserDelay/WorkLocation/"+ companyTeamName+"/"+notificationUserKey.String()).Value(&eachOldWorkLOcation)
+		notifications := reflect.ValueOf(eachOldWorkLOcation)
+		for _, notificationKey := range notifications.MapKeys() {
+			log.Println("notification key",notificationKey)
+			workNotificationUpdateSuccess :=NotificationForWorkLocation{}
+			err = dB.Child("/Notifications/UserDelay/WorkLocation/"+ companyTeamName+"/"+notificationUserKey.String()+"/"+notificationKey.String()).Value(&workNotificationUpdateSuccess)
+			log.Println("***********************************",workNotificationUpdateSuccess.Mode)
+			updatedWorkNotification := NotificationForWorkLocation{}
+			if !(workNotificationUpdateSuccess.IsRead){
+
+				updatedWorkNotification.Date=workNotificationUpdateSuccess.Date
+				updatedWorkNotification.WorkId=workNotificationUpdateSuccess.WorkId
+				updatedWorkNotification.WorkLocation=workNotificationUpdateSuccess.WorkLocation
+				updatedWorkNotification.IsRead=true
+				updatedWorkNotification.Mode = workNotificationUpdateSuccess.Mode
+				updatedWorkNotification.IsSentMail=workNotificationUpdateSuccess.IsSentMail
+				updatedWorkNotification.Message=workNotificationUpdateSuccess.Message
+				updatedWorkNotification.UserName=workNotificationUpdateSuccess.UserName
+				updatedWorkNotification.Category = workNotificationUpdateSuccess.Category
+				log.Println("iam here >>>>>>>>>>>>>>")
+			}
+			err = dB.Child("Notifications/UserDelay/WorkLocation/"+ companyTeamName+"/"+notificationUserKey.String()+"/"+notificationKey.String()).Set(updatedWorkNotification)
+		}
+	}
+
+
+
+
 	return true
 }
 

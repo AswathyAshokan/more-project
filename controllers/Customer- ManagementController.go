@@ -25,17 +25,18 @@ func (c *CustomerManagementController) CustomerManagement() {
 	case true:
 		dataValue := reflect.ValueOf(allCompanyData)
 		var keySlice []string
-		for _, key := range dataValue.MapKeys() {
-			keySlice = append(keySlice, key.String())
-		}
+
 
 		var adminKeyFromCompany []string
-		for _, k := range keySlice {
+		for _, k := range dataValue.MapKeys() {
 			var tempValueSlice []string
-			if allCompanyData[k].Settings.Status == helpers.StatusActive{
-				tempValueSlice = append(tempValueSlice, allCompanyData[k].Info.CompanyName)
+
+
+			if allCompanyData[k.String()].Settings.Status == helpers.StatusActive{
+				keySlice = append(keySlice, k.String())
+				tempValueSlice = append(tempValueSlice, allCompanyData[k.String()].Info.CompanyName)
 				//tempValueSlice = append(tempValueSlice, allCompanyData[k].Info.Address)
-				dataValue := reflect.ValueOf(allCompanyData[k].Admins)
+				dataValue := reflect.ValueOf(allCompanyData[k.String()].Admins)
 
 				for _, key := range dataValue.MapKeys() {
 					adminKeyFromCompany = append(adminKeyFromCompany, key.String())
@@ -53,9 +54,9 @@ func (c *CustomerManagementController) CustomerManagement() {
 				//tempTym :=strconv.FormatInt(allCompanyData[k].Settings.DateOfCreation,10)
 				//i, _ := strconv.ParseInt(tempTym, 10, 64)
 				//log.Println("hhh",i)
-				startDate := time.Unix(allCompanyData[k].Settings.DateOfCreation, 0).Format("2006/01/02")
+				startDate := time.Unix(allCompanyData[k.String()].Settings.DateOfCreation, 0).Format("2006/01/02")
 				tempValueSlice = append(tempValueSlice, startDate)
-				tempValueSlice = append(tempValueSlice,allCompanyData[k].Plan)
+				tempValueSlice = append(tempValueSlice,allCompanyData[k.String()].Plan)
 				customerManagementViewModel.Values = append(customerManagementViewModel.Values,tempValueSlice)
 				tempValueSlice = tempValueSlice[:0]
 
@@ -78,6 +79,7 @@ func (c *CustomerManagementController)LoadDeleteCustomerManagement() {
 	w := c.Ctx.ResponseWriter
 	log.Println("delete inside")
 	customerManagementId :=c.Ctx.Input.Param(":customermanagementid")
+	log.Println("customer id",customerManagementId)
 	dbStatus:= models.DeleteCustomerManagementData(c.AppEngineCtx,customerManagementId)
 	switch dbStatus {
 	case true:
