@@ -28,7 +28,7 @@ $(function(){
             "columnDefs": [{
                     "targets": 1,
                     render : function(data, type, row) {
-                        return '<div class="over-length">'+data+'</div>'
+                        return '<div class="over-length min-150">'+data+'</div>'
                     } 
                 },
                 {
