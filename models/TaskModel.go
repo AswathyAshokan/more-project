@@ -189,12 +189,15 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 			userNotificationDetail.Category = "Tasks"
 			userNotificationDetail.Status = "New"
 			userNotificationDetail.IsDeleted = false
-			err = dB.Child("/Users/" + key.String() + "/Settings/Notifications/Tasks/" + notifyId).Set(userNotificationDetail)
-			UserNotificationCount = append(UserNotificationCount, "true")
-			if err != nil {
-				log.Println("Insertion error:", err)
-				return false
+			if userNotificationDetail.TaskName !=""{
+				err = dB.Child("/Users/" + key.String() + "/Settings/Notifications/Tasks/" + notifyId).Set(userNotificationDetail)
+				UserNotificationCount = append(UserNotificationCount, "true")
+				if err != nil {
+					log.Println("Insertion error:", err)
+					return false
+				}
 			}
+
 		}
 	}
 
@@ -565,11 +568,14 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 		userNotificationDetail.Category ="Tasks"
 		userNotificationDetail.Status ="Deleted"
 		userNotificationDetail.IsDeleted= false
-		err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
-		if err!=nil{
-			log.Println("Insertion error:",err)
-			return false
+		if userNotificationDetail.TaskName !=""{
+			err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+			if err!=nil{
+				log.Println("Insertion error:",err)
+				return false
+			}
 		}
+
 	}
 
 
@@ -753,7 +759,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userNotificationDetail.Category ="Tasks"
 		userNotificationDetail.Status ="New"
 		userNotificationDetail.IsDeleted =false
-		if taskValues.UsersAndGroups.User[uniqueUserKey[i]].UserTaskStatus !=helpers.StatusCompleted {
+		if taskValues.UsersAndGroups.User[uniqueUserKey[i]].UserTaskStatus !=helpers.StatusCompleted && userNotificationDetail.TaskName !=""{
 			err = dB.Child("/Users/"+uniqueUserKey[i]+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
 
 		}
@@ -806,7 +812,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 				userTaskDetail.DateOfCreation =taskValues.Settings.DateOfCreation
 				userTaskDetail.Id=taskId
 				userTaskDetail.Status=userTaskStatus
-				if userTaskDetail.Status !=helpers.StatusCompleted{
+				if userTaskDetail.Status !=helpers.StatusCompleted && userTaskDetail.TaskName !=""{
 					log.Println("kkkkkkkk")
 					err = dB.Child("/Users/"+usersInTaskKey.String()+"/Tasks/"+taskId).Set(userTaskDetail)
 				}
@@ -829,9 +835,10 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userTaskDetail.StartDate = m.Info.StartDate
 		userTaskDetail.DateOfCreation =taskValues.Settings.DateOfCreation
 		userTaskDetail.Id=taskId
-		err = dB.Child("/Users/"+uniqueUserKey[i]+"/Tasks/"+taskId).Set(userTaskDetail)
+		if userTaskDetail.TaskName !=""{
+			err = dB.Child("/Users/"+uniqueUserKey[i]+"/Tasks/"+taskId).Set(userTaskDetail)
 
-
+		}
 	}
 
 
@@ -906,7 +913,10 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 					userNotificationDetail.Category ="Tasks"
 					userNotificationDetail.Status ="Updated"
 					userNotificationDetail.IsDeleted =false
-					err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+					if userNotificationDetail.TaskName !=""{
+						err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+
+					}
 					if err!=nil{
 						log.Println("Insertion error:",err)
 						return false
@@ -953,7 +963,10 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 					userNotificationDetail.Category ="Tasks"
 					userNotificationDetail.Status ="Updated"
 					userNotificationDetail.IsDeleted =false
-					err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+					if userNotificationDetail.TaskName !=""{
+						err = dB.Child("/Users/"+key.String()+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
+
+					}
 					if err!=nil{
 						log.Println("Insertion error:",err)
 						return false
@@ -997,7 +1010,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userNotificationDetail.Category ="Tasks"
 		userNotificationDetail.Status ="Removed"
 		userNotificationDetail.IsDeleted =false
-		if taskValues.UsersAndGroups.User[EleminatedArray[i]].UserTaskStatus !=helpers.StatusCompleted {
+		if taskValues.UsersAndGroups.User[EleminatedArray[i]].UserTaskStatus !=helpers.StatusCompleted &&userNotificationDetail.TaskName !=""{
 			err = dB.Child("/Users/"+EleminatedArray[i]+"/Settings/Notifications/Tasks/"+newGeneratedKey).Set(userNotificationDetail)
 
 		}
@@ -1170,7 +1183,7 @@ func (m *Tasks) UpdateTaskToDB( ctx context.Context, taskId string , companyId s
 		userTaskDetailDeleted.DateOfCreation =taskValues.Settings.DateOfCreation
 		userTaskDetailDeleted.Status =helpers.StatusInActive
 		userTaskDetailDeleted.Id =taskId
-		if taskValues.UsersAndGroups.User[EleminatedArray[i]].UserTaskStatus !=helpers.StatusCompleted{
+		if taskValues.UsersAndGroups.User[EleminatedArray[i]].UserTaskStatus !=helpers.StatusCompleted &&userTaskDetailDeleted.TaskName !=""{
 			err = dB.Child("/Users/"+EleminatedArray[i]+"/Tasks/"+taskId).Set(userTaskDetailDeleted)
 
 		}

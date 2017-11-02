@@ -124,7 +124,7 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 			workLocationData.CompanyName = companyName
 			workLocationData.Status = helpers.StatusPending
 			userKey := key.String()
-			if workLocationData.WorkLocationForTask !=""{
+			if workLocationData.WorkLocationForTask !="" && workLocationData.CompanyName !=""{
 				err = db.Child("/Users/" + userKey + "/WorkLocation/" + workLocationUniqueID).Set(workLocationData)
 				if err != nil {
 					log.Println("w16")
@@ -143,7 +143,7 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 			userNotificationDetail.CompanyName = companyName
 			userNotificationDetail.WorkLocation = m.Info.WorkLocation
 			userNotificationDetail.IsDeleted =false
-			if userNotificationDetail.WorkLocation!=""{
+			if userNotificationDetail.WorkLocation!="" &&userNotificationDetail.CompanyName  !=""{
 				err = db.Child("/Users/"+key.String()+"/Settings/Notifications/WorkLocationNotification/"+notifyId).Set(userNotificationDetail)
 
 
@@ -387,8 +387,10 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 				workLocationData.Status = OldUserWorkLocation.Status
 				workLocationData.DateOfCreation = OldUserWorkLocation.DateOfCreation
 				workLocationData.CompanyName = companyName
+				if workLocationData.WorkLocationForTask !="" &&workLocationData.CompanyName !=""{
+					err = db.Child("/Users/" + UserKeySlice[j] + "/WorkLocation/" + workLocationId).Set(workLocationData)
 
-				err = db.Child("/Users/" + UserKeySlice[j] + "/WorkLocation/" + workLocationId).Set(workLocationData)
+				}
 				if err != nil {
 					log.Println("Insertion error:", err)
 					return false
@@ -404,7 +406,10 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 				userNotificationDetail.WorkLocation = m.Info.WorkLocation
 				userNotificationDetail.CompanyName = companyName
 				userNotificationDetail.IsDeleted = false
-				err = db.Child("/Users/" + keySlice[i] + "/Settings/Notifications/WorkLocationNotification/" + newGeneratedKey).Set(userNotificationDetail)
+				if userNotificationDetail.WorkLocation !="" &&userNotificationDetail.CompanyName !=""{
+					err = db.Child("/Users/" + keySlice[i] + "/Settings/Notifications/WorkLocationNotification/" + newGeneratedKey).Set(userNotificationDetail)
+
+				}
 				if err != nil {
 					log.Println("Insertion error:", err)
 					return false
@@ -559,7 +564,10 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 		userNotificationDetail.IsDeleted =false
 		userNotificationDetail.WorkLocation =  m.Info.WorkLocation
 		userNotificationDetail.CompanyName = companyName
-		err = db.Child("/Users/"+removedUsers[i]+"/Settings/Notifications/WorkLocationNotification/"+newGeneratedKey).Set(userNotificationDetail)
+		if userNotificationDetail.WorkLocation !="" &&userNotificationDetail.CompanyName !=""{
+			err = db.Child("/Users/"+removedUsers[i]+"/Settings/Notifications/WorkLocationNotification/"+newGeneratedKey).Set(userNotificationDetail)
+
+		}
 		if err!=nil{
 			log.Println("Insertion error:",err)
 			return false
@@ -578,8 +586,11 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 		workLocationData.Status =helpers.StatusInActive
 		workLocationData.DateOfCreation = m.Settings.DateOfCreation
 		workLocationData.CompanyName = companyName
+		if workLocationData.CompanyName !="" && workLocationData.WorkLocationForTask !=""{
+			err = db.Child("/Users/"+removedUsers[i]+"/WorkLocation/"+workLocationId).Set(workLocationData)
 
-		err = db.Child("/Users/"+removedUsers[i]+"/WorkLocation/"+workLocationId).Set(workLocationData)
+		}
+
 		if err!=nil{
 			log.Println("Insertion error:",err)
 			return false
@@ -598,7 +609,11 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 		userNotificationDetail.WorkLocation =  m.Info.WorkLocation
 		userNotificationDetail.CompanyName = companyName
 		userNotificationDetail.IsDeleted =false
-		err = db.Child("/Users/"+newUser[i]+"/Settings/Notifications/WorkLocationNotification/"+newGeneratedKey).Set(userNotificationDetail)
+		if userNotificationDetail.WorkLocation !=""&&userNotificationDetail.CompanyName !=""{
+
+			err = db.Child("/Users/"+newUser[i]+"/Settings/Notifications/WorkLocationNotification/"+newGeneratedKey).Set(userNotificationDetail)
+
+		}
 		if err!=nil{
 			log.Println("Insertion error:",err)
 			return false
@@ -616,7 +631,10 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 		workLocationData.Status = helpers.StatusPending
 		workLocationData.DateOfCreation = m.Settings.DateOfCreation
 		workLocationData.CompanyName = companyName
-		err = db.Child("/Users/"+newUser[i]+"/WorkLocation/"+workLocationId).Set(workLocationData)
+		if workLocationData.CompanyName !="" &&workLocationData.WorkLocationForTask !=""{
+			err = db.Child("/Users/"+newUser[i]+"/WorkLocation/"+workLocationId).Set(workLocationData)
+
+		}
 		if err!=nil{
 			log.Println("Insertion error:",err)
 			return false

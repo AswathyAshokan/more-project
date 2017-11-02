@@ -267,8 +267,12 @@ func(m *Group) UpdateGroupDetails(ctx context.Context,groupKey string) (bool) {
 	var NewUserUpdateCount []string
 	for i := 0;i<len(newUser);i++ {
 		log.Println("new usersss",newUser[i])
-		err = db.Child("/Users/" +newUser[i] + "/Group/" + groupKey).Set(UserOrGroup)
-		NewUserUpdateCount=append(NewUserUpdateCount,"true")
+		if UserOrGroup.CompanyId !="" &&UserForUpdate.GroupName !=""{
+			err = db.Child("/Users/" +newUser[i] + "/Group/" + groupKey).Set(UserOrGroup)
+			NewUserUpdateCount=append(NewUserUpdateCount,"true")
+
+		}
+
 		if err != nil {
 			log.Println("w16")
 			log.Println("Insertion error:", err)
