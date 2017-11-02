@@ -423,14 +423,18 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 			userTaskDetail.Status = helpers.StatusPending
 			userTaskDetail.CompanyId = companyId
 			userKey := key.String()
-			err = dB.Child("/Users/" + userKey + "/Tasks/" + taskUniqueID).Set(userTaskDetail)
-			UserInsertionCount = append(UserInsertionCount, "true")
-			log.Println("indideeeeeeeee our testttttttttttttttttttttttttttttttttttttttttt")
 
-			if err != nil {
-				log.Println("Insertion error:", err)
-				return false
+			if userTaskDetail.TaskName !=""{
+				err = dB.Child("/Users/" + userKey + "/Tasks/" + taskUniqueID).Set(userTaskDetail)
+				UserInsertionCount = append(UserInsertionCount, "true")
+				log.Println("indideeeeeeeee our testttttttttttttttttttttttttttttttttttttttttt")
+
+				if err != nil {
+					log.Println("Insertion error:", err)
+					return false
+				}
 			}
+
 
 		}
 	}

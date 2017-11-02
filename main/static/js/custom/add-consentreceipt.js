@@ -36,11 +36,13 @@ $().ready(function() {
     $("#addConsentForm").validate({
         rules: {
             recieptName:"required",
-            selectedUserIds:"required"
+            selectedUserIds:"required",
+            addConsentValue:"required"
         },
         messages: {
             recieptName:"Please enter consent Reciept Name",
-            selectedUserIds: "Please select Users"
+            selectedUserIds: "Please select Users",
+            addConsentValue: "Please enter instructions"
         },
         submitHandler: function(){//to pass all data of a form serial
              $("#saveButton").attr('disabled', true);

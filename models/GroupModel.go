@@ -87,13 +87,14 @@ func(m *Group) AddGroupToDb(ctx context.Context) (bool){
 	dataValue := reflect.ValueOf(m.Members)
 	UserOrGroup.groupId = groupUniqueID
 	for _, key := range dataValue.MapKeys() {
-
-		err = db.Child("/Users/" + key.String() + "/Group/" + groupUniqueID).Set(UserOrGroup)
-		UserGroupKey=append(UserGroupKey,"true")
-		if err != nil {
-			log.Println("w16")
-			log.Println("Insertion error:", err)
-			return false
+		if UserOrGroupForUpdate.GroupName != "" &&UserOrGroupForUpdate.CompanyId !=""{
+			err = db.Child("/Users/" + key.String() + "/Group/" + groupUniqueID).Set(UserOrGroup)
+			UserGroupKey=append(UserGroupKey,"true")
+			if err != nil {
+				log.Println("w16")
+				log.Println("Insertion error:", err)
+				return false
+			}
 		}
 	}
 

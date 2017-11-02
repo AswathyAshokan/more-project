@@ -124,11 +124,13 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 			workLocationData.CompanyName = companyName
 			workLocationData.Status = helpers.StatusPending
 			userKey := key.String()
-			err = db.Child("/Users/" + userKey + "/WorkLocation/" + workLocationUniqueID).Set(workLocationData)
-			if err != nil {
-				log.Println("w16")
-				log.Println("Insertion error:", err)
-				return false
+			if workLocationData.WorkLocationForTask !=""{
+				err = db.Child("/Users/" + userKey + "/WorkLocation/" + workLocationUniqueID).Set(workLocationData)
+				if err != nil {
+					log.Println("w16")
+					log.Println("Insertion error:", err)
+					return false
+				}
 			}
 			notifyId := betterguid.New()
 			userNotificationDetail :=WorkLocationNotification{}
@@ -141,7 +143,12 @@ func(m *WorkLocation) AddWorkLocationToDb(ctx context.Context,companyTeamName st
 			userNotificationDetail.CompanyName = companyName
 			userNotificationDetail.WorkLocation = m.Info.WorkLocation
 			userNotificationDetail.IsDeleted =false
-			err = db.Child("/Users/"+key.String()+"/Settings/Notifications/WorkLocationNotification/"+notifyId).Set(userNotificationDetail)
+			if userNotificationDetail.WorkLocation!=""{
+				err = db.Child("/Users/"+key.String()+"/Settings/Notifications/WorkLocationNotification/"+notifyId).Set(userNotificationDetail)
+
+
+			}
+
 			if err!=nil{
 				log.Println("Insertion error:",err)
 				return false
