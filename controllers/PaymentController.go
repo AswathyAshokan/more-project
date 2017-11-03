@@ -115,6 +115,30 @@ func (c *PaymentController)PaymentSuccess() {
 	c.TplName = "template/paymentSucessOfWeb.html"
 	}
 
+func (c *PaymentController)PaymentCancelReturn() {
+	//w := c.Ctx.ResponseWriter
+	//// This is where you would probably want to thank the user for their order
+	//// or what have you.  The order information at this point is in POST
+	//// variables.  However, you don't want to "process" the order until you
+	//// get validation from the IPN.  That's where you would have the code to
+	//// email an admin, update the database with payment status, activate a
+	//// membership, etc.
+	//
+	//html := "<html><body><h1>Thank you! Payment accepted!</h1></body></html>"
+	//w.Write([]byte(fmt.Sprintf(html)))
+	r := c.Ctx.Request
+	w := c.Ctx.ResponseWriter
+	sessionValues, _ := SessionForPlan(w,r)
+	companyTeamName := sessionValues.CompanyTeamName
+	log.Println("company name",companyTeamName)
+	//NumberOfUsers :=sessionValues.NumberOfUsers
+	//log.Println("number of users",NumberOfUsers)
+	viewModel :=viewmodels.PaymentViewModel{}
+	viewModel.CompanyTeamName=companyTeamName
+	//viewModel.NumberOfUsers =NumberOfUsers
+	c.Data["vm"] = viewModel
+	c.TplName = "template/paymentCancelOfWeb.html"
+}
 
 
 
@@ -135,11 +159,11 @@ func (c *PaymentController)PurchaseSuccess() {
 	w.Write([]byte(fmt.Sprintf(html)))
 }
 
-func (c *PaymentController)PaymentCancelReturn() {
-	w := c.Ctx.ResponseWriter
-	html := "<html><body><h1>Oh ok. Payment cancelled!</h1></body></html>"
-	w.Write([]byte(fmt.Sprintf(html)))
-}
+//func (c *PaymentController)PaymentCancelReturn() {
+//	w := c.Ctx.ResponseWriter
+//	html := "<html><body><h1>Oh ok. Payment cancelled!</h1></body></html>"
+//	w.Write([]byte(fmt.Sprintf(html)))
+//}
 func (c *PaymentController)IPN() {
 	r := c.Ctx.Request
 

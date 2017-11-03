@@ -28,17 +28,10 @@ $(function(){
                 {
                     "order": [[1, 'asc']]
                 },
-                
-                 {
-                    "targets": 1,
-                    render : function(data, type, row) {
-                        return '<div class="over-length  min-150">'+data+'</div>'
-                    } 
-                },
                 {
                     "targets": 2,
                     render : function(data, type, row) {
-                        return '<div class="over-length min-150">'+data+'</div>'
+                        return '<div class="over-length">'+data+'</div>'
                     } 
                 },
                 
@@ -147,7 +140,8 @@ $(function(){
                             console.log("kkk",vm.Values[j][0])
                             vm.Values[i][1] = vm.Values[i][1];
                         }
-                       tempArry.push( " "+vm.Users[j][k].Name+" ");
+                        tempArry.push( " "+vm.Users[j][k].Name+" ");
+                      
                     }
                 }
                 }
@@ -201,54 +195,117 @@ $(function(){
         return false;
     });
     
-$('#workLocation-table tbody').on( 'click', '#delete', function () {
-       
-       var data = table.row( $(this).parents('tr') ).data();
-       console.log("full data",data);
-       console.log("data id",data[5]);
-       var workLocationId = data[5];
-        $.ajax({
-             type: "POST",
-            url: '/' + companyTeamName +'/worklocation/'+ workLocationId + '/checkbeforedelete',
-            data: '',
-            success: function(data){
-                console.log("response from database........",data)
-                if(data=="true"){
-                    $("#myWorkLocatinDeleteStatus").modal();
-                }else{
-                   
-                    $("#myGroupModal").modal();
-                    $("#confirm").click(function(){
-                       $.ajax({
-                           type: "POST",
-                           url: '/' + companyTeamName +'/worklocation/'+ workLocationId + '/delete',
-                           data:'',
-                           success: function(response){
-                               if(response=="true"){
-                                   $('#workLocation-table').dataTable().fnDestroy();
-                                   var index = "";
+    $('#workLocation-table tbody').on( 'click', '#delete', function () {
+         
+        var data = table.row( $(this).parents('tr') ).data();
+        console.log("full data",data);
+        console.log("data id",data[5]);
+        var workLocationId = data[5];
+         $.ajax({
+              type: "POST",
+             url: '/' + companyTeamName +'/worklocation/'+ workLocationId + '/checkbeforedelete',
+             data: '',
+             success: function(data){
+                 var jsonData = JSON.parse(data)
+                 if(jsonData[0]=="true"){
+                     
+                     var endDateFromDb = jsonData[1];
+                     console.log("json data",endDateFromDb)
+                     var today = new Date();
+                     var dd = today.getDate();
+                     var mm = today.getMonth()+1; //January is 0!
+                     var yyyy = today.getFullYear();
+                     if(dd<10) {
+                         dd = '0'+dd
+                     } 
+                     if(mm<10) {
+                        mm = '0'+mm
+                    }
+                     var actualCurrentDate = (yyyy+'-'+ mm+'-'+dd);
+                     var endDateInt = parseInt(endDateFromDb)
+                     var endDateParse = new Date(endDateInt * 1000);
+                     var ddfromDb = endDateParse.getDate();
+                    var mmfromDb = endDateParse.getMonth() + 1; //January is 0!
+                    var yyyyfromDb = endDateParse.getFullYear();
+                    if (dd < 10) {
+                         dd = '0' + dd;
+                    }
+                    if (mm < 10) {
+                         mm = '0' + mm;
+                     }
+                     var actualDateFormDb = (yyyyfromDb+'-'+mmfromDb+'-'+ddfromDb);
+                     console.log("actualDateFormDb",actualDateFormDb);
+                     
+                     var currentDt  = new Date(actualCurrentDate).setHours(0,0,0,0);
+                     var dbDt  = new Date(actualDateFormDb).setHours(0,0,0,0);
+                     console.log("first11",currentDt);
+                     console.log("second 11",dbDt)
+                     if (currentDt > dbDt){
+                         console.log("inside if condition");
+                         $("#myGroupModal").modal();
+                         $("#confirm").click(function(){
+                             $.ajax({
+                                type: "POST",
+                                url: '/' + companyTeamName +'/worklocation/'+ workLocationId + '/delete',
+                                data:'',
+                                success: function(response){
+                                    if(response=="true"){
+                                        $('#workLocation-table').dataTable().fnDestroy();
+                                        var index = "";
 
-                                   for(var i = 0; i < mainArray.length; i++) {
-                                      index = mainArray[i].indexOf(workLocationId);
-                                      if(index != -1) {
-                                          console.log("dddd", i);
-                                        break;
-                                      }
-                                   }
-                                   mainArray.splice(i, 1);
-                                   dataTableManipulate()
-                               }
-                               else {
-                                   console.log("Removing Failed!");
-                               }
-                           }
+                                        for(var i = 0; i < mainArray.length; i++) {
+                                           index = mainArray[i].indexOf(workLocationId);
+                                           if(index != -1) {
+                                               console.log("dddd", i);
+                                             break;
+                                           }
+                                        }
+                                        mainArray.splice(i, 1);
+                                        dataTableManipulate() 
+                                    }
+                                    else {
+                                        console.log("Removing Failed!");
+                                    }
+                                }
+                             });
+                         });
+                     } else{
+                         $("#myWorkLocatinDeleteStatus").modal();
+                     }
+                 }else if(data =="false"){
+                     console.log("iam in else part........");
+                     $("#myGroupModal").modal();
+                     $("#confirm").click(function(){
+                        $.ajax({
+                            type: "POST",
+                            url: '/' + companyTeamName +'/worklocation/'+ workLocationId + '/delete',
+                            data:'',
+                            success: function(response){
+                                if(response=="true"){
+                                    $('#workLocation-table').dataTable().fnDestroy();
+                                    var index = "";
 
-                       });
-                   });
-                }
-            }
-        });
-                   
-   });
+                                    for(var i = 0; i < mainArray.length; i++) {
+                                       index = mainArray[i].indexOf(workLocationId);
+                                       if(index != -1) {
+                                           console.log("dddd", i);
+                                         break;
+                                       }
+                                    }
+                                    mainArray.splice(i, 1);
+                                    dataTableManipulate() 
+                                }
+                                else {
+                                    console.log("Removing Failed!");
+                                }
+                            }
+
+                        });
+                    });
+                 }
+             }
+         });
+                     
+    });
 });
 

@@ -2,7 +2,8 @@ console.log("viwe model value",vm);
 console.log("end time",vm.DailyEndTime);
 var loginTypeForEdit = vm.LoginType;
 var companyTeamName = vm.CompanyTeamName;
-
+var mapLatitude = "";
+var mapLongitude = "";
 
 
 //aswathy
@@ -312,12 +313,18 @@ $().ready(function() {
        },
         submitHandler: function(){//to pass all data of a form serial
             
+            mapLatitude = document.getElementById("latitudeId").value;// variable to store map latitude
+            mapLongitude = document.getElementById("longitudeId").value
+            if( mapLatitude.length  !=0){
+                console.log("hai guys this im my last attempt in add work location pls help me ");
             if(loginTypeRadio.length ==0)
            {
                loginTypeRadio = loginTypeForEdit;
            } else {
                loginTypeRadio = loginTypeRadio;
            }
+            
+            
            
            $("input[name=breakTime]").each(function () {
                if($(this).val().length !=0){
@@ -610,8 +617,7 @@ $().ready(function() {
                         }
                     }
                 }
-//           console.log("hai existingWorkLocationUserId @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ ",existingWorkLocationUserId);
-            console.log("final taskLocation",taskWorkLocation);
+                console.log("final taskLocation",taskWorkLocation);
             if (selectedUserArray.length !=0){
                 if (taskWorkLocation.length ==selectedUserArray.length&&taskWorkLocation.length >0){
                     taskLocationCondition="true"
@@ -699,13 +705,6 @@ $().ready(function() {
             if(taskLocationCondition=="true"){
                 var ConcatinatedUser ;
                 if (vm.PageType == "edit"){
-//                    for(i=0;i<vm.UsersKey.length;i++){
-//                        formData = formData+"&oldUsers="+vm.UsersKey[i];
-//                    }
-//                   
-//                    for(i = 0; i < vm.UsersKey.length; i++) {
-//                        formData = formData+"&selectedUserNames="+vm.UsersKey[i];
-//                    }
                     var workLocationId =vm.WorkLogId 
                     $("#saveButton").attr('disabled', true);
                     $.ajax({
@@ -763,7 +762,11 @@ $().ready(function() {
 //                });
             }
             
+        } else{
+            $("#mapValidationError").css({"color": "red", "font-size": "15px"});
+            $("#mapValidationError").html("please select location from map.").show();
         }
+    }
     });
      $("#cancel").click(function() {
             window.location = '/'+companyTeamName+'/worklocation';

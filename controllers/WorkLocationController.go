@@ -10,6 +10,7 @@ import (
 	"strings"
 	"strconv"
 	"fmt"
+	"encoding/json"
 )
 
 type WorkLocationcontroller struct {
@@ -829,10 +830,13 @@ func (c *WorkLocationcontroller)LoadWorkLocationDeleteStatus(){
 	workLocationId := c.Ctx.Input.Param(":workLocationId")
 	storedSession := ReadSession(w, r, companyTeamName)
 	log.Println(storedSession)
-	dbStatus := models.WorkLocationDeleteStatusCheck(c.AppEngineCtx,workLocationId,companyTeamName)
+	dbStatus,endDate := models.WorkLocationDeleteStatusCheck(c.AppEngineCtx,workLocationId,companyTeamName)
+	stringEndDate := strconv.FormatInt(int64(endDate), 10)
 	switch dbStatus {
 	case true:
-		w.Write([]byte("true"))
+		slices := []interface{}{"true",stringEndDate}
+		sliceToClient, _ := json.Marshal(slices)
+		w.Write([]byte(sliceToClient))
 	case false:
 		w.Write([]byte("false"))
 	}

@@ -713,7 +713,7 @@ func GetWorkLocationBreakDetailById(ctx context.Context, workLocationId string)(
 	return true, breakDetail
 }
 
-func  WorkLocationDeleteStatusCheck(ctx context.Context, workId string,companyId string)(bool) {
+func  WorkLocationDeleteStatusCheck(ctx context.Context, workId string,companyId string)(bool,int64) {
 	usersOfWorkLocation := UsersAndGroupsInWork{}
 	var condition =""
 	var keySlice []string
@@ -722,7 +722,6 @@ func  WorkLocationDeleteStatusCheck(ctx context.Context, workId string,companyId
 	err = dB.Child("WorkLocation/"+ workId+"/Info/UsersAndGroupsInWorkLocation").Value(&usersOfWorkLocation)
 	if err != nil {
 		log.Fatal(err)
-		return false
 	}
 	log.Println("jjjjj",usersOfWorkLocation.User)
 	userData := reflect.ValueOf(usersOfWorkLocation.User)
@@ -734,6 +733,7 @@ func  WorkLocationDeleteStatusCheck(ctx context.Context, workId string,companyId
 	for i := 0;i<len(keySlice);i++{
 		err = dB.Child("/Users/"+keySlice[i]+"/WorkLocation/"+workId).Value(&workDataFromUsers)
 		if workDataFromUsers.Status == "Open"{
+
 			condition="true"
 			break
 		}else {
@@ -741,16 +741,9 @@ func  WorkLocationDeleteStatusCheck(ctx context.Context, workId string,companyId
 		}
 	}
 	log.Println("conditoion array",condition)
-
 	if condition == "true" {
-		return true
+		return true,workDataFromUsers.EndDate
 
 	}
-	return false
+	return false,workDataFromUsers.EndDate
 }
-
-
-
-
-
-
