@@ -20,10 +20,11 @@ $(function(){
         var fileUpload ="fileUploads";
         var spanId="mainSpan";
         var fileSpan ="fileSpan";
+        var statusBar ="statusBar";
         
       document.getElementById('companyUploadButton').style.visibility = 'hidden';
         $("#container1").append("<div class='form-group clearfix upload-section' id='container'>"+"<div class='creat-folder' style='display:none;'>"+"Folder Name"+"  "+"<select id='folderName'  style='width: 219px;margin-left: 10px;' >"+"</select>"+"<span id="+spanId+" style='position: absolute;margin-top: 25px;'></span>"+"</div>"+
-     " <div class='folder'>" +"<span class='folder-name' style='margin: 0px;'>"+"<span></span>"+"</span>"+"<div class='file-name' style='display: -webkit-box;'>"+"File Name  "+"<input class='form-control' id='fileName' type='text' placeholder='File Name' value="+ vm.FileName+"  style='width: 219px;margin-left: 28px;'>"+"<span class='dwnl-btn' style='margin-left: 20px; position: absolute;'><i class='fa fa-download fa-lg' aria-hidden='true' id='view'onclick='viewFile();' ></i>"+"  "+"<button class='btn btn-primary margin-left-15'>Upload file  <input type='file' id="+fileUpload+" onchange='uploadEditedFile("+folderNameReal+","+fileNameReal+","+fileUpload+","+spanId+","+fileSpan+");' >"+"</button>"+"</div>"+"<label  class='margin-left-15'></label>"+"<span id="+fileSpan+" style='position: absolute;margin-top: 25px;'></span>"+"</div>"+"<div class='button-new' style='margin-top: 58px;'>"+"<button class='btn btn-primary margin-left-15' id='save'style='margin-left: 114px;margin-top: -35px; width: 70px;' onclick='saveEdit();' >Save  "+"</button>"+"<button class='btn btn-primary margin-left-15' id='cancel'style='margin-left: 15px;margin-top: -35px; background-color: #13a016;' onclick='saveCancel();' >Cancel  "+"</button>"+"</div>"+"</div>"); 
+     " <div class='folder'>" +"<span class='folder-name' style='margin: 0px;'>"+"<span></span>"+"</span>"+"<div class='file-name' style='display: -webkit-box;'>"+"File Name  "+"<input class='form-control' id='fileName' style='width: 219px;margin-left: 28px;' type='text' placeholder='File Name' value="+ vm.FileName+"   >"+"<span class='dwnl-btn' style='margin-left: 20px; position: absolute;'><i class='fa fa-download fa-lg' aria-hidden='true' id='view'onclick='viewFile();' ></i>"+"  "+"<button class='btn btn-primary margin-left-15'>Upload file  <input type='file' id="+fileUpload+" onchange='uploadEditedFile("+folderNameReal+","+fileNameReal+","+fileUpload+","+spanId+","+fileSpan+");' >"+"</button>"+"</div>"+"<label  class='margin-left-15'></label>"+"<span id="+fileSpan+" style='position: absolute;margin-top: 25px;'></span>"+"<div id='myProgressForEdit' style='display:none;'>"+"<div id="+statusBar+" style='height: 15px; background-color: #4CAF50; width:0%;'>"+"</div>"+"</div>"+"</div>"+"<div class='button-new' style='margin-top: 58px;'>"+"<button class='btn btn-primary margin-left-15' id='save'style='margin-left: 114px;margin-top: -35px; width: 70px;' onclick='saveEdit();' >Save  "+"</button>"+"<button class='btn btn-primary margin-left-15' id='cancel'style='margin-left: 15px;margin-top: -35px; background-color: #13a016;' onclick='saveCancel();' >Cancel  "+"</button>"+"</div>"+"</div>");
         var ddlItems = document.getElementById("folderName");
            
             for (var i = 0; i < vm.FolderNameArray.length; i++) {
@@ -37,6 +38,7 @@ $(function(){
         
         
     }else{
+    document.getElementById('companyUploadButton').style.visibility = 'block';
         var folderNameReal ="folderName";
         var fileNameReal ="fileName";
         var fileUpload ="fileUploads";
@@ -78,6 +80,8 @@ $().ready(function() {
     
     
      uploadEditedFile=function(textboxId,fileTextBox,fileName,folderSpan,fileSpan) {
+         var status = document.getElementById("myProgressForEdit");
+         status.style.display = "block";
          
          console.log("display file");
          console.log("text1",textboxId.id);
@@ -104,6 +108,7 @@ $().ready(function() {
          var strOptions = e.options[e.selectedIndex].value;
          var value =strOptions;
          fileValue =document.getElementById(fileId).value;
+         console.log("huuuuuuuuuuu",fileValue);
          document.getElementById(folderId).required = true;
          document.getElementById(fileId).required = true;
          if (value.length !=0 &&fileValue.length !=0 ){
@@ -123,6 +128,18 @@ $().ready(function() {
          uploadDocumentOriginal.on('state_changed', function(snapshot){
              var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
              console.log('Upload is ' + progress + '% done');
+             
+             var elem = document.getElementById("statusBar"); 
+             var width = 1;
+             var id = setInterval(frame, 10);
+             function frame() {
+                 if (width >= 100) {
+                     clearInterval(id);
+                 } else {
+                     width++; 
+                     elem.style.width = progress + '%';
+                 }
+             }
          }, function(error) {
              // Handle unsuccessful uploads
          }, function() {
@@ -285,31 +302,40 @@ $().ready(function() {
        
    }
    saveEdit= function () {
-       if (formData ==""){
+       var fileValue= document.getElementById("fileName").value;
+
+       if (formData =="" &&fileValue.length !=0){
+           console.log("llll1");
            var e = document.getElementById("folderName");
            var strOptions = e.options[e.selectedIndex].value;
            var value =strOptions;
-           var fileValue =document.getElementById("fileName").value;
            var downloadLink="";
-           formData = $("#CompanyFileUpload").serialize()+"&fileName=" + fileValue+"&folderName=" + value+"&downloadUrl=" + downloadLink;;
+           formData = $("#CompanyFileUpload").serialize()+"&fileName=" + fileValue+"&folderName=" + value+"&downloadUrl=" + downloadLink;
+           
        }
-       
-       $.ajax({
-           url:'/'+ companyTeamName +'/'+vm.DocumentId+ '/companyFileUpload/EditWithoutChange',
-           type:'post',
-           datatype: 'json',
-           data: formData,
-           success : function(response){
-               if(response == "true"){
-                    window.location ="/" + companyTeamName + "/companyFileUpload";
-               } else {
+       if (fileValue.length ==0){
+           console.log("kkkkk1");
+           document.getElementById("fileSpan").innerHTML = " file name required";
+       }else{
+          
+           console.log("k22222",formData);
+           document.getElementById("fileSpan").innerHTML = "";
+           $.ajax({
+               url:'/'+ companyTeamName +'/'+vm.DocumentId+ '/companyFileUpload/EditWithoutChange',
+               type:'post',
+               datatype: 'json',
+               data: formData,
+               success : function(response){
+                   if(response == "true"){
+                       window.location ="/" + companyTeamName + "/companyFileUpload";
+                   } else {
+                   }
+               },
+               error: function (request,status, error) {
+                   console.log(error);
                }
-           },
-           error: function (request,status, error) {
-               console.log(error);
-           }
-       });
-       
+           });
+       }
    }
     
     

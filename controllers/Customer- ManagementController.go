@@ -25,8 +25,6 @@ func (c *CustomerManagementController) CustomerManagement() {
 	case true:
 		dataValue := reflect.ValueOf(allCompanyData)
 		var keySlice []string
-
-
 		var adminKeyFromCompany []string
 		for _, k := range dataValue.MapKeys() {
 			var tempValueSlice []string

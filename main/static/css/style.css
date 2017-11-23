@@ -3583,3 +3583,26 @@ td .drp-tbl-wrp:not(:last-child) { margin-bottom: 20px; }
 /*==============================================================
 
 =================================================================*/
+@media only screen and (min-width: 998px){
+.btn-new {
+    margin-left: 248px;
+}
+}
+
+.company-date{
+    width: 20.5%;
+    margin-left: 27px;
+    margin-bottom: 8px;
+}
+#myProgress {
+    width:20%;
+    background-color: #ddd;
+    margin-left: 17px;
+}
+
+#myProgressForEdit {
+    width:20%;
+    background-color: #ddd;
+    margin-left: 160px;
+}
+

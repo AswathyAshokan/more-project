@@ -64,7 +64,7 @@ $(function () {
         actualToDate.setSeconds(59);
     });
     
-    //functionfor automatically fill task location textbox
+    //function for automatically fill task location textbox
     
     $('#taskLocation').keyup(function(){
         var valThis = $(this).val().toLowerCase();
@@ -114,9 +114,6 @@ $(function () {
                 sel.appendChild(opt);
             }
         }
-        
-        
-        
         function removeOptions(selectbox)
         {
             var i;
@@ -175,11 +172,10 @@ $(function () {
         document.getElementById("taskLocation").value =vm.TaskLocation;
        
         var selectArrayForGroup = vm.GroupMembersAndUserToEdit;
+//        selectedUserArray = vm.GroupMembersAndUserToEdit;
         $("#userOrGroup").val(selectArrayForGroup);
         if (selectArrayForGroup.length !=0){
-            
-              
-                    for ( var i=0;i<selectArrayForGroup.length;i++){
+            for ( var i=0;i<selectArrayForGroup.length;i++){
                           for (var j=0;j<vm.WorkLocationForUser.length;j++){
                                 if (vm.WorkLocationForUser[j][2] ==selectArrayForGroup[i]){
                                     var utcTime = vm.WorkLocationForUser[j][0];
@@ -207,6 +203,7 @@ $(function () {
                                         sec = '0' + sec;
                                     }
                                     var workStartDate = (mm + '/' + dd + '/' + yyyy);
+                                    console.log("g1",workStartDate);
                                     var utcTime = vm.WorkLocationForUser[j][1];
                                     var dateFromDb = parseInt(utcTime)
                                     var d = new Date(dateFromDb * 1000);
@@ -232,8 +229,11 @@ $(function () {
                                         sec = '0' + sec;
                                     }
                                     var workEndDate = (mm + '/' + dd + '/' + yyyy);
+                                    console.log("g2",workEndDate);
                                     var StartDateOfTask = $('#startDate').val();
+                                    console.log("g3",StartDateOfTask);
                                     var EndDateOfTask = $('#endDate').val();
+                                    console.log("g4",EndDateOfTask);
                                     
                                     var from = Date.parse(workStartDate);
                                     var to   = Date.parse(workEndDate);
@@ -244,9 +244,10 @@ $(function () {
                                     console.log("StartDateOfTaskCheck",StartDateOfTaskCheck);
                                     console.log("EndDateOfTaskCheck",EndDateOfTaskCheck);
 //                                    if (StartDateOfTaskCheck >= from && StartDateOfTaskCheck <= to && EndDateOfTaskCheck >= from && EndDateOfTaskCheck <= to){
-                                    if((StartDateOfTaskCheck>=from && StartDateOfTaskCheck<=to) || (EndDateOfTaskCheck>=from && EndDateOfTaskCheck<=to)){
-                                        console.log("condition is true")
-                                        taskWorkLocation.push("true")
+                                    if((StartDateOfTaskCheck>=from && StartDateOfTaskCheck<=to) && (EndDateOfTaskCheck>=from && EndDateOfTaskCheck<=to)){
+                                        console.log("condition is true");
+                                        taskWorkLocation.push("true");
+                                        
                                     }
                                 }
                             }
@@ -562,8 +563,12 @@ $().ready(function() {
 //       }
 //        alert("lllll",fitWork);
 //   });
+    
+    
+   
     $("#saveButton").click(function() {
         console.log("inside save button");
+        $('#saveAndContinue').attr('type', 'button');
             $("#taskDoneForm").validate({
                 rules: {
                     taskName : "required",
@@ -605,7 +610,7 @@ $().ready(function() {
                     },
                 },
                 submitHandler: function() {
-                    if (selectedUserArray.length !=0){
+                    if (selectedUserArray.length !=0  ){
                         console.log("l1");
                         console.log("selectedUserArray",selectedUserArray)
                         if (vm.WorkLocationForUser !=null){
@@ -672,7 +677,7 @@ $().ready(function() {
                                     var to   = Date.parse(workEndDate);
                                     var StartDateOfTaskCheck = Date.parse(StartDateOfTask );
                                     var EndDateOfTaskCheck = Date.parse(EndDateOfTask );
-                                   if((StartDateOfTaskCheck>=from && StartDateOfTaskCheck<=to) || (EndDateOfTaskCheck>=from && EndDateOfTaskCheck<=to)){
+                                    if((StartDateOfTaskCheck>=from && StartDateOfTaskCheck<=to) && (EndDateOfTaskCheck>=from && EndDateOfTaskCheck<=to)){
                                         console.log("condition is true")
                                         taskWorkLocation.push("true")
                                     }
@@ -756,7 +761,7 @@ $().ready(function() {
 //                    {
                         if( mapLatitude.length  !=0)
                         {
-                            if(taskLocationCondition=="true"){
+//                            if(taskLocationCondition=="true"){
                                 console.log("jjjjjjjjjjjjjjj33");
                                 if(conditionInsideSaveAndContinue=="true"){
                                       $("#saveAndContinue").attr('disabled', true);
@@ -1021,9 +1026,9 @@ $().ready(function() {
                                               }
                                           });
                                       }
-                                  }else{
-                                      $("#myTaskStatus").modal();
-                                  }
+//                                  }else{
+//                                      $("#myTaskStatus").modal();
+//                                  }
                         } else{
                             $("#mapValidationError").css({"color": "red", "font-size": "15px"});
                             $("#mapValidationError").html("please select location from map.").show();
@@ -1164,7 +1169,7 @@ $().ready(function() {
                             var to   = Date.parse(workEndDate);
                             var StartDateOfTaskCheck = Date.parse(StartDateOfTask );
                             var EndDateOfTaskCheck = Date.parse(EndDateOfTask );
-                            if((StartDateOfTaskCheck>=from && StartDateOfTaskCheck<=to) || (EndDateOfTaskCheck>=from && EndDateOfTaskCheck<=to)){
+                            if((StartDateOfTaskCheck>=from && StartDateOfTaskCheck<=to) && (EndDateOfTaskCheck>=from && EndDateOfTaskCheck<=to)){
                                 console.log("condition is true")
                                 taskWorkLocation.push("true")
                             }
@@ -1254,7 +1259,7 @@ $().ready(function() {
 //                    {
                         if( mapLatitude.length  !=0)
                         {
-                            if(taskLocationCondition=="true"){
+//                            if(taskLocationCondition=="true"){
                                 console.log("7771");
                                        $("#saveAndContinue").attr('disabled', true);
                                       var taskId=vm.TaskId;
@@ -1389,9 +1394,9 @@ $().ready(function() {
                                           });
                                       }
                                   
-                        }else{
-                            $("#myTaskStatus").modal();
-                        }
+//                        }else{
+//                            $("#myTaskStatus").modal();
+//                        }
                         } else{
                             $("#mapValidationError").css({"color": "red", "font-size": "15px"});
                             $("#mapValidationError").html("please select location from map.").show();

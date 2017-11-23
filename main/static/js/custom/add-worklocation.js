@@ -349,8 +349,8 @@ $().ready(function() {
              var existingWorkLocationUserId =[];
             if(vm.PageType == "edit"){
                 console.log("selected",selectedUserArray);
-                 var currentWorkLocationId =vm.WorkLogId 
-                 var WorklocationCondition=false;
+                var currentWorkLocationId =vm.WorkLogId ;
+                var WorklocationCondition=false;
                 var isDateExist=false;
                 editConditionArry=[];
                 for(var i=0;i<selectedUserArray.length;i++){
@@ -702,7 +702,8 @@ $().ready(function() {
                formData = formData+"&selectedUserNames="+selectedUserArray[i];
            }
             
-            if(taskLocationCondition=="true"){
+//            if(taskLocationCondition=="true"){
+                console.log("pppppppppppppppppp");
                 var ConcatinatedUser ;
                 if (vm.PageType == "edit"){
                     var workLocationId =vm.WorkLogId 
@@ -745,22 +746,22 @@ $().ready(function() {
                     });
                     return false;
                 }
-            }else{
-                console.log("hai existingWorkLocationUserId ########## ",existingWorkLocationUserId);
-                var uniqueItems = Array.from(new Set(existingWorkLocationUserId));
-                console.log("after filtering of existing unique user id ",uniqueItems);
-               $("#myModalForUniqueTest").modal({
-                   backdrop: 'static',
-                   keyboard: false
-               });
-               
-               $("#cancelForCheckUnique").click(function(){
-                   window.location = '/'+companyTeamName+'/worklocation/add';
-               });
-//                $("#cancelForCheckUnique").click(function(){
-//                    window.location = '/'+companyTeamName+'/worklocation/add';
-//                });
-            }
+//            }else{
+//                console.log("hai existingWorkLocationUserId ########## ",existingWorkLocationUserId);
+//                var uniqueItems = Array.from(new Set(existingWorkLocationUserId));
+//                console.log("after filtering of existing unique user id ",uniqueItems);
+//               $("#myModalForUniqueTest").modal({
+//                   backdrop: 'static',
+//                   keyboard: false
+//               });
+//               
+//               $("#cancelForCheckUnique").click(function(){
+//                   window.location = '/'+companyTeamName+'/worklocation/add';
+//               });
+////                $("#cancelForCheckUnique").click(function(){
+////                    window.location = '/'+companyTeamName+'/worklocation/add';
+////                });
+//            }
             
         } else{
             $("#mapValidationError").css({"color": "red", "font-size": "15px"});

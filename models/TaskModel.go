@@ -153,7 +153,6 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 	log.Println("newly gener",newGeneratedKey)
 	taskUniqueID=newGeneratedKey
 
-
 	//for adding fit to work to database
 	if len(m.Info.CompanyTeamName )!=0 {
 		err = dB.Child("Tasks/"+taskUniqueID).Set(m)
@@ -437,8 +436,6 @@ func (m *Tasks) AddTaskToDB(ctx context.Context  ,companyId string ,WorkBreakSli
 					return false
 				}
 			}
-
-
 		}
 	}
 	return true
@@ -490,10 +487,8 @@ func (m *Tasks) DeleteTaskFromDB(ctx context.Context, taskId string,companyId st
 					NewNumberOfTask := NumberOfTask - 1
 					updatedInfo.NumberOfTask = NewNumberOfTask
 				}
-
 				updatedInfo.JobName = jobForTask[key.String()].Info.JobName
 				updatedInfo.JobNumber = jobForTask[key.String()].Info.JobNumber
-
 				updatedInfo.CompanyTeamName = companyId
 				updatedInfo.OrderDate = jobForTask[key.String()].Info.OrderDate
 				updatedInfo.OrderNumber = jobForTask[key.String()].Info.OrderNumber
