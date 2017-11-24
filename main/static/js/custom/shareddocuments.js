@@ -108,7 +108,7 @@ $(function(){
     $('#shareddocument-table tbody').on( 'click', '#view', function () {
         var data = table.row( $(this).parents('tr') ).data();
         if(data[3] !=""){
-            window.location =   data[3];
+            window.location =   data[5];
         } else{
             $("#myModal").modal();
         }

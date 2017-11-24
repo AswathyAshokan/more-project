@@ -32,6 +32,7 @@ type ExpirationInfo struct {
 	ExpirationDate		int64
 	Mode  			string
 	NotificationType	string
+	TypeNumber        	string
 	Type 			string
 
 }

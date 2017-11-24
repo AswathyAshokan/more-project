@@ -55,6 +55,8 @@ func (c *SharedDocumentController) LoadSharedDocuments() {
 								expirationDate := strconv.FormatInt(int64(expiry[k].Info.ExpirationDate), 10)
 								tempValueSlice = append(tempValueSlice, expirationDate)
 								tempValueSlice = append(tempValueSlice,Name)
+								tempValueSlice = append(tempValueSlice,expiry[k].Info.Type)
+								tempValueSlice = append(tempValueSlice,expiry[k].Info.TypeNumber)
 								tempValueSlice = append(tempValueSlice, expiry[k].Info.DocumentId)
 
 								documentsViewModels.Values = append(documentsViewModels.Values, tempValueSlice)
