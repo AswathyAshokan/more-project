@@ -104,7 +104,7 @@ $(function(){
                         var Breakminutes = ExposureArray[i][j].BreakMinute % 60;
                         var Workhours = Math.trunc(ExposureArray[i][j].WorkingHour/60);
                         var Workminutes = ExposureArray[i][j].WorkingHour % 60;
-                        exposure += "<td>"+Breakhours +":"+ Breakminutes+" Minutes Break After    "+Workhours +":"+ Workminutes+"Hours"+"</td>";
+                        exposure += "<td>"+Breakhours +":"+ Breakminutes+" Minutes Break After    "+Workhours +":"+ Workminutes+"Minutes"+"</td>";
                         exposure += "</tr>";
                     }
                 }

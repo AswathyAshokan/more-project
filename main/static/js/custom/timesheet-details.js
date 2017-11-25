@@ -19,6 +19,18 @@ $(function(){
     today = mm + '/' + dd + '/' + yyyy;
     //checking plans
     
+    
+    function multiDimensionalUnique(arr) {
+                    var uniques = [];
+                    var itemsFound = {};
+                    for(var i = 0, l = arr.length; i < l; i++) {
+                        var stringified = JSON.stringify(arr[i]);
+                        if(itemsFound[stringified]) { continue; }
+                        uniques.push(arr[i]);
+                        itemsFound[stringified] = true;
+                    }
+                    return uniques;
+                }
 
     if(vm.CompanyPlan == 'family' ){
         var parent = document.getElementById("menuItems");
@@ -1480,17 +1492,7 @@ $(function(){
                 }
 //                var TaskTimeSheetDate =[[]];
                 
-                function multiDimensionalUnique(arr) {
-                    var uniques = [];
-                    var itemsFound = {};
-                    for(var i = 0, l = arr.length; i < l; i++) {
-                        var stringified = JSON.stringify(arr[i]);
-                        if(itemsFound[stringified]) { continue; }
-                        uniques.push(arr[i]);
-                        itemsFound[stringified] = true;
-                    }
-                    return uniques;
-                }
+                
                 var uniques =multiDimensionalUnique(TaskTimeSheetRealArray);
                 console.log("0000000000",uniques);
                 
