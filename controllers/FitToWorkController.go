@@ -250,6 +250,7 @@ func (c *FitToWorkController)DeleteFitToWorkInTask() {
 					if fitDetail[key.String()].Settings.Status == helpers.StatusActive {
 						fitToWorkName := fitDetail[key.String()].FitToWorkName
 						dbStatus := taskFitToWork.IsfitToWorkContainForTask(c.AppEngineCtx, fitToWorkName, companyTeamName)
+						log.Println("iam in controller to check if that fittowork in used in task",dbStatus)
 						switch dbStatus {
 						case true:
 							condition = "true"

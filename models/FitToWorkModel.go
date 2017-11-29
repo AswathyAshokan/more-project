@@ -271,6 +271,18 @@ func (m *Tasks) IsfitToWorkContainForTask( ctx context.Context, fitToWorkName st
 		}
 
 	}
-
+	workLocationValues := map[string]WorkLocation{}
+	log.Println("companyTeamName",companyTeamName)
+	err = dB.Child("WorkLocation").OrderBy("Info/CompanyTeamName").EqualTo(companyTeamName).Value(&workLocationValues)
+	log.Println("fittowork in worklocation",workLocationValues)
+	dataValueOfWorkLocationFitToWork := reflect.ValueOf(workLocationValues)
+	for _, workLocationKey := range dataValueOfWorkLocationFitToWork.MapKeys(){
+		log.Println("worklocation key",workLocationKey)
+		if workLocationValues[workLocationKey.String()].FitToWork.Info.FitToWorkName == fitToWorkName && workLocationValues[workLocationKey.String()].Settings.Status == helpers.StatusActive{
+			return  true
+			log.Println("iam in model true")
+			break
+		}
+	}
 	return false
 }

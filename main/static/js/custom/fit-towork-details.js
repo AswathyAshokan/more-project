@@ -105,7 +105,7 @@ $(function(){
         window.location = "/" + companyTeamName + "/fitToWork/"+fitToWorkId+"/edit";
         return false;
     });
-    $('#fit-to-work-details tbody').on( 'click', '#delete', function () {
+    $('#fit-to-work-details tbody').on( 'click', '#delete', function(event) {
          var data = table.row( $(this).parents('tr') ).data();
          var  fitToWorkId = data[2];
           $.ajax({
@@ -116,11 +116,14 @@ $(function(){
             success: function(response){
                 console.log("dhfg",response)
                 
-                if(response=="true"){
-                   
-                     $("#myFitWorkModel").modal();
+                if(response == "true"){
+                    event.preventDefault();
+                    jQuery.noConflict();
+                    $("#myFitWorkModel").modal();
                 }else{
-                    $("#myModal").modal();
+                    event.preventDefault();
+                    jQuery.noConflict();
+                    $("#myModalFOrDeleteFitTOWork").modal();
                     var data = table.row( $(this).parents('tr') ).data();
                     
                     $("#confirm").click(function(){
@@ -131,7 +134,8 @@ $(function(){
                             data: '',
                             success: function(data){
                                 if(data=="true"){
-                                    $('#fit-to-work-details').dataTable().fnDestroy();
+                                    window.location = '/' + companyTeamName +'/fitToWork';
+                                    /*$('#fit-to-work-details').dataTable().fnDestroy();
                                     var index = "";
                                     for(var i = 0; i < mainArray.length; i++) {
                                         index = mainArray[i].indexOf(fitToWorkId);
@@ -142,7 +146,7 @@ $(function(){
                                     }
                                     mainArray.splice(i, 1);
                                     console.log(mainArray);
-                                    dataTableManipulate();
+                                    dataTableManipulate();*/
                                 }
                                 else {
                                     console.log("Removing Failed!");
