@@ -22,11 +22,20 @@ $().ready(function() {
         document.getElementById("addConsentValue").value = vm.InstructionArrayToEdit[0];
         document.getElementById("consentHead").innerHTML = "Edit Consent Receipt";//for display heading of each webpage
         $("#selectedUserIds").val(selectArray);
-        for (var i = 1; i < vm.InstructionArrayToEdit.length; i++) {
-                console.log("cp1");
+        /*for (var i = 1; i <= vm.InstructionArrayToEdit.length; i++) {
+                console.log("cp1",vm.InstructionArrayToEdit[i]);
                 var dynamicTextBox = "<div class='plus'>"+"<input class='form-control'  name = 'DynamicTextBox'  id=  'DynamicTextBox'  type='text' value = " + vm.InstructionArrayToEdit[i] + ">" + "<span class='add-decl'>+</span>" + "</div>";
              $( ".wrp-plus" ).append( dynamicTextBox );
             }
+        */
+        
+        var dynamicTextBox= "";
+        for (var i = 1; i < vm.InstructionArrayToEdit.length; i++) {
+            dynamicTextBox+= '<div class="plus"><input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + vm.InstructionArrayToEdit[i] + '" />&nbsp;' + "<span class='add-decl'>+</span>" + "</div>" ;
+        }
+        $( ".wrp-plus" ).append( dynamicTextBox);
+        
+        
         }
         
         
@@ -87,9 +96,11 @@ $().ready(function() {
                     data: formData,
                     //call back or get response here
                     success : function(response){
+                        console.log("response",response);
                         if(response == "true"){
                             window.location='/' + companyTeamName +'/consent';
                         }else {
+                            console.log("iam in else section")
                              $("#saveButton").attr('disabled', false);
                         }
                     },
