@@ -252,8 +252,6 @@ var allUserId = [[]];
                 for(var i=0;i<reverseSorted.length;i++){
                     if(reverseSorted[i].length != 0){
                         if (reverseSorted[i][5]==""){
-                             console.log("cpp1");
-                            console.log("iam in first");
                             var utcTime =reverseSorted[i][3];
                             var dateFromDb = parseInt(utcTime);
                             var d = new Date(dateFromDb * 1000);
@@ -303,9 +301,34 @@ var allUserId = [[]];
                             if (sec < 10) {
                                 sec = '0' + sec;
                             }
-                                var endDate = (mm + '/' + dd + '/' + yyyy);
-                                var timeDifferenceForLeave =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
-                                 DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+"Applied Leave For "+"  "+reverseSorted[i][7]+" "+"Days"+" "+"From"+" "+startDate+" "+"to"+" "+endDate+" <span>"+timeDifferenceForLeave+"</span>"+"</li>";
+                            var endDate = (mm + '/' + dd + '/' + yyyy);
+                            
+                            
+                            //for localize date of creation
+                            var dateOfCreation = reverseSorted[i][6];
+                            var parseDate = parseInt(dateOfCreation);
+                            var dateObject = new Date(parseDate * 1000);
+                            var day = dateObject.getDate();
+                            var month = dateObject.getMonth() + 1; //January is 0!
+                            var year = dateObject.getFullYear();
+                            var hour = dateObject.getHours();
+                            var mints = dateObject.getMinutes();
+                            if (day < 10) {
+                                day = '0' + day;
+                            }
+                            if (month < 10) {
+                                month = '0' + month;
+                            }
+                            if (hour < 10) {
+                                hour = '0' + hour;
+                            }
+                            if (mints < 10) {
+                                mints = '0' + mints;
+                            }
+                            var localCreatedDate = (month + '/' + day + '/' + year);
+                            var localCreatedTIme = (hour +':'+mints);
+                            var timeDifferenceForLeave =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
+                            DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+"Applied Leave For "+"  "+reverseSorted[i][7]+" "+"Days"+" "+"From"+" "+startDate+" "+"to"+" "+endDate+" <span>"+localCreatedDate+"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+localCreatedTIme+"</span>"+"</li>";
                         } else if (reverseSorted[i][5] =="Expiry111@@&&EEE"){
                             console.log("cpp2");
                             var utcTime =reverseSorted[i][7];
@@ -331,32 +354,106 @@ var allUserId = [[]];
                             console.log("dd",dd);
                             console.log("currentDate[2]",currentDate[2]);
                             console.log("yyyy",reverseSorted[i][3]);
+                            var dateOfCreation = reverseSorted[i][6];
+                            var parseDate = parseInt(dateOfCreation);
+                            var dateObject = new Date(parseDate * 1000);
+                            var day = dateObject.getDate();
+                            var month = dateObject.getMonth() + 1; //January is 0!
+                            var year = dateObject.getFullYear();
+                            var hour = dateObject.getHours();
+                            var mints = dateObject.getMinutes();
+                            if (day < 10) {
+                                day = '0' + day;
+                            }
+                            if (month < 10) {
+                                month = '0' + month;
+                            }
+                            if (hour < 10) {
+                                hour = '0' + hour;
+                            }
+                            if (mints < 10) {
+                                mints = '0' + mints;
+                            }
+                            var localCreatedDate = (month + '/' + day + '/' + year);
+                            var localCreatedTIme = (hour +':'+mints);
                            
                             if(currentDate[0] == mm && currentDate[1] ==dd && currentDate[2] == yyyy  ){
                                 
-                                var timeDifferenceForLeave =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
-                                DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][0]+"'s"+" "+reverseSorted[i][4]+ " "+ "expired"+" "+"("+ expiryDate+")"+"<span>"+timeDifferenceForLeave+"</span>"+"</li>";
+                                var timeDifference =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
+                                DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][0]+"'s"+" "+reverseSorted[i][4]+ " "+ "expired"+" "+"("+ expiryDate+")"+" <span>"+localCreatedDate+"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+localCreatedTIme+"</span>"+"</li>";
                                 
                             } else{
-                               
-                                var timeDifferenceForLeave =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
-                                DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][0]+"'s"+reverseSorted[i][4]+ " "+ "will be expired on" +" "+expiryDate+
-                                    "<span>"+timeDifferenceForLeave+"</span>"+"</li>";
+                                
+                                
+                                var timeDifference =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
+                                DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][0]+"'s"+reverseSorted[i][4]+ " "+ "will be expired on" +" "+expiryDate+" <span>"+localCreatedDate+"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+localCreatedTIme+"</span>"+"</li>";
                             }
                         
                         } else if(reverseSorted[i][5] == "WorkLocationt!@#$%&*YTREFFDD"){
+                            var createdDate = reverseSorted[i][6];
+                            var parseDate = parseInt(createdDate);
+                            var d = new Date(parseDate * 1000);
+                            var dd = d.getDate();
+                            var mm = d.getMonth() + 1; //January is 0!
+                            var yyyy = d.getFullYear();
+                            var HH = d.getHours();
+                            var min = d.getMinutes();
+                            var sec = d.getSeconds();
+                            if (dd < 10) {
+                                dd = '0' + dd;
+                            }
+                            if (mm < 10) {
+                                mm = '0' + mm;
+                            }
+                            if (HH < 10) {
+                                HH = '0' + HH;
+                            }
+                            if (min < 10) {
+                                min = '0' + min;
+                            }
+                            if (sec < 10) {
+                                sec = '0' + sec;
+                            }
+                            var localCreatedDate = (mm + '/' + dd + '/' + yyyy);
+                            var localCreatedTIme = (HH +':'+min);
                             var timeDifference =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
                             if(reverseSorted[i][8] == "After" ){
-                               DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+" will be reaching within"+" "+reverseSorted[i][3]+"  "+"at work location "+" "+reverseSorted[i][4]+" <span>"+timeDifference+"</span>"+"</li>"; 
+                                DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"reached work location within  "+" "+reverseSorted[i][4]+" <span>"+localCreatedDate+"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+localCreatedTIme+"</span>"+"</li>";
                             } else{
-                                DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+"will be delayed "+reverseSorted[i][3]+"  "+"to reach at work location"+" "+reverseSorted[i][4]+" <span>"+timeDifference+"</span>"+"</li>";
+                                DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"delay to reach work location"+" "+reverseSorted[i][4]+" <span>"+localCreatedDate+"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+localCreatedTIme+"</span>"+"</li>";
                             }
                         }else{
+                            var createdDate = reverseSorted[i][6];
+                            var parseDate = parseInt(createdDate);
+                            var d = new Date(parseDate * 1000);
+                            var dd = d.getDate();
+                            var mm = d.getMonth() + 1; //January is 0!
+                            var yyyy = d.getFullYear();
+                            var HH = d.getHours();
+                            var min = d.getMinutes();
+                            var sec = d.getSeconds();
+                            if (dd < 10) {
+                                dd = '0' + dd;
+                            }
+                            if (mm < 10) {
+                                mm = '0' + mm;
+                            }
+                            if (HH < 10) {
+                                HH = '0' + HH;
+                            }
+                            if (min < 10) {
+                                min = '0' + min;
+                            }
+                            if (sec < 10) {
+                                sec = '0' + sec;
+                            }
+                            var localCreatedDate = (mm + '/' + dd + '/' + yyyy);
+                            var localCreatedTIme = (HH +':'+min);
                             var timeDifference =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
                              if(reverseSorted[i][7] == "After" ){
-                                 DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+" will be reaching within"+" "+reverseSorted[i][3]+"  "+" at task location"+" "+reverseSorted[i][4]+" "+"for the task"+" "+reverseSorted[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
+                                 DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+" will be reaching within"+" "+reverseSorted[i][3]+"  "+" at task location"+" "+reverseSorted[i][4]+" "+"for the task"+" "+reverseSorted[i][5]+" <span>"+localCreatedDate+"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+localCreatedTIme+"</span>"+"</li>";
                             } else{
-                                DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+"will be delayed"+" "+reverseSorted[i][3]+"  "+" to reach the task location "+" "+reverseSorted[i][4]+" "+"for the task"+" "+reverseSorted[i][5]+" <span>"+timeDifference+"</span>"+"</li>";
+                                DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+"will be delayed"+" "+reverseSorted[i][3]+"  "+" to reach the task location "+" "+reverseSorted[i][4]+" "+"for the task"+" "+reverseSorted[i][5]+" <span>"+localCreatedDate+"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+localCreatedTIme+"</span>"+"</li>";
                             }
                         }
                     }

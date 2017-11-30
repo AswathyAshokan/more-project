@@ -1560,7 +1560,7 @@ $(function(){
                             ArrayForDateFilterOfTask.push(workMainArray[k]);
                             for(var j=0;j<workMainArray.length;j++){
                               if (j !=k){
-                                  if (ArrayForDateFilterOfTask[0][6]==workMainArray[j][6]){
+                                  if (ArrayForDateFilterOfTask[0][6]==workMainArray[j][6] && ArrayForDateFilterOfTask[0][7]==workMainArray[j][7]){
                                       ArrayForDateFilterOfTask.push(workMainArray[j]);
                                   }
                               }
@@ -1749,6 +1749,33 @@ $(function(){
                 console.log("inside work sheet");
                 $('#timeSheet_details').dataTable().fnDestroy();
                 var WorkValues =[];
+                
+                
+//                for (var k=0;k<mainArray.length;k++){
+//                    if (mainArray[k].length !=0){
+//                        var d1 = fromDateValue.split("/");
+//                        var d2 = toDateValue.split("/");
+//                        var c = mainArray[k][8].split("/");
+//                        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
+//                        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
+//                        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+//                        if (check >= from && check <= to){
+//                            var  ArrayForDateFilter =[];
+//                            ArrayForDateFilter.push(mainArray[k]);
+//                            for(var j=0;j<mainArray.length;j++){
+//                                if (j !=k){
+//                                    if (ArrayForDateFilter[0][6]==mainArray[j][6] && ArrayForDateFilter[0][7]==mainArray[j][7]){
+//                                        ArrayForDateFilter.push(mainArray[j]);
+//                                    }
+//                                }
+//                            }
+//                            FinalArrayForDateFilter.push(ArrayForDateFilter); 
+//                            
+//                        }
+//                    }
+//                }
+                
+                 
                 for (var k=0;k<workMainArray.length;k++){
                     if (workMainArray[k].length !=0){
                         var d1 = fromDateValue.split("/");
@@ -1765,7 +1792,14 @@ $(function(){
                             ArrayForDateFilterOfTask.push(workMainArray[k]);
                             for(var j=0;j<workMainArray.length;j++){
                               if (j !=k){
+                                  console.log("mmmmmmmmm",ArrayForDateFilterOfTask);
                                   console.log("ll99999");
+                                  console.log("l1",ArrayForDateFilterOfTask[0][6]);
+                                  console.log("l2",workMainArray[j][6]);
+                                  console.log("l3",ArrayForDateFilterOfTask[0][7]);
+                                  console.log("l4",workMainArray[j][7]);
+                                  
+                                  
                                   if (ArrayForDateFilterOfTask[0][6]==workMainArray[j][6]&& ArrayForDateFilterOfTask[0][7]==workMainArray[j][7]){
                                       ArrayForDateFilterOfTask.push(workMainArray[j]);
                                   }
@@ -1951,25 +1985,61 @@ $(function(){
                 console.log("inside work sheet");
                 $('#timeSheet_details').dataTable().fnDestroy();
                 var WorkValues =[];
-                for (var k=0;k<workMainArray.length;k++){
+//                for (var k=0;k<workMainArray.length;k++){
+//                    if (workMainArray[k].length !=0){
+//                        var d1 = fromDateValue.split("/");
+//                        var d2 = toDateValue.split("/");
+//                        var c = workMainArray[k][7].split("/");
+//                        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
+//                        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
+//                        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+//                        if (check >= from && check <= to){
+//                            ArrayForDateFilterOfTask.push(workMainArray[k]);
+//                            for(var j=0;j<workMainArray.length;j++){
+//                              if (j !=k){
+//                                  if (ArrayForDateFilterOfTask[0][6]==workMainArray[j][6]&& ArrayForDateFilterOfTask[0][7]==workMainArray[j][7]){
+//                                      ArrayForDateFilterOfTask.push(workMainArray[j]);
+//                                  }
+//                              }
+//                            }
+//                            FinalArrayForDateFilterOfTask.push(ArrayForDateFilterOfTask); 
+//                            var  ArrayForDateFilterOfTask =[];
+//                        }
+//                    }
+//                }
+                
+                
+                 for (var k=0;k<workMainArray.length;k++){
                     if (workMainArray[k].length !=0){
                         var d1 = fromDateValue.split("/");
                         var d2 = toDateValue.split("/");
+                        console.log("date nnnnnn1",workMainArray[k][7]);
                         var c = workMainArray[k][7].split("/");
                         var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
                         var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
                         var check = new Date(c[2], parseInt(c[1])-1, c[0]);
                         if (check >= from && check <= to){
+                            console.log("llllll123");
+                            var  ArrayForDateFilterOfTask =[];
+                            console.log("nnn3333",workMainArray[k]);
                             ArrayForDateFilterOfTask.push(workMainArray[k]);
                             for(var j=0;j<workMainArray.length;j++){
                               if (j !=k){
-                                  if (ArrayForDateFilterOfTask[0][6]==workMainArray[j][6]){
+                                  console.log("mmmmmmmmm",ArrayForDateFilterOfTask);
+                                  console.log("ll99999");
+                                  console.log("l1",ArrayForDateFilterOfTask[0][6]);
+                                  console.log("l2",workMainArray[j][6]);
+                                  console.log("l3",ArrayForDateFilterOfTask[0][7]);
+                                  console.log("l4",workMainArray[j][7]);
+                                  
+                                  
+                                  if (ArrayForDateFilterOfTask[0][6]==workMainArray[j][6]&& ArrayForDateFilterOfTask[0][7]==workMainArray[j][7]){
                                       ArrayForDateFilterOfTask.push(workMainArray[j]);
                                   }
                               }
                             }
                             FinalArrayForDateFilterOfTask.push(ArrayForDateFilterOfTask); 
-                            var  ArrayForDateFilterOfTask =[];
+                            
                         }
                     }
                 }
@@ -2147,29 +2217,65 @@ $(function(){
                 console.log("inside work sheet");
                 $('#timeSheet_details').dataTable().fnDestroy();
                 var WorkValues =[];
-                for (var k=0;k<workMainArray.length;k++){
+//                for (var k=0;k<workMainArray.length;k++){
+//                    if (workMainArray[k].length !=0){
+//                        var d1 = fromDateValue.split("/");
+//                        var d2 = toDateValue.split("/");
+//                        var c = workMainArray[k][7].split("/");
+//                        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
+//                        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
+//                        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+//                        if (check >= from && check <= to){
+//                            var  ArrayForDateFilterOfTask =[];
+//                            ArrayForDateFilterOfTask.push(workMainArray[k]);
+//                            for(var j=0;j<workMainArray.length;j++){
+//                              if (j !=k){
+//                                   if (ArrayForDateFilterOfTask[0][6]==workMainArray[j][6]&& ArrayForDateFilterOfTask[0][7]==workMainArray[j][7]){
+//                                      ArrayForDateFilterOfTask.push(workMainArray[j]);
+//                                  }
+//                              }
+//                            }
+//                            FinalArrayForDateFilterOfTask.push(ArrayForDateFilterOfTask); 
+//                            
+//                        }
+//                    }
+//                }
+                
+                 for (var k=0;k<workMainArray.length;k++){
                     if (workMainArray[k].length !=0){
                         var d1 = fromDateValue.split("/");
                         var d2 = toDateValue.split("/");
+                        console.log("date nnnnnn1",workMainArray[k][7]);
                         var c = workMainArray[k][7].split("/");
                         var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
                         var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
                         var check = new Date(c[2], parseInt(c[1])-1, c[0]);
                         if (check >= from && check <= to){
+                            console.log("llllll123");
+                            var  ArrayForDateFilterOfTask =[];
+                            console.log("nnn3333",workMainArray[k]);
                             ArrayForDateFilterOfTask.push(workMainArray[k]);
                             for(var j=0;j<workMainArray.length;j++){
                               if (j !=k){
-                                  if (ArrayForDateFilterOfTask[0][6]==workMainArray[j][6]){
+                                  console.log("mmmmmmmmm",ArrayForDateFilterOfTask);
+                                  console.log("ll99999");
+                                  console.log("l1",ArrayForDateFilterOfTask[0][6]);
+                                  console.log("l2",workMainArray[j][6]);
+                                  console.log("l3",ArrayForDateFilterOfTask[0][7]);
+                                  console.log("l4",workMainArray[j][7]);
+                                  
+                                  
+                                  if (ArrayForDateFilterOfTask[0][6]==workMainArray[j][6]&& ArrayForDateFilterOfTask[0][7]==workMainArray[j][7]){
                                       ArrayForDateFilterOfTask.push(workMainArray[j]);
                                   }
                               }
                             }
                             FinalArrayForDateFilterOfTask.push(ArrayForDateFilterOfTask); 
-                            var  ArrayForDateFilterOfTask =[];
+                            
                         }
                     }
                 }
-                console.log("meee1",FinalArrayForDateFilterOfTask);
+                console.log("meee1ffff",FinalArrayForDateFilterOfTask);
                 var WorkTimeSheetRealArray =[[]];
                 for (var i=1;i<FinalArrayForDateFilterOfTask.length;i++){
                     var WorkValues =[];
