@@ -100,7 +100,7 @@ func UpdateAllNotifications(ctx context.Context,companyTeamName string,UpdateIdA
 	updateTaskNotification :=NotificationForTask{}
 	taskNoificationValues := map[string]NotificationForTask {}
 	notificationValueForLeave := map[string]NotificationForLeave{}
-	notificationBeforeUpdateForLeave := map[string]NotificationForLeave{}
+
 	notificationUpdateForLeave :=NotificationForLeave{}
 	notificationUpdateSuccessForLeave :=NotificationForLeave{}
 
@@ -176,6 +176,7 @@ func UpdateAllNotifications(ctx context.Context,companyTeamName string,UpdateIdA
 	err = dB.Child("/Notifications/LeaveRequests/"+ companyTeamName).Value(&notificationValueForLeave)
 	notificationOfUserForLeave := reflect.ValueOf(notificationValueForLeave)
 	for _, notificationUserKey := range notificationOfUserForLeave.MapKeys() {
+		notificationBeforeUpdateForLeave := map[string]NotificationForLeave{}
 		err = dB.Child("Notifications/LeaveRequests/"+ companyTeamName+"/"+notificationUserKey.String()).Value(&notificationBeforeUpdateForLeave)
 		notifications := reflect.ValueOf(notificationBeforeUpdateForLeave)
 		for _, notificationKey := range notifications.MapKeys() {

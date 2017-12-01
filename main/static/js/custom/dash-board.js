@@ -418,9 +418,9 @@ var allUserId = [[]];
                             var localCreatedTIme = (HH +':'+min);
                             var timeDifference =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
                             if(reverseSorted[i][8] == "After" ){
-                                DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"reached work location within  "+" "+reverseSorted[i][4]+" <span>"+localCreatedDate+"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+localCreatedTIme+"</span>"+"</li>";
+                               DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+" will be reaching within"+" "+reverseSorted[i][3]+"  "+"at work location "+" "+reverseSorted[i][4]+" <span>"+localCreatedDate+"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+localCreatedTIme+"</span>"+"</li>"; 
                             } else{
-                                DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+reverseSorted[i][3]+"  "+"delay to reach work location"+" "+reverseSorted[i][4]+" <span>"+localCreatedDate+"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+localCreatedTIme+"</span>"+"</li>";
+                                DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+"will be delayed "+reverseSorted[i][3]+"  "+"to reach at work location"+" "+reverseSorted[i][4]+" <span>"+localCreatedDate+"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+localCreatedTIme+"</span>"+"</li>";
                             }
                         }else{
                             var createdDate = reverseSorted[i][6];
