@@ -44,7 +44,13 @@ type FitToWorkForkWorkLocation struct {
 	FitToWorkInstruction    map[string]WorkLocationFitToWork
 	Settings		WorkFitToWorkSettings
 	Info			WOrkFitToWorkInfo
+	Users			map[string]WorkLocationFitToWorkResponse
 
+}
+type WorkLocationFitToWorkResponse struct{
+	ResponseTime		int64
+	UserName		string
+	UserResponse		string
 }
 
 type WOrkFitToWorkInfo struct {
@@ -460,6 +466,11 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 			tempKeySlice = append(tempKeySlice, fitToWorkKey.String())
 		}
 		FitToWorkForSetting.Status =helpers.StatusActive
+		fitToWorkDetail := map[string]WorkLocationFitToWorkResponse{}
+		userMap := make(map[string]WorkLocationFitToWorkResponse)
+		fitStruct :=WorkLocationFitToWorkResponse{}
+		fitWorkStructForResponse :=FitToWorkForkWorkLocation{}
+
 		err = db.Child("WorkLocation/"+workLocationId+"/FitToWork/Settings").Set(FitToWorkForSetting)
 		for _, eachKey := range tempKeySlice {
 			log.Println(reflect.TypeOf(fitToWork[eachKey].FitToWorkName))
@@ -470,9 +481,19 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 				fitToWOrkKey =eachKey
 				err = db.Child("FitToWork/"+companyTeamName+"/"+eachKey+"/Instructions").Value(&instructionOfFitWork)
 				err = db.Child("WorkLocation/"+workLocationId+"/FitToWork/FitToWorkInstruction").Set(instructionOfFitWork)
+				err = db.Child("WorkLocation/"+workLocationId+"FitToWork/Users").Value(&fitToWorkDetail)
+				fitToWorkResponse := reflect.ValueOf(fitToWorkDetail)
+				for _, fitToWorkResponseKey := range fitToWorkResponse.MapKeys() {
 
+					fitStruct.ResponseTime=fitToWorkDetail[fitToWorkResponseKey.String()].ResponseTime
+					fitStruct.UserName =fitToWorkDetail[fitToWorkResponseKey.String()].UserName
+					fitStruct.UserResponse =fitToWorkDetail[fitToWorkResponseKey.String()].UserResponse
+					userMap[fitToWorkResponseKey.String()] =fitStruct
+				}
+
+				fitWorkStructForResponse.Users=userMap
+				err = db.Child("WorkLocation/"+workLocationId+"FitToWork/Users").Set(fitWorkStructForResponse)
 			}
-
 		}
 		FitToWorkForSetting.Status =helpers.StatusActive
 		err = db.Child("WorkLocation/"+workLocationId+"/FitToWork/Settings").Set(FitToWorkForSetting)
@@ -713,6 +734,20 @@ func GetWorkLocationBreakDetailById(ctx context.Context, workLocationId string)(
 	return true, breakDetail
 }
 
+//get the fit to work details
+
+func GetFitToWorkDetailsResponseById(ctx context.Context, workLocationId string)( bool,map[string]WorkLocationFitToWorkResponse) {
+	fitToWorkDetail := map[string]WorkLocationFitToWorkResponse{}
+	log.Println("hiii1")
+	dB, err := GetFirebaseClient(ctx, "")
+	err = dB.Child("WorkLocation/" + workLocationId + "/FitToWork/Users").Value(&fitToWorkDetail)
+	if err != nil {
+		log.Fatal(err)
+		return false, fitToWorkDetail
+	}
+	log.Println("llll",fitToWorkDetail)
+	return true, fitToWorkDetail
+}
 func  WorkLocationDeleteStatusCheck(ctx context.Context, workId string,companyId string)(bool,int64) {
 	usersOfWorkLocation := UsersAndGroupsInWork{}
 	var condition =""

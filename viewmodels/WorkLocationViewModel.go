@@ -34,6 +34,7 @@ type LoadWorkLocationViewModel struct {
 	NotificationArray		[][]string
 	NotificationNumber       	int
 	MinUserAndLoginTypeArray	[][]string
+	FitToWorkDetailsDisplayArray	[][]string
 
 }
 

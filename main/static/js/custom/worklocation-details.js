@@ -78,10 +78,10 @@ $(function(){
                     minUser +='<td>Log Time In Minutes </td>';
                     minUser +='<td>'+minUserArray[i][1]+'</td>';
                     minUser +='</tr>';
-                    minUser +='<tr>';
-                    minUser +='<td>Fit To WorkName </td>';
-                    minUser +='<td>'+minUserArray[i][2]+'</td>';
-                    minUser +='</tr>';
+//                    minUser +='<tr>';
+//                    minUser +='<td>Fit To WorkName </td>';
+//                    minUser +='<td>'+minUserArray[i][2]+'</td>';
+//                    minUser +='</tr>';
                     
                 }
             }
@@ -112,7 +112,65 @@ $(function(){
             exposure += "</table  >";
             exposure +="</div>";
             
-            return minUser+exposure;
+            
+            //fit To Work
+            
+            var fitToWork   ='<div class="pull-left dropdown-tbl" style="">';
+            fitToWork += "<table cellpadding='5' cellspacing='0' style='border: 1px solid #dddddd !important;margin-left: 536px;margin-top: -69px;'>";
+//            fitToWork += '<th>Fit To Work Details </th>';
+             if ( vm.FitToWorkDetailsDisplayArray !=null)
+                {
+            fitToWork += "<th>"+"Fit To WorkName:"+vm.FitToWorkDetailsDisplayArray[0][0]+"</th>";
+            fitToWork += "<tr>";
+//            fitToWork += "<td>";
+            fitToWork += '<th>Accepted User </th>';
+//            fitToWork += "</td>";
+//            fitToWork += "<td>";
+            fitToWork += '<th>Date And Time </th>';
+//            fitToWork += "</td>";
+            fitToWork += "</tr>";
+            fitToWork += "<tr>";
+           
+                    for (var i = 0; i < vm.FitToWorkDetailsDisplayArray.length; i++) {
+                 
+                if(vm.FitToWorkDetailsDisplayArray[i] != null && vm.FitToWorkDetailsDisplayArray[i][1] == workLocationID ) {
+                    console.log("task id exposure");
+                    fitToWork += "<td>"+vm.FitToWorkDetailsDisplayArray[i][2]+"</td>";
+                    var utcTime = vm.FitToWorkDetailsDisplayArray[i][3];
+                    var dateFromDb = parseInt(utcTime)
+                    var d = new Date(dateFromDb * 1000);
+                    var dd = d.getDate();
+                    var mm = d.getMonth() + 1; //January is 0!
+                    var yyyy = d.getFullYear();
+                    var HH = d.getHours();
+                    var min = d.getMinutes();
+                    var sec = d.getSeconds();
+                    if (dd < 10) {
+                        dd = '0' + dd;
+                    }
+                    if (mm < 10) {
+                        mm = '0' + mm;
+                    }
+                    if (HH < 10) {
+                        HH = '0' + HH;
+                    }
+                    if (min < 10) {
+                        min = '0' + min;
+                    }
+                    if (sec < 10) {
+                        sec = '0' + sec;
+                    }
+                    var fitTime = (HH + ':' + min);
+                    var fitDate = (mm + '/' + dd + '/' + yyyy);
+                     fitToWork += "<td>"+fitDate+" ("+fitTime+")"+"</td>";
+                     fitToWork += "</tr>";
+                }
+            }
+                }
+            
+            fitToWork += "</table  >";
+            fitToWork +="</div>";
+            return minUser+exposure+fitToWork;
          }
         
         

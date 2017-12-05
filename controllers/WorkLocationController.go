@@ -302,6 +302,7 @@ func (c *WorkLocationcontroller) LoadWorkLocation() {
 	viewModel := viewmodels.LoadWorkLocationViewModel{}
 	var workLocationUserSlice [][]viewmodels.WorkLocationUsers
 	var workLocationExposureSlice [][]viewmodels.WorkExposure
+	var AllFitToWorkDetails [][]string
 	var KeyValues []string
 	switch dbStatus {
 	case true:
@@ -344,6 +345,31 @@ func (c *WorkLocationcontroller) LoadWorkLocation() {
 				minUserArray = append(minUserArray,k)
 				viewModel.MinUserAndLoginTypeArray =append(viewModel.MinUserAndLoginTypeArray,minUserArray)
 				minUserArray =minUserArray[:0]
+
+				//for displaying fit to work users
+
+
+				dbStatus,workFitToWorkDetails := models.GetFitToWorkDetailsResponseById(c.AppEngineCtx,k)
+
+				switch dbStatus {
+				case true:
+					FitToWorkValue := reflect.ValueOf(workFitToWorkDetails)
+					for _,key :=range FitToWorkValue.MapKeys(){
+						var FitToWorkArray []string
+						FitToWorkArray =append(FitToWorkArray,workLocation[k].FitToWork.Info.FitToWorkName)
+						FitToWorkArray =append(FitToWorkArray,k)
+						FitToWorkArray =append(FitToWorkArray,workFitToWorkDetails[key.String()].UserName)
+						fitToWork := strconv.FormatInt(workFitToWorkDetails[key.String()].ResponseTime, 10)
+						FitToWorkArray =append(FitToWorkArray,fitToWork)
+						AllFitToWorkDetails =append(AllFitToWorkDetails,FitToWorkArray)
+
+					}
+				case false:
+				}
+				log.Println("mmmm",AllFitToWorkDetails)
+
+
+
 				dbStatus, taskExposureDetails := models.GetWorkLocationBreakDetailById(c.AppEngineCtx,k)
 				switch dbStatus {
 				case true:
@@ -363,7 +389,9 @@ func (c *WorkLocationcontroller) LoadWorkLocation() {
 				}
 				viewModel.ExposureArray =workLocationExposureSlice
 
+
 			}
+			viewModel.FitToWorkDetailsDisplayArray =AllFitToWorkDetails
 		}
 
 		log.Println("viewModel.ExposureArray",viewModel.MinUserAndLoginTypeArray)
