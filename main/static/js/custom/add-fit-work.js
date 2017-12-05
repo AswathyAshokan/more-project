@@ -6,12 +6,13 @@ $().ready(function() {
         console.log("instructions",vm.InstructionArrayToEdit[0]);
         console.log("fit name",vm.FitToWorkName);
         document.getElementById("fitWorkName").value = vm.FitToWorkName;
-        document.getElementById("addFitToWorkValue").value = vm.InstructionArrayToEdit[0];
         var dynamicTextBox= "";
         for (var i = 1; i < vm.InstructionArrayToEdit.length; i++) {
             dynamicTextBox+= '<div class="plus"><input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + vm.InstructionArrayToEdit[i] + '" />&nbsp;' + "<span class='add-decl'>+</span>" + "</div>" ;
         }
-        $( ".wrp-plus" ).append( dynamicTextBox);
+        document.getElementById("addFitToWorkValue").value = vm.InstructionArrayToEdit[0];
+
+        $( ".wrp-plus" ).prepend( dynamicTextBox);
              $("#addFitToWorkForm").validate({
         rules: {
              fitWorkName: {

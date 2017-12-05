@@ -91,10 +91,10 @@ $(function(){
             minUser +="</div>";
             
             //exposure
-            var exposure   ='<div class="pull-left dropdown-tbl" style="">';
+            var exposure   ='<div class="pull-left dropdown-tbl" style="margin-left: 25px;">';
             exposure += "<table cellpadding='5' cellspacing='0' style='border: 1px solid #dddddd !important;'>";
             exposure += '<th>Exposure Details</th>';
-            exposure += "<tr>";
+//            exposure += "<tr>";
             for (var i = 0; i < ExposureArray.length; i++) {
                  
                 if(ExposureArray[i] != null && ExposureArray[i][0].TaskId == workLocationID ) {
@@ -105,7 +105,7 @@ $(function(){
                         var Workhours = Math.trunc(ExposureArray[i][j].WorkingHour/60);
                         var Workminutes = ExposureArray[i][j].WorkingHour % 60;
                         exposure += "<td>"+Breakhours +":"+ Breakminutes+" Minutes Break After    "+Workhours +":"+ Workminutes+"Minutes"+"</td>";
-                        exposure += "</tr>";
+//                        exposure += "</tr>";
                     }
                 }
             }
@@ -116,7 +116,7 @@ $(function(){
             //fit To Work
             
             var fitToWork   ='<div class="pull-left dropdown-tbl" style="">';
-            fitToWork += "<table cellpadding='5' cellspacing='0' style='border: 1px solid #dddddd !important;margin-left: 536px;margin-top: -69px;'>";
+            fitToWork += "<table cellpadding='5' cellspacing='0' style='border: 1px solid #dddddd !important;'>";
 //            fitToWork += '<th>Fit To Work Details </th>';
              if ( vm.FitToWorkDetailsDisplayArray !=null)
                 {
