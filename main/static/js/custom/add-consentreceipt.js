@@ -8,14 +8,15 @@ $().ready(function() {
         console.log("instructions",vm.InstructionArrayToEdit[0]);
         var selectArray = vm.SelectedUsersKey;
         document.getElementById("recieptName").value = vm.ReceiptName;
-        document.getElementById("addConsentValue").value = vm.InstructionArrayToEdit[0];
+       
         document.getElementById("consentHead").innerHTML = "Edit Consent Receipt";//for display heading of each webpage
         $("#selectedUserIds").val(selectArray);
        var dynamicTextBox= "";
         for (var i = 1; i <vm.InstructionArrayToEdit.length; i++) {
             dynamicTextBox+= '<div class="plus"><input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + vm.InstructionArrayToEdit[i] + '"/>' + "<span class='add-decl'>+</span>" + "</div>" ;
         }
-        $( ".wrp-plus" ).append(dynamicTextBox);
+        $( ".wrp-plus" ).prepend(dynamicTextBox);
+         document.getElementById("addConsentValue").value = vm.InstructionArrayToEdit[0];
     }
         
         
