@@ -26,10 +26,12 @@ type ConsentInstructions struct {
 type ConsentMembers struct {
 	FullName  		string
 	UserResponse    	string
+	ResponseTime     int64
 }
 type ConsentData struct {
 	ReceiptName  	string
 	CompanyName	string
+
 }
 
 type ConsentSettings struct {
@@ -141,6 +143,14 @@ func(m *ConsentReceipts) UpdateConsentDetailsIfInstructionChanged(ctx context.Co
 	}*/
 	m.Settings.DateOfCreation = ConsentStatusDetails.DateOfCreation
 	m.Settings.Status = ConsentStatusDetails.Status
+	tempMembersMap := make(map[string]ConsentMembers)
+	members := ConsentMembers{}
+	for i := 0; i < len(tempGroupId); i++ {
+		members.FullName = tempGroupMembers[i]
+		members.UserResponse = helpers.UserResponsePending
+		tempMembersMap[tempGroupId[i]] = members
+	}
+	m.Instructions.Users = tempMembersMap
 	err = db.Child("/ConsentReceipts/"+companyTeamName+"/"+consentId).Update(&m)
 
 	/*if err != nil {
@@ -197,7 +207,7 @@ func DeleteConsentReceiptById(ctx context.Context,consentId string,companyTeamNa
 
 
 	//delete consent from users
-	 var userKeySlice []string
+	var userKeySlice []string
 	var instructionKey []string
 	addConsentToUsers.CompanyId = companyTeamName
 	addConsentToUsers.UserResponse = helpers.UserStatusDeleted
@@ -257,13 +267,14 @@ func IsInstructionEdited(ctx context.Context,instructionSlice []string,consentId
 				count = count+1
 			}
 		}
-		if count == len(AllInstructions){
-			return true
-		} else {
-			return false
-		}
-		log.Println("time",count)
+
 	}
+	if count == len(AllInstructions){
+		return true
+	} else {
+		return false
+	}
+	log.Println("time",count)
 
 	return false
 }
@@ -321,6 +332,46 @@ func(m *ConsentReceipts) UpdateConsentDataIfInstructionNotChanged(ctx context.Co
 	log.Println("ConsentStatusDetails",ConsentStatusDetails)
 	m.Settings.DateOfCreation = ConsentStatusDetails.DateOfCreation
 	m.Settings.Status = ConsentStatusDetails.Status
+
+
+	instructionsValues :=map[string]ConsentInstructions{}
+	tempMembersMap := make(map[string]ConsentMembers)
+	members := ConsentMembers{}
+
+	err = db.Child("/ConsentReceipts/"+companyTeamName+"/"+consentId+"/Instructions/").Value(&instructionsValues)
+	if err != nil {
+		log.Fatal(err)
+		return  false
+	}
+
+	instructionDataValue := reflect.ValueOf(instructionsValues)
+	for _, instructionkey := range instructionDataValue.MapKeys() {
+		for i := 0; i < len(tempGroupId); i++ {
+			ConsentMembers := ConsentMembers{}
+			err = db.Child("/ConsentReceipts/" + companyTeamName + "/" + consentId + "/Instructions/" + instructionkey.String() + "/Users/" +tempGroupId[i]).Value(&ConsentMembers)
+			log.Println("inner loop consent instructions",ConsentMembers)
+			if err != nil {
+				log.Fatal(err)
+				return false
+			}
+			members.FullName = ConsentMembers.FullName
+			members.UserResponse = ConsentMembers.UserResponse
+			members.ResponseTime = ConsentMembers.ResponseTime
+			tempMembersMap[tempGroupId[i]] = members
+
+		}
+	}
+
+
+
+	/*for i := 0; i < len(tempGroupId); i++ {
+
+		log.Println("haiii i got old consent data",instructionsValues)
+		members.FullName = tempGroupMembers[i]
+		members.UserResponse = helpers.UserResponsePending
+		tempMembersMap[tempGroupId[i]] = members
+	}*/
+	//m.Instructions.Users = tempMembersMap
 	err = db.Child("/ConsentReceipts/"+companyTeamName+"/"+consentId).Update(&m)
 
 	if err != nil {
@@ -331,7 +382,7 @@ func(m *ConsentReceipts) UpdateConsentDataIfInstructionNotChanged(ctx context.Co
 	InstructionForConsent := ConsentInstructions{}
 	for i := 0; i < len(instructionSlice); i++ {
 		InstructionForConsent.Description =instructionSlice[i]
-		InstructionForConsent.Users= m.Instructions.Users
+		InstructionForConsent.Users= tempMembersMap
 		id := betterguid.New()
 		instructionMap[id] = InstructionForConsent
 		err = db.Child("/ConsentReceipts/"+companyTeamName+"/"+consentId+"/Instructions/").Set(instructionMap)

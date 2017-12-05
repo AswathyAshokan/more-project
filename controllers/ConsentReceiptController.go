@@ -8,6 +8,7 @@ import (
 	"log"
 	"strings"
 
+	"strconv"
 )
 type ConsentReceiptController struct {
 	BaseController
@@ -40,6 +41,7 @@ func (c *ConsentReceiptController) AddConsentReceipt() {
 		for i := 0; i < len(tempUserId); i++ {
 			members.UserResponse = helpers.UserResponsePending
 			members.FullName = tempMembers[i]
+			members.ResponseTime = 0
 			tempMembersMap[tempUserId[i]] = members
 		}
 		consentData.Instructions.Users = tempMembersMap
@@ -132,12 +134,13 @@ func (c* ConsentReceiptController)LoadConsentReceipt(){
 							for _, userKey := range reflect.ValueOf(users).MapKeys() {
 								userKeyString := userKey.String()
 								if users[userKeyString].UserResponse == helpers.UserResponseAccepted {
-									consentStructVM.AcceptedUsers = append(consentStructVM.AcceptedUsers, users[userKeyString].FullName)
+									consentStructVM.AcceptedUsers = append(consentStructVM.AcceptedUsers, users[userKeyString].FullName +"("+strconv.FormatInt(users[userKeyString].ResponseTime,10)+")")
+									//consentStructVM.
 								} else if users[userKeyString].UserResponse == helpers.UserResponseRejected {
-									consentStructVM.RejectedUsers = append(consentStructVM.RejectedUsers, users[userKeyString].FullName)
+									consentStructVM.RejectedUsers = append(consentStructVM.RejectedUsers,  users[userKeyString].FullName +"("+strconv.FormatInt(users[userKeyString].ResponseTime,10)+")")
 								} else {
 									// Pending
-									consentStructVM.PendingUsers = append(consentStructVM.PendingUsers, users[userKeyString].FullName)
+									consentStructVM.PendingUsers = append(consentStructVM.PendingUsers,  users[userKeyString].FullName )
 								}
 							}
 							consentViewModel.InnerContent = append(consentViewModel.InnerContent, consentStructVM)
@@ -189,7 +192,7 @@ func (c *ConsentReceiptController) EditConsentReceipt() {
 	consentData := models.ConsentReceipts{}
 	consentView :=viewmodels.EditConsentReceipt{}
 	if r.Method == "POST" {
-		members := models.ConsentMembers{}
+		//members := models.ConsentMembers{}
 		consentData.Info.ReceiptName = c.GetString("recieptName")
 		consentData.Info.CompanyName = storedSession.CompanyName
 		tempGroupId := c.GetStrings("selectedUserIds")
@@ -204,11 +207,11 @@ func (c *ConsentReceiptController) EditConsentReceipt() {
 		consentData.Settings.DateOfCreation = (time.Now().UnixNano() / 1000000)
 		consentData.Settings.Status = helpers.StatusActive
 		tempMembersMap := make(map[string]models.ConsentMembers)
-		for i := 0; i < len(tempGroupId); i++ {
+		/*for i := 0; i < len(tempGroupId); i++ {
 			members.FullName = tempGroupMembers[i]
 			members.UserResponse = helpers.UserResponsePending
 			tempMembersMap[tempGroupId[i]] = members
-		}
+		}*/
 		consentData.Instructions.Users = tempMembersMap
 		instructionStatus := models.IsInstructionEdited(c.AppEngineCtx,instructionSlice,consentId,companyTeamName)
 		switch instructionStatus {
@@ -220,13 +223,12 @@ func (c *ConsentReceiptController) EditConsentReceipt() {
 			case false:
 				w.Write([]byte("false"))
 			}
-
-			log.Println("true nnn")
 		case false:
 			dbStatus := consentData.UpdateConsentDetailsIfInstructionChanged(c.AppEngineCtx,consentId,instructionSlice,tempGroupId,tempGroupMembers,companyTeamName)
 			log.Println("dbStatus",dbStatus)
 			switch dbStatus {
 			case true:
+				log.Println("iam in changed case")
 				w.Write([]byte("true"))
 			case false:
 				w.Write([]byte("false"))

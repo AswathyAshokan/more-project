@@ -3,18 +3,7 @@ var DynamicNotification ="";
 document.getElementById("consent").className += "active";
 var companyTeamName = vm.CompanyTeamName;
 $().ready(function() {
-    function  addleveldata(){
-       var repeat =  "<div class='plus'>" + "<input class='form-control' name='DynamicTextBox' id='DynamicTextBox' type='text'>" + "<span class='add-decl'>+</span>" + "</div>" ;
-       $( ".wrp-plus" ).append( repeat );
-   }
-   $(document).on('click', '.add-decl', function () {
-       if ($(this).closest('.plus').is(':last-child')) {
-           addleveldata();
-       }
-       else {
-           $(this).closest('.plus').remove();
-       }
-   });
+   
     if(vm.PageType == "edit"){ 
         console.log("instructions",vm.InstructionArrayToEdit[0]);
         var selectArray = vm.SelectedUsersKey;
@@ -22,21 +11,12 @@ $().ready(function() {
         document.getElementById("addConsentValue").value = vm.InstructionArrayToEdit[0];
         document.getElementById("consentHead").innerHTML = "Edit Consent Receipt";//for display heading of each webpage
         $("#selectedUserIds").val(selectArray);
-        /*for (var i = 1; i <= vm.InstructionArrayToEdit.length; i++) {
-                console.log("cp1",vm.InstructionArrayToEdit[i]);
-                var dynamicTextBox = "<div class='plus'>"+"<input class='form-control'  name = 'DynamicTextBox'  id=  'DynamicTextBox'  type='text' value = " + vm.InstructionArrayToEdit[i] + ">" + "<span class='add-decl'>+</span>" + "</div>";
-             $( ".wrp-plus" ).append( dynamicTextBox );
-            }
-        */
-        
-        var dynamicTextBox= "";
-        for (var i = 1; i < vm.InstructionArrayToEdit.length; i++) {
-            dynamicTextBox+= '<div class="plus"><input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + vm.InstructionArrayToEdit[i] + '" />&nbsp;' + "<span class='add-decl'>+</span>" + "</div>" ;
+       var dynamicTextBox= "";
+        for (var i = 1; i <vm.InstructionArrayToEdit.length; i++) {
+            dynamicTextBox+= '<div class="plus"><input class="form-control"  name = "DynamicTextBox"  id=  "DynamicTextBox"  type="text" value = "' + vm.InstructionArrayToEdit[i] + '"/>' + "<span class='add-decl'>+</span>" + "</div>" ;
         }
-        $( ".wrp-plus" ).append( dynamicTextBox);
-        
-        
-        }
+        $( ".wrp-plus" ).append(dynamicTextBox);
+    }
         
         
    
@@ -127,6 +107,19 @@ $().ready(function() {
                 });
                 return false;
             }
+        }
+    });
+    
+    function  addleveldata(){
+        var repeat =  "<div class='plus'>" + "<input class='form-control' name='DynamicTextBox' id='DynamicTextBox' type='text'>"+"<span class='add-decl'>+</span>" + "</div>" ;
+        $( ".wrp-plus" ).append( repeat );
+    }
+    $(document).on('click', '.add-decl', function () {
+        if ($(this).closest('.plus').is(':last-child')) {
+            addleveldata();
+        }
+        else {
+            $(this).closest('.plus').remove();
         }
     });
     

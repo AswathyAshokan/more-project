@@ -492,7 +492,7 @@ func(m *WorkLocation)EditWorkLocationToDb(ctx context.Context,workLocationId str
 				}
 
 				fitWorkStructForResponse.Users=userMap
-				err = db.Child("WorkLocation/"+workLocationId+"FitToWork/Users").Set(fitWorkStructForResponse)
+				err = db.Child("WorkLocation/"+workLocationId+"FitToWork/Users/").Set(fitWorkStructForResponse.Users)
 			}
 		}
 		FitToWorkForSetting.Status =helpers.StatusActive

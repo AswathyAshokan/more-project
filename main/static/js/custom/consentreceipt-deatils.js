@@ -1,7 +1,6 @@
 document.getElementById("consent").className += " active";
 var companyTeamName = vm.CompanyTeamName;
 
-
 /*Function for creating Data Array for data table*/
 $(function(){ 
     var mainArray = []; 
@@ -78,7 +77,37 @@ $(function(){
                     result += "<tr>";
                     result += '<th>Accepted Users</th>';
                     if (InnerContent[i].AcceptedUsers != null){
-                        result += "<td><div class ='over-length'><span>"+InnerContent[i].AcceptedUsers+"</div></span></td>";
+                        for(var j=0;j<InnerContent[i].AcceptedUsers.length;j++){
+                            var UserValues = InnerContent[i].AcceptedUsers[j];
+                            var tempUserDatewitoutFrontBracket = UserValues.split("(");
+                            var tempUserDatewitoutBackBracket = tempUserDatewitoutFrontBracket[1].split(")");
+                            var dateFromDb = parseInt(tempUserDatewitoutBackBracket);
+                            var d = new Date(dateFromDb * 1000);
+                            var dd = d.getDate();
+                            var mm = d.getMonth() + 1; //January is 0!
+                            var yyyy = d.getFullYear();
+                            var HH = d.getHours();
+                            var min = d.getMinutes();
+                            var sec = d.getSeconds();
+                            if (dd < 10) {
+                                dd = '0' + dd;
+                            }
+                            if (mm < 10) {
+                                mm = '0' + mm;
+                            }
+                            if (HH < 10) {
+                                HH = '0' + HH;
+                            }
+                            if (min < 10) {
+                                min = '0' + min;
+                            }
+                            var acceptedDate =  (mm + '/' + dd + '/' + yyyy);
+                            var acceptedTime = (HH+":"+min);
+                            console.log("acceptedDate",acceptedDate);
+                            console.log("acceptedTime",acceptedTime);
+                            result += "<td><div class ='over-length'><span>"+tempUserDatewitoutFrontBracket[0]+"("+ acceptedDate+"         ,           "+acceptedTime+")"+"</div></span></td>";
+                        }
+                        
                     } else{
                         result += "<td><div class ='over-length'><span>"+"Nill"+"</div></span></td>";
                         
@@ -88,8 +117,39 @@ $(function(){
                     result += "<tr>";
                     result += '<th>Rejected Users</th>';
                     if (InnerContent[i].RejectedUsers !=null){
-                        result += "<td><div class ='over-length'><span>"+InnerContent[i].RejectedUsers+"</div></span></td>";
-                   } else{
+                        
+                        
+                        for(var j=0;j<InnerContent[i].RejectedUsers.length;j++){
+                            var UserValues = InnerContent[i].RejectedUsers[j];
+                            var tempUserDatewitoutFrontBracket = UserValues.split("(");
+                            var tempUserDatewitoutBackBracket = tempUserDatewitoutFrontBracket[1].split(")");
+                            var dateFromDb = parseInt(tempUserDatewitoutBackBracket);
+                            var d = new Date(dateFromDb * 1000);
+                            var dd = d.getDate();
+                            var mm = d.getMonth() + 1; //January is 0!
+                            var yyyy = d.getFullYear();
+                            var HH = d.getHours();
+                            var min = d.getMinutes();
+                            var sec = d.getSeconds();
+                            if (dd < 10) {
+                                dd = '0' + dd;
+                            }
+                            if (mm < 10) {
+                                mm = '0' + mm;
+                            }
+                            if (HH < 10) {
+                                HH = '0' + HH;
+                            }
+                            if (min < 10) {
+                                min = '0' + min;
+                            }
+                            var rejectedDate =  (mm + '/' + dd + '/' + yyyy);
+                            var rejectedTime = (HH+":"+min);
+                            console.log("rejectedDate",rejectedDate);
+                            console.log("rejectedTime",rejectedTime);
+                            result += "<td><div class ='over-length'><span>"+tempUserDatewitoutFrontBracket[0]+"("+ rejectedDate+"         ,           "+rejectedTime+")"+"</div></span></td>";
+                        }
+                    } else{
                         result += "<td><div class ='over-length'><span>"+"Nill"+"</div></span></td>";
                         
                     }
