@@ -67,9 +67,11 @@ $().ready(function() {
                  }
             });
             console.log("instructionFromDynamicTextBox",instructionFromDynamicTextBox)
+            console.log("vm.PageType",vm.PageType,vm.ConsentId)
             formData = formData+"&instructionsForUser="+instructionFromDynamicTextBox;
             var ConsentId = vm.ConsentId;
             if (vm.PageType == "edit"){
+                console.log("inside edit")
                 $.ajax({
                     url:'/' + companyTeamName +'/consent/'+ ConsentId  +'/edit',
                     type:'post',

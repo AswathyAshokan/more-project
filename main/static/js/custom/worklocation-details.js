@@ -78,10 +78,10 @@ $(function(){
                     minUser +='<td>Log Time In Minutes </td>';
                     minUser +='<td>'+minUserArray[i][1]+'</td>';
                     minUser +='</tr>';
-//                    minUser +='<tr>';
-//                    minUser +='<td>Fit To WorkName </td>';
-//                    minUser +='<td>'+minUserArray[i][2]+'</td>';
-//                    minUser +='</tr>';
+                    minUser +='<tr>';
+                    minUser +='<td>Fit To WorkName </td>';
+                    minUser +='<td>'+minUserArray[i][2]+'</td>';
+                    minUser +='</tr>';
                     
                 }
             }
@@ -120,7 +120,7 @@ $(function(){
 //            fitToWork += '<th>Fit To Work Details </th>';
              if ( vm.FitToWorkDetailsDisplayArray !=null)
                 {
-            fitToWork += "<th>"+"Fit To WorkName:"+vm.FitToWorkDetailsDisplayArray[0][0]+"</th>";
+            fitToWork += "<th>"+"Fit To Work  Detail"+"</th>";
             fitToWork += "<tr>";
 //            fitToWork += "<td>";
             fitToWork += '<th>Accepted User </th>';
