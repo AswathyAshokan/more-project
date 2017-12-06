@@ -127,7 +127,7 @@ $(function(){
                     fitToWork += '<th>Accepted User </th>';
                     fitToWork += '<th>Date And Time </th>';
                     fitToWork += "</tr>";
-                    fitToWork += "<tr>";
+                   // fitToWork += "<tr>";
            
                     for (var i = 0; i < vm.FitToWorkDetailsDisplayArray.length; i++) {
                  
@@ -161,7 +161,7 @@ $(function(){
                     var fitTime = (HH + ':' + min);
                     var fitDate = (mm + '/' + dd + '/' + yyyy);
                      fitToWork += "<td>"+fitDate+" ("+fitTime+")"+"</td>";
-                     fitToWork += "</tr>";
+                    // fitToWork += "</tr>";
                 }
             }
                 }

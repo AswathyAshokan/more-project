@@ -610,7 +610,7 @@ $(function(){
     });
     
     $("#cancel").click(function() {
-            window.location = '/'+companyTeamName+'/workLog';
+            window.location = '/'+vm.CompanyTeamName+'/workLog';
     });
     
 });

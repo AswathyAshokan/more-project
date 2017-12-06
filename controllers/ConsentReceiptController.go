@@ -192,6 +192,7 @@ func (c *ConsentReceiptController) EditConsentReceipt() {
 	consentData := models.ConsentReceipts{}
 	consentView :=viewmodels.EditConsentReceipt{}
 	if r.Method == "POST" {
+		log.Println("jjjjjjjjjjjj")
 		//members := models.ConsentMembers{}
 		consentData.Info.ReceiptName = c.GetString("recieptName")
 		consentData.Info.CompanyName = storedSession.CompanyName
@@ -214,6 +215,8 @@ func (c *ConsentReceiptController) EditConsentReceipt() {
 		}*/
 		consentData.Instructions.Users = tempMembersMap
 		instructionStatus := models.IsInstructionEdited(c.AppEngineCtx,instructionSlice,consentId,companyTeamName)
+
+		log.Println("instructionStatus",instructionStatus)
 		switch instructionStatus {
 		case true:
 			dbStatus := consentData.UpdateConsentDataIfInstructionNotChanged(c.AppEngineCtx,consentId,instructionSlice,tempGroupId,tempGroupMembers,companyTeamName)

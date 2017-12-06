@@ -17,10 +17,12 @@ type LogController struct {
 }
 
 func (c *LogController)LoadLogDetails() {
+	log.Println("inside it")
 	viewModel := viewmodels.WorkLogViewModel{}
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
+	log.Println("companyTeamName",companyTeamName)
 	storedSession := ReadSession(w, r, companyTeamName)
 	logDetails :=models.WorkLog{}
 	var userId []string
@@ -136,12 +138,32 @@ func (c *LogController)LoadLogDetails() {
 							tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.LogDescription)
 							viewModel.GeneralLogValues = append(viewModel.GeneralLogValues,tempGenerealLogoutSlice)
 						}
-
-						//tempGenerealLogoutSlice = tempGenerealLogoutSlice[:0]
+						userTrackLog := models.GetUserTrackLogValues(c.AppEngineCtx,key.String())
+						var tempUserTrackSlice []string
+						trackDataValue := reflect.ValueOf(userTrackLog)
+						for _, trackKey := range trackDataValue.MapKeys() {
+							eachUserTrackData := models.GetSpecificUserTrackDetails(c.AppEngineCtx,key.String(),trackKey.String())
+							log.Println("eachUserTrackData",eachUserTrackData)
+							if eachUserTrackData.UserName !=""{
+								tempUserTrackSlice = append(tempUserTrackSlice,eachUserTrackData.UserName)
+								tempUserTrackSlice = append(tempUserTrackSlice,eachUserTrackData.Type)
+								tempUserTrackSlice = append(tempUserTrackSlice,strconv.FormatInt(int64(eachUserTrackData.LogTime), 10))
+								tempUserTrackSlice = append(tempUserTrackSlice,"kkkkkkk")
+								trackLatitude := strconv.FormatFloat(eachUserTrackData.Latitude, 'f', 6, 64)
+								trackLongitude := strconv.FormatFloat(eachUserTrackData.Longitude, 'f', 6, 64)
+								tempUserTrackSlice = append(tempUserTrackSlice,trackLatitude)
+								tempUserTrackSlice = append(tempUserTrackSlice,trackLongitude)
+								tempUserTrackSlice = append(tempUserTrackSlice,eachUserTrackData.UserID)
+								tempUserTrackSlice = append(tempUserTrackSlice,eachUserTrackData.LogDescription)
+								viewModel.GeneralLogValues = append(viewModel.GeneralLogValues,tempUserTrackSlice)
+							}
+						}
 
 
 
 					}
+
+
 
 				}
 			}

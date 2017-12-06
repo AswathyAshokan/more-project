@@ -260,18 +260,26 @@ func IsInstructionEdited(ctx context.Context,instructionSlice []string,consentId
 		AllInstructions = append(AllInstructions,instructions[key.String()].Description)
 		log.Println("instructions[key.String()].Description",instructions[key.String()].Description)
 	}
-
-	for i:=0;i<len(AllInstructions);i++{
+	log.Println("AllInstructions",AllInstructions)
+	log.Println("instructionSlice",instructionSlice)
+	for i:=0;i<len(instructionSlice);i++{
+		log.Println("s1")
 		for _, v := range AllInstructions {
+			log.Println("s1")
 			if v == instructionSlice[i] {
+				log.Println("s2")
 				count = count+1
 			}
 		}
+		log.Println("s3")
 
 	}
+	log.Println("count",count)
 	if count == len(AllInstructions){
+		log.Println("true")
 		return true
 	} else {
+		log.Println("false")
 		return false
 	}
 	log.Println("time",count)
@@ -343,24 +351,53 @@ func(m *ConsentReceipts) UpdateConsentDataIfInstructionNotChanged(ctx context.Co
 		log.Fatal(err)
 		return  false
 	}
+	var oldUserKey []string
 
 	instructionDataValue := reflect.ValueOf(instructionsValues)
 	for _, instructionkey := range instructionDataValue.MapKeys() {
-		for i := 0; i < len(tempGroupId); i++ {
-			ConsentMembers := ConsentMembers{}
-			err = db.Child("/ConsentReceipts/" + companyTeamName + "/" + consentId + "/Instructions/" + instructionkey.String() + "/Users/" +tempGroupId[i]).Value(&ConsentMembers)
-			log.Println("inner loop consent instructions",ConsentMembers)
-			if err != nil {
-				log.Fatal(err)
-				return false
-			}
-			members.FullName = ConsentMembers.FullName
-			members.UserResponse = ConsentMembers.UserResponse
-			members.ResponseTime = ConsentMembers.ResponseTime
-			tempMembersMap[tempGroupId[i]] = members
-
+		ConsentMembersMap := map[string]ConsentMembers{}
+		err = db.Child("/ConsentReceipts/" + companyTeamName + "/" + consentId + "/Instructions/" + instructionkey.String() + "/Users/").Value(&ConsentMembersMap)
+		if err != nil {
+			log.Fatal(err)
+			return false
 		}
+		oldUserDataValue := reflect.ValueOf(ConsentMembersMap)
+		for _, oldKey := range oldUserDataValue.MapKeys(){
+			oldUserKey = append(oldUserKey,oldKey.String())
+		}
+
+
+
+		for i := 0; i < len(tempGroupId); i++{
+			for _, v := range oldUserKey {
+				log.Println("s1")
+				if v == tempGroupId[i] {
+					ConsentMember := ConsentMembers{}
+					err = db.Child("/ConsentReceipts/" + companyTeamName + "/" + consentId + "/Instructions/" + instructionkey.String() + "/Users/"+tempGroupId[i]).Value(&ConsentMember)
+					members.FullName = ConsentMember.FullName
+					members.UserResponse = ConsentMember.UserResponse
+					members.ResponseTime = ConsentMember.ResponseTime
+					tempMembersMap[tempGroupId[i]] = members
+				}else {
+
+					members.FullName = tempGroupMembers[i]
+					members.UserResponse = helpers.UserResponsePending
+					members.ResponseTime = 0
+					tempMembersMap[tempGroupId[i]] = members
+				}
+
+			}
+		}
+
+		log.Println("inner loop consent instructions",ConsentMembersMap)
+
+
+
+
+
 	}
+
+
 
 
 
