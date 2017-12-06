@@ -93,8 +93,8 @@ $(function(){
             //exposure
             var exposure   ='<div class="pull-left dropdown-tbl" style="margin-left: 25px;">';
             exposure += "<table cellpadding='5' cellspacing='0' style='border: 1px solid #dddddd !important;'>";
-            exposure += '<th>Exposure Details</th>';
-//            exposure += "<tr>";
+            exposure += '<tr><th>Exposure Details</th></tr>';
+           
             for (var i = 0; i < ExposureArray.length; i++) {
                  
                 if(ExposureArray[i] != null && ExposureArray[i][0].TaskId == workLocationID ) {
@@ -104,8 +104,9 @@ $(function(){
                         var Breakminutes = ExposureArray[i][j].BreakMinute % 60;
                         var Workhours = Math.trunc(ExposureArray[i][j].WorkingHour/60);
                         var Workminutes = ExposureArray[i][j].WorkingHour % 60;
+                         exposure += "<tr>";
                         exposure += "<td>"+Breakhours +":"+ Breakminutes+" Minutes Break After    "+Workhours +":"+ Workminutes+"Minutes"+"</td>";
-//                        exposure += "</tr>";
+                        exposure += "</tr>";
                     }
                 }
             }
@@ -115,21 +116,18 @@ $(function(){
             
             //fit To Work
             
-            var fitToWork   ='<div class="pull-left dropdown-tbl" style="">';
+            var fitToWork   ='<div class="pull-left dropdown-tbl" style="margin-left:25px;">';
             fitToWork += "<table cellpadding='5' cellspacing='0' style='border: 1px solid #dddddd !important;'>";
 //            fitToWork += '<th>Fit To Work Details </th>';
              if ( vm.FitToWorkDetailsDisplayArray !=null)
                 {
-            fitToWork += "<th>"+"Fit To Work  Detail"+"</th>";
-            fitToWork += "<tr>";
-//            fitToWork += "<td>";
-            fitToWork += '<th>Accepted User </th>';
-//            fitToWork += "</td>";
-//            fitToWork += "<td>";
-            fitToWork += '<th>Date And Time </th>';
-//            fitToWork += "</td>";
-            fitToWork += "</tr>";
-            fitToWork += "<tr>";
+                    fitToWork += "<th>"+"Fit To Work  Detail"+"</th>";
+                    fitToWork += '<th> </th>';
+                    fitToWork += "<tr>";
+                    fitToWork += '<th>Accepted User </th>';
+                    fitToWork += '<th>Date And Time </th>';
+                    fitToWork += "</tr>";
+                    fitToWork += "<tr>";
            
                     for (var i = 0; i < vm.FitToWorkDetailsDisplayArray.length; i++) {
                  
