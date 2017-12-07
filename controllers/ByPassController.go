@@ -31,7 +31,7 @@ func (c *ByPassController)ByPass() {
 		sessionValues.CompanyTeamName = companyDetails.Info.CompanyTeamName
 		sessionValues.CompanyPlan = companyDetails.Plan
 		SetSession(w, sessionValues)
-		initialLink :="-KxfQE6Yxg2N2-95g2ML/fitToWork"
+		initialLink :="-KxfQE6Yxg2N2-95g2ML/timeSheet"
 		http.Redirect(w, r, initialLink, 302)
 	case false:
 		log.Println("Bypass Failed")

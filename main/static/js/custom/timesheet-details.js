@@ -1381,7 +1381,11 @@ $(function(){
         table =  $("#timeSheet_details").DataTable({
             data: mainArray,
             "columnDefs": [{ "title": "Task Name", "targets": 1 },{'visible': false, 'targets': [3],
-            }]
+            }],
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf','print'
+            ]
         });
     }
     
@@ -1526,8 +1530,14 @@ $(function(){
                 "lengthChange":false,
                 "columnDefs": [ { "title": "Work Location", "targets": 1 },{
                     'visible': false, 'targets': [3],
-                }]
+                }],
+                 dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf','print'
+                ]
             });
+        
+        
         $('#tbl_details_length').after($('.datepic-top'));
     }
     
@@ -2329,16 +2339,7 @@ $(function(){
                     createDataArrayWorkWithDate(uniques);
                 }
             }
-        }
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        } 
      $('#refreshButton').click(function(e) {
         $('#timeSheet_details').dataTable().fnDestroy();
         $('#fromDate').datepicker('setDate', null);
