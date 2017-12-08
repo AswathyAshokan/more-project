@@ -1,4 +1,3 @@
-
 //Below line is for adding active class to layout side menu..
 //document.getElementById("log").className += " active";
 //console.log(vm.Values[1][5]);
@@ -114,7 +113,7 @@ $(function(){
     
     
     
-    function listLogDetails(unixFromDate,unixToDate){
+  /*  function listLogDetails(unixFromDate,unixToDate){
         var tempArray = [];
         var workArray =[];
         var startDate =0;
@@ -160,7 +159,7 @@ $(function(){
                 dataTableManipulate(tempArray);
             }
         
-    } 
+    }*/ 
 //    $("#userlog").on('click',function(){
 //        selectFromDate = $('#fromDate').val();
 //        selectedToDate = $('#toDate').val();
@@ -173,18 +172,19 @@ $(function(){
         completeTable = mainArray;
         var tempArray = [];
         $('#log-details').dataTable().fnDestroy();
-        toDateValue = $('#toDate').val();
-        fromDateValue = $('#fromDate').val();
+        var toDateValue = $('#toDate').val();
+        var fromDateValue = $('#fromDate').val();
         if (toDateValue.length ==0 && fromDateValue.length ==0){
             dataTableManipulate(completeTable);
         }else{
+            console.log("")
             var d1 = fromDateValue.split("/");
             var d2 = toDateValue.split("/");
             for (i =0;i<vm.Values.length;i++){
                  var c = vm.Values[i][2].split("/");
-                 var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);
-                 var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
-                 var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+                 var from = Date.parse(fromDateValue);
+                 var to   = Date.parse(toDateValue);
+                 var check = Date.parse(c[2], parseInt(c[1])-1, c[0]);
                  if (check >= from && check <= to){
                      tempArray.push(mainArray[i]);
                  }
@@ -226,7 +226,7 @@ $(function(){
                   });
               });
         });
-        
+        /*
         $('#fromDate').change(function () {
         selectFromDate = $('#fromDate').val();
         var fromYear = selectFromDate.substring(6, 10);
@@ -240,8 +240,8 @@ $(function(){
         unixFromDate = Date.parse(actualFromDate)/1000;
 //        listLogDetails(unixFromDate,unixToDate);
     });
-    
-    $('#toDate').change(function () {
+    */
+   /* $('#toDate').change(function () {
         selectedToDate = $('#toDate').val();
         var year = selectedToDate.substring(6, 10);
         var day = selectedToDate.substring(3, 5);
@@ -253,7 +253,7 @@ $(function(){
         actualToDate.setSeconds(59);
         unixToDate = Date.parse(actualToDate)/1000;
 //        listLogDetails(unixFromDate,unixToDate);
-    });
+    });*/
         
         
         
@@ -264,15 +264,15 @@ $(function(){
         console.log("generalMainArray",generalMainArray);
          tableData = generalMainArray;
         $('#log-details').dataTable().fnDestroy();
-        toDateValue = $('#toDate').val();
-        fromDateValue = $('#fromDate').val();
+         var toDateValue = $('#toDate').val();
+       var  fromDateValue = $('#fromDate').val();
         if (toDateValue.length ==0 && fromDateValue.length ==0){
            generaldataTableManipulate(tableData);
         }else{
             var workArray=[];
             var d1 = fromDateValue.split("/");
             var d2 = toDateValue.split("/");
-           for (i =0;i<generalMainArray.length;i++){
+           /*for (i =0;i<generalMainArray.length;i++){
                  var c = generalMainArray[i][2].split("/");
                  var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);
                  var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
@@ -280,7 +280,17 @@ $(function(){
                  if (check >= from && check <= to){
                      workArray.push(generalMainArray[i]);
                  }
-             }
+             }*/
+            
+            for (i =0;i<generalMainArray.length;i++){
+                var c = generalMainArray[i][2].split("/");
+                var from = Date.parse(fromDateValue);
+                var to   = Date.parse(toDateValue);
+                var check = Date.parse(generalMainArray[i][2]);
+                if (check >= from && check <= to){
+                    workArray.push(generalMainArray[i]);
+                }
+            }
             generaldataTableManipulate(workArray);
         }
         $('#log-details').on( 'click', '#btnShow', function () {
@@ -497,14 +507,14 @@ $(function(){
             var d2 = toDateValue.split("/");
             for (i =0;i<vm.Values.length;i++){
                 var c = vm.Values[i][2].split("/");
-                var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);
-                var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
-                var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+                var from = Date.parse(fromDateValue);
+                var to   = Date.parse(toDateValue);
+                var check = Date.parse(vm.Values[i][2]);
                 if (check >= from && check <= to){
                     userArray.push(mainArray[i]);
                 }
             }
-            dataTableManipulate(tempArray);
+            dataTableManipulate(userArray);
           
             }
 
@@ -533,10 +543,13 @@ $(function(){
             var d1 = fromDateValue.split("/");
             var d2 = toDateValue.split("/");
             for (i =0;i<vm.Values.length;i++){
+                console.log("toDateValue",toDateValue);
+                console.log("fromDateValue",fromDateValue);
+                console.log("vm.Values[i][2] value oof c",vm.Values[i][2])
                 var c = vm.Values[i][2].split("/");
-                var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);
-                var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
-                var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+                var from = Date.parse(fromDateValue);
+                var to   = Date.parse(toDateValue);
+                var check = Date.parse(vm.Values[i][2]);
                 if (check >= from && check <= to){
                     userArray.push(mainArray[i]);
                 }
@@ -610,6 +623,7 @@ $(function(){
     });
     
     $("#cancel").click(function() {
+        console.log("vm.companyTeamName",vm.CompanyTeamName);
             window.location = '/'+vm.CompanyTeamName+'/workLog';
     });
     

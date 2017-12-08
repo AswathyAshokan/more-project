@@ -1404,51 +1404,44 @@ $(function(){
         if(ValuesForToday != null) {
             createDataArrayForToday(ValuesForToday);
         }
-         toDateValue = $('#toDate').val();
-    fromDateValue = $('#fromDate').val();
-      if (toDateValue.length ==0 && fromDateValue.length ==0){
-         dataTableManipulate(mainArrayToday);
-      }else{
-          
-           var FinalArrayForDateFilter =[[]];
+        toDateValue = $('#toDate').val();
+        fromDateValue = $('#fromDate').val();
+        if (toDateValue.length ==0 && fromDateValue.length ==0){
+            dataTableManipulate(mainArrayToday);
+        }else{
+            var FinalArrayForDateFilter =[[]];
             var  ArrayForDateFilter =[];
             var FinalArrayForDateFilterOfTask =[[]];
             var  ArrayForDateFilterOfTask =[];
-             var TaskTimeSheetRealArray =[[]];
-            var uniques = []; 
-        console.log("insiiii");
-        toDateValue = $('#toDate').val();
-        fromDateValue = $('#fromDate').val();
-        if (toDateValue.length !=0 && fromDateValue.length !=0){
-             $('#timeSheet_details').dataTable().fnDestroy();
-            
-            if(document.getElementById('workDetail').clicked != true)
-            {
-                console.log("inside taskkkk");
+            var TaskTimeSheetRealArray =[[]];
+            var uniques = [];
+            console.log("insiiii");
+            toDateValue = $('#toDate').val();
+            fromDateValue = $('#fromDate').val();
+            if (toDateValue.length !=0 && fromDateValue.length !=0){
                 $('#timeSheet_details').dataTable().fnDestroy();
-                for (var k=0;k<mainArray.length;k++){
-                    if (mainArray[k].length !=0){
-                        var d1 = fromDateValue.split("/");
-                        var d2 = toDateValue.split("/");
-                        var c = mainArray[k][8].split("/");
-                        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
-                        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
-                        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
-                        if (check >= from && check <= to){
-                            var  ArrayForDateFilter =[];
-                            ArrayForDateFilter.push(mainArray[k]);
-                            for(var j=0;j<mainArray.length;j++){
-                                if (j !=k){
-                                    if (ArrayForDateFilter[0][6]==mainArray[j][6] && ArrayForDateFilter[0][7]==mainArray[j][7]){
-                                        ArrayForDateFilter.push(mainArray[j]);
+                if(document.getElementById('workDetail').clicked != true)
+                {
+                    $('#timeSheet_details').dataTable().fnDestroy();
+                    for (var k=0;k<mainArray.length;k++){
+                        if (mainArray[k].length !=0){
+                            var from = Date.parse(fromDateValue);  // -1 because months are from 0 to 11
+                            var to   = Date.parse(toDateValue);
+                            var check =  Date.parse(mainArray[k][8]);
+                            if (check >= from && check <= to){
+                                var  ArrayForDateFilter =[];
+                                ArrayForDateFilter.push(mainArray[k]);
+                                for(var j=0;j<mainArray.length;j++){
+                                    if (j !=k){
+                                        if (ArrayForDateFilter[0][6]==mainArray[j][6] && ArrayForDateFilter[0][7]==mainArray[j][7]){
+                                            ArrayForDateFilter.push(mainArray[j]);
+                                        }
                                     }
                                 }
+                                FinalArrayForDateFilter.push(ArrayForDateFilter); 
                             }
-                            FinalArrayForDateFilter.push(ArrayForDateFilter); 
-                            
                         }
                     }
-                }
                 console.log("final array date filter",FinalArrayForDateFilter);
                
                 console.log("lengthhh",FinalArrayForDateFilter.length);
@@ -1560,12 +1553,15 @@ $(function(){
                 var WorkValues =[];
                 for (var k=0;k<workMainArray.length;k++){
                     if (workMainArray[k].length !=0){
-                        var d1 = fromDateValue.split("/");
-                        var d2 = toDateValue.split("/");
-                        var c = workMainArray[k][7].split("/");
-                        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
-                        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
-                        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+//                        var d1 = fromDateValue.split("/");
+//                        var d2 = toDateValue.split("/");
+//                        var c = workMainArray[k][7].split("/");
+//                        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
+//                        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
+//                        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+                        var from = Date.parse(fromDateValue);  // -1 because months are from 0 to 11
+                        var to   = Date.parse(toDateValue);
+                        var check =  Date.parse(workMainArray[k][7]);
                         if (check >= from && check <= to){
                             ArrayForDateFilterOfTask.push(workMainArray[k]);
                             for(var j=0;j<workMainArray.length;j++){
@@ -1655,6 +1651,8 @@ $(function(){
         toDateValue = $('#toDate').val();
         fromDateValue = $('#fromDate').val();
         if (toDateValue.length !=0 && fromDateValue.length !=0){
+            
+            document.getElementById("dateDisplay").innerHTML = "TimeSheet"+"   "+"("+fromDateValue+"-"+toDateValue+" "+")";
              $('#timeSheet_details').dataTable().fnDestroy();
             
             if(document.getElementById('workDetail').clicked != true)
@@ -1665,12 +1663,18 @@ $(function(){
                 $('#timeSheet_details').dataTable().fnDestroy();
                 for (var k=0;k<mainArray.length;k++){
                     if (mainArray[k].length !=0){
-                        var d1 = fromDateValue.split("/");
-                        var d2 = toDateValue.split("/");
-                        var c = mainArray[k][8].split("/");
-                        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
-                        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
-                        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+//                        var d1 = fromDateValue.split("/");
+//                        var d2 = toDateValue.split("/");
+//                        var c = mainArray[k][8].split("/");
+//                        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
+//                        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
+//                        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+                        
+                          var from = Date.parse(fromDateValue);  // -1 because months are from 0 to 11
+                        var to   = Date.parse(toDateValue);
+                        var check =  Date.parse(mainArray[k][8]);
+                        
+                        
                         if (check >= from && check <= to){
                             var  ArrayForDateFilter =[];
                             ArrayForDateFilter.push(mainArray[k]);
@@ -1788,13 +1792,17 @@ $(function(){
                  
                 for (var k=0;k<workMainArray.length;k++){
                     if (workMainArray[k].length !=0){
-                        var d1 = fromDateValue.split("/");
-                        var d2 = toDateValue.split("/");
-                        console.log("date nnnnnn1",workMainArray[k][7]);
-                        var c = workMainArray[k][7].split("/");
-                        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
-                        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
-                        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+//                        var d1 = fromDateValue.split("/");
+//                        var d2 = toDateValue.split("/");
+//                        console.log("date nnnnnn1",workMainArray[k][7]);
+//                        var c = workMainArray[k][7].split("/");
+//                        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
+//                        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
+//                        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+                        
+                         var from = Date.parse(fromDateValue);  // -1 because months are from 0 to 11
+                        var to   = Date.parse(toDateValue);
+                        var check =  Date.parse(workMainArray[k][7]);
                         if (check >= from && check <= to){
                             console.log("llllll123");
                             var  ArrayForDateFilterOfTask =[];
@@ -1892,6 +1900,8 @@ $(function(){
         fromDateValue = $('#fromDate').val();
         if (toDateValue.length !=0 && fromDateValue.length !=0){
              $('#timeSheet_details').dataTable().fnDestroy();
+            document.getElementById("dateDisplay").innerHTML="";
+             document.getElementById("dateDisplay").innerHTML = "TimeSheet"+"   "+"("+fromDateValue+"-"+toDateValue+" "+")";
             
             if(document.getElementById('workDetail').clicked != true)
             {
@@ -1901,12 +1911,17 @@ $(function(){
                 $('#timeSheet_details').dataTable().fnDestroy();
                 for (var k=0;k<mainArray.length;k++){
                     if (mainArray[k].length !=0){
-                        var d1 = fromDateValue.split("/");
-                        var d2 = toDateValue.split("/");
-                        var c = mainArray[k][8].split("/");
-                        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
-                        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
-                        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+//                        var d1 = fromDateValue.split("/");
+//                        var d2 = toDateValue.split("/");
+//                        var c = mainArray[k][8].split("/");
+//                        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
+//                        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
+//                        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+                        
+                        
+                        var from = Date.parse(fromDateValue);  // -1 because months are from 0 to 11
+                        var to   = Date.parse(toDateValue);
+                        var check =  Date.parse(mainArray[k][8]);
                         if (check >= from && check <= to){
                             var  ArrayForDateFilter =[];
                             ArrayForDateFilter.push(mainArray[k]);
@@ -2021,13 +2036,17 @@ $(function(){
                 
                  for (var k=0;k<workMainArray.length;k++){
                     if (workMainArray[k].length !=0){
-                        var d1 = fromDateValue.split("/");
-                        var d2 = toDateValue.split("/");
-                        console.log("date nnnnnn1",workMainArray[k][7]);
-                        var c = workMainArray[k][7].split("/");
-                        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
-                        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
-                        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+//                        var d1 = fromDateValue.split("/");
+//                        var d2 = toDateValue.split("/");
+//                        console.log("date nnnnnn1",workMainArray[k][7]);
+//                        var c = workMainArray[k][7].split("/");
+//                        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
+//                        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
+//                        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+                        
+                         var from = Date.parse(fromDateValue);  // -1 because months are from 0 to 11
+                        var to   = Date.parse(toDateValue);
+                        var check =  Date.parse(workMainArray[k][7]);
                         if (check >= from && check <= to){
                             console.log("llllll123");
                             var  ArrayForDateFilterOfTask =[];
@@ -2128,6 +2147,8 @@ $(function(){
              var TaskTimeSheetRealArray =[[]];
             var uniques = [];
              $('#timeSheet_details').dataTable().fnDestroy();
+           document.getElementById("dateDisplay").innerHTML="";
+             document.getElementById("dateDisplay").innerHTML = "TimeSheet"+"   "+"("+fromDateValue+"-"+toDateValue+" "+")";
             
             if(document.getElementById('workDetail').clicked != true)
             {
@@ -2135,12 +2156,16 @@ $(function(){
                 $('#timeSheet_details').dataTable().fnDestroy();
                 for (var k=0;k<mainArray.length;k++){
                     if (mainArray[k].length !=0){
-                        var d1 = fromDateValue.split("/");
-                        var d2 = toDateValue.split("/");
-                        var c = mainArray[k][8].split("/");
-                        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
-                        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
-                        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+//                        var d1 = fromDateValue.split("/");
+//                        var d2 = toDateValue.split("/");
+//                        var c = mainArray[k][8].split("/");
+//                        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
+//                        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
+//                        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+                        
+                        var from = Date.parse(fromDateValue);  // -1 because months are from 0 to 11
+                        var to   = Date.parse(toDateValue);
+                        var check =  Date.parse(mainArray[k][8]);
                         if (check >= from && check <= to){
                             var  ArrayForDateFilter =[];
                             ArrayForDateFilter.push(mainArray[k]);
@@ -2253,13 +2278,17 @@ $(function(){
                 
                  for (var k=0;k<workMainArray.length;k++){
                     if (workMainArray[k].length !=0){
-                        var d1 = fromDateValue.split("/");
-                        var d2 = toDateValue.split("/");
-                        console.log("date nnnnnn1",workMainArray[k][7]);
-                        var c = workMainArray[k][7].split("/");
-                        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
-                        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
-                        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+//                        var d1 = fromDateValue.split("/");
+//                        var d2 = toDateValue.split("/");
+//                        console.log("date nnnnnn1",workMainArray[k][7]);
+//                        var c = workMainArray[k][7].split("/");
+//                        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
+//                        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
+//                        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+                        
+                          var from = Date.parse(fromDateValue);  // -1 because months are from 0 to 11
+                        var to   = Date.parse(toDateValue);
+                        var check =  Date.parse(workMainArray[k][7]);
                         if (check >= from && check <= to){
                             console.log("llllll123");
                             var  ArrayForDateFilterOfTask =[];
@@ -2341,6 +2370,8 @@ $(function(){
             }
         } 
      $('#refreshButton').click(function(e) {
+          document.getElementById("dateDisplay").innerHTML="";
+         document.getElementById("dateDisplay").innerHTML = "TimeSheet";
         $('#timeSheet_details').dataTable().fnDestroy();
         $('#fromDate').datepicker('setDate', null);
         $('#toDate').datepicker('setDate', null);
