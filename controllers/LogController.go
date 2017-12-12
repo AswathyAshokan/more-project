@@ -22,7 +22,6 @@ func (c *LogController)LoadLogDetails() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
-	log.Println("companyTeamName",companyTeamName)
 	storedSession := ReadSession(w, r, companyTeamName)
 	logDetails :=models.WorkLog{}
 	var userId []string
@@ -90,11 +89,8 @@ func (c *LogController)LoadLogDetails() {
 
 		}
 		companyUser :=models.GetCompanyUsers(c.AppEngineCtx,companyTeamName)
-		log.Println("company Users",companyUser)
-
 		var generalKeySlice []string
 		logStatus,generalLogData := models.GetGeneralLogDataByUserId(c.AppEngineCtx)
-		log.Println("logStatus @@@@@",generalLogData)
 		switch logStatus {
 		case true:
 			dataValue := reflect.ValueOf(generalLogData)
@@ -105,10 +101,11 @@ func (c *LogController)LoadLogDetails() {
 				for k :=0;k<len(companyUser);k++{
 					if companyUser[k] == key.String(){
 						generalKeySlice = append(generalKeySlice,key.String())
-						var tempGeneralLogSlice []string
-						var tempGenerealLogoutSlice []string
+
+
 						LogData := models.GetSpecificLogValues(c.AppEngineCtx,key.String())
 						if LogData.UserName !="" {
+							var tempGeneralLogSlice []string
 							tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.UserName)
 							tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.Type)
 							tempGeneralLogSlice = append(tempGeneralLogSlice,strconv.FormatInt(int64(LogData.LogTime), 10))
@@ -121,11 +118,9 @@ func (c *LogController)LoadLogDetails() {
 							tempGeneralLogSlice = append(tempGeneralLogSlice,LogData.LogDescription)
 							viewModel.GeneralLogValues = append(viewModel.GeneralLogValues,tempGeneralLogSlice)
 						}
-
-
-
 						LogoutData := models.GetSpecificLogoutValues(c.AppEngineCtx,key.String())
 						if LogoutData.UserName !=""{
+							var tempGenerealLogoutSlice []string
 							tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.UserName)
 							tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,LogoutData.Type)
 							tempGenerealLogoutSlice = append(tempGenerealLogoutSlice,strconv.FormatInt(int64(LogoutData.LogTime), 10))
@@ -139,12 +134,12 @@ func (c *LogController)LoadLogDetails() {
 							viewModel.GeneralLogValues = append(viewModel.GeneralLogValues,tempGenerealLogoutSlice)
 						}
 						userTrackLog := models.GetUserTrackLogValues(c.AppEngineCtx,key.String())
-						var tempUserTrackSlice []string
+
 						trackDataValue := reflect.ValueOf(userTrackLog)
 						for _, trackKey := range trackDataValue.MapKeys() {
 							eachUserTrackData := models.GetSpecificUserTrackDetails(c.AppEngineCtx,key.String(),trackKey.String())
-							log.Println("eachUserTrackData",eachUserTrackData)
 							if eachUserTrackData.UserName !=""{
+								var tempUserTrackSlice []string
 								tempUserTrackSlice = append(tempUserTrackSlice,eachUserTrackData.UserName)
 								tempUserTrackSlice = append(tempUserTrackSlice,eachUserTrackData.Type)
 								tempUserTrackSlice = append(tempUserTrackSlice,strconv.FormatInt(int64(eachUserTrackData.LogTime), 10))
