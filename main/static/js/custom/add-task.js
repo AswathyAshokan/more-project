@@ -43,6 +43,7 @@ if(vm.GroupMembers == null) {
 
 $(function () {
     if(vm.CompanyPlan == "family"){
+        console.log("n1");
         var rbtn = document.getElementById('loginType1');
         rbtn.style.display = 'none';
          var rbtnfc = document.getElementById('nfcbutton');
@@ -341,14 +342,11 @@ addItem.click(function() {
     window.location = "/"  +  companyTeamName +  "/task/add";
 });
 
-
-
-
-
-$().ready(function() {
-    var loginTypeRadio = "";
+ var loginTypeRadio = "";
     $("input[type='radio']").change(function(){
+        console.log("ffff1");
         loginTypeRadio = $('.radio-inline:checked').val();
+        console.log("mm1",loginTypeRadio);
         if (loginTypeRadio =="NFC"){
             var div = document.getElementById('nfcTagId');
             div.style.visibility = 'visible';
@@ -359,6 +357,11 @@ $().ready(function() {
             div.style.display ='none'
         }
     });
+
+
+
+$().ready(function() {
+   
     
     
     $(document).on("keypress",".break-duration", function(){
@@ -750,12 +753,12 @@ $().ready(function() {
 //                minUserForTask = minUserForTask;
 //            }
             //check the login type during editing
-                    if(loginTypeRadio.length ==0)
-                    {
-                        loginTypeRadio = loginTypeForEdit;
-                    } else {
-                        loginTypeRadio = loginTypeRadio;
-                    }
+//                    if(loginTypeRadio.length ==0)
+//                    {
+//                        loginTypeRadio = loginTypeForEdit;
+//                    } else {
+//                        loginTypeRadio = loginTypeRadio;
+//                    }
 //            if (minUserForTask >= minUsers) {
 //                if(loginTypeRadio.length != 0)
 //                    {
@@ -1058,6 +1061,15 @@ $().ready(function() {
         $('#saveButton').attr('type', 'button');
         $('#saveAndContinue').attr('type', 'submit');
         console.log("inside save and continue");
+         console.log("kkkn",loginTypeRadio);
+//        if(loginTypeRadio.length ==0)
+//        {
+//            console.log("kkkn",loginTypeRadio);
+//            loginTypeRadio = loginTypeForEdit;
+//        } else {
+//            loginTypeRadio = loginTypeRadio;
+//        }
+           
 
          $("#taskDoneForm").validate({
         rules: {
@@ -1186,22 +1198,25 @@ $().ready(function() {
                 taskLocationCondition="false"
             } 
             }
-            
+            console.log("cp1");
             var nfcTagId =  document.getElementById("nfcTagForTask").value;
             //code for date and time conversion
             var startDate = new Date($("#startDate").val());
+            console.log("cp2");
             
             var startTime =  document.getElementById("startTime").value;
+            console.log("cp3");
             var endDate = new Date($("#endDate").val());
+            console.log("cp4");
             var endTime =  document.getElementById("endTime").value;
-            
+            console.log("cp5");
             var exposureHour ="";
             var exposureMinute ="";
             var TotalBreakTime ="";
             var exposureWorkHour ="";
             var exposureWorkMinute ="";
             var TotalWorkTime ="";
-            
+            console.log("cp6");
 
             //setting the time in start date and end date
             startTimeArray = startTime.split(':');
@@ -1231,13 +1246,19 @@ $().ready(function() {
             var endDateOfTask = formatDate(endDateData);
             
             
-           
+           console.log("cp7");
             var minUsers = $("#minUsers option:selected").val();
             //getting map longitude and latitude
+            console.log("cp8");
             mapLatitude = document.getElementById("latitudeId").value;// variable to store map latitude
+            console.log("cp9");
             mapLongitude = document.getElementById("longitudeId").value;// variable to store map longitude
+            console.log("cp10");
             startDateToCompare = document.getElementById("startDate").value;
+            console.log("cp11");
+//            console.log("kkkn",loginTypeRadio);
             endDateToCompare = document.getElementById("endDate").value
+            
             //check minimum number of users during editing
 //             minUserForTask =selectedUserArray.length - selectedGroupArray.length;
 //            if(minUserForTask == 0)
@@ -1248,12 +1269,7 @@ $().ready(function() {
 //                minUserForTask = minUserForTask;
 //            }
             //check the login type during editing
-            if(loginTypeRadio.length ==0)
-            {
-                loginTypeRadio = loginTypeForEdit;
-            } else {
-                loginTypeRadio = loginTypeRadio;
-            }
+           
 //            if (minUserForTask >= minUsers) {
 //                if(loginTypeRadio.length != 0)
 //                    {
@@ -1263,28 +1279,36 @@ $().ready(function() {
                                 console.log("7771");
                                        $("#saveAndContinue").attr('disabled', true);
                                       var taskId=vm.TaskId;
-                                      var jobnew = $("#jobName option:selected").val()
-                                      if ($("#jobName ")[0].selectedIndex <= 0) {
-                                          document.getElementById('jobName').innerHTML = "";
-                                      }
+                            if (vm.CompanyPlan =="business")
+                            {
+                                var jobnew = $("#jobName option:selected").val();
+                                if ($("#jobName ")[0].selectedIndex <= 0) {
+                                    document.getElementById('jobName').innerHTML = "";
+                                }
+                            }
                                       //get all values of fit to work
-                                      
-                                      var values = "";
+                            var values = "";
 //                                      $("input[name=DynamicTextBox]").each(function () {
 //                                          
 //                                          if($(this).val().length !=0){
 //                                              fitToWorkFromDynamicTextBox.push($(this).val())
 //                                          }
 //                                      });
-                                      if (document.getElementById('jobName').length !=0)
-                                          {
-                                              var job = $("#jobName option:selected").val() + " (";
-                                              var jobAndCustomer = $("#jobName option:selected").text();
-                                              var tempName = jobAndCustomer.replace(job, '');
-                                              customerName = tempName.replace(')', ''); 
-                                              var jobDropdownId = document.getElementById("jobName");
-                                              jobId = jobDropdownId.options[jobDropdownId.selectedIndex].id;
-                                          }
+                                        if (vm.CompanyPlan =="business")
+                                            {
+                                                if (document.getElementById('jobName').length !=0)
+                                                {
+                                                    var job = $("#jobName option:selected").val() + " (";
+                                                    var jobAndCustomer = $("#jobName option:selected").text();
+                                                    var tempName = jobAndCustomer.replace(job, '');
+                                                    customerName = tempName.replace(')', ''); 
+                                                    var jobDropdownId = document.getElementById("jobName");
+                                                    jobId = jobDropdownId.options[jobDropdownId.selectedIndex].id;
+                                                } 
+                                            }
+                            
+                            
+                                      
                                        
                                       // function to get values of exposure dynamic text box
                                       $("input[name=breakTime]").each(function () {
@@ -1309,15 +1333,18 @@ $().ready(function() {
                                           }
                                       });
                                       
-                                      
+                                      console.log("ddd1");
                                       //function to get fit to work 
-                                      var chkPassport = document.getElementById("fitToWorkCheck");
-                                      if (chkPassport.checked) {
-                                          fitToWorkCheck ="EachTime";
-                                      }else {
-                                          fitToWorkCheck ="OnceADay";
-                                      }
-                                      var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask +"&endDateFromJs="+ endDateOfTask+"&fitToWorkCheck="+ fitToWorkCheck+"&exposureBreakTime="+ exposureSlice+"&exposureWorkTime="+ exposureWorkSlice+"&fitToWorkName="+ fitWork+"&dateOfCreation="+datum;
+                            if (vm.CompanyPlan =="business")
+                            {
+                                var chkPassport = document.getElementById("fitToWorkCheck");
+                                if (chkPassport.checked) {
+                                    fitToWorkCheck ="EachTime";
+                                }else {
+                                    fitToWorkCheck ="OnceADay";
+                                }
+                            }
+                            var formData = $("#taskDoneForm").serialize() + "&loginType=" + loginTypeRadio + "&customerName=" + customerName + "&jobId=" + jobId +"&latitude=" +  mapLatitude +"&longitude=" +  mapLongitude +"&startDateFomJs="+ startDateOfTask +"&endDateFromJs="+ endDateOfTask+"&fitToWorkCheck="+ fitToWorkCheck+"&exposureBreakTime="+ exposureSlice+"&exposureWorkTime="+ exposureWorkSlice+"&fitToWorkName="+ fitWork+"&dateOfCreation="+datum;
                                       var selectedContactNames = [];
 
                //get the user's name corresponding to  keys selected from dropdownlist

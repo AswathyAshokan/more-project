@@ -44,10 +44,8 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 							log.Println("insideaaaa")
 							var dailyTaskStartTimeSlice []string
 							var dailyTaskEndTimeSlice    []string
-
 							logDetailsSlice=append(logDetailsSlice,timeSheetUserDetails[key.String()].UserName)
 							logDetailsSlice=append(logDetailsSlice,timeSheetUserDetails[key.String()].TaskName)
-
 							logDetailsSlice=append(logDetailsSlice,"1")
 							logDetailsSlice=append(logDetailsSlice,"0")
 							if len(timeSheetUserDetails[key.String()].TaskStartTime)!=0{
@@ -67,7 +65,6 @@ func (c *TimeSheetController)LoadTimeSheetDetails() {
 							DailyStartTime := strconv.FormatInt(timeSheetUserDetails[key.String()].DailyStartTime, 10)
 							logDetailsSlice =append(logDetailsSlice,DailyStartTime)
 							if len(timeSheetUserDetails[key.String()].TaskEndTime) !=0{
-								log.Println(("log end timeee"))
 								dataValueOfEndTime := reflect.ValueOf(timeSheetUserDetails[key.String()].TaskEndTime)
 								for _, taskEndTimeKey := range dataValueOfEndTime.MapKeys() {
 									EndTime := strconv.FormatInt(timeSheetUserDetails[key.String()].TaskEndTime[taskEndTimeKey.String()].Time, 10)

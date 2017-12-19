@@ -176,7 +176,7 @@ $().ready(function() {
     
     function  addleveldata(){
         var repeat =  "<div class='plus'>" + "<input class='form-control' name='DynamicTextBox' id='DynamicTextBox' type='text'>" + "<span class='add-decl'>+</span>" + "</div>" ;
-        $( ".wrp-plus" ).append( repeat );
+        $( ".wrp-plus" ).prepend( repeat );
     }
     $(document).on('click', '.add-decl', function () {
         if ($(this).closest('.plus').is(':last-child')) {

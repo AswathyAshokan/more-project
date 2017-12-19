@@ -199,13 +199,6 @@ func (c *CompanyFileUploadController) CompanyFileUploadEditWithOutChange() {
 	}
 
 }
-
-
-
-
-
-
-
 func (c *CompanyFileUploadController) CompanyFileUploadDetail() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
