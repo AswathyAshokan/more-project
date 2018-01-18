@@ -1,15 +1,13 @@
-/*Created By Farsana*/
+/*Created By Aswathy*/
+
+//created for displaying company user details
 package controllers
 
 import (
 	"app/passporte/models"
-	//"time"
 	"app/passporte/viewmodels"
 	"app/passporte/helpers"
 	"log"
-
-
-
 )
 
 type CompanyProfileController struct {

@@ -447,12 +447,74 @@ var allUserId = [[]];
                             if (sec < 10) {
                                 sec = '0' + sec;
                             }
+                            var dynamicButton ="";
                             var localCreatedDate = (mm + '/' + dd + '/' + yyyy);
                             var localCreatedTIme = (HH +':'+min);
                             var timeDifference =moment(new Date(new Date(reverseSorted[i][6]*1000)), "YYYYMMDD").fromNow();
                              if(reverseSorted[i][7] == "After" ){
-                                 DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+" will be reaching within"+" "+reverseSorted[i][3]+"  "+" at task location"+" "+reverseSorted[i][4]+" "+"for the task"+" "+reverseSorted[i][5]+" <span>"+localCreatedDate+"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+localCreatedTIme+"</span>"+"</li>";
+                                 if(reverseSorted[i][8] !=null){
+                                     var emailId =reverseSorted[i][8];
+                                     var employeeName = reverseSorted[i][2];
+                                     var notificationString = "After";
+                                     var location = reverseSorted[i][4];
+                                     var taskName = reverseSorted[i][5];
+                                      var delayTime= reverseSorted[i][3];
+                                     DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+" will be reaching within"+" "+reverseSorted[i][3]+"  "+" at task location"+" "+reverseSorted[i][4]+" "+"for the task"+" "+reverseSorted[i][5]+" <span>"+localCreatedDate+"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+localCreatedTIme+"</span>" +"<button  onclick='emailToCustomerForAfterTask();'>" +"Email to customer "+"</button>"+"</li>";
+                                     console.log("new field",reverseSorted[i][8]);
+                                     console.log("at last iam here");
+                                     var notificationMessages ="User"+" "+reverseSorted[i][2]+" "+" will be reaching within"+" "+reverseSorted[i][3]+"  "+" at task location"+" "+reverseSorted[i][4]+" "+"for the task"+" "+reverseSorted[i][5];
+                                     var  formData = "&notification="+notificationMessages;
+                                     emailToCustomerForAfterTask = function(){
+                                         $.ajax({
+                                             url:'/'+companyTeamName+'/'+emailId+'/'+notificationString+'/emailtocustomer',
+                                             datatype: 'json',
+                                             data: formData,
+                                             type: 'post',
+                                             success : function(response) {
+                                                if (response == "true" ) {
+                                                   console.log("true for email");
+                                                } else {
+                                                     console.log("false for email");
+                                                }
+                                            },
+                                            error: function (request,status, error) {
+                                                console.log(error);
+                                            }
+                                        }); 
+                                     }
+                                 } else{
+                                     DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+" will be reaching within"+" "+reverseSorted[i][3]+"  "+" at task location"+" "+reverseSorted[i][4]+" "+"for the task"+" "+reverseSorted[i][5]+" <span>"+localCreatedDate+"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+localCreatedTIme+"</span>" +"</li>";
+                                 }
                             } else{
+                                 if(reverseSorted[i][8] !=null){
+                                     var emailId =reverseSorted[i][8];
+                                     var employeeName = reverseSorted[i][2];
+                                      var notificationString = "Before";
+                                     var delayTime= reverseSorted[i][3];
+                                      DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+"will be delayed"+" "+reverseSorted[i][3]+"  "+" to reach the task location "+" "+reverseSorted[i][4]+" "+"for the task"+" "+reverseSorted[i][5]+" <span>"+localCreatedDate+"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+localCreatedTIme+"</span>"+"<button  onclick='emailToCustomer();'>" +"Email to customer "+"</button>"+"</li>";
+                                     console.log("new field",reverseSorted[i][8]);
+                                     var  formData="";
+                                     var newNotificationMessage ="User"+" "+reverseSorted[i][2]+" "+"will be delayed"+" "+reverseSorted[i][3]+"  "+" to reach the task location "+" "+reverseSorted[i][4]+" "+"for the task"+" "+reverseSorted[i][5];
+                                     formData ="&notification="+newNotificationMessage;
+                                     emailToCustomer = function(){
+                                         $.ajax({
+                                            url:'/'+companyTeamName+'/'+emailId+'/'+notificationString+'/emailtocustomer',
+                                            type: 'post',
+                                             datatype: 'json',
+                                             data: formData,
+                                             success : function(response) {
+                                                if (response == "true" ) {
+                                                   console.log("true for email");
+                                                } else {
+                                                     console.log("false for email");
+                                                }
+                                            },
+                                            error: function (request,status, error) {
+                                                console.log(error);
+                                            }
+                                        }); 
+                                     }
+                                 }
                                 DynamicTaskListing += "<li>"+"User"+" "+reverseSorted[i][2]+" "+"will be delayed"+" "+reverseSorted[i][3]+"  "+" to reach the task location "+" "+reverseSorted[i][4]+" "+"for the task"+" "+reverseSorted[i][5]+" <span>"+localCreatedDate+"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"+localCreatedTIme+"</span>"+"</li>";
                             }
                         }
@@ -485,6 +547,9 @@ var allUserId = [[]];
             $("#notificationDiv").prepend(DynamicTaskListing);
         }
     }
+    // send email to customer for emplyee delay notification
+     
+     
     clearNotification= function () {
         document.getElementById("notificationDiv").innerHTML = "";
         $.ajax({
@@ -601,9 +666,10 @@ var allUserId = [[]];
         
        
         for (var i=0; i<subArray.length; i++){
-DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event) " style="cursor:pointer;" class="active" >'+subArray[i]+'</p>';        }
-        $("#taskListing").append(DynamicTaskListing);
-        subArray = [];
+            DynamicTaskListing+=' <p onclick="FunctionToChangeBarChart(event) " style="cursor:pointer;" class="active">'+subArray[i]+'</p>';  
+        }
+       $("#taskListing").append(DynamicTaskListing);
+       subArray = [];
     }
     var selectAJob = $("#jobName option:selected").val() ;
     console.log("default job",selectAJob);

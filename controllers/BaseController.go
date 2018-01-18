@@ -1,5 +1,6 @@
 /*Author: Sarath
 Date:01/02/2017*/
+//main controller section
 package controllers
 
 import (

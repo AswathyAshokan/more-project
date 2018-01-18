@@ -104,8 +104,7 @@ func init() {
 	beegae.Router("/:companyTeamName/isemailAddressUsed/:emailAddress", &controllers.ContactUserController{},"*:CheckEmailAddressAdd")
 	beegae.Router("/:companyTeamName/isPhoneNumberUsed/:phoneNumber/:type/:oldNumber", &controllers.ContactUserController{},"*:CheckPhoneNumber")
 	beegae.Router("/:companyTeamName/isemailAddressUsed/:emailAddress/:type/:oldEmail", &controllers.ContactUserController{},"*:CheckEmailAddress")
-
-
+	beegae.Router("/:companyTeamName/:emailId/:notificationString/emailtocustomer", &controllers.NotificationController{},"*:EmailToUser")
 
 	beegae.Router("/:companyTeamName/job/add", &controllers.JobController{},"*:AddNewJob")
 	beegae.Router("/:companyTeamName/job", &controllers.JobController{},"*:LoadJobDetail")

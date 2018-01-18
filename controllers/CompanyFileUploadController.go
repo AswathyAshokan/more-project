@@ -1,4 +1,5 @@
-/*Created By Farsana*/
+/*Created By Aswathy*/
+//created for company file upload
 package controllers
 
 import (
@@ -16,7 +17,7 @@ type CompanyFileUploadController struct {
 }
 
 
-// fetch all the details of invite user from database
+// used for inserting files to database
 func (c *CompanyFileUploadController) CompanyFileUpload() {
 
 	r := c.Ctx.Request
@@ -63,7 +64,7 @@ func (c *CompanyFileUploadController) CompanyFileUpload() {
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/company-fileUpload.html"
 }
-
+//used for edit the company file upload
 func (c *CompanyFileUploadController) CompanyFileUploadEdit() {
 
 	r := c.Ctx.Request
@@ -145,6 +146,8 @@ func (c *CompanyFileUploadController) CompanyFileUploadEdit() {
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/company-fileUpload.html"
 }
+
+//used for deleting duplicate records
 func removeDuplicates(elements []string) []string {
 	// Use map to record duplicates as we find them.
 	encountered := map[string]bool{}
@@ -163,7 +166,7 @@ func removeDuplicates(elements []string) []string {
 	// Return the new slice.
 	return result
 }
-
+// used for editing company file upload without change the file
 func (c *CompanyFileUploadController) CompanyFileUploadEditWithOutChange() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -199,6 +202,8 @@ func (c *CompanyFileUploadController) CompanyFileUploadEditWithOutChange() {
 	}
 
 }
+
+//used for displaying company files
 func (c *CompanyFileUploadController) CompanyFileUploadDetail() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -231,7 +236,7 @@ func (c *CompanyFileUploadController) CompanyFileUploadDetail() {
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/company-fileUpload-details.html"
 }
-
+//deleting the company file upload
 func (c *CompanyFileUploadController)CompanyFileUploadDelete() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter

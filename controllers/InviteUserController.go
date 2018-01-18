@@ -7,12 +7,17 @@ import (
 	"app/passporte/viewmodels"
 	"app/passporte/helpers"
 	"log"
-	"net/smtp"
 	"html/template"
 	"bytes"
 
 	"reflect"
 	"strconv"
+	"google.golang.org/appengine/urlfetch"
+	"gopkg.in/sendgrid/sendgrid-go.v2"
+
+	"google.golang.org/appengine"
+
+
 )
 
 type InviteUserController struct {
@@ -69,14 +74,37 @@ func (c *InviteUserController) AddInvitation() {
 				if err = t.Execute(buf, templateData); err != nil {
 					log.Println(err)
 				}
-				body := buf.String()
-				from := "aswathy.a@cynere.com"
-				to := inviteUser.Info.Email
-				subject := "Subject: Passporte - Invitation\n"
-				mime := "MIME-version: 1.0;\r\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
-				message := []byte(subject + mime + "\n" + body)
-				if err := smtp.SendMail("smtp.gmail.com:465", smtp.PlainAuth("", "aswathy.a@cynere.com", "aswathyashok", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
-					log.Println(err)
+				//body := buf.String()
+				//from := "aswathy.a@cynere.com"
+				//to := inviteUser.Info.Email
+				//subject := "Subject: Passporte - Invitation\n"
+				//mime := "MIME-version: 1.0;\r\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+				//message := []byte(subject + mime + "\n" + body)
+				//if err := smtp.SendMail("smtp.gmail.com:465", smtp.PlainAuth("", "aswathy.a@cynere.com", "aswathyashok", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
+				//	log.Println(err)
+				//}
+
+
+
+				key := "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"
+				sg := sendgrid.NewSendGridClientWithApiKey(key)
+
+				// must change the net/http client to not use default transport
+				ctx := appengine.NewContext(r)
+				client := urlfetch.Client(ctx)
+				sg.Client = client // <-- now using urlfetch, "overriding" default
+
+				message := sendgrid.NewMail()
+				message.AddTo(inviteUser.Info.Email)
+				message.SetFrom("passportetest@gmail.com")
+				message.SetSubject("Passporte - Invitation")
+				message.SetHTML( buf.String())
+
+				if e := sg.Send(message); e == nil {
+					log.Println("lllllll")
+				} else {
+
+					log.Println("error",e)
 				}
 
 				w.Write([]byte("true"))
@@ -409,15 +437,36 @@ func (c *InviteUserController) AddInvitationByUpgradationOfPlan() {
 				if err = t.Execute(buf, templateData); err != nil {
 					log.Println(err)
 				}
-				body := buf.String()
-				from := "aswathy.a@cynere.com"
-				to := inviteUser.Info.Email
-				subject := "Subject: Passporte - Invitation\n"
-				mime := "MIME-version: 1.0;\r\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
-				message := []byte(subject + mime + "\n" + body)
-				if err := smtp.SendMail("smtp.gmail.com:465", smtp.PlainAuth("", "aswathy.a@cynere.com", "aswathyashok", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
-					log.Println(err)
+				//body := buf.String()
+				//from := "aswathy.a@cynere.com"
+				//to := inviteUser.Info.Email
+				//subject := "Subject: Passporte - Invitation\n"
+				//mime := "MIME-version: 1.0;\r\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+				//message := []byte(subject + mime + "\n" + body)
+				//if err := smtp.SendMail("smtp.gmail.com:465", smtp.PlainAuth("", "aswathy.a@cynere.com", "aswathyashok", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
+				//	log.Println(err)
+				//}
+				key := "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"
+				sg := sendgrid.NewSendGridClientWithApiKey(key)
+
+				// must change the net/http client to not use default transport
+				ctx := appengine.NewContext(r)
+				client := urlfetch.Client(ctx)
+				sg.Client = client // <-- now using urlfetch, "overriding" default
+
+				message := sendgrid.NewMail()
+				message.AddTo(inviteUser.Info.Email)
+				message.SetFrom("passportetest@gmail.com")
+				message.SetSubject("Passporte - Invitation")
+				message.SetHTML( buf.String())
+
+				if e := sg.Send(message); e == nil {
+					log.Println("lllllll")
+				} else {
+
+					log.Println("error",e)
 				}
+
 
 				w.Write([]byte("true"))
 			case false:

@@ -1,3 +1,5 @@
+
+
 package models
 
 import(
@@ -17,21 +19,37 @@ type ConsentReceipts struct {
 
 }
 type ConsentInstructions struct {
-	Description    string
-	Users	 	map[string]ConsentMembers
+	Description    		string
+	User 		map[string]ConsentUser
 
 
 }
+/*type UsersAndGroupsInConsent struct {
+	User 		map[string]ConsentUser
+	//Group 		map[string]ConsentGroup
+
+}*/
+type ConsentUser struct {
+	FullName	string
+	UserResponse	string
+}
+/*type ConsentGroup struct{
+	GroupName	string
+	Members	 	map[string]GroupMemberNameInConsent
+}
+type  GroupMemberNameInConsent struct {
+	MemberName	string
+
+}*/
+
 
 type ConsentMembers struct {
 	FullName  		string
 	UserResponse    	string
-	ResponseTime     int64
 }
 type ConsentData struct {
 	ReceiptName  	string
 	CompanyName	string
-
 }
 
 type ConsentSettings struct {
@@ -40,19 +58,26 @@ type ConsentSettings struct {
 }
 
 
-func(m *ConsentReceipts) AddConsentToDb(ctx context.Context,instructionSlice []string ,companyTeamName string,tempUserId []string) (bool){
+func(m *ConsentReceipts) AddConsentToDb(ctx context.Context,instructionSlice []string ,companyTeamName string) (bool){
+	log.Println("iam here for add consent")
 	addConsentToUsers := ConsentReceiptDetails{}
 	db,err :=GetFirebaseClient(ctx,"")
 	if err != nil {
 		log.Println(err)
 	}
-
-
-	consentValue,err := db.Child("ConsentReceipts/"+companyTeamName).Push(m)
-	if err != nil {
+	ConsentReceiptsAllDataStruct := ConsentReceipts{}
+	ConsentReceiptsAllDataStruct.Info = m.Info
+	ConsentReceiptsAllDataStruct.Instructions.Description = m.Instructions.Description
+	//ConsentReceiptsAllDataStruct.Instructions.UsersAndGroupsInConsent.Group = m.Instructions.UsersAndGroupsInConsent.Group
+	ConsentReceiptsAllDataStruct.Instructions.User = m.Instructions.User
+	ConsentReceiptsAllDataStruct.Settings = m.Settings
+	log.Println("in model",ConsentReceiptsAllDataStruct)
+	//log.Println("group deatils at controllere",ConsentReceiptsAllDataStruct.Instructions.Group)
+	consentValue,err := db.Child("ConsentReceipts/"+companyTeamName).Push(ConsentReceiptsAllDataStruct)
+	/*if err != nil {
 		log.Println(err)
 		return false
-	}
+	}*/
 	instructionMap := make(map[string]ConsentInstructions)
 	InstructionForConsent := ConsentInstructions{}
 	consentValueString := strings.Split(consentValue.String(),"/")
@@ -60,32 +85,32 @@ func(m *ConsentReceipts) AddConsentToDb(ctx context.Context,instructionSlice []s
 	if instructionSlice[0] !=""{
 		for i := 0; i < len(instructionSlice); i++ {
 			InstructionForConsent.Description =instructionSlice[i]
-			InstructionForConsent.Users= m.Instructions.Users
+			InstructionForConsent.User= m.Instructions.User
 			id := betterguid.New()
 			instructionMap[id] = InstructionForConsent
 
 			err = db.Child("/ConsentReceipts/"+companyTeamName+"/"+consentUniqueID+"/Instructions/").Set(instructionMap)
-			if err != nil {
+			/*if err != nil {
 				log.Println(err)
 				return false
-			}
+			}*/
 		}
 	}
 	var keySlice []string
-	dataValue := reflect.ValueOf(m.Instructions.Users)
+	dataValue := reflect.ValueOf(m.Instructions.User)
 	for _, key := range dataValue.MapKeys() {
 		keySlice = append(keySlice, key.String())
 	}
 	for _, k := range keySlice {
 		addConsentToUsers.CompanyId = companyTeamName
-		addConsentToUsers.UserResponse = m.Instructions.Users[k].UserResponse
-		for i := 0; i < len(tempUserId); i++ {
-			err = db.Child("/Users/"+tempUserId[i]+"/ConsentReceipts/"+consentUniqueID).Set(addConsentToUsers)
-			if err != nil {
-				log.Println(err)
-				return false
-			}
-		}
+		addConsentToUsers.UserResponse = m.Instructions.User[k].UserResponse
+		/*for i := 0; i < len(tempUserId); i++ {*/
+		err = db.Child("/Users/"+k+"/ConsentReceipts/"+consentUniqueID).Set(addConsentToUsers)
+		/*if err != nil {
+			log.Println(err)
+			return false
+		}*/
+		/*}*/
 
 	}
 	return  true
@@ -120,18 +145,20 @@ func GetAllInstructionsById(ctx context.Context,companyTeamName string,consentId
 	getInstructions:=map[string]ConsentInstructions{}
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("ConsentReceipts/"+companyTeamName+"/"+consentId+"/Instructions").Value(&getInstructions)
-	if err != nil {
+	/*if err != nil {
 		log.Fatal(err)
-	}
+	}*/
+	log.Println("err",err)
 	return getInstructions
 
 
 }
 
-func(m *ConsentReceipts) UpdateConsentDetailsIfInstructionChanged(ctx context.Context,consentId string,instructionSlice []string,tempGroupId []string,tempGroupMembers []string,companyTeamName string ) (bool) {
+func(m *ConsentReceipts) UpdateConsentDetailsIfInstructionChanged(ctx context.Context,consentId string,instructionSlice []string,companyTeamName string ) (bool) {
 	log.Println("ssjjssecond",consentId)
 	ConsentStatusDetails :=ConsentSettings{}
 	addConsentToUsers := ConsentReceiptDetails{}
+	var keySlice []string
 	db, err := GetFirebaseClient(ctx, "")
 	if err != nil {
 		log.Println(err)
@@ -143,14 +170,6 @@ func(m *ConsentReceipts) UpdateConsentDetailsIfInstructionChanged(ctx context.Co
 	}*/
 	m.Settings.DateOfCreation = ConsentStatusDetails.DateOfCreation
 	m.Settings.Status = ConsentStatusDetails.Status
-	tempMembersMap := make(map[string]ConsentMembers)
-	members := ConsentMembers{}
-	for i := 0; i < len(tempGroupId); i++ {
-		members.FullName = tempGroupMembers[i]
-		members.UserResponse = helpers.UserResponsePending
-		tempMembersMap[tempGroupId[i]] = members
-	}
-	m.Instructions.Users = tempMembersMap
 	err = db.Child("/ConsentReceipts/"+companyTeamName+"/"+consentId).Update(&m)
 
 	/*if err != nil {
@@ -161,10 +180,11 @@ func(m *ConsentReceipts) UpdateConsentDetailsIfInstructionChanged(ctx context.Co
 	InstructionForConsent := ConsentInstructions{}
 	for i := 0; i < len(instructionSlice); i++ {
 		InstructionForConsent.Description =instructionSlice[i]
-		InstructionForConsent.Users= m.Instructions.Users
+		InstructionForConsent.User= m.Instructions.User
 		id := betterguid.New()
 		instructionMap[id] = InstructionForConsent
-		err = db.Child("/ConsentReceipts/"+companyTeamName+"/"+consentId+"/Instructions/").Set(instructionMap)
+		log.Println("InstructionForConsent",instructionMap)
+		err = db.Child("/ConsentReceipts/"+companyTeamName+"/"+consentId+"/Instructions").Set(instructionMap)
 		/*if err != nil {
 			log.Println(err)
 			return false
@@ -172,14 +192,30 @@ func(m *ConsentReceipts) UpdateConsentDetailsIfInstructionChanged(ctx context.Co
 	}
 	addConsentToUsers.CompanyId = companyTeamName
 	addConsentToUsers.UserResponse = helpers.StatusPending
-	for i := 0; i < len(tempGroupId); i++ {
-		log.Println("tempGroupId[i]",tempGroupId[i])
-		err = db.Child("/Users/"+tempGroupId[i]+"/ConsentReceipts/"+consentId).Set(addConsentToUsers)
-		/*if err != nil {
-			log.Println(err)
-			return false
-		}*/
+	//for i := 0; i < len(tempGroupId); i++ {
+	//	log.Println("tempGroupId[i]",tempGroupId[i])
+	//
+	//	/*if err != nil {
+	//		log.Println(err)
+	//		return false
+	//	}*/
+	//}
+
+
+
+	dataValue := reflect.ValueOf(m.Instructions.User)
+	for _, key := range dataValue.MapKeys() {
+		keySlice = append(keySlice, key.String())
 	}
+	for _, k := range keySlice {
+		err = db.Child("/Users/"+k+"/ConsentReceipts/"+consentId).Set(addConsentToUsers)
+	}
+
+
+
+
+
+
 	return true
 }
 
@@ -219,7 +255,7 @@ func DeleteConsentReceiptById(ctx context.Context,consentId string,companyTeamNa
 	}
 	log.Println("instruction key",instructionKey)
 	for i:=0 ;i<1;i++{
-		dataValue := reflect.ValueOf(getInstructions[instructionKey[i]].Users)
+		dataValue := reflect.ValueOf(getInstructions[instructionKey[i]].User)
 		for _, key := range dataValue.MapKeys() {
 			userKeySlice = append(userKeySlice, key.String())
 		}
@@ -260,30 +296,20 @@ func IsInstructionEdited(ctx context.Context,instructionSlice []string,consentId
 		AllInstructions = append(AllInstructions,instructions[key.String()].Description)
 		log.Println("instructions[key.String()].Description",instructions[key.String()].Description)
 	}
-	log.Println("AllInstructions",AllInstructions)
-	log.Println("instructionSlice",instructionSlice)
-	for i:=0;i<len(instructionSlice);i++{
-		log.Println("s1")
+
+	for i:=0;i<len(AllInstructions);i++ {
 		for _, v := range AllInstructions {
-			log.Println("s1")
 			if v == instructionSlice[i] {
-				log.Println("s2")
-				count = count+1
+				count = count + 1
 			}
 		}
-		log.Println("s3")
-
 	}
-	log.Println("count",count)
 	if count == len(AllInstructions){
-		log.Println("true")
 		return true
 	} else {
-		log.Println("false")
 		return false
 	}
 	log.Println("time",count)
-
 	return false
 }
 
@@ -305,9 +331,7 @@ func GetAllInstructionsFromConsent(ctx context.Context,consentId string,companyT
 	instructionOfConsent :=map[string]ConsentInstructions{}
 	db,err :=GetFirebaseClient(ctx,"")
 	err = db.Child("ConsentReceipts/"+companyTeamName+"/"+consentId+"/Instructions").Value(&instructionOfConsent)
-	if err != nil {
-		log.Fatal(err)
-	}
+	log.Println("err",err)
 	return instructionOfConsent
 
 }
@@ -324,7 +348,7 @@ func GetAllUsersFromInstructions(ctx context.Context,consentId string,companyTea
 
 }
 
-func(m *ConsentReceipts) UpdateConsentDataIfInstructionNotChanged(ctx context.Context,consentId string,instructionSlice []string,tempGroupId []string,tempGroupMembers []string,companyTeamName string ) (bool) {
+func(m *ConsentReceipts) UpdateConsentDataIfInstructionNotChanged(ctx context.Context,consentId string,instructionSlice []string,companyTeamName string ) (bool) {
 	log.Println("jjjji first")
 	ConsentStatusDetails :=ConsentSettings{}
 	addConsentToUsers := ConsentReceiptDetails{}
@@ -340,75 +364,6 @@ func(m *ConsentReceipts) UpdateConsentDataIfInstructionNotChanged(ctx context.Co
 	log.Println("ConsentStatusDetails",ConsentStatusDetails)
 	m.Settings.DateOfCreation = ConsentStatusDetails.DateOfCreation
 	m.Settings.Status = ConsentStatusDetails.Status
-
-
-	instructionsValues :=map[string]ConsentInstructions{}
-	tempMembersMap := make(map[string]ConsentMembers)
-	members := ConsentMembers{}
-
-	err = db.Child("/ConsentReceipts/"+companyTeamName+"/"+consentId+"/Instructions/").Value(&instructionsValues)
-	if err != nil {
-		log.Fatal(err)
-		return  false
-	}
-	var oldUserKey []string
-
-	instructionDataValue := reflect.ValueOf(instructionsValues)
-	for _, instructionkey := range instructionDataValue.MapKeys() {
-		ConsentMembersMap := map[string]ConsentMembers{}
-		err = db.Child("/ConsentReceipts/" + companyTeamName + "/" + consentId + "/Instructions/" + instructionkey.String() + "/Users/").Value(&ConsentMembersMap)
-		if err != nil {
-			log.Fatal(err)
-			return false
-		}
-		oldUserDataValue := reflect.ValueOf(ConsentMembersMap)
-		for _, oldKey := range oldUserDataValue.MapKeys(){
-			oldUserKey = append(oldUserKey,oldKey.String())
-		}
-
-
-
-		for i := 0; i < len(tempGroupId); i++{
-			for _, v := range oldUserKey {
-				log.Println("s1")
-				if v == tempGroupId[i] {
-					ConsentMember := ConsentMembers{}
-					err = db.Child("/ConsentReceipts/" + companyTeamName + "/" + consentId + "/Instructions/" + instructionkey.String() + "/Users/"+tempGroupId[i]).Value(&ConsentMember)
-					members.FullName = ConsentMember.FullName
-					members.UserResponse = ConsentMember.UserResponse
-					members.ResponseTime = ConsentMember.ResponseTime
-					tempMembersMap[tempGroupId[i]] = members
-				}else {
-
-					members.FullName = tempGroupMembers[i]
-					members.UserResponse = helpers.UserResponsePending
-					members.ResponseTime = 0
-					tempMembersMap[tempGroupId[i]] = members
-				}
-
-			}
-		}
-
-		log.Println("inner loop consent instructions",ConsentMembersMap)
-
-
-
-
-
-	}
-
-
-
-
-
-	/*for i := 0; i < len(tempGroupId); i++ {
-
-		log.Println("haiii i got old consent data",instructionsValues)
-		members.FullName = tempGroupMembers[i]
-		members.UserResponse = helpers.UserResponsePending
-		tempMembersMap[tempGroupId[i]] = members
-	}*/
-	//m.Instructions.Users = tempMembersMap
 	err = db.Child("/ConsentReceipts/"+companyTeamName+"/"+consentId).Update(&m)
 
 	if err != nil {
@@ -419,9 +374,10 @@ func(m *ConsentReceipts) UpdateConsentDataIfInstructionNotChanged(ctx context.Co
 	InstructionForConsent := ConsentInstructions{}
 	for i := 0; i < len(instructionSlice); i++ {
 		InstructionForConsent.Description =instructionSlice[i]
-		InstructionForConsent.Users= tempMembersMap
+		InstructionForConsent.User= m.Instructions.User
 		id := betterguid.New()
 		instructionMap[id] = InstructionForConsent
+		log.Println("instruction map",instructionMap)
 		err = db.Child("/ConsentReceipts/"+companyTeamName+"/"+consentId+"/Instructions/").Set(instructionMap)
 		if err != nil {
 			log.Println(err)
@@ -429,19 +385,17 @@ func(m *ConsentReceipts) UpdateConsentDataIfInstructionNotChanged(ctx context.Co
 		}
 	}
 	var keySlice []string
-	dataValue := reflect.ValueOf(m.Instructions.Users)
+	dataValue := reflect.ValueOf(m.Instructions.User)
 	for _, key := range dataValue.MapKeys() {
 		keySlice = append(keySlice, key.String())
 	}
 	for _, k := range keySlice {
 		addConsentToUsers.CompanyId = companyTeamName
-		addConsentToUsers.UserResponse = m.Instructions.Users[k].UserResponse
-		for i := 0; i < len(tempGroupId); i++ {
-			err = db.Child("/Users/"+tempGroupId[i]+"/ConsentReceipts/"+consentId).Set(addConsentToUsers)
-			if err != nil {
-				log.Println(err)
-				return false
-			}
+		addConsentToUsers.UserResponse = m.Instructions.User[k].UserResponse
+		err = db.Child("/Users/"+k+"/ConsentReceipts/"+consentId).Set(addConsentToUsers)
+		if err != nil {
+			log.Println(err)
+			return false
 		}
 	}
 	return true
@@ -458,5 +412,6 @@ func GetSelectedUsersName(ctx context.Context,consentId string)(map[string]Conse
 	return consent
 
 }
+
 
 

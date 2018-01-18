@@ -124,7 +124,11 @@ func (c *ContactUserController)DisplayContactDetails() {
 				tempValueSlice = append(tempValueSlice, contact[k].Info.Address)
 				tempValueSlice = append(tempValueSlice,contact[k].Info.Country)
 				tempValueSlice = append(tempValueSlice, contact[k].Info.State)
-				tempValueSlice = append(tempValueSlice, contact[k].Info.ZipCode)
+				dataValueOfCustomer := reflect.ValueOf(contact[k].Customer)
+				for _, keysCustomer := range dataValueOfCustomer.MapKeys() {
+					tempValueSlice = append(tempValueSlice, contact[k].Customer[keysCustomer.String()].CustomerName)
+				}
+
 				tempValueSlice = append(tempValueSlice, contact[k].Info.Email)
 				tempValueSlice = append(tempValueSlice, contact[k].Info.PhoneNumber)
 				viewModel.Values = append(viewModel.Values, tempValueSlice)

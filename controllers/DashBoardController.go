@@ -310,11 +310,13 @@ func (c *DashBoardController)LoadDashBoard() {
 					NotificationArray =append(NotificationArray,date)
 					NotificationArray = append(NotificationArray,notificationUserValue[notificationUserKeyForSpecific.String()].Mode)
 					//log.Println("NotificationArray",NotificationArray)
+					log.Println("haiiii")
+
+					customerEmail := models.GetCustomerDataOfATask(c.AppEngineCtx,notificationUserValue[notificationUserKeyForSpecific.String()].TaskId,notificationUserKey.String())
+					log.Println("emailid......... of customer........jjjjjjjjj",customerEmail)
+					NotificationArray =append(NotificationArray,customerEmail)
 					viewModel.NotificationArray=append(viewModel.NotificationArray,NotificationArray)
-
-
 				}
-
 			case false:
 			}
 		}

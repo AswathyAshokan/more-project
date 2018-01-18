@@ -9,12 +9,17 @@ import (
 	"app/passporte/viewmodels"
 	"log"
 	"strings"
-	"net/smtp"
 	"math/rand"
 	"reflect"
 	"encoding/json"
-
 	"sort"
+	//"net/smtp"
+	"gopkg.in/sendgrid/sendgrid-go.v2"
+
+	"google.golang.org/appengine"
+	"google.golang.org/appengine/urlfetch"
+
+
 )
 
 type RegisterController struct {
@@ -251,6 +256,7 @@ func (c *RegisterController) ForgotPassword(){
 
 func (c *RegisterController)CheckingEmailId(){
 	w := c.Ctx.ResponseWriter
+	rq := c.Ctx.Request
 
 	//viewModel := viewmodels.ForgotPassword{}
 	emailId := c.GetString("emailId")
@@ -266,26 +272,44 @@ func (c *RegisterController)CheckingEmailId(){
 		for i := range result {
 			result[i] = chars[r.Intn(len(chars))]
 		}
-		//const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-		//b := make([]byte, 8)
-		//for i := range b {
-		//	b[i] = letterBytes[rand.Intn(len(letterBytes))]
+		const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		b := make([]byte, 8)
+		for i := range b {
+			b[i] = letterBytes[rand.Intn(len(letterBytes))]
+		}
+
+		//body :="Dear member, we received a request for password change .this is your automatic genereted key "+string(result)
+		////+"Go to site to set your new password. The key will be active for 10 minutes"
+		//
+		//	//"Regards,"+
+		//	//"The Passporte team"
+		//from := "passportetest@gmail.com"
+		//to := emailId
+		//subject := "Subject: Passporte - Forgot Password\n"
+		//mime := "MIME-version: 1.0;\r\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+		//message := []byte(subject + mime + "\n" + body)
+		//if err := smtp.SendMail("smtp.gmail.com:587", smtp.PlainAuth("", "passportetest@gmail.com", "passporte123", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
+		//	log.Println(err)
 		//}
+		key := "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"
+		sg := sendgrid.NewSendGridClientWithApiKey(key)
 
-		dbStatusOfEmail :=models.AddEmailToDb(c.AppEngineCtx, emailId,string(result))
-		log.Println("status",dbStatusOfEmail)
-		body :="Dear member, we received a request for password change .this is your automatic genereted key "+string(result)
-		//+"Go to site to set your new password. The key will be active for 10 minutes"
+		// must change the net/http client to not use default transport
+		ctx := appengine.NewContext(rq)
+		client := urlfetch.Client(ctx)
+		sg.Client = client // <-- now using urlfetch, "overriding" default
 
-			//"Regards,"+
-			//"The Passporte team"
-		from := "farsana.pb@cynere.com"
-		to := emailId
-		subject := "Subject: Passporte - Forgot Password\n"
-		mime := "MIME-version: 1.0;\r\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
-		message := []byte(subject + mime + "\n" + body)
-		if err := smtp.SendMail("smtp.gmail.com:587", smtp.PlainAuth("", "farsana.pb@cynere.com", "farsanaperumbilayi", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
-			log.Println(err)
+		message := sendgrid.NewMail()
+		message.AddTo(emailId)
+		message.SetFrom("passportetest@gmail.com")
+		message.SetSubject("Passporte - Forgot Password")
+		message.SetHTML("Dear member, we received a request for password change .this is your automatic genereted key is "+"  "+string(result))
+
+		if e := sg.Send(message); e == nil {
+			log.Println("lllllll")
+		} else {
+
+			log.Println("error",e)
 		}
 		//w.Write([]byte("false,"))
 		//w.Write([]byte(string(result)))
@@ -324,7 +348,7 @@ func (c *RegisterController) ResetPassword() {
 
 		}
 
-		//w.Write([]byte("true"))
+	//w.Write([]byte("true"))
 	case false:
 		log.Println(helpers.ServerConnectionError)
 	}
@@ -347,7 +371,7 @@ func (c *RegisterController) GetStates() {
 			keySlice = append(keySlice,key.String())
 		}
 		for _, k := range keySlice {
-			 tempStateArray = append(tempStateArray,allStatesOfSelectedCountry.States[k])
+			tempStateArray = append(tempStateArray,allStatesOfSelectedCountry.States[k])
 		}
 		log.Println("tempStateArray",tempStateArray)
 		slices := []interface{}{"true",tempStateArray}

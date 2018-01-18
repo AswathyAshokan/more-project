@@ -211,7 +211,6 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		}
 
 		workLocationValues := models.IsWorkAssignedToUser(c.AppEngineCtx, companyTeamName)
-		log.Println("allWorkLocationData", workLocationValues)
 		dataValue := reflect.ValueOf(workLocationValues)
 
 		for _, key := range dataValue.MapKeys() {

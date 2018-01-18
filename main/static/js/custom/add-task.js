@@ -51,6 +51,15 @@ $(function () {
     } else if(vm.CompanyPlan == "campus"){
     }else{
     }
+    
+    function removeOptions(selectbox)
+        {
+            var i;
+            for(i = selectbox.options.length - 1 ; i >= 0 ; i--)
+            {
+                selectbox.remove(i);
+            }
+        }
      $( "#startDate" ).datepicker({ minDate: 0});
     $('#startDate').change(function () {
         console.log("h21");
@@ -76,56 +85,9 @@ $(function () {
         };
     });
     
-    //function to setting jobna me when loaded add and continue button
-    if (vm.JobNameFormUrl.length !=0){
-        document.getElementById("jobName").value = vm.JobNameFormUrl;
-        if (vm.JobNameFormUrl =="unDefined"){
-             document.getElementById("jobName").value ="Select a Job";
-            
-        }
-        if (vm.ContactUser !=null){
-                for (var i = 0; i < vm.ContactUser.length; i++) {
-                    for (var j=0; j<vm.ContactUser[i].length ;j++){
-                        for ( var k=0;k<vm.ContactUser[i][j].CustomerName.length;k++){
-                            if (vm.ContactUser[i][j].CustomerName[k] ==vm.CustomerNameFormUrl){
-                                contactName.push(vm.ContactUser[i][j].ContactName);
-                                contactId.push(vm.ContactUser[i][j].ContactId);
-                            }
-                        }
-                    }
-                }
-            }
-            console.log("contact name",contactName)
-            removeOptions(document.getElementById("contactId"));
-            var sel = document.getElementById('contactId');
-            for(var i = 0; i < contactName.length; i++) {
-                var opt = document.createElement('option');
-                opt.innerHTML = contactName[i];
-                opt.value = contactId[i];
-                sel.appendChild(opt);
-            }
-        
-        if ($("#jobName option:selected").val()== "Select a Job"){
-            console.log("kkkkkkk");
-            var sel = document.getElementById('contactId');
-            for(var i = 0; i < vm.ContactNameArray.length; i++) {
-                var opt = document.createElement('option');
-                opt.innerHTML = vm.ContactNameArray[i];
-                opt.value = vm.ContactKey[i];
-                sel.appendChild(opt);
-            }
-        }
-        function removeOptions(selectbox)
-        {
-            var i;
-            for(i = selectbox.options.length - 1 ; i >= 0 ; i--)
-            {
-                selectbox.remove(i);
-            }
-        }
-       
-    }
+   
     if (pageType == "edit") {
+        removeOptions(document.getElementById("contactId"));
         document.getElementById("saveAndContinue").disabled = true;
         document.title = 'Edit Task'
 //        console.log("log",vm.Log);
@@ -273,6 +235,7 @@ $(function () {
             document.getElementById("loginType2").checked = true;
         }
         loginTypeForEdit = vm.LoginType;
+//        removeOptions(document.getElementById("contactId"));
         if (vm.ContactUser !=null){
             for (var i = 0; i < vm.ContactUser.length; i++) {
                 for (var j=0; j<vm.ContactUser[i].length ;j++){
@@ -285,6 +248,9 @@ $(function () {
                 }
             }
         }
+
+        console.log("g1111111",contactName);
+        console.log("g333333",contactId);
         
         var sel = document.getElementById('contactId');
         for(var i = 0; i < contactName.length; i++) {
@@ -316,6 +282,50 @@ $(function () {
         });
         minUserForTaskEdit = vm.UsersToEdit.length;
         
+    }
+    
+     //function to setting jobna me when loaded add and continue button
+    if (vm.JobNameFormUrl.length !=0){
+        console.log("llll");
+        document.getElementById("jobName").value = vm.JobNameFormUrl;
+        if (vm.JobNameFormUrl =="unDefined"){
+             document.getElementById("jobName").value ="Select a Job";
+            
+        }
+        if (vm.ContactUser !=null){
+                for (var i = 0; i < vm.ContactUser.length; i++) {
+                    for (var j=0; j<vm.ContactUser[i].length ;j++){
+                        for ( var k=0;k<vm.ContactUser[i][j].CustomerName.length;k++){
+                            if (vm.ContactUser[i][j].CustomerName[k] ==vm.CustomerNameFormUrl){
+                                contactName.push(vm.ContactUser[i][j].ContactName);
+                                contactId.push(vm.ContactUser[i][j].ContactId);
+                            }
+                        }
+                    }
+                }
+            }
+            console.log("contact name",contactName)
+            removeOptions(document.getElementById("contactId"));
+            var sel = document.getElementById('contactId');
+            for(var i = 0; i < contactName.length; i++) {
+                var opt = document.createElement('option');
+                opt.innerHTML = contactName[i];
+                opt.value = contactId[i];
+                sel.appendChild(opt);
+            }
+        
+        if ($("#jobName option:selected").val()== "Select a Job"){
+            console.log("kkkkkkk");
+            var sel = document.getElementById('contactId');
+            for(var i = 0; i < vm.ContactNameArray.length; i++) {
+                var opt = document.createElement('option');
+                opt.innerHTML = vm.ContactNameArray[i];
+                opt.value = vm.ContactKey[i];
+                sel.appendChild(opt);
+            }
+        }
+        
+       
     }
 });
 
