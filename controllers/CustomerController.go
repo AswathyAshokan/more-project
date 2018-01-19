@@ -1,4 +1,6 @@
 /*Created By Farsana*/
+
+//managing customers
 package controllers
 
 import (
@@ -170,6 +172,7 @@ func (c *CustomerController) EditCustomer() {
 		c.TplName = "template/add-customer.html"
 	}
 }
+//is customer name is already existed or not
 func (c *CustomerController)  CustomerNameCheck(){
 	log.Println("kkkkkk")
 	w := c.Ctx.ResponseWriter
@@ -193,7 +196,7 @@ func (c *CustomerController)  CustomerNameCheck(){
 
 }
 
-//functions for dependency test
+//functions for delete customer details
 
 func (c *CustomerController)LoadDeleteCustomer() {
 	r := c.Ctx.Request
@@ -228,6 +231,8 @@ func (c *CustomerController)LoadDeleteCustomer() {
 		w.Write([]byte("false"))
 	}
 }
+
+//checking if the customer is used for job
 func (c *CustomerController)DeleteCustomerIfUsedForJob() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -276,6 +281,8 @@ func (c *CustomerController)DeleteCustomerIfUsedForJob() {
 		w.Write([]byte("false"))
 	}
 }
+
+//delete customer from job
 func (c *CustomerController) DeleteCustomerFromJob() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -303,12 +310,7 @@ func (c *CustomerController) DeleteCustomerFromJob() {
 	}
 }
 
-
-
-
-
-
-
+//checking the customer is used in task
 
 func (c *CustomerController) DeleteCustomerIfNotInTask() {
 	r := c.Ctx.Request
@@ -337,7 +339,7 @@ func (c *CustomerController) DeleteCustomerIfNotInTask() {
 	}
 }
 
-
+//delete customer from task if it is not used in task
 
 func (c *CustomerController) RemoveCustomerFromTask() {
 	r := c.Ctx.Request

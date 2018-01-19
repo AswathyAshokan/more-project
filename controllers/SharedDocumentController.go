@@ -1,3 +1,5 @@
+
+//created by farsana
 package controllers
 
 
@@ -12,7 +14,7 @@ import (
 type SharedDocumentController struct {
 	BaseController
 }
-
+//load shared documents details
 func (c *SharedDocumentController) LoadSharedDocuments() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter

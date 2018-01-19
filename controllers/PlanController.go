@@ -1,3 +1,5 @@
+//crreated by farsana
+
 package controllers
 
 import (
@@ -27,7 +29,7 @@ func (c *PlanController) PlanDetails() {
 	c.Data["vm"] = planViewModel
 	c.TplName = "template/plan.html"
 }
-
+//function for changing the plan
 func (c *PlanController) PlanChange() {
 	planViewModel := viewmodels.Plan{}
 	r := c.Ctx.Request

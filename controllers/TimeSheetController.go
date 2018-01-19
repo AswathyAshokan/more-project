@@ -1,3 +1,6 @@
+
+//created by Aswathy Ashok
+
 package controllers
 import (
 
@@ -14,6 +17,7 @@ type TimeSheetController struct {
 	BaseController
 }
 
+//function for loading the timesheet details
 func (c *TimeSheetController)LoadTimeSheetDetails() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter

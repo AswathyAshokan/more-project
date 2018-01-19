@@ -17,6 +17,8 @@ func (c *LoginController) Root() {
 	c.TplName = "template/root.html"
 
 }
+
+//function for checking the login details
 func (c *LoginController) Login() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -82,7 +84,7 @@ func (c *LoginController) Login() {
 	}
 
 }
-
+//logout section
 func (c *LoginController)Logout(){
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -90,7 +92,7 @@ func (c *LoginController)Logout(){
 	http.Redirect(w, r, "/login", 302)
 }
 
-
+//logout section of super admin
 func (c *LoginController)LogoutForSuperAdmin(){
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter

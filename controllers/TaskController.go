@@ -440,6 +440,9 @@ func (c *TaskController)AddNewTask() {
 	}
 
 }
+
+
+//global function for checking the value is existed in an array
 func IsValue1InList(value string, list []string) bool {
 	for _, v := range list {
 		if v == value {
@@ -1307,7 +1310,7 @@ func (c *TaskController)LoadEditTask() {
 	}
 
 }
-
+//function for checking the status of task
 func (c *TaskController)LoadTaskStatus() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -1326,6 +1329,7 @@ func (c *TaskController)LoadTaskStatus() {
 	}
 }
 
+//function for checking the deleted task status
 func (c *TaskController)LoadTaskDeleteStatus() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter

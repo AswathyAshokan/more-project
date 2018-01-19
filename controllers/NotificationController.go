@@ -1,3 +1,6 @@
+
+//created by farsana
+
 package controllers
 import (
 
@@ -38,7 +41,7 @@ func (c *NotificationController) NotificationUpdate() {
 
 	}
 }
-
+//function to detele notification details
 func (c *NotificationController) NotificationDelete() {
 	log.Println("deleteeeeeeee")
 	UpdateIdArray := c.GetStrings("DeletedId")
@@ -57,7 +60,7 @@ func (c *NotificationController) NotificationDelete() {
 
 	}
 }
-
+//function for mailing to the customer
 func (c *NotificationController) EmailToUser() {
 	log.Println("iam here for send a email")
 	w := c.Ctx.ResponseWriter

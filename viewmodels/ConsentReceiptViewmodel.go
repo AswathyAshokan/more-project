@@ -1,17 +1,14 @@
 package viewmodels
 type ConsentReceipt struct {
-
-	GroupMembers                [][]string
-	CompanyTeamName                string
-	CompanyPlan                string
-	AdminFirstName                string
-	AdminLastName                string
-	ProfilePicture                string
-	NotificationArray            [][]string
-	NotificationNumber               int
-	GroupNameArray                []string
-	UserAndGroupKeyForConsent        []string
-
+	GroupKey               []string
+	GroupMembers        []string
+	CompanyTeamName        string
+	CompanyPlan        string
+	AdminFirstName        string
+	AdminLastName        string
+	ProfilePicture        string
+	NotificationArray    [][]string
+	NotificationNumber       int
 }
 
 type LoadConsent struct {
@@ -38,7 +35,7 @@ type ConsentStruct struct {
 }
 type EditConsentReceipt struct {
 	GroupKey                   []string
-	GroupMembers        [][]string
+	GroupMembers            []string
 	ReceiptName                string
 	ConsentKey               []string
 	ConsentMembers            []string
@@ -55,8 +52,4 @@ type EditConsentReceipt struct {
 	SelectedUsersKey         []string
 	NotificationArray        [][]string
 	NotificationNumber           int
-	GroupNameArray            []string
-	UserAndGroupKey            []string
-	UserAndGroupKeyForConsent    []string
-	UsersKey             []string
 }

@@ -1,6 +1,6 @@
 
 //created by farsana
-//for
+//for all company details
 package controllers
 
 import (
@@ -15,7 +15,7 @@ import (
 type CustomerManagementController struct {
 	BaseController
 }
-
+//displaying all company details
 func (c *CustomerManagementController) CustomerManagement() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -74,7 +74,7 @@ func (c *CustomerManagementController) CustomerManagement() {
 }
 
 
-/*To delete selected record from database*/
+/*To delete selected company from database*/
 
 func (c *CustomerManagementController)LoadDeleteCustomerManagement() {
 	w := c.Ctx.ResponseWriter

@@ -333,7 +333,7 @@ func (c *InviteUserController) EditInvitation() {
 	}
 }
 
-
+//delete user from task
 func (c *InviteUserController) RemoveUserFromTask() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -357,6 +357,7 @@ func (c *InviteUserController) RemoveUserFromTask() {
 	}
 }
 
+//delete user if not used in task
 func (c *InviteUserController) DeleteUserIfNotInTask() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -389,7 +390,7 @@ func (c *InviteUserController) DeleteUserIfNotInTask() {
 
 }
 
-
+//add invite user details after upgradation of plan
 func (c *InviteUserController) AddInvitationByUpgradationOfPlan() {
 
 	log.Println("haiiiosnjskhsdhf")

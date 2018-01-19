@@ -328,7 +328,7 @@ func (c *JobController)LoadEditJob() {
 //	}
 //}
 
-
+//function to check job name is already exist or not
 func (c *JobController)CheckJobName(){
 	w := c.Ctx.ResponseWriter
 	log.Println("inside phone number check")
@@ -344,6 +344,8 @@ func (c *JobController)CheckJobName(){
 		w.Write([]byte("true"))
 	}
 }
+
+//function to check the job number is exist or not
 func (c *JobController)CheckJobNumber(){
 	w := c.Ctx.ResponseWriter
 	jobNumber := c.GetString("jobNumber")
@@ -359,7 +361,7 @@ func (c *JobController)CheckJobNumber(){
 }
 
 
-
+// function is jobname is already existed or not during edit
 func (c *JobController)CheckJobNameOnEdit(){
 	log.Println("iam im dangetsr situation in email validation")
 	w := c.Ctx.ResponseWriter
@@ -384,7 +386,7 @@ func (c *JobController)CheckJobNameOnEdit(){
 
 }
 
-
+//function to check the job number is existed or not during edit
 func (c *JobController)CheckJobNumberOnEdit(){
 	log.Println("iam in check phnoe number conditon")
 	w := c.Ctx.ResponseWriter
@@ -412,12 +414,7 @@ func (c *JobController)CheckJobNumberOnEdit(){
 
 }
 
-
-
-
-
-
-
+//function for deleting job
 func (c *JobController)LoadDeleteJob() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -459,6 +456,9 @@ func (c *JobController)LoadDeleteJob() {
 		w.Write([]byte("false"))
 	}
 }
+
+
+//delete the job detais if it not in task
 func (c *JobController) DeleteJobIfNotInTask() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -487,7 +487,7 @@ func (c *JobController) DeleteJobIfNotInTask() {
 }
 
 
-
+//delete job from db is not is not in task
 func (c *JobController) RemoveJobFromTask() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter

@@ -1,3 +1,5 @@
+
+//created by Aswathy Ashok
 package controllers
 import (
 	"app/passporte/models"
@@ -11,7 +13,7 @@ import (
 type LeaveController struct {
 	BaseController
 }
-
+// function for loading all the details
 func (c *LeaveController) LoadUserLeave() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -88,7 +90,7 @@ func (c *LeaveController) LoadUserLeave() {
 	c.Layout = "layout/layout.html"
 	c.TplName = "template/leave-detail.html"
 }
-
+//function for accepting user leave
 func (c *LeaveController) LoadAcceptUserLeave() {
 	leaveKey := c.Ctx.Input.Param(":leaveKey")
 	userKey := c.Ctx.Input.Param(":userKey")
@@ -111,6 +113,8 @@ func (c *LeaveController) LoadAcceptUserLeave() {
 	}
 
 }
+
+//function for reject user leave
 func (c *LeaveController) LoadRejectUserLeave() {
 	leaveKey := c.Ctx.Input.Param(":leaveKey")
 	userKey := c.Ctx.Input.Param(":userKey")

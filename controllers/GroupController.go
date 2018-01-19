@@ -280,6 +280,7 @@ func (c *GroupController) EditGroup() {
 	}
 }
 
+//is group name is already used or not
 func (c *GroupController)  GroupNameCheck(){
 	w := c.Ctx.ResponseWriter
 	groupName := c.GetString("groupName")
@@ -300,6 +301,7 @@ func (c *GroupController)  GroupNameCheck(){
 }
 
 //functions for dependency test
+// checking this group is used for task
 
 func (c *GroupController)LoadDeleteGroup() {
 	r := c.Ctx.Request
@@ -334,6 +336,8 @@ func (c *GroupController)LoadDeleteGroup() {
 		w.Write([]byte("false"))
 	}
 }
+
+//delete the group is not used in task
 func (c *GroupController) DeleteGroupIfNotInTask() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -362,7 +366,7 @@ func (c *GroupController) DeleteGroupIfNotInTask() {
 }
 
 
-
+//delete group is not used in task
 func (c *GroupController) RemoveGroupFromTask() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter

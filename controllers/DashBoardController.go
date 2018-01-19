@@ -1,3 +1,6 @@
+
+//created by farsana
+
 package controllers
 import (
 	"app/passporte/models"
@@ -20,6 +23,8 @@ import (
 type DashBoardController struct {
 	BaseController
 }
+
+//its a global function for checking is a value is existed in an slice
 func IsValueInList(value string, list []string) bool {
 	for _, v := range list {
 		if v == value {
@@ -28,6 +33,8 @@ func IsValueInList(value string, list []string) bool {
 	}
 	return false
 }
+
+// function for loading all dashboard details
 func (c *DashBoardController)LoadDashBoard() {
 	viewModel  := viewmodels.DashBoardViewModel{}
 	r := c.Ctx.Request
@@ -431,6 +438,7 @@ func (c *DashBoardController)LoadDashBoard() {
 
 }
 
+// load bar chart for dash board
 func (c *DashBoardController)LoadBarChartForDashBord() {
 	//r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter

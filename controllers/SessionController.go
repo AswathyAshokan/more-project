@@ -38,6 +38,8 @@ type SessionForPayment struct{
 
 var cookieToken = securecookie.New(securecookie.GenerateRandomKey(64), securecookie.GenerateRandomKey(32))
 
+
+//function for set session values
 func SetSession(w http.ResponseWriter, sessionValues SessionValues){
 
 	value := make(map[string]string)
@@ -62,6 +64,7 @@ func SetSession(w http.ResponseWriter, sessionValues SessionValues){
 	}
 }
 
+//function to read the session values
 func ReadSession (w http.ResponseWriter, r *http.Request, companyTeamName string) (SessionValues) {
 	sessionValues := SessionValues{}
 	if cookie, err := r.Cookie("session"); err == nil {
@@ -96,6 +99,8 @@ func ReadSession (w http.ResponseWriter, r *http.Request, companyTeamName string
 	return sessionValues
 }
 
+
+//function to clear all session values
 func ClearSession(w http.ResponseWriter) {
 	cookie := &http.Cookie{
 		Name:   "session",
@@ -179,6 +184,8 @@ func ReadSessionForPayment (w http.ResponseWriter, r *http.Request) (SessionForP
 	return sessionValues
 }
 
+
+//function to clear session of payments
 func ClearSessionForPayment(w http.ResponseWriter) {
 	cookie := &http.Cookie{
 		Name:   "sessionForPayment",

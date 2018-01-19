@@ -1,3 +1,5 @@
+// created by Aswathy Ashok
+
 package controllers
 
 import (
@@ -15,6 +17,8 @@ import (
 type FitToWorkController struct {
 	BaseController
 }
+
+// function to  add fit to work details
 func (c *FitToWorkController)AddNewFitToWork() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -54,6 +58,8 @@ func (c *FitToWorkController)AddNewFitToWork() {
 
 
 }
+
+// display fit to work details
 func (c* FitToWorkController)LoadFitToWork(){
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -121,6 +127,8 @@ func (c* FitToWorkController)LoadFitToWork(){
 	}
 }
 
+
+//function to edit fit to work
 func (c *FitToWorkController) EditFitToWork() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -177,6 +185,8 @@ func (c *FitToWorkController) EditFitToWork() {
 
 }
 
+
+//function to delete fit to work
 func (c *FitToWorkController) DeleteFitToWork() {
 	log.Println("hhhooooooo")
 	r := c.Ctx.Request
@@ -206,7 +216,7 @@ func (c *FitToWorkController) CheckFitToWork(){
 		w.Write([]byte("true"))
 	}
 }
-
+//is fit to work is name is already used or not
 func (c *FitToWorkController)CheckFitToWorkEdit(){
 	log.Println("iam im dangetsr situation in email validation")
 	w := c.Ctx.ResponseWriter
@@ -231,6 +241,8 @@ func (c *FitToWorkController)CheckFitToWorkEdit(){
 
 }
 
+
+//delete fit to work in task
 func (c *FitToWorkController)DeleteFitToWorkInTask() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter

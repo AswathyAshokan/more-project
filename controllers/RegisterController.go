@@ -99,7 +99,7 @@ func (c *RegisterController) Register() {
 		c.TplName = "template/register.html"
 	}
 }
-
+//function for check the email is already used or not
 func (c *RegisterController)CheckEmail(){
 	w := c.Ctx.ResponseWriter
 	emailId := c.GetString("emailId")
@@ -119,7 +119,7 @@ type Storage struct {
 	Bucket string
 	APIKey string
 }
-
+//function for edit profile
 func (c *RegisterController) EditProfile() {
 
 	r := c.Ctx.Request
@@ -210,6 +210,8 @@ func (c *RegisterController) EditProfile() {
 
 	}
 }
+
+//function for change admin password
 func (c *RegisterController) ChangeAdminsPassword() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -230,7 +232,10 @@ func (c *RegisterController) ChangeAdminsPassword() {
 		}
 	}
 }
-func (c *RegisterController) OldAdminPasswordCheck(){w := c.Ctx.ResponseWriter
+
+//checking old admin password checking
+func (c *RegisterController) OldAdminPasswordCheck(){
+	w := c.Ctx.ResponseWriter
 	r := c.Ctx.Request
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
 	storedSession := ReadSession(w, r, companyTeamName)
@@ -245,6 +250,8 @@ func (c *RegisterController) OldAdminPasswordCheck(){w := c.Ctx.ResponseWriter
 		w.Write([]byte("false"))
 	}
 }
+
+//function for loading the forgot password
 func (c *RegisterController) ForgotPassword(){
 	//w := c.Ctx.ResponseWriter
 	//r := c.Ctx.Request
@@ -253,7 +260,7 @@ func (c *RegisterController) ForgotPassword(){
 
 }
 
-
+//function for checking email id
 func (c *RegisterController)CheckingEmailId(){
 	w := c.Ctx.ResponseWriter
 	rq := c.Ctx.Request
@@ -322,6 +329,8 @@ func (c *RegisterController)CheckingEmailId(){
 	}
 }
 
+
+//function for reset the password
 func (c *RegisterController) ResetPassword() {
 	//r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -354,6 +363,8 @@ func (c *RegisterController) ResetPassword() {
 	}
 }
 
+
+//function for getting the states and country details
 /*----------------------------GetStates-----------------------------------------*/
 func (c *RegisterController) GetStates() {
 	w := c.Ctx.ResponseWriter

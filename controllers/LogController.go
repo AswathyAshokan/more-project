@@ -1,3 +1,6 @@
+
+//created by farsana
+
 package controllers
 import (
 	"app/passporte/models"
@@ -15,7 +18,7 @@ import (
 type LogController struct {
 	BaseController
 }
-
+// function for display all the log details
 func (c *LogController)LoadLogDetails() {
 	log.Println("inside it")
 	viewModel := viewmodels.WorkLogViewModel{}

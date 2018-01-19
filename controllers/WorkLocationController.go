@@ -1,3 +1,7 @@
+
+
+//created by farsana
+
 package controllers
 import (
 	"app/passporte/models"
@@ -17,7 +21,7 @@ type WorkLocationcontroller struct {
 	BaseController
 }
 
-
+//function for adding work location
 func (c *WorkLocationcontroller) AddWorkLocation() {
 	log.Println("w1")
 	r := c.Ctx.Request
@@ -292,6 +296,7 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 	}
 }
 
+//function for loading the work location details
 func (c *WorkLocationcontroller) LoadWorkLocation() {
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
@@ -412,7 +417,7 @@ func (c *WorkLocationcontroller) LoadWorkLocation() {
 }
 
 
-
+//function for editing work location
 func (c *WorkLocationcontroller) EditWorkLocation() {
 
 	log.Println("inside  edittttttt");
@@ -832,6 +837,9 @@ func (c *WorkLocationcontroller) EditWorkLocation() {
 	}
 
 }
+
+
+//function for delete work
 
 func (c *WorkLocationcontroller) DeleteWorkLocation() {
 	r := c.Ctx.Request
