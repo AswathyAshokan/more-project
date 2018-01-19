@@ -23,7 +23,7 @@ type WorkLocationcontroller struct {
 
 //function for adding work location
 func (c *WorkLocationcontroller) AddWorkLocation() {
-	log.Println("w1")
+
 	r := c.Ctx.Request
 	w := c.Ctx.ResponseWriter
 	companyTeamName := c.Ctx.Input.Param(":companyTeamName")
@@ -45,8 +45,6 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 	if r.Method == "POST" {
 		exposureTask := c.GetString("exposureBreakTime")
 		exposureWorkTime := c.GetString("exposureWorkTime")
-		log.Println("exposureTask",exposureTask)
-		log.Println("exposureWorkTime",exposureWorkTime)
 		fitToWorkName :=c.GetString("fitToWorkName")
 		groupKeySliceForWorkLocationString := c.GetString("groupArrayElement")
 		UserOrGroupNameArray :=c.GetStrings("userAndGroupName")
@@ -62,7 +60,7 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		startDateInt , err := strconv.ParseInt(startDate, 10, 64)
 		endDateInt, err := strconv.ParseInt(endDate, 10, 64)
 		loginType := c.GetString("loginType")
-		log.Println("loginType",loginType)
+
 		logInMinutes :=c.GetString("logInMinutes")
 		logInMinutesInString, err := strconv.ParseInt(logInMinutes, 10, 64)
 		WorkLocationBreakTimeSlice :=strings.Split(exposureTask, ",")
@@ -83,7 +81,7 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 		//task.Info.EndDate = endDate.Unix()
 
 		tempFitToWorkCheck :=c.GetString("fitToWorkCheck")
-		log.Println("tempFitToWorkCheck",tempFitToWorkCheck)
+
 		if tempFitToWorkCheck =="on" {
 			WorkLocation.Settings.FitToWorkDisplayStatus ="EachTime"
 		} else {
@@ -99,9 +97,7 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 				tempName = tempName[:len(tempName) - 7]
 				userName.FullName = tempName
 				userName.Status = helpers.StatusActive
-				log.Println("tempId", userIdArray[j])
 				userMap[userIdArray[j]] = userName
-				log.Println("userMap", userMap)
 				WorkLocation.Info.WorkLocation = taskLocation
 				WorkLocation.Info.CompanyTeamName = companyTeamName
 				WorkLocation.Info.UsersAndGroupsInWorkLocation.User = userMap
@@ -115,8 +111,7 @@ func (c *WorkLocationcontroller) AddWorkLocation() {
 				WorkLocation.Settings.Status = helpers.StatusActive
 				WorkLocation.Info.LoginType = loginType
 				WorkLocation.Info.LogTimeInMinutes = logInMinutesInString
-				log.Println("loginType",loginType)
-				log.Println("userMap[tempId]", userMap)
+
 
 			}
 			if groupKeySliceForWorkLocation[0] != "" {
@@ -857,6 +852,8 @@ func (c *WorkLocationcontroller) DeleteWorkLocation() {
 		w.Write([]byte("false"))
 	}
 }
+
+
 
 func (c *WorkLocationcontroller)LoadWorkLocationDeleteStatus(){
 	r := c.Ctx.Request
