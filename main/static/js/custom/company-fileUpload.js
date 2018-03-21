@@ -55,15 +55,7 @@ $(function(){
 
 
 //db configuration
-    var config = {
-        apiKey: "AIzaSyDME5QGEf2AZd0eJGf5NAzOqKui7RtH4qc",
-        authDomain: "passporte-b9070.firebaseapp.com",
-        databaseURL: "https://passporte-b9070.firebaseio.com",
-        projectId: "passporte-b9070",
-        storageBucket: "passporte-b9070.appspot.com",
-        messagingSenderId: "196354561117"
-    };
-    firebase.initializeApp(config);
+   
 
 /*Function for creating Data Array for data table*/
 $().ready(function() {
