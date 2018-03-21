@@ -86,7 +86,6 @@ func (c *InviteUserController) AddInvitation() {
 
 
 
-				key := "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"
 				sg := sendgrid.NewSendGridClientWithApiKey(key)
 
 				// must change the net/http client to not use default transport
@@ -447,7 +446,6 @@ func (c *InviteUserController) AddInvitationByUpgradationOfPlan() {
 				//if err := smtp.SendMail("smtp.gmail.com:465", smtp.PlainAuth("", "aswathy.a@cynere.com", "aswathyashok", "smtp.gmail.com"), from, []string{to}, []byte(message)); err != nil {
 				//	log.Println(err)
 				//}
-				key := "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"
 				sg := sendgrid.NewSendGridClientWithApiKey(key)
 
 				// must change the net/http client to not use default transport
