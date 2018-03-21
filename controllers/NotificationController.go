@@ -89,7 +89,6 @@ func (c *NotificationController) EmailToUser() {
 	//	log.Println(err)
 	//}
 
-	key := "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"
 	sg := sendgrid.NewSendGridClientWithApiKey(key)
 
 	// must change the net/http client to not use default transport
