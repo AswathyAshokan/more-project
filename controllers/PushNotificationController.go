@@ -10,7 +10,6 @@ type PushNotificationController struct {
 	BaseController
 }
 const (
-	serverKey = "AAAALbek1F0:APA91bEQrk375cmVRnGATV3B4PzYGYfcOmdPRSC7HTpbJPBKkkwCPaKjeKBhc75AcIsjMmysR9fH5YWYWvibQWujJERes7URVp2lMUVS9wSd8l3ikeGs_94YMfvUBYZIqlo7k-KYkNF0 "
 )
 // Add new groups to database
 func (c *PushNotificationController) CreateNotification() {
